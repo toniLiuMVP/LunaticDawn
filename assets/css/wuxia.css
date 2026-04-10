@@ -31,6 +31,42 @@
   --danger:      #c41e3a;
 }
 
+/* ============================================================
+   CJK 等寬對齊修正
+   問題：Google Fonts 的 Noto Sans Mono 只含 Latin 字元，
+   CJK 字元 fallback 到系統比例字型（如 PingFang TC），
+   寬度 15px ≠ 2× ASCII 9px = 18px → 表格對齊全部跑掉。
+
+   修正：用 @font-face + size-adjust: 120%
+   把系統 CJK 字型的有效寬度從 15px → 18px = 2× ASCII 寬。
+   必須使用精確 face name（如 'PingFang TC Regular'），
+   family name（如 'PingFang TC'）在某些瀏覽器 size-adjust 無效。
+   ============================================================ */
+@font-face {
+  font-family: 'CJKMono';
+  src: local('PingFang TC Regular'),          /* macOS 10.11+ */
+       local('PingFangTC-Regular'),           /* macOS PostScript name */
+       local('STHeiti'),                      /* macOS 舊版 */
+       local('Heiti TC Medium'),              /* macOS 10.9 */
+       local('HeitiTC-Medium'),               /* PostScript name */
+       local('Microsoft JhengHei Regular'),   /* Windows 繁中 */
+       local('Microsoft JhengHei'),           /* Windows 繁中 fallback */
+       local('MingLiU'),                      /* Windows 傳統繁中 */
+       local('Noto Sans CJK TC Regular'),     /* Linux / Android */
+       local('NotoSansCJKtc-Regular'),        /* PostScript name */
+       local('WenQuanYi Micro Hei Mono');     /* Linux 備用 */
+  unicode-range:
+    U+2E80-9FFF,     /* CJK 部首、漢字 */
+    U+F900-FAFF,     /* CJK 相容漢字 */
+    U+FE30-FE4F,     /* CJK 相容形式 */
+    U+FF00-FFEF,     /* 全形英數、半形片假名 */
+    U+3000-303F,     /* CJK 符號（全形空格、句讀） */
+    U+20000-2A6DF,   /* CJK 擴充 B */
+    U+2F800-2FA1F;   /* CJK 相容補充 */
+  size-adjust: 120%;
+  font-display: swap;
+}
+
 /* ---- Reset ---- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; }
@@ -234,16 +270,15 @@ li { margin-bottom: 4px; }
   border-radius: 2px;
   padding: 24px;
   font-family:
-    'Noto Sans Mono',                /* 英數字等寬 (Google Fonts) */
-    'Menlo',                         /* macOS 內建等寬 */
+    'Noto Sans Mono',                /* ASCII 等寬 (Google Fonts, 9px/char @15px) */
+    'CJKMono',                       /* ★ CJK 等寬修正 (size-adjust: 120% → 18px = 2×9) */
+    'Menlo',                         /* macOS 內建等寬 fallback */
     'Monaco',                        /* macOS 備用 */
     'Consolas',                      /* Windows 內建等寬 */
-    'Noto Sans Mono CJK TC',         /* Linux CJK 等寬 */
-    'MS Gothic',                     /* Windows CJK 等寬 */
     'Courier New',                   /* 最後保底 */
     monospace;
   font-size: 15px;
-  line-height: 1.55;
+  line-height: 24px;                 /* ★ 固定行高，避免 CJK size-adjust 造成行距不一 */
   white-space: pre;                  /* ★ 不自動換行 — 保持原始 TXT 對齊 */
   overflow-x: auto;                  /* ★ 寬表格水平捲動 */
   color: var(--text);
