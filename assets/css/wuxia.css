@@ -56,6 +56,7 @@
        local('NotoSansCJKtc-Regular'),        /* PostScript name */
        local('WenQuanYi Micro Hei Mono');     /* Linux 備用 */
   unicode-range:
+    U+2500-257F,     /* Box Drawing（表格框線 ─│┌┐└┘├┤┬┴┼） */
     U+2E80-9FFF,     /* CJK 部首、漢字 */
     U+F900-FAFF,     /* CJK 相容漢字 */
     U+FE30-FE4F,     /* CJK 相容形式 */
@@ -261,7 +262,7 @@ li { margin-bottom: 4px; }
 
 /* ============================================================
    原文保留區 — TXT 攻略文件的核心呈現
-   ★ 對齊修復：white-space: pre + overflow-x: auto
+   ★ 自動縮放：JS 偵測內容寬度，縮小字型直到不溢出
    ★ CJK 等寬字型 stack：全形字元 = 2 × 半形字元
    ============================================================ */
 .raw-text {
@@ -278,50 +279,17 @@ li { margin-bottom: 4px; }
     'Courier New',                   /* 最後保底 */
     monospace;
   font-size: 15px;
-  line-height: 24px;                 /* ★ 固定行高，避免 CJK size-adjust 造成行距不一 */
-  white-space: pre;                  /* ★ 不自動換行 — 保持原始 TXT 對齊 */
-  overflow-x: scroll;               /* ★ 永遠顯示水平捲軸（不用 auto，auto 會隱藏） */
+  line-height: 1.6;                  /* ★ 比例行高，跟隨字型縮放 */
+  white-space: pre-wrap;              /* ★ 保留空白但允許過長行換行（表格靠 JS 縮字避免換行） */
+  overflow-wrap: break-word;         /* ★ 超長單字（如路徑）也能斷行 */
+  overflow-x: hidden;               /* ★ JS 會自動縮字，不需要水平捲軸 */
   color: var(--text);
   tab-size: 8;
   position: relative;
 }
 
-/* ★ 強制捲軸永遠可見 — macOS/iOS 預設隱藏 overlay 捲軸，
-   使用者看不出來有更多內容可以水平捲動 */
-.raw-text::-webkit-scrollbar {
-  height: 12px;
-}
-.raw-text::-webkit-scrollbar-track {
-  background: var(--bg-panel);
-  border-radius: 6px;
-}
-.raw-text::-webkit-scrollbar-thumb {
-  background: var(--border-dark);
-  border-radius: 6px;
-  border: 2px solid var(--bg-panel);
-}
-.raw-text::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
-}
-
-/* 右邊漸層提示 — 告知使用者有更多內容可捲動 */
-.raw-text-wrap {
-  position: relative;
-}
-.raw-text-wrap::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 12px;    /* 不擋住捲軸 */
-  width: 32px;
-  background: linear-gradient(to right, transparent, var(--bg-code));
-  pointer-events: none;
-  border-radius: 0 2px 0 0;
-}
-
 .raw-text::before {
-  content: "── 原文 ─────────── ◀ 可水平捲動 ▶";
+  content: "── 原文 ──";
   display: block;
   color: var(--text-muted);
   font-size: 12px;
@@ -503,6 +471,15 @@ tbody tr:hover { background: rgba(139, 105, 20, 0.06); }
 ::-webkit-scrollbar-track { background: var(--bg-panel); }
 ::-webkit-scrollbar-thumb { background: var(--border-dark); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ---- 攻略頁面：原文 full-bleed ---- */
+body.guide-page {
+  overflow-x: hidden;  /* 防止 raw-text full-bleed 造成水平捲軸 */
+}
+body.guide-page .raw-text {
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+}
 
 /* ---- Responsive ---- */
 @media (max-width: 640px) {
