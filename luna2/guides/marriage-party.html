@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>結婚條件與隊友分析 · 俠客遊 II · 吟遊詩人的傳說</title>
+<meta name="description" content="germun 在 2006 年 5 月發表於巴哈姆特 LunaticDawn 看板的深度分析文。詳細列出結婚的三個條件（親密度 81、魅力差 20、NPC 是人類）、實體 NPC 與虛擬 NPC 的差異、國王領主會見機制、以及「配偶死後遣散仍會生小孩」這個蠻詭異的系統 bug。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/retro.css">
+</head>
+<body>
+<div class="wrap">
+
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <h1 class="pixel">結婚條件與隊友分析</h1>
+      <div class="header-sub">LUNATIC DAWN II · germun 2006 · 巴哈姆特 LunaticDawn 看板</div>
+    </div>
+    <div class="header-sub header-right">
+      <div><a href="../../">◀ 回主站</a></div>
+      <div><a href="./">▸ 攻略索引</a></div>
+    </div>
+  </div>
+</header>
+
+<div class="breadcrumb">
+  <a href="../../">吟遊詩人的傳說</a> /
+  <a href="../../">俠客遊 II</a> /
+  <a href="./">攻略</a> /
+  <span class="dim">結婚條件與隊友分析</span>
+</div>
+
+<section class="panel">
+  <div class="panel-title">[ MARRIAGE & PARTY · BY germun ]</div>
+  <p>germun 在 2006 年 5 月發表於巴哈姆特 LunaticDawn 看板的深度分析文。詳細列出結婚的三個條件（親密度 81、魅力差 20、NPC 是人類）、實體 NPC 與虛擬 NPC 的差異、國王領主會見機制、以及「配偶死後遣散仍會生小孩」這個蠻詭異的系統 bug。</p>
+  <p class="muted">原作者：germun · 整理：2004-2008 GameBase / 巴哈姆特社群 · 重建：toni 2026</p>
+</section>
+
+<section class="panel">
+  <div class="panel-title">[ CONTENT · 4,848 BYTES ]</div>
+  <pre class="raw-text"> 作者  germun (笑吧，笑有出頭天。)                          看板  LunaticDawn
+ 標題  [攻略]俠客遊二-結婚條件 及 隊友分析
+ 時間  Wed May 31 01:27:17 2006
+───────────────────────────────────────
+
+結婚條件
+
+1. 與NPC親密度81以上 (初使值50, 範圍0~100)
+   可經由共同解任務或護衛、救出該名NPC...等提升親密度。
+   (沒注意戰鬥是否有提升)
+
+2. 玩家魅力不可低於NPC 20以上 (含裝備) 與其他能力無關。
+   即  玩家魅力 + 20 &gt; NPC魅力
+
+   ex: NPC魅力70，則玩家魅力必須51以上
+       可以用羽飾盔等+魅力的裝備暫時撐高
+
+3. NPC必須是人類。這點連說明書都有說，應該不用說明了。
+
+   我試過把玩家跟NPC都改成妖精，雖然是同類依然不行，無求婚選項。
+
+   不過如果只有玩家改成妖精，NPC依然是人類，則求婚成功!!
+   這樣一來，小孩生出來會是半妖精嗎? 可惜不是；
+
+   不過生出來的小孩，種族會隨機選擇妖精或人類。
+   而且很有趣的是，不論男女，取名時妖精預設是玩家名字，人類則預設為NPC；
+   換句話說，取名時的預設，由原本的男女判定改為種族判定。
+
+ // 題外話，不知道種族除了結婚時有差異，在其他地方會有差異嗎?
+
+隊友
+
+1. NPC大體上可分為兩類，一類是主人類(各商店老闆、國王領主)，一類是冒險家
+   而主人類又分兩種，一種是實體NPC，一種則是虛擬NPC(也就是掛名的)
+
+2. 只要沒被通緝，各商店老闆通常一召募就一定會加入；
+   不能召募的老闆表示它是虛擬NPC，純粹只是掛名，雖然有能力記錄卻無實體。
+
+   ex: 歐德普克旅店老闆娘-博修亞
+
+3. 被該城市通緝的話，跟老闆和領主講話連鳥都不鳥你...更不用談召募了 XD
+   即使親密度100也一樣。
+
+4. 強盜、暗殺、救出、護衛等與任務相關的NPC，都屬於實體NPC；
+   換句話說，能夠戰鬥的主人類NPC都是實體NPC。
+   ※護衛、救出的似乎都是實體NPC，沒有冒險家NPC。
+
+ // 2,4是猜測，修改器沒有虛擬NPC的修改，且恰好任務相關的NPC，都是可召募的
+
+5-1. 虛擬NPC因為以上原因，所以不會換人。 (是否會壽終正寢且換人=&gt;不明)
+
+5-2. 實體NPC則因為風險高、死亡率高 (不是救出就是強盜、暗殺...XD)
+     死亡且丟棄屍體(或遣散)後會消失，有救出任務沒去救也有可能會消失；
+     NPC消失後系統會重製有同稱號相近能力的實體NPC替補。
+     (其實只是改個名、變動一些能力)
+
+5-3. 冒險家NPC丟棄屍體後同實體NPC，進城再出城(或坐車坐船到別座城)
+     就會有新NPC替補。
+
+ //所以平常一些廢物隊友看不慣盡量殺沒關係...XD 反正不會降道德值(應該吧XD?)
+
+5-4. 不論實體NPC或冒險NPC，凡是壽終正寢或是結婚，系統都會做替補動作；
+     壽終正寢等同於NPC消失，系統自動做替補。
+
+     結婚比較不一樣，系統一開始有留三個家人空位，一配偶二小孩；
+     結婚後是先將原NPC 複製到配偶的空位，再做替補動作。
+
+6. 國王領主等NPC則要先經由救出or護衛提升親密度後才能會見，與名聲無關。
+   會見需求親密度80以上；護衛一次+5，救出+20~30? (救出不明)
+
+//沒測救出，記得以前救一次國王就能會見，忘記是否護衛過。
+//剛確認過了，一次+30沒錯；這古雷那密真丟臉，號稱屠龍者竟然被強盜綁 XDD
+
+這部分，似乎名聲還是有關的
+估計是名聲越高需求親密度越低
+如果以 X=名聲、Y=親密度、Z=會見最低標準
+
+簡單的表示就是 aX + bY &gt;= Z
+
+不過我後來沒再去測是否有這種關係
+
+總之名聲0的話，至少要親密度80
+
+6-1. 國王及領主拒絕接見有三種可能性：
+
+     1.親密度不夠。
+     2.國王、領主不在；他們在其他城市等著你去護衛，或在地下城等你去救。
+       護衛任務即使不接，過一段時間他們自己也會回來。
+     3.玩家正遭該城市通緝。
+
+
+-
+話說有一點超詭異的，自己的配偶死後不讓她復活
+直接遣散後魂飛魄散，整個人消失
+然後休養一年，竟然還會冒出愛的結晶(爆)
+如果玩家是女的那還情有可原，可以說是死前留下的種
+
+問題是第一胎後再休養一年，又冒出第二胎(再爆)
+--
+--
+※ Origin: 巴哈姆特&lt;bbs.gamer.com.tw&gt; ◆ From: 211-74-11-134.adsl.dynamic.seed
+※ 修改: 2006/5/31 3:8:32 [211-74-11-134.adsl.dynamic.seed]
+※ 修改: 2006/5/31 4:45:25 [211-74-11-134.adsl.dynamic.seed]
+</pre>
+</section>
+
+<section class="panel">
+  <div class="panel-title">[ NAVIGATION ]</div>
+  <p>
+    <a href="./">◀ 回攻略索引</a> ·
+    <a href="../save-editor.html">▸ 存檔修改器</a> ·
+    <a href="../launcher/">▸ 遊戲啟動器</a> ·
+    <a href="../../">▸ 主站</a>
+  </p>
+  <p class="muted">
+    需要其他攻略？請回<a href="./">攻略索引</a>查看全部 9 篇文件。
+  </p>
+</section>
+
+<footer class="site-footer">
+  <div>所有攻略文件版權屬於原作者。本站僅為數位文化遺產保存目的整理展示。</div>
+  <div class="footer-big">｢ 吟遊詩人的傳說 · 俠客遊 II ｣</div>
+  <div>
+    <a href="../../">◀ 主站</a> ·
+    <a href="./">攻略索引</a> ·
+    <a href="../save-editor.html">存檔修改器</a> ·
+    維護：toni
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
