@@ -280,13 +280,48 @@ li { margin-bottom: 4px; }
   font-size: 15px;
   line-height: 24px;                 /* ★ 固定行高，避免 CJK size-adjust 造成行距不一 */
   white-space: pre;                  /* ★ 不自動換行 — 保持原始 TXT 對齊 */
-  overflow-x: auto;                  /* ★ 寬表格水平捲動 */
+  overflow-x: scroll;               /* ★ 永遠顯示水平捲軸（不用 auto，auto 會隱藏） */
   color: var(--text);
   tab-size: 8;
+  position: relative;
+}
+
+/* ★ 強制捲軸永遠可見 — macOS/iOS 預設隱藏 overlay 捲軸，
+   使用者看不出來有更多內容可以水平捲動 */
+.raw-text::-webkit-scrollbar {
+  height: 12px;
+}
+.raw-text::-webkit-scrollbar-track {
+  background: var(--bg-panel);
+  border-radius: 6px;
+}
+.raw-text::-webkit-scrollbar-thumb {
+  background: var(--border-dark);
+  border-radius: 6px;
+  border: 2px solid var(--bg-panel);
+}
+.raw-text::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* 右邊漸層提示 — 告知使用者有更多內容可捲動 */
+.raw-text-wrap {
+  position: relative;
+}
+.raw-text-wrap::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 12px;    /* 不擋住捲軸 */
+  width: 32px;
+  background: linear-gradient(to right, transparent, var(--bg-code));
+  pointer-events: none;
+  border-radius: 0 2px 0 0;
 }
 
 .raw-text::before {
-  content: "── 原文 ──────────────────────";
+  content: "── 原文 ─────────── ◀ 可水平捲動 ▶";
   display: block;
   color: var(--text-muted);
   font-size: 12px;
