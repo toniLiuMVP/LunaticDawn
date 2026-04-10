@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>跨平台啟動器 · 俠客遊 II · 吟遊詩人的傳說</title>
+<meta name="description" content="俠客遊 II (Lunatic Dawn II) 跨平台啟動器——Mac .command + Windows .bat + Linux .sh，2026 年在 macOS / Windows / Linux 上一鍵啟動 1996 年的 DOS 遊戲。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/retro.css">
+<style>
+/* 下載按鈕專用樣式 */
+.download-btn {
+  display: inline-block;
+  padding: 12px 20px;
+  margin: 8px 8px 8px 0;
+  border: 2px solid var(--phosphor);
+  background: var(--bg-input);
+  color: var(--phosphor);
+  font-family: 'Courier New', monospace;
+  font-size: 17px;
+  text-decoration: none;
+  transition: all 0.15s;
+}
+.download-btn:hover {
+  background: var(--phosphor);
+  color: var(--bg);
+  box-shadow: 0 0 12px rgba(0,255,65,0.6);
+}
+.download-btn .icon {
+  font-size: 14px;
+  color: var(--amber);
+  margin-right: 6px;
+}
+.download-btn:hover .icon {
+  color: var(--bg);
+}
+
+/* 步驟卡片 */
+.step {
+  border-left: 3px solid var(--amber);
+  padding: 12px 16px;
+  margin: 16px 0;
+  background: rgba(255,176,0,0.03);
+}
+.step-num {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 13px;
+  color: var(--amber);
+  display: block;
+  margin-bottom: 8px;
+}
+
+/* 代碼區塊 */
+code, .code-inline {
+  background: var(--bg-input);
+  color: var(--amber);
+  padding: 2px 6px;
+  font-family: 'Courier New', monospace;
+  font-size: 16px;
+  border: 1px solid var(--phosphor-fade);
+}
+pre.code-block {
+  background: var(--bg-input);
+  border: 1px solid var(--phosphor-fade);
+  padding: 12px 16px;
+  margin: 8px 0;
+  color: var(--phosphor-dim);
+  font-family: 'Courier New', monospace;
+  font-size: 16px;
+  overflow-x: auto;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <h1 class="pixel">跨平台啟動器</h1>
+      <div class="header-sub">LUNATIC DAWN II · 1996 遊戲 · 2026 跑</div>
+    </div>
+    <div class="header-sub header-right">
+      <div><a href="../../">◀ 回主站</a></div>
+      <div><a href="../guides/">▸ 攻略索引</a></div>
+    </div>
+  </div>
+</header>
+
+<div class="breadcrumb">
+  <a href="../../">吟遊詩人的傳說</a> /
+  <a href="../../">俠客遊 II</a> /
+  <span class="dim">跨平台啟動器</span>
+</div>
+
+<section class="panel">
+  <div class="panel-title">[ ABOUT ]</div>
+  <p>
+    <span class="amber">俠客遊 II</span> 是 1996 年的 DOS 遊戲。原本要在 macOS / Windows 11 /
+    Linux 上跑起來，得自己裝 DOSBox、改 <span class="code-inline">config.sys</span>、
+    凹出 <span class="amber">LH + UMB</span> 把 DOS 載到高位記憶體、解決 <span class="amber">640 KB 常規記憶體</span>
+    不夠的問題，還要手動設音效卡 IRQ/DMA——<span class="dim">每一關都能勸退 90% 的人。</span>
+  </p>
+  <p>
+    這個啟動器把那些 1996 年的地獄一次處理好——<span class="amber">下載 3 個檔案</span>、
+    <span class="amber">雙擊</span>，就可以跑。跨 macOS / Windows / Linux。
+  </p>
+  <p class="muted">
+    ※ 本站不提供遊戲本體下載（版權因素）。請自備 LUNA2.EXE 及原版資料檔。
+  </p>
+</section>
+
+<section class="panel">
+  <div class="panel-title">[ STEP 1 · 先裝 DOSBOX-X ]</div>
+  <p>DOSBox-X 是 DOSBox 的一個分支，對舊 DOS 遊戲的相容性較好，特別是中文顯示、音效 TSR、記憶體管理都比原版強。</p>
+
+  <h3>macOS</h3>
+  <pre class="code-block">brew install --cask dosbox-x-app</pre>
+  <p>沒有 Homebrew 可以到 <a href="https://dosbox-x.com/" target="_blank" rel="noopener">dosbox-x.com</a> 下載 .dmg 手動安裝。</p>
+
+  <h3>Windows</h3>
+  <pre class="code-block">winget install DOSBox-X.DOSBox-X</pre>
+  <p>或到 <a href="https://dosbox-x.com/" target="_blank" rel="noopener">dosbox-x.com</a> 下載 .exe 安裝檔。</p>
+
+  <h3>Linux</h3>
+  <pre class="code-block"># Debian / Ubuntu
+sudo apt install dosbox-x
+
+# Arch
+sudo pacman -S dosbox-x
+
+# 或從 GitHub Release 下載 AppImage</pre>
+
+  <p class="muted">
+    ※ 需要 DOSBox-X <span class="amber">0.84</span> 或以上。舊的 DOSBox（非 X 版）也能跑，但需要改設定。
+  </p>
+</section>
+
+<section class="panel">
+  <div class="panel-title">[ STEP 2 · 下載啟動器 ]</div>
+  <p>
+    下載 <span class="code-inline">dosbox-x.conf</span>（必備）+ 你 OS 對應的啟動器
+    （Mac 下載 .command，Windows 下載 .bat，Linux 下載 .sh）。
+  </p>
+
+  <p>
+    <a class="download-btn" href="dosbox-x.conf" download>
+      <span class="icon">▼</span> dosbox-x.conf
+    </a>
+    <a class="download-btn" href="啟動俠客遊II.command" download>
+      <span class="icon">▼</span> 啟動俠客遊II.command <span class="dim">(macOS)</span>
+    </a>
+    <a class="download-btn" href="啟動俠客遊II.bat" download>
+      <span class="icon">▼</span> 啟動俠客遊II.bat <span class="dim">(Windows)</span>
+    </a>
+    <a class="download-btn" href="啟動俠客遊II.sh" download>
+      <span class="icon">▼</span> 啟動俠客遊II.sh <span class="dim">(Linux)</span>
+    </a>
+  </p>
+
+  <p class="muted">
+    ※ 瀏覽器可能會把 .command / .bat 當成危險檔案。放心，原始碼都在
+    <a href="https://github.com/toniLiuMVP/LunaticDawn/tree/main/luna2/launcher" target="_blank" rel="noopener">GitHub Repo</a>
+    可以審查，每一行都看得見。
+  </p>
+</section>
+
+<section class="panel">
+  <div class="panel-title">[ STEP 3 · 放進遊戲資料夾並執行 ]</div>
+
+  <div class="step">
+    <span class="step-num">3.1</span>
+    把下載的 3 個檔案（<span class="code-inline">dosbox-x.conf</span>、
+    <span class="code-inline">啟動俠客遊II.command</span> 或
+    <span class="code-inline">啟動俠客遊II.bat</span>）
+    <span class="amber">全部放在和 LUNA2.EXE 同一個資料夾</span>。
+  </div>
+
+  <div class="step">
+    <span class="step-num">3.2 · macOS 使用者</span>
+    第一次執行時右鍵點 <span class="code-inline">啟動俠客遊II.command</span> →
+    選「打開」→ 彈出警告 → 選「打開」。
+    <br><br>
+    或者終端機跑一次：
+    <pre class="code-block">chmod +x 啟動俠客遊II.command</pre>
+    之後雙擊即可。
+  </div>
+
+  <div class="step">
+    <span class="step-num">3.2 · Windows 使用者</span>
+    直接雙擊 <span class="code-inline">啟動俠客遊II.bat</span>。
+    Windows Defender 可能會警告「已防止無法辨識的應用程式啟動」，
+    點「其他資訊」→「仍要執行」。
+  </div>
+
+  <div class="step">
+    <span class="step-num">3.2 · Linux 使用者</span>
+    終端機先給執行權限：
+    <pre class="code-block">chmod +x 啟動俠客遊II.sh
+./啟動俠客遊II.sh</pre>
+    或者在檔案管理器（Nautilus / Dolphin / Thunar 等）右鍵 →
+    「屬性」→ 勾選「允許作為程式執行」，之後就可以雙擊
+    →「在終端機中執行」。
+  </div>
+
+  <div class="step">
+    <span class="step-num">3.3</span>
+    DOSBox-X 視窗跳出 → 看到 <span class="amber">綠色開場白</span> →
+    進入俠客遊 II → 選擇 USER 存檔槽 → 開始遊戲。
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel-title">[ 快捷鍵速查 ]</div>
+  <table>
+    <thead>
+      <tr><th>按鍵</th><th>功能</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><span class="code-inline">Alt + Enter</span></td><td>切換全螢幕 / 視窗</td></tr>
+      <tr><td><span class="code-inline">Ctrl + F11</span></td><td>CPU 減速（遊戲太快時用）</td></tr>
+      <tr><td><span class="code-inline">Ctrl + F12</span></td><td>CPU 加速（遊戲太慢時用）</td></tr>
+      <tr><td><span class="code-inline">Ctrl + F9</span></td><td>強制結束模擬器</td></tr>
+      <tr><td><span class="code-inline">Ctrl + F4</span></td><td>更新資料夾對應（外部編輯存檔後用）</td></tr>
+      <tr><td><span class="code-inline">F11</span></td><td>DOSBox-X 選單列（進階設定）</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="panel">
+  <div class="panel-title">[ 常見問題 ]</div>
+
+  <h3>Q1. 為什麼要用 DOSBox-X 而不是 DOSBox？</h3>
+  <p>
+    DOSBox-X 相容性比原版強很多——支援中文 Big5 顯示、完整的 EMS/UMB/HIMEM 模擬、
+    SVGA 模式、更精細的 CPU 週期控制、以及 <span class="code-inline">dos = high,umb</span>
+    這種模擬 MS-DOS 6.22 <span class="code-inline">config.sys</span> 的能力。俠客遊 II
+    這種 1996 年的繁中遊戲，DOSBox-X 是現在最穩定的選擇。
+  </p>
+
+  <h3>Q2. 遊戲跑太快 / 太慢？</h3>
+  <p>
+    按 <span class="code-inline">Ctrl + F11</span> 減速，<span class="code-inline">Ctrl + F12</span> 加速。
+    預設是 <span class="amber">20000 cycles</span>（約 Pentium 100 等級），對俠客遊 II 來說剛好。
+  </p>
+
+  <h3>Q3. 沒有音效？</h3>
+  <p>
+    俠客遊 II 的音效需要先執行 <span class="code-inline">M\SB16.COM</span> 載入 DIGPAK TSR 驅動。
+    本啟動器為了相容性先不載入音效驅動——大部分人其實玩的是無聲版。
+    需要音效的玩家可以在 DOSBox-X 裡手動執行：
+  </p>
+  <pre class="code-block">LH MIDPAK.COM
+LH M\SB16.COM
+LUNA2.EXE</pre>
+  <p>
+    （<span class="code-inline">LH</span> = LoadHigh，把 TSR 載到高位記憶體避免吃掉 640 KB 常規記憶體）
+  </p>
+
+  <h3>Q4. 存檔在哪裡？</h3>
+  <p>
+    存檔是 <span class="code-inline">USER0</span> 到 <span class="code-inline">USER9</span>
+    這 10 個資料夾（對應遊戲裡的 10 個存檔槽），
+    每個資料夾裡有 13 個 <span class="code-inline">.SAV</span> 檔案。
+    <br><br>
+    想修改存檔？試試看本站的
+    <a href="../save-editor.html">▸ 瀏覽器版修改器</a>——直接拖 LUNACHAR.SAV 進去就能改。
+  </p>
+
+  <h3>Q5. 找不到 LUNA2.EXE？</h3>
+  <p>
+    確認遊戲資料夾裡面有 <span class="code-inline">LUNA2.EXE</span>（主程式，大約 610 KB）。
+    如果是剛從 CD 安裝，執行過 <span class="code-inline">INSTALL.EXE</span>
+    應該就會自動放好所有檔案。
+  </p>
+
+  <h3>Q6. 啟動器無法執行（Mac 說「未識別的開發者」）？</h3>
+  <p>
+    這是 macOS Gatekeeper 的保護。解法：
+  </p>
+  <pre class="code-block">chmod +x 啟動俠客遊II.command
+xattr -d com.apple.quarantine 啟動俠客遊II.command</pre>
+  <p>
+    或者到「系統設定 &gt; 隱私權與安全性」最下面允許執行。
+  </p>
+</section>
+
+<section class="panel">
+  <div class="panel-title">[ 技術細節 ]</div>
+  <p>
+    啟動器的運作原理——對技術有興趣的人可以看。
+  </p>
+
+  <h3>dosbox-x.conf 做了什麼？</h3>
+  <p>這個 conf 檔設定：</p>
+  <ul>
+    <li><span class="amber">memsize = 16</span>：給 DOS 虛擬 16 MB 記憶體</li>
+    <li><span class="amber">machine = svga_s3</span>：模擬 S3 Trio 顯卡（支援 SVGA 640×480 真彩色）</li>
+    <li><span class="amber">cputype = pentium, cycles = 20000</span>：模擬 Pentium 100 等級</li>
+    <li><span class="amber">sbtype = sb16</span>：Sound Blaster 16（IRQ 7, DMA 1/5）</li>
+    <li><span class="amber">xms = ems = umb = true</span>：開啟所有記憶體擴充功能</li>
+    <li><span class="amber">ver = 6.22</span>：模擬 MS-DOS 6.22 報版本</li>
+    <li><span class="amber">customcodepage = 950</span>：Big5 code page（避免 "No translation support" 警告）</li>
+  </ul>
+
+  <h3>啟動腳本做了什麼？</h3>
+  <p>
+    <span class="code-inline">.command</span>（Mac）/ <span class="code-inline">.bat</span>（Win）/
+    <span class="code-inline">.sh</span>（Linux）三個腳本做的事情一樣：
+  </p>
+  <ol>
+    <li>切換到腳本自己所在的資料夾（所以放哪都能跑）</li>
+    <li>檢查 DOSBox-X 是否存在（常見路徑 + PATH）</li>
+    <li>檢查 <span class="code-inline">LUNA2.EXE</span> 和 <span class="code-inline">dosbox-x.conf</span> 是否都在</li>
+    <li>執行 <span class="code-inline">dosbox-x -conf dosbox-x.conf -c "mount c ." -c "c:" -c "LUNA2.EXE"</span></li>
+  </ol>
+  <p>
+    關鍵是 <span class="code-inline">-c</span> 參數——DOSBox-X 會把這些指令附加到
+    <span class="code-inline">[autoexec]</span> 區段後面執行。這樣
+    <span class="code-inline">dosbox-x.conf</span> 完全不用硬編路徑，任何人下載都能直接用。
+  </p>
+
+  <h3>為什麼不內建音效自動載入？</h3>
+  <p>
+    1996 年的 DIGPAK TSR 驅動（<span class="code-inline">M\SB16.COM</span>）對 DOSBox-X 的
+    SB16 模擬器並不是 100% 相容——<span class="amber">有些 DOSBox-X 版本會在載入 DIGPAK 時當機</span>。
+    為了讓「雙擊就能跑」的保底體驗穩定，預設不載入音效驅動。
+    音效測試版（<span class="code-inline">dosbox-x-sound.conf</span>）之後會放出來當進階選項。
+  </p>
+</section>
+
+<section class="panel">
+  <div class="panel-title">[ NAVIGATION ]</div>
+  <p>
+    <a href="../../">◀ 回主站</a> ·
+    <a href="../guides/">▸ 攻略索引</a> ·
+    <a href="../save-editor.html">▸ 存檔修改器</a>
+  </p>
+</section>
+
+<footer class="site-footer">
+  <div>DOSBox-X 是由 joncampbell123 等人維護的 open-source 專案，GPL-2.0 授權。</div>
+  <div class="footer-big">｢ 吟遊詩人的傳說 · 俠客遊 II ｣</div>
+  <div>
+    <a href="../../">◀ 主站</a> ·
+    <a href="../guides/">攻略索引</a> ·
+    <a href="../save-editor.html">存檔修改器</a> ·
+    維護：toni
+  </div>
+</footer>
+
+</div>
+</body>
+</html>

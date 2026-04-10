@@ -1,0 +1,13 @@
+# macOS 系統垃圾
+.DS_Store
+._*
+
+# 編輯器暫存檔
+*.swp
+*~
+.vscode/
+.idea/
+
+# Python build 快取
+__pycache__/
+*.pyc

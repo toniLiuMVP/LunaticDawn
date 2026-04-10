@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>修改筆記 · 俠客遊 II · 吟遊詩人的傳說</title>
+<meta name="description" content="本文件包含兩組獨立的修改筆記：1996.07.30 伊達政宗 &amp; Silver Angel——LUNA2.EXE 密碼破解、能力值 / 法術 / 家系 / 弱點的 byte layout、武器修改的 FPE 技巧。李憲忠 (An-Liang Lo)——精確到 byte 的 offset 對照">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/retro.css">
+</head>
+<body>
+<div class="wrap">
+
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <h1 class="pixel">修改筆記</h1>
+      <div class="header-sub">LUNATIC DAWN II · 1996 伊達政宗 + Silver Angel · 李憲忠</div>
+    </div>
+    <div class="header-sub header-right">
+      <div><a href="../../">◀ 回主站</a></div>
+      <div><a href="./">▸ 攻略索引</a></div>
+    </div>
+  </div>
+</header>
+
+<div class="breadcrumb">
+  <a href="../../">吟遊詩人的傳說</a> /
+  <a href="../../">俠客遊 II</a> /
+  <a href="./">攻略</a> /
+  <span class="dim">修改筆記</span>
+</div>
+
+<section class="panel">
+  <div class="panel-title">[ MODIFIER NOTES · 1996 ]</div>
+  <p>本文件包含兩組獨立的修改筆記：<br><br><strong class="amber">1996.07.30 伊達政宗 &amp; Silver Angel</strong>——LUNA2.EXE 密碼破解、能力值 / 法術 / 家系 / 弱點的 byte layout、武器修改的 FPE 技巧。<br><br><strong class="amber">李憲忠 (An-Liang Lo)</strong>——精確到 byte 的 offset 對照表：Pos16 年齡、Pos20-22 金錢、Pos42-47 HP/MP/STM 上限、Pos54-61 8 項能力、Pos120-134 15 項技能、Pos136-145 5 系法術 bitfield。<br><br>這兩份文件是本站<a href="../save-editor.html">存檔修改器</a>的核心規格來源。</p>
+  <p class="muted">原作者：伊達政宗、Silver Angel、李憲忠 · 整理：2004-2008 GameBase / 巴哈姆特社群 · 重建：toni 2026</p>
+</section>
+
+<section class="panel">
+  <div class="panel-title">[ CONTENT · 9,118 BYTES ]</div>
+  <pre class="raw-text">如何修改
+====================================================================
+保護：圖形數字密碼，破解碼：
+      LUNA2.EXE
+        E8 F1 2C 68 80 00
+        EB 00 90 -- -- --
+        E8 74 15 0B C0 75
+        EB 11 90 -- -- --
+====================================================================
+在每個儲存資料的子目錄(user0 ∼ user9)中有lunachar.sav 和 chritem.sav兩個 file.
+這兩個 file 中一開始的位置都是儲存主角的資料.
+====================================================================
+Yao Shih &amp; Silver Angel  聯合製作 
+
+／1996.07.30 伊達政宗／
+lunachar.sav :
+以下部份主要修改人物能力及魔法：
+
+00 XX XX XX 00 00 00 00 00 XX XX XX XX XX XX 00 XX XX XX XX 00 XX XX XX XX XX
+年          金       錢 性                   家             弱
+齡                      別                   系             點
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 64 64 64 64 64 64
+MaxHP MaxMP MaxST 目前  目前  目前  力 智 靈 敏 直 媚 体 精 └ 前8項能力最大鍛
+                   HP    MP    STM  量 力 巧 捷 覺 力 格 神
+64 64 XX XX XX XX XX XX XX XX FF FF FF FF FF FF FF XX 00 00 00 00 00 00 00 00
+練值┘頭 身 手 腿 右 左 手                            右手  左手  頭盔  護甲
+      部 體 臂    手 手 指                            武器  武器   名     名
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 XX XX
+手套  鞋子  戒子  道?1 道?2 道?3 道?4 道?5 道?6 道?7 道?8 道?9
+ 名    名    名
+01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 XX 00 00 00 00 00 00 00 00 00 00
+└ 訓 練 度 ───────────────┘    物理  元素  神聖  暗黑  精靈
+                                                法術  法術  法術  法術  法術
+說明：
+ １． 有關武器及道具部份改了都無效(我找不到)。
+ ２． STM 耐力值勿超過 300 否則人物會「虛脫」。
+ ３． 訓練度說明：
+      01 劍  02 斧  03 棍  04 槍  05 弓  06 格鬥  07 投擲  08 迴避  09 盜賊
+      10 野營  11 物理  12 元素  13 神聖  14 暗黑  15 精靈  MAX:100
+ ４． 物理法術： 改 FF 0F 即全有
+      元素法術： 改 FF 03 即全有
+      神聖法術： 改 FF 0F 即全有
+      暗黑法術： 改 FF 0F 即全有
+      精靈法術： 改 FF 0F 即全有 &lt;----- 後四招最強，又好用
+ ５． 家系： 00 貴族  01 農家  02 一般  03 學者  04 傭兵  05 僧侶  06 盜賊
+             07 孤兒
+ ６． 弱點： 00 野獸恐懼
+             01 魔獸恐懼
+             02 魔法生物恐懼
+             03 巨人恐懼
+             04 不死生物恐懼
+             05 幽靈恐懼
+             06 沒有恐懼
+
+. 以下部份由 Silver Angel 提示，政宗編修而成。
+    此部份主修武器攻擊能力，以FPE較易修改，先在武器店購武器，
+    找其攻擊力，再打鐵後找攻擊力(勿離開武器店，否則值就跑掉)
+    ，即可依下修改，一次完成。
+
+00 00 XX XX XX XX XX XX 00 00 00 00 00 FF 00 XX 00 XX XX XX
+名 種                   裝 体 命 攻 射    攻    攻
+稱 類                   備 格 中 擊 程    擊    擊
+                        位 限 率 速 距    類    力
+                        置 制    度 離    型
+00 XX 00 XX 00 XX 00 00
+防    防    防    魔 魔
+禦    禦    禦    法 法
+力    力    力    類 力
+砍    刺    敲    型 量
+
+說明：
+１．体格限制小較好
+２．攻擊力Max:255(FF) ； 其於Max:127(7F)
+３．攻擊類型：00 砍  01 刺  02 敲
+４．裝備位置：00 頭  01 身體  02 胳膊  03 腳  04 單手  05 雙手  06 手指
+５．魔法類型：00 物理     01 炎熱
+              02 冷卻     03 電光
+              04 神聖     05 暗黑
+              06 精靈
+
+
+                                   戰國群雄ソ§伊達政宗§
+====================================================================
+作者 : An-Liang Lo
+
+檔案: \USERx\LUNACHAR.SAV						    
+									    
+   Sec00 / Pos16 是年齡						    
+	     Pos20, 21, 22 是金錢					    
+	     Pos42, 43 是 H.P 的最大值, 遊戲限制在 275 (Hex: 1301)	    
+	     Pos44, 45 是 M.P 的最大值, 遊戲限制在 366 (Hex: 6E01)	    
+	     Pos46, 47 是 STM 的最大值, 遊戲限制在 275 (Hex: 1301)	    
+	     Pos48, 49 是 H.P 的剩餘值					    
+	     Pos50, 51 是 M.P 的剩餘值					    
+	     Pos52, 53 是 STM 的剩餘值					    
+									    
+	     Pos54 是力量, Max: 100 (Hex: 64)				    
+	     Pos55 是智力, Max: 100 (Hex: 64)				    
+	     Pos56 是靈活, Max: 100 (Hex: 64)				    
+	     Pos57 是敏捷, Max: 100 (Hex: 64)				    
+	     Pos58 是直覺, Max: 100 (Hex: 64)				    
+	     Pos59 是魅力, Max: 100 (Hex: 64)				    
+	     Pos60 是體力, Max: 100 (Hex: 64)				    
+	     Pos61 是精神, Max: 100 (Hex: 64)				    
+									    
+	     Pos120 是劍, Max: 100 (Hex: 64)				    
+	     Pos121 是斧, Max: 100 (Hex: 64)				    
+	     Pos122 是棍棒, Max: 100 (Hex: 64)				    
+	     Pos123 是槍, Max: 100 (Hex: 64)				    
+	     Pos124 是弓, Max: 100 (Hex: 64)				    
+	     Pos125 是格鬥, Max: 100 (Hex: 64)				    
+	     Pos126 是投擲, Max: 100 (Hex: 64)				    
+	     Pos127 是迴避, Max: 100 (Hex: 64)				    
+	     Pos128 是盜賊, Max: 100 (Hex: 64)				    
+	     Pos129 是野營, Max: 100 (Hex: 64)				    
+	     Pos130 是物理系魔法, Max: 100 (Hex: 64)			    
+	     Pos131 是元素系魔法, Max: 100 (Hex: 64)			    
+	     Pos132 是神聖系魔法, Max: 100 (Hex: 64)			    
+	     Pos133 是暗黑系魔法, Max: 100 (Hex: 64)			    
+	     Pos134 是精靈系魔法, Max: 100 (Hex: 64)			    
+									    
+	     Pos136, 137 是所學習的物理系法術, 全滿是 FF03		    
+	     Pos138, 139 是所學習的元素系法術, 全滿是 FF01		    
+	     Pos140, 141 是所學習的神聖系法術, 全滿是 FF07		    
+	     Pos142, 143 是所學習的暗黑系法術, 全滿是 FF01		    
+	     Pos144, 145 是所學習的精靈系法術, 全滿是 FF00    
+====================================================================
+作者 : 李憲忠
+
+chritem.sav:
+  依照你在 lunachar.sav 中物品修改的順序把物品的資料填入,每個物品都有
+  48 個 bytes 長度,用 pctools 或 diskedit 之類的 edit 看時應該是三行。
+  而物品的資料則必須到 luna2/p/ 下的 itemdata.mst 中去找。只要利用物品
+  的代號去找即可。我忘了把物品的儲存格式記下來，所以想把爛武器改強的人
+  ，就自己去找找吧:P
+  以下是各項隱藏寶物的代號：
+  火炎神劍         76 00   神仙劍         0E 01   龍淵劍         C2 00
+  妖刀村正         0F 01   猛襲怪斧       2A 00   光輝之斧       5A 01
+  金太郎之鉞       10 01   托迪姆斧       5B 01   聖釘頭鎚       2B 00
+  火燄神杖         77 00   如意棒         C3 00   破岩棒         5C 01
+  水帝之槍         78 00   菲恩瑪庫魯魔槍 A6 01   太陽神神弓     2C 00
+  克普拉弓         A7 01   穿刺擊         79 00   魔擲箭         C4 00
+  希希洛卡奈帽     11 01   帕卡爾守護盔   5D 01   逆鱗鎧         C5 00
+  兀鷹之鎧         5E 01   飛翅靴         7A 00   風之靴         A8 01
+  巨人護手         2D 00   金剛雙拳       C6 00   歐利哈肯盾     2E 00
+  米斯里魯盾       A9 01   勾玉戒指       12 01   隱形戒指       AA 01
+
+
+
+同伴篇
+
+     同伴大致可分為兩類,一為法術者,一為戰士者,大致而言法術者的綜合
+     效能較高,好的術者,攻擊力高法術又強,但可惜的是自主性較低(聽不懂
+     對不對)就是說-法術者的每次行動大都會依賴你的喊叫,如果你不喊的話
+     他就呆呆的站著不動.不過我發現到,當他的MP不足時,它會一直發射奪能術
+     不管敵人有沒有法術,而且還會要其它的同伴給它補充法力,而戰士型的不
+     用你喊叫就會自己去砍敵人,這樣你就不用一天到晚在生氣,自己一個人慢
+     慢的爬.而同半都只會發呆的窘狀,因此選一兩個戰士型同伴是相當不錯的
+     以我來講,我有偷偷改屬性,除了精靈魔法不知去那學,還有必殺技沒學外
+     我會所有的法術,我就很喜歡找些.高攻擊技能的戰士行同伴,去晃晃.這樣
+     可大幅縮短戰鬥的時間.最好那些戰士都俱有&quot;法力回復&quot;這項法術,這樣就
+     可當我的備用電池了,我又找了北方薩城的神聖教會老板當同伴,因為它會
+     復活術.</pre>
+</section>
+
+<section class="panel">
+  <div class="panel-title">[ NAVIGATION ]</div>
+  <p>
+    <a href="./">◀ 回攻略索引</a> ·
+    <a href="../save-editor.html">▸ 存檔修改器</a> ·
+    <a href="../launcher/">▸ 遊戲啟動器</a> ·
+    <a href="../../">▸ 主站</a>
+  </p>
+  <p class="muted">
+    需要其他攻略？請回<a href="./">攻略索引</a>查看全部 9 篇文件。
+  </p>
+</section>
+
+<footer class="site-footer">
+  <div>所有攻略文件版權屬於原作者。本站僅為數位文化遺產保存目的整理展示。</div>
+  <div class="footer-big">｢ 吟遊詩人的傳說 · 俠客遊 II ｣</div>
+  <div>
+    <a href="../../">◀ 主站</a> ·
+    <a href="./">攻略索引</a> ·
+    <a href="../save-editor.html">存檔修改器</a> ·
+    維護：toni
+  </div>
+</footer>
+
+</div>
+</body>
+</html>

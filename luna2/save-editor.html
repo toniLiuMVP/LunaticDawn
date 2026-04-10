@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>俠客遊 II 存檔修改器 · 吟遊詩人的傳說</title>
+<meta name="description" content="俠客遊 II (Lunatic Dawn II) 瀏覽器版存檔修改器，跨 macOS / Windows / Linux，由 toni 維護。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   俠客遊 II 存檔修改器 · 復古 DOS 終端風
+   ============================================================ */
+:root {
+  --phosphor:     #00ff41;
+  --phosphor-dim: #00aa2b;
+  --phosphor-fade:#005c17;
+  --amber:        #ffb000;
+  --danger:       #ff3030;
+  --bg:           #000;
+  --bg-panel:     #030a03;
+  --bg-input:     #0a1a0a;
+  --border:       #00ff41;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+
+body {
+  background: var(--bg);
+  color: var(--phosphor);
+  font-family: 'VT323', 'Courier New', 'Noto Sans Mono', monospace;
+  font-size: 20px;
+  line-height: 1.3;
+  min-height: 100vh;
+  padding: 16px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(0deg,
+    rgba(0,0,0,0) 0, rgba(0,0,0,0) 2px,
+    rgba(0,255,65,0.03) 2px, rgba(0,255,65,0.03) 4px);
+  pointer-events: none;
+  z-index: 9999;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.6) 100%);
+  pointer-events: none;
+  z-index: 9998;
+}
+
+a { color: var(--amber); text-decoration: none; border-bottom: 1px dashed var(--amber); }
+a:hover { background: var(--amber); color: var(--bg); }
+
+.pixel { font-family: 'Press Start 2P', 'VT323', monospace; letter-spacing: 1px; }
+
+header {
+  border: 2px solid var(--border);
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  position: relative;
+  background: var(--bg-panel);
+}
+
+header::before {
+  content: "╔═[ LUNATIC DAWN II SAVE EDITOR ]═╗";
+  position: absolute;
+  top: -12px;
+  left: 16px;
+  background: var(--bg);
+  padding: 0 8px;
+  font-size: 14px;
+  color: var(--phosphor-dim);
+}
+
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+h1.pixel {
+  font-size: 18px;
+  color: var(--phosphor);
+  text-shadow: 0 0 8px var(--phosphor), 0 0 16px var(--phosphor-fade);
+}
+
+h1.pixel::before { content: "> "; color: var(--phosphor-dim); }
+h1.pixel::after  { content: "_"; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+.header-sub { font-size: 18px; color: var(--phosphor-dim); }
+.header-sub a { font-size: 20px; }
+.header-right { text-align: right; }
+
+#drop-zone {
+  border: 3px dashed var(--phosphor-dim);
+  padding: 80px 40px;
+  text-align: center;
+  margin-bottom: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--bg-panel);
+}
+
+#drop-zone:hover,
+#drop-zone.dragging {
+  border-color: var(--phosphor);
+  border-style: solid;
+  background: rgba(0,255,65,0.05);
+  box-shadow: inset 0 0 40px rgba(0,255,65,0.1);
+}
+
+#drop-zone .ascii-art {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  line-height: 1.1;
+  white-space: pre;
+  color: var(--phosphor-dim);
+  margin-bottom: 20px;
+}
+
+#drop-zone h2 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 16px;
+  color: var(--phosphor);
+  margin: 20px 0 12px;
+  text-shadow: 0 0 8px var(--phosphor-fade);
+}
+
+#drop-zone p { color: var(--phosphor-dim); margin: 6px 0; font-size: 18px; }
+#drop-zone .click-text { color: var(--amber); text-decoration: underline; }
+#drop-zone .hint { margin-top: 24px; font-size: 16px; color: var(--phosphor-fade); }
+#drop-zone .hint-top { margin-top: 16px; }
+#file-input { display: none; }
+
+#app { display: none; }
+#app.loaded { display: grid; grid-template-columns: 240px 1fr 360px; gap: 16px; }
+
+@media (max-width: 1200px) {
+  #app.loaded { grid-template-columns: 220px 1fr; }
+  #hex-view-panel { grid-column: 1 / -1; }
+}
+
+.panel {
+  border: 2px solid var(--border);
+  padding: 16px;
+  background: var(--bg-panel);
+  position: relative;
+  min-height: 300px;
+}
+
+.panel-title {
+  position: absolute;
+  top: -12px;
+  left: 12px;
+  background: var(--bg);
+  padding: 0 8px;
+  font-size: 12px;
+  font-family: 'Press Start 2P', monospace;
+  color: var(--phosphor);
+  letter-spacing: 1px;
+}
+
+#char-list-panel { max-height: calc(100vh - 200px); overflow-y: auto; }
+
+.char-filter {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--phosphor-fade);
+}
+
+.char-filter button {
+  flex: 1;
+  background: transparent;
+  border: 1px solid var(--phosphor-dim);
+  color: var(--phosphor-dim);
+  padding: 4px;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.char-filter button.active,
+.char-filter button:hover {
+  background: var(--phosphor-fade);
+  color: var(--phosphor);
+  border-color: var(--phosphor);
+}
+
+#char-list { list-style: none; font-size: 17px; }
+
+#char-list li {
+  padding: 6px 8px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  margin-bottom: 2px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#char-list li:hover {
+  background: rgba(0,255,65,0.08);
+  border-color: var(--phosphor-dim);
+}
+
+#char-list li.active {
+  background: var(--phosphor-fade);
+  border-color: var(--phosphor);
+  color: #fff;
+  text-shadow: 0 0 6px var(--phosphor);
+}
+
+#char-list li.empty { color: var(--phosphor-fade); font-style: italic; }
+#char-list .char-idx { color: var(--phosphor-dim); font-size: 14px; margin-right: 8px; }
+#char-list li.active .char-idx { color: var(--amber); }
+#char-list .char-name { flex: 1; }
+#char-list .char-main-flag { color: var(--amber); font-size: 12px; }
+
+#editor-panel { min-height: 600px; }
+
+.field-group {
+  border: 1px solid var(--phosphor-fade);
+  padding: 12px 16px 16px;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.field-group-title {
+  position: absolute;
+  top: -10px;
+  left: 12px;
+  background: var(--bg-panel);
+  padding: 0 8px;
+  font-size: 13px;
+  font-family: 'Press Start 2P', monospace;
+  color: var(--phosphor-dim);
+}
+
+.empty-editor {
+  padding: 40px;
+  text-align: center;
+  color: var(--phosphor-fade);
+  font-size: 18px;
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+}
+
+.field { display: flex; flex-direction: column; }
+.field.span-2 { grid-column: span 2; }
+
+.field label {
+  font-size: 16px;
+  color: var(--phosphor-dim);
+  margin-bottom: 2px;
+}
+
+.field label .cap {
+  font-size: 13px;
+  color: var(--phosphor-fade);
+  margin-left: 4px;
+}
+
+.field input[type="number"],
+.field input[type="text"],
+.field select {
+  background: var(--bg-input);
+  border: 1px solid var(--phosphor-dim);
+  color: var(--phosphor);
+  font-family: inherit;
+  font-size: 18px;
+  padding: 4px 8px;
+  width: 100%;
+}
+
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--phosphor);
+  box-shadow: 0 0 8px var(--phosphor-fade);
+  background: #0f1f0f;
+}
+
+.field input[readonly] { opacity: 0.7; }
+.field input.capped { border-color: var(--amber); color: var(--amber); }
+
+.field .field-meta {
+  font-size: 13px;
+  color: var(--phosphor-fade);
+  margin-top: 2px;
+  font-family: 'Courier New', monospace;
+}
+
+.skill-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 60px;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 4px;
+  font-size: 17px;
+}
+
+.skill-bar-wrap {
+  height: 14px;
+  background: var(--bg-input);
+  border: 1px solid var(--phosphor-fade);
+  position: relative;
+}
+
+.skill-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--phosphor-fade), var(--phosphor));
+  transition: width 0.2s;
+}
+
+.skill-row input {
+  background: var(--bg-input);
+  border: 1px solid var(--phosphor-dim);
+  color: var(--phosphor);
+  font-family: inherit;
+  font-size: 16px;
+  padding: 2px 6px;
+  text-align: right;
+  width: 100%;
+}
+
+.spell-school { margin-bottom: 12px; }
+
+.spell-school-title {
+  font-size: 16px;
+  color: var(--phosphor);
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.spell-school-title .count { color: var(--phosphor-fade); font-size: 14px; margin-left: 6px; }
+
+.spell-school-title button {
+  background: transparent;
+  border: 1px solid var(--phosphor-dim);
+  color: var(--phosphor-dim);
+  font-family: inherit;
+  font-size: 13px;
+  padding: 2px 8px;
+  cursor: pointer;
+  margin-left: 4px;
+}
+
+.spell-school-title button:hover { background: var(--phosphor-fade); color: var(--phosphor); }
+
+.spell-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));
+  gap: 4px;
+}
+
+.spell-bit {
+  width: 100%;
+  aspect-ratio: 1;
+  border: 1px solid var(--phosphor-fade);
+  background: var(--bg-input);
+  color: var(--phosphor-fade);
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spell-bit.on {
+  background: var(--phosphor-fade);
+  color: var(--phosphor);
+  border-color: var(--phosphor);
+  text-shadow: 0 0 4px var(--phosphor);
+}
+
+#hex-view-panel {
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+  font-family: 'Courier New', 'VT323', monospace;
+}
+
+#hex-view { font-size: 15px; line-height: 1.4; }
+
+.hex-row { display: flex; gap: 12px; white-space: pre; }
+.hex-addr { color: var(--phosphor-fade); }
+.hex-bytes { color: var(--phosphor-dim); letter-spacing: 1px; }
+.hex-ascii { color: var(--phosphor-fade); font-style: italic; }
+.hex-byte { padding: 0 1px; }
+.hex-byte.dirty { color: var(--amber); font-weight: bold; }
+
+#bottom-bar {
+  display: none;
+  margin-top: 16px;
+  padding: 16px;
+  border: 2px solid var(--border);
+  background: var(--bg-panel);
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+#bottom-bar::before {
+  content: "╔═[ ACTIONS ]═╗";
+  position: absolute;
+  top: -12px;
+  left: 16px;
+  background: var(--bg);
+  padding: 0 8px;
+  font-size: 14px;
+  color: var(--phosphor-dim);
+}
+
+#bottom-bar.loaded { display: flex; }
+
+.btn {
+  background: transparent;
+  border: 2px solid var(--phosphor);
+  color: var(--phosphor);
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  padding: 10px 24px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: all 0.15s;
+}
+
+.btn:hover { background: var(--phosphor); color: var(--bg); box-shadow: 0 0 16px var(--phosphor); }
+.btn-amber { border-color: var(--amber); color: var(--amber); }
+.btn-amber:hover { background: var(--amber); color: var(--bg); box-shadow: 0 0 16px var(--amber); }
+
+#status { font-size: 17px; color: var(--phosphor-dim); flex: 1; min-width: 200px; }
+#status.dirty { color: var(--amber); }
+#status.ok { color: var(--phosphor); }
+
+footer {
+  margin-top: 32px;
+  padding: 16px;
+  border-top: 1px dashed var(--phosphor-fade);
+  text-align: center;
+  font-size: 17px;
+  color: var(--phosphor-fade);
+}
+
+footer a { color: var(--amber); font-size: 18px; }
+
+footer .footer-big {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  margin: 12px 0 8px;
+  color: var(--phosphor-dim);
+}
+
+footer .footer-note { margin-top: 8px; color: var(--phosphor-fade); }
+.warn { color: var(--amber); }
+.muted { color: var(--phosphor-fade); }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg-panel); }
+::-webkit-scrollbar-thumb { background: var(--phosphor-fade); border: 1px solid var(--phosphor-dim); }
+::-webkit-scrollbar-thumb:hover { background: var(--phosphor-dim); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div>
+      <h1 class="pixel">俠客遊 II 存檔修改器</h1>
+      <div class="header-sub">LUNATIC DAWN II · SAVE EDITOR · v0.1</div>
+    </div>
+    <div class="header-sub header-right">
+      <div><a href="../">◀ 回吟遊詩人的傳說-俠客遊小站</a></div>
+      <div>維護者：toni · 2026</div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ DROP ZONE ============ -->
+<div id="drop-zone">
+  <div class="ascii-art">╔══════════════════════════════════════════╗
+║  ▄   ▄   ▄▄▄▄   ▄ ▄  ▄▄▄▄▄    ▄▄▄    ▄▄  ║
+║  █   █   █  █   █▀█  █   █   █   █  █  █ ║
+║  █▄▄▄█   █▄▄█   █ █  █▄▄▄█   █▄▄▄█  █▄▄█ ║
+╚══════════════════════════════════════════╝</div>
+  <h2>拖放 LUNACHAR.SAV 到這裡</h2>
+  <p>或 <span class="click-text">點擊選擇檔案</span></p>
+  <p class="hint hint-top">[ 檔案通常在 LUNA2/USER0 ~ USER9/LUNACHAR.SAV ]</p>
+  <p class="hint warn">※ 注意：USER0 = 遊戲內「存檔 1」，USER9 = 「存檔 10」（資料夾編號比遊戲顯示少 1）</p>
+  <p class="hint muted">※ 所有解析在你的瀏覽器本地完成，不會上傳任何檔案。</p>
+  <input type="file" id="file-input" accept=".sav,.SAV">
+</div>
+
+<!-- ============ MAIN APP ============ -->
+<div id="app">
+  <aside class="panel" id="char-list-panel">
+    <div class="panel-title">[ CHARACTERS ]</div>
+    <div class="char-filter">
+      <button data-filter="alive" class="active">僅在生</button>
+      <button data-filter="all">全部 160</button>
+    </div>
+    <ul id="char-list"></ul>
+  </aside>
+
+  <main class="panel" id="editor-panel">
+    <div class="panel-title">[ EDITOR ]</div>
+    <div id="editor-content"></div>
+  </main>
+
+  <aside class="panel" id="hex-view-panel">
+    <div class="panel-title">[ HEX VIEW · 192 BYTES ]</div>
+    <div id="hex-view"></div>
+  </aside>
+</div>
+
+<!-- ============ BOTTOM BAR ============ -->
+<div id="bottom-bar">
+  <div id="status">準備就緒</div>
+  <button class="btn btn-amber" id="btn-reset">↺ 重新載入原檔</button>
+  <button class="btn" id="btn-download">▼ 下載修改後的 LUNACHAR.SAV</button>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div>
+    遇到問題、需要攻略、物品代碼、角色資料？
+    請回 <a href="../">吟遊詩人的傳說 · 俠客遊小站</a>查看。
+  </div>
+  <div class="footer-big">｢ 吟遊詩人的傳說 · 俠客遊 LUNATIC DAWN ｣</div>
+  <div>
+    致敬 1996 Artdink · 2004-2008 GameBase / 巴哈姆特社群前輩 ·
+    存檔解析 by 聶荊璇、李憲忠、伊達政宗 · Silver Angel · 原版修改器 by Morrowind
+  </div>
+  <div class="footer-note">
+    本修改器為 <span class="warn">A 模式（嚴格）</span>，所有數值都有官方上限保護。
+  </div>
+</footer>
+
+<script>
+'use strict';
+
+/* ============================================================
+   俠客遊 II LUNACHAR.SAV 存檔修改器
+   純 DOM 實作，零 innerHTML 字串拼接
+   資料來源：李憲忠 / 伊達政宗 / Silver Angel / 聶荊璇 / USER0 hex dump 驗證
+   ============================================================ */
+
+// ---- 常數 ----
+const CHAR_SIZE = 192;
+const MAX_CHARS = 160;
+const EXPECTED_SIZE = CHAR_SIZE * MAX_CHARS; // 30720
+
+const OFFSETS = {
+  alive:     0x00,  // u8: 00=空 01=在生
+  mainFlag:  0x01,  // u8: 0xFF=主角
+  name:      0x02,  // 13 bytes Big5
+  race:      0x0F,  // u8
+  age:       0x10,  // u16 LE
+  ageLimit:  0x12,  // u16 LE
+  money:     0x14,  // u32 LE
+  maxHP:     0x2A,  // u16 LE (cap 275)
+  maxMP:     0x2C,  // u16 LE (cap 366)
+  maxSTM:    0x2E,  // u16 LE (cap 275)
+  curHP:     0x30,
+  curMP:     0x32,
+  curSTM:    0x34,
+  attrs:     0x36,  // 8 u8
+  attrCaps:  0x3E,  // 8 u8
+  skills:    0x78,  // 15 u8
+  spellP:    0x88,  // u16 LE
+  spellE:    0x8A,
+  spellH:    0x8C,
+  spellD:    0x8E,
+  spellS:    0x90,
+};
+
+const CAPS = {
+  age: 999, money: 9999999,
+  maxHP: 275, maxMP: 366, maxSTM: 275,
+  curHP: 275, curMP: 366, curSTM: 275,
+  attr: 100, attrCap: 100, skill: 100,
+};
+
+const SPELL_SCHOOLS = [
+  { name: '物理系', offset: OFFSETS.spellP, count: 10, fullMask: 0x03FF },
+  { name: '元素系', offset: OFFSETS.spellE, count:  9, fullMask: 0x01FF },
+  { name: '神聖系', offset: OFFSETS.spellH, count: 11, fullMask: 0x07FF },
+  { name: '暗黑系', offset: OFFSETS.spellD, count:  9, fullMask: 0x01FF },
+  { name: '精靈系', offset: OFFSETS.spellS, count:  8, fullMask: 0x00FF },
+];
+
+const ATTR_NAMES  = ['力量', '智力', '靈巧', '敏捷', '直覺', '魅力', '體力', '精神'];
+const SKILL_NAMES = ['劍', '斧', '棍', '槍', '弓', '格鬥', '投擲', '迴避', '盜賊', '野營',
+                     '物理魔法', '元素魔法', '神聖魔法', '暗黑魔法', '精靈魔法'];
+const RACE_NAMES  = ['人類', '小妖精', '侏儒', '半環', '半小妖精'];
+
+// ---- 全域狀態 ----
+const state = {
+  original: null,
+  buffer: null,
+  currentIdx: 0,
+  fileName: 'LUNACHAR.SAV',
+  filter: 'alive',
+  dirty: false,
+};
+
+// ============================================================
+// DOM helper（避免 innerHTML 拼接）
+// ============================================================
+function el(tag, options) {
+  const e = document.createElement(tag);
+  if (options) {
+    if (options.className) e.className = options.className;
+    if (options.text != null) e.textContent = String(options.text);
+    if (options.type) e.type = options.type;
+    if (options.value != null) e.value = options.value;
+    if (options.min != null) e.min = options.min;
+    if (options.max != null) e.max = options.max;
+    if (options.readOnly) e.readOnly = true;
+    if (options.onClick) e.addEventListener('click', options.onClick);
+    if (options.onInput) e.addEventListener('input', options.onInput);
+    if (options.onChange) e.addEventListener('change', options.onChange);
+    if (options.style) Object.assign(e.style, options.style);
+    if (options.dataset) Object.assign(e.dataset, options.dataset);
+    if (options.children) {
+      options.children.forEach(c => {
+        if (c == null || c === false) return;
+        e.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
+      });
+    }
+  }
+  return e;
+}
+
+function clearChildren(node) {
+  while (node.firstChild) node.removeChild(node.firstChild);
+}
+
+function hex(n, pad) {
+  return n.toString(16).toUpperCase().padStart(pad, '0');
+}
+
+// ============================================================
+// Buffer 讀寫（Little-Endian）
+// ============================================================
+function charBase(idx) { return idx * CHAR_SIZE; }
+
+function dv() {
+  return new DataView(state.buffer.buffer, state.buffer.byteOffset, state.buffer.byteLength);
+}
+
+function readU8(idx, off)  { return state.buffer[charBase(idx) + off]; }
+function readU16(idx, off) { return dv().getUint16(charBase(idx) + off, true); }
+function readU32(idx, off) { return dv().getUint32(charBase(idx) + off, true); }
+
+function writeU8(idx, off, val) {
+  state.buffer[charBase(idx) + off] = val & 0xFF;
+  markDirty();
+}
+function writeU16(idx, off, val) {
+  dv().setUint16(charBase(idx) + off, val & 0xFFFF, true);
+  markDirty();
+}
+function writeU32(idx, off, val) {
+  dv().setUint32(charBase(idx) + off, val >>> 0, true);
+  markDirty();
+}
+
+// Big5 角色名讀取
+const big5Decoder = new TextDecoder('big5', { fatal: false });
+function readName(idx) {
+  const base = charBase(idx) + OFFSETS.name;
+  let end = 13;
+  for (let i = 0; i < 13; i++) {
+    if (state.buffer[base + i] === 0) { end = i; break; }
+  }
+  const slice = state.buffer.slice(base, base + end);
+  try { return big5Decoder.decode(slice).replace(/\0/g, '').trim(); }
+  catch (e) { return '(亂碼)'; }
+}
+
+function isAlive(idx) { return readU8(idx, OFFSETS.alive) !== 0; }
+function isMain(idx)  { return readU8(idx, OFFSETS.mainFlag) === 0xFF; }
+
+// ============================================================
+// 狀態顯示
+// ============================================================
+function markDirty() {
+  state.dirty = true;
+  const s = document.getElementById('status');
+  s.className = 'dirty';
+  s.textContent = '● 已修改（尚未下載）';
+}
+
+function markClean(msg) {
+  state.dirty = false;
+  const s = document.getElementById('status');
+  s.className = 'ok';
+  s.textContent = msg || ('✓ 已載入：' + state.fileName + ' （' + state.buffer.length + ' bytes）');
+}
+
+// ============================================================
+// 檔案載入
+// ============================================================
+function initFileLoading() {
+  const dropZone = document.getElementById('drop-zone');
+  const fileInput = document.getElementById('file-input');
+
+  dropZone.addEventListener('click', () => fileInput.click());
+  dropZone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropZone.classList.add('dragging');
+  });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragging'));
+  dropZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropZone.classList.remove('dragging');
+    const f = e.dataTransfer.files[0];
+    if (f) loadFile(f);
+  });
+  fileInput.addEventListener('change', (e) => {
+    const f = e.target.files[0];
+    if (f) loadFile(f);
+  });
+}
+
+async function loadFile(file) {
+  const buf = new Uint8Array(await file.arrayBuffer());
+
+  if (buf.length !== EXPECTED_SIZE) {
+    const msg = '這個檔案大小是 ' + buf.length + ' bytes，預期是 ' + EXPECTED_SIZE +
+                ' bytes（160 角色 × 192 bytes）。\n\n確定要繼續嗎？可能不是 LUNACHAR.SAV。';
+    if (!confirm(msg)) return;
+  }
+
+  state.original = new Uint8Array(buf);
+  state.buffer = new Uint8Array(buf);
+  state.fileName = file.name;
+  state.dirty = false;
+
+  // 預設選中第一個在生角色（通常是主角）
+  state.currentIdx = 0;
+  for (let i = 0; i < MAX_CHARS; i++) {
+    if (isAlive(i)) { state.currentIdx = i; break; }
+  }
+
+  document.getElementById('drop-zone').style.display = 'none';
+  document.getElementById('app').classList.add('loaded');
+  document.getElementById('bottom-bar').classList.add('loaded');
+
+  renderCharList();
+  renderEditor();
+  renderHexView();
+  markClean();
+}
+
+// ============================================================
+// 角色列表渲染
+// ============================================================
+function initCharFilter() {
+  const filterBtns = document.querySelectorAll('.char-filter button');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.filter = btn.dataset.filter;
+      filterBtns.forEach(b => b.classList.toggle('active', b === btn));
+      renderCharList();
+    });
+  });
+}
+
+function renderCharList() {
+  const list = document.getElementById('char-list');
+  clearChildren(list);
+
+  for (let i = 0; i < MAX_CHARS; i++) {
+    const alive = isAlive(i);
+    if (state.filter === 'alive' && !alive) continue;
+
+    const li = document.createElement('li');
+    if (!alive) li.classList.add('empty');
+    if (i === state.currentIdx) li.classList.add('active');
+
+    const idxSpan = el('span', {
+      className: 'char-idx',
+      text: String(i).padStart(3, '0'),
+    });
+    const nameSpan = el('span', {
+      className: 'char-name',
+      text: alive ? (readName(i) || '(無名)') : '[空]',
+    });
+    const mainSpan = el('span', {
+      className: 'char-main-flag',
+      text: isMain(i) ? '★主' : '',
+    });
+
+    li.appendChild(idxSpan);
+    li.appendChild(nameSpan);
+    li.appendChild(mainSpan);
+
+    li.addEventListener('click', () => {
+      state.currentIdx = i;
+      renderCharList();
+      renderEditor();
+      renderHexView();
+    });
+
+    list.appendChild(li);
+  }
+}
+
+// ============================================================
+// 編輯器渲染
+// ============================================================
+function makeGroup(titleText) {
+  const group = el('div', { className: 'field-group' });
+  group.appendChild(el('div', { className: 'field-group-title', text: titleText }));
+  const grid = el('div', { className: 'field-grid' });
+  group.appendChild(grid);
+  return { group, body: grid };
+}
+
+function renderEditor() {
+  const idx = state.currentIdx;
+  const c = document.getElementById('editor-content');
+  clearChildren(c);
+
+  if (!isAlive(idx)) {
+    c.appendChild(el('div', {
+      className: 'empty-editor',
+      text: '此 slot (#' + idx + ') 為空，請從左側選擇在生角色',
+    }));
+    return;
+  }
+
+  // ---- 基本資料 ----
+  const basic = makeGroup('[ #' + String(idx).padStart(3, '0') + ' · 基本資料 ]');
+  addNameField(basic.body, idx);
+  addSelectField(basic.body, idx, '種族', OFFSETS.race, RACE_NAMES);
+  addNumberField(basic.body, idx, '年齡', OFFSETS.age, 'u16', CAPS.age);
+  addNumberField(basic.body, idx, '壽命', OFFSETS.ageLimit, 'u16', 999);
+  addNumberField(basic.body, idx, '金錢', OFFSETS.money, 'u32', CAPS.money);
+  c.appendChild(basic.group);
+
+  // ---- HP / MP / STM ----
+  const vitals = makeGroup('[ HP / MP / STM ]');
+  addNumberField(vitals.body, idx, '最大 HP',  OFFSETS.maxHP,  'u16', CAPS.maxHP,  '上限 275');
+  addNumberField(vitals.body, idx, '目前 HP',  OFFSETS.curHP,  'u16', CAPS.curHP);
+  addNumberField(vitals.body, idx, '最大 MP',  OFFSETS.maxMP,  'u16', CAPS.maxMP,  '上限 366');
+  addNumberField(vitals.body, idx, '目前 MP',  OFFSETS.curMP,  'u16', CAPS.curMP);
+  addNumberField(vitals.body, idx, '最大 STM', OFFSETS.maxSTM, 'u16', CAPS.maxSTM, '上限 275');
+  addNumberField(vitals.body, idx, '目前 STM', OFFSETS.curSTM, 'u16', CAPS.curSTM);
+  c.appendChild(vitals.group);
+
+  // ---- 8 能力 ----
+  const attrs = makeGroup('[ 8 項能力 · max 100 ]');
+  for (let i = 0; i < 8; i++) {
+    addNumberField(attrs.body, idx, ATTR_NAMES[i], OFFSETS.attrs + i, 'u8', CAPS.attr);
+  }
+  c.appendChild(attrs.group);
+
+  // ---- 能力鍛練上限 ----
+  const caps = makeGroup('[ 能力鍛練上限 · max 100 ]');
+  for (let i = 0; i < 8; i++) {
+    addNumberField(caps.body, idx, ATTR_NAMES[i] + ' 上限', OFFSETS.attrCaps + i, 'u8', CAPS.attrCap);
+  }
+  c.appendChild(caps.group);
+
+  // ---- 15 技能 ----
+  const skills = el('div', { className: 'field-group' });
+  skills.appendChild(el('div', { className: 'field-group-title', text: '[ 15 項技能訓練度 · max 100 ]' }));
+  for (let i = 0; i < 15; i++) {
+    addSkillRow(skills, idx, SKILL_NAMES[i], OFFSETS.skills + i);
+  }
+  c.appendChild(skills);
+
+  // ---- 5 系法術 ----
+  const spells = el('div', { className: 'field-group' });
+  spells.appendChild(el('div', { className: 'field-group-title', text: '[ 5 系法術 · 點方塊開關每招 ]' }));
+  SPELL_SCHOOLS.forEach(school => addSpellSchool(spells, idx, school));
+  c.appendChild(spells);
+}
+
+// ---- 欄位組件 ----
+function addNameField(parent, idx) {
+  const input = el('input', {
+    type: 'text',
+    value: readName(idx),
+    readOnly: true,
+  });
+  const field = el('div', {
+    className: 'field span-2',
+    children: [
+      el('label', { text: '角色名' }),
+      input,
+      el('div', {
+        className: 'field-meta',
+        text: '(Big5 編碼，此版本唯讀。改名請用遊戲內操作)',
+      }),
+    ],
+  });
+  parent.appendChild(field);
+}
+
+function addNumberField(parent, idx, label, off, type, cap, hint) {
+  const read  = type === 'u8' ? readU8  : type === 'u16' ? readU16 : readU32;
+  const write = type === 'u8' ? writeU8 : type === 'u16' ? writeU16 : writeU32;
+
+  const input = el('input', {
+    type: 'number',
+    min: 0,
+    max: cap,
+    value: read(idx, off),
+  });
+
+  input.addEventListener('input', () => {
+    let v = parseInt(input.value, 10);
+    if (isNaN(v)) v = 0;
+    if (v < 0) v = 0;
+    if (v > cap) {
+      v = cap;
+      input.value = v;
+      input.classList.add('capped');
+      setTimeout(() => input.classList.remove('capped'), 800);
+    }
+    write(idx, off, v);
+    renderHexView();
+  });
+
+  const labelEl = el('label', { text: label });
+  if (hint) {
+    labelEl.appendChild(el('span', { className: 'cap', text: ' (' + hint + ')' }));
+  }
+
+  const meta = el('div', {
+    className: 'field-meta',
+    text: '@ 0x' + hex(off, 2) + ' · ' + type,
+  });
+
+  const field = el('div', {
+    className: 'field',
+    children: [labelEl, input, meta],
+  });
+  parent.appendChild(field);
+}
+
+function addSelectField(parent, idx, label, off, options) {
+  const sel = document.createElement('select');
+  options.forEach((name, i) => {
+    sel.appendChild(el('option', { value: i, text: i + '. ' + name }));
+  });
+  sel.value = readU8(idx, off);
+  sel.addEventListener('change', () => {
+    writeU8(idx, off, parseInt(sel.value, 10));
+    renderCharList();
+    renderHexView();
+  });
+
+  const field = el('div', {
+    className: 'field',
+    children: [
+      el('label', { text: label }),
+      sel,
+      el('div', { className: 'field-meta', text: '@ 0x' + hex(off, 2) + ' · u8' }),
+    ],
+  });
+  parent.appendChild(field);
+}
+
+function addSkillRow(parent, idx, name, off) {
+  const bar = el('div', { className: 'skill-bar' });
+  const barWrap = el('div', { className: 'skill-bar-wrap', children: [bar] });
+
+  const input = el('input', {
+    type: 'number',
+    min: 0,
+    max: CAPS.skill,
+    value: readU8(idx, off),
+  });
+
+  const refresh = () => {
+    const v = readU8(idx, off);
+    input.value = v;
+    bar.style.width = v + '%';
+  };
+  refresh();
+
+  input.addEventListener('input', () => {
+    let v = parseInt(input.value, 10);
+    if (isNaN(v)) v = 0;
+    if (v < 0) v = 0;
+    if (v > CAPS.skill) { v = CAPS.skill; input.value = v; }
+    writeU8(idx, off, v);
+    bar.style.width = v + '%';
+    renderHexView();
+  });
+
+  const row = el('div', {
+    className: 'skill-row',
+    children: [
+      el('div', { text: name }),
+      barWrap,
+      input,
+    ],
+  });
+  parent.appendChild(row);
+}
+
+function addSpellSchool(parent, idx, school) {
+  const box = el('div', { className: 'spell-school' });
+
+  const titleLeft = el('span');
+  const titleName = document.createTextNode(school.name);
+  titleLeft.appendChild(titleName);
+  const countSpan = el('span', { className: 'count' });
+  titleLeft.appendChild(countSpan);
+
+  const allBtn  = el('button', { text: '全學會' });
+  const noneBtn = el('button', { text: '全忘記' });
+
+  const title = el('div', {
+    className: 'spell-school-title',
+    children: [titleLeft, el('span', { children: [allBtn, noneBtn] })],
+  });
+  box.appendChild(title);
+
+  const grid = el('div', { className: 'spell-grid' });
+  box.appendChild(grid);
+
+  const cells = [];
+  for (let bit = 0; bit < school.count; bit++) {
+    const cell = el('div', {
+      className: 'spell-bit',
+      text: String(bit + 1),
+    });
+    cell.addEventListener('click', () => {
+      const v = readU16(idx, school.offset);
+      writeU16(idx, school.offset, v ^ (1 << bit));
+      refresh();
+      renderHexView();
+    });
+    grid.appendChild(cell);
+    cells.push(cell);
+  }
+
+  const refresh = () => {
+    const v = readU16(idx, school.offset);
+    let count = 0;
+    for (let bit = 0; bit < school.count; bit++) {
+      const on = !!((v >> bit) & 1);
+      cells[bit].classList.toggle('on', on);
+      if (on) count++;
+    }
+    countSpan.textContent = ' ' + count + '/' + school.count + ' · 0x' + hex(v, 4);
+  };
+  refresh();
+
+  allBtn.addEventListener('click', () => {
+    writeU16(idx, school.offset, school.fullMask);
+    refresh();
+    renderHexView();
+  });
+  noneBtn.addEventListener('click', () => {
+    writeU16(idx, school.offset, 0);
+    refresh();
+    renderHexView();
+  });
+
+  parent.appendChild(box);
+}
+
+// ============================================================
+// HEX VIEW 渲染（純 DOM，無 innerHTML）
+// ============================================================
+function renderHexView() {
+  const hv = document.getElementById('hex-view');
+  clearChildren(hv);
+
+  const base = charBase(state.currentIdx);
+  const end = base + CHAR_SIZE;
+
+  for (let addr = base; addr < end; addr += 16) {
+    const row = el('div', { className: 'hex-row' });
+
+    const addrSpan = el('span', {
+      className: 'hex-addr',
+      text: hex(addr - base, 4),
+    });
+    row.appendChild(addrSpan);
+
+    const bytesSpan = el('span', { className: 'hex-bytes' });
+    let asciiStr = '';
+    for (let i = 0; i < 16; i++) {
+      const b = state.buffer[addr + i];
+      const origB = state.original ? state.original[addr + i] : b;
+      const dirty = (b !== origB);
+      const byteEl = el('span', {
+        className: dirty ? 'hex-byte dirty' : 'hex-byte',
+        text: hex(b, 2),
+      });
+      bytesSpan.appendChild(byteEl);
+      bytesSpan.appendChild(document.createTextNode(' '));
+
+      asciiStr += (b >= 0x20 && b < 0x7F) ? String.fromCharCode(b) : '·';
+    }
+    row.appendChild(bytesSpan);
+
+    row.appendChild(el('span', { className: 'hex-ascii', text: asciiStr }));
+
+    hv.appendChild(row);
+  }
+}
+
+// ============================================================
+// 下載 / 重置
+// ============================================================
+function initActionButtons() {
+  document.getElementById('btn-download').addEventListener('click', () => {
+    const blob = new Blob([state.buffer], { type: 'application/octet-stream' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = state.fileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    state.original = new Uint8Array(state.buffer);
+    renderHexView();
+    markClean('✓ 已下載：' + state.fileName + ' · 請覆蓋回 USERx/ 目錄，建議先備份原檔');
+  });
+
+  document.getElementById('btn-reset').addEventListener('click', () => {
+    if (!state.dirty) { alert('沒有未儲存的變更'); return; }
+    if (!confirm('確定要放棄所有修改、重新載入原檔嗎？')) return;
+    state.buffer = new Uint8Array(state.original);
+    renderCharList();
+    renderEditor();
+    renderHexView();
+    markClean();
+  });
+}
+
+// ============================================================
+// 初始化
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  initFileLoading();
+  initCharFilter();
+  initActionButtons();
+
+  console.log('%c俠客遊 II SAVE EDITOR v0.1',
+    'color:#00ff41;font-family:monospace;font-size:16px');
+  console.log('%c吟遊詩人的傳說 · 俠客遊 LUNATIC DAWN · by toni',
+    'color:#00aa2b;font-family:monospace');
+});
+</script>
+
+</body>
+</html>

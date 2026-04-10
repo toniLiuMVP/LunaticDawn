@@ -1,0 +1,408 @@
+/* ============================================================
+   吟遊詩人的傳說 · 俠客遊 LUNATIC DAWN 資料站
+   共用 retro DOS 終端風 CSS
+   ============================================================ */
+:root {
+  --phosphor:     #00ff41;
+  --phosphor-dim: #00aa2b;
+  --phosphor-fade:#005c17;
+  --amber:        #ffb000;
+  --danger:       #ff3030;
+  --bg:           #000;
+  --bg-panel:     #030a03;
+  --bg-input:     #0a1a0a;
+  --border:       #00ff41;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+
+body {
+  background: var(--bg);
+  color: var(--phosphor);
+  font-family: 'VT323', 'Courier New', 'Noto Sans Mono', monospace;
+  font-size: 20px;
+  line-height: 1.4;
+  min-height: 100vh;
+  padding: 16px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* CRT 掃描線 */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(0deg,
+    rgba(0,0,0,0) 0, rgba(0,0,0,0) 2px,
+    rgba(0,255,65,0.03) 2px, rgba(0,255,65,0.03) 4px);
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* CRT vignette */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.6) 100%);
+  pointer-events: none;
+  z-index: 9998;
+}
+
+a {
+  color: var(--amber);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--amber);
+}
+a:hover { background: var(--amber); color: var(--bg); }
+
+.pixel {
+  font-family: 'Press Start 2P', 'VT323', monospace;
+  letter-spacing: 1px;
+}
+
+.wrap { max-width: 1200px; margin: 0 auto; }
+
+/* ---- Header ---- */
+.site-header {
+  border: 2px solid var(--border);
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  position: relative;
+  background: var(--bg-panel);
+}
+
+.site-header::before {
+  content: "╔═[ LUNATIC DAWN ]═╗";
+  position: absolute;
+  top: -12px;
+  left: 16px;
+  background: var(--bg);
+  padding: 0 8px;
+  font-size: 14px;
+  color: var(--phosphor-dim);
+}
+
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+h1.pixel {
+  font-size: 20px;
+  color: var(--phosphor);
+  text-shadow: 0 0 8px var(--phosphor), 0 0 16px var(--phosphor-fade);
+}
+
+h1.pixel::before { content: "> "; color: var(--phosphor-dim); }
+h1.pixel::after  { content: "_"; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+.header-sub { font-size: 18px; color: var(--phosphor-dim); }
+.header-right { text-align: right; }
+.header-right a { font-size: 18px; }
+
+/* ---- Nav breadcrumb ---- */
+.breadcrumb {
+  font-size: 17px;
+  color: var(--phosphor-dim);
+  margin-bottom: 20px;
+  padding: 8px 12px;
+  border-left: 3px solid var(--phosphor-fade);
+}
+
+.breadcrumb a { font-size: 17px; }
+
+/* ---- Panel（裝字的盒子） ---- */
+.panel {
+  border: 2px solid var(--border);
+  padding: 20px 24px;
+  background: var(--bg-panel);
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.panel-title {
+  position: absolute;
+  top: -12px;
+  left: 16px;
+  background: var(--bg);
+  padding: 0 8px;
+  font-size: 13px;
+  font-family: 'Press Start 2P', monospace;
+  color: var(--phosphor);
+  letter-spacing: 1px;
+}
+
+/* ---- 標題層級 ---- */
+h2 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 16px;
+  color: var(--phosphor);
+  margin: 24px 0 12px;
+  text-shadow: 0 0 6px var(--phosphor-fade);
+}
+h2::before { content: "▸ "; color: var(--phosphor-dim); }
+
+h3 {
+  font-family: 'VT323', monospace;
+  font-size: 22px;
+  color: var(--amber);
+  margin: 16px 0 8px;
+}
+h3::before { content: "── "; color: var(--phosphor-fade); }
+
+/* ---- 段落 ---- */
+p { margin-bottom: 12px; }
+
+/* 粗體 / 強調（舊站 1999-2003 內容常有 **強調** 和 <strong>） */
+strong, b { color: var(--amber); font-weight: bold; }
+
+/* ---- 列表 ---- */
+ul, ol { margin-left: 24px; margin-bottom: 12px; }
+li { margin-bottom: 4px; }
+
+/* ---- 引用 / 作者署名規則框（小蜜蜂 / 小傑 / Ertai 的 1999-2000 內容） ---- */
+.attribution {
+  border: 1px solid var(--amber);
+  background: rgba(255, 176, 0, 0.06);
+  padding: 12px 16px;
+  margin: 16px 0 24px;
+  font-size: 18px;
+  color: var(--amber);
+  position: relative;
+}
+
+.attribution::before {
+  content: "⚠ 引用規則";
+  display: block;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  margin-bottom: 8px;
+  color: var(--amber);
+  letter-spacing: 1px;
+}
+
+.attribution a { color: var(--amber); }
+
+/* ---- 長文章主體（舊站 1999 內容用這個取代 pre raw-text） ---- */
+.prose h2 { margin-top: 32px; }
+.prose h3 { margin-top: 20px; }
+.prose p { font-size: 19px; line-height: 1.55; }
+.prose ul li { margin-bottom: 6px; }
+
+/* ---- 檔案下載清單 ---- */
+.file-list {
+  list-style: none;
+  margin-left: 0;
+}
+
+.file-list li {
+  border-bottom: 1px dashed var(--phosphor-fade);
+  padding: 8px 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: baseline;
+}
+
+.file-list li:last-child { border-bottom: none; }
+
+.file-list .fname {
+  font-family: 'Courier New', monospace;
+  color: var(--amber);
+  word-break: break-all;
+}
+
+.file-list .fsize {
+  font-size: 14px;
+  color: var(--phosphor-fade);
+  white-space: nowrap;
+}
+
+.file-list .fdesc {
+  grid-column: 1 / -1;
+  font-size: 16px;
+  color: var(--phosphor-dim);
+  padding-left: 16px;
+}
+
+/* ---- 表格 ---- */
+table {
+  border-collapse: collapse;
+  margin: 16px 0;
+  border: 1px solid var(--phosphor-dim);
+  font-size: 18px;
+}
+
+th, td {
+  padding: 6px 12px;
+  border: 1px solid var(--phosphor-fade);
+  text-align: left;
+}
+
+th {
+  background: var(--bg-input);
+  color: var(--amber);
+  font-weight: normal;
+}
+
+tbody tr:hover { background: rgba(0,255,65,0.05); }
+
+/* ---- 原文保留區（TXT 攻略文件的核心呈現） ---- */
+.raw-text {
+  background: var(--bg-input);
+  border: 1px solid var(--phosphor-fade);
+  padding: 20px;
+  font-family: 'Noto Sans Mono', 'Courier New', monospace;
+  font-size: 17px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: var(--phosphor-dim);
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.raw-text::before {
+  content: "── 原文 ──────────────────────";
+  display: block;
+  color: var(--phosphor-fade);
+  font-size: 14px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed var(--phosphor-fade);
+}
+
+/* ---- 連結卡片（主站 / 索引使用） ---- */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.card {
+  display: block;
+  border: 2px solid var(--phosphor-fade);
+  padding: 16px 20px;
+  background: var(--bg-panel);
+  color: var(--phosphor);
+  text-decoration: none;
+  transition: all 0.15s;
+}
+
+.card:hover {
+  border-color: var(--phosphor);
+  background: rgba(0,255,65,0.05);
+  box-shadow: 0 0 16px rgba(0,255,65,0.2);
+  color: var(--phosphor);
+}
+
+.card .card-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 13px;
+  color: var(--amber);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.card .card-desc {
+  font-size: 17px;
+  color: var(--phosphor-dim);
+  line-height: 1.4;
+  display: block;
+}
+
+.card .card-meta {
+  font-size: 14px;
+  color: var(--phosphor-fade);
+  margin-top: 8px;
+  font-family: 'Courier New', monospace;
+  display: block;
+}
+
+.card.wip {
+  border-style: dashed;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.card.wip:hover {
+  border-color: var(--phosphor-fade);
+  background: var(--bg-panel);
+  box-shadow: none;
+}
+
+.card.wip .card-title { color: var(--phosphor-fade); }
+
+/* ---- ASCII 藝術框 ---- */
+.ascii-art {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  line-height: 1.1;
+  white-space: pre;
+  color: var(--phosphor-dim);
+  margin: 20px 0;
+  text-align: center;
+}
+
+/* ---- 強調文字 ---- */
+.amber  { color: var(--amber); }
+.dim    { color: var(--phosphor-dim); }
+.muted  { color: var(--phosphor-fade); }
+.warn   { color: var(--amber); }
+.danger { color: var(--danger); }
+
+/* ---- 小徽章 ---- */
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border: 1px solid var(--phosphor-dim);
+  font-size: 13px;
+  color: var(--phosphor-dim);
+  font-family: 'Courier New', monospace;
+  margin-right: 4px;
+}
+
+.badge.ok { border-color: var(--phosphor); color: var(--phosphor); }
+.badge.wip { border-color: var(--amber); color: var(--amber); }
+
+/* ---- Footer ---- */
+.site-footer {
+  margin-top: 40px;
+  padding: 20px;
+  border-top: 1px dashed var(--phosphor-fade);
+  text-align: center;
+  font-size: 17px;
+  color: var(--phosphor-fade);
+}
+
+.site-footer a { font-size: 18px; }
+
+.site-footer .footer-big {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  margin: 12px 0 8px;
+  color: var(--phosphor-dim);
+}
+
+/* ---- 捲軸 ---- */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg-panel); }
+::-webkit-scrollbar-thumb { background: var(--phosphor-fade); border: 1px solid var(--phosphor-dim); }
+::-webkit-scrollbar-thumb:hover { background: var(--phosphor-dim); }
+
+/* ---- 響應式 ---- */
+@media (max-width: 640px) {
+  body { font-size: 18px; }
+  h1.pixel { font-size: 16px; }
+  h2 { font-size: 14px; }
+  .raw-text { font-size: 15px; padding: 12px; }
+  .card-grid { grid-template-columns: 1fr; }
+}

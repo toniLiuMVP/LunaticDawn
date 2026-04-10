@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>亂碼及字型問題 · 吟遊詩人的傳說</title>
+<meta name="description" content="亂碼及字型問題 — GENERAL · 跨作品字型 FAQ。吟遊詩人的傳說 · 俠客遊 Lunatic Dawn 資料站。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/retro.css">
+</head>
+<body>
+<div class="wrap">
+
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <h1 class="pixel">亂碼及字型問題</h1>
+      <div class="header-sub">GENERAL · 跨作品字型 FAQ</div>
+    </div>
+    <div class="header-sub header-right">
+      <div><a href="../">◀ 回主站</a></div>
+      <div><a href="./">▸ 通用資訊索引</a></div>
+    </div>
+  </div>
+</header>
+<div class="breadcrumb">
+  <a href="../">吟遊詩人的傳說</a> / <a href="./">通用資訊</a> / <span class="dim">亂碼及字型問題</span>
+</div>
+<section class="panel">
+  <div class="panel-title">[ 亂碼及字型問題 ]</div>
+    <div class="prose">
+<p>基本上通用解決亂碼辦法 : 使用翻譯軟體( 例如 : 譯典通 ) 開啟多語言瀏覽。</p>
+<p><strong>WINDOWS 95/98/98SE解決方法:</strong></p>
+<p>第一種：直接從[控制台/新增移除]裡把IE 5.0的日文字形給移除掉就行了，移除時請選擇&quot;Japanese Language Support&quot;然後選移除再重新開機就行了，使用此種方式是可以一勞永逸，以後玩俠客遊都不會有亂碼，但是對於有在用中文的IE5.0來上日文網頁或是有在用CWIN在玩JWIN遊戲的人卻會發現字都會看不到。</p>
+<p>第二種：因為在有裝日文字形的情況之下，Windows的資料夾底下的Fonts裡面，應該會有&quot;MS Gothic&quot;(IE 5.0)或&quot;MS Mincho&quot;(Office)這兩個字形(在某些情況之下只有一個，不影響)，這兩個檔案就是日文字形的字形檔，只要在玩俠客遊時將這兩個檔案暫時移動 到別的資料夾就行了，等到要瀏覽日文網頁或是要玩JWIN遊戲時在將其移動回來就行了^^，好處是不用把日文字形砍掉，缺點就是檔案要動來動去，滿麻煩 的。</p>
+<p><strong>(推薦使用方法)</strong>第三種：</p>
+<p>（ＸＰ執行方法 : 按左下角的執行 -&gt; 開始 -&gt; 輸入Regedit -&gt; 按確定)</p>
+<p>找到Windows資料夾底下的Regedit.exe檔，然後在裡頭找到以下的位置</p>
+<p>[HKEY_LOCAL_MACHINE\System\CurrentControlSet\control\fontassoc\Associated CharSet]</p>
+<p>然後可以看到以下字串:</p>
+<p>&quot;ANSI(00)&quot;=&quot;yes&quot;</p>
+<p>&quot;SYMBOL(02)&quot;=&quot;no&quot;</p>
+<p>&quot;OEM(FF)&quot;=&quot;yes&quot;</p>
+<p>&quot;CHINESBIG5(88)&quot;=&quot;yes&quot;</p>
+<p>增加一組【字串值】...如下</p>
+<p><strong> &quot;SHIFTJIS(80)&quot;=&quot;yes&quot; </strong></p>
+<p>建議先備份regedit整個登錄檔，</p>
+<p>改了之後，重開機，再執行遊戲就沒亂碼了!</p>
+<p><strong>WINDOWS ME</strong> <strong>解決亂碼方法:</strong></p>
+<p>安裝<strong>南極星</strong>軟體即可。</p>
+<p><strong>未來之書 For WINDOWS 2000 &amp; XP 解決亂碼方法：</strong></p>
+<p>作者：李逍遙</p>
+<p>以十六進位編輯軟體(WINHEX ULTRAEDIT之類)編輯LDE.EXE</p>
+<p>搜尋 C645CF80</p>
+<p>改為 C645CF88</p>
+<p>總共有三處要改。</p>
+<p><strong>前途道標 For WINDOWS 2000 &amp; XP 解決亂碼方法:</strong></p>
+<p>巴哈姆特 作者 ：dera (蘇燃)</p>
+<p>以十六進制編輯軟體(WINHEX ULTRAEDIT之類)編輯LD95.EXE</p>
+<p>搜索 C644242B80</p>
+<p>改為 C644242B88</p>
+<p>總共有三處要改。</p>
+<p>在檔案下載區有toni編輯好的 <a href="https://sites.google.com/site/lunticdawn/LD95XP.rar" target="_blank" rel="noopener">前途道標ForXP無亂碼執行檔</a></p>
+<p><strong>前途道標 For WINDOWS XP 字型問題解決 :</strong></p>
+<p>GameBase 作者： <a href="http://www.google.com/url?q=http%3A%2F%2Fwww.gamebase.com.tw%2Fmember%2Fcard.asp%3Fm_no%3D283224&amp;sa=D&amp;sntz=1&amp;usg=AOvVaw0-3KKYkCsFz_80hEj8i0k5" target="_blank" rel="noopener">singlau (孤星劍)</a></p>
+<p>在XP的正常情況下，與同伴或路人交談時， 出現的小方塊會產生字體重疊，令對話看不清，</p>
+<p>解決方法是, 將顯示卡的字型大小, 由 &quot;<strong>正常大小</strong>&quot; (96DPI) ，轉為 &quot;<strong>大</strong>&quot; (120DPI)</p>
+<p>開始 -&gt; 控制台 -&gt; 顯示 -&gt; 外觀 -&gt; 字型大小 -&gt; 改大字 -&gt; 確定 -&gt; 重開機</p>
+<p><strong>前途道標 For Windows 10 遊戲內字體會重疊在一起問題解決:(New 2019/12/11更新)</strong></p>
+<p>toni在網路上爬文，發現DPI要調成4的倍數的資訊，得到網路上的一個數值調整:124%，</p>
+<p>設定成這個值後，就可以看清楚遊戲內的字體了。</p>
+<p>一、先到遊戲資料夾，在遊戲執行檔LD95.exe上按右鍵，把內容設定成以下圖片一模一樣，</p>
+<p>接著點「變更高DPI設定」。</p>
+<p>二、接著一樣設定成跟圖片一模一樣，之後點「開啟進階縮放設定」。</p>
+<p><strong>三、再來也是設定跟圖片一模一樣，之後Windows會請你先登出後再登入即可。</strong></p>
+<p><strong>修改完成後的遊戲內字體畫面，就至少是可以看得懂的狀態了^_^</strong></p>
+<p><strong>俠客遊IV字體過小解決辦法 :</strong></p>
+<p>巴哈姆特 作者 : hcmhcm</p>
+<p>請編輯 遊戲資料夾下的 <strong>ld4.ini</strong></p>
+<p>把 <strong>MessageLogDlg_Bottom=</strong> 的數值多加 <strong>15</strong> 就可以了。</p>
+<p><a href="https://sites.google.com/site/lunticdawn/home?authuser=0" target="_blank" rel="noopener">回首頁</a></p>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel-title">[ NAVIGATION ]</div>
+  <p>
+    <a href="./">◀ 回 通用資訊 索引</a> ·
+    <a href="../">▸ 主站</a> ·
+    <a href="../files/">▸ 檔案庫</a>
+  </p>
+</section>
+
+<footer class="site-footer">
+  <div>
+    所有 1999-2000 年原創內容版權屬於各原作者；如需引用請參考頁首的引用規則。
+    本站由 toni 整理重建，作為數位文化遺產保存。
+  </div>
+  <div class="footer-big">｢ 吟遊詩人的傳說 · 俠客遊 LUNATIC DAWN ｣</div>
+  <div>
+    <a href="../">◀ 主站</a> ·
+    <a href="../files/">檔案庫</a> ·
+    <a href="https://github.com/toniLiuMVP/LunaticDawn" target="_blank" rel="noopener">GitHub</a> ·
+    維護：toni
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
