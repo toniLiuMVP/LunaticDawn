@@ -543,8 +543,8 @@ BASE_HEAD = """<!DOCTYPE html>
 <meta name="description" content="{meta_desc}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/retro.css">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/wuxia.css">
 </head>
 <body>
 <div class="wrap">
