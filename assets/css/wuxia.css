@@ -1,0 +1,447 @@
+/* ============================================================
+   武俠水墨風 · 吟遊詩人的傳說
+   俠客遊 LUNATIC DAWN 系列資料站
+   2026 · toni
+   ============================================================
+   設計理念：宣紙底、朱砂標題、墨色文字、竹青連結
+   1996 年的 DOS RPG 用 2026 年的水墨書卷呈現
+   ============================================================ */
+
+:root {
+  --bg:          #f5f0e8;     /* 宣紙米白 */
+  --bg-panel:    #ebe5d8;     /* 淡牛皮紙 */
+  --bg-header:   #2c2420;     /* 墨色 */
+  --bg-code:     #f0ece4;     /* 原文底色 */
+
+  --text:        #2c2420;     /* 墨黑 */
+  --text-dim:    #5a4e44;     /* 淡墨 */
+  --text-muted:  #8a7e72;     /* 更淡 */
+  --text-on-dark:#e8e0d0;     /* 暗底亮字 */
+
+  --heading:     #8b1a1a;     /* 朱砂紅 */
+  --accent:      #8B6914;     /* 古銅金 */
+  --link:        #4a6741;     /* 竹青綠 */
+  --link-hover:  #2e4028;     /* 竹青暗 */
+  --seal:        #c41e3a;     /* 印泥紅 */
+
+  --border:      #c4b69c;     /* 宣紙邊 */
+  --border-dark: #a89878;     /* 深邊框 */
+
+  --amber:       #8B6914;     /* 相容 retro.css 的 .amber class */
+  --danger:      #c41e3a;
+}
+
+/* ---- Reset ---- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+
+body {
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(139,105,20,0.03) 0%, transparent 70%),
+    radial-gradient(ellipse at 80% 30%, rgba(139,26,26,0.02) 0%, transparent 60%);
+  color: var(--text);
+  font-family: 'Noto Serif TC', 'PMingLiU', 'Apple LiGothic', serif;
+  font-size: 18px;
+  line-height: 1.8;
+  min-height: 100vh;
+  padding: 0;
+}
+
+a {
+  color: var(--link);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+a:hover {
+  color: var(--link-hover);
+  border-bottom-color: var(--link-hover);
+}
+
+.wrap {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ---- Header ---- */
+.site-header {
+  background: var(--bg-header);
+  color: var(--text-on-dark);
+  padding: 28px 0;
+  margin-bottom: 24px;
+  border-bottom: 3px double var(--accent);
+}
+
+.header-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+h1 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--text-on-dark);
+  letter-spacing: 6px;
+}
+
+h1.pixel {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--text-on-dark);
+  letter-spacing: 6px;
+}
+
+/* 保持 retro.css 的 h1 ::before/::after 不出現 */
+h1.pixel::before { content: none; }
+h1.pixel::after  { content: none; }
+
+.header-sub {
+  font-size: 14px;
+  color: #a89878;
+  font-family: 'Noto Serif TC', serif;
+}
+.header-sub a { color: var(--accent); border-bottom: none; }
+.header-sub a:hover { color: #b8860b; }
+.header-right { text-align: right; }
+
+/* ---- Breadcrumb ---- */
+.breadcrumb {
+  font-size: 15px;
+  color: var(--text-dim);
+  margin-bottom: 20px;
+  padding: 10px 16px;
+  border-left: 4px solid var(--accent);
+  background: rgba(139, 105, 20, 0.04);
+}
+.breadcrumb a { color: var(--link); }
+.breadcrumb .dim { color: var(--text-muted); }
+
+/* ---- Panel ---- */
+.panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 24px 28px;
+  margin-bottom: 24px;
+  position: relative;
+  box-shadow: 2px 2px 8px rgba(44, 36, 32, 0.06);
+}
+
+.panel-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 3px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  /* 覆蓋 retro.css 的 absolute 定位 */
+  position: static;
+  background: none;
+}
+
+/* ---- Headings ---- */
+h2 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--heading);
+  margin: 24px 0 12px;
+  padding-bottom: 6px;
+  letter-spacing: 2px;
+  border-bottom: 2px solid var(--heading);
+  text-shadow: none;
+}
+h2::before { content: none; }
+
+h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 20px 0 8px;
+  padding-left: 14px;
+  border-left: 4px solid var(--heading);
+}
+h3::before { content: none; }
+
+h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-dim);
+  margin: 14px 0 6px;
+}
+
+/* ---- Paragraph ---- */
+p { margin: 10px 0; }
+
+strong, b { color: var(--heading); font-weight: 700; }
+
+/* ---- Lists ---- */
+ul, ol { margin-left: 24px; margin-bottom: 12px; }
+li { margin-bottom: 4px; }
+
+/* ---- Attribution (作者署名框) ---- */
+.attribution {
+  background: rgba(139, 26, 26, 0.04);
+  border: 1px solid var(--border);
+  border-left: 5px solid var(--heading);
+  padding: 16px 20px;
+  margin: 16px 0 24px;
+  font-size: 16px;
+  color: var(--text-dim);
+  border-radius: 0 4px 4px 0;
+}
+.attribution::before {
+  content: "原文作者";
+  display: block;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--heading);
+  letter-spacing: 3px;
+  margin-bottom: 8px;
+}
+.attribution a { color: var(--link); }
+
+/* ---- Prose (BBS 長文) ---- */
+.prose { line-height: 1.9; }
+.prose h2 { margin-top: 36px; }
+.prose h3 { margin-top: 24px; }
+.prose p { font-size: 17px; line-height: 1.85; }
+.prose ul li { margin-bottom: 6px; }
+
+/* ============================================================
+   原文保留區 — TXT 攻略文件的核心呈現
+   ★ 對齊修復：white-space: pre + overflow-x: auto
+   ★ CJK 等寬字型 stack：全形字元 = 2 × 半形字元
+   ============================================================ */
+.raw-text {
+  background: var(--bg-code);
+  border: 1px solid var(--border-dark);
+  border-radius: 2px;
+  padding: 24px;
+  font-family:
+    'Noto Sans Mono',                /* 英數字等寬 (Google Fonts) */
+    'Menlo',                         /* macOS 內建等寬 */
+    'Monaco',                        /* macOS 備用 */
+    'Consolas',                      /* Windows 內建等寬 */
+    'Noto Sans Mono CJK TC',         /* Linux CJK 等寬 */
+    'MS Gothic',                     /* Windows CJK 等寬 */
+    'Courier New',                   /* 最後保底 */
+    monospace;
+  font-size: 15px;
+  line-height: 1.55;
+  white-space: pre;                  /* ★ 不自動換行 — 保持原始 TXT 對齊 */
+  overflow-x: auto;                  /* ★ 寬表格水平捲動 */
+  color: var(--text);
+  tab-size: 8;
+}
+
+.raw-text::before {
+  content: "── 原文 ──────────────────────";
+  display: block;
+  color: var(--text-muted);
+  font-size: 12px;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px dotted var(--border);
+}
+
+/* ---- Table ---- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 16px;
+}
+th, td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  text-align: left;
+}
+th {
+  background: var(--bg-header);
+  color: var(--text-on-dark);
+  font-weight: 700;
+}
+tr:nth-child(even) { background: rgba(235, 229, 216, 0.5); }
+tbody tr:hover { background: rgba(139, 105, 20, 0.06); }
+
+/* ---- Card Grid ---- */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 18px 20px;
+  text-decoration: none;
+  color: var(--text);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.card:hover {
+  border-color: var(--heading);
+  box-shadow: 0 2px 16px rgba(139, 26, 26, 0.1);
+  color: var(--text);
+}
+
+.card .card-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 17px;
+  font-weight: 900;
+  color: var(--heading);
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+  display: block;
+}
+
+.card .card-desc {
+  font-size: 15px;
+  color: var(--text-dim);
+  line-height: 1.6;
+  flex: 1;
+  display: block;
+}
+
+.card .card-meta {
+  color: var(--text-muted);
+  margin-top: 10px;
+  font-size: 13px;
+  font-family: 'Noto Sans Mono', 'Courier New', monospace;
+  display: block;
+}
+
+.card.wip {
+  border-style: dashed;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.card.wip:hover { border-color: var(--border); box-shadow: none; }
+.card.wip .card-title { color: var(--text-muted); }
+
+/* ---- Badge ---- */
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 2px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-right: 4px;
+}
+.badge.ok {
+  background: var(--link);
+  color: #fff;
+  border: none;
+}
+.badge.wip {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+}
+
+/* ---- File List ---- */
+.file-list { list-style: none; margin-left: 0; }
+.file-list li {
+  border-bottom: 1px dotted var(--border);
+  padding: 10px 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: baseline;
+}
+.file-list li:last-child { border-bottom: none; }
+.file-list .fname {
+  font-family: 'Noto Sans Mono', 'Courier New', monospace;
+  font-size: 15px;
+  color: var(--heading);
+  word-break: break-all;
+}
+.file-list .fsize {
+  font-size: 13px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.file-list .fdesc {
+  grid-column: 1 / -1;
+  font-size: 15px;
+  color: var(--text-dim);
+  padding-left: 16px;
+}
+
+/* ---- Utility Classes ---- */
+.dim    { color: var(--text-dim); }
+.muted  { color: var(--text-muted); font-size: 15px; }
+.amber  { color: var(--accent); font-weight: 700; }
+.warn   { color: var(--accent); }
+.danger { color: var(--danger); }
+
+/* ---- ASCII Art ---- */
+.ascii-art {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  line-height: 1.1;
+  white-space: pre;
+  color: var(--text-dim);
+  margin: 20px 0;
+  text-align: center;
+}
+
+/* ---- Footer ---- */
+.site-footer {
+  background: var(--bg-header);
+  color: #a89878;
+  padding: 28px 20px;
+  text-align: center;
+  font-size: 14px;
+  margin-top: 48px;
+  border-top: 3px double var(--accent);
+}
+.site-footer a { color: var(--accent); border-bottom: none; }
+.site-footer a:hover { color: #b8860b; }
+.site-footer .footer-big {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--text-on-dark);
+  margin: 14px 0 10px;
+  letter-spacing: 6px;
+}
+
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-panel); }
+::-webkit-scrollbar-thumb { background: var(--border-dark); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ---- Responsive ---- */
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  h1, h1.pixel { font-size: 22px; letter-spacing: 3px; }
+  h2 { font-size: 18px; }
+  .raw-text { font-size: 13px; padding: 14px; }
+  .card-grid { grid-template-columns: 1fr; }
+  .header-inner { flex-direction: column; align-items: flex-start; }
+  .header-right { text-align: left; }
+  .panel { padding: 18px 16px; }
+}
