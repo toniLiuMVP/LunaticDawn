@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Luna2_EZ 懶人包 · 俠客遊 II · 吟遊詩人的傳說</title>
+<meta name="description" content="俠客遊 II (Lunatic Dawn II) 懶人包——內建 DOSBox Staging 引擎，下載解壓雙擊就能玩。跨 macOS / Windows / Linux。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/wuxia.css">
+<style>
+/* 下載按鈕（大型） */
+.download-hero {
+  text-align: center;
+  padding: 28px 20px;
+  margin: 0 0 8px;
+  background: rgba(139, 105, 20, 0.06);
+  border: 2px solid var(--accent);
+  border-radius: 4px;
+}
+.download-hero .dl-btn {
+  display: inline-block;
+  padding: 16px 36px;
+  margin: 10px 8px;
+  background: var(--bg-header);
+  color: var(--text-on-dark);
+  font-family: 'Noto Serif TC', serif;
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: none;
+  border: 2px solid var(--accent);
+  border-radius: 4px;
+  letter-spacing: 2px;
+  transition: all 0.15s;
+}
+.download-hero .dl-btn:hover {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(139, 105, 20, 0.3);
+  border-bottom: 2px solid var(--accent);
+}
+.download-hero .dl-note {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-top: 12px;
+}
+
+/* 步驟卡片 */
+.step {
+  border-left: 3px solid var(--accent);
+  padding: 12px 16px;
+  margin: 16px 0;
+  background: rgba(139, 105, 20, 0.03);
+}
+.step-num {
+  font-family: 'Noto Sans Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 8px;
+}
+
+/* 代碼區塊 */
+code, .code-inline {
+  background: var(--bg-code);
+  color: var(--accent);
+  padding: 2px 6px;
+  font-family: 'Noto Sans Mono', 'Courier New', monospace;
+  font-size: 15px;
+  border: 1px solid var(--border);
+}
+pre.code-block {
+  background: var(--bg-code);
+  border: 1px solid var(--border-dark);
+  padding: 12px 16px;
+  margin: 8px 0;
+  color: var(--text-dim);
+  font-family: 'Noto Sans Mono', 'Courier New', monospace;
+  font-size: 15px;
+  overflow-x: auto;
+}
+
+/* 比較表強調 */
+td.highlight { color: var(--heading); font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <h1 class="pixel">Luna2_EZ 懶人包</h1>
+      <div class="header-sub">LUNATIC DAWN II · 解壓即玩 · DOSBox Staging 內建</div>
+    </div>
+    <div class="header-sub header-right">
+      <div><a href="../../">◀ 回主站</a></div>
+      <div><a href="../launcher/">▸ 自己裝版本</a></div>
+    </div>
+  </div>
+</header>
+
+<div class="breadcrumb">
+  <a href="../../">吟遊詩人的傳說</a> /
+  <a href="../../">俠客遊 II</a> /
+  <span class="dim">Luna2_EZ 懶人包</span>
+</div>
+
+<!-- ==================== DOWNLOAD ==================== -->
+<section class="panel">
+  <div class="download-hero">
+    <div style="font-size: 15px; color: var(--text-dim); margin-bottom: 8px;">
+      提供給擁有正版遊戲的玩家，最簡單的跨平台遊玩方式
+    </div>
+    <!-- TODO: toni 填入實際下載連結（Google Drive / MEGA / GitHub Release） -->
+    <a class="dl-btn" href="#download">
+      ▼ 下載 Luna2_EZ.zip
+    </a>
+    <div class="dl-note">
+      內含 DOSBox Staging 0.82.2 引擎（Mac / Windows / Linux）+ 啟動腳本 + 遊戲設定檔<br>
+      需自備正版遊戲檔案 · 解壓後約 26 MB
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ABOUT ==================== -->
+<section class="panel">
+  <div class="panel-title">[ ABOUT ]</div>
+  <p>
+    <span class="amber">Luna2_EZ</span> 是俠客遊 II 的「懶人包」——
+    把 <span class="amber">DOSBox Staging</span> 引擎、啟動腳本、遊戲設定檔全部打包好，
+    你只需要放入自己的正版遊戲檔案，<span class="amber">雙擊就能玩</span>。
+    不用自己裝 DOSBox、不用改設定、不用處理音效驅動。
+  </p>
+  <p>
+    跨 macOS（含 macOS 26 Tahoe）/ Windows / Linux。
+  </p>
+  <p class="muted">
+    ※ 本站不提供遊戲本體（版權因素）。請自備 LUNA2.EXE 及原版資料檔。<br>
+    ※ 想要自己安裝 DOSBox-X + GM 高音質音樂？請參考
+    <a href="../launcher/">▸ 自己裝版本（DOSBox-X）</a>。
+  </p>
+</section>
+
+<!-- ==================== QUICK START ==================== -->
+<section class="panel">
+  <div class="panel-title">[ 快速開始 ]</div>
+
+  <div class="step">
+    <span class="step-num">STEP 1 · 解壓縮</span>
+    下載 <span class="code-inline">Luna2_EZ.zip</span> 並解壓縮到<span class="amber">純英文路徑</span>。
+    <br><br>
+    <span class="amber">⚠ 重要：資料夾的完整路徑不能包含中文或特殊字元</span>，否則 DOSBox 無法正確掛載。
+    <br>
+    <span class="dim">✓ 正確：</span><span class="code-inline">D:\Games\Luna2_EZ\</span>、<span class="code-inline">/Users/toni/Games/Luna2_EZ/</span>
+    <br>
+    <span class="dim">✗ 錯誤：</span><span class="code-inline">D:\遊戲\俠客遊II\</span>、<span class="code-inline">/Users/toni/下載/俠客遊/</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">STEP 2 · 放入遊戲</span>
+    把你的正版遊戲檔案放進 <span class="code-inline">Luna2_EZ/game/</span> 資料夾。
+    確認 <span class="code-inline">game/LUNA2.EXE</span> 存在。
+  </div>
+
+  <div class="step">
+    <span class="step-num">STEP 3 · 雙擊啟動</span>
+    <table>
+      <thead><tr><th>平台</th><th>啟動檔</th></tr></thead>
+      <tbody>
+        <tr><td>macOS</td><td>雙擊 <span class="code-inline">Mac_Play_Luna2.command</span></td></tr>
+        <tr><td>Windows</td><td>雙擊 <span class="code-inline">Win_Play_Luna2.bat</span></td></tr>
+        <tr><td>Linux</td><td>執行 <span class="code-inline">./Linux_Play_Luna2.sh</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="step">
+    <span class="step-num">完成！</span>
+    DOSBox 視窗跳出 → 進入俠客遊 II → 選擇存檔槽 → 開始冒險。
+  </div>
+</section>
+
+<!-- ==================== HOTKEYS ==================== -->
+<section class="panel">
+  <div class="panel-title">[ 快捷鍵速查 ]</div>
+  <table>
+    <thead><tr><th>按鍵</th><th>功能</th></tr></thead>
+    <tbody>
+      <tr><td><span class="code-inline">Alt + Enter</span></td><td>切換全螢幕 / 視窗</td></tr>
+      <tr><td><span class="code-inline">Ctrl + F11</span></td><td>CPU 減速（遊戲太快時用）</td></tr>
+      <tr><td><span class="code-inline">Ctrl + F12</span></td><td>CPU 加速（遊戲太慢時用）</td></tr>
+      <tr><td><span class="code-inline">Ctrl + F9</span></td><td>強制結束模擬器</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ==================== TROUBLESHOOTING ==================== -->
+<section class="panel">
+  <div class="panel-title">[ 常見問題與排除 ]</div>
+
+  <h3>macOS：「已損毀，無法打開」</h3>
+  <p>
+    macOS 26 (Tahoe) 對未經 App Store 發布的 App 檢查更嚴格。
+    如果內建 DOSBox Staging 被判定為「已損毀」，啟動器會自動切換到系統安裝版。
+  </p>
+  <p>解法：用 Homebrew 安裝完整簽章的 DOSBox Staging：</p>
+  <pre class="code-block">brew install --cask dosbox-staging-app</pre>
+  <p>安裝後重新雙擊 <span class="code-inline">Mac_Play_Luna2.command</span> 即可。</p>
+
+  <h3>macOS：「未預期的結束」(Abort trap: 6)</h3>
+  <p>
+    macOS 26 的 Terminal.app 安全限制，直接執行
+    <span class="code-inline">.app/Contents/MacOS/dosbox</span> binary
+    會觸發 C++ 例外（<span class="code-inline">AutoMountDrive</span>）導致閃退。
+  </p>
+  <p>
+    懶人包的啟動器已經用 <span class="code-inline">open -W -a</span> 透過 macOS LaunchServices
+    啟動，繞過這個限制。如果你仍然遇到此問題，請確認使用的是最新版啟動腳本。
+  </p>
+
+  <h3>macOS：第一次執行被阻擋</h3>
+  <p>
+    macOS Gatekeeper 可能會阻擋 <span class="code-inline">.command</span> 腳本。
+  </p>
+  <p>方法 A：右鍵點選 → 「打開」→ 確認打開。</p>
+  <p>方法 B：終端機執行：</p>
+  <pre class="code-block">chmod +x Mac_Play_Luna2.command
+xattr -d com.apple.quarantine Mac_Play_Luna2.command</pre>
+  <p>或到「系統設定 → 隱私權與安全性」最下面允許執行。</p>
+
+  <h3>Windows：SmartScreen 警告</h3>
+  <p>
+    Windows Defender SmartScreen 可能會顯示「已防止無法辨識的應用程式啟動」。
+    點「其他資訊」→「仍要執行」。
+  </p>
+
+  <h3>沒有音樂 / 音效</h3>
+  <p>
+    懶人包使用 <span class="amber">Adlib/OPL</span> 音效模式，DOSBox 內建 FM 合成器，
+    理論上開箱就有背景音樂和音效。
+  </p>
+  <p>
+    如果沒有聲音，確認 <span class="code-inline">game/SNDSET.CFG</span> 存在且設定正確。
+    可以在 DOSBox 內執行 <span class="code-inline">SNDSET.EXE</span> 重新選擇
+    <span class="amber">Adlib</span> 模式。
+  </p>
+
+  <h3>路徑含中文導致無法啟動</h3>
+  <p>
+    DOSBox 的 <span class="code-inline">mount</span> 指令對含中文字元的路徑支援不完整，
+    可能出現「Unable to mount」錯誤。
+  </p>
+  <p>
+    解法：將整個 <span class="code-inline">Luna2_EZ</span> 資料夾搬到純英文路徑。
+    啟動器已內建中文路徑偵測，會在啟動前提醒你。
+  </p>
+
+  <h3>存檔在哪裡？</h3>
+  <p>
+    存檔位於 <span class="code-inline">game/USER0</span> 到
+    <span class="code-inline">game/USER9</span>（對應遊戲內 10 個存檔槽）。
+    注意 <span class="amber">USER 編號 = 遊戲內槽號 - 1</span>
+    （USER0 = 存檔 1，USER9 = 存檔 10）。
+    <br><br>
+    想修改存檔？試試
+    <a href="../save-editor.html">▸ 瀏覽器版存檔修改器</a>——拖入
+    <span class="code-inline">LUNACHAR.SAV</span> 就能改。
+  </p>
+</section>
+
+<!-- ==================== TECHNICAL ==================== -->
+<section class="panel">
+  <div class="panel-title">[ 技術說明 ]</div>
+
+  <h3>為什麼用 Adlib 而不是 GM MIDI？</h3>
+  <p>
+    俠客遊 II 支援 General MIDI（GM）音樂，音質比 Adlib FM 合成好。
+    但 GM 模式需要先載入兩個 1996 年的 TSR 常駐驅動程式
+    （<span class="code-inline">MIDPAK.COM</span> +
+    <span class="code-inline">M\SB16.COM</span>），
+    這些驅動是 Miles Sound System 的產物，
+    <span class="amber">和 DOSBox Staging 不完全相容</span>——
+    實測在 DOSBox Staging 下載入 TSR 後完全沒有音樂音效。
+  </p>
+  <p>
+    <span class="amber">Adlib/OPL</span> 使用 DOSBox 內建的 FM 合成器，
+    不需要任何額外驅動，穩定度最高。對懶人包來說「開箱即有音樂」比音質更重要。
+  </p>
+  <p class="muted">
+    ※ 想要 GM 音質？請使用
+    <a href="../launcher/">▸ 自己裝版本（DOSBox-X）</a>，
+    DOSBox-X 對 MIDPAK TSR 相容性較好。
+  </p>
+
+  <h3>懶人包 vs 自己裝：差異比較</h3>
+  <table>
+    <thead>
+      <tr><th></th><th>Luna2_EZ 懶人包</th><th>自己裝版本</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>模擬器</td>
+        <td>DOSBox Staging 0.82.2（內建）</td>
+        <td>DOSBox-X（需自行安裝）</td>
+      </tr>
+      <tr>
+        <td>音效模式</td>
+        <td class="highlight">Adlib/OPL（FM 合成）</td>
+        <td class="highlight">GM MIDI（高品質）</td>
+      </tr>
+      <tr>
+        <td>音效驅動</td>
+        <td>不需要（DOSBox 內建）</td>
+        <td>需載入 MIDPAK + SB16 TSR</td>
+      </tr>
+      <tr>
+        <td>CPU 速度</td>
+        <td><span class="code-inline">auto 12000</span></td>
+        <td><span class="code-inline">fixed 20000</span></td>
+      </tr>
+      <tr>
+        <td>macOS 啟動</td>
+        <td><span class="code-inline">open -W -a</span>（LaunchServices）</td>
+        <td>直接執行 binary</td>
+      </tr>
+      <tr>
+        <td>適合對象</td>
+        <td>想最快開始玩的人</td>
+        <td>想要最佳音質 + 願意自行設定</td>
+      </tr>
+      <tr>
+        <td>下載大小</td>
+        <td>~26 MB（含引擎）</td>
+        <td>~3 KB（僅啟動腳本 + 設定檔）</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>資料夾結構</h3>
+  <pre class="code-block">Luna2_EZ/
+├── Mac_Play_Luna2.command     macOS 啟動器
+├── Win_Play_Luna2.bat         Windows 啟動器
+├── Linux_Play_Luna2.sh        Linux 啟動器
+├── README.txt                 說明檔
+├── engine/                    DOSBox Staging 0.82.2
+│   ├── dosbox-mac/            macOS 版引擎
+│   ├── dosbox-windows/        Windows 版引擎
+│   └── dosbox-linux/          Linux 版引擎
+└── game/                      遊戲資料（放你的正版檔案）
+    ├── LUNA2.EXE              遊戲主程式
+    ├── SNDSET.CFG             音效設定（Adlib 模式）
+    ├── dosbox.conf             DOSBox 設定檔
+    ├── A/ ~ P/                遊戲資料子目錄
+    └── USER0/ ~ USER9/        存檔槽</pre>
+
+  <h3>macOS 26 (Tahoe) 的特殊處理</h3>
+  <p>macOS 26 對 DOSBox Staging 有三層安全限制，懶人包啟動器已全部處理：</p>
+  <ol>
+    <li>
+      <span class="amber">com.apple.provenance</span> 延伸屬性 ——
+      從網路下載的 .app 會被標記，且 macOS 26 的 SIP 保護讓這個屬性
+      無法用 <span class="code-inline">xattr -cr</span> 移除。如果內建引擎簽章損毀，
+      啟動器自動偵測並切換到系統安裝版。
+    </li>
+    <li>
+      <span class="amber">Terminal.app 安全限制</span> ——
+      直接在終端機執行 <span class="code-inline">.app/Contents/MacOS/dosbox</span>
+      會觸發 <span class="code-inline">AutoMountDrive</span> 例外而閃退。
+      啟動器使用 <span class="code-inline">open -W -a</span> 透過 LaunchServices 繞過。
+    </li>
+    <li>
+      <span class="amber">崩潰恢復對話框</span> ——
+      DOSBox 若異常退出，macOS 會彈出「是否重新開啟」對話框干擾下次啟動。
+      啟動器寫入 <span class="code-inline">ApplePersistenceIgnoreState</span> 防止此問題。
+    </li>
+  </ol>
+</section>
+
+<!-- ==================== NAVIGATION ==================== -->
+<section class="panel">
+  <div class="panel-title">[ NAVIGATION ]</div>
+  <p>
+    <a href="../../">◀ 回主站</a> ·
+    <a href="../launcher/">▸ 自己裝版本（DOSBox-X）</a> ·
+    <a href="../guides/">▸ 攻略索引</a> ·
+    <a href="../save-editor.html">▸ 存檔修改器</a>
+  </p>
+</section>
+
+<footer class="site-footer">
+  <div>DOSBox Staging 是開源專案，GPL-2.0 授權。</div>
+  <div class="footer-big">｢ 吟遊詩人的傳說 · 俠客遊 II ｣</div>
+  <div>
+    <a href="../../">◀ 主站</a> ·
+    <a href="../launcher/">自己裝版本</a> ·
+    <a href="../guides/">攻略索引</a> ·
+    <a href="../save-editor.html">存檔修改器</a> ·
+    維護：toni
+  </div>
+</footer>
+
+</div>
+</body>
+</html>

@@ -38,10 +38,10 @@
 
 本 repo 不包含遊戲本體（版權因素）。如果你已有俠客遊 II 原版檔案，可使用本站的啟動器：
 
-- **Mac**：雙擊 `啟動俠客遊II.command`
-- **Windows**：雙擊 `啟動俠客遊II.bat`
+- **Mac**：雙擊 `Mac_Play_Luna2.command`
+- **Windows**：雙擊 `Win_Play_Luna2.bat`
 
-兩個啟動器都會自動呼叫 [DOSBox-X](https://dosbox-x.com/)，並已解決 1996 年的經典 640KB 記憶體地獄問題（使用 `LH` 指令把 MIDPAK + SB16 DIGPAK TSR 載入 UMB）。
+啟動器使用 [DOSBox-X](https://dosbox-x.com/) 模擬器，搭配 Adlib/OPL 音效模式（DOSBox 內建 FM 合成，開箱即有音樂）。
 
 ## 📜 授權
 

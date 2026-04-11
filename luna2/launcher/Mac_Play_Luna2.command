@@ -64,6 +64,23 @@ if [ ! -f "$GAME_DIR/dosbox-x.conf" ]; then
     exit 1
 fi
 
+# 檢查路徑是否包含非 ASCII 字元（中文等）
+if echo "$GAME_DIR" | grep -qP '[^\x00-\x7F]'; then
+    echo "⚠ 警告：遊戲路徑包含中文或特殊字元"
+    echo "  目前路徑：$GAME_DIR"
+    echo
+    echo "  DOSBox 可能無法正確掛載含中文的路徑。"
+    echo "  建議搬到純英文路徑，例如："
+    echo "    /Users/你的帳號/Games/Luna2/"
+    echo "    /home/你的帳號/Games/Luna2/"
+    echo
+    read -rp "仍要繼續嗎？[y/N] " REPLY
+    if [ "$REPLY" != "y" ] && [ "$REPLY" != "Y" ]; then
+        exit 0
+    fi
+    echo
+fi
+
 echo "✓ DOSBox-X：$DOSBOX"
 echo "✓ 遊戲路徑：$GAME_DIR"
 echo "✓ 設定檔：$GAME_DIR/dosbox-x.conf"
