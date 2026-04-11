@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>跨平台啟動器 · 俠客遊 II · 吟遊詩人的傳說</title>
-<meta name="description" content="俠客遊 II (Lunatic Dawn II) 跨平台啟動器——Mac .command + Windows .bat + Linux .sh，2026 年在 macOS / Windows / Linux 上一鍵啟動 1996 年的 DOS 遊戲。">
+<meta name="description" content="俠客遊 II (Lunatic Dawn II) 跨平台啟動器——自己裝 DOSBox-X + GM MIDI 高品質音樂。Mac .command + Windows .bat + Linux .sh，2026 年在現代系統上一鍵啟動 1996 年的 DOS 遊戲。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+Mono&display=swap" rel="stylesheet">
@@ -15,62 +15,64 @@
   display: inline-block;
   padding: 12px 20px;
   margin: 8px 8px 8px 0;
-  border: 2px solid var(--phosphor);
-  background: var(--bg-input);
-  color: var(--phosphor);
-  font-family: 'Courier New', monospace;
-  font-size: 17px;
+  border: 2px solid var(--accent);
+  background: var(--bg-code);
+  color: var(--accent);
+  font-family: 'Noto Sans Mono', 'Courier New', monospace;
+  font-size: 16px;
+  font-weight: 700;
   text-decoration: none;
   transition: all 0.15s;
 }
 .download-btn:hover {
-  background: var(--phosphor);
-  color: var(--bg);
-  box-shadow: 0 0 12px rgba(0,255,65,0.6);
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 12px rgba(139,105,20,0.3);
+  border-bottom: 2px solid var(--accent);
 }
 .download-btn .icon {
   font-size: 14px;
-  color: var(--amber);
   margin-right: 6px;
-}
-.download-btn:hover .icon {
-  color: var(--bg);
 }
 
 /* 步驟卡片 */
 .step {
-  border-left: 3px solid var(--amber);
+  border-left: 3px solid var(--accent);
   padding: 12px 16px;
   margin: 16px 0;
-  background: rgba(255,176,0,0.03);
+  background: rgba(139,105,20,0.03);
 }
 .step-num {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 13px;
-  color: var(--amber);
+  font-family: 'Noto Sans Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent);
   display: block;
   margin-bottom: 8px;
 }
 
 /* 代碼區塊 */
 code, .code-inline {
-  background: var(--bg-input);
-  color: var(--amber);
+  background: var(--bg-code);
+  color: var(--accent);
   padding: 2px 6px;
-  font-family: 'Courier New', monospace;
-  font-size: 16px;
-  border: 1px solid var(--phosphor-fade);
+  font-family: 'Noto Sans Mono', 'Courier New', monospace;
+  font-size: 15px;
+  border: 1px solid var(--border);
 }
 pre.code-block {
-  background: var(--bg-input);
-  border: 1px solid var(--phosphor-fade);
+  background: var(--bg-code);
+  border: 1px solid var(--border-dark);
   padding: 12px 16px;
   margin: 8px 0;
-  color: var(--phosphor-dim);
-  font-family: 'Courier New', monospace;
-  font-size: 16px;
+  color: var(--text-dim);
+  font-family: 'Noto Sans Mono', 'Courier New', monospace;
+  font-size: 15px;
   overflow-x: auto;
 }
+
+/* 比較表強調 */
+td.highlight { color: var(--heading); font-weight: 700; }
 </style>
 </head>
 <body>
@@ -80,11 +82,11 @@ pre.code-block {
   <div class="header-inner">
     <div>
       <h1 class="pixel">跨平台啟動器</h1>
-      <div class="header-sub">LUNATIC DAWN II · 1996 遊戲 · 2026 跑</div>
+      <div class="header-sub">LUNATIC DAWN II · 自己裝 DOSBox-X · GM MIDI 高品質音樂</div>
     </div>
     <div class="header-sub header-right">
       <div><a href="../../">◀ 回主站</a></div>
-      <div><a href="../guides/">▸ 攻略索引</a></div>
+      <div><a href="../ez/">▸ 懶人包版本</a></div>
     </div>
   </div>
 </header>
@@ -92,9 +94,10 @@ pre.code-block {
 <div class="breadcrumb">
   <a href="../../">吟遊詩人的傳說</a> /
   <a href="../../">俠客遊 II</a> /
-  <span class="dim">跨平台啟動器</span>
+  <span class="dim">跨平台啟動器（自己裝）</span>
 </div>
 
+<!-- ==================== ABOUT ==================== -->
 <section class="panel">
   <div class="panel-title">[ ABOUT ]</div>
   <p>
@@ -106,15 +109,18 @@ pre.code-block {
   <p>
     這個啟動器把那些 1996 年的地獄一次處理好——<span class="amber">下載 3 個檔案</span>、
     <span class="amber">雙擊</span>，就可以跑。跨 macOS / Windows / Linux。
+    音效使用 <span class="amber">GM MIDI（General MIDI）</span>高品質音樂模式。
   </p>
   <p class="muted">
-    ※ 本站不提供遊戲本體下載（版權因素）。請自備 LUNA2.EXE 及原版資料檔。
+    ※ 本站不提供遊戲本體下載（版權因素）。請自備 LUNA2.EXE 及原版資料檔。<br>
+    ※ 不想自己裝 DOSBox-X？試試 <a href="../ez/">▸ Luna2_EZ 懶人包</a>——解壓即玩，內建引擎。
   </p>
 </section>
 
+<!-- ==================== STEP 1 ==================== -->
 <section class="panel">
-  <div class="panel-title">[ STEP 1 · 先裝 DOSBOX-X ]</div>
-  <p>DOSBox-X 是 DOSBox 的一個分支，對舊 DOS 遊戲的相容性較好，特別是中文顯示、音效 TSR、記憶體管理都比原版強。</p>
+  <div class="panel-title">[ STEP 1 · 安裝 DOSBOX-X ]</div>
+  <p>DOSBox-X 是 DOSBox 的進階分支，對 1996 年繁中遊戲的相容性最好——支援 Big5 顯示、完整的 EMS/UMB/HIMEM 模擬、SVGA 模式，而且<span class="amber">對 MIDPAK/DIGPAK 音效 TSR 驅動的相容性比 DOSBox Staging 更好</span>，能正常使用 GM MIDI 音樂。</p>
 
   <h3>macOS</h3>
   <pre class="code-block">brew install --cask dosbox-x-app</pre>
@@ -138,6 +144,7 @@ sudo pacman -S dosbox-x
   </p>
 </section>
 
+<!-- ==================== STEP 2 ==================== -->
 <section class="panel">
   <div class="panel-title">[ STEP 2 · 下載啟動器 ]</div>
   <p>
@@ -149,14 +156,14 @@ sudo pacman -S dosbox-x
     <a class="download-btn" href="dosbox-x.conf" download>
       <span class="icon">▼</span> dosbox-x.conf
     </a>
-    <a class="download-btn" href="啟動俠客遊II.command" download>
-      <span class="icon">▼</span> 啟動俠客遊II.command <span class="dim">(macOS)</span>
+    <a class="download-btn" href="Mac_Play_Luna2.command" download>
+      <span class="icon">▼</span> Mac_Play_Luna2.command <span class="dim">(macOS)</span>
     </a>
-    <a class="download-btn" href="啟動俠客遊II.bat" download>
-      <span class="icon">▼</span> 啟動俠客遊II.bat <span class="dim">(Windows)</span>
+    <a class="download-btn" href="Win_Play_Luna2.bat" download>
+      <span class="icon">▼</span> Win_Play_Luna2.bat <span class="dim">(Windows)</span>
     </a>
-    <a class="download-btn" href="啟動俠客遊II.sh" download>
-      <span class="icon">▼</span> 啟動俠客遊II.sh <span class="dim">(Linux)</span>
+    <a class="download-btn" href="Linux_Play_Luna2.sh" download>
+      <span class="icon">▼</span> Linux_Play_Luna2.sh <span class="dim">(Linux)</span>
     </a>
   </p>
 
@@ -167,30 +174,37 @@ sudo pacman -S dosbox-x
   </p>
 </section>
 
+<!-- ==================== STEP 3 ==================== -->
 <section class="panel">
   <div class="panel-title">[ STEP 3 · 放進遊戲資料夾並執行 ]</div>
 
   <div class="step">
     <span class="step-num">3.1</span>
     把下載的 3 個檔案（<span class="code-inline">dosbox-x.conf</span>、
-    <span class="code-inline">啟動俠客遊II.command</span> 或
-    <span class="code-inline">啟動俠客遊II.bat</span>）
+    <span class="code-inline">Mac_Play_Luna2.command</span> 或
+    <span class="code-inline">Win_Play_Luna2.bat</span>）
     <span class="amber">全部放在和 LUNA2.EXE 同一個資料夾</span>。
+    <br><br>
+    <span class="amber">⚠ 重要：遊戲資料夾的完整路徑不能包含中文或特殊字元</span>，否則 DOSBox 可能無法正確掛載。
+    <br>
+    <span class="dim">✓ 正確範例：</span><span class="code-inline">D:\Games\Luna2\</span>、<span class="code-inline">/Users/toni/Games/Luna2/</span>
+    <br>
+    <span class="dim">✗ 錯誤範例：</span><span class="code-inline">D:\遊戲\俠客遊II\</span>、<span class="code-inline">/Users/toni/下載/俠客遊/</span>
   </div>
 
   <div class="step">
     <span class="step-num">3.2 · macOS 使用者</span>
-    第一次執行時右鍵點 <span class="code-inline">啟動俠客遊II.command</span> →
+    第一次執行時右鍵點 <span class="code-inline">Mac_Play_Luna2.command</span> →
     選「打開」→ 彈出警告 → 選「打開」。
     <br><br>
     或者終端機跑一次：
-    <pre class="code-block">chmod +x 啟動俠客遊II.command</pre>
+    <pre class="code-block">chmod +x Mac_Play_Luna2.command</pre>
     之後雙擊即可。
   </div>
 
   <div class="step">
     <span class="step-num">3.2 · Windows 使用者</span>
-    直接雙擊 <span class="code-inline">啟動俠客遊II.bat</span>。
+    直接雙擊 <span class="code-inline">Win_Play_Luna2.bat</span>。
     Windows Defender 可能會警告「已防止無法辨識的應用程式啟動」，
     點「其他資訊」→「仍要執行」。
   </div>
@@ -198,11 +212,9 @@ sudo pacman -S dosbox-x
   <div class="step">
     <span class="step-num">3.2 · Linux 使用者</span>
     終端機先給執行權限：
-    <pre class="code-block">chmod +x 啟動俠客遊II.sh
-./啟動俠客遊II.sh</pre>
-    或者在檔案管理器（Nautilus / Dolphin / Thunar 等）右鍵 →
-    「屬性」→ 勾選「允許作為程式執行」，之後就可以雙擊
-    →「在終端機中執行」。
+    <pre class="code-block">chmod +x Linux_Play_Luna2.sh
+./Linux_Play_Luna2.sh</pre>
+    或者在檔案管理器右鍵 →「屬性」→ 勾選「允許作為程式執行」，之後雙擊即可。
   </div>
 
   <div class="step">
@@ -212,6 +224,70 @@ sudo pacman -S dosbox-x
   </div>
 </section>
 
+<!-- ==================== STEP 4: SOUND ==================== -->
+<section class="panel">
+  <div class="panel-title">[ STEP 4 · 音效設定（推薦 GM MIDI）]</div>
+  <p>
+    俠客遊 II 支援多種音效模式。本啟動器推薦使用
+    <span class="amber">GM MIDI（General MIDI）</span>——音質最好的模式，
+    搭配 DOSBox-X 內建的 MIDI 合成器可以呈現完整的背景音樂與音效。
+  </p>
+
+  <h3>設定 GM MIDI 音樂（範例 4 · try4-gm）</h3>
+  <p>GM MIDI 需要兩個步驟：設定遊戲音效模式 + 載入 TSR 驅動。</p>
+
+  <div class="step">
+    <span class="step-num">4.1 · 設定遊戲音效模式</span>
+    在 DOSBox-X 裡執行 <span class="code-inline">SNDSET.EXE</span>，
+    選擇 <span class="amber">GM (General MIDI)</span> 音樂模式。
+    設定完成後會產生 <span class="code-inline">SNDSET.CFG</span>。
+    <br><br>
+    <span class="dim">如果你的遊戲資料夾已有 SNDSET.CFG 且音效正常，可以跳過此步。</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">4.2 · 載入 TSR 驅動程式</span>
+    GM MIDI 需要在啟動遊戲前載入兩個 Miles Sound System 的 TSR 常駐程式。
+    在 DOSBox-X 的 DOS 提示字元下依序執行：
+    <pre class="code-block">LH MIDPAK.COM
+LH M\SB16.COM
+LUNA2.EXE</pre>
+    <span class="dim">
+      <span class="code-inline">LH</span> = Load High（載入到高位記憶體，節省 640K 常規記憶體）。
+      <span class="code-inline">MIDPAK.COM</span> 是 MIDI 音樂驅動，
+      <span class="code-inline">M\SB16.COM</span> 是 Sound Blaster 16 音效驅動。
+    </span>
+    <br><br>
+    也可以把這三行加進 <span class="code-inline">dosbox-x.conf</span> 的
+    <span class="code-inline">[autoexec]</span> 區段，讓每次啟動自動載入：
+    <pre class="code-block">[autoexec]
+@echo off
+cls
+echo  Lunatic Dawn II / 俠客遊 II
+echo.
+LH MIDPAK.COM
+LH M\SB16.COM</pre>
+    <span class="dim">啟動腳本會在 [autoexec] 後面自動補上 mount + LUNA2.EXE 指令。</span>
+  </div>
+
+  <h3>如果 GM 沒有聲音？退回 Adlib</h3>
+  <p>
+    少數情況下 MIDPAK/SB16 TSR 可能和你的 DOSBox 版本不相容
+    （特別是 <span class="amber">DOSBox Staging 不支援這些 TSR</span>）。
+    如果載入 TSR 後仍然沒有音樂：
+  </p>
+  <ol>
+    <li>重新執行 <span class="code-inline">SNDSET.EXE</span>，改選 <span class="amber">Adlib</span> 模式</li>
+    <li>不載入 MIDPAK / SB16 TSR，直接執行 <span class="code-inline">LUNA2.EXE</span></li>
+    <li>Adlib 使用 DOSBox 內建 FM 合成，不需要額外驅動，穩定度最高</li>
+  </ol>
+  <p class="muted">
+    ※ Adlib 的音質是 FM 合成（8-bit 電子風），GM MIDI 的音質是樂器取樣（更接近真實樂器）。
+    兩種都是完整的背景音樂，差別在音色。
+  </p>
+</section>
+
+<!-- ==================== HOTKEYS ==================== -->
 <section class="panel">
   <div class="panel-title">[ 快捷鍵速查 ]</div>
   <table>
@@ -229,15 +305,18 @@ sudo pacman -S dosbox-x
   </table>
 </section>
 
+<!-- ==================== FAQ ==================== -->
 <section class="panel">
-  <div class="panel-title">[ 常見問題 ]</div>
+  <div class="panel-title">[ 常見問題與排除 ]</div>
 
   <h3>Q1. 為什麼要用 DOSBox-X 而不是 DOSBox？</h3>
   <p>
     DOSBox-X 相容性比原版強很多——支援中文 Big5 顯示、完整的 EMS/UMB/HIMEM 模擬、
-    SVGA 模式、更精細的 CPU 週期控制、以及 <span class="code-inline">dos = high,umb</span>
-    這種模擬 MS-DOS 6.22 <span class="code-inline">config.sys</span> 的能力。俠客遊 II
-    這種 1996 年的繁中遊戲，DOSBox-X 是現在最穩定的選擇。
+    SVGA 模式、更精細的 CPU 週期控制、以及
+    <span class="code-inline">dos = high,umb</span>
+    這種模擬 MS-DOS 6.22 <span class="code-inline">config.sys</span> 的能力。
+    最重要的是，<span class="amber">DOSBox-X 對 MIDPAK/DIGPAK TSR 驅動的相容性最好</span>，
+    能正常使用 GM MIDI 音樂。
   </p>
 
   <h3>Q2. 遊戲跑太快 / 太慢？</h3>
@@ -246,24 +325,36 @@ sudo pacman -S dosbox-x
     預設是 <span class="amber">20000 cycles</span>（約 Pentium 100 等級），對俠客遊 II 來說剛好。
   </p>
 
-  <h3>Q3. 沒有音效？</h3>
+  <h3>Q3. 沒有音效 / 音樂？</h3>
   <p>
-    俠客遊 II 的音效需要先執行 <span class="code-inline">M\SB16.COM</span> 載入 DIGPAK TSR 驅動。
-    本啟動器為了相容性先不載入音效驅動——大部分人其實玩的是無聲版。
-    需要音效的玩家可以在 DOSBox-X 裡手動執行：
+    依序檢查：
   </p>
-  <pre class="code-block">LH MIDPAK.COM
-LH M\SB16.COM
-LUNA2.EXE</pre>
-  <p>
-    （<span class="code-inline">LH</span> = LoadHigh，把 TSR 載到高位記憶體避免吃掉 640 KB 常規記憶體）
-  </p>
+  <ol>
+    <li>
+      確認 <span class="code-inline">SNDSET.CFG</span> 存在於遊戲資料夾。
+      沒有的話執行 <span class="code-inline">SNDSET.EXE</span> 設定音效。
+    </li>
+    <li>
+      如果使用 GM MIDI 模式，確認已在 LUNA2.EXE 之前載入
+      <span class="code-inline">LH MIDPAK.COM</span> 和
+      <span class="code-inline">LH M\SB16.COM</span>（見 STEP 4）。
+    </li>
+    <li>
+      如果 TSR 載入後仍無聲，改用 <span class="amber">Adlib</span> 模式
+      （不需 TSR，DOSBox 內建 FM 合成）。
+    </li>
+    <li>
+      檢查 <span class="code-inline">dosbox-x.conf</span> 裡
+      <span class="code-inline">nosound = false</span>（預設就是 false）。
+    </li>
+  </ol>
 
   <h3>Q4. 存檔在哪裡？</h3>
   <p>
     存檔是 <span class="code-inline">USER0</span> 到 <span class="code-inline">USER9</span>
-    這 10 個資料夾（對應遊戲裡的 10 個存檔槽），
-    每個資料夾裡有 13 個 <span class="code-inline">.SAV</span> 檔案。
+    這 10 個資料夾（對應遊戲裡的 10 個存檔槽）。
+    注意 <span class="amber">USER 編號 = 遊戲內槽號 - 1</span>
+    （USER0 = 存檔 1，USER9 = 存檔 10）。
     <br><br>
     想修改存檔？試試看本站的
     <a href="../save-editor.html">▸ 瀏覽器版修改器</a>——直接拖 LUNACHAR.SAV 進去就能改。
@@ -276,42 +367,46 @@ LUNA2.EXE</pre>
     應該就會自動放好所有檔案。
   </p>
 
-  <h3>Q6. 啟動器無法執行（Mac 說「未識別的開發者」）？</h3>
+  <h3>Q6. macOS 說「未識別的開發者」？</h3>
+  <p>這是 macOS Gatekeeper 的保護。解法：</p>
+  <pre class="code-block">chmod +x Mac_Play_Luna2.command
+xattr -d com.apple.quarantine Mac_Play_Luna2.command</pre>
+  <p>或者到「系統設定 → 隱私權與安全性」最下面允許執行。</p>
+
+  <h3>Q7. 路徑含中文導致 DOSBox 無法掛載？</h3>
   <p>
-    這是 macOS Gatekeeper 的保護。解法：
-  </p>
-  <pre class="code-block">chmod +x 啟動俠客遊II.command
-xattr -d com.apple.quarantine 啟動俠客遊II.command</pre>
-  <p>
-    或者到「系統設定 &gt; 隱私權與安全性」最下面允許執行。
+    DOSBox-X 的 <span class="code-inline">mount</span> 指令對含中文字元的路徑支援不完整。
+    將遊戲資料夾搬到純英文路徑即可解決。
+    啟動腳本已內建中文路徑偵測，會在啟動前提醒你。
   </p>
 </section>
 
+<!-- ==================== TECH DETAILS ==================== -->
 <section class="panel">
   <div class="panel-title">[ 技術細節 ]</div>
-  <p>
-    啟動器的運作原理——對技術有興趣的人可以看。
-  </p>
+  <p>對技術有興趣的人可以看。</p>
 
   <h3>dosbox-x.conf 做了什麼？</h3>
-  <p>這個 conf 檔設定：</p>
-  <ul>
-    <li><span class="amber">memsize = 16</span>：給 DOS 虛擬 16 MB 記憶體</li>
-    <li><span class="amber">machine = svga_s3</span>：模擬 S3 Trio 顯卡（支援 SVGA 640×480 真彩色）</li>
-    <li><span class="amber">cputype = pentium, cycles = 20000</span>：模擬 Pentium 100 等級</li>
-    <li><span class="amber">sbtype = sb16</span>：Sound Blaster 16（IRQ 7, DMA 1/5）</li>
-    <li><span class="amber">xms = ems = umb = true</span>：開啟所有記憶體擴充功能</li>
-    <li><span class="amber">ver = 6.22</span>：模擬 MS-DOS 6.22 報版本</li>
-    <li><span class="amber">customcodepage = 950</span>：Big5 code page（避免 "No translation support" 警告）</li>
-  </ul>
+  <table>
+    <thead><tr><th>設定</th><th>值</th><th>說明</th></tr></thead>
+    <tbody>
+      <tr><td><span class="code-inline">memsize</span></td><td>16</td><td>DOS 虛擬 16 MB 記憶體</td></tr>
+      <tr><td><span class="code-inline">machine</span></td><td>svga_s3</td><td>模擬 S3 Trio 顯卡（SVGA 640x480 真彩色）</td></tr>
+      <tr><td><span class="code-inline">cputype</span></td><td>pentium</td><td>模擬 Pentium 處理器</td></tr>
+      <tr><td><span class="code-inline">cycles</span></td><td>fixed 20000</td><td>約 Pentium 100 等級速度</td></tr>
+      <tr><td><span class="code-inline">sbtype</span></td><td>sb16</td><td>Sound Blaster 16（IRQ 7, DMA 1/5）</td></tr>
+      <tr><td><span class="code-inline">mpu401</span></td><td>intelligent</td><td>MIDI 埠（GM 音樂用）</td></tr>
+      <tr><td><span class="code-inline">oplmode</span></td><td>auto</td><td>OPL FM 合成器（Adlib 音效用）</td></tr>
+      <tr><td><span class="code-inline">xms/ems/umb</span></td><td>true</td><td>開啟所有記憶體擴充</td></tr>
+      <tr><td><span class="code-inline">ver</span></td><td>6.22</td><td>模擬 MS-DOS 6.22</td></tr>
+      <tr><td><span class="code-inline">customcodepage</span></td><td>950</td><td>Big5 繁體中文 code page</td></tr>
+    </tbody>
+  </table>
 
   <h3>啟動腳本做了什麼？</h3>
-  <p>
-    <span class="code-inline">.command</span>（Mac）/ <span class="code-inline">.bat</span>（Win）/
-    <span class="code-inline">.sh</span>（Linux）三個腳本做的事情一樣：
-  </p>
   <ol>
     <li>切換到腳本自己所在的資料夾（所以放哪都能跑）</li>
+    <li>檢查路徑是否包含中文字元（有則警告）</li>
     <li>檢查 DOSBox-X 是否存在（常見路徑 + PATH）</li>
     <li>檢查 <span class="code-inline">LUNA2.EXE</span> 和 <span class="code-inline">dosbox-x.conf</span> 是否都在</li>
     <li>執行 <span class="code-inline">dosbox-x -conf dosbox-x.conf -c "mount c ." -c "c:" -c "LUNA2.EXE"</span></li>
@@ -322,19 +417,80 @@ xattr -d com.apple.quarantine 啟動俠客遊II.command</pre>
     <span class="code-inline">dosbox-x.conf</span> 完全不用硬編路徑，任何人下載都能直接用。
   </p>
 
-  <h3>為什麼不內建音效自動載入？</h3>
-  <p>
-    1996 年的 DIGPAK TSR 驅動（<span class="code-inline">M\SB16.COM</span>）對 DOSBox-X 的
-    SB16 模擬器並不是 100% 相容——<span class="amber">有些 DOSBox-X 版本會在載入 DIGPAK 時當機</span>。
-    為了讓「雙擊就能跑」的保底體驗穩定，預設不載入音效驅動。
-    音效測試版（<span class="code-inline">dosbox-x-sound.conf</span>）之後會放出來當進階選項。
+  <h3>音效模式比較</h3>
+  <table>
+    <thead><tr><th>模式</th><th>音質</th><th>需要 TSR</th><th>相容性</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="highlight">GM MIDI（推薦）</td>
+        <td>樂器取樣，接近真實樂器</td>
+        <td>MIDPAK.COM + M\SB16.COM</td>
+        <td>DOSBox-X 佳；DOSBox Staging 不相容</td>
+      </tr>
+      <tr>
+        <td>Adlib/OPL</td>
+        <td>FM 合成，8-bit 電子風</td>
+        <td>不需要（DOSBox 內建）</td>
+        <td>所有 DOSBox 版本皆相容</td>
+      </tr>
+      <tr>
+        <td>Sound Blaster</td>
+        <td>PCM 數位音效</td>
+        <td>不需要</td>
+        <td>通常只有音效沒有音樂</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>自己裝 vs 懶人包：差異比較</h3>
+  <table>
+    <thead>
+      <tr><th></th><th>自己裝（本頁）</th><th>Luna2_EZ 懶人包</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>模擬器</td>
+        <td>DOSBox-X（需自行安裝）</td>
+        <td>DOSBox Staging 0.82.2（內建）</td>
+      </tr>
+      <tr>
+        <td>音效模式</td>
+        <td class="highlight">GM MIDI（高品質）</td>
+        <td>Adlib/OPL（FM 合成）</td>
+      </tr>
+      <tr>
+        <td>音效驅動</td>
+        <td>需載入 MIDPAK + SB16 TSR</td>
+        <td>不需要（DOSBox 內建）</td>
+      </tr>
+      <tr>
+        <td>CPU 速度</td>
+        <td><span class="code-inline">fixed 20000</span></td>
+        <td><span class="code-inline">auto 12000</span></td>
+      </tr>
+      <tr>
+        <td>適合對象</td>
+        <td>想要最佳音質 + 願意自行設定</td>
+        <td>想最快開始玩的人</td>
+      </tr>
+      <tr>
+        <td>下載大小</td>
+        <td>~3 KB（僅啟動腳本 + 設定檔）</td>
+        <td>~26 MB（含引擎）</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="muted">
+    ※ 詳細懶人包說明請參考 <a href="../ez/">▸ Luna2_EZ 懶人包頁面</a>。
   </p>
 </section>
 
+<!-- ==================== NAVIGATION ==================== -->
 <section class="panel">
   <div class="panel-title">[ NAVIGATION ]</div>
   <p>
     <a href="../../">◀ 回主站</a> ·
+    <a href="../ez/">▸ Luna2_EZ 懶人包</a> ·
     <a href="../guides/">▸ 攻略索引</a> ·
     <a href="../save-editor.html">▸ 存檔修改器</a>
   </p>
@@ -345,6 +501,7 @@ xattr -d com.apple.quarantine 啟動俠客遊II.command</pre>
   <div class="footer-big">｢ 吟遊詩人的傳說 · 俠客遊 II ｣</div>
   <div>
     <a href="../../">◀ 主站</a> ·
+    <a href="../ez/">懶人包</a> ·
     <a href="../guides/">攻略索引</a> ·
     <a href="../save-editor.html">存檔修改器</a> ·
     維護：toni
