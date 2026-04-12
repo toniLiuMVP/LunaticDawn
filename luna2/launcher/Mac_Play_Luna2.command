@@ -65,7 +65,8 @@ if [ ! -f "$GAME_DIR/dosbox-x.conf" ]; then
 fi
 
 # 檢查路徑是否包含非 ASCII 字元（中文等）
-if echo "$GAME_DIR" | grep -qP '[^\x00-\x7F]'; then
+# 使用 LC_ALL=C 讓 grep 以 byte 模式比對，相容 macOS BSD grep
+if printf '%s' "$GAME_DIR" | LC_ALL=C grep -q '[^ -~]'; then
     echo "⚠ 警告：遊戲路徑包含中文或特殊字元"
     echo "  目前路徑：$GAME_DIR"
     echo
