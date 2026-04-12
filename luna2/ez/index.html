@@ -114,13 +114,12 @@ td.highlight { color: var(--heading); font-weight: 700; }
     <div style="font-size: 15px; color: var(--text-dim); margin-bottom: 8px;">
       提供給擁有正版遊戲的玩家，最簡單的跨平台遊玩方式
     </div>
-    <!-- TODO: toni 填入實際下載連結（Google Drive / MEGA / GitHub Release） -->
-    <a class="dl-btn" href="#download">
-      ▼ 下載 Luna2_EZ.zip
+    <a class="dl-btn" href="https://drive.google.com/file/d/1jZL_9KnSpwyMiTjI9HyTvSnFeLkBTP_e/view?usp=sharing" target="_blank" rel="noopener">
+      ▼ 下載 Luna2_EZ.7z
     </a>
     <div class="dl-note">
       內含 DOSBox Staging 0.82.2 引擎（Mac / Windows / Linux）+ 啟動腳本 + 遊戲設定檔<br>
-      需自備正版遊戲檔案 · 解壓後約 26 MB
+      需自備正版遊戲檔案 · 下載約 16 MB · 解壓後約 26 MB
     </div>
   </div>
 </section>
@@ -151,7 +150,10 @@ td.highlight { color: var(--heading); font-weight: 700; }
 
   <div class="step">
     <span class="step-num">STEP 1 · 解壓縮</span>
-    下載 <span class="code-inline">Luna2_EZ.zip</span> 並解壓縮到<span class="amber">純英文路徑</span>。
+    下載 <span class="code-inline">Luna2_EZ.7z</span> 並解壓縮到<span class="amber">純英文路徑</span>。
+    <br>
+    <span class="dim">※ 需要 <a href="https://www.7-zip.org/" target="_blank" rel="noopener">7-Zip</a>（Windows）或
+    <a href="https://theunarchiver.com/" target="_blank" rel="noopener">The Unarchiver</a>（Mac）等支援 7z 的解壓工具。</span>
     <br><br>
     <span class="amber">⚠ 重要：資料夾的完整路徑不能包含中文或特殊字元</span>，否則 DOSBox 無法正確掛載。
     <br>
@@ -334,7 +336,7 @@ xattr -d com.apple.quarantine Mac_Play_Luna2.command</pre>
       </tr>
       <tr>
         <td>下載大小</td>
-        <td>~26 MB（含引擎）</td>
+        <td>~16 MB（7z 壓縮，解壓後 ~26 MB）</td>
         <td>~3 KB（僅啟動腳本 + 設定檔）</td>
       </tr>
     </tbody>
@@ -352,7 +354,8 @@ Linux_Play_Luna2.sh     fb8a492120958a19...eb739dfc34725b5</pre>
 ├── Mac_Play_Luna2.command     macOS 啟動器
 ├── Win_Play_Luna2.bat         Windows 啟動器
 ├── Linux_Play_Luna2.sh        Linux 啟動器
-├── README.txt                 說明檔
+├── README.txt                 英文說明
+├── README_zh.txt              中文說明
 ├── engine/                    DOSBox Staging 0.82.2
 │   ├── dosbox-mac/            macOS 版引擎
 │   ├── dosbox-windows/        Windows 版引擎

@@ -4,23 +4,39 @@
 >
 > 由 toni（@toniLiuMVP）維護 — 接續 2004 年 GameBase 遊戲基地與巴哈姆特俠客遊討論板的時代遺產
 
+🎮 **請先至 Steam 購買正版遊戲支持原作**
+- [俠客遊 II / III](https://store.steampowered.com/app/338070/)
+- [前途道標](https://store.steampowered.com/app/335420/)
+
 ---
 
 ## 📖 本站涵蓋
 
 | 作品 | 年代 | 本站狀態 |
 |------|------|----------|
-| 俠客遊 II (Lunatic Dawn II) | 1996 | ✅ 攻略 + 物品 + 存檔修改器 |
-| 俠客遊 III (Lunatic Dawn III) | 1998 | 🚧 規劃中 |
-| 俠客遊 IV (Lunatic Dawn IV) | 1999 | 🚧 規劃中 |
-| 未來之書 (Future Book) | - | 🚧 規劃中 |
-| 前途道標 (Road Signs) | - | 🚧 規劃中 |
+| 俠客遊 II (Lunatic Dawn II) | 1996 | ✅ 攻略 + 存檔修改器 + 啟動器 + 懶人包 |
+| 未來之書 (Lunatic Dawn III) | 1998 | ✅ 密技 + 更新檔 |
+| 前途道標 (Lunatic Dawn Passage) | 1999 | ✅ 完整攻略 4 篇（小蜜蜂 / 小傑 / Ertai） |
+| 俠客遊 III (Lunatic Dawn FX) | 2001 | ✅ 密技 |
 
-## 🛠 工具
+## 🛠 工具與資源
 
-- **[俠客遊 II 存檔修改器](./luna2/save-editor.html)** — 瀏覽器版，純 HTML+JS，跨 macOS / Windows / Linux，不用安裝
-- **[俠客遊 II 完整攻略](./luna2/guides/)** — 整合 2004-2008 年社群前輩心血
-- **遊戲啟動器** — Mac `.command` + Windows `.bat` 一鍵啟動，自動處理 DOSBox-X 音效設定
+- **[俠客遊 II 存檔修改器](./luna2/save-editor.html)** — 瀏覽器版，純 HTML+JS，拖入 LUNACHAR.SAV 即改，160 個角色槽
+- **[俠客遊 II 完整攻略](./luna2/guides/)** — 整合 2004-2008 年社群前輩心血（9 篇）
+- **[懶人包（Luna2_EZ）](./luna2/ez/)** — 內建 DOSBox Staging，解壓即玩，支援 Mac / Windows / Linux
+- **[自己裝啟動器](./luna2/launcher/)** — 搭配 DOSBox-X + GM MIDI 高音質音樂
+- **[前途道標攻略](./passage/)** — 1999 年 BBS 時代原創攻略（小蜜蜂 / 小傑 / Ertai）
+- **[未來之書密技](./luna3/)** — 未來之書 + 前途道標 + 俠客遊 III 密技彙整
+- **[檔案庫](./files/)** — 修正檔、工具、更新檔下載
+
+## 🎮 兩種遊玩方式
+
+| | 懶人包（推薦新手） | 自己裝 |
+|---|---|---|
+| 模擬器 | DOSBox Staging（內建） | DOSBox-X（需自行安裝） |
+| 音效 | Adlib/OPL（FM 合成） | GM MIDI（高音質） |
+| 安裝 | 解壓即玩 | 需安裝模擬器 + 設定音效 |
+| 頁面 | [懶人包說明](./luna2/ez/) | [自己裝說明](./luna2/launcher/) |
 
 ## 🙏 致謝（2004-2008 GameBase / 巴哈姆特討論板前輩）
 
@@ -32,16 +48,8 @@
 | 修改筆記（1996） | 伊達政宗、Silver Angel |
 | 精確 byte offset 文件 | 李憲忠 |
 | 人物起始能力表 | ocrice (yukihiro) |
+| 前途道標攻略 | 小蜜蜂、小傑、Ertai |
 | 攻略整理/補充 | 劍俠天才、那伽龍、yjyyang、aldalave11127、jo（謎樣的大叔）、raclim（林秀奕）、PhilJane（矮子小豪）、toni |
-
-## 🎮 執行原版遊戲
-
-本 repo 不包含遊戲本體（版權因素）。如果你已有俠客遊 II 原版檔案，可使用本站的啟動器：
-
-- **Mac**：雙擊 `Mac_Play_Luna2.command`
-- **Windows**：雙擊 `Win_Play_Luna2.bat`
-
-啟動器使用 [DOSBox-X](https://dosbox-x.com/) 模擬器，搭配 Adlib/OPL 音效模式（DOSBox 內建 FM 合成，開箱即有音樂）。
 
 ## 📜 授權
 
