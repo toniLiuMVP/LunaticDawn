@@ -202,6 +202,11 @@ PAGES = [
         "attribution": None,
         "subsite": "Steam 版",
         "subsite_index": "./",
+        "images": [
+            ("img/steam-store.png", "Steam 商店頁面 — 前途道標 Lunatic Dawn Passage"),
+            ("img/daemon-tools-safedisc.png", "DAEMON Tools Lite 設定檔選擇 SafeDisc"),
+            ("img/disk-management.png", "磁碟管理 — 虛擬光碟代號要在實體光碟機前面"),
+        ],
     },
 
     # === general/ === 通用（3 頁：1 nav + 2 content）
@@ -615,12 +620,32 @@ def render_content_page(page: dict, md: str) -> str:
     if page.get("attribution"):
         attribution_html = f'<div class="attribution">{page["attribution"]}</div>\n'
 
+    # 圖片區塊（如果 page 有 images 欄位）
+    images_html = ""
+    if page.get("images"):
+        imgs = []
+        for src, alt in page["images"]:
+            imgs.append(
+                f'  <figure style="margin:1.5em 0">\n'
+                f'    <img src="{html.escape(src)}" alt="{html.escape(alt)}" '
+                f'style="max-width:100%;height:auto;border:1px solid #3a3020;border-radius:4px" loading="lazy">\n'
+                f'    <figcaption class="dim" style="margin-top:0.3em;font-size:0.85em">{html.escape(alt)}</figcaption>\n'
+                f'  </figure>\n'
+            )
+        images_html = (
+            '<section class="panel">\n'
+            '  <h2 class="panel-title">[ 教學截圖 ]</h2>\n'
+            + "".join(imgs)
+            + '</section>\n'
+        )
+
     content_section = (
         f'<section class="panel">\n'
         f'  <h2 class="panel-title">[ {html.escape(page["title"].upper())} ]</h2>\n'
         f'  {attribution_html}'
         f'  <div class="prose">\n{body_html}\n  </div>\n'
         f'</section>\n'
+        + images_html
     )
 
     nav_section = f'''
