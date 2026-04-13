@@ -111,12 +111,11 @@ PAGES = [
         "out": "luna3/index.html",
         "kind": "subsite-index",
         "title": "未來之書",
-        "subtitle": "LUNATIC DAWN III · 1998",
-        "tagline": "Lunatic Dawn III · The Book of Futures",
-        "desc": "未來之書（Lunatic Dawn III，LD3）是 1998 年推出的俠客遊正統續作，"
-                "四國改成羅馬魯國 / 中津國 / 日出國 / 依兒陶爾國。"
+        "subtitle": "LUNATIC DAWN: THE BOOK OF FUTURES · 1998",
+        "tagline": "Lunatic Dawn: The Book of Futures (1998)",
+        "desc": "未來之書（Lunatic Dawn: The Book of Futures）是 1998 年由台灣第三波代理發行的俠客遊系列作品。"
                 "本站目前收錄 toni 整理的未來之書 + 前途道標 + 俠客遊 III 密技，"
-                "以及 2000 年 12 月 19 日的 LD3 官方最新更新檔。",
+                "以及 2000 年 12 月 19 日的官方最新更新檔。",
         "cards": [
             ("cheats.html", "未來之書、前途道標及俠客遊 III 密技",
              "不死者喚出（Alt+F4）、隱藏人物名字（M.YOSHIDA!、Hydrogen!!、M.WADA、Caspia@@@、K.OOHARA!）、"
@@ -129,7 +128,7 @@ PAGES = [
         "out": "luna3/cheats.html",
         "kind": "content",
         "title": "未來之書、前途道標及俠客遊 III 密技",
-        "subtitle": "LUNATIC DAWN III · toni",
+        "subtitle": "未來之書 · toni",
         "attribution": None,
         "subsite": "未來之書",
         "subsite_index": "./",
@@ -141,9 +140,9 @@ PAGES = [
         "out": "luna4/index.html",
         "kind": "subsite-index",
         "title": "俠客遊 IV",
-        "subtitle": "LUNATIC DAWN IV · 2003",
-        "tagline": "Lunatic Dawn IV · 次元之門與連線系統",
-        "desc": "俠客遊 IV（Lunatic Dawn IV，LD4）是 2003 年推出的系列最新作，"
+        "subtitle": "LUNATIC DAWN IV · 2001",
+        "tagline": "Lunatic Dawn IV (2001) · 次元之門與連線系統",
+        "desc": "俠客遊 IV（Lunatic Dawn IV）是 2001 年由台灣第三波代理發行的系列作品，"
                 "加入了次元之門與 IP 連線功能。本站收錄 toni 的連線設定方法、"
                 "鞠躬練功法，以及 Morrowind 作的 LunaticConsortia 輔助工具三個歷史版本。",
         "cards": [
@@ -581,7 +580,6 @@ BASE_FOOT = """
   <div class="footer-big">｢ 吟遊詩人的傳說 · 俠客遊 LUNATIC DAWN ｣</div>
   <div>
     <a href="../">◀ 主站</a> ·
-    <a href="../files/">檔案庫</a> ·
     <a href="https://github.com/toniLiuMVP/LunaticDawn" target="_blank" rel="noopener">GitHub</a> ·
     維護：toni
   </div>
@@ -630,8 +628,7 @@ def render_content_page(page: dict, md: str) -> str:
   <h2 class="panel-title">[ NAVIGATION ]</h2>
   <p>
     <a href="{page["subsite_index"]}">◀ 回 {page["subsite"]} 索引</a> ·
-    <a href="../">▸ 主站</a> ·
-    <a href="../files/">▸ 檔案庫</a>
+    <a href="../">▸ 主站</a>
   </p>
 </section>
 '''
@@ -687,7 +684,6 @@ def render_subsite_index(page: dict) -> str:
   <h2 class="panel-title">[ NAVIGATION ]</h2>
   <p>
     <a href="../">◀ 主站</a> ·
-    <a href="../files/">▸ 檔案庫</a> ·
     <a href="../luna2/guides/">▸ 俠客遊 II 攻略</a>
   </p>
 </section>
@@ -734,8 +730,7 @@ def render_files_index(page: dict, md: str) -> str:
         '</section>\n'
     )
 
-    # 本地 44 個歷史附件清單
-    local_section = build_local_attachments_section()
+    # 歷史附件區已移除（toni 2026-04-13：舊版本檔案不需要讓新玩家下載）
 
     nav_section = '''
 <section class="panel">
@@ -757,7 +752,7 @@ def render_files_index(page: dict, md: str) -> str:
         header_right_extra=header_right_extra,
     )
 
-    return head + breadcrumb + drive_section + local_section + nav_section + BASE_FOOT
+    return head + breadcrumb + drive_section + nav_section + BASE_FOOT
 
 
 def build_local_attachments_section() -> str:
