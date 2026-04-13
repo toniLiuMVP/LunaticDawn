@@ -606,6 +606,7 @@ const OFFSETS = {
   spellH:    0x8C,
   spellD:    0x8E,
   spellS:    0x90,
+  martial:   0x92,  // u16 LE — 武技（聶荊璇 v4.1：技能絕招）
 };
 
 const CAPS = {
@@ -613,6 +614,7 @@ const CAPS = {
   maxHP: 275, maxMP: 366, maxSTM: 275,
   curHP: 275, curMP: 366, curSTM: 275,
   attr: 100, attrCap: 100, skill: 100,
+  martial: 65535,
 };
 
 const SPELL_SCHOOLS = [
@@ -918,6 +920,11 @@ function renderEditor() {
   spells.appendChild(el('div', { className: 'field-group-title', text: '[ 5 系法術 · 點方塊開關每招 ]' }));
   SPELL_SCHOOLS.forEach(school => addSpellSchool(spells, idx, school));
   c.appendChild(spells);
+
+  // ---- 武技（技能絕招） ----
+  const martial = makeGroup('[ 武技 · 技能絕招 ]');
+  addNumberField(martial.body, idx, '武技', OFFSETS.martial, 'u16', CAPS.martial, '上限 65535');
+  c.appendChild(martial.group);
 }
 
 // ---- 欄位組件 ----
