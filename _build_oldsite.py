@@ -45,9 +45,9 @@ PAGES = [
         "kind": "subsite-index",
         "title": "前途道標攻略",
         "subtitle": "LUNATIC DAWN PASSAGE · LDE3",
-        "tagline": "1999 年小蜜蜂 / 小傑的前途道標完整攻略 + 2001 年第三之書資料",
-        "desc": "前途道標（Lunatic Dawn Passage，LDE3）是 1999 年推出的俠客遊資料片，"
-                "2001 年又出了資料片「第三之書」。本站收錄小蜜蜂 / 小傑 / Ertai 等 1999-2000 年"
+        "tagline": "1999 年小蜜蜂 / 小傑的前途道標完整攻略 + 2002 年第三之書資料",
+        "desc": "前途道標（Lunatic Dawn: Passage of The Book）是 1999 年由台灣第三波代理發行的俠客遊系列作品，"
+                "2002 年又出了資料片「第三之書」（台灣美商藝電代理）。本站收錄小蜜蜂 / 小傑 / Ertai 等 1999-2000 年"
                 "BBS 時代的原創攻略心得，以及 Morrowind / kkt_zzz 等社群開發者 2007 年前後釋出的修正檔與工具。",
         "cards": [
             ("intro.html", "入門篇：遊戲小常識",
@@ -203,9 +203,9 @@ PAGES = [
         "subsite": "Steam 版",
         "subsite_index": "./",
         "images": [
-            ("img/steam-store.png", "Steam 商店頁面 — 前途道標 Lunatic Dawn Passage"),
-            ("img/daemon-tools-safedisc.png", "DAEMON Tools Lite 設定檔選擇 SafeDisc"),
-            ("img/disk-management.png", "磁碟管理 — 虛擬光碟代號要在實體光碟機前面"),
+            ("img/steam-store.png", "Steam 商店頁面 — 前途道標 Lunatic Dawn Passage", 943, 648),
+            ("img/daemon-tools-safedisc.png", "DAEMON Tools Lite 設定檔選擇 SafeDisc", 951, 239),
+            ("img/disk-management.png", "磁碟管理 — 虛擬光碟代號要在實體光碟機前面", 1280, 734),
         ],
     },
 
@@ -286,6 +286,50 @@ def md_inline(text: str) -> str:
         return f'<a href="{url_attr}"{extra}>{link_text}</a>'
     text = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", linkify, text)
     return text
+
+
+def post_cleanup_old_links(html_out: str) -> str:
+    """清理從舊站搬來的殘留連結（2026-04-13 審核修正）。
+
+    1. 移除「回首頁」連結（指向舊 Google Sites，新站已有 NAVIGATION 區塊）
+    2. 清除 Google redirect URL wrapper（google.com/url?q=...）→ 直連目標
+    3. 將 files/index.html 裡指向舊站的內部連結改指新站對應頁面
+    """
+    # 1. 移除指向舊 Google Sites 的「回首頁」連結（整個 <p> 或獨立的 <a>）
+    html_out = re.sub(
+        r'<p>\s*<a[^>]*href="https?://sites\.google\.com/site/lunticdawn[^"]*"[^>]*>回首頁</a>\s*</p>\s*',
+        '', html_out
+    )
+
+    # 2. 清除 Google redirect wrapper: google.com/url?q=REAL_URL&...
+    def unwrap_google_redirect(m):
+        full_tag = m.group(0)
+        redirect_match = re.search(r'https?://www\.google\.com/url\?q=([^&"]+)', full_tag)
+        if redirect_match:
+            from urllib.parse import unquote
+            real_url = unquote(redirect_match.group(1))
+            return full_tag.replace(redirect_match.group(0), real_url)
+        return full_tag
+    html_out = re.sub(r'<a[^>]*href="https?://www\.google\.com/url\?[^"]*"[^>]*>', unwrap_google_redirect, html_out)
+
+    # 3. files/index.html: 舊站連結改指新站頁面
+    old_to_new = {
+        'https://sites.google.com/site/lunticdawn/steam-ban-qian-tu-dao-biao-zhong-wen-hua-fang-fa?authuser=0':
+            '../steam/passage-chinese.html',
+        'https://sites.google.com/site/lunticdawn/%E5%89%8D%E9%80%94%E9%81%93%E6%A8%99%E6%94%BB%E7%95%A5?authuser=0':
+            '../passage/',
+        'https://sites.google.com/site/lunticdawn/%E6%9C%AA%E4%BE%86%E4%B9%8B%E6%9B%B8%E3%80%81%E5%89%8D%E9%80%94%E9%81%93%E6%A8%99%E5%8F%8A%E4%BF%A0%E5%AE%A2%E9%81%8Aiii%E5%AF%86%E6%8A%80?authuser=0':
+            '../luna3/cheats.html',
+        'https://sites.google.com/site/lunticdawn/%E4%BF%A0%E5%AE%A2%E9%81%8Aiv%E9%9E%A0%E8%BA%AC%E7%B7%B4%E5%8A%9F%E6%B3%95?authuser=0':
+            '../luna4/exp-farming.html',
+    }
+    for old_url, new_url in old_to_new.items():
+        html_out = html_out.replace(
+            f'href="{old_url}" target="_blank" rel="noopener"',
+            f'href="{new_url}"'
+        )
+
+    return html_out
 
 
 def pre_normalize_old_bbs(md: str) -> str:
@@ -624,10 +668,11 @@ def render_content_page(page: dict, md: str) -> str:
     images_html = ""
     if page.get("images"):
         imgs = []
-        for src, alt in page["images"]:
+        for src, alt, w, h in page["images"]:
             imgs.append(
                 f'  <figure style="margin:1.5em 0">\n'
                 f'    <img src="{html.escape(src)}" alt="{html.escape(alt)}" '
+                f'width="{w}" height="{h}" '
                 f'style="max-width:100%;height:auto;border:1px solid #3a3020;border-radius:4px" loading="lazy">\n'
                 f'    <figcaption class="dim" style="margin-top:0.3em;font-size:0.85em">{html.escape(alt)}</figcaption>\n'
                 f'  </figure>\n'
@@ -862,6 +907,9 @@ def main():
         else:
             print(f"  ⚠️  未知 kind：{page['kind']}")
             continue
+
+        # 清理舊站殘留連結
+        html_out = post_cleanup_old_links(html_out)
 
         out_path.write_text(html_out, encoding="utf-8")
         rel = out_path.relative_to(ROOT)
