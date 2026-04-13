@@ -76,7 +76,6 @@ def build_readme() -> str:
     has_luna3 = check_exists("luna3/index.html")
     has_luna4 = check_exists("luna4/index.html")
     has_steam = check_exists("steam/index.html")
-    has_files = check_exists("files/index.html")
     has_general = check_exists("general/index.html")
     has_sitemap = check_exists("sitemap.xml")
     has_404 = check_exists("404.html")
@@ -101,34 +100,46 @@ def build_readme() -> str:
         games.append(("俠客遊 II (Lunatic Dawn II)", "1996", " + ".join(features)))
 
     if has_luna3 and n_luna3 > 1:
-        games.append(("未來之書 (Lunatic Dawn III)", "1998", f"密技 + 更新檔（{n_luna3} 頁）"))
+        games.append(("未來之書 (Lunatic Dawn: The Book of Futures)", "1998", f"密技（{n_luna3} 頁）"))
     elif has_luna3:
-        games.append(("未來之書 (Lunatic Dawn III)", "1998", "密技 + 更新檔"))
+        games.append(("未來之書 (Lunatic Dawn: The Book of Futures)", "1998", "密技"))
 
     if has_passage and n_passage > 1:
-        games.append(("前途道標 (Lunatic Dawn Passage)", "1999", f"完整攻略（{n_passage} 頁）"))
+        games.append(("前途道標 (Lunatic Dawn: Passage of The Book)", "1999", f"完整攻略（{n_passage} 頁）"))
     elif has_passage:
-        games.append(("前途道標 (Lunatic Dawn Passage)", "1999", "攻略"))
+        games.append(("前途道標 (Lunatic Dawn: Passage of The Book)", "1999", "攻略"))
 
     if has_luna4 and n_luna4 > 1:
-        games.append(("俠客遊 III (Lunatic Dawn FX)", "2001", f"密技（{n_luna4} 頁）"))
+        games.append(("俠客遊 IV (Lunatic Dawn IV)", "2001", f"密技（{n_luna4} 頁）"))
     elif has_luna4:
-        games.append(("俠客遊 III (Lunatic Dawn FX)", "2001", "密技"))
+        games.append(("俠客遊 IV (Lunatic Dawn IV)", "2001", "密技"))
 
     # 組裝 README
     lines = []
     lines.append("# 俠客遊 · Lunatic Dawn 系列資料站")
     lines.append("")
-    lines.append("> 「吟遊詩人的傳說」— 台灣 DOS 時代 Artdink 經典 RPG 系列的玩家資料庫與工具站")
+    lines.append("> 俠客遊 (Lunatic Dawn) 是由日本 [Artdink](https://www.artdink.com/) 製作、台灣第三波/美商藝電代理的開放世界 RPG。")
     lines.append(">")
-    lines.append("> 由 toni（@toniLiuMVP）維護 — 接續 2004 年 GameBase 遊戲基地與巴哈姆特俠客遊討論板的時代遺產")
+    lines.append("> 由 toni（@toniLiuMVP）維護 — 接續 2000 年 GameBase 遊戲基地與巴哈姆特俠客遊討論板的時代遺產")
     lines.append("")
 
-    lines.append("🎮 **請先至 Steam 購買正版遊戲支持原作**")
-    lines.append("- [俠客遊 II / III](https://store.steampowered.com/app/338070/)")
-    lines.append("- [前途道標](https://store.steampowered.com/app/335420/)")
+    lines.append("🎮 **請先至 [Steam Artdink 專區](https://store.steampowered.com/developer/artdink)購買正版遊戲支持原作**")
     lines.append("")
     lines.append("---")
+    lines.append("")
+
+    # 系列年表
+    lines.append("## 📜 俠客遊系列年表")
+    lines.append("")
+    lines.append("| 年份 | 原名 | 中文名 | 代理 |")
+    lines.append("|------|------|--------|------|")
+    lines.append("| 1993 | Lunatic Dawn | 俠客遊 | 日本 [Artdink](https://www.artdink.com/) 發行 |")
+    lines.append("| 1996 | Lunatic Dawn II | 俠客遊 II | 台灣第三波 |")
+    lines.append("| 1998 | Lunatic Dawn: The Book of Futures | 俠客遊：未來之書 | 台灣第三波 |")
+    lines.append("| 1999 | Lunatic Dawn: Passage of The Book | 俠客遊：前途道標 | 台灣第三波 |")
+    lines.append("| 2000 | Lunatic Dawn III | 俠客遊 III | 台灣第三波 |")
+    lines.append("| 2001 | Lunatic Dawn IV | 俠客遊 IV | 台灣第三波 |")
+    lines.append("| 2002 | Lunatic Dawn: The Third Book | 俠客遊：第三之書 | 台灣美商藝電 |")
     lines.append("")
 
     # 涵蓋表
@@ -146,7 +157,7 @@ def build_readme() -> str:
     if has_save_editor:
         lines.append("- **[俠客遊 II 存檔修改器](./luna2/save-editor.html)** — 瀏覽器版，純 HTML+JS，拖入 LUNACHAR.SAV 即改，160 個角色槽")
     if n_guides > 0:
-        lines.append(f"- **[俠客遊 II 完整攻略](./luna2/guides/)** — 整合 2004-2008 年社群前輩心血（{n_guides} 篇）")
+        lines.append(f"- **[俠客遊 II 完整攻略](./luna2/guides/)** — 整合社群前輩心血（{n_guides} 篇）")
     if has_ez:
         lines.append("- **[懶人包（Luna2_EZ）](./luna2/ez/)** — 內建 DOSBox Staging，解壓即玩，支援 Mac / Windows / Linux")
     if has_launcher:
@@ -155,8 +166,6 @@ def build_readme() -> str:
         lines.append("- **[前途道標攻略](./passage/)** — 1999 年 BBS 時代原創攻略（小蜜蜂 / 小傑 / Ertai）")
     if has_luna3:
         lines.append("- **[未來之書密技](./luna3/)** — 未來之書 + 前途道標 + 俠客遊 III 密技彙整")
-    if has_files:
-        lines.append("- **[檔案庫](./files/)** — 修正檔、工具、更新檔下載")
     if has_steam:
         lines.append("- **[Steam 購買指南](./steam/)** — Steam 版購買說明")
     if has_general:
@@ -186,7 +195,7 @@ def build_readme() -> str:
         lines.append("")
 
     # 致謝
-    lines.append("## 🙏 致謝（2004-2008 GameBase / 巴哈姆特討論板前輩）")
+    lines.append("## 🙏 致謝（GameBase 遊戲基地 / 巴哈姆特討論板前輩）")
     lines.append("")
     lines.append("| 貢獻 | 作者 |")
     lines.append("|------|------|")

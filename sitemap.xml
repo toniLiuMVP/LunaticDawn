@@ -25,7 +25,7 @@
   <url><loc>https://toniliumvp.github.io/LunaticDawn/passage/advanced.html</loc><priority>0.6</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/passage/treasure-hunter.html</loc><priority>0.6</priority></url>
 
-  <!-- 俠客遊 III -->
+  <!-- 未來之書 + 俠客遊 III 密技 -->
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna3/</loc><priority>0.6</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna3/cheats.html</loc><priority>0.5</priority></url>
 
@@ -43,6 +43,6 @@
   <url><loc>https://toniliumvp.github.io/LunaticDawn/general/encoding-faq.html</loc><priority>0.5</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/general/community.html</loc><priority>0.5</priority></url>
 
-  <!-- 檔案下載 -->
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/files/</loc><priority>0.5</priority></url>
+  <!-- 俠客遊 III sitemap 註解更正 -->
+  <!-- luna3/ 目錄存放的是「未來之書」(1998) + 俠客遊 III 密技 -->
 </urlset>
