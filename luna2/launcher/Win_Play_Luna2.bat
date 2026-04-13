@@ -2,7 +2,7 @@
 REM ============================================================
 REM  俠客遊 II (Lunatic Dawn II) · Windows 啟動腳本
 REM  吟遊詩人的傳說 · 俠客遊小站
-REM  https://tonilumvp.github.io/LunaticDawn/
+REM  https://toniliumvp.github.io/LunaticDawn/
 REM
 REM  使用方式：
 REM    1. 把此檔案 + dosbox-x.conf 放在和 LUNA2.EXE 同一個資料夾
@@ -22,7 +22,7 @@ set "GAME_DIR=%CD%"
 
 echo ============================================================
 echo   吟遊詩人的傳說 · 俠客遊 II 啟動器
-echo   https://tonilumvp.github.io/LunaticDawn/
+echo   https://toniliumvp.github.io/LunaticDawn/
 echo ============================================================
 echo.
 
@@ -69,7 +69,7 @@ if not exist "%GAME_DIR%\dosbox-x.conf" (
     echo     目前路徑：%GAME_DIR%
     echo.
     echo     請從吟遊詩人的傳說 · 俠客遊小站下載 dosbox-x.conf：
-    echo       https://tonilumvp.github.io/LunaticDawn/luna2/launcher/
+    echo       https://toniliumvp.github.io/LunaticDawn/luna2/launcher/
     echo.
     pause
     exit /b 1
