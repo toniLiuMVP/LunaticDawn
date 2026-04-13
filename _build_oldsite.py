@@ -329,6 +329,12 @@ def post_cleanup_old_links(html_out: str) -> str:
             f'href="{new_url}"'
         )
 
+    # 4. 清除殘留的 Google Sites 追蹤參數尾綴（&sa=D&sntz=1&usg=...）
+    html_out = re.sub(
+        r'&amp;sa=D&amp;sntz=\d&amp;usg=[A-Za-z0-9_-]+',
+        '', html_out
+    )
+
     return html_out
 
 
