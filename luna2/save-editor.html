@@ -486,6 +486,7 @@ footer .footer-note { margin-top: 8px; color: var(--phosphor-fade); }
 <meta property="og:title" content="俠客遊 II 存檔修改器 · 吟遊詩人的傳說">
 <meta property="og:description" content="俠客遊 II (Lunatic Dawn II) 瀏覽器版存檔修改器，跨 macOS / Windows / Linux，由 toni 維護。">
 <meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/luna2/save-editor.html">
+<meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
 <meta name="google-site-verification" content="aQwPgW1H0N4XYMg0Q_takJ0SxDPnRbwyRpinPZjbbJA">
 </head>
@@ -504,6 +505,8 @@ footer .footer-note { margin-top: 8px; color: var(--phosphor-fade); }
   </div>
 </header>
 
+<main>
+
 <!-- ============ DROP ZONE ============ -->
 <div id="drop-zone">
   <div class="ascii-art">╔══════════════════════════════════════════╗
@@ -516,39 +519,42 @@ footer .footer-note { margin-top: 8px; color: var(--phosphor-fade); }
   <p class="hint hint-top">[ 檔案通常在 LUNA2/USER0 ~ USER9/LUNACHAR.SAV ]</p>
   <p class="hint warn">※ 注意：USER0 = 遊戲內「存檔 1」，USER9 = 「存檔 10」（資料夾編號比遊戲顯示少 1）</p>
   <p class="hint muted">※ 所有解析在你的瀏覽器本地完成，不會上傳任何檔案。</p>
-  <input type="file" id="file-input" accept=".sav,.SAV">
+  <label for="file-input" class="sr-only">選擇 LUNACHAR.SAV 存檔</label>
+<input type="file" id="file-input" accept=".sav,.SAV" aria-describedby="file-hint">
 </div>
 
 <!-- ============ MAIN APP ============ -->
 <div id="app">
   <aside class="panel" id="char-list-panel">
-    <div class="panel-title">[ CHARACTERS ]</div>
-    <div class="char-filter">
+    <h2 class="panel-title">[ CHARACTERS ]</h2>
+    <div class="char-filter" role="group" aria-label="角色篩選">
       <button data-filter="alive" class="active">僅在生</button>
       <button data-filter="all">全部 160</button>
     </div>
-    <ul id="char-list"></ul>
+    <ul id="char-list" aria-label="角色列表"></ul>
   </aside>
 
-  <main class="panel" id="editor-panel">
-    <div class="panel-title">[ EDITOR ]</div>
+  <section class="panel" id="editor-panel" role="region" aria-label="角色編輯器">
+    <h2 class="panel-title">[ EDITOR ]</h2>
     <div id="editor-content"></div>
-  </main>
+  </section>
 
   <aside class="panel" id="hex-view-panel">
-    <div class="panel-title">[ HEX VIEW · 192 BYTES ]</div>
+    <h2 class="panel-title">[ HEX VIEW · 192 BYTES ]</h2>
     <div id="hex-view"></div>
   </aside>
 </div>
 
 <!-- ============ BOTTOM BAR ============ -->
 <div id="bottom-bar">
-  <div id="status">準備就緒</div>
+  <div id="status" aria-live="polite">準備就緒</div>
   <button class="btn btn-amber" id="btn-reset">↺ 重新載入原檔</button>
   <button class="btn" id="btn-download">▼ 下載修改後的 LUNACHAR.SAV</button>
 </div>
 
 <!-- ============ FOOTER ============ -->
+</main>
+
 <footer>
   <div>
     遇到問題、需要攻略、物品代碼、角色資料？
@@ -796,6 +802,18 @@ function initCharFilter() {
   });
 }
 
+function initCharListDelegate() {
+  // 事件委派：只在 <ul> 上放一個 listener，不隨重繪累積
+  document.getElementById('char-list').addEventListener('click', (e) => {
+    const li = e.target.closest('li[data-idx]');
+    if (!li) return;
+    state.currentIdx = Number(li.dataset.idx);
+    renderCharList();
+    renderEditor();
+    renderHexView();
+  });
+}
+
 function renderCharList() {
   const list = document.getElementById('char-list');
   clearChildren(list);
@@ -805,32 +823,22 @@ function renderCharList() {
     if (state.filter === 'alive' && !alive) continue;
 
     const li = document.createElement('li');
+    li.dataset.idx = i;
     if (!alive) li.classList.add('empty');
     if (i === state.currentIdx) li.classList.add('active');
 
-    const idxSpan = el('span', {
+    li.appendChild(el('span', {
       className: 'char-idx',
       text: String(i).padStart(3, '0'),
-    });
-    const nameSpan = el('span', {
+    }));
+    li.appendChild(el('span', {
       className: 'char-name',
       text: alive ? (readName(i) || '(無名)') : '[空]',
-    });
-    const mainSpan = el('span', {
+    }));
+    li.appendChild(el('span', {
       className: 'char-main-flag',
       text: isMain(i) ? '★主' : '',
-    });
-
-    li.appendChild(idxSpan);
-    li.appendChild(nameSpan);
-    li.appendChild(mainSpan);
-
-    li.addEventListener('click', () => {
-      state.currentIdx = i;
-      renderCharList();
-      renderEditor();
-      renderHexView();
-    });
+    }));
 
     list.appendChild(li);
   }
@@ -1175,6 +1183,7 @@ function initActionButtons() {
 document.addEventListener('DOMContentLoaded', () => {
   initFileLoading();
   initCharFilter();
+  initCharListDelegate();
   initActionButtons();
 
   console.log('%c俠客遊 II SAVE EDITOR v0.1',

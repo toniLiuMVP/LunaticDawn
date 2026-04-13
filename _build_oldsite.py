@@ -548,6 +548,7 @@ BASE_HEAD = """<!DOCTYPE html>
 <meta property="og:title" content="{title} · 吟遊詩人的傳說">
 <meta property="og:description" content="{meta_desc}">
 <meta property="og:url" content="{og_url}">
+<meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
 <meta name="google-site-verification" content="aQwPgW1H0N4XYMg0Q_takJ0SxDPnRbwyRpinPZjbbJA">
 </head>
@@ -565,9 +566,13 @@ BASE_HEAD = """<!DOCTYPE html>
 {header_right_extra}    </div>
   </div>
 </header>
+
+<main>
 """
 
 BASE_FOOT = """
+</main>
+
 <footer class="site-footer">
   <div>
     所有 1999-2000 年原創內容版權屬於各原作者；如需引用請參考頁首的引用規則。
@@ -614,7 +619,7 @@ def render_content_page(page: dict, md: str) -> str:
 
     content_section = (
         f'<section class="panel">\n'
-        f'  <div class="panel-title">[ {html.escape(page["title"].upper())} ]</div>\n'
+        f'  <h2 class="panel-title">[ {html.escape(page["title"].upper())} ]</h2>\n'
         f'  {attribution_html}'
         f'  <div class="prose">\n{body_html}\n  </div>\n'
         f'</section>\n'
@@ -622,7 +627,7 @@ def render_content_page(page: dict, md: str) -> str:
 
     nav_section = f'''
 <section class="panel">
-  <div class="panel-title">[ NAVIGATION ]</div>
+  <h2 class="panel-title">[ NAVIGATION ]</h2>
   <p>
     <a href="{page["subsite_index"]}">◀ 回 {page["subsite"]} 索引</a> ·
     <a href="../">▸ 主站</a> ·
@@ -657,14 +662,14 @@ def render_subsite_index(page: dict) -> str:
 
     about_section = (
         f'<section class="panel">\n'
-        f'  <div class="panel-title">[ ABOUT ]</div>\n'
+        f'  <h2 class="panel-title">[ ABOUT ]</h2>\n'
         f'  <p class="amber">{html.escape(page["tagline"])}</p>\n'
         f'  <p>{html.escape(page["desc"])}</p>\n'
         f'</section>\n'
     )
 
     # 卡片清單
-    cards_html = '<section class="panel">\n  <div class="panel-title">[ CONTENT ]</div>\n'
+    cards_html = '<section class="panel">\n  <h2 class="panel-title">[ CONTENT ]</h2>\n'
     cards_html += f'  <h2>{html.escape(page["title"])}頁面</h2>\n'
     cards_html += '  <div class="card-grid">\n'
     for href, title, desc, meta in page["cards"]:
@@ -679,7 +684,7 @@ def render_subsite_index(page: dict) -> str:
 
     nav_section = '''
 <section class="panel">
-  <div class="panel-title">[ NAVIGATION ]</div>
+  <h2 class="panel-title">[ NAVIGATION ]</h2>
   <p>
     <a href="../">◀ 主站</a> ·
     <a href="../files/">▸ 檔案庫</a> ·
@@ -717,7 +722,7 @@ def render_files_index(page: dict, md: str) -> str:
 
     drive_section = (
         '<section class="panel">\n'
-        '  <div class="panel-title">[ GOOGLE DRIVE · 最新版 ]</div>\n'
+        '  <h2 class="panel-title">[ GOOGLE DRIVE · 最新版 ]</h2>\n'
         '  <p class="amber">由 toni 2019-2023 年持續維護的最新版本</p>\n'
         '  <p class="muted">⭐ 所有 Google Drive 連結都是原舊站檔案庫頁的直接抄本，'
         '請保持以下幾點以避免遊戲問題：</p>\n'
@@ -734,7 +739,7 @@ def render_files_index(page: dict, md: str) -> str:
 
     nav_section = '''
 <section class="panel">
-  <div class="panel-title">[ NAVIGATION ]</div>
+  <h2 class="panel-title">[ NAVIGATION ]</h2>
   <p>
     <a href="../">◀ 主站</a> ·
     <a href="../passage/">▸ 前途道標</a> ·
@@ -766,7 +771,7 @@ def build_local_attachments_section() -> str:
     ]
     out = [
         '<section class="panel">\n'
-        '  <div class="panel-title">[ HISTORICAL ATTACHMENTS · 1998-2007 ]</div>\n'
+        '  <h2 class="panel-title">[ HISTORICAL ATTACHMENTS · 1998-2007 ]</h2>\n'
         '  <p class="amber">44 個從 Google Sites Classic 匯出的歷史附件</p>\n'
         '  <p class="muted">這些都是舊站 2010-2023 年間保存的原始檔案，'
         '檔名保留原樣（含大小寫、空白、甚至 .7z.7z 雙副檔名）作為歷史考證。'

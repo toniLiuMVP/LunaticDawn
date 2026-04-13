@@ -163,6 +163,7 @@ TEMPLATE = """<!DOCTYPE html>
 <meta property="og:title" content="{title} · 俠客遊 II · 吟遊詩人的傳說">
 <meta property="og:description" content="{meta_desc}">
 <meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/luna2/guides/{out}">
+<meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
 <meta name="google-site-verification" content="aQwPgW1H0N4XYMg0Q_takJ0SxDPnRbwyRpinPZjbbJA">
 </head>
@@ -182,6 +183,8 @@ TEMPLATE = """<!DOCTYPE html>
   </div>
 </header>
 
+<main>
+
 <div class="breadcrumb">
   <a href="../../">吟遊詩人的傳說</a> /
   <a href="../../">俠客遊 II</a> /
@@ -190,18 +193,18 @@ TEMPLATE = """<!DOCTYPE html>
 </div>
 
 <section class="panel">
-  <div class="panel-title">[ {author_tag} ]</div>
+  <h2 class="panel-title">[ {author_tag} ]</h2>
   <p>{intro}</p>
   <p class="muted">原作者：{author} · 整理：2004-2008 GameBase / 巴哈姆特社群 · 重建：toni 2026</p>
 </section>
 
 <section class="panel">
-  <div class="panel-title">[ CONTENT · {byte_count} BYTES ]</div>
+  <h2 class="panel-title">[ CONTENT · {byte_count} BYTES ]</h2>
   <pre class="raw-text">{content}</pre>
 </section>
 
 <section class="panel">
-  <div class="panel-title">[ NAVIGATION ]</div>
+  <h2 class="panel-title">[ NAVIGATION ]</h2>
   <p>
     <a href="./">◀ 回攻略索引</a> ·
     <a href="../save-editor.html">▸ 存檔修改器</a> ·
@@ -212,6 +215,8 @@ TEMPLATE = """<!DOCTYPE html>
     需要其他攻略？請回<a href="./">攻略索引</a>查看全部 9 篇文件。
   </p>
 </section>
+
+</main>
 
 <footer class="site-footer">
   <div>所有攻略文件版權屬於原作者。本站僅為數位文化遺產保存目的整理展示。</div>
@@ -279,7 +284,11 @@ def build_guide(guide):
         if not path.exists():
             print(f"  ⚠️  找不到來源檔：{path}")
             continue
-        raw = path.read_text(encoding="utf-8")
+        try:
+            raw = path.read_text(encoding="utf-8")
+        except UnicodeDecodeError as e:
+            print(f"  ⚠️  編碼錯誤（非 UTF-8）：{path} — {e}")
+            raw = path.read_text(encoding="utf-8", errors="replace")
         total_bytes += path.stat().st_size
         # 多檔時用分隔線分開
         if len(guide["source_files"]) > 1:
