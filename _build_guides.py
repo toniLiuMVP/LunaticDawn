@@ -305,11 +305,17 @@ def build_guide(guide):
     # HTML escape（防止 < > & 被當成 tag）
     content_escaped = html.escape(content_raw)
 
-    # 產生 meta description（取 intro 的純文字前 150 字）
+    # 產生 meta description（取 intro 的純文字，在 155 字以內的最後句號或逗號處斷開）
     # 為了安全，移除所有 HTML tag
     intro_plain = re.sub(r"<[^>]+>", "", guide["intro"])
     intro_plain = intro_plain.replace('"', "'").strip()
-    meta_desc = intro_plain[:150]
+    meta_desc = intro_plain[:155]
+    # 避免切在字的中間：往回找最近的句號、逗號或句點
+    for sep in ("。", "，", "、", ".", ",", " "):
+        pos = meta_desc.rfind(sep)
+        if pos > 80:  # 至少保留 80 字
+            meta_desc = meta_desc[:pos + 1]
+            break
 
     # 填模板
     html_out = TEMPLATE.format(

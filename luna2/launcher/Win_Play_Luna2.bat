@@ -76,22 +76,23 @@ if not exist "%GAME_DIR%\dosbox-x.conf" (
 )
 
 REM 檢查路徑是否包含非 ASCII 字元（中文等）
-echo %GAME_DIR%| findstr /r "[^\x00-\x7F]" >nul 2>&1
 set "HAS_UNICODE=0"
 for /f "delims=" %%a in ('echo %GAME_DIR%^| findstr /r /c:"[^A-Za-z0-9_\\.:/\\-]"') do set "HAS_UNICODE=1"
-if "%HAS_UNICODE%"=="1" (
-    echo [!] 警告：遊戲路徑可能包含中文或特殊字元
-    echo     目前路徑：%GAME_DIR%
-    echo.
-    echo     DOSBox 可能無法正確掛載含中文的路徑。
-    echo     建議搬到純英文路徑，例如：
-    echo       D:\Games\Luna2\
-    echo       C:\Users\你的帳號\Games\Luna2\
-    echo.
-    set /p "REPLY=仍要繼續嗎？[y/N] "
-    if /i not "%REPLY%"=="y" exit /b 0
-    echo.
-)
+if "%HAS_UNICODE%"=="1" goto :unicode_warn
+goto :unicode_ok
+:unicode_warn
+echo [!] 警告：遊戲路徑可能包含中文或特殊字元
+echo     目前路徑：%GAME_DIR%
+echo.
+echo     DOSBox 可能無法正確掛載含中文的路徑。
+echo     建議搬到純英文路徑，例如：
+echo       D:\Games\Luna2\
+echo       C:\Users\你的帳號\Games\Luna2\
+echo.
+set /p "REPLY=仍要繼續嗎？[y/N] "
+if /i not "%REPLY%"=="y" exit /b 0
+echo.
+:unicode_ok
 
 echo [OK] DOSBox-X：%DOSBOX%
 echo [OK] 遊戲路徑：%GAME_DIR%
