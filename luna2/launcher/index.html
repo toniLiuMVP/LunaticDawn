@@ -76,6 +76,7 @@ td.highlight { color: var(--heading); font-weight: 700; }
 <meta property="og:title" content="跨平台啟動器 · 俠客遊 II · 吟遊詩人的傳說">
 <meta property="og:description" content="俠客遊 II (Lunatic Dawn II) 跨平台啟動器——自己裝 DOSBox-X + GM MIDI 高品質音樂。Mac .command + Windows .bat + Linux .sh，2026 年在現代系統上一鍵啟動 1996 年的 DOS 遊戲。">
 <meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/luna2/launcher/">
+<meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
 <meta name="google-site-verification" content="aQwPgW1H0N4XYMg0Q_takJ0SxDPnRbwyRpinPZjbbJA">
 </head>
@@ -95,6 +96,8 @@ td.highlight { color: var(--heading); font-weight: 700; }
   </div>
 </header>
 
+<main>
+
 <div class="breadcrumb">
   <a href="../../">吟遊詩人的傳說</a> /
   <a href="../../">俠客遊 II</a> /
@@ -103,7 +106,7 @@ td.highlight { color: var(--heading); font-weight: 700; }
 
 <!-- ==================== ABOUT ==================== -->
 <section class="panel">
-  <div class="panel-title">[ ABOUT ]</div>
+  <h2 class="panel-title">[ ABOUT ]</h2>
   <p>
     <span class="amber">俠客遊 II</span> 是 1996 年的 DOS 遊戲。原本要在 macOS / Windows 11 /
     Linux 上跑起來，得自己裝 DOSBox、改 <span class="code-inline">config.sys</span>、
@@ -124,7 +127,7 @@ td.highlight { color: var(--heading); font-weight: 700; }
 
 <!-- ==================== STEP 1 ==================== -->
 <section class="panel">
-  <div class="panel-title">[ STEP 1 · 安裝 DOSBOX-X ]</div>
+  <h2 class="panel-title">[ STEP 1 · 安裝 DOSBOX-X ]</h2>
   <p>DOSBox-X 是 DOSBox 的進階分支，對 1996 年繁中遊戲的相容性最好——支援 Big5 顯示、完整的 EMS/UMB/HIMEM 模擬、SVGA 模式，而且<span class="amber">對 MIDPAK/DIGPAK 音效 TSR 驅動的相容性比 DOSBox Staging 更好</span>，能正常使用 GM MIDI 音樂。</p>
 
   <h3>macOS</h3>
@@ -151,7 +154,7 @@ sudo pacman -S dosbox-x
 
 <!-- ==================== STEP 2 ==================== -->
 <section class="panel">
-  <div class="panel-title">[ STEP 2 · 下載啟動器 ]</div>
+  <h2 class="panel-title">[ STEP 2 · 下載啟動器 ]</h2>
   <p>
     下載 <span class="code-inline">dosbox-x.conf</span>（必備）+ 你 OS 對應的啟動器
     （Mac 下載 .command，Windows 下載 .bat，Linux 下載 .sh）。
@@ -181,7 +184,7 @@ sudo pacman -S dosbox-x
 
 <!-- ==================== STEP 3 ==================== -->
 <section class="panel">
-  <div class="panel-title">[ STEP 3 · 放進遊戲資料夾並執行 ]</div>
+  <h2 class="panel-title">[ STEP 3 · 放進遊戲資料夾並執行 ]</h2>
 
   <div class="step">
     <span class="step-num">3.1</span>
@@ -231,7 +234,7 @@ sudo pacman -S dosbox-x
 
 <!-- ==================== STEP 4: SOUND ==================== -->
 <section class="panel">
-  <div class="panel-title">[ STEP 4 · 音效設定（推薦 GM MIDI）]</div>
+  <h2 class="panel-title">[ STEP 4 · 音效設定（推薦 GM MIDI）]</h2>
   <p>
     俠客遊 II 支援多種音效模式。本啟動器推薦使用
     <span class="amber">GM MIDI（General MIDI）</span>——音質最好的模式，
@@ -294,7 +297,7 @@ LH M\SB16.COM</pre>
 
 <!-- ==================== HOTKEYS ==================== -->
 <section class="panel">
-  <div class="panel-title">[ 快捷鍵速查 ]</div>
+  <h2 class="panel-title">[ 快捷鍵速查 ]</h2>
   <table>
     <thead>
       <tr><th>按鍵</th><th>功能</th></tr>
@@ -312,7 +315,7 @@ LH M\SB16.COM</pre>
 
 <!-- ==================== FAQ ==================== -->
 <section class="panel">
-  <div class="panel-title">[ 常見問題與排除 ]</div>
+  <h2 class="panel-title">[ 常見問題與排除 ]</h2>
 
   <h3>Q1. 為什麼要用 DOSBox-X 而不是 DOSBox？</h3>
   <p>
@@ -388,7 +391,7 @@ xattr -d com.apple.quarantine Mac_Play_Luna2.command</pre>
 
 <!-- ==================== TECH DETAILS ==================== -->
 <section class="panel">
-  <div class="panel-title">[ 技術細節 ]</div>
+  <h2 class="panel-title">[ 技術細節 ]</h2>
   <p>對技術有興趣的人可以看。</p>
 
   <h3>dosbox-x.conf 做了什麼？</h3>
@@ -492,7 +495,7 @@ xattr -d com.apple.quarantine Mac_Play_Luna2.command</pre>
 
 <!-- ==================== NAVIGATION ==================== -->
 <section class="panel">
-  <div class="panel-title">[ NAVIGATION ]</div>
+  <h2 class="panel-title">[ NAVIGATION ]</h2>
   <p>
     <a href="../../">◀ 回主站</a> ·
     <a href="../ez/">▸ Luna2_EZ 懶人包</a> ·
@@ -500,6 +503,8 @@ xattr -d com.apple.quarantine Mac_Play_Luna2.command</pre>
     <a href="../save-editor.html">▸ 存檔修改器</a>
   </p>
 </section>
+
+</main>
 
 <footer class="site-footer">
   <div>DOSBox-X 是由 joncampbell123 等人維護的 open-source 專案，GPL-2.0 授權。</div>
