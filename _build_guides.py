@@ -157,10 +157,14 @@ TEMPLATE = """<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title} · 俠客遊 II · 吟遊詩人的傳說</title>
 <meta name="description" content="{meta_desc}">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/fonts-wuxia.css">
 <link rel="stylesheet" href="../../assets/css/wuxia.css">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{title} · 俠客遊 II · 吟遊詩人的傳說">
+<meta property="og:description" content="{meta_desc}">
+<meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/luna2/guides/{out}">
+<meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
+<meta name="google-site-verification" content="aQwPgW1H0N4XYMg0Q_takJ0SxDPnRbwyRpinPZjbbJA">
 </head>
 <body class="guide-page">
 <div class="wrap">
@@ -306,6 +310,7 @@ def build_guide(guide):
         author_tag=guide["author_tag"],
         intro=guide["intro"],
         meta_desc=meta_desc,
+        out=guide["out"],
         content=content_escaped,
         byte_count=f"{total_bytes:,}",
     )

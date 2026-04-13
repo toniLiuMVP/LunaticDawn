@@ -274,7 +274,8 @@ def md_inline(text: str) -> str:
     def linkify(m):
         link_text = m.group(1)
         url = m.group(2)
-        # escape 後的 & 要處理
+        if url.lower().startswith(("javascript:", "data:", "vbscript:")):
+            return link_text
         url_attr = url.replace('"', "&quot;")
         external = not url.startswith(("#", "./", "../", "/", "mailto:"))
         extra = ' target="_blank" rel="noopener"' if external and url.startswith("http") else ""
@@ -541,10 +542,14 @@ BASE_HEAD = """<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title} · 吟遊詩人的傳說</title>
 <meta name="description" content="{meta_desc}">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/fonts-wuxia.css">
 <link rel="stylesheet" href="../assets/css/wuxia.css">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{title} · 吟遊詩人的傳說">
+<meta property="og:description" content="{meta_desc}">
+<meta property="og:url" content="{og_url}">
+<meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
+<meta name="google-site-verification" content="aQwPgW1H0N4XYMg0Q_takJ0SxDPnRbwyRpinPZjbbJA">
 </head>
 <body>
 <div class="wrap">
@@ -626,10 +631,12 @@ def render_content_page(page: dict, md: str) -> str:
 </section>
 '''
 
+    og_url = f"https://toniliumvp.github.io/LunaticDawn/{page['out']}"
     head = BASE_HEAD.format(
         title=html.escape(page["title"]),
         subtitle=html.escape(page["subtitle"]),
         meta_desc=html.escape(meta_desc),
+        og_url=og_url,
         header_right_extra=header_right_extra,
     )
 
@@ -681,10 +688,12 @@ def render_subsite_index(page: dict) -> str:
 </section>
 '''
 
+    og_url = f"https://toniliumvp.github.io/LunaticDawn/{page['out']}"
     head = BASE_HEAD.format(
         title=html.escape(page["title"]),
         subtitle=html.escape(page["subtitle"]),
         meta_desc=html.escape(meta_desc),
+        og_url=og_url,
         header_right_extra=header_right_extra,
     )
 
@@ -734,10 +743,12 @@ def render_files_index(page: dict, md: str) -> str:
 </section>
 '''
 
+    og_url = f"https://toniliumvp.github.io/LunaticDawn/{page['out']}"
     head = BASE_HEAD.format(
         title=html.escape(page["title"]),
         subtitle=html.escape(page["subtitle"]),
         meta_desc=html.escape(meta_desc),
+        og_url=og_url,
         header_right_extra=header_right_extra,
     )
 
