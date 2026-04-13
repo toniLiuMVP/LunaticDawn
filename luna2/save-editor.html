@@ -772,9 +772,12 @@ async function loadFile(file) {
   state.fileName = file.name;
   state.dirty = false;
 
+  // 計算實際可用角色數（防止非標準大小檔案溢出）
+  state.charCount = Math.min(MAX_CHARS, Math.floor(buf.length / CHAR_SIZE));
+
   // 預設選中第一個在生角色（通常是主角）
   state.currentIdx = 0;
-  for (let i = 0; i < MAX_CHARS; i++) {
+  for (let i = 0; i < state.charCount; i++) {
     if (isAlive(i)) { state.currentIdx = i; break; }
   }
 
@@ -818,7 +821,8 @@ function renderCharList() {
   const list = document.getElementById('char-list');
   clearChildren(list);
 
-  for (let i = 0; i < MAX_CHARS; i++) {
+  const count = state.charCount || MAX_CHARS;
+  for (let i = 0; i < count; i++) {
     const alive = isAlive(i);
     if (state.filter === 'alive' && !alive) continue;
 

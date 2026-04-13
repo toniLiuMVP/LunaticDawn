@@ -5,6 +5,7 @@
 """
 
 import html
+import re
 from pathlib import Path
 
 # 專案路徑
@@ -306,18 +307,17 @@ def build_guide(guide):
 
     # 產生 meta description（取 intro 的純文字前 150 字）
     # 為了安全，移除所有 HTML tag
-    import re
     intro_plain = re.sub(r"<[^>]+>", "", guide["intro"])
     intro_plain = intro_plain.replace('"', "'").strip()
     meta_desc = intro_plain[:150]
 
     # 填模板
     html_out = TEMPLATE.format(
-        title=guide["title"],
-        subtitle=guide["subtitle"],
-        author=guide["author"],
-        author_tag=guide["author_tag"],
-        intro=guide["intro"],
+        title=html.escape(guide["title"]),
+        subtitle=html.escape(guide["subtitle"]),
+        author=html.escape(guide["author"]),
+        author_tag=html.escape(guide["author_tag"]),
+        intro=guide["intro"],  # intro 包含 HTML 標籤，不 escape
         meta_desc=meta_desc,
         out=guide["out"],
         content=content_escaped,

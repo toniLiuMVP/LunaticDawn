@@ -2,7 +2,7 @@
 # ============================================================
 #  俠客遊 II (Lunatic Dawn II) · Linux 啟動腳本
 #  吟遊詩人的傳說 · 俠客遊小站
-#  https://tonilumvp.github.io/LunaticDawn/
+#  https://toniliumvp.github.io/LunaticDawn/
 #
 #  使用方式：
 #    1. 把此檔案 + dosbox-x.conf 放在和 LUNA2.EXE 同一個資料夾
@@ -24,7 +24,7 @@ GAME_DIR="$(pwd)"
 
 echo "============================================================"
 echo "  吟遊詩人的傳說 · 俠客遊 II 啟動器"
-echo "  https://tonilumvp.github.io/LunaticDawn/"
+echo "  https://toniliumvp.github.io/LunaticDawn/"
 echo "============================================================"
 echo
 
@@ -79,7 +79,7 @@ if [ ! -f "$GAME_DIR/dosbox-x.conf" ]; then
     echo "  目前路徑：$GAME_DIR"
     echo
     echo "  請從吟遊詩人的傳說 · 俠客遊小站下載 dosbox-x.conf："
-    echo "    https://tonilumvp.github.io/LunaticDawn/luna2/launcher/"
+    echo "    https://toniliumvp.github.io/LunaticDawn/luna2/launcher/"
     echo
     read -p "按 Enter 結束 ..." dummy
     exit 1
