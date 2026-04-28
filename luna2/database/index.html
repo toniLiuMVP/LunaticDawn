@@ -194,6 +194,72 @@
     </p>
   </section>
 
+  <section style="margin-top: 32px; border: 2px solid var(--phosphor-dim); background: var(--bg-panel); padding: 16px 20px;">
+    <h2 style="font-size: 18px; color: var(--amber); font-family: 'Press Start 2P', monospace; margin-bottom: 12px;">▸ SPRITE GALLERY (BETA)</h2>
+    <p style="font-size: 14px; color: var(--phosphor-dim); margin-bottom: 16px;">
+      <code>.DDT</code> 圖像格式部分逆向：mode 2 (4-bit EGA 4-plane separate) 已成功解碼。
+      header: filename(12B) + reserved(12B) + mode(u16) + width(u16) + height(u16) + reserved(u16)。
+      pixel layout: data = plane0全部 + plane1全部 + plane2全部 + plane3全部，每像素顏色 = bit0 | bit1≪1 | bit2≪2 | bit3≪3。
+    </p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 8px; align-items: end;">
+      <figure style="margin: 0; text-align: center;">
+        <img src="sprites/KEN00.png" alt="劍 frame 0" style="width: 64px; height: 64px; image-rendering: pixelated; border: 1px solid var(--phosphor-fade); background: #1a0a0a;">
+        <figcaption style="font-size: 10px; color: var(--phosphor-dim);">KEN00</figcaption>
+      </figure>
+      <figure style="margin: 0; text-align: center;">
+        <img src="sprites/KEN01.png" alt="劍 frame 1" style="width: 64px; height: 64px; image-rendering: pixelated; border: 1px solid var(--phosphor-fade); background: #1a0a0a;">
+        <figcaption style="font-size: 10px; color: var(--phosphor-dim);">KEN01</figcaption>
+      </figure>
+      <figure style="margin: 0; text-align: center;">
+        <img src="sprites/KEN02.png" alt="劍 frame 2" style="width: 64px; height: 64px; image-rendering: pixelated; border: 1px solid var(--phosphor-fade); background: #1a0a0a;">
+        <figcaption style="font-size: 10px; color: var(--phosphor-dim);">KEN02</figcaption>
+      </figure>
+      <figure style="margin: 0; text-align: center;">
+        <img src="sprites/KEN03.png" alt="劍 frame 3" style="width: 64px; height: 64px; image-rendering: pixelated; border: 1px solid var(--phosphor-fade); background: #1a0a0a;">
+        <figcaption style="font-size: 10px; color: var(--phosphor-dim);">KEN03</figcaption>
+      </figure>
+      <figure style="margin: 0; text-align: center;">
+        <img src="sprites/KEN04.png" alt="劍 frame 4" style="width: 64px; height: 64px; image-rendering: pixelated; border: 1px solid var(--phosphor-fade); background: #1a0a0a;">
+        <figcaption style="font-size: 10px; color: var(--phosphor-dim);">KEN04</figcaption>
+      </figure>
+      <figure style="margin: 0; text-align: center;">
+        <img src="sprites/KEN05.png" alt="劍 frame 5" style="width: 64px; height: 64px; image-rendering: pixelated; border: 1px solid var(--phosphor-fade); background: #1a0a0a;">
+        <figcaption style="font-size: 10px; color: var(--phosphor-dim);">KEN05</figcaption>
+      </figure>
+      <figure style="margin: 0; text-align: center;">
+        <img src="sprites/KEN06.png" alt="劍 frame 6" style="width: 64px; height: 64px; image-rendering: pixelated; border: 1px solid var(--phosphor-fade); background: #1a0a0a;">
+        <figcaption style="font-size: 10px; color: var(--phosphor-dim);">KEN06</figcaption>
+      </figure>
+      <figure style="margin: 0; text-align: center;">
+        <img src="sprites/KEN07.png" alt="劍 frame 7" style="width: 64px; height: 64px; image-rendering: pixelated; border: 1px solid var(--phosphor-fade); background: #1a0a0a;">
+        <figcaption style="font-size: 10px; color: var(--phosphor-dim);">KEN07</figcaption>
+      </figure>
+      <figure style="margin: 0; text-align: center;">
+        <img src="sprites/POS0.png" alt="角色站立" style="width: 64px; height: 64px; image-rendering: pixelated; border: 1px solid var(--phosphor-fade); background: #1a0a0a;">
+        <figcaption style="font-size: 10px; color: var(--phosphor-dim);">POS0 角色</figcaption>
+      </figure>
+      <figure style="margin: 0; text-align: center;">
+        <img src="sprites/POS1.png" alt="角色 2" style="width: 64px; height: 64px; image-rendering: pixelated; border: 1px solid var(--phosphor-fade); background: #1a0a0a;">
+        <figcaption style="font-size: 10px; color: var(--phosphor-dim);">POS1 角色</figcaption>
+      </figure>
+      <figure style="margin: 0; text-align: center;">
+        <img src="sprites/SPOTAMA.png" alt="魔法球" style="width: 64px; height: 64px; image-rendering: pixelated; border: 1px solid var(--phosphor-fade); background: #1a0a0a;">
+        <figcaption style="font-size: 10px; color: var(--phosphor-dim);">SPOTAMA 魔球</figcaption>
+      </figure>
+      <figure style="margin: 0; text-align: center;">
+        <img src="sprites/MESHPL.png" alt="網格紋理" style="width: 64px; height: 64px; image-rendering: pixelated; border: 1px solid var(--phosphor-fade); background: #1a0a0a;">
+        <figcaption style="font-size: 10px; color: var(--phosphor-dim);">MESHPL 紋理</figcaption>
+      </figure>
+      <figure style="margin: 0; text-align: center;">
+        <img src="sprites/RIATCUR.png" alt="游標" style="width: 64px; height: 64px; image-rendering: pixelated; border: 1px solid var(--phosphor-fade); background: #1a0a0a;">
+        <figcaption style="font-size: 10px; color: var(--phosphor-dim);">RIATCUR 游標</figcaption>
+      </figure>
+    </div>
+    <p style="font-size: 13px; color: var(--phosphor-fade); margin-top: 12px;">
+      ⏳ 共 70+ 個 DDT 已批次解碼，但 mode 4/6/10/12/14/15/16/18/24/25/36/39 等 layout 不同（雜訊）。下一波繼續逆向。
+    </p>
+  </section>
+
   <div class="footer">
     <p>資料庫由 <code>工具/extract/parse_mst.py</code> 從遊戲二進制檔案產生。</p>
     <p>檔案 <code>game_data.json</code> 約 454 KB（壓縮前），所有頁面以 <code>fetch()</code> 載入。</p>
