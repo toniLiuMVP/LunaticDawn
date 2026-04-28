@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>迷宮資料庫 · 俠客遊 II</title>
+<title>迷宮資料庫 · 俠客遊 II · 40 筆</title>
 <link rel="stylesheet" href="../../assets/css/fonts-retro.css">
 <link rel="stylesheet" href="../../assets/css/retro.css">
 <style>
@@ -26,14 +26,14 @@
 <div class="wrap">
   <header class="site-header">
     <div class="header-inner">
-      <h1 class="pixel">迷宮資料庫 · 80 筆</h1>
+      <h1 class="pixel">迷宮資料庫 · 40 筆</h1>
       <nav><a href="index.html">← 資料庫首頁</a> · <a href="../../index.html">回主站</a></nav>
     </div>
   </header>
   <div class="toolbar">
     <label for="search">搜尋:</label>
     <input id="search" type="search" placeholder="例：地下、夢幻、刑場" autofocus>
-    <span class="count" id="count">— / 80</span>
+    <span class="count" id="count">— / 40</span>
   </div>
   <div id="content"><div style="padding: 40px; text-align: center; color: var(--phosphor-dim);">載入中...</div></div>
 </div>
@@ -41,7 +41,7 @@
 <script>
 window.LIST_CONFIG = {
   dataKey: 'dungeons',
-  totalCount: 80,
+  totalCount: 40,
   columns: ['ID', '迷宮名稱', '前 32 bytes 預覽'],
   searchField: (d) => d.name,
   getRowFields: (d) => [
@@ -56,7 +56,7 @@ window.LIST_CONFIG = {
       d._raw_first_64
     ));
     dtd.appendChild(window.el('div', { style: 'margin-top: 12px; color: var(--phosphor-dim); font-size: 14px;' },
-      '註：每筆 384 bytes 完整資料含地圖、遭遇怪物、寶箱等。完整結構逆向中。'));
+      '註：每筆 768 bytes 完整資料含地圖、遭遇怪物、寶箱等。完整結構逆向中。'));
   },
 };
 </script>

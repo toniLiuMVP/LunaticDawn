@@ -152,8 +152,8 @@
       <div class="card-icon">▸ DUNGEONS</div>
       <span class="card-status status-partial">PARTIAL</span>
       <div class="card-title">迷 宮</div>
-      <div class="card-count">80 筆</div>
-      <div class="card-desc">迷宮名稱已解出（地下迷宮、夢幻遺跡、刑場遺跡、療養院遺跡⋯）。每筆 384 bytes 數值資料逆向中。</div>
+      <div class="card-count">40 筆</div>
+      <div class="card-desc">迷宮名稱已解出（地下迷宮、夢幻遺跡、刑場遺跡、療養院遺跡⋯）。每筆 768 bytes 數值資料逆向中。</div>
     </a>
 
     <a class="card" href="texts.html">
@@ -164,6 +164,35 @@
       <div class="card-desc">人名、地名、稱號、謠言、城堡對話、結局訊息、工作人員名單。共 4400+ 筆已解密文字。</div>
     </a>
   </div>
+
+  <section style="margin-top: 32px; border: 2px solid var(--phosphor-dim); background: var(--bg-panel); padding: 16px 20px;">
+    <h2 style="font-size: 18px; color: var(--amber); font-family: 'Press Start 2P', monospace; margin-bottom: 12px;">▸ PALETTE GALLERY</h2>
+    <p style="font-size: 14px; color: var(--phosphor-dim); margin-bottom: 16px;">
+      <code>.PLT</code> 調色盤已逆向：每色 4 bytes，<strong>u16 LE GRB444</strong> + 2 bytes alpha（PC-98 風格 12-bit 顏色）。
+      256 色 × 16×16 grid 顯示如下。
+    </p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
+      <figure style="margin: 0;">
+        <img src="palettes/luna2.png" alt="LUNA2 主調色盤" style="width: 100%; image-rendering: pixelated; border: 1px solid var(--phosphor-fade);">
+        <figcaption style="text-align: center; font-size: 12px; color: var(--phosphor-dim); margin-top: 4px;">LUNA2.PLT (主)</figcaption>
+      </figure>
+      <figure style="margin: 0;">
+        <img src="palettes/luna2_night.png" alt="LUNA2 夜版調色盤" style="width: 100%; image-rendering: pixelated; border: 1px solid var(--phosphor-fade);">
+        <figcaption style="text-align: center; font-size: 12px; color: var(--phosphor-dim); margin-top: 4px;">NLUNA2.PLT (夜)</figcaption>
+      </figure>
+      <figure style="margin: 0;">
+        <img src="palettes/battle.png" alt="戰鬥場景調色盤" style="width: 100%; image-rendering: pixelated; border: 1px solid var(--phosphor-fade);">
+        <figcaption style="text-align: center; font-size: 12px; color: var(--phosphor-dim); margin-top: 4px;">BATTLE.PLT</figcaption>
+      </figure>
+      <figure style="margin: 0;">
+        <img src="palettes/town.png" alt="城鎮調色盤" style="width: 100%; image-rendering: pixelated; border: 1px solid var(--phosphor-fade);">
+        <figcaption style="text-align: center; font-size: 12px; color: var(--phosphor-dim); margin-top: 4px;">TOWN.PLT</figcaption>
+      </figure>
+    </div>
+    <p style="font-size: 13px; color: var(--phosphor-fade); margin-top: 12px;">
+      ⏳ 待辦：用這些 palette 解碼 <code>.DDT/.DD9/.PAC/.E32</code> 圖像格式（含 12-byte filename header + 編碼像素資料）→ 怪物圖、物品圖示、角色立繪 PNG。
+    </p>
+  </section>
 
   <div class="footer">
     <p>資料庫由 <code>工具/extract/parse_mst.py</code> 從遊戲二進制檔案產生。</p>
