@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>怪物資料庫 · 俠客遊 II</title>
+<link rel="stylesheet" href="../../assets/css/fonts-retro.css">
+<link rel="stylesheet" href="../../assets/css/retro.css">
+<style>
+.toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 16px 0; padding: 12px; border: 1px solid var(--phosphor-dim); background: var(--bg-panel); }
+.toolbar input { background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-dim); padding: 6px 10px; font-family: 'VT323', monospace; font-size: 18px; }
+.toolbar input:focus { outline: none; border-color: var(--amber); }
+.toolbar label { color: var(--phosphor-dim); font-size: 16px; }
+.toolbar .count { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 12px; margin-left: auto; }
+.items-table { width: 100%; border-collapse: collapse; font-size: 16px; }
+.items-table th, .items-table td { border: 1px solid var(--phosphor-fade); padding: 4px 8px; text-align: left; }
+.items-table th { background: var(--bg-panel); color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 11px; position: sticky; top: 0; z-index: 10; }
+.items-table tbody tr { cursor: pointer; }
+.items-table tbody tr:hover { background: rgba(0, 255, 65, 0.06); }
+.items-table .num { text-align: right; font-family: 'Courier New', monospace; }
+.detail-row td { padding: 16px; background: rgba(0, 255, 65, 0.04); }
+.detail-row .desc { font-size: 16px; color: var(--phosphor); margin-bottom: 12px; line-height: 1.6; }
+.detail-row .raw { font-size: 11px; color: var(--phosphor-fade); font-family: monospace; word-break: break-all; }
+.error { color: var(--danger); padding: 20px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="pixel">怪物資料庫 · 128 筆</h1>
+      <nav><a href="index.html">← 資料庫首頁</a> · <a href="../../index.html">回主站</a></nav>
+    </div>
+  </header>
+  <div class="toolbar">
+    <label for="search">搜尋:</label>
+    <input id="search" type="search" placeholder="例：強盜、龍" autofocus>
+    <span class="count" id="count">— / 128</span>
+  </div>
+  <div id="content"><div style="padding: 40px; text-align: center; color: var(--phosphor-dim);">載入中...</div></div>
+</div>
+
+<script>
+window.LIST_CONFIG = {
+  dataKey: 'monsters',
+  totalCount: 128,
+  columns: ['ID', '怪物名 (inline)', '名稱 (ENC)', '描述'],
+  searchField: (m) => m.name_inline + (m.name_enc || ''),
+  getRowFields: (m) => [
+    { value: '0x' + m.id.toString(16).toUpperCase().padStart(2, '0'), class: 'num' },
+    { value: m.name_inline },
+    { value: m.name_enc || '—' },
+    { value: '(點擊展開)', class: 'num' },
+  ],
+  detailFn: async (dtd, m) => {
+    // 載入 MONS_R 描述對應 (本目錄的 enc_decrypted.json)
+    if (!window._monsR) {
+      try {
+        const r = await fetch('enc_decrypted.json');
+        if (r.ok) {
+          const enc = await r.json();
+          window._monsR = enc['MONS_R.ENC'] || [];
+        } else {
+          window._monsR = [];
+        }
+      } catch (e) { window._monsR = []; }
+    }
+    // MONS_R 是 1 怪物 = 2 records，所以怪物 i 的描述在 record (i*2)
+    const desc = window._monsR[m.id * 2];
+    if (desc && desc.name) {
+      dtd.appendChild(window.el('div', { class: 'desc' }, desc.name));
+    }
+    dtd.appendChild(window.el('div', { class: 'raw' },
+      window.el('b', { style: 'color: var(--phosphor-dim);' }, 'raw hex (104 bytes)' ),
+      window.el('br'),
+      m._raw
+    ));
+  },
+};
+</script>
+<script src="list-page.js"></script>
+</body>
+</html>

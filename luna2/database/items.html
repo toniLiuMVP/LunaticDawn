@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>物品資料庫 · 俠客遊 II</title>
+<link rel="stylesheet" href="../../assets/css/fonts-retro.css">
+<link rel="stylesheet" href="../../assets/css/retro.css">
+<style>
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin: 16px 0;
+  padding: 12px;
+  border: 1px solid var(--phosphor-dim);
+  background: var(--bg-panel);
+}
+.toolbar input, .toolbar select {
+  background: var(--bg-input);
+  color: var(--phosphor);
+  border: 1px solid var(--phosphor-dim);
+  padding: 6px 10px;
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+}
+.toolbar input:focus, .toolbar select:focus {
+  outline: none;
+  border-color: var(--amber);
+}
+.toolbar label { color: var(--phosphor-dim); font-size: 16px; }
+.toolbar .count {
+  color: var(--amber);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  margin-left: auto;
+}
+
+.items-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+}
+.items-table th, .items-table td {
+  border: 1px solid var(--phosphor-fade);
+  padding: 4px 8px;
+  text-align: left;
+}
+.items-table th {
+  background: var(--bg-panel);
+  color: var(--amber);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.items-table tbody tr {
+  cursor: pointer;
+}
+.items-table tbody tr:hover {
+  background: rgba(0, 255, 65, 0.06);
+}
+.items-table tbody tr.deleted {
+  color: var(--phosphor-fade);
+  font-style: italic;
+}
+.items-table .num { text-align: right; font-family: 'Courier New', monospace; }
+.items-table .price { color: var(--amber); }
+.items-table .pos-單手 { color: #66ff66; }
+.items-table .pos-雙手 { color: #66ffff; }
+.items-table .pos-頭部 { color: #ffaa66; }
+.items-table .pos-身體 { color: #ff66aa; }
+.items-table .pos-手臂 { color: #aa66ff; }
+.items-table .pos-腿腳 { color: #ffff66; }
+.items-table .pos-手指 { color: #ff66ff; }
+.items-table .pos-非裝備品 { color: #888; }
+
+.detail-row td {
+  padding: 12px;
+  background: rgba(0, 255, 65, 0.04);
+}
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px 16px;
+}
+.detail-grid > div {
+  font-size: 14px;
+  border-left: 2px solid var(--phosphor-dim);
+  padding-left: 8px;
+}
+.detail-grid b {
+  color: var(--phosphor-dim);
+  font-size: 12px;
+  font-family: 'Press Start 2P', monospace;
+  display: block;
+}
+.detail-grid span { color: var(--phosphor); }
+.caps-table {
+  font-size: 13px;
+  margin-top: 8px;
+  border-collapse: collapse;
+}
+.caps-table td {
+  padding: 2px 8px;
+  border: 1px solid var(--phosphor-fade);
+}
+
+.loading { padding: 40px; text-align: center; color: var(--phosphor-dim); }
+.error { color: var(--danger); padding: 20px; border: 1px solid var(--danger); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="pixel">物品資料庫 · 456 筆</h1>
+      <nav>
+        <a href="index.html">← 資料庫首頁</a>
+        ·
+        <a href="../../index.html">回主站</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <label for="search">搜尋名稱:</label>
+    <input id="search" type="search" placeholder="例：火炎神劍、戒指" autofocus>
+
+    <label for="filter-pos">位置:</label>
+    <select id="filter-pos">
+      <option value="">全部</option>
+    </select>
+
+    <label for="filter-effect">特效:</label>
+    <select id="filter-effect">
+      <option value="">全部</option>
+    </select>
+
+    <label><input type="checkbox" id="hide-placeholders" checked> 隱藏 placeholder</label>
+
+    <span class="count" id="count">— / 456</span>
+  </div>
+
+  <div id="content"><div class="loading">載入 game_data.json...</div></div>
+</div>
+
+<script>
+// DOM-only 渲染，不用 innerHTML（CLAUDE.md 永久規則）
+const $ = (id) => document.getElementById(id);
+const $$ = (sel) => document.querySelectorAll(sel);
+
+let allItems = [];
+let openDetail = null; // 目前展開的 row
+
+function el(tag, attrs, ...children) {
+  const e = document.createElement(tag);
+  if (attrs) {
+    for (const [k, v] of Object.entries(attrs)) {
+      if (k === 'class') e.className = v;
+      else if (k === 'on') for (const [evt, fn] of Object.entries(v)) e.addEventListener(evt, fn);
+      else if (k === 'data') for (const [dk, dv] of Object.entries(v)) e.dataset[dk] = dv;
+      else e.setAttribute(k, v);
+    }
+  }
+  for (const c of children) {
+    if (c == null || c === false) continue;
+    e.appendChild(typeof c === 'string' || typeof c === 'number' ? document.createTextNode(String(c)) : c);
+  }
+  return e;
+}
+
+function num(n) { return n === 65535 || n === 255 ? '—' : String(n); }
+
+function renderTable(items) {
+  const content = $('content');
+  content.replaceChildren();
+
+  const table = el('table', { class: 'items-table' });
+  const thead = el('thead');
+  const trh = el('tr');
+  ['ID', '名稱', '位置', '價格', '體格', '命中', '速度', '距離', '攻型', '攻擊', '特效'].forEach(h => {
+    trh.appendChild(el('th', null, h));
+  });
+  thead.appendChild(trh);
+  table.appendChild(thead);
+
+  const tbody = el('tbody');
+  for (const it of items) {
+    const tr = el('tr', {
+      class: it.deleted ? 'deleted' : '',
+      data: { id: it.id },
+      on: { click: () => toggleDetail(tr, it, tbody) }
+    });
+    tr.appendChild(el('td', { class: 'num' }, '0x' + it.id.toString(16).toUpperCase().padStart(4, '0')));
+    tr.appendChild(el('td', null, it.name));
+    tr.appendChild(el('td', { class: 'pos-' + it.equip_pos }, it.equip_pos));
+    tr.appendChild(el('td', { class: 'num price' }, num(it.price)));
+    tr.appendChild(el('td', { class: 'num' }, num(it.body_limit)));
+    tr.appendChild(el('td', { class: 'num' }, num(it.hit)));
+    tr.appendChild(el('td', { class: 'num' }, num(it.speed)));
+    tr.appendChild(el('td', { class: 'num' }, num(it.range)));
+    tr.appendChild(el('td', null, it.atk_type));
+    tr.appendChild(el('td', { class: 'num' }, it.atk === 0 && it.atk_max === 0 ? '—' : `${num(it.atk)}-${num(it.atk_max)}`));
+    tr.appendChild(el('td', null, it.effect));
+    tbody.appendChild(tr);
+  }
+  table.appendChild(tbody);
+  content.appendChild(table);
+  $('count').textContent = `${items.length} / 456`;
+}
+
+function toggleDetail(tr, item, tbody) {
+  // 關掉之前的
+  if (openDetail) {
+    openDetail.remove();
+    if (openDetail._owner === tr) {
+      openDetail = null;
+      return;
+    }
+  }
+  // 展開新 detail
+  const dtr = el('tr', { class: 'detail-row' });
+  const dtd = el('td', { colspan: '11' });
+
+  const grid = el('div', { class: 'detail-grid' });
+  const fields = [
+    ['攻擊力', `${num(item.atk)} - ${num(item.atk_max)}`],
+    ['防砍', `${num(item.def_slash)} (max ${num(item.def_slash_max)})`],
+    ['防刺', `${num(item.def_pierce)} (max ${num(item.def_pierce_max)})`],
+    ['防敲', `${num(item.def_blunt)} (max ${num(item.def_blunt_max)})`],
+    ['術型', item.magic_type],
+    ['術值', num(item.magic_value)],
+    ['型式', item.is_equipment ? '裝備品' : '消耗品'],
+  ];
+  for (const [label, value] of fields) {
+    const div = el('div', null,
+      el('b', null, label),
+      el('span', null, value)
+    );
+    grid.appendChild(div);
+  }
+  dtd.appendChild(grid);
+
+  // 屬性上限表
+  const capsLabel = el('div', { style: 'margin-top: 12px;' },
+    el('b', { style: 'color: var(--amber); font-family: \'Press Start 2P\', monospace; font-size: 11px;' },
+      '七系魔法上限')
+  );
+  dtd.appendChild(capsLabel);
+
+  const capsTable = el('table', { class: 'caps-table' });
+  const ctrh = el('tr');
+  const ctrv = el('tr');
+  const labels = [['物理', 'physical'], ['炎熱', 'fire'], ['冷卻', 'ice'], ['電光', 'thunder'], ['神聖', 'holy'], ['暗黑', 'dark'], ['精靈', 'spirit']];
+  for (const [label, key] of labels) {
+    ctrh.appendChild(el('td', null, label));
+    const v = item.caps[key];
+    ctrv.appendChild(el('td', { class: 'num' }, v === 0 ? '—' : String(v)));
+  }
+  capsTable.appendChild(ctrh);
+  capsTable.appendChild(ctrv);
+  dtd.appendChild(capsTable);
+
+  // raw hex
+  const rawDiv = el('div', { style: 'margin-top: 12px; font-size: 11px; color: var(--phosphor-fade); font-family: monospace; word-break: break-all;' },
+    el('b', { style: 'font-size: 10px;' }, 'raw hex (48 bytes)'),
+    item._raw
+  );
+  dtd.appendChild(rawDiv);
+
+  dtr.appendChild(dtd);
+  dtr._owner = tr;
+  tr.parentNode.insertBefore(dtr, tr.nextSibling);
+  openDetail = dtr;
+}
+
+function applyFilters() {
+  const q = $('search').value.trim();
+  const pos = $('filter-pos').value;
+  const eff = $('filter-effect').value;
+  const hidePh = $('hide-placeholders').checked;
+
+  const filtered = allItems.filter(it => {
+    if (hidePh && (it.name === '離開' || it.deleted)) return false;
+    if (q && !it.name.includes(q)) return false;
+    if (pos && it.equip_pos !== pos) return false;
+    if (eff && it.effect !== eff) return false;
+    return true;
+  });
+
+  renderTable(filtered);
+}
+
+async function init() {
+  try {
+    const r = await fetch('game_data.json');
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const data = await r.json();
+    allItems = data.items;
+
+    // 填篩選下拉
+    const positions = [...new Set(allItems.map(it => it.equip_pos))].sort();
+    for (const p of positions) {
+      $('filter-pos').appendChild(el('option', { value: p }, p));
+    }
+    const effects = [...new Set(allItems.map(it => it.effect))].sort();
+    for (const e of effects) {
+      if (e !== '無') $('filter-effect').appendChild(el('option', { value: e }, e));
+    }
+
+    $('search').addEventListener('input', applyFilters);
+    $('filter-pos').addEventListener('change', applyFilters);
+    $('filter-effect').addEventListener('change', applyFilters);
+    $('hide-placeholders').addEventListener('change', applyFilters);
+
+    applyFilters();
+  } catch (e) {
+    $('content').replaceChildren(
+      el('div', { class: 'error' }, '載入失敗: ' + e.message + ' — 請確認 game_data.json 存在於同目錄')
+    );
+  }
+}
+
+init();
+</script>
+</body>
+</html>

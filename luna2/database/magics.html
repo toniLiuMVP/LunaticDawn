@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>魔法資料庫 · 俠客遊 II</title>
+<link rel="stylesheet" href="../../assets/css/fonts-retro.css">
+<link rel="stylesheet" href="../../assets/css/retro.css">
+<style>
+.toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 16px 0; padding: 12px; border: 1px solid var(--phosphor-dim); background: var(--bg-panel); }
+.toolbar input { background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-dim); padding: 6px 10px; font-family: 'VT323', monospace; font-size: 18px; }
+.toolbar input:focus { outline: none; border-color: var(--amber); }
+.toolbar label { color: var(--phosphor-dim); font-size: 16px; }
+.toolbar .count { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 12px; margin-left: auto; }
+.items-table { width: 100%; border-collapse: collapse; font-size: 16px; }
+.items-table th, .items-table td { border: 1px solid var(--phosphor-fade); padding: 4px 8px; text-align: left; }
+.items-table th { background: var(--bg-panel); color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 11px; position: sticky; top: 0; z-index: 10; }
+.items-table tbody tr { cursor: pointer; }
+.items-table tbody tr:hover { background: rgba(0, 255, 65, 0.06); }
+.items-table .num { text-align: right; font-family: 'Courier New', monospace; }
+.items-table .mp { color: var(--amber); }
+.detail-row td { padding: 16px; background: rgba(0, 255, 65, 0.04); }
+.detail-row .raw { font-size: 11px; color: var(--phosphor-fade); font-family: monospace; word-break: break-all; }
+.error { color: var(--danger); padding: 20px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="pixel">魔法資料庫 · 80 筆</h1>
+      <nav><a href="index.html">← 資料庫首頁</a> · <a href="../../index.html">回主站</a></nav>
+    </div>
+  </header>
+  <div class="toolbar">
+    <label for="search">搜尋:</label>
+    <input id="search" type="search" placeholder="例：照明、火、治療" autofocus>
+    <span class="count" id="count">— / 80</span>
+  </div>
+  <div id="content"><div style="padding: 40px; text-align: center; color: var(--phosphor-dim);">載入中...</div></div>
+</div>
+
+<script>
+window.LIST_CONFIG = {
+  dataKey: 'magics',
+  totalCount: 80,
+  columns: ['ID', '魔法名稱', 'MP 消耗', 'val_04', 'val_06', 'val_08'],
+  searchField: (m) => m.name,
+  getRowFields: (m) => [
+    { value: '0x' + m.id.toString(16).toUpperCase().padStart(2, '0'), class: 'num' },
+    { value: m.name || '—' },
+    { value: window.num(m.mp_cost), class: 'num mp' },
+    { value: window.num(m.val_04), class: 'num' },
+    { value: window.num(m.val_06), class: 'num' },
+    { value: window.num(m.val_08), class: 'num' },
+  ],
+  detailFn: (dtd, m) => {
+    dtd.appendChild(window.el('div', { class: 'raw' },
+      window.el('b', { style: 'color: var(--phosphor-dim);' }, 'raw hex (32 bytes)'),
+      window.el('br'),
+      m._raw
+    ));
+  },
+};
+</script>
+<script src="list-page.js"></script>
+</body>
+</html>

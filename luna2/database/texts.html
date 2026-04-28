@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>文字資料庫 · 俠客遊 II</title>
+<link rel="stylesheet" href="../../assets/css/fonts-retro.css">
+<link rel="stylesheet" href="../../assets/css/retro.css">
+<style>
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+.tab { padding: 8px 16px; border: 1px solid var(--phosphor-dim); background: var(--bg-panel); cursor: pointer; color: var(--phosphor); font-family: 'VT323', monospace; font-size: 16px; }
+.tab.active { background: var(--phosphor); color: var(--bg); }
+.tab:hover { background: rgba(0,255,65,0.1); }
+.tab.active:hover { background: var(--phosphor); }
+.toolbar { display: flex; gap: 12px; align-items: center; margin: 16px 0; padding: 12px; border: 1px solid var(--phosphor-dim); background: var(--bg-panel); }
+.toolbar input { background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-dim); padding: 6px 10px; font-family: 'VT323', monospace; font-size: 18px; flex: 1; }
+.toolbar input:focus { outline: none; border-color: var(--amber); }
+.toolbar .count { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 12px; }
+.text-list { border: 1px solid var(--phosphor-fade); padding: 12px; max-height: 70vh; overflow-y: auto; background: var(--bg-panel); }
+.text-item { padding: 6px 8px; border-bottom: 1px dashed var(--phosphor-fade); display: grid; grid-template-columns: 50px 1fr; gap: 12px; align-items: start; font-size: 16px; }
+.text-item:last-child { border-bottom: none; }
+.text-item .id { color: var(--phosphor-dim); font-family: 'Courier New', monospace; }
+.text-item .text { color: var(--phosphor); white-space: pre-wrap; word-break: break-all; }
+.note { padding: 12px; border: 1px dashed var(--phosphor-dim); color: var(--phosphor-dim); margin-bottom: 16px; font-size: 14px; }
+.note code { color: var(--amber); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="pixel">文字資料庫 · 4400+ 筆</h1>
+      <nav><a href="index.html">← 資料庫首頁</a> · <a href="../../index.html">回主站</a></nav>
+    </div>
+  </header>
+  <div class="note">
+    所有 .ENC 加密文字檔（位於 <code>俠客遊2/O/</code>）均已用 4-byte XOR key <code>9A BC DE 00</code> 解密。
+    包含：物品/怪物/魔法/迷宮名稱、武技、人名、稱號、謠言、城堡對話、結局訊息、工作人員名單。
+  </div>
+  <div id="tabs" class="tabs"></div>
+  <div class="toolbar">
+    <input id="search" type="search" placeholder="搜尋文字內容..." autofocus>
+    <span class="count" id="count">— 筆</span>
+  </div>
+  <div id="content" class="text-list">載入中...</div>
+</div>
+
+<script>
+const FILES = [
+  { key: 'ITEMNAME.ENC', label: '物品名稱', count: 456 },
+  { key: 'MONSNAME.ENC', label: '怪物名稱', count: 128 },
+  { key: 'MGCNAME.ENC', label: '魔法名稱', count: 112 },
+  { key: 'DUNGNAME.ENC', label: '迷宮名稱', count: 80 },
+  { key: 'TECHNIC.ENC', label: '武技名稱', count: 75 },
+  { key: 'EXPLAIN.ENC', label: '物品說明', count: 42 },
+  { key: 'MGCEXP.ENC', label: '魔法說明', count: 80 },
+  { key: 'CALLNAME.ENC', label: '稱號', count: 208 },
+  { key: 'RUMOR.ENC', label: '謠言', count: 241 },
+  { key: 'KOJYOU.ENC', label: '城堡對話', count: 223 },
+  { key: 'OUTOU.ENC', label: '王者對話', count: 17 },
+  { key: 'ENDMES.ENC', label: '結局訊息', count: 4 },
+  { key: 'STAFF.ENC', label: '工作人員', count: 87 },
+  { key: 'MONS_R.ENC', label: '怪物描述', count: 234 },
+  { key: 'TCNAME0.ENC', label: 'NPC 名 (TC0)', count: 384 },
+  { key: 'MCNAME0.ENC', label: '男性名 (MC0)', count: 192 },
+  { key: 'TCNAME2.ENC', label: '女性名 (TC2)', count: 192 },
+  { key: 'FCNAME.ENC', label: '主角名 (FC)', count: 96 },
+];
+
+const $ = (id) => document.getElementById(id);
+function el(tag, attrs, ...children) {
+  const e = document.createElement(tag);
+  if (attrs) for (const [k, v] of Object.entries(attrs)) {
+    if (k === 'class') e.className = v;
+    else if (k === 'on') for (const [evt, fn] of Object.entries(v)) e.addEventListener(evt, fn);
+    else e.setAttribute(k, v);
+  }
+  for (const c of children) {
+    if (c == null) continue;
+    e.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
+  }
+  return e;
+}
+
+let allData = null;
+let currentKey = 'ITEMNAME.ENC';
+
+function renderList() {
+  const records = (allData[currentKey] || []);
+  const q = $('search').value.trim();
+  const filtered = q ? records.filter(r => r.name && r.name.includes(q)) : records;
+
+  const content = $('content');
+  content.replaceChildren();
+  if (filtered.length === 0) {
+    content.appendChild(el('div', { style: 'padding: 20px; text-align: center; color: var(--phosphor-dim);' }, '無符合資料'));
+    $('count').textContent = '0 筆';
+    return;
+  }
+  for (const rec of filtered) {
+    const item = el('div', { class: 'text-item' },
+      el('span', { class: 'id' }, '#' + rec.id),
+      el('span', { class: 'text' }, rec.name || '<empty>')
+    );
+    content.appendChild(item);
+  }
+  $('count').textContent = filtered.length + ' / ' + records.length;
+}
+
+function selectTab(key) {
+  currentKey = key;
+  $$('.tab').forEach(t => t.classList.toggle('active', t.dataset.key === key));
+  renderList();
+}
+const $$ = (sel) => document.querySelectorAll(sel);
+
+function buildTabs() {
+  const tabs = $('tabs');
+  for (const f of FILES) {
+    const btn = el('button', {
+      class: 'tab' + (f.key === currentKey ? ' active' : ''),
+      'data-key': f.key,
+      on: { click: () => selectTab(f.key) }
+    }, f.label + ' (' + f.count + ')');
+    tabs.appendChild(btn);
+  }
+}
+
+async function init() {
+  try {
+    const r = await fetch('enc_decrypted.json');
+    if (!r.ok) throw new Error('找不到 enc_decrypted.json (HTTP ' + r.status + ')');
+    allData = await r.json();
+    buildTabs();
+    $('search').addEventListener('input', renderList);
+    renderList();
+  } catch (e) {
+    $('content').replaceChildren(el('div', { style: 'color: var(--danger); padding: 20px;' },
+      '載入失敗: ' + e.message,
+      el('br'),
+      '請執行 cp 工具/extract/enc_decrypted.json LunaticDawn/luna2/database/'
+    ));
+  }
+}
+
+init();
+</script>
+</body>
+</html>
