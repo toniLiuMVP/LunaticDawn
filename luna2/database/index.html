@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>俠客遊 II 資料庫 · 吟遊詩人的傳說</title>
+<meta name="description" content="從 1996 年俠客遊 II DOS 遊戲二進制檔案逆向解析的完整資料庫——456 物品、128 怪物、80 魔法、32 武技、80 迷宮">
+<meta property="og:title" content="俠客遊 II 資料庫">
+<meta property="og:description" content="從遊戲二進制檔案逆向解析的完整資料庫">
+<link rel="stylesheet" href="../../assets/css/fonts-retro.css">
+<link rel="stylesheet" href="../../assets/css/retro.css">
+<style>
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+.card {
+  border: 2px solid var(--border);
+  background: var(--bg-panel);
+  padding: 20px;
+  text-decoration: none;
+  border-bottom: 2px solid var(--border);
+  display: block;
+  position: relative;
+  transition: background 0.15s, transform 0.15s;
+}
+.card:hover {
+  background: rgba(0, 255, 65, 0.08);
+  color: var(--phosphor);
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--phosphor-fade);
+}
+.card-icon {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  color: var(--phosphor-dim);
+  margin-bottom: 8px;
+}
+.card-title {
+  font-size: 24px;
+  color: var(--phosphor);
+  margin-bottom: 8px;
+  text-shadow: 0 0 6px var(--phosphor-fade);
+}
+.card-count {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 18px;
+  color: var(--amber);
+  margin-bottom: 8px;
+}
+.card-desc {
+  font-size: 16px;
+  color: var(--phosphor-dim);
+  line-height: 1.5;
+}
+.card-status {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  padding: 2px 6px;
+  border: 1px solid;
+}
+.status-full { color: var(--phosphor); border-color: var(--phosphor); }
+.status-partial { color: var(--amber); border-color: var(--amber); }
+.intro {
+  border: 2px solid var(--phosphor-dim);
+  background: var(--bg-panel);
+  padding: 16px 20px;
+  margin: 20px 0;
+}
+.intro p { margin: 8px 0; }
+.intro h2 {
+  font-size: 18px;
+  color: var(--amber);
+  margin-bottom: 12px;
+  font-family: 'Press Start 2P', monospace;
+}
+.tech {
+  font-size: 14px;
+  color: var(--phosphor-fade);
+  margin-top: 16px;
+  font-family: 'Courier New', monospace;
+}
+.footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px dashed var(--phosphor-fade);
+  font-size: 14px;
+  color: var(--phosphor-dim);
+  text-align: center;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="pixel">俠客遊 II 資料庫</h1>
+      <nav><a href="../../index.html">← 回吟遊詩人的傳說 · 俠客遊小站</a></nav>
+    </div>
+  </header>
+
+  <section class="intro">
+    <h2>LUNA2 DATABASE v0.1</h2>
+    <p>從 1996 年 Artdink《俠客遊 II》DOS 版遊戲本體逆向解析出的完整資料庫。</p>
+    <p>所有名稱與數值來自遊戲檔案 <code>俠客遊2/P/*.MST</code> 與 <code>俠客遊2/O/*.ENC</code>，<strong>非</strong>從攻略整理重製——是真正的「事實在二進制裡」。</p>
+    <div class="tech">
+      ▸ ENC 加密：4-byte XOR key <code>9A BC DE 00</code> 循環，全 20 個 ENC 檔已解密<br>
+      ▸ MST 結構：依 record size 切片，u16/u8 little-endian struct 解析<br>
+      ▸ 純前端、純 DOM 渲染、無 innerHTML、無框架
+    </div>
+  </section>
+
+  <div class="cards">
+    <a class="card" href="items.html">
+      <div class="card-icon">▸ ITEMS</div>
+      <span class="card-status status-full">FULL</span>
+      <div class="card-title">物 品</div>
+      <div class="card-count">456 筆</div>
+      <div class="card-desc">武器、防具、道具、神器。28 個欄位完整解析（價格、體格、命中、攻速、攻擊力、防禦、屬性上限、特效）。</div>
+    </a>
+
+    <a class="card" href="monsters.html">
+      <div class="card-icon">▸ MONSTERS</div>
+      <span class="card-status status-partial">PARTIAL</span>
+      <div class="card-title">怪 物</div>
+      <div class="card-count">128 筆</div>
+      <div class="card-desc">名稱已解出，數值欄位（HP/MP/ATK 等）部分逆向中。含 234 筆怪物描述文字（MONS_R）。</div>
+    </a>
+
+    <a class="card" href="magics.html">
+      <div class="card-icon">▸ MAGICS</div>
+      <span class="card-status status-partial">PARTIAL</span>
+      <div class="card-title">魔 法</div>
+      <div class="card-count">80 筆</div>
+      <div class="card-desc">名稱與 MP 消耗已解出。其他屬性（傷害、範圍、目標）逆向中。含魔法說明（MGCEXP）。</div>
+    </a>
+
+    <a class="card" href="hissatsu.html">
+      <div class="card-icon">▸ HISSATSU</div>
+      <span class="card-status status-partial">PARTIAL</span>
+      <div class="card-title">武 技</div>
+      <div class="card-count">32 筆</div>
+      <div class="card-desc">必殺技。每筆 36 bytes，含名稱碼指向 TECHNIC.ENC 75 個技能名。</div>
+    </a>
+
+    <a class="card" href="dungeons.html">
+      <div class="card-icon">▸ DUNGEONS</div>
+      <span class="card-status status-partial">PARTIAL</span>
+      <div class="card-title">迷 宮</div>
+      <div class="card-count">80 筆</div>
+      <div class="card-desc">迷宮名稱已解出（地下迷宮、夢幻遺跡、刑場遺跡、療養院遺跡⋯）。每筆 384 bytes 數值資料逆向中。</div>
+    </a>
+
+    <a class="card" href="texts.html">
+      <div class="card-icon">▸ TEXTS</div>
+      <span class="card-status status-full">FULL</span>
+      <div class="card-title">文 字</div>
+      <div class="card-count">15 類</div>
+      <div class="card-desc">人名、地名、稱號、謠言、城堡對話、結局訊息、工作人員名單。共 4400+ 筆已解密文字。</div>
+    </a>
+  </div>
+
+  <div class="footer">
+    <p>資料庫由 <code>工具/extract/parse_mst.py</code> 從遊戲二進制檔案產生。</p>
+    <p>檔案 <code>game_data.json</code> 約 454 KB（壓縮前），所有頁面以 <code>fetch()</code> 載入。</p>
+    <p style="margin-top: 12px;">
+      <a href="../../index.html">回主站</a> ·
+      <a href="../save-editor.html">存檔修改器</a> ·
+      <a href="../guides/index.html">攻略</a> ·
+      <a href="../launcher/index.html">啟動器</a>
+    </p>
+  </div>
+</div>
+</body>
+</html>

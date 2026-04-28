@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>武技資料庫 · 俠客遊 II</title>
+<link rel="stylesheet" href="../../assets/css/fonts-retro.css">
+<link rel="stylesheet" href="../../assets/css/retro.css">
+<style>
+.toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 16px 0; padding: 12px; border: 1px solid var(--phosphor-dim); background: var(--bg-panel); }
+.toolbar input { background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-dim); padding: 6px 10px; font-family: 'VT323', monospace; font-size: 18px; }
+.toolbar input:focus { outline: none; border-color: var(--amber); }
+.toolbar label { color: var(--phosphor-dim); font-size: 16px; }
+.toolbar .count { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 12px; margin-left: auto; }
+.items-table { width: 100%; border-collapse: collapse; font-size: 16px; }
+.items-table th, .items-table td { border: 1px solid var(--phosphor-fade); padding: 4px 8px; text-align: left; }
+.items-table th { background: var(--bg-panel); color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 11px; position: sticky; top: 0; z-index: 10; }
+.items-table tbody tr { cursor: pointer; }
+.items-table tbody tr:hover { background: rgba(0, 255, 65, 0.06); }
+.items-table .num { text-align: right; font-family: 'Courier New', monospace; }
+.detail-row td { padding: 16px; background: rgba(0, 255, 65, 0.04); }
+.detail-row .raw { font-size: 11px; color: var(--phosphor-fade); font-family: monospace; word-break: break-all; }
+.note { padding: 12px; border: 1px dashed var(--phosphor-dim); color: var(--phosphor-dim); margin-bottom: 16px; font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="pixel">武技資料庫 · 32 筆</h1>
+      <nav><a href="index.html">← 資料庫首頁</a> · <a href="../../index.html">回主站</a></nav>
+    </div>
+  </header>
+  <div class="note">
+    武技 (HISSATSU) 是俠客遊 II 的「必殺技」系統，每個角色武技值最高 65535。
+    每筆 36 bytes，含 ID、名稱碼（指向 TECHNIC.ENC 75 個技能名）、屬性參數。
+    結構部分逆向中。
+  </div>
+  <div class="toolbar">
+    <label for="search">搜尋:</label>
+    <input id="search" type="search" placeholder="ID 或 raw hex" autofocus>
+    <span class="count" id="count">— / 32</span>
+  </div>
+  <div id="content"><div style="padding: 40px; text-align: center; color: var(--phosphor-dim);">載入中...</div></div>
+</div>
+
+<script>
+window.LIST_CONFIG = {
+  dataKey: 'hissatsu',
+  totalCount: 32,
+  columns: ['ID', 'offset', 'size', 'raw hex 前 32 bytes'],
+  searchField: (h) => String(h.id) + h._raw,
+  getRowFields: (h) => [
+    { value: '0x' + h.id.toString(16).toUpperCase().padStart(2, '0'), class: 'num' },
+    { value: '0x' + h._offset.toString(16).toUpperCase().padStart(4, '0'), class: 'num' },
+    { value: h._size, class: 'num' },
+    { value: h._raw.slice(0, 64) + '...', class: 'num' },
+  ],
+  detailFn: (dtd, h) => {
+    const div = window.el('div', { style: 'font-family: monospace; font-size: 13px; color: var(--phosphor);' });
+    // 嘗試解碼前幾欄
+    const raw = h._raw;
+    const id_byte = raw.slice(0, 2);
+    const name_code = raw.slice(2, 6);
+    div.appendChild(window.el('div', null, 'ID byte: 0x' + id_byte));
+    div.appendChild(window.el('div', null, '名稱碼 (offset 0x01-0x02): 0x' + name_code + ' (推測指向 TECHNIC.ENC)'));
+    div.appendChild(window.el('div', { style: 'margin-top: 12px; color: var(--phosphor-fade);' },
+      'raw hex (' + h._size + ' bytes):'));
+    div.appendChild(window.el('div', { class: 'raw' }, raw));
+    dtd.appendChild(div);
+  },
+};
+</script>
+<script src="list-page.js"></script>
+</body>
+</html>
