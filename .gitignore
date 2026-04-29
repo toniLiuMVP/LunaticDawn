@@ -11,3 +11,9 @@
 # Python build 快取
 __pycache__/
 *.pyc
+
+# Claude Code 本地設定（不該進 repo）
+.claude/
+
+# 本地開發 HTTP server
+serve.py
