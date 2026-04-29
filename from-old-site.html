@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>網站搬家了 · 吟遊詩人的傳說 · 俠客遊小站</title>
+<meta name="description" content="吟遊詩人的傳說 · 俠客遊小站已從 Google Sites 搬家到 GitHub Pages。新站含完整存檔修改器、9 篇攻略、跨平台啟動器、456 物品資料庫、二進制圖像逆向。">
+<meta http-equiv="refresh" content="5; url=index.html">
+<link rel="canonical" href="https://toniliumvp.github.io/LunaticDawn/">
+<link rel="stylesheet" href="assets/css/fonts-retro.css">
+<link rel="stylesheet" href="assets/css/retro.css">
+<style>
+.welcome {
+  text-align: center;
+  padding: 60px 20px;
+}
+.welcome h1 {
+  color: var(--amber);
+  font-size: 24px;
+  margin-bottom: 24px;
+  text-shadow: 0 0 8px var(--amber);
+  font-family: 'Press Start 2P', monospace;
+}
+.welcome .arrow {
+  font-size: 48px;
+  color: var(--phosphor);
+  margin: 24px 0;
+  animation: blink 1s infinite;
+}
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.3; }
+}
+.welcome p { font-size: 18px; line-height: 1.6; margin: 12px 0; }
+.welcome .countdown { color: var(--phosphor-dim); font-family: monospace; }
+.welcome a.cta {
+  display: inline-block;
+  margin: 16px;
+  padding: 12px 24px;
+  border: 2px solid var(--phosphor);
+  background: var(--bg-panel);
+  color: var(--phosphor);
+  text-decoration: none;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+}
+.welcome a.cta:hover {
+  background: var(--phosphor);
+  color: var(--bg);
+}
+.history {
+  margin-top: 40px;
+  padding: 16px 20px;
+  border: 1px solid var(--phosphor-fade);
+  background: var(--bg-panel);
+  text-align: left;
+  font-size: 14px;
+  color: var(--phosphor-dim);
+}
+.history h2 {
+  font-size: 14px;
+  color: var(--amber);
+  font-family: 'Press Start 2P', monospace;
+  margin-bottom: 8px;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="pixel">吟遊詩人的傳說 · 俠客遊小站</h1>
+    </div>
+  </header>
+
+  <div class="welcome">
+    <h1>網站搬家了</h1>
+    <div class="arrow">▼</div>
+
+    <p>原本在 <code>sites.google.com/site/lunticdawn</code> 的舊站</p>
+    <p>已搬家到 <strong>GitHub Pages</strong>。</p>
+    <p style="margin-top: 24px;">
+      新站功能：純前端存檔修改器、9 篇社群攻略 HTML、<br>
+      跨平台啟動器、Luna2_EZ 懶人包、<br>
+      <span style="color: var(--amber);">遊戲二進制資料庫</span>（456 物品 / 128 怪物 / 80 魔法 / 40 迷宮）
+    </p>
+
+    <p style="margin-top: 32px;">
+      <a class="cta" href="index.html">▸ 進入新站</a>
+    </p>
+
+    <p class="countdown" id="countdown">5 秒後自動跳轉...</p>
+
+    <div class="history">
+      <h2>站點歷史</h2>
+      <ul style="margin-left: 20px;">
+        <li>2003 年起 — 巴哈姆特 / GameBase 遊戲基地社群整理</li>
+        <li>2007-2010 — 收錄於 Google Sites <code>sites.google.com/site/lunticdawn</code></li>
+        <li>2026-04 — 搬家到 GitHub Pages，新增資料庫子站、二進制逆向工程</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+let n = 5;
+const cd = document.getElementById('countdown');
+const t = setInterval(() => {
+  n--;
+  if (n <= 0) {
+    clearInterval(t);
+    cd.textContent = '跳轉中...';
+  } else {
+    cd.textContent = n + ' 秒後自動跳轉到新站...';
+  }
+}, 1000);
+</script>
+</body>
+</html>
