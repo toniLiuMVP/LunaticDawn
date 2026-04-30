@@ -127,8 +127,71 @@
 
   <div class="notice">
     <b>▸ 公開版本說明</b><br>
-    依 <code>PUBLISHING.md</code> 規範，items / monsters / magics / hissatsu / dungeons 五類資料的「名稱欄位」目前以「(本機保留)」顯示。所有數值欄位（HP、價格、攻擊力等）完整保留。
+    依 <code>PUBLISHING.md</code> 規範，五類資料保留原名 + 自動生成 toni 視角短評（B 選項）。所有數值欄位完整保留。
   </div>
+
+  <section style="margin: 20px 0; border: 2px solid var(--amber); background: var(--bg-panel); padding: 16px 20px;">
+    <h2 style="font-size: 16px; color: var(--amber); font-family: 'Press Start 2P', monospace; margin-bottom: 12px;">▸ 全站搜尋</h2>
+    <input id="global-search" type="search" placeholder="搜尋 736 筆資料（物品 / 怪物 / 魔法 / 武技 / 迷宮）" style="width: 100%; background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-dim); padding: 8px 12px; font-family: 'VT323', monospace; font-size: 18px;">
+    <div id="search-results" style="margin-top: 12px;"></div>
+  </section>
+
+  <script>
+  (async function() {
+    let idx = null;
+    const input = document.getElementById('global-search');
+    const out = document.getElementById('search-results');
+    const linkMap = { items: 'items.html', monsters: 'monsters.html', magics: 'magics.html', hissatsu: 'hissatsu.html', dungeons: 'dungeons.html' };
+    const labelMap = { items: '物品', monsters: '怪物', magics: '魔法', hissatsu: '武技', dungeons: '迷宮' };
+
+    input.addEventListener('input', async () => {
+      const q = input.value.trim();
+      out.replaceChildren();
+      if (!q) return;
+      if (!idx) {
+        try {
+          const r = await fetch('search_index.json');
+          idx = await r.json();
+        } catch (e) {
+          out.textContent = '搜尋資料載入失敗';
+          return;
+        }
+      }
+      const matches = idx.filter(e => (e.name && e.name.includes(q)) || (e.note && e.note.includes(q))).slice(0, 30);
+      if (matches.length === 0) {
+        out.textContent = '無匹配結果';
+        return;
+      }
+      const ul = document.createElement('ul');
+      ul.style.cssText = 'list-style: none; padding: 0; margin: 0;';
+      matches.forEach(e => {
+        const li = document.createElement('li');
+        li.style.cssText = 'padding: 6px 0; border-bottom: 1px dashed var(--phosphor-fade); font-size: 14px;';
+        const a = document.createElement('a');
+        a.href = linkMap[e.cat];
+        a.style.cssText = 'color: var(--phosphor); text-decoration: none;';
+        const cat = document.createElement('span');
+        cat.textContent = `[${labelMap[e.cat]}#${e.id}] `;
+        cat.style.cssText = 'color: var(--amber); font-family: monospace;';
+        a.appendChild(cat);
+        a.appendChild(document.createTextNode(e.name || '(無名)'));
+        if (e.note) {
+          const note = document.createElement('span');
+          note.textContent = ` — ${e.note}`;
+          note.style.cssText = 'color: var(--phosphor-dim);';
+          a.appendChild(note);
+        }
+        li.appendChild(a);
+        ul.appendChild(li);
+      });
+      const count = document.createElement('div');
+      count.textContent = `${matches.length} 筆${matches.length < idx.filter(e => (e.name && e.name.includes(q)) || (e.note && e.note.includes(q))).length ? ` (顯示前 30)` : ''}`;
+      count.style.cssText = 'color: var(--phosphor-dim); font-family: monospace; margin-bottom: 8px;';
+      out.appendChild(count);
+      out.appendChild(ul);
+    });
+  })();
+  </script>
 
   <div class="cards">
     <a class="card" href="items.html">
