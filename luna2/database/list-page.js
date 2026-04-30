@@ -78,8 +78,8 @@
 
   // sanitize：raw hex 已依 PUBLISHING.md 移除，HTML 引用時顯示 placeholder
   function sanitizeRow(row) {
-    if (!('_raw' in row)) row._raw = '(raw hex 本機保留，公開頁面不展示)';
-    if (!('_raw_first_64' in row)) row._raw_first_64 = '(raw hex 本機保留，公開頁面不展示)';
+    if (!('_raw' in row)) row._raw = '';
+    if (!('_raw_first_64' in row)) row._raw_first_64 = '';
     return row;
   }
 
