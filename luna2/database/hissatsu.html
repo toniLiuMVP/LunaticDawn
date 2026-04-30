@@ -33,8 +33,26 @@
   </header>
   <div class="note">
     武技 (HISSATSU) 是俠客遊 II 的「必殺技」系統，每個角色武技值最高 65535。
-    每筆 36 bytes，含 ID、名稱碼（指向 TECHNIC.ENC 75 個技能名）、屬性參數。
-    結構部分逆向中。
+    HISSATSU.MST 共 32 records × 36 bytes，含 ID、武器類別碼、屬性參數。
+  </div>
+
+  <div class="note" style="border-color: var(--amber); background: rgba(255, 176, 0, 0.05);">
+    <strong style="color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 11px;">▸ LUNA2.EXE 內嵌必殺技名稱（8 種）</strong><br>
+    從 LUNA2.EXE binary offset <code>0x3FCC2-0x3FD07</code> 連續 70 bytes 提取的 8 個 null-terminated Big5 字串：
+    <ol style="margin: 12px 0 0 24px; line-height: 2;">
+      <li><strong>拔刀波斬流</strong> — 刀劍類絕招</li>
+      <li><strong>暴棍撲術</strong> — 棍棒類絕招</li>
+      <li><strong>直棍撲術</strong> — 棍棒類絕招（變體）</li>
+      <li><strong>真槍貫術</strong> — 槍類絕招</li>
+      <li><strong>爆矢眼弓法</strong> — 弓類絕招</li>
+      <li><strong>剛投爆石</strong> — 投擲類絕招</li>
+      <li><strong>波動六骸法</strong> — 格鬥類絕招（推測）</li>
+      <li><strong>斷強破防</strong> — 斧類絕招（推測）</li>
+    </ol>
+    <p style="margin-top: 8px; color: var(--phosphor-fade); font-size: 13px;">
+      32 records 推測為「8 種武器類別 × 4 階變體」或「16 主動技 + 16 被動技」，
+      具體 ID 對應仍在驗證。HISSATSU.MST byte[1-2] 的 ASCII 規律 (R/_ /<) 可能對應「主動 / 進階 / 特殊」三類。
+    </p>
   </div>
   <div class="toolbar">
     <label for="search">搜尋:</label>
