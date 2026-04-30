@@ -66,7 +66,7 @@
 window.LIST_CONFIG = {
   dataKey: 'hissatsu',
   totalCount: 32,
-  columns: ['ID', 'offset', 'size', '(raw hex 本機保留)'],
+  columns: ['ID', 'offset', 'size', 'raw hex'],
   searchField: (h) => String(h.id) + h._raw,
   getRowFields: (h) => [
     { value: '0x' + h.id.toString(16).toUpperCase().padStart(2, '0'), class: 'num' },
