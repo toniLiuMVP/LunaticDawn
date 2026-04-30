@@ -59,10 +59,28 @@
     }
     const dtr = el('tr', { class: 'detail-row' });
     const dtd = el('td', { colspan: String(CFG.columns.length) });
+
+    // PUBLISHING.md B 選項：每筆附 toni 視角短評
+    if (row.toni_note) {
+      dtd.appendChild(el('div', {
+        style: 'border-left: 3px solid var(--amber); background: rgba(255, 176, 0, 0.06); padding: 8px 12px; margin-bottom: 12px; font-size: 14px; color: var(--phosphor);'
+      },
+        el('b', { style: 'color: var(--amber); font-family: \'Press Start 2P\', monospace; font-size: 11px; display: block; margin-bottom: 4px;' }, '攻略筆記'),
+        row.toni_note
+      ));
+    }
+
     CFG.detailFn(dtd, row);
     dtr.appendChild(dtd); dtr._owner = tr;
     tr.parentNode.insertBefore(dtr, tr.nextSibling);
     openDetail = dtr;
+  }
+
+  // sanitize：raw hex 已依 PUBLISHING.md 移除，HTML 引用時顯示 placeholder
+  function sanitizeRow(row) {
+    if (!('_raw' in row)) row._raw = '(raw hex 本機保留，公開頁面不展示)';
+    if (!('_raw_first_64' in row)) row._raw_first_64 = '(raw hex 本機保留，公開頁面不展示)';
+    return row;
   }
 
   function applyFilter() {
@@ -78,7 +96,7 @@
       const r = await fetch('game_data.json');
       if (!r.ok) throw new Error('HTTP ' + r.status);
       const data = await r.json();
-      allRows = data[CFG.dataKey];
+      allRows = data[CFG.dataKey].map(sanitizeRow);
       $('search').addEventListener('input', applyFilter);
       applyFilter();
     } catch (e) {
