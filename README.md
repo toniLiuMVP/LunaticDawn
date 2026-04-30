@@ -41,8 +41,6 @@
 - **[通用資訊](./general/)** — 編碼 FAQ、社群連結
 - **[俠客遊 II 資料庫](./luna2/database/)** — DOS 二進制檔案格式逆向研究與數值欄位資料
 - **[技術文件](./docs/)** — `.ENC` / `.DDT` / `.MST` 檔案格式 reverse engineering 技術筆記
-- **[發布規則 PUBLISHING.md](./PUBLISHING.md)** — 公開站內容規範（雙層架構：本機完整 / 公開精簡）
-- **[架構文件](./ARCHITECTURE.md)** · **[品質基準](./QUALITY_BAR.md)** — 專案設計原則與可量測 KPI
 
 ## 🎮 兩種遊玩方式
 

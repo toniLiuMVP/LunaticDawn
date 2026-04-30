@@ -174,10 +174,6 @@ def build_readme() -> str:
         lines.append("- **[俠客遊 II 資料庫](./luna2/database/)** — DOS 二進制檔案格式逆向研究與數值欄位資料")
     if check_exists("docs/enc-format.md"):
         lines.append("- **[技術文件](./docs/)** — `.ENC` / `.DDT` / `.MST` 檔案格式 reverse engineering 技術筆記")
-    if check_exists("PUBLISHING.md"):
-        lines.append("- **[發布規則 PUBLISHING.md](./PUBLISHING.md)** — 公開站內容規範（雙層架構：本機完整 / 公開精簡）")
-    if check_exists("ARCHITECTURE.md"):
-        lines.append("- **[架構文件](./ARCHITECTURE.md)** · **[品質基準](./QUALITY_BAR.md)** — 專案設計原則與可量測 KPI")
     lines.append("")
 
     # 兩種遊玩方式
