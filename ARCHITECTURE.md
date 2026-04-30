@@ -105,5 +105,5 @@ LD/                                ← 工作目錄（/Volumes/Work/LD/，本地
 | 階段 4：版權合規重構（PUBLISHING.md） | ✓ 完成 |
 | 階段 5：DDT mode 12-39 + DD9/PAC/E32 圖像 | ⏳ 待 |
 | 階段 6：HISSATSU 32 records 完整 mapping | ⏳ 待 |
-| 階段 7：database 全站搜尋 + timeline | ⏳ 進行中 |
+| 階段 7：database 全站搜尋 | ✓ 完成（timeline 公開版已撤回） |
 | 階段 8：學自 PTT 的 ADR 流程 | ⏳ 規劃 |
