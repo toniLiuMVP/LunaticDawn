@@ -170,6 +170,14 @@ def build_readme() -> str:
         lines.append("- **[Steam 購買指南](./steam/)** — Steam 版購買說明")
     if has_general:
         lines.append("- **[通用資訊](./general/)** — 編碼 FAQ、社群連結")
+    if check_exists("luna2/database/index.html"):
+        lines.append("- **[俠客遊 II 資料庫](./luna2/database/)** — DOS 二進制檔案格式逆向研究與數值欄位資料")
+    if check_exists("docs/enc-format.md"):
+        lines.append("- **[技術文件](./docs/)** — `.ENC` / `.DDT` / `.MST` 檔案格式 reverse engineering 技術筆記")
+    if check_exists("PUBLISHING.md"):
+        lines.append("- **[發布規則 PUBLISHING.md](./PUBLISHING.md)** — 公開站內容規範（雙層架構：本機完整 / 公開精簡）")
+    if check_exists("ARCHITECTURE.md"):
+        lines.append("- **[架構文件](./ARCHITECTURE.md)** · **[品質基準](./QUALITY_BAR.md)** — 專案設計原則與可量測 KPI")
     lines.append("")
 
     # 兩種遊玩方式
@@ -229,7 +237,7 @@ def build_readme() -> str:
     # 授權
     lines.append("## 📜 授權")
     lines.append("")
-    lines.append("本站程式碼為 MIT。社群整理的攻略、物品資料、存檔解析文件版權屬於原作者，本站僅為**數位文化遺產保存**目的整理展示。如原作者希望撤除，請開 Issue 告知。")
+    lines.append("本站程式碼為 MIT。本站基於數位文化保存目的整理，遊戲本體著作權屬於 Artdink。站上技術文件為獨立逆向研究成果，遊戲內原版創意內容（圖像、劇情、完整名稱資料）僅作為研究者個人參考保留，不在本站公開展示。請至 Steam 商店購買正版俠客遊系列支持原作。若您是攻略原作者並希望授權變更或撤除，請至 [GitHub Issues](https://github.com/toniLiuMVP/LunaticDawn/issues) 聯繫。")
     lines.append("")
     lines.append("---")
     lines.append("")
