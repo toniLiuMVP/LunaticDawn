@@ -130,6 +130,22 @@ def comment_dungeon(record):
         return '終盤迷宮或特殊迷宮'
 
 
+# === toni 客製評論 override ===
+import json, os
+_OVERRIDES = None
+def load_overrides():
+    global _OVERRIDES
+    if _OVERRIDES is not None: return _OVERRIDES
+    p = os.path.join(os.path.dirname(__file__), '..', '..', '_local', 'toni_notes_overrides.json')
+    try:
+        with open(p, encoding='utf-8') as f: _OVERRIDES = json.load(f)
+    except: _OVERRIDES = {}
+    return _OVERRIDES
+def get_override(cat, rid):
+    ov = load_overrides()
+    return ov.get(cat, {}).get(str(rid))
+
+
 COMMENT_FUNCS = {
     'items': comment_item,
     'monsters': comment_monster,
@@ -156,9 +172,13 @@ def filter_full_data(full_data):
             new_r = dict(r)
             new_r.pop('_raw', None)
             new_r.pop('_raw_first_64', None)
-            try:
-                new_r['toni_note'] = commenter(r)
-            except Exception:
-                new_r['toni_note'] = ''
+            override = get_override(category, r.get('id'))
+            if override:
+                new_r['toni_note'] = override
+            else:
+                try:
+                    new_r['toni_note'] = commenter(r)
+                except Exception:
+                    new_r['toni_note'] = ''
             public[category].append(new_r)
     return public
