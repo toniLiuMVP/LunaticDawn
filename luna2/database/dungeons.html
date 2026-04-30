@@ -51,7 +51,7 @@ window.LIST_CONFIG = {
   ],
   detailFn: (dtd, d) => {
     dtd.appendChild(window.el('div', { class: 'raw' },
-      window.el('b', { style: 'color: var(--phosphor-dim); font-family: \"Press Start 2P\", monospace; font-size: 10px;' }, 'raw hex (前 64 bytes，共 384)'),
+      window.el('b', { style: 'color: var(--phosphor-dim); font-family: \"Press Start 2P\", monospace; font-size: 10px;' }, '(raw hex 本機保留)'),
       window.el('br'),
       d._raw_first_64
     ));

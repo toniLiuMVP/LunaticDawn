@@ -56,7 +56,7 @@ window.LIST_CONFIG = {
   ],
   detailFn: (dtd, m) => {
     dtd.appendChild(window.el('div', { class: 'raw' },
-      window.el('b', { style: 'color: var(--phosphor-dim);' }, 'raw hex (32 bytes)'),
+      window.el('b', { style: 'color: var(--phosphor-dim);' }, '(raw hex 本機保留)'),
       window.el('br'),
       m._raw
     ));
