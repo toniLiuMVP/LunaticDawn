@@ -66,26 +66,42 @@
 window.LIST_CONFIG = {
   dataKey: 'hissatsu',
   totalCount: 32,
-  columns: ['ID', 'offset', 'size', 'raw hex'],
-  searchField: (h) => String(h.id) + h._raw,
+  columns: ['ID', '必殺技名稱', '變體', '威力', '動畫'],
+  searchField: (h) => String(h.id) + (h.name || '') + (h.variant || ''),
   getRowFields: (h) => [
     { value: '0x' + h.id.toString(16).toUpperCase().padStart(2, '0'), class: 'num' },
-    { value: '0x' + h._offset.toString(16).toUpperCase().padStart(4, '0'), class: 'num' },
-    { value: h._size, class: 'num' },
-    { value: h._raw.slice(0, 64) + '...', class: 'num' },
+    { value: h.name || '?', class: h.kind === 'special' ? 'dim' : '' },
+    { value: h.variant || '?' },
+    { value: h.power ?? '—', class: 'num atk' },
+    { value: h.anim_id ?? '—', class: 'num' },
   ],
   detailFn: (dtd, h) => {
-    const div = window.el('div', { style: 'font-family: monospace; font-size: 13px; color: var(--phosphor);' });
-    // 嘗試解碼前幾欄
-    const raw = h._raw;
-    const id_byte = raw.slice(0, 2);
-    const name_code = raw.slice(2, 6);
-    div.appendChild(window.el('div', null, 'ID byte: 0x' + id_byte));
-    div.appendChild(window.el('div', null, '名稱碼 (offset 0x01-0x02): 0x' + name_code + ' (推測指向 TECHNIC.ENC)'));
-    div.appendChild(window.el('div', { style: 'margin-top: 12px; color: var(--phosphor-fade);' },
-      'raw hex (' + h._size + ' bytes):'));
-    div.appendChild(window.el('div', { class: 'raw' }, raw));
-    dtd.appendChild(div);
+    const grid = window.el('div', { class: 'grid' });
+    const fields = [
+      ['ID', '0x' + h.id.toString(16).toUpperCase().padStart(2, '0')],
+      ['必殺技名稱', h.name || '?'],
+      ['變體 / 類型', h.variant || '?'],
+      ['類別 (kind)', h.kind === 'weapon' ? '8 武器類別主必殺' : '特殊類 (boss / 事件 / 怪物用)'],
+      ['威力 (power)', h.power ?? '?'],
+      ['動畫 ID (sprite)', h.anim_id ?? '無 (0xFFFF)'],
+      ['b1 內部碼', h.b1],
+      ['record offset', '0x' + h._offset.toString(16).toUpperCase().padStart(4, '0')],
+      ['record size', h._size + ' bytes'],
+    ];
+    for (const [label, value] of fields) {
+      const div = window.el('div', null,
+        window.el('b', null, label),
+        window.el('span', null, String(value))
+      );
+      grid.appendChild(div);
+    }
+    dtd.appendChild(grid);
+
+    dtd.appendChild(window.el('div', { class: 'raw' },
+      window.el('b', { style: 'color: var(--phosphor-dim); font-family: \"Press Start 2P\", monospace; font-size: 10px;' }, 'raw hex'),
+      window.el('br'),
+      h._raw
+    ));
   },
 };
 </script>
