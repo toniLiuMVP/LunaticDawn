@@ -50,13 +50,14 @@
 window.LIST_CONFIG = {
   dataKey: 'monsters',
   totalCount: 128,
-  columns: ['ID', '怪物名稱', 'HP', 'MP', 'Lv', 'ATK', 'EXP', '金錢', '掉寶'],
+  columns: ['ID', '怪物名稱', 'HP', 'MP', 'STM', 'Lv', 'ATK', 'EXP', '金錢', '掉寶'],
   searchField: (m) => (m.name || '') + (m.name_inline || ''),
   getRowFields: (m) => [
     { value: '0x' + m.id.toString(16).toUpperCase().padStart(2, '0'), class: 'num' },
     { value: m.name || m.name_inline },
     { value: m.hp + ' / ' + m.hp_max, class: 'num hp' },
     { value: m.mp || '—', class: 'num mp' },
+    { value: m.stm ?? '—', class: 'num' },
     { value: m.level, class: 'num lvl' },
     { value: m.atk, class: 'num atk' },
     { value: m.exp, class: 'num' },
@@ -89,6 +90,7 @@ window.LIST_CONFIG = {
       ['HP（顯示）', m.hp],
       ['HP_max（戰鬥）', m.hp_max],
       ['MP', m.mp || '無'],
+      ['STM（體力）', m.stm ?? '無'],
       ['等級', m.level],
       ['攻擊力', m.atk],
       ['防砍', m.def_slash],
