@@ -44,17 +44,35 @@
 window.LIST_CONFIG = {
   dataKey: 'magics',
   totalCount: 80,
-  columns: ['ID', '魔法名稱', 'MP 消耗', 'val_04', 'val_06', 'val_08'],
-  searchField: (m) => m.name,
+  columns: ['ID', '魔法名稱', '系別', 'MP', 'ATK', '類型'],
+  searchField: (m) => (m.name || '') + (m.system || '') + (m.type || ''),
   getRowFields: (m) => [
     { value: '0x' + m.id.toString(16).toUpperCase().padStart(2, '0'), class: 'num' },
-    { value: m.name || '—' },
-    { value: window.num(m.mp_cost), class: 'num mp' },
-    { value: window.num(m.val_04), class: 'num' },
-    { value: window.num(m.val_06), class: 'num' },
-    { value: window.num(m.val_08), class: 'num' },
+    { value: m.is_empty_slot ? '—' : (m.name || '—'), class: m.is_empty_slot ? 'dim' : '' },
+    { value: m.system || '—' },
+    { value: m.is_empty_slot ? '—' : window.num(m.mp_cost), class: 'num mp' },
+    { value: m.atk ?? '—', class: 'num atk' },
+    { value: m.type || '—' },
   ],
   detailFn: (dtd, m) => {
+    const grid = window.el('div', { class: 'grid' });
+    const fields = [
+      ['系別 (5 系分區)', m.system || '?'],
+      ['MP 消耗', m.is_empty_slot ? '空 slot' : m.mp_cost],
+      ['攻擊力 (ATK)', m.atk ?? '無 (治療/偵測)'],
+      ['法術類型', m.type || '?'],
+      ['動畫 ID', m.anim_id ?? '無 (輔助類)'],
+      ['空 slot', m.is_empty_slot ? '是 (該 slot 未使用)' : '否'],
+    ];
+    for (const [label, value] of fields) {
+      const div = window.el('div', null,
+        window.el('b', null, label),
+        window.el('span', null, String(value))
+      );
+      grid.appendChild(div);
+    }
+    dtd.appendChild(grid);
+
     dtd.appendChild(window.el('div', { class: 'raw' },
       window.el('b', { style: 'color: var(--phosphor-dim);' }, 'raw hex'),
       window.el('br'),
