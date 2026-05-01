@@ -63,4 +63,4 @@ color_index = plane_0_bit | (plane_1_bit << 1) | (plane_2_bit << 2) | (plane_3_b
 依 `PUBLISHING.md` 規範：
 
 - 格式結構文件 / 解碼演算法 = **C 類**（純技術，可公開）
-- 解碼後的具體 PNG 圖像 = **A 類**（本機保留，禁止上傳）
+- 解碼後的具體 PNG 圖像 = **A 類**（依 `PUBLISHING.md` 禁止上傳）
