@@ -231,15 +231,28 @@ td.highlight { color: var(--heading); font-weight: 700; }
     啟動，繞過這個限制。如果你仍然遇到此問題，請確認使用的是最新版啟動腳本。
   </p>
 
-  <h3>macOS：第一次執行被阻擋</h3>
+  <h3>macOS：第一次執行被阻擋（一鍵解決）</h3>
   <p>
-    macOS Gatekeeper 可能會阻擋 <span class="code-inline">.command</span> 腳本。
+    macOS 26+ 對「網路下載的可執行檔」預設加 <span class="code-inline">com.apple.quarantine</span>
+    屬性，Gatekeeper 會靜默拒絕雙擊。懶人包裡所有 <span class="code-inline">.command</span> +
+    DOSBox Staging.app 都會中。
   </p>
-  <p>方法 A：右鍵點選 → 「打開」→ 確認打開。</p>
-  <p>方法 B：終端機執行：</p>
-  <pre class="code-block">chmod +x Mac_Play_Luna2.command
-xattr -d com.apple.quarantine Mac_Play_Luna2.command</pre>
-  <p>或到「系統設定 → 隱私權與安全性」最下面允許執行。</p>
+  <p><span class="amber">★ 推薦做法（跑一次永久搞定）</span>：</p>
+  <ol>
+    <li>右鍵點懶人包根目錄的
+      <span class="code-inline">_Mac首次執行_先點我.command</span>
+      （檔名底線開頭，Finder 排序在最上面）→ 選「打開」</li>
+    <li>跳出「來自身份不明的開發者」警告 → 再按一次「打開」</li>
+    <li>看到「✓ 已清除 macOS quarantine」訊息</li>
+    <li>之後直接雙擊 <span class="code-inline">Mac_Play_Luna2.command</span> 啟動遊戲</li>
+  </ol>
+  <p>
+    這個破冰腳本只需跑一次。它會清掉整個懶人包資料夾的 quarantine，
+    包括引擎、所有 <span class="code-inline">.command</span>、DOSBox Staging.app。
+  </p>
+  <p>進階使用者也可以用終端機一鍵清整個資料夾：</p>
+  <pre class="code-block">xattr -dr com.apple.quarantine ~/Downloads/Luna2_EZ
+chmod +x ~/Downloads/Luna2_EZ/*.command</pre>
 
   <h3>Windows：SmartScreen 警告</h3>
   <p>

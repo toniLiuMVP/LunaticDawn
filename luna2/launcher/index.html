@@ -201,13 +201,24 @@ sudo pacman -S dosbox-x
   </div>
 
   <div class="step">
-    <span class="step-num">3.2 · macOS 使用者</span>
-    第一次執行時右鍵點 <span class="code-inline">Mac_Play_Luna2.command</span> →
-    選「打開」→ 彈出警告 → 選「打開」。
+    <span class="step-num">3.2 · macOS 使用者（必看）</span>
+    macOS 26+ 對「網路下載的可執行檔」預設加
+    <span class="code-inline">com.apple.quarantine</span> 屬性，Gatekeeper 會靜默拒絕雙擊。
     <br><br>
-    或者終端機跑一次：
-    <pre class="code-block">chmod +x Mac_Play_Luna2.command</pre>
-    之後雙擊即可。
+    <span class="amber">第一次執行的標準作法</span>：
+    <ol style="margin: 8px 0 8px 20px; line-height: 1.8;">
+      <li>右鍵點 <span class="code-inline">Mac_Play_Luna2.command</span> → 選「打開」</li>
+      <li>跳出「來自身份不明的開發者」警告 → 再按一次「打開」</li>
+      <li>授權成功 → 啟動腳本內建 self-clean，會清掉同目錄
+        <span class="code-inline">dosbox-x.conf</span> 跟其他檔案的 quarantine</li>
+      <li>之後直接雙擊就能跑（不必再右鍵）</li>
+    </ol>
+    或一次清乾淨整個資料夾（推薦給命令列使用者）：
+    <pre class="code-block">xattr -dr com.apple.quarantine /path/to/your/luna2
+chmod +x /path/to/your/luna2/Mac_Play_Luna2.command</pre>
+    <span class="dim">如果 DOSBox-X 也被擋（首次跑時跳「已損毀」），同樣用上面的
+      <span class="code-inline">xattr -dr</span> 指令對著
+      <span class="code-inline">/Applications/dosbox-x.app</span> 跑一次。</span>
   </div>
 
   <div class="step">
@@ -376,10 +387,16 @@ LH M\SB16.COM</pre>
   </p>
 
   <h3>Q6. macOS 說「未識別的開發者」？</h3>
-  <p>這是 macOS Gatekeeper 的保護。解法：</p>
-  <pre class="code-block">chmod +x Mac_Play_Luna2.command
-xattr -d com.apple.quarantine Mac_Play_Luna2.command</pre>
-  <p>或者到「系統設定 → 隱私權與安全性」最下面允許執行。</p>
+  <p>
+    macOS 26+ 對「網路下載的可執行檔」預設加
+    <span class="code-inline">com.apple.quarantine</span>，Gatekeeper 靜默拒絕。
+    詳細解法請看上方 <span class="amber">3.2 · macOS 使用者</span>。
+    最簡單一招：右鍵點 <span class="code-inline">Mac_Play_Luna2.command</span> →
+    「打開」→ 再「打開」一次（一次授權，之後雙擊都能跑）。
+  </p>
+  <p>命令列一次清整個資料夾：</p>
+  <pre class="code-block">xattr -dr com.apple.quarantine /path/to/your/luna2
+chmod +x /path/to/your/luna2/Mac_Play_Luna2.command</pre>
 
   <h3>Q7. 路徑含中文導致 DOSBox 無法掛載？</h3>
   <p>
