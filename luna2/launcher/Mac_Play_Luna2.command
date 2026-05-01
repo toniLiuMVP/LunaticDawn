@@ -18,6 +18,11 @@
 cd "$(dirname "$0")" || exit 1
 GAME_DIR="$(pwd)"
 
+# ── 自我清除 quarantine（macOS 26+ 雙擊修復）──
+# 真因：rsync from SMB 自動繼承 com.apple.quarantine attribute → Gatekeeper 靜默拒絕
+# 詳見：~/.claude/MACOS_DOTCOMMAND_FIX.md
+xattr -dr com.apple.quarantine "$GAME_DIR" 2>/dev/null || true
+
 # DOSBox-X 的預設安裝位置
 DOSBOX="/Applications/dosbox-x.app/Contents/MacOS/dosbox-x"
 
