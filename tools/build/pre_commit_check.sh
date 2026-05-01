@@ -29,14 +29,20 @@ if [ -d luna2/database/sprites ] && [ -n "$(ls -A luna2/database/sprites 2>/dev/
 fi
 ok "sprites/ 已清空"
 
-# 檢查 4: 禁止措辭
-forbidden=("事實在二進制裡" "逆向解析的完整資料庫")
+# 檢查 4: 禁止措辭（依 PUBLISHING.md 4.4 條）
+# 也掃 *.py（_build_guides.py 是 footer 源頭，過去曾因漏掃復發）
+forbidden=("事實在二進制裡" "逆向解析的完整資料庫" "攻略文件版權屬於原作者")
 for phrase in "${forbidden[@]}"; do
-  if grep -rn "$phrase" --include="*.html" --include="*.js" --include="*.json" --include="*.md" \
+  if grep -rn "$phrase" --include="*.html" --include="*.js" --include="*.json" --include="*.md" --include="*.py" \
      --exclude-dir=_local --exclude-dir=.git --exclude=PUBLISHING.md . > /dev/null 2>&1; then
     err "含禁止措辭「$phrase」"
   fi
 done
+# 「本機保留」只在 HTML 上禁止（toni 內部指令詞，不該對訪客顯示）
+# docs/*.md 與 _local/、PUBLISHING.md 為內部技術 / 規範語境，允許保留
+if grep -rn "本機保留" --include="*.html" --include="*.js" --exclude-dir=_local --exclude-dir=.git . > /dev/null 2>&1; then
+  err "含禁止措辭「本機保留」（HTML/JS 不該出現）"
+fi
 ok "無禁止措辭"
 
 # 檢查 5: palettes/ 應只有 luna2.png
