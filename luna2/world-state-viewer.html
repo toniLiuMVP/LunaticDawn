@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HIST / SCENDATA / TOWNDATA 世界狀態查看器 · 俠客遊 II</title>
+<meta name="description" content="俠客遊 II 玩家世界狀態 3 SAV 整合查看器。HIST.SAV (16384B 歷史紀錄) / SCENDATA.SAV (6144B 場景紀錄) / TOWNDATA.SAV (8192B 城鎮資料)。第二十八波 read-only viewer。">
+<link rel="stylesheet" href="../assets/css/fonts-retro.css">
+<link rel="stylesheet" href="../assets/css/retro.css">
+<style>
+.intro {
+  border: 1px solid var(--phosphor-fade);
+  padding: 12px 16px;
+  background: var(--bg-panel);
+  margin: 16px 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--phosphor-dim);
+}
+.intro strong { color: var(--amber); }
+.intro code { background: var(--bg-input); padding: 2px 6px; color: var(--phosphor); font-family: 'VT323', monospace; }
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin: 16px 0 0;
+  border-bottom: 1px solid var(--phosphor-dim);
+}
+.tab {
+  background: var(--bg-panel);
+  color: var(--phosphor-dim);
+  border: 1px solid var(--phosphor-dim);
+  border-bottom: none;
+  padding: 8px 20px;
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  cursor: pointer;
+}
+.tab.active {
+  background: var(--bg-input);
+  color: var(--amber);
+  border-bottom: 1px solid var(--bg-input);
+  position: relative; top: 1px;
+}
+
+#drop-zone {
+  border: 2px dashed var(--phosphor-dim);
+  padding: 30px;
+  text-align: center;
+  margin: 16px 0;
+  cursor: pointer;
+}
+#drop-zone:hover { border-color: var(--amber); }
+#drop-zone.drag-active { background: rgba(0, 255, 65, 0.05); border-color: var(--amber); }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+.stat-card {
+  border: 1px solid var(--phosphor-fade);
+  background: var(--bg-panel);
+  padding: 12px;
+}
+.stat-card h4 {
+  color: var(--amber);
+  margin: 0 0 6px;
+  font-size: 14px;
+}
+.stat-card .value {
+  font-family: 'Courier New', monospace;
+  font-size: 16px;
+  color: var(--phosphor);
+}
+.stat-card .desc { font-size: 12px; color: var(--phosphor-dim); margin-top: 4px; }
+
+.heat-map {
+  display: grid;
+  grid-template-columns: repeat(64, 1fr);
+  gap: 1px;
+  margin: 12px 0;
+  font-family: 'Courier New', monospace;
+  font-size: 8px;
+}
+.heat-cell {
+  aspect-ratio: 1;
+  background: var(--bg-input);
+  border: 1px solid transparent;
+}
+.heat-cell.zero { background: #001a00; }
+.heat-cell.low { background: #003300; }
+.heat-cell.mid { background: #006600; }
+.heat-cell.high { background: #00aa00; }
+.heat-cell.peak { background: #00ff41; }
+
+.hex-section {
+  margin-top: 16px;
+  border: 1px solid var(--phosphor-fade);
+  padding: 12px;
+  background: var(--bg-input);
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: var(--phosphor);
+  white-space: pre;
+  overflow-x: auto;
+  max-height: 400px;
+}
+
+.error { color: var(--danger); padding: 20px; border: 1px solid var(--danger); margin: 16px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="pixel">世界狀態查看器</h1>
+      <nav>
+        <a href="savs-dashboard.html">← SAV 總覽</a>
+        ·
+        <a href="kobun-oyabun-viewer.html">KOBUN/OYABUN</a>
+        ·
+        <a href="../">回主站</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="intro">
+    俠客遊 II 玩家「世界狀態」3 個 SAV 整合查看器：<br>
+    <strong>HIST.SAV</strong>（16384 bytes）— 玩家事件歷史紀錄 / 任務 log<br>
+    <strong>SCENDATA.SAV</strong>（6144 bytes）— 場景訪問紀錄（玩家進過哪些場景）<br>
+    <strong>TOWNDATA.SAV</strong>（8192 bytes）— 城鎮狀態資料（玩家在每城鎮的記錄）
+    <br><br>
+    <strong>結構（2026-05-03 第二十八波）</strong>：3 個 SAV 都是「玩家活動累積資料」，前段為實際資料 + 後段 0xFF padding。
+    本工具是 <strong>read-only viewer</strong>（不編輯，避免 byte 結構未驗證風險）+ heat-map 視覺化非零分佈。
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-target="hist">▸ HIST（歷史紀錄）</button>
+    <button class="tab" data-target="scendata">▸ SCENDATA（場景）</button>
+    <button class="tab" data-target="towndata">▸ TOWNDATA（城鎮）</button>
+  </div>
+
+  <div id="drop-zone">
+    <h3 class="pixel" id="drop-title">▶ 拖放 HIST.SAV 到這裡</h3>
+    <p>或 <span style="color: var(--amber); cursor: pointer; text-decoration: underline;" id="click-select">點擊選擇</span></p>
+    <input type="file" id="file-input" accept=".SAV,.sav" style="display: none;">
+  </div>
+
+  <div id="content"></div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const $$ = sel => document.querySelectorAll(sel);
+
+const TAB_CONFIG = {
+  hist: {name: 'HIST', size: 16384, desc: '玩家事件歷史紀錄'},
+  scendata: {name: 'SCENDATA', size: 6144, desc: '場景訪問紀錄'},
+  towndata: {name: 'TOWNDATA', size: 8192, desc: '城鎮狀態資料'},
+};
+
+let activeTab = 'hist';
+
+function el(tag, attrs, ...children) {
+  const e = document.createElement(tag);
+  if (attrs) for (const [k, v] of Object.entries(attrs)) {
+    if (k === 'class') e.className = v;
+    else e.setAttribute(k, v);
+  }
+  for (const c of children) {
+    if (c == null) continue;
+    e.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
+  }
+  return e;
+}
+
+function formatHex(buf, max) {
+  const view = new Uint8Array(buf);
+  const lines = [];
+  const len = Math.min(view.length, max || 512);
+  for (let i = 0; i < len; i += 16) {
+    const offset = i.toString(16).padStart(4, '0');
+    const hexParts = [];
+    const asciiParts = [];
+    for (let j = 0; j < 16 && i + j < len; j++) {
+      const b = view[i + j];
+      hexParts.push(b.toString(16).padStart(2, '0'));
+      asciiParts.push(b >= 32 && b < 127 ? String.fromCharCode(b) : '.');
+    }
+    lines.push(`${offset}: ${hexParts.join(' ').padEnd(48)} | ${asciiParts.join('')}`);
+  }
+  return lines.join('\n');
+}
+
+function computeStats(buffer) {
+  const view = new Uint8Array(buffer);
+  const total = view.length;
+  let nonZero = 0, ffPadding = 0, dataBytes = 0;
+  for (const b of view) {
+    if (b === 0xFF) ffPadding++;
+    else if (b === 0) {} // zero
+    else { nonZero++; dataBytes++; }
+  }
+  const zeroBytes = total - nonZero - ffPadding;
+  return {total, nonZero, ffPadding, zeroBytes, nzPct: (nonZero * 100 / total).toFixed(1)};
+}
+
+function renderHeatMap(buffer, granularity) {
+  const view = new Uint8Array(buffer);
+  const cellsTotal = 256;  // 16 × 16 grid
+  const bytesPerCell = Math.ceil(view.length / cellsTotal);
+
+  const grid = el('div', {class: 'heat-map', style: `grid-template-columns: repeat(16, 1fr);`});
+  for (let cell = 0; cell < cellsTotal; cell++) {
+    const start = cell * bytesPerCell;
+    const end = Math.min(start + bytesPerCell, view.length);
+    let nonZeroInCell = 0;
+    for (let i = start; i < end; i++) {
+      if (view[i] !== 0 && view[i] !== 0xFF) nonZeroInCell++;
+    }
+    const ratio = nonZeroInCell / Math.max(1, end - start);
+    let cls = 'heat-cell ';
+    if (ratio === 0) cls += 'zero';
+    else if (ratio < 0.25) cls += 'low';
+    else if (ratio < 0.5) cls += 'mid';
+    else if (ratio < 0.75) cls += 'high';
+    else cls += 'peak';
+    grid.appendChild(el('div', {
+      class: cls,
+      title: `byte 0x${start.toString(16).padStart(4, '0')}-0x${(end-1).toString(16).padStart(4, '0')}: ${nonZeroInCell} non-zero (${(ratio*100).toFixed(0)}%)`
+    }));
+  }
+  return grid;
+}
+
+function render(buffer) {
+  const cfg = TAB_CONFIG[activeTab];
+  const stats = computeStats(buffer);
+  const content = $('content');
+  content.replaceChildren();
+
+  content.appendChild(el('h3', {style: 'color: var(--amber);'},
+    `${cfg.name}.SAV — ${cfg.desc}`));
+
+  // Stats grid
+  const statsGrid = el('div', {class: 'stats-grid'});
+  statsGrid.appendChild(el('div', {class: 'stat-card'},
+    el('h4', null, '檔案大小'),
+    el('div', {class: 'value'}, stats.total.toLocaleString() + ' bytes'),
+    el('div', {class: 'desc'}, `預期 ${cfg.size.toLocaleString()} bytes`)
+  ));
+  statsGrid.appendChild(el('div', {class: 'stat-card'},
+    el('h4', null, '資料 bytes'),
+    el('div', {class: 'value'}, stats.nonZero.toLocaleString()),
+    el('div', {class: 'desc'}, `${stats.nzPct}% 含實際數值`)
+  ));
+  statsGrid.appendChild(el('div', {class: 'stat-card'},
+    el('h4', null, '0xFF padding'),
+    el('div', {class: 'value'}, stats.ffPadding.toLocaleString()),
+    el('div', {class: 'desc'}, `${(stats.ffPadding * 100 / stats.total).toFixed(1)}%`)
+  ));
+  statsGrid.appendChild(el('div', {class: 'stat-card'},
+    el('h4', null, '0x00 zero'),
+    el('div', {class: 'value'}, stats.zeroBytes.toLocaleString()),
+    el('div', {class: 'desc'}, `${(stats.zeroBytes * 100 / stats.total).toFixed(1)}%`)
+  ));
+  content.appendChild(statsGrid);
+
+  // Heat map
+  content.appendChild(el('h4', {style: 'color: var(--amber); margin-top: 16px;'},
+    '🔥 非零資料分佈 heat map（16×16 grid，hover 看區段）'));
+  content.appendChild(el('p', {style: 'font-size: 12px; color: var(--phosphor-dim); margin: 4px 0;'},
+    '深色 = 該區段全 0 / 0xFF padding；亮色 = 玩家活動累積資料。'));
+  content.appendChild(renderHeatMap(buffer));
+
+  // Hex preview (first 512 bytes)
+  content.appendChild(el('h4', {style: 'color: var(--amber); margin-top: 20px;'},
+    'HEX 預覽（前 512 bytes）'));
+  content.appendChild(el('div', {class: 'hex-section'}, formatHex(buffer, 512)));
+}
+
+async function handleFile(file) {
+  try {
+    const cfg = TAB_CONFIG[activeTab];
+    const buffer = await file.arrayBuffer();
+    if (buffer.byteLength !== cfg.size) {
+      throw new Error(`${cfg.name}.SAV 預期 ${cfg.size} bytes，實際 ${buffer.byteLength}。`);
+    }
+    render(buffer);
+    $('drop-zone').style.display = 'none';
+  } catch (e) {
+    $('content').replaceChildren(el('div', {class: 'error'}, '錯誤：' + e.message));
+  }
+}
+
+for (const tab of $$('.tab')) {
+  tab.addEventListener('click', () => {
+    activeTab = tab.dataset.target;
+    for (const t of $$('.tab')) t.classList.toggle('active', t === tab);
+    const cfg = TAB_CONFIG[activeTab];
+    $('drop-title').textContent = `▶ 拖放 ${cfg.name}.SAV 到這裡`;
+    $('drop-zone').style.display = 'block';
+    $('content').replaceChildren();
+  });
+}
+
+const dz = $('drop-zone');
+dz.addEventListener('dragover', ev => { ev.preventDefault(); dz.classList.add('drag-active'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('drag-active'));
+dz.addEventListener('drop', ev => {
+  ev.preventDefault();
+  dz.classList.remove('drag-active');
+  if (ev.dataTransfer.files.length > 0) handleFile(ev.dataTransfer.files[0]);
+});
+$('click-select').addEventListener('click', () => $('file-input').click());
+$('file-input').addEventListener('change', ev => {
+  if (ev.target.files.length > 0) handleFile(ev.target.files[0]);
+});
+dz.addEventListener('click', ev => {
+  if (ev.target.id === 'drop-zone') $('file-input').click();
+});
+</script>
+</body>
+</html>

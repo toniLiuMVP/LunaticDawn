@@ -232,6 +232,14 @@
     俠客遊 II 玩家物品欄存於 <code>USER0/CHRITEM.SAV</code>（122880 bytes）。
     本工具支援 <strong>查看 + 編輯</strong>（v0.2 第二十四波加入 edit 模式），可解析 160 個角色（玩家 + NPC 同行）的物品欄。
     <br><br>
+    <strong style="color: var(--danger);">⚠️ 修改前務必備份</strong>：本工具的 byte 0-7（item_id + value2）已 binary 逆向確認，
+    但 byte 8-47（modifier / 強化值）<strong>未實機驗證</strong>。修改後若載入遊戲出錯可能損壞角色。
+    <strong>建議流程</strong>：
+    <br>1️⃣ 將 <code>USER0/CHRITEM.SAV</code> 先複製為 <code>USER1/CHRITEM.SAV</code>（DOSBox 內可選 USER1 = 存檔 2）
+    <br>2️⃣ 在 USER1 測試修改 + 載入遊戲驗證
+    <br>3️⃣ 確認 OK 後再覆蓋 USER0
+    <br>（吸收第二十七波 round 4 RedTime「寫工具與工具不同步」教訓）
+    <br><br>
     <strong>結構（2026-05-02 第二十二波逆向）</strong>：160 角色 × 16 物品 slots × 48 bytes/slot。
     每 slot：byte 0-3 = item_id（對應 ITEMNAME.ENC 的 1-456 物品）；byte 4-7 = value2（推測為價格）；
     byte 8-47 = 強化值 + 屬性 modifier + 額外資料。

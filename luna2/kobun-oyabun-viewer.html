@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KOBUN / OYABUN 子分・親分查看器 · 俠客遊 II</title>
+<meta name="description" content="俠客遊 II 子分（小弟）/ 親分（老大）系統查看器。KOBUN.SAV (542 bytes) + OYABUN.SAV (258 bytes)。第二十八波 binary 結構釐清。read-only。">
+<link rel="stylesheet" href="../assets/css/fonts-retro.css">
+<link rel="stylesheet" href="../assets/css/retro.css">
+<style>
+.intro {
+  border: 1px solid var(--phosphor-fade);
+  padding: 12px 16px;
+  background: var(--bg-panel);
+  margin: 16px 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--phosphor-dim);
+}
+.intro strong { color: var(--amber); }
+.intro code { background: var(--bg-input); padding: 2px 6px; color: var(--phosphor); font-family: 'VT323', monospace; }
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin: 16px 0 0;
+  border-bottom: 1px solid var(--phosphor-dim);
+}
+.tab {
+  background: var(--bg-panel);
+  color: var(--phosphor-dim);
+  border: 1px solid var(--phosphor-dim);
+  border-bottom: none;
+  padding: 8px 20px;
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  cursor: pointer;
+}
+.tab.active {
+  background: var(--bg-input);
+  color: var(--amber);
+  border-bottom: 1px solid var(--bg-input);
+  position: relative;
+  top: 1px;
+}
+
+#drop-zone {
+  border: 2px dashed var(--phosphor-dim);
+  padding: 30px;
+  text-align: center;
+  margin: 16px 0;
+  cursor: pointer;
+}
+#drop-zone:hover { border-color: var(--amber); }
+#drop-zone.drag-active { background: rgba(0, 255, 65, 0.05); border-color: var(--amber); }
+
+.field-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin: 12px 0;
+}
+.field-table th, .field-table td {
+  border: 1px solid var(--phosphor-fade);
+  padding: 6px 12px;
+  text-align: left;
+}
+.field-table th { background: var(--bg-panel); color: var(--amber); }
+.field-table .num { font-family: 'Courier New', monospace; text-align: right; }
+
+.hex-section {
+  margin-top: 16px;
+  border: 1px solid var(--phosphor-fade);
+  padding: 12px;
+  background: var(--bg-input);
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: var(--phosphor);
+  white-space: pre;
+  overflow-x: auto;
+  max-height: 300px;
+}
+
+.error { color: var(--danger); padding: 20px; border: 1px solid var(--danger); margin: 16px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="pixel">KOBUN / OYABUN 子分・親分查看器</h1>
+      <nav>
+        <a href="savs-dashboard.html">← SAV 總覽</a>
+        ·
+        <a href="save-editor.html">屬性修改器</a>
+        ·
+        <a href="../">回主站</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="intro">
+    俠客遊 II 隊伍系統的兩個 SAV 檔：<br>
+    <strong>KOBUN.SAV</strong>（542 bytes）— 子分（小弟）資料：玩家招募的同行 NPC。<br>
+    <strong>OYABUN.SAV</strong>（258 bytes）— 親分（老大）資料：玩家當頭目時的隊伍狀態。
+    <br><br>
+    <strong>結構（2026-05-03 第二十八波 binary 結構釐清）</strong>：
+    跟 <code>P/KOBUN.MST</code> + <code>P/OYABUN.MST</code> template 對比，玩家活動後寫入特定 fields。本工具是 <strong>read-only viewer</strong>（不編輯，避免 byte 結構未驗證風險）。
+    <br><br>
+    參考相關攻略：<a href="guides/npc-companions.html">同行 NPC 招募流程</a>。
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-target="kobun">▸ KOBUN（子分）</button>
+    <button class="tab" data-target="oyabun">▸ OYABUN（親分）</button>
+  </div>
+
+  <div id="drop-zone">
+    <h3 class="pixel" id="drop-title">▶ 拖放 KOBUN.SAV 到這裡</h3>
+    <p>或 <span style="color: var(--amber); cursor: pointer; text-decoration: underline;" id="click-select">點擊選擇</span></p>
+    <input type="file" id="file-input" accept=".SAV,.sav" style="display: none;">
+  </div>
+
+  <div id="content"></div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const $$ = sel => document.querySelectorAll(sel);
+
+let activeTab = 'kobun';
+
+function el(tag, attrs, ...children) {
+  const e = document.createElement(tag);
+  if (attrs) for (const [k, v] of Object.entries(attrs)) {
+    if (k === 'class') e.className = v;
+    else e.setAttribute(k, v);
+  }
+  for (const c of children) {
+    if (c == null) continue;
+    e.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
+  }
+  return e;
+}
+
+function formatHex(buf, max) {
+  const view = new Uint8Array(buf);
+  const lines = [];
+  const len = Math.min(view.length, max || view.length);
+  for (let i = 0; i < len; i += 16) {
+    const offset = i.toString(16).padStart(4, '0');
+    const hexParts = [];
+    const asciiParts = [];
+    for (let j = 0; j < 16 && i + j < len; j++) {
+      const b = view[i + j];
+      hexParts.push(b.toString(16).padStart(2, '0'));
+      asciiParts.push(b >= 32 && b < 127 ? String.fromCharCode(b) : '.');
+    }
+    lines.push(`${offset}: ${hexParts.join(' ').padEnd(48)} | ${asciiParts.join('')}`);
+  }
+  return lines.join('\n');
+}
+
+function parseKobun(view) {
+  // KOBUN.SAV 542 bytes
+  // byte 0-3: u32 (header / count?)
+  // byte 4+: u16 LE 序列（小弟資料）
+  const header = view.getUint32(0, true);
+  // Count non-zero segments to detect kobun records
+  return {
+    header,
+    u16_4: view.getUint16(4, true),
+    u16_6: view.getUint16(6, true),
+    u16_8: view.getUint16(8, true),
+    u16_10: view.getUint16(10, true),
+    u16_12: view.getUint16(12, true),
+    u32_at_offset_38: view.getUint32(38, true),  // 第二記錄推測
+  };
+}
+
+function parseOyabun(view) {
+  // OYABUN.SAV 258 bytes
+  // byte 0-3: u32 (玩家是否為 oyabun = 1 yes / 0 no)
+  // byte 4-7: u32 (隊伍人數)
+  // byte 12-25: u16 序列 (8 屬性概要)
+  return {
+    is_oyabun: view.getUint32(0, true),
+    party_size: view.getUint32(4, true),
+    reserved_8_11: view.getUint32(8, true),
+    u16_12: view.getUint16(12, true),  // 971 in USER0
+    u16_14: view.getUint16(14, true),  // 7
+    u16_16: view.getUint16(16, true),  // 12
+    u16_18: view.getUint16(18, true),  // 10
+    u16_20: view.getUint16(20, true),  // 30
+    u16_22: view.getUint16(22, true),  // 7
+    u16_24: view.getUint16(24, true),  // 10
+    u16_26: view.getUint16(26, true),  // 3
+  };
+}
+
+function renderKobun(buffer) {
+  const view = new DataView(buffer);
+  const k = parseKobun(view);
+  const content = $('content');
+  content.replaceChildren();
+
+  content.appendChild(el('h3', {style: 'color: var(--amber);'}, `KOBUN.SAV — ${buffer.byteLength} bytes`));
+
+  const tbl = el('table', {class: 'field-table'});
+  tbl.appendChild(el('tr', null,
+    el('th', null, 'Offset'),
+    el('th', null, 'Type'),
+    el('th', null, 'Value'),
+    el('th', null, '推測意義')
+  ));
+
+  const fields = [
+    {off: '0x00', type: 'u32 LE', val: k.header, hint: 'header / count（USER0 = 0 表示玩家無小弟？）'},
+    {off: '0x04', type: 'u16 LE', val: k.u16_4, hint: '第一個小弟 ID 或屬性'},
+    {off: '0x06', type: 'u16 LE', val: k.u16_6, hint: '小弟資料 1（推測等級或屬性）'},
+    {off: '0x08', type: 'u16 LE', val: k.u16_8, hint: '小弟資料 2（USER0 = 13）'},
+    {off: '0x0A', type: 'u16 LE', val: k.u16_10, hint: '小弟資料 3（USER0 = 16）'},
+    {off: '0x0C', type: 'u16 LE', val: k.u16_12, hint: '小弟資料 4（USER0 = 32）'},
+  ];
+  for (const f of fields) {
+    tbl.appendChild(el('tr', null,
+      el('td', {class: 'num'}, f.off),
+      el('td', null, f.type),
+      el('td', {class: 'num'}, String(f.val)),
+      el('td', null, f.hint)
+    ));
+  }
+  content.appendChild(tbl);
+
+  content.appendChild(el('h4', {style: 'color: var(--amber); margin-top: 20px;'}, 'HEX 完整 dump（542 bytes）'));
+  content.appendChild(el('div', {class: 'hex-section'}, formatHex(buffer)));
+}
+
+function renderOyabun(buffer) {
+  const view = new DataView(buffer);
+  const o = parseOyabun(view);
+  const content = $('content');
+  content.replaceChildren();
+
+  content.appendChild(el('h3', {style: 'color: var(--amber);'}, `OYABUN.SAV — ${buffer.byteLength} bytes`));
+
+  const tbl = el('table', {class: 'field-table'});
+  tbl.appendChild(el('tr', null,
+    el('th', null, 'Offset'),
+    el('th', null, 'Type'),
+    el('th', null, 'Value'),
+    el('th', null, '推測意義')
+  ));
+
+  const fields = [
+    {off: '0x00', type: 'u32 LE', val: o.is_oyabun, hint: '是否為 oyabun（1 = yes, USER0 = 1）'},
+    {off: '0x04', type: 'u32 LE', val: o.party_size, hint: '隊伍人數（USER0 = 2）'},
+    {off: '0x08', type: 'u32 LE', val: o.reserved_8_11, hint: 'reserved'},
+    {off: '0x0C', type: 'u16 LE', val: o.u16_12, hint: '玩家屬性概要 #1（USER0 = 971）'},
+    {off: '0x0E', type: 'u16 LE', val: o.u16_14, hint: '屬性 #2（USER0 = 7）'},
+    {off: '0x10', type: 'u16 LE', val: o.u16_16, hint: '屬性 #3（USER0 = 12）'},
+    {off: '0x12', type: 'u16 LE', val: o.u16_18, hint: '屬性 #4（USER0 = 10）'},
+    {off: '0x14', type: 'u16 LE', val: o.u16_20, hint: '屬性 #5（USER0 = 30）'},
+    {off: '0x16', type: 'u16 LE', val: o.u16_22, hint: '屬性 #6（USER0 = 7）'},
+    {off: '0x18', type: 'u16 LE', val: o.u16_24, hint: '屬性 #7（USER0 = 10）'},
+    {off: '0x1A', type: 'u16 LE', val: o.u16_26, hint: '屬性 #8（USER0 = 3）'},
+  ];
+  for (const f of fields) {
+    tbl.appendChild(el('tr', null,
+      el('td', {class: 'num'}, f.off),
+      el('td', null, f.type),
+      el('td', {class: 'num'}, String(f.val)),
+      el('td', null, f.hint)
+    ));
+  }
+  content.appendChild(tbl);
+
+  content.appendChild(el('h4', {style: 'color: var(--amber); margin-top: 20px;'}, 'HEX 完整 dump（258 bytes）'));
+  content.appendChild(el('div', {class: 'hex-section'}, formatHex(buffer)));
+}
+
+async function handleFile(file) {
+  try {
+    const buffer = await file.arrayBuffer();
+    if (activeTab === 'kobun') {
+      if (buffer.byteLength !== 542) throw new Error(`KOBUN.SAV 應為 542 bytes，實際 ${buffer.byteLength}。`);
+      renderKobun(buffer);
+    } else {
+      if (buffer.byteLength !== 258) throw new Error(`OYABUN.SAV 應為 258 bytes，實際 ${buffer.byteLength}。`);
+      renderOyabun(buffer);
+    }
+    $('drop-zone').style.display = 'none';
+  } catch (e) {
+    $('content').replaceChildren(el('div', {class: 'error'}, '錯誤：' + e.message));
+  }
+}
+
+// Tab switching
+for (const tab of $$('.tab')) {
+  tab.addEventListener('click', () => {
+    activeTab = tab.dataset.target;
+    for (const t of $$('.tab')) t.classList.toggle('active', t === tab);
+    $('drop-title').textContent = `▶ 拖放 ${activeTab.toUpperCase()}.SAV 到這裡`;
+    $('drop-zone').style.display = 'block';
+    $('content').replaceChildren();
+  });
+}
+
+const dz = $('drop-zone');
+dz.addEventListener('dragover', ev => { ev.preventDefault(); dz.classList.add('drag-active'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('drag-active'));
+dz.addEventListener('drop', ev => {
+  ev.preventDefault();
+  dz.classList.remove('drag-active');
+  if (ev.dataTransfer.files.length > 0) handleFile(ev.dataTransfer.files[0]);
+});
+$('click-select').addEventListener('click', () => $('file-input').click());
+$('file-input').addEventListener('change', ev => {
+  if (ev.target.files.length > 0) handleFile(ev.target.files[0]);
+});
+dz.addEventListener('click', ev => {
+  if (ev.target.id === 'drop-zone') $('file-input').click();
+});
+</script>
+</body>
+</html>
