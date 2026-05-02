@@ -127,7 +127,7 @@
 
   <section style="margin: 20px 0; border: 2px solid var(--amber); background: var(--bg-panel); padding: 16px 20px;">
     <h2 style="font-size: 16px; color: var(--amber); font-family: 'Press Start 2P', monospace; margin-bottom: 12px;">▸ 全站搜尋</h2>
-    <input id="global-search" type="search" placeholder="搜尋 736 筆資料（物品 / 怪物 / 魔法 / 武技 / 迷宮）" style="width: 100%; background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-dim); padding: 8px 12px; font-family: 'VT323', monospace; font-size: 18px;">
+    <input id="global-search" type="search" placeholder="搜尋 1396 筆資料（物品 / 怪物 / 魔法 / 武技 / 迷宮 / NPC 字典）" style="width: 100%; background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-dim); padding: 8px 12px; font-family: 'VT323', monospace; font-size: 18px;">
     <div id="search-results" style="margin-top: 12px;"></div>
   </section>
 
@@ -136,8 +136,8 @@
     let idx = null;
     const input = document.getElementById('global-search');
     const out = document.getElementById('search-results');
-    const linkMap = { items: 'items.html', monsters: 'monsters.html', magics: 'magics.html', hissatsu: 'hissatsu.html', dungeons: 'dungeons.html' };
-    const labelMap = { items: '物品', monsters: '怪物', magics: '魔法', hissatsu: '武技', dungeons: '迷宮' };
+    const linkMap = { items: 'items.html', monsters: 'monsters.html', magics: 'magics.html', hissatsu: 'hissatsu.html', dungeons: 'dungeons.html', npcs: 'npcs.html' };
+    const labelMap = { items: '物品', monsters: '怪物', magics: '魔法', hissatsu: '武技', dungeons: '迷宮', npcs: 'NPC' };
 
     input.addEventListener('input', async () => {
       const q = input.value.trim();
@@ -227,6 +227,14 @@
       <div class="card-title">迷 宮</div>
       <div class="card-count">40 筆</div>
       <div class="card-desc">DUNGDATA.MST record 結構：40 個迷宮 × 768 bytes。</div>
+    </a>
+
+    <a class="card" href="npcs.html">
+      <div class="card-icon">▸ NPCS</div>
+      <span class="card-status status-partial">DICT</span>
+      <div class="card-title">NPC 名字字典</div>
+      <div class="card-count">660 筆</div>
+      <div class="card-desc">CALLNAME / MCNAME0 / MCNAME1 / FCNAME 4 個 ENC 字典，遊戲生成 NPC 名字的來源池。</div>
     </a>
   </div>
 

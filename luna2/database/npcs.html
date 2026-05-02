@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NPC 名字字典 · 俠客遊 II</title>
+<link rel="stylesheet" href="../../assets/css/fonts-retro.css">
+<link rel="stylesheet" href="../../assets/css/retro.css">
+<style>
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin: 16px 0 0;
+  border-bottom: 1px solid var(--phosphor-dim);
+}
+.tab {
+  background: var(--bg-panel);
+  color: var(--phosphor-dim);
+  border: 1px solid var(--phosphor-dim);
+  border-bottom: none;
+  padding: 8px 16px;
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  cursor: pointer;
+}
+.tab.active {
+  background: var(--bg-input);
+  color: var(--amber);
+  border-bottom: 1px solid var(--bg-input);
+  position: relative;
+  top: 1px;
+}
+.tab:hover { color: var(--phosphor); }
+.tab .count {
+  color: var(--phosphor-fade);
+  font-size: 14px;
+  margin-left: 4px;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin: 16px 0;
+  padding: 12px;
+  border: 1px solid var(--phosphor-dim);
+  background: var(--bg-panel);
+}
+.toolbar input {
+  background: var(--bg-input);
+  color: var(--phosphor);
+  border: 1px solid var(--phosphor-dim);
+  padding: 6px 10px;
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+}
+.toolbar input:focus { outline: none; border-color: var(--amber); }
+.toolbar label { color: var(--phosphor-dim); font-size: 16px; }
+.toolbar .count {
+  color: var(--amber);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  margin-left: auto;
+}
+
+.intro {
+  border: 1px solid var(--phosphor-fade);
+  padding: 12px 16px;
+  background: var(--bg-panel);
+  margin: 16px 0;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--phosphor-dim);
+}
+.intro strong { color: var(--amber); }
+.intro code {
+  background: var(--bg-input);
+  padding: 2px 6px;
+  color: var(--phosphor);
+  font-family: 'VT323', monospace;
+}
+
+.npc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 4px;
+  font-size: 16px;
+}
+.npc-cell {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 4px 8px;
+  border: 1px solid var(--phosphor-fade);
+  background: var(--bg-input);
+}
+.npc-cell .id {
+  color: var(--phosphor-fade);
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  min-width: 28px;
+}
+.npc-cell .name { color: var(--phosphor); }
+.npc-cell:hover { border-color: var(--amber); }
+
+.country-section {
+  margin-top: 24px;
+}
+.country-section h3 {
+  color: var(--amber);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  margin: 0 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px dotted var(--phosphor-dim);
+}
+.country-section .id-range {
+  color: var(--phosphor-fade);
+  font-size: 12px;
+  margin-left: 8px;
+}
+
+.loading { padding: 40px; text-align: center; color: var(--phosphor-dim); }
+.error { color: var(--danger); padding: 20px; border: 1px solid var(--danger); }
+
+.combo-info {
+  text-align: center;
+  margin: 16px 0;
+  color: var(--phosphor-fade);
+  font-size: 14px;
+}
+.combo-info strong { color: var(--phosphor); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="pixel">NPC 名字字典</h1>
+      <nav>
+        <a href="index.html">← 資料庫首頁</a>
+        ·
+        <a href="../../index.html">回主站</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="intro">
+    俠客遊 II 的 NPC 名字是<strong>「別號 + 名 + 姓」隨機組合</strong>產生的。
+    遊戲開始時從 4 個 ENC 字典抽選，所以每場遊戲的 NPC 都不一樣，
+    但都來自同一組固定字典（共 <strong>660 個獨特字串</strong>）。
+    <br><br>
+    這些字典在遊戲檔 <code>P/CALLNAME.ENC</code>、<code>P/MCNAME0.ENC</code>、
+    <code>P/MCNAME1.ENC</code>、<code>P/FCNAME.ENC</code>，
+    用 4-byte XOR key <code>9A BC DE 00</code> 循環加密。
+    <br><br>
+    <strong>說明</strong>：男性 NPC = 別號 + MCNAME0（首名）+ MCNAME1（姓 / 中名）；
+    女性 NPC = 別號 + FCNAME（單獨完整名字）。
+    別號分為「6 國職業稱號」（每國 16 種：武器店主、訓練所教練、舞者...）+
+    「通用稱號」（屠龍者、修行僧、火爆男子漢、黑暗帝王 等性格 / 描述）。
+  </div>
+
+  <div class="combo-info" id="combo-info"></div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="toolbar">
+    <label for="search">搜尋:</label>
+    <input id="search" type="search" placeholder="輸入名字片段，例：龍 / 帝 / 商人 / 王" autofocus>
+    <span class="count" id="count">—</span>
+  </div>
+
+  <div id="content"><div class="loading">載入 npc_dictionary.json...</div></div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+
+let data = null;
+let activeTab = 'callname';
+let searchTerm = '';
+
+function el(tag, attrs, ...children) {
+  const e = document.createElement(tag);
+  if (attrs) {
+    for (const [k, v] of Object.entries(attrs)) {
+      if (k === 'class') e.className = v;
+      else if (k === 'on') for (const [evt, fn] of Object.entries(v)) e.addEventListener(evt, fn);
+      else e.setAttribute(k, v);
+    }
+  }
+  for (const c of children) {
+    if (c == null || c === false) continue;
+    e.appendChild(typeof c === 'string' || typeof c === 'number' ? document.createTextNode(String(c)) : c);
+  }
+  return e;
+}
+
+function renderCell(item) {
+  return el('div', {class: 'npc-cell'},
+    el('span', {class: 'id'}, '#' + String(item.id).padStart(3, '0')),
+    el('span', {class: 'name'}, item.name)
+  );
+}
+
+function matchSearch(item, term) {
+  if (!term) return true;
+  return item.name.includes(term);
+}
+
+function renderCallname() {
+  const content = $('content');
+  content.replaceChildren();
+  const term = searchTerm.trim();
+  let total = 0;
+
+  for (const group of data.callname.groups) {
+    const filtered = group.items.filter(i => matchSearch(i, term));
+    if (!filtered.length) continue;
+
+    const section = el('div', {class: 'country-section'});
+    section.appendChild(el('h3', null,
+      group.country,
+      el('span', {class: 'id-range'}, ` (id ${group.id_range}, ${filtered.length}/${group.items.length})`)
+    ));
+
+    const grid = el('div', {class: 'npc-grid'});
+    for (const item of filtered) grid.appendChild(renderCell(item));
+    section.appendChild(grid);
+    content.appendChild(section);
+    total += filtered.length;
+  }
+
+  if (!total) {
+    content.appendChild(el('div', {class: 'loading'}, '沒有符合條件的別號'));
+  }
+  $('count').textContent = `${total} / ${data.callname.total}`;
+}
+
+function renderFlat(key) {
+  const content = $('content');
+  content.replaceChildren();
+  const term = searchTerm.trim();
+  const filtered = data[key].items.filter(i => matchSearch(i, term));
+
+  if (!filtered.length) {
+    content.appendChild(el('div', {class: 'loading'}, '沒有符合條件的名字'));
+  } else {
+    const grid = el('div', {class: 'npc-grid'});
+    for (const item of filtered) grid.appendChild(renderCell(item));
+    content.appendChild(grid);
+  }
+  $('count').textContent = `${filtered.length} / ${data[key].total}`;
+}
+
+function render() {
+  if (activeTab === 'callname') renderCallname();
+  else renderFlat(activeTab);
+}
+
+function setupTabs() {
+  const tabs = $('tabs');
+  const tabsConfig = [
+    {key: 'callname', label: '別號 / 稱號'},
+    {key: 'mcname0', label: '男名（首名）'},
+    {key: 'mcname1', label: '中名 / 姓'},
+    {key: 'fcname', label: '女名'},
+  ];
+
+  for (const cfg of tabsConfig) {
+    const tab = el('button', {
+      class: 'tab' + (cfg.key === activeTab ? ' active' : ''),
+      data: {key: cfg.key},
+      on: {click: () => {
+        activeTab = cfg.key;
+        for (const t of tabs.children) t.classList.toggle('active', t.dataset.key === activeTab);
+        render();
+      }}
+    },
+      cfg.label,
+      el('span', {class: 'count'}, ` (${data[cfg.key].total})`)
+    );
+    tab.dataset.key = cfg.key;
+    tabs.appendChild(tab);
+  }
+}
+
+function setupCombo() {
+  const combo = data._meta.name_combinations;
+  $('combo-info').appendChild(el('span', null,
+    '名字組合空間：',
+    el('strong', null, combo.male_name_pool),
+    ' · ',
+    el('strong', null, combo.female_name_pool),
+    ' · 含別號約 ',
+    el('strong', null, combo.with_callnames)
+  ));
+}
+
+async function load() {
+  try {
+    const res = await fetch('npc_dictionary.json');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    data = await res.json();
+    setupTabs();
+    setupCombo();
+    render();
+  } catch (e) {
+    $('content').replaceChildren(el('div', {class: 'error'}, '載入失敗：' + e.message));
+  }
+}
+
+$('search').addEventListener('input', (ev) => {
+  searchTerm = ev.target.value;
+  render();
+});
+
+load();
+</script>
+</body>
+</html>
