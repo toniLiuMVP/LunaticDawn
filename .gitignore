@@ -1,0 +1,49 @@
+# Hidden / OS
+.DS_Store
+._*
+Thumbs.db
+.Spotlight-V100
+.Trashes
+.fseventsd
+.shots/
+.pycache/
+.claude/
+
+# Build / dependencies
+node_modules/
+__pycache__/
+*.pyc
+
+# Local dev tools (not for GitHub Pages)
+serve.py
+backup.sh
+sync.sh
+.sync.conf
+
+# Project docs (kept local)
+*.md
+
+# Backup / archive
+Backup/
+*.original.js
+*.original.css
+*.docx
+*.doc
+
+# Test outputs
+output/
+test-results/
+.playwright-cli/
+
+# Local data (kept local)
+_local/
+*.local.json
+*_full.json
+
+# Secrets
+.env
+.env.*
+*.pem
+*.key
+*.p12
+credentials.json
