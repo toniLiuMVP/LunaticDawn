@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>俠客遊 II 5 系魔法施展指南 · 吟遊詩人的傳說</title>
+<meta name="description" content="俠客遊 II 5 系魔法（物理 / 元素 / 神聖 / 暗黑 / 精靈）施展指南：46 PC 法術 + 4 召喚獸（伊弗利朵 / 琴恩 / 克拉肯 / 貝希摩斯）。基於 MGCDATA.MST 80 records 完整逆向（第十四波）+ 攻略書魔法附冊整理。">
+<link rel="stylesheet" href="../../assets/css/fonts-wuxia.css">
+<link rel="stylesheet" href="../../assets/css/wuxia.css">
+<style>
+.system-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+.system-card {
+  border: 2px solid #8b6f3a;
+  background: rgba(255, 248, 230, 0.6);
+  padding: 16px;
+}
+.system-card h3 {
+  border-bottom: 1px dotted #8b6f3a;
+  padding-bottom: 6px;
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+.system-physical h3 { color: #4a6b1a; }
+.system-elemental h3 { color: #c34010; }
+.system-holy h3 { color: #c89610; }
+.system-dark h3 { color: #5b1a6b; }
+.system-spirit h3 { color: #1a6b8b; }
+
+.spell-list {
+  list-style: none;
+  padding-left: 0;
+  font-size: 14px;
+}
+.spell-list li {
+  padding: 4px 0;
+  border-bottom: 1px dotted #d8b890;
+}
+.spell-list .spell-name { font-weight: bold; }
+.spell-list .spell-desc {
+  color: #5b3f1a;
+  font-size: 12px;
+  display: block;
+}
+.summon-card {
+  background: linear-gradient(135deg, #fff8e6, #f5e9c8);
+  border: 2px solid #6b4a1a;
+  padding: 12px 16px;
+  margin: 8px 0;
+}
+.summon-card h4 {
+  color: #6b4a1a;
+  margin: 0 0 6px;
+  font-size: 16px;
+}
+.notice {
+  border-left: 3px solid #8b6f3a;
+  padding: 8px 16px;
+  background: rgba(255, 240, 200, 0.4);
+  margin: 16px 0;
+  font-size: 14px;
+  color: #5b3f1a;
+}
+.cost-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin: 12px 0;
+}
+.cost-table th, .cost-table td {
+  border: 1px solid #b8a070;
+  padding: 6px 10px;
+}
+.cost-table th { background: #f5e9c8; color: #6b4a1a; }
+</style>
+</head>
+<body class="guide-page">
+<div class="wrap">
+
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <h1 class="pixel">俠客遊 II 5 系魔法施展指南</h1>
+      <div class="header-sub">LUNATIC DAWN II · 46 PC 法術 + 4 召喚獸 · toni 第二十二波整理</div>
+    </div>
+    <div class="header-sub header-right">
+      <div><a href="../../">◀ 回主站</a></div>
+      <div><a href="./">▸ 攻略索引</a></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<article>
+
+<h2>📜 5 系魔法系統概要</h2>
+
+<p>俠客遊 II 的魔法系統由 <strong>MGCDATA.MST</strong>（位於 <code>遊戲資料夾/P/MGCDATA.MST</code>）控制，
+共 80 records，本站第十四波完整逆向確認結構：</p>
+
+<ul>
+<li><strong>5 系分區</strong>：每系 16 個 slot（0-15 / 16-31 / 32-47 / 48-63 / 64-79）</li>
+<li><strong>有效 slot 數</strong>：46-50 個 PC 學習法術</li>
+<li><strong>4 召喚獸</strong>：精靈系後段（伊弗利朵 / 琴恩 / 克拉肯 / 貝希摩斯）</li>
+<li><strong>5 系名稱</strong>從 LUNA2.EXE 偏移 <code>0x03FD10</code> 起提取確認</li>
+</ul>
+
+<div class="notice">
+<strong>學魔法的場所</strong>：
+神聖系 → 神聖系寺院；暗黑系 → 暗黑系寺院；精靈系 → 精靈術屋；物理 / 元素系 → 訓練所或魔法屋。
+詳細地理請見 <a href="geography-6-nations.html">6 國地理速查</a>。
+</div>
+
+<h2>🪐 5 系完整列表</h2>
+
+<div class="system-grid">
+
+  <div class="system-card system-physical">
+    <h3>① 物理系魔法（10 法術）</h3>
+    <p style="font-size: 13px; color: #5b3f1a;">攻略書 PNG p133。MGCDATA records 0-15（12 有效 + 4 空）。</p>
+    <ul class="spell-list">
+      <li><span class="spell-name">照明術</span><span class="spell-desc">在地下城中代替油燈照亮四周</span></li>
+      <li><span class="spell-name">開鎖術</span><span class="spell-desc">將鎖前的門 / 箱打開</span></li>
+      <li><span class="spell-name">擾鬼術</span><span class="spell-desc">讓被指定的人物擾動</span></li>
+      <li><span class="spell-name">沉默術</span><span class="spell-desc">讓被指定的人物無法施展魔法</span></li>
+      <li><span class="spell-name">索敵術</span><span class="spell-desc">顯示出敵人的位置</span></li>
+      <li><span class="spell-name">停時術</span><span class="spell-desc">讓被指定的人物無法活動</span></li>
+      <li><span class="spell-name">浮遊術</span><span class="spell-desc">讓被指定的人物浮在空中</span></li>
+      <li><span class="spell-name">尋寶術</span><span class="spell-desc">顯示出當前迷宮層的寶物位置</span></li>
+      <li><span class="spell-name">護身術</span><span class="spell-desc">讓被指定一名人物擁有較高的防禦力</span></li>
+      <li><span class="spell-name">封魔術</span><span class="spell-desc">讓所有對人物所使用的魔法全部失效</span></li>
+    </ul>
+  </div>
+
+  <div class="system-card system-elemental">
+    <h3>② 元素系魔法（8 法術）</h3>
+    <p style="font-size: 13px; color: #5b3f1a;">攻略書 PNG p134。MGCDATA records 16-31（10 有效 + 6 空）。</p>
+    <ul class="spell-list">
+      <li><span class="spell-name">爆炸術</span><span class="spell-desc">在指定人物身上發生爆炸</span></li>
+      <li><span class="spell-name">波彈術</span><span class="spell-desc">指定範圍中無數波彈落下</span></li>
+      <li><span class="spell-name">魔彈術</span><span class="spell-desc">讓被指定的人物受到能量攻擊</span></li>
+      <li><span class="spell-name">暴風雨</span><span class="spell-desc">在指定地點產生龍捲風</span></li>
+      <li><span class="spell-name">刺地術</span><span class="spell-desc">在指定地點產生混亂的能源</span></li>
+      <li><span class="spell-name">衝擊術</span><span class="spell-desc">巨大的能源體面向地點以實質形態衝擊</span></li>
+      <li><span class="spell-name">隕石術</span><span class="spell-desc">在指定地點引起大爆炸</span></li>
+      <li><span class="spell-name">宇宙射段</span><span class="spell-desc">指定人物上方發生巨大能量柱</span></li>
+    </ul>
+  </div>
+
+  <div class="system-card system-holy">
+    <h3>③ 神聖系魔法（11 法術）</h3>
+    <p style="font-size: 13px; color: #5b3f1a;">攻略書 PNG p135。MGCDATA records 32-47（12 有效 + 4 空）。</p>
+    <ul class="spell-list">
+      <li><span class="spell-name">祝福術</span><span class="spell-desc">提高我方全部隊員的耐力 STM</span></li>
+      <li><span class="spell-name">治療術</span><span class="spell-desc">恢復生命力，可至完全恢復</span></li>
+      <li><span class="spell-name">法力迴復</span><span class="spell-desc">將被指定人物所擁有的法力借予使用</span></li>
+      <li><span class="spell-name">治療盲目</span><span class="spell-desc">治療盲目狀況</span></li>
+      <li><span class="spell-name">解毒術</span><span class="spell-desc">治療中毒狀況</span></li>
+      <li><span class="spell-name">瓶解術</span><span class="spell-desc">讓昏睡中醒過來</span></li>
+      <li><span class="spell-name">治療麻痺</span><span class="spell-desc">治療麻痺狀況</span></li>
+      <li><span class="spell-name">消除魔法</span><span class="spell-desc">解除對指定人物所施展的一切魔法</span></li>
+      <li><span class="spell-name">除魔大法</span><span class="spell-desc">清滅不死生物 / 幽靈等敵人</span></li>
+      <li><span class="spell-name">沉睡術</span><span class="spell-desc">對一指定地點施法，使該地點的人物沉睡</span></li>
+      <li><span class="spell-name">大療法</span><span class="spell-desc">恢復所有狀況到最高，治療死亡以外的各種狀況</span></li>
+    </ul>
+  </div>
+
+  <div class="system-card system-dark">
+    <h3>④ 暗黑系魔法（9 法術）</h3>
+    <p style="font-size: 13px; color: #5b3f1a;">攻略書 PNG p136。MGCDATA records 48-63（12 有效 + 4 空）。</p>
+    <ul class="spell-list">
+      <li><span class="spell-name">毒氣術</span><span class="spell-desc">讓被指定人物中毒</span></li>
+      <li><span class="spell-name">失明術</span><span class="spell-desc">讓被指定人物失明</span></li>
+      <li><span class="spell-name">麻痺術</span><span class="spell-desc">讓被指定人物麻痺</span></li>
+      <li><span class="spell-name">奪能術</span><span class="spell-desc">奪取被指定人物的魔法能力</span></li>
+      <li><span class="spell-name">酸雲術</span><span class="spell-desc">在指定地點會出現一片酸雲</span></li>
+      <li><span class="spell-name">召魔術</span><span class="spell-desc">召喚出魔魘鬥，若是魔法遭到解除</span></li>
+      <li><span class="spell-name">雲蜜術</span><span class="spell-desc">在指定地點產生一片雲，使所有受到影響的人麻痺</span></li>
+      <li><span class="spell-name">石化術</span><span class="spell-desc">讓被指定人物石化</span></li>
+      <li><span class="spell-name">震亡術</span><span class="spell-desc">對指定目標投出咒術，讓目標立刻死亡</span></li>
+    </ul>
+  </div>
+
+  <div class="system-card system-spirit">
+    <h3>⑤ 精靈系魔法（8 自然 + 4 召喚獸）</h3>
+    <p style="font-size: 13px; color: #5b3f1a;">攻略書 PNG p137。MGCDATA records 64-79（8 自然 + 4 召喚獸）。</p>
+    <ul class="spell-list">
+      <li><span class="spell-name">鬼火術</span><span class="spell-desc">在虛幻中造出鬼火，向指定目標攻擊</span></li>
+      <li><span class="spell-name">飛襲術</span><span class="spell-desc">使被指定的敵人無法行動</span></li>
+      <li><span class="spell-name">石頭術</span><span class="spell-desc">指定地點落下許多石頭</span></li>
+      <li><span class="spell-name">誘惑術</span><span class="spell-desc">讓被指定目標神志不清</span></li>
+      <li><span class="spell-name">大海嘯</span><span class="spell-desc">在指定四週颳起大浪</span></li>
+      <li><span class="spell-name">巨喚術</span><span class="spell-desc">召喚傳說中的女武神</span></li>
+      <li><span class="spell-name">冰凍術</span><span class="spell-desc">讓被指定目標遭到冷凍</span></li>
+      <li><span class="spell-name">夢魔術</span><span class="spell-desc">讓被指定目標睏睡</span></li>
+    </ul>
+
+    <div class="summon-card">
+      <h4>🔥 4 召喚獸（精靈系後段）</h4>
+      <ul style="margin: 0; padding-left: 18px;">
+        <li><strong>伊弗利朵 (Ifrit)</strong>：火焰元素王</li>
+        <li><strong>琴恩 (Djinn)</strong>：風 / 智慧元素</li>
+        <li><strong>克拉肯 (Kraken)</strong>：水 / 海洋元素</li>
+        <li><strong>貝希摩斯 (Behemoth)</strong>：地 / 巨獸元素</li>
+      </ul>
+      <p style="font-size: 12px; margin: 6px 0 0; color: #5b3f1a;">召喚獸是精靈系最高階法術，需要對應元素的特殊條件才能學會。</p>
+    </div>
+  </div>
+
+</div>
+
+<h2>📊 5 系比對表</h2>
+
+<table class="cost-table">
+<tr>
+<th>系</th>
+<th>有效法術</th>
+<th>主要功能</th>
+<th>學習場所</th>
+<th>對應 byte 0x88-0x90</th>
+</tr>
+<tr>
+<td><strong>物理系</strong></td>
+<td>10</td>
+<td>偵測 / 控制 / 防禦輔助</td>
+<td>魔法屋 / 訓練所</td>
+<td>0x88 (u16 bitfield)</td>
+</tr>
+<tr>
+<td><strong>元素系</strong></td>
+<td>8</td>
+<td>純攻擊型（最高威力）</td>
+<td>魔法屋 / 訓練所</td>
+<td>0x8A</td>
+</tr>
+<tr>
+<td><strong>神聖系</strong></td>
+<td>11（最多）</td>
+<td>治療 / 復活 / 解狀態異常</td>
+<td>神聖系寺院</td>
+<td>0x8C</td>
+</tr>
+<tr>
+<td><strong>暗黑系</strong></td>
+<td>9</td>
+<td>狀態異常 / 即死</td>
+<td>暗黑系寺院</td>
+<td>0x8E</td>
+</tr>
+<tr>
+<td><strong>精靈系</strong></td>
+<td>8 + 4 召喚獸</td>
+<td>自然系攻擊 + 召喚獸</td>
+<td>精靈術屋（馬尼卡帕王國）</td>
+<td>0x90</td>
+</tr>
+</table>
+
+<h2>💡 玩家路線建議</h2>
+
+<ol>
+<li><strong>新手期</strong>：學物理系（照明 + 開鎖 + 索敵）— 探索必備</li>
+<li><strong>戰鬥輸出</strong>：選元素系（魔彈術 / 隕石術）或精靈系（鬼火 / 冰凍）</li>
+<li><strong>輔助 / 治療</strong>：神聖系必學（治療 + 法力迴復 + 大療法）</li>
+<li><strong>狀態 debuff</strong>：暗黑系（毒氣 / 麻痺 / 石化）— 對 boss 有奇效</li>
+<li><strong>終極</strong>：精靈系召喚獸（4 隻最強元素王）</li>
+</ol>
+
+<h2>🔬 技術細節（MGCDATA.MST 結構）</h2>
+
+<p>每 record 32 bytes，有效欄位（第十四波逆向）：</p>
+<ul>
+<li><code>system</code>：5 系分類（物理 / 元素 / 神聖 / 暗黑 / 精靈）</li>
+<li><code>mp_cost</code>：MP 消耗</li>
+<li><code>atk</code>：攻擊力（元素系最高）</li>
+<li><code>type</code>：分類（治療 / 攻擊 / 偵測）</li>
+<li><code>anim_id</code>：動畫 sprite ID</li>
+<li><code>is_empty_slot</code>：空 slot 標記（每系 16 slot 中部分未使用）</li>
+</ul>
+
+<h2>🔗 相關資料庫</h2>
+<ul>
+<li><a href="../database/magics.html">5 系魔法資料庫</a>（80 records 完整數據）</li>
+<li><a href="hissatsu-guide.html">必殺技使用指南</a></li>
+<li><a href="geography-6-nations.html">6 國地理速查</a>（魔法學習場所）</li>
+<li><a href="../save-editor.html">存檔修改器</a>（修改角色 5 系魔法熟練度）</li>
+</ul>
+
+</article>
+
+</main>
+
+<footer class="site-footer">
+  <p>本攻略基於 MGCDATA.MST 80 records 完整逆向（第十四波）+ 攻略書魔法附冊 PNG p133-137 結構整理。</p>
+  <p>個別法術描述屬於原作版權，本攻略只列結構性資訊（每系法術數、學習場所、對應 byte）。</p>
+  <p>整理：toni 2026 / 第二十二波 · <a href="../../">回主站</a></p>
+</footer>
+
+</div>
+</body>
+</html>

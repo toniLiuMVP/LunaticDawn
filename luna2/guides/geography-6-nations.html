@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>俠客遊 II 6 國地理速查 · 吟遊詩人的傳說</title>
+<meta name="description" content="俠客遊 II 6 國地理結構速查：神聖吉札帝國 / 敦津 / 樸哈爾帝國 / 日傑 / 馬尼卡帕王國 / 芙庫基歐。每國概覽、城鎮類型、10 種設施分類、驛馬車網路結構、訓練所技能項目。基於 1996 攻略書 PART 2 結構整理（toni 2026 第二十二波）。">
+<link rel="stylesheet" href="../../assets/css/fonts-wuxia.css">
+<link rel="stylesheet" href="../../assets/css/wuxia.css">
+<style>
+.nation-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+.nation-card {
+  border: 1px solid #8b6f3a;
+  background: rgba(255, 248, 230, 0.6);
+  padding: 16px;
+}
+.nation-card h3 {
+  color: #6b4a1a;
+  border-bottom: 1px dotted #8b6f3a;
+  padding-bottom: 6px;
+  margin: 0 0 8px;
+}
+.facility-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 8px 0;
+}
+.facility-icon {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 12px;
+  border: 1px solid #b8a070;
+  background: #fff8e6;
+  color: #6b4a1a;
+}
+.routing-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.routing-table th, .routing-table td {
+  border: 1px solid #b8a070;
+  padding: 6px 10px;
+}
+.routing-table th { background: #f5e9c8; color: #6b4a1a; }
+.notice {
+  border-left: 3px solid #8b6f3a;
+  padding: 8px 16px;
+  background: rgba(255, 240, 200, 0.4);
+  margin: 16px 0;
+  font-size: 14px;
+  color: #5b3f1a;
+}
+</style>
+</head>
+<body class="guide-page">
+<div class="wrap">
+
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <h1 class="pixel">俠客遊 II 6 國地理速查</h1>
+      <div class="header-sub">LUNATIC DAWN II · 整合性攻略 · toni 第二十二波整理</div>
+    </div>
+    <div class="header-sub header-right">
+      <div><a href="../../">◀ 回主站</a></div>
+      <div><a href="./">▸ 攻略索引</a></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<article>
+
+<h2>📜 為什麼需要這篇</h2>
+<p>俠客遊 II 是開放世界 RPG，玩家可以自由在 <strong>6 個國家</strong>之間旅行。
+每個國家有 2-5 座城鎮，每座城有不同的設施組合。
+新玩家最常問的問題是：「我要在哪裡買武器、學魔法、找訓練、坐船？」這篇攻略整理出 <strong>6 國的結構性速查</strong>。</p>
+
+<div class="notice">
+<strong>本篇規模</strong>：本篇只列國家 / 城鎮 / 設施類型 / 驛馬車路線結構。<br>
+<strong>具體物價、武器名稱、特產品清單</strong>請查 1996 年原版攻略書 PART 2「地理情報」，本站不抄錄完整物價表（依出版社版權）。
+</div>
+
+<h2>🌐 6 國總覽</h2>
+
+<div class="nation-grid">
+  <div class="nation-card">
+    <h3>① 神聖吉札帝國</h3>
+    <p><strong>政體</strong>：帝國（神權系）</p>
+    <p><strong>主要城鎮</strong>：歐德普克（首府）/ 路特卡得</p>
+    <p><strong>特色</strong>：神聖系寺院 / 暗黑系寺院並存，整套訓練所（劍 / 斧 / 棍 / 弓 / 投 / 盜賊 / 野營 / 物理魔法）</p>
+    <p><strong>建議玩家階段</strong>：早中期，新手起點</p>
+  </div>
+
+  <div class="nation-card">
+    <h3>② 敦津</h3>
+    <p><strong>政體</strong>：地方城邦（中華風格）</p>
+    <p><strong>主要城鎮</strong>：江都 / 華安</p>
+    <p><strong>特色</strong>：江都的訓練所最完整（含元素系魔法）；華安偏港口貿易</p>
+    <p><strong>建議玩家階段</strong>：中期</p>
+  </div>
+
+  <div class="nation-card">
+    <h3>③ 樸哈爾帝國</h3>
+    <p><strong>政體</strong>：帝國（西亞 / 阿拉伯風格）</p>
+    <p><strong>主要城鎮</strong>：阿薩拉姆 / 埃耳卡拉亞 等</p>
+    <p><strong>特色</strong>：道具店有特產（香料 / 絨毯）；神聖 + 暗黑系並存</p>
+    <p><strong>建議玩家階段</strong>：中期</p>
+  </div>
+
+  <div class="nation-card">
+    <h3>④ 日傑</h3>
+    <p><strong>政體</strong>：地方諸國（日式風格）</p>
+    <p><strong>主要城鎮</strong>：紫陽 / 鹿谷 / 龍諸野 等</p>
+    <p><strong>特色</strong>：道具店有特殊道具（松茸 / 妖刀 / 銅鎌）；訓練所偏元素系魔法</p>
+    <p><strong>建議玩家階段</strong>：中後期</p>
+  </div>
+
+  <div class="nation-card">
+    <h3>⑤ 馬尼卡帕王國</h3>
+    <p><strong>政體</strong>：王國（中亞 / 印度風格）</p>
+    <p><strong>主要城鎮</strong>：聖米哥 / 埃爾門德 / 里歐庫列歐 等</p>
+    <p><strong>特色</strong>：港口連接外國 / 高階魔法物品 / 特產品蜂王乳 / 水晶</p>
+    <p><strong>建議玩家階段</strong>：後期</p>
+  </div>
+
+  <div class="nation-card">
+    <h3>⑥ 芙庫基歐</h3>
+    <p><strong>政體</strong>：邊境地區（最後解鎖）</p>
+    <p><strong>主要城鎮</strong>：可能含隱藏終局區</p>
+    <p><strong>特色</strong>：攻略書第 6 章 PART 2 ch6（待玩家自行探索）</p>
+    <p><strong>建議玩家階段</strong>：終局</p>
+  </div>
+</div>
+
+<h2>🏪 城鎮 10 大設施類型</h2>
+
+<table class="routing-table">
+<tr><th>設施</th><th>功能</th><th>需求 NPC 職業（攻略書）</th></tr>
+<tr><td><strong>武器店</strong></td><td>購買武器（劍 / 斧 / 棍 / 槍 / 弓 / 投擲 / 拳套 / 盾）</td><td>武器店店主</td></tr>
+<tr><td><strong>道具店（含特產品）</strong></td><td>購買消耗品 + 各國特產（特產有保值與貿易價值）</td><td>道具店店主</td></tr>
+<tr><td><strong>魔法屋</strong></td><td>購買 5 系魔法（物理 / 元素 / 神聖 / 暗黑 / 精靈）所需道具</td><td>魔法屋店主</td></tr>
+<tr><td><strong>神聖系寺院</strong></td><td>學習神聖系魔法 + 治療死亡狀態</td><td>祭司 / 僧侶</td></tr>
+<tr><td><strong>暗黑系寺院</strong></td><td>學習暗黑系魔法（部分國家有）</td><td>巫術師 / 咒術師</td></tr>
+<tr><td><strong>訓練所</strong></td><td>9 大基礎技能訓練（劍 / 弓 / 棍棒 / 槍 / 投擲 / 拳 / 盜賊 / 野營 / 物理魔法）</td><td>訓練所教練 / 道場 / 修練所</td></tr>
+<tr><td><strong>城（通行證）</strong></td><td>取得跨國通行證（去他國需要）</td><td>—</td></tr>
+<tr><td><strong>驛馬車</strong></td><td>陸路城際移動（按距離付費 + 天數）</td><td>—</td></tr>
+<tr><td><strong>港口</strong></td><td>跨國海路移動（部分城市才有）</td><td>—</td></tr>
+<tr><td><strong>旅店</strong></td><td>住宿恢復 HP/MP/STM</td><td>旅店老闆 / 飯店老闆</td></tr>
+</table>
+
+<h2>🚂 驛馬車網路結構</h2>
+
+<p>驛馬車有三種計費模式：</p>
+<ul>
+<li><strong>近城短程</strong>：2-3 天 / 1200-1500G — 同國城際</li>
+<li><strong>跨國中程</strong>：4-7 天 / 2400-4000G — 鄰國移動</li>
+<li><strong>跨海長程</strong>：8-20 天 / 4000-10000G — 跨大陸 + 配合港口</li>
+</ul>
+
+<p><strong>港口連接</strong>（需要海運的城）：</p>
+<ul>
+<li>埃耳卡拉亞 ↔ 皇歐庫列歐（樸哈爾 ↔ 馬尼卡帕）</li>
+<li>多特貝克 / 阿拉伯（敦津華安 ↔ 樸哈爾）</li>
+<li>埃耳卡拉亞 ↔ 里歐庫列歐（馬尼卡帕內 + 跨國）</li>
+</ul>
+
+<h2>🎯 訓練所提供的 9 大基礎技能</h2>
+
+<p>從攻略書記錄，訓練所典型提供：</p>
+<ol>
+<li><strong>劍</strong>（劍系武器）</li>
+<li><strong>斧 / 大斧</strong>（斧系）</li>
+<li><strong>槍</strong>（長槍）</li>
+<li><strong>棍棒 / 榴棒</strong>（棍系）</li>
+<li><strong>弓</strong>（射擊）</li>
+<li><strong>投擲</strong>（飛標 / 矢）</li>
+<li><strong>盜賊</strong>（解鎖 + 偷竊）</li>
+<li><strong>野營</strong>（戶外維生）</li>
+<li><strong>物理系魔法 / 元素系魔法</strong>（部分訓練所）</li>
+</ol>
+
+<p>進階：神聖系魔法在「神聖系寺院」學；暗黑系魔法在「暗黑系寺院」學；精靈系魔法需要特定的精靈系術屋。
+完整 5 系魔法請見 <a href="magic-5-systems.html">5 系魔法施展指南</a>（同步出版於本波）。</p>
+
+<h2>📖 玩家路徑建議（基於本站資料庫整理）</h2>
+
+<ol>
+<li><strong>新手起點</strong>：神聖吉札帝國 歐德普克 → 學基礎武器 + 物理系魔法</li>
+<li><strong>初期擴展</strong>：路特卡得 → 敦津江都 → 學元素系魔法</li>
+<li><strong>中期跨國</strong>：港口跨海到馬尼卡帕王國 → 學高階魔法</li>
+<li><strong>後期</strong>：日傑 → 龍諸野 → 學暗黑系魔法 / 必殺技</li>
+<li><strong>終局</strong>：芙庫基歐 → 攻略書 PART 5 boss 群（魔王阿迦魯瑪 Lv 50 / HP 999）</li>
+</ol>
+
+<h2>🔗 相關資料庫</h2>
+<ul>
+<li><a href="../database/items.html">武器 / 防具 / 道具資料庫</a>（456 物品）</li>
+<li><a href="../database/magics.html">5 系魔法資料庫</a>（80 records，含 4 召喚獸）</li>
+<li><a href="../database/hissatsu.html">必殺技資料庫</a>（32 records，8 武器類別）</li>
+<li><a href="../database/npcs.html">NPC 名字字典</a>（660 字串，含 6 國職業稱號）</li>
+<li><a href="../database/dungeons.html">迷宮資料庫</a>（40 個迷宮）</li>
+</ul>
+
+</article>
+
+</main>
+
+<footer class="site-footer">
+  <p>本攻略基於 1996 年攻略書 PART 2「地理情報」結構整理 + 站上資料庫交叉驗證。</p>
+  <p>遊戲本體著作權屬於 Artdink；攻略書內容版權屬於原作者，本站只整理結構性資訊不抄錄物價清單。</p>
+  <p>整理：toni 2026 / 第二十二波 · <a href="../../">回主站</a></p>
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CHRITEM.SAV 物品欄查看器 · 俠客遊 II</title>
+<meta name="description" content="俠客遊 II 玩家物品欄查看器，支援 CHRITEM.SAV (122880 bytes，160 角色 × 16 物品 slots)。第二十二波結構逆向。純前端解析。">
+<link rel="stylesheet" href="../assets/css/fonts-retro.css">
+<link rel="stylesheet" href="../assets/css/retro.css">
+<style>
+.intro {
+  border: 1px solid var(--phosphor-fade);
+  padding: 12px 16px;
+  background: var(--bg-panel);
+  margin: 16px 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--phosphor-dim);
+}
+.intro strong { color: var(--amber); }
+.intro code {
+  background: var(--bg-input);
+  padding: 2px 6px;
+  color: var(--phosphor);
+  font-family: 'VT323', monospace;
+}
+
+#drop-zone {
+  border: 2px dashed var(--phosphor-dim);
+  padding: 40px;
+  text-align: center;
+  margin: 20px 0;
+  cursor: pointer;
+}
+#drop-zone:hover { border-color: var(--amber); }
+#drop-zone.drag-active { background: rgba(0, 255, 65, 0.05); border-color: var(--amber); }
+
+.layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.char-list {
+  border: 1px solid var(--phosphor-dim);
+  background: var(--bg-panel);
+  max-height: 600px;
+  overflow-y: auto;
+}
+.char-list h3 {
+  color: var(--amber);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  margin: 0;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--phosphor-fade);
+  position: sticky;
+  top: 0;
+  background: var(--bg-panel);
+}
+.char-row {
+  padding: 6px 12px;
+  cursor: pointer;
+  border-bottom: 1px dotted var(--phosphor-fade);
+  font-size: 14px;
+}
+.char-row:hover { background: rgba(0, 255, 65, 0.06); }
+.char-row.active {
+  background: rgba(255, 176, 0, 0.1);
+  color: var(--amber);
+}
+.char-row .item-count {
+  color: var(--phosphor-fade);
+  font-size: 12px;
+  float: right;
+}
+
+.items-panel {
+  border: 1px solid var(--phosphor-dim);
+  background: var(--bg-panel);
+  padding: 16px;
+}
+.items-panel h3 {
+  color: var(--amber);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  margin: 0 0 12px;
+}
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+.item-slot {
+  border: 1px solid var(--phosphor-fade);
+  background: var(--bg-input);
+  padding: 8px 12px;
+  font-size: 14px;
+}
+.item-slot .slot-num {
+  color: var(--phosphor-fade);
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+}
+.item-slot .item-name {
+  color: var(--phosphor);
+  font-weight: bold;
+}
+.item-slot .item-id { color: var(--amber); font-family: 'VT323', monospace; }
+.item-slot .item-value {
+  color: var(--phosphor-fade);
+  font-size: 12px;
+}
+.item-slot.empty {
+  border-style: dashed;
+  color: var(--phosphor-fade);
+  font-style: italic;
+}
+.item-slot.empty .item-name { color: var(--phosphor-fade); }
+
+.stats {
+  margin-top: 16px;
+  padding: 12px;
+  background: var(--bg-input);
+  font-size: 13px;
+  color: var(--phosphor-dim);
+}
+.stats strong { color: var(--phosphor); }
+
+.error { color: var(--danger); padding: 20px; border: 1px solid var(--danger); margin: 16px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="pixel">CHRITEM.SAV 物品欄查看器</h1>
+      <nav>
+        <a href="save-editor.html">← 屬性修改器</a>
+        ·
+        <a href="../">回主站</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="intro">
+    俠客遊 II 玩家物品欄存於 <code>USER0/CHRITEM.SAV</code>（122880 bytes）。
+    本工具是 <strong>read-only viewer</strong>（只查看不編輯），支援解析 160 個角色（玩家 + NPC 同行）的物品欄。
+    <br><br>
+    <strong>結構（2026-05-02 第二十二波逆向）</strong>：160 角色 × 16 物品 slots × 48 bytes/slot。
+    每 slot：byte 0-3 = item_id（對應 ITEMNAME.ENC 的 1-456 物品）；byte 4-7 = value2（推測為價格）；
+    byte 8-47 = 強化值 + 屬性 modifier + 額外資料。
+    <br><br>
+    <strong>使用方式</strong>：拖放或選擇 <code>USER0/CHRITEM.SAV</code> 檔案 → 左側選角色 → 右側看物品欄。
+    所有解析在瀏覽器本地完成，不上傳任何資料。
+  </div>
+
+  <div id="drop-zone">
+    <h2 class="pixel">▶ 拖放 CHRITEM.SAV 到這裡</h2>
+    <p>或 <span style="color: var(--amber); cursor: pointer; text-decoration: underline;" id="click-select">點擊選擇檔案</span></p>
+    <p style="color: var(--phosphor-dim); font-size: 13px;">[ 檔案通常在 LUNA2/USERN/CHRITEM.SAV，N=0~9 ]</p>
+    <input type="file" id="file-input" accept=".SAV,.sav" style="display: none;">
+  </div>
+
+  <div id="content"></div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+
+let chritemData = null;
+let itemNames = null;
+let activeChar = 0;
+
+function el(tag, attrs, ...children) {
+  const e = document.createElement(tag);
+  if (attrs) {
+    for (const [k, v] of Object.entries(attrs)) {
+      if (k === 'class') e.className = v;
+      else if (k === 'on') for (const [evt, fn] of Object.entries(v)) e.addEventListener(evt, fn);
+      else if (k === 'data') for (const [dk, dv] of Object.entries(v)) e.dataset[dk] = dv;
+      else e.setAttribute(k, v);
+    }
+  }
+  for (const c of children) {
+    if (c == null || c === false) continue;
+    e.appendChild(typeof c === 'string' || typeof c === 'number' ? document.createTextNode(String(c)) : c);
+  }
+  return e;
+}
+
+function parseChritem(buffer) {
+  if (buffer.byteLength !== 122880) {
+    throw new Error(`預期 122880 bytes，實際 ${buffer.byteLength}。檔案可能不是 CHRITEM.SAV。`);
+  }
+  const view = new DataView(buffer);
+  const chars = [];
+  for (let cid = 0; cid < 160; cid++) {
+    const items = [];
+    for (let slot = 0; slot < 16; slot++) {
+      const entryOff = cid * 768 + slot * 48;
+      const itemId = view.getUint32(entryOff, true);
+      const value2 = view.getUint32(entryOff + 4, true);
+      // empty slot detection
+      if (itemId === 0xFFFFFFFF || (itemId === 0 && value2 === 0)) {
+        items.push({slot, empty: true});
+      } else {
+        const modifiers = new Uint8Array(buffer, entryOff + 8, 8);
+        const extra = new Uint8Array(buffer, entryOff + 16, 32);
+        items.push({
+          slot,
+          empty: false,
+          itemId,
+          value2,
+          modifiersHex: Array.from(modifiers).map(b => b.toString(16).padStart(2, '0')).join(''),
+          extraHex: Array.from(extra).map(b => b.toString(16).padStart(2, '0')).join(' ')
+        });
+      }
+    }
+    chars.push(items);
+  }
+  return chars;
+}
+
+async function loadItemNames() {
+  // Use existing npc_dictionary.json structure or fetch ITEMNAME from same source
+  // For simplicity, embed a small sample (the rest can be loaded from public game_data.json items)
+  try {
+    const r = await fetch('database/game_data.json');
+    if (r.ok) {
+      const data = await r.json();
+      const map = {};
+      for (const item of data.items || []) {
+        if (item.id != null && item.name) {
+          map[item.id] = item.name;
+        }
+      }
+      return map;
+    }
+  } catch (e) {
+    console.warn('Failed to load item names:', e);
+  }
+  return {};
+}
+
+function renderCharList() {
+  const list = el('div', {class: 'char-list'});
+  list.appendChild(el('h3', null, '160 角色 (含玩家+NPC)'));
+
+  for (let cid = 0; cid < 160; cid++) {
+    const items = chritemData[cid];
+    const itemCount = items.filter(i => !i.empty).length;
+    if (itemCount === 0) continue; // hide empty
+
+    const row = el('div', {
+      class: 'char-row' + (cid === activeChar ? ' active' : ''),
+      data: {cid: cid},
+      on: {click: () => {
+        activeChar = cid;
+        renderAll();
+      }}
+    },
+      el('span', null, `角色 #${String(cid).padStart(3, '0')}`),
+      el('span', {class: 'item-count'}, `${itemCount} 件`)
+    );
+    list.appendChild(row);
+  }
+
+  return list;
+}
+
+function renderItems() {
+  const items = chritemData[activeChar];
+  const panel = el('div', {class: 'items-panel'});
+  panel.appendChild(el('h3', null, `角色 #${String(activeChar).padStart(3, '0')} 的物品欄`));
+
+  const grid = el('div', {class: 'items-grid'});
+  for (const item of items) {
+    if (item.empty) {
+      grid.appendChild(el('div', {class: 'item-slot empty'},
+        el('div', {class: 'slot-num'}, `slot ${item.slot}`),
+        el('div', {class: 'item-name'}, '(空)')
+      ));
+    } else {
+      const name = itemNames[item.itemId] || `(unknown id ${item.itemId})`;
+      grid.appendChild(el('div', {class: 'item-slot'},
+        el('div', {class: 'slot-num'}, `slot ${item.slot}`),
+        el('div', {class: 'item-name'}, name),
+        el('div', {class: 'item-id'}, `id #${item.itemId}`),
+        el('div', {class: 'item-value'}, `value2: ${item.value2}`),
+        el('div', {class: 'item-value'}, `mod: ${item.modifiersHex}`)
+      ));
+    }
+  }
+  panel.appendChild(grid);
+
+  // Stats
+  const itemCount = items.filter(i => !i.empty).length;
+  const totalValue = items.filter(i => !i.empty).reduce((s, i) => s + i.value2, 0);
+  panel.appendChild(el('div', {class: 'stats'},
+    el('div', null, `物品數：`, el('strong', null, `${itemCount}/16`)),
+    el('div', null, `value2 總計：`, el('strong', null, totalValue.toLocaleString()))
+  ));
+
+  return panel;
+}
+
+function renderAll() {
+  const content = $('content');
+  content.replaceChildren();
+
+  const layout = el('div', {class: 'layout'});
+  layout.appendChild(renderCharList());
+  layout.appendChild(renderItems());
+
+  content.appendChild(layout);
+
+  $('drop-zone').style.display = 'none';
+}
+
+async function handleFile(file) {
+  try {
+    const buffer = await file.arrayBuffer();
+    chritemData = parseChritem(buffer);
+    itemNames = await loadItemNames();
+    renderAll();
+  } catch (e) {
+    $('content').replaceChildren(el('div', {class: 'error'}, '錯誤：' + e.message));
+  }
+}
+
+// Drop zone
+const dz = $('drop-zone');
+dz.addEventListener('dragover', ev => {
+  ev.preventDefault();
+  dz.classList.add('drag-active');
+});
+dz.addEventListener('dragleave', () => dz.classList.remove('drag-active'));
+dz.addEventListener('drop', ev => {
+  ev.preventDefault();
+  dz.classList.remove('drag-active');
+  if (ev.dataTransfer.files.length > 0) handleFile(ev.dataTransfer.files[0]);
+});
+$('click-select').addEventListener('click', () => $('file-input').click());
+$('file-input').addEventListener('change', ev => {
+  if (ev.target.files.length > 0) handleFile(ev.target.files[0]);
+});
+dz.addEventListener('click', ev => {
+  if (ev.target.id === 'drop-zone') $('file-input').click();
+});
+</script>
+</body>
+</html>

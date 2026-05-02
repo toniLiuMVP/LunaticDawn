@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>俠客遊 II 必殺技使用指南 · 吟遊詩人的傳說</title>
+<meta name="description" content="俠客遊 II 8 大武器類必殺技使用指南：拔刀波斬流 / 暴棍撲術 / 直棍撲術 / 真槍貫術 / 爆矢眼弓法 / 剛投爆石 / 波動六骸法 / 斷強破防。基於 LUNA2.EXE 字串提取 + HISSATSU.MST 32 records 完整逆向。">
+<link rel="stylesheet" href="../../assets/css/fonts-wuxia.css">
+<link rel="stylesheet" href="../../assets/css/wuxia.css">
+<style>
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+.tech-card {
+  border: 2px solid #8b6f3a;
+  background: rgba(255, 248, 230, 0.6);
+  padding: 16px;
+}
+.tech-card h3 {
+  color: #6b4a1a;
+  border-bottom: 1px dotted #8b6f3a;
+  padding-bottom: 6px;
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+.tech-card .weapon-class {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 12px;
+  background: #f5e9c8;
+  color: #6b4a1a;
+  margin-bottom: 8px;
+}
+.stats-table {
+  width: 100%;
+  margin: 8px 0;
+  border-collapse: collapse;
+}
+.stats-table td {
+  padding: 4px 6px;
+  border-bottom: 1px dotted #b8a070;
+  font-size: 13px;
+}
+.stats-table td:first-child {
+  color: #6b4a1a;
+  width: 40%;
+}
+.notice {
+  border-left: 3px solid #8b6f3a;
+  padding: 8px 16px;
+  background: rgba(255, 240, 200, 0.4);
+  margin: 16px 0;
+  font-size: 14px;
+  color: #5b3f1a;
+}
+.formula {
+  background: #f5e9c8;
+  padding: 12px 16px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  margin: 12px 0;
+  border-left: 3px solid #8b6f3a;
+}
+</style>
+</head>
+<body class="guide-page">
+<div class="wrap">
+
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <h1 class="pixel">俠客遊 II 必殺技使用指南</h1>
+      <div class="header-sub">LUNATIC DAWN II · 8 武器類 × 主形變體 · toni 第二十二波整理</div>
+    </div>
+    <div class="header-sub header-right">
+      <div><a href="../../">◀ 回主站</a></div>
+      <div><a href="./">▸ 攻略索引</a></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<article>
+
+<h2>📜 必殺技系統概要</h2>
+
+<p>俠客遊 II 的必殺技系統由 <strong>HISSATSU.MST</strong>（位於 <code>遊戲資料夾/P/HISSATSU.MST</code>）控制。
+本站第十波從 <strong>LUNA2.EXE</strong> 二進位提取出 8 個必殺技名稱字串（位於 EXE 偏移 <code>0x03FCC2-0x03FD07</code>），
+第十四波 / 第十七波 / 第二十一波完整逆向 32 records 結構。</p>
+
+<div class="notice">
+<strong>必殺技 vs 一般攻擊</strong>：必殺技是「特定條件下發動」的強力攻擊（高 STM 消耗 + 動畫專用），
+比一般攻擊威力高 2-4 倍。每種武器類別只能用對應系列的必殺技。
+</div>
+
+<h2>⚔️ 8 大武器類必殺技</h2>
+
+<div class="tech-grid">
+
+  <div class="tech-card">
+    <h3>① 拔刀波斬流</h3>
+    <span class="weapon-class">武器類別 0：劍系</span>
+    <table class="stats-table">
+      <tr><td>主形 STM 消耗</td><td>~90（推測）</td></tr>
+      <tr><td>主形威力</td><td>300</td></tr>
+      <tr><td>變體 STM 消耗</td><td>~110（推測）</td></tr>
+      <tr><td>變體威力</td><td>450</td></tr>
+      <tr><td>HISSATSU.MST records</td><td>0（主） / 1（變）</td></tr>
+    </table>
+    <p>劍系武器專用必殺技，雙手刀類 / 寶劍刀類武器發動。</p>
+  </div>
+
+  <div class="tech-card">
+    <h3>② 暴棍撲術</h3>
+    <span class="weapon-class">武器類別 1：棍系（一）</span>
+    <table class="stats-table">
+      <tr><td>主形 STM 消耗</td><td>~85</td></tr>
+      <tr><td>主形威力</td><td>310</td></tr>
+      <tr><td>變體 STM 消耗</td><td>~115</td></tr>
+      <tr><td>變體威力</td><td>460</td></tr>
+      <tr><td>HISSATSU.MST records</td><td>2 / 3</td></tr>
+    </table>
+    <p>棍系前段。重擊型武器（鐵棒 / 重棍）發動。</p>
+  </div>
+
+  <div class="tech-card">
+    <h3>③ 直棍撲術</h3>
+    <span class="weapon-class">武器類別 2：棍系（二）</span>
+    <table class="stats-table">
+      <tr><td>主形 STM 消耗</td><td>~88</td></tr>
+      <tr><td>主形威力</td><td>320</td></tr>
+      <tr><td>變體 STM 消耗</td><td>~110</td></tr>
+      <tr><td>變體威力</td><td>440</td></tr>
+      <tr><td>HISSATSU.MST records</td><td>4 / 5</td></tr>
+    </table>
+    <p>棍系後段。直擊型武器發動。</p>
+  </div>
+
+  <div class="tech-card">
+    <h3>④ 真槍貫術</h3>
+    <span class="weapon-class">武器類別 3：槍系</span>
+    <table class="stats-table">
+      <tr><td>主形 STM 消耗</td><td>~92</td></tr>
+      <tr><td>主形威力</td><td>340</td></tr>
+      <tr><td>變體 STM 消耗</td><td>~118</td></tr>
+      <tr><td>變體威力</td><td>490</td></tr>
+      <tr><td>HISSATSU.MST records</td><td>6 / 7</td></tr>
+    </table>
+    <p>長槍類專用。穿刺型攻擊，對重甲敵人有特效。</p>
+  </div>
+
+  <div class="tech-card">
+    <h3>⑤ 爆矢眼弓法</h3>
+    <span class="weapon-class">武器類別 4：弓系</span>
+    <table class="stats-table">
+      <tr><td>主形 STM 消耗</td><td>~84</td></tr>
+      <tr><td>主形威力</td><td>340</td></tr>
+      <tr><td>變體 STM 消耗</td><td>~108</td></tr>
+      <tr><td>變體威力</td><td>440</td></tr>
+      <tr><td>HISSATSU.MST records</td><td>8 / 9</td></tr>
+    </table>
+    <p>弓類專用。遠距離高傷，對飛行 / 跨距敵有效。</p>
+  </div>
+
+  <div class="tech-card">
+    <h3>⑥ 剛投爆石</h3>
+    <span class="weapon-class">武器類別 5：投擲系</span>
+    <table class="stats-table">
+      <tr><td>主形 STM 消耗</td><td>~87</td></tr>
+      <tr><td>主形威力</td><td>310</td></tr>
+      <tr><td>變體 STM 消耗</td><td>~104</td></tr>
+      <tr><td>變體威力</td><td>420</td></tr>
+      <tr><td>HISSATSU.MST records</td><td>10 / 11</td></tr>
+    </table>
+    <p>投擲類武器。飛矢 / 飛標 / 投石適用。</p>
+  </div>
+
+  <div class="tech-card">
+    <h3>⑦ 波動六骸法</h3>
+    <span class="weapon-class">武器類別 6：內功系</span>
+    <table class="stats-table">
+      <tr><td>主形 STM 消耗</td><td><strong>~60（最低）</strong></td></tr>
+      <tr><td>主形威力</td><td>200</td></tr>
+      <tr><td>變體 STM 消耗</td><td>~110</td></tr>
+      <tr><td>變體威力</td><td>400</td></tr>
+      <tr><td>HISSATSU.MST records</td><td>12 / 13</td></tr>
+    </table>
+    <p>內功 / 拳系（無武器）。STM 消耗最低（內功系本身不耗 STM 太多），對於 NPC 角色 STM 體格不高的玩家最適合。</p>
+  </div>
+
+  <div class="tech-card">
+    <h3>⑧ 斷強破防</h3>
+    <span class="weapon-class">武器類別 7：防禦反擊系</span>
+    <table class="stats-table">
+      <tr><td>主形 STM 消耗</td><td>~70</td></tr>
+      <tr><td>主形威力</td><td>250</td></tr>
+      <tr><td>變體 STM 消耗</td><td>~95</td></tr>
+      <tr><td>變體威力</td><td>360</td></tr>
+      <tr><td>HISSATSU.MST records</td><td>14 / 15</td></tr>
+    </table>
+    <p>防禦反擊系。盾類 / 短刀類觸發，破防效果（降低敵人防禦）。</p>
+  </div>
+
+</div>
+
+<h2>📊 STM 消耗 vs 威力對照</h2>
+
+<div class="formula">
+power / STM_cost 比率（投資效率）：
+  - 拔刀主形：300/90 = 3.33×
+  - 拔刀變體：450/110 = 4.09×（更高效率）
+  - 暴棍主形：310/85 = 3.65×
+  - 暴棍變體：460/115 = 4.00×
+  - 真槍變體：490/118 = 4.15×（最高效率）
+  - 波動主形：200/60 = 3.33×（內功系最低 STM 消耗）
+  - 斷強主形：250/70 = 3.57×（防禦系，特殊效果）
+</div>
+
+<p><strong>建議</strong>：
+變體形態普遍比主形效率高 4-15%，但 STM 消耗也高 20-30。
+玩家初期 STM 不高時優先用主形；STM 練上去後切換變體。</p>
+
+<h2>🐲 怪物用必殺技（records 16-31）</h2>
+
+<p>HISSATSU.MST 後半 16 records（id 16-31）是怪物 / 事件用的特殊類必殺技：</p>
+<ul>
+<li><strong>12 個 common</strong>（id 16-21, 26-31）：b1=60，威力 250-500，無動畫（b2-3 = 0xFFFF）</li>
+<li><strong>4 個 low_cost</strong>（id 22-25）：b1=15 或 10，威力 100，特殊低消耗（可能事件用 / 自動觸發）</li>
+</ul>
+
+<p>怪物使用這些必殺技時，怪物資料庫的「必殺技 O/X」欄位會標 O。
+本站<a href="../database/hissatsu.html">必殺技資料庫</a>有 32 records 完整列表 + parser 結構。</p>
+
+<h2>🎯 玩家路線建議</h2>
+
+<ol>
+<li><strong>新手期</strong>：用主形必殺技（85-92 STM 消耗），威力 300-340 階段</li>
+<li><strong>中期</strong>：練 STM 體格到 150+，切換變體形態（威力 400-490）</li>
+<li><strong>高 STM 角色</strong>：可頻繁發動變體（4-5× 投資效率）</li>
+<li><strong>低 STM 角色</strong>：選波動六骸法（內功系，主形只 60 STM 消耗）</li>
+<li><strong>對 boss</strong>：用變體 + 弱點屬性武器（請見<a href="weakness-bonus.html">弱點與加成攻略</a>）</li>
+</ol>
+
+<h2>🔬 技術細節（給逆向有興趣的人）</h2>
+
+<p>HISSATSU.MST 結構（每 record 36 bytes）：</p>
+<div class="formula">
+byte 0:    record id (0-31)
+byte 1:    變體碼 / 推測 STM 消耗（待遊戲內實測）
+byte 2-3:  u16 LE 動畫 sprite ID（records 16-31 = 0xFFFF 無動畫）
+byte 4-5:  u16 LE power（威力值）
+byte 6-7:  u16 LE flags（per-技 multi-bit flag，意義待 LUNA2.EXE 反組譯）
+byte 8-35: 28 bytes 細部設定 + padding
+</div>
+
+<p>parser 程式：<code><a href="https://github.com/toniLiuMVP/LunaticDawn/blob/main/tools/extract/cross_validate_monsters.py">tools/extract/</a></code> 內。</p>
+
+<h2>🔗 相關資料庫</h2>
+<ul>
+<li><a href="../database/hissatsu.html">必殺技資料庫</a>（32 records 完整數據）</li>
+<li><a href="../database/items.html">武器資料庫</a>（搭配 8 武器類別）</li>
+<li><a href="weakness-bonus.html">弱點與加成攻略</a>（屬性攻擊匹配）</li>
+<li><a href="magic-5-systems.html">5 系魔法施展指南</a></li>
+</ul>
+
+</article>
+
+</main>
+
+<footer class="site-footer">
+  <p>本攻略基於 LUNA2.EXE 字串提取（第十波）+ HISSATSU.MST 32 records 完整逆向（第十四 / 十七 / 二十一波）整理。</p>
+  <p>具體 STM 消耗待遊戲內實測確認；威力數值已透過 binary cross-validate 確認。</p>
+  <p>整理：toni 2026 / 第二十二波 · <a href="../../">回主站</a></p>
+</footer>
+
+</div>
+</body>
+</html>
