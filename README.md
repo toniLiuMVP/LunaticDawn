@@ -24,7 +24,7 @@
 
 | 作品 | 年代 | 本站狀態 |
 |------|------|----------|
-| 俠客遊 II (Lunatic Dawn II) | 1996 | ✅ 攻略 9 篇 + 存檔修改器 + 啟動器 + 懶人包 |
+| 俠客遊 II (Lunatic Dawn II) | 1996 | ✅ 攻略 12 篇 + 存檔修改器 + 啟動器 + 懶人包 |
 | 未來之書 (Lunatic Dawn: The Book of Futures) | 1998 | ✅ 密技（2 頁） |
 | 前途道標 (Lunatic Dawn: Passage of The Book) | 1999 | ✅ 完整攻略（5 頁） |
 | 俠客遊 IV (Lunatic Dawn IV) | 2001 | ✅ 密技（3 頁） |
@@ -32,7 +32,7 @@
 ## 🛠 工具與資源
 
 - **[俠客遊 II 存檔修改器](./luna2/save-editor.html)** — 瀏覽器版，純 HTML+JS，拖入 LUNACHAR.SAV 即改，160 個角色槽
-- **[俠客遊 II 完整攻略](./luna2/guides/)** — 整合社群前輩心血（9 篇）
+- **[俠客遊 II 完整攻略](./luna2/guides/)** — 整合社群前輩心血（12 篇）
 - **[懶人包（Luna2_EZ）](./luna2/ez/)** — 內建 DOSBox Staging，解壓即玩，支援 Mac / Windows / Linux
 - **[自己裝啟動器](./luna2/launcher/)** — 搭配 DOSBox-X + GM MIDI 高音質音樂
 - **[前途道標攻略](./passage/)** — 1999 年 BBS 時代原創攻略（小蜜蜂 / 小傑 / Ertai）
@@ -56,7 +56,10 @@
 | 攻略 | 連結 |
 |------|------|
 | DOS 執行 FAQ | [閱讀](./luna2/guides/dos-faq.html) |
+| 俠客遊 II 6 國地理速查 | [閱讀](./luna2/guides/geography-6-nations.html) |
+| 俠客遊 II 必殺技使用指南 | [閱讀](./luna2/guides/hissatsu-guide.html) |
 | 物品與城鎮資料 | [閱讀](./luna2/guides/items-towns.html) |
+| 俠客遊 II 5 系魔法施展指南 | [閱讀](./luna2/guides/magic-5-systems.html) |
 | 結婚條件與隊友分析 | [閱讀](./luna2/guides/marriage-party.html) |
 | 修改筆記 | [閱讀](./luna2/guides/modifier-notes.html) |
 | Readme 與版本紀錄 | [閱讀](./luna2/guides/readme.html) |
@@ -80,8 +83,8 @@
 
 ## 📊 站點資訊
 
-- 總頁數：**40** 個 HTML
-- 攻略數：**9** 篇
+- 總頁數：**44** 個 HTML
+- 攻略數：**12** 篇
 - 基礎建設：sitemap.xml · 404.html · Open Graph 標籤 · 本地化字型（零外部依賴） · Google Search Console 已驗證
 - 最後更新：2026-05-02
 
