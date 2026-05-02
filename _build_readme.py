@@ -172,8 +172,6 @@ def build_readme() -> str:
         lines.append("- **[通用資訊](./general/)** — 編碼 FAQ、社群連結")
     if check_exists("luna2/database/index.html"):
         lines.append("- **[俠客遊 II 資料庫](./luna2/database/)** — DOS 二進制檔案格式逆向研究與數值欄位資料")
-    if check_exists("docs/enc-format.md"):
-        lines.append("- **[技術文件](./docs/)** — `.ENC` / `.DDT` / `.MST` 檔案格式 reverse engineering 技術筆記")
     lines.append("")
 
     # 兩種遊玩方式

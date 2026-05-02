@@ -1,4 +1,4 @@
-// list-page.js — 通用列表頁邏輯（DOM-only，不用 innerHTML）
+// list-page.js — 通用列表頁邏輯
 // 用法: <script>window.LIST_CONFIG = {...}</script><script src="list-page.js"></script>
 // CONFIG: { dataKey, columns, searchField, getRowFields, detailFn, totalCount }
 
@@ -60,7 +60,7 @@
     const dtr = el('tr', { class: 'detail-row' });
     const dtd = el('td', { colspan: String(CFG.columns.length) });
 
-    // PUBLISHING.md B 選項：每筆附 toni 視角短評
+    // 每筆附 toni 視角短評
     if (row.toni_note) {
       dtd.appendChild(el('div', {
         style: 'border-left: 3px solid var(--amber); background: rgba(255, 176, 0, 0.06); padding: 8px 12px; margin-bottom: 12px; font-size: 14px; color: var(--phosphor);'
@@ -76,7 +76,7 @@
     openDetail = dtr;
   }
 
-  // sanitize：raw hex 已依 PUBLISHING.md 移除，HTML 引用時顯示 placeholder
+  // sanitize：raw hex 不公開，HTML 引用時顯示 placeholder
   function sanitizeRow(row) {
     if (!('_raw' in row)) row._raw = '';
     if (!('_raw_first_64' in row)) row._raw_first_64 = '';

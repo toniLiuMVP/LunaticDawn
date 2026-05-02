@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LUNAHEAD.SAV 玩家表頭編輯器 · 俠客遊 II</title>
-<meta name="description" content="俠客遊 II 玩家存檔表頭編輯器。LUNAHEAD.SAV (256 bytes) 含 Big5 玩家姓名 + 等級 + age + 起始屬性。第二十六波 binary 完整逆向。純前端解析。">
+<meta name="description" content="俠客遊 II 玩家存檔表頭編輯器。LUNAHEAD.SAV (256 bytes) 含 Big5 玩家姓名 + 等級 + age + 起始屬性。2026 binary 完整逆向。純前端解析。">
 <link rel="stylesheet" href="../assets/css/fonts-retro.css">
 <link rel="stylesheet" href="../assets/css/retro.css">
 <style>
@@ -129,7 +129,7 @@
     俠客遊 II 玩家存檔表頭存於 <code>USER0/LUNAHEAD.SAV</code>（256 bytes）。
     本工具支援編輯<strong>玩家姓名（Big5）+ 數值欄位</strong> + 下載修改後 SAV。
     <br><br>
-    <strong>結構（2026-05-02 第二十六波 binary 逆向）</strong>：byte 0-17 = 玩家資料（含 Big5 姓名）+ byte 18+ 全 0xFF padding。
+    <strong>結構（2026-05-02 2026 binary 逆向）</strong>：byte 0-17 = 玩家資料（含 Big5 姓名）+ byte 18+ 全 0xFF padding。
     <br>
     <strong>byte 5-10</strong>：Big5 玩家姓名（3 個中文字，6 bytes）— USER0 預設「未具名」。
     <strong>byte 14-15 / 16-17</strong>：兩個 u16 LE = 48（推測為 age / 起始屬性）。
@@ -142,7 +142,7 @@
     <br>1️⃣ 將 <code>USER0/LUNAHEAD.SAV</code> 先複製為 <code>USER1/LUNAHEAD.SAV</code>
     <br>2️⃣ 在 USER1 測試修改 + 載入遊戲驗證
     <br>3️⃣ 確認 OK 後再覆蓋 USER0
-    <br>（吸收第二十七波 round 4 RedTime「寫工具與工具不同步」教訓）
+    <br>（吸收2026 round 4 RedTime「寫工具與工具不同步」教訓）
   </div>
 
   <div id="drop-zone">

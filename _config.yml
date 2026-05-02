@@ -1,13 +1,9 @@
 # Jekyll 設定（GitHub Pages 預設啟用 Jekyll 處理 repo root）
-# 用 exclude 把「內部文件」從公開站排除——這些檔案仍在 git 內（給 git clone 的開發者看），
-# 但訪客直接訪問 URL 會 404。
+# 永久規則（toni 2026-05-03）：網站只放 README.md，其他 .md 都不上傳。
+# 內部規範文件（PUBLISHING / ARCHITECTURE / QUALITY_BAR / docs/*.md）已從 git 移除，
+# 本機備份在 _local/dev_notes/。.gitignore 用 *.md + !README.md 阻擋未來誤上傳。
 
 exclude:
-  # 內部規範與架構文件（給 toni / Claude / 開發者看，訪客看不懂也不需要）
-  - PUBLISHING.md
-  - ARCHITECTURE.md
-  - QUALITY_BAR.md
-
   # Build pipeline 工具（內部運作，不該對外暴露 source）
   - tools/
   - _build_guides.py

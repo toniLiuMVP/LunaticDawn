@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SHOPITEM.SAV 商店物品查看器 · 俠客遊 II</title>
-<meta name="description" content="俠客遊 II 商店物品庫存查看器。SHOPITEM.SAV (12288 bytes，16 shops × 768 bytes) 玩家當前看到的店家庫存。第二十四波結構逆向。純前端解析。">
+<meta name="description" content="俠客遊 II 商店物品庫存查看器。SHOPITEM.SAV (12288 bytes，16 shops × 768 bytes) 玩家當前看到的店家庫存。2026結構逆向。純前端解析。">
 <link rel="stylesheet" href="../assets/css/fonts-retro.css">
 <link rel="stylesheet" href="../assets/css/retro.css">
 <style>
@@ -104,7 +104,7 @@
     俠客遊 II 玩家當前看到的店家庫存存於 <code>USER0/SHOPITEM.SAV</code>（12288 bytes）。
     本工具是 <strong>read-only viewer</strong>（只查看不編輯），解析 16 個店家的物品列表。
     <br><br>
-    <strong>結構（2026-05-02 第二十四波逆向）</strong>：16 shops × 768 bytes/shop。
+    <strong>結構（2026-05-02 2026逆向）</strong>：16 shops × 768 bytes/shop。
     每 shop：byte 0-3 = u32 LE header（值 = shop_id × 0x10000 + sub_id）；
     byte 4+ = u16 LE item IDs 序列直到 0xFFFF marker；之後 padding 到 768 bytes。
     <br><br>

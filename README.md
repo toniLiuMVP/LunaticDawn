@@ -40,7 +40,6 @@
 - **[Steam 購買指南](./steam/)** — Steam 版購買說明
 - **[通用資訊](./general/)** — 編碼 FAQ、社群連結
 - **[俠客遊 II 資料庫](./luna2/database/)** — DOS 二進制檔案格式逆向研究與數值欄位資料
-- **[技術文件](./docs/)** — `.ENC` / `.DDT` / `.MST` 檔案格式 reverse engineering 技術筆記
 
 ## 🎮 兩種遊玩方式
 
