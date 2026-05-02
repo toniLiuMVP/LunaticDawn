@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>俠客遊 II 戰鬥策略整合篇 · 吟遊詩人的傳說</title>
+<meta name="description" content="俠客遊 II 戰鬥策略整合：8 大屬性 / 15 技能熟練度 / 5 系魔法 / 8 必殺技 / 7 弱點屬性 / 7 攻擊方式（普砍刺敲飲散跨）/ 防禦防砍刺敲三軸全面戰鬥策略。基於 binary 完整逆向 + 攻略書 PART 5 cross-validate 整理。">
+<link rel="stylesheet" href="../../assets/css/fonts-wuxia.css">
+<link rel="stylesheet" href="../../assets/css/wuxia.css">
+<style>
+.combat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+.combat-card {
+  border: 2px solid #8b6f3a;
+  background: rgba(255, 248, 230, 0.6);
+  padding: 16px;
+}
+.combat-card h3 {
+  color: #6b4a1a;
+  border-bottom: 1px dotted #8b6f3a;
+  padding-bottom: 6px;
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+
+.attack-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin: 12px 0;
+}
+.attack-table th, .attack-table td {
+  border: 1px solid #b8a070;
+  padding: 6px 10px;
+}
+.attack-table th { background: #f5e9c8; color: #6b4a1a; }
+.attack-table .num { text-align: right; font-family: 'Courier New', monospace; }
+
+.dmg-formula {
+  background: #f5e9c8;
+  padding: 12px 16px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  margin: 12px 0;
+  border-left: 3px solid #8b6f3a;
+  color: #6b4a1a;
+}
+
+.tactic-card {
+  border-left: 3px solid #8b6f3a;
+  padding: 8px 16px;
+  background: rgba(255, 240, 200, 0.4);
+  margin: 12px 0;
+  font-size: 14px;
+  color: #5b3f1a;
+}
+
+.notice {
+  border-left: 3px solid #c34010;
+  padding: 8px 16px;
+  background: rgba(255, 220, 200, 0.4);
+  margin: 16px 0;
+  font-size: 14px;
+}
+</style>
+</head>
+<body class="guide-page">
+<div class="wrap">
+
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <h1 class="pixel">俠客遊 II 戰鬥策略整合篇</h1>
+      <div class="header-sub">LUNATIC DAWN II · 8 屬性 + 15 技能 + 5 魔法 + 8 必殺技 + 7 弱點 · toni 第二十五波整理</div>
+    </div>
+    <div class="header-sub header-right">
+      <div><a href="../../">◀ 回主站</a></div>
+      <div><a href="./">▸ 攻略索引</a></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<article>
+
+<h2>📜 戰鬥系統概要</h2>
+
+<p>俠客遊 II 戰鬥系統是 1996 年同類 RPG 中複雜度最高的之一，由 6 大子系統組成：</p>
+
+<ol>
+<li><strong>8 大屬性</strong>（力 / 智 / 靈 / 敏 / 直 / 魅 / 體 / 精）— 影響所有 stat checks</li>
+<li><strong>15 技能熟練度</strong>（劍 / 槍 / 棍 / 弓 / 投 / 拳 + 5 系魔法 + 治癒 / 探查 / 偷 / 盜）</li>
+<li><strong>5 系魔法</strong>（物理 / 元素 / 神聖 / 暗黑 / 精靈）</li>
+<li><strong>8 武器類必殺技</strong>（拔刀波斬流 / 暴棍撲術 / 等）</li>
+<li><strong>7 弱點屬性</strong>（野獸 / 魔獸 / 魔法生物 / 巨人 / 不死 / 幽靈 / 沒有）</li>
+<li><strong>7 攻擊方式</strong>（普 / 砍 / 飲 / 散 / 跨 / 刺 / 敲）+ 對應 3 軸防禦</li>
+</ol>
+
+<h2>⚔️ 7 種攻擊方式</h2>
+
+<table class="attack-table">
+<tr><th>攻擊方式</th><th>對應武器</th><th>特性</th><th>對應 3 軸防禦</th></tr>
+<tr><td><strong>普</strong>（普通）</td><td>多數武器預設</td><td>無特殊效果，平均傷害</td><td>砍 / 刺 / 敲 平均</td></tr>
+<tr><td><strong>砍</strong>（斬擊）</td><td>劍類 / 大刀 / 雙手刀類</td><td>對裸甲傷害高</td><td>防砍（byte 0x40）</td></tr>
+<tr><td><strong>刺</strong>（穿刺）</td><td>長槍 / 槍類 / 短矛</td><td>穿透重甲，對重裝敵特效</td><td>防刺（byte 0x42）</td></tr>
+<tr><td><strong>敲</strong>（衝擊）</td><td>棍棒類 / 鎚 / 鏈枷</td><td>對骨骼類有額外效果</td><td>防敲（byte 0x44）</td></tr>
+<tr><td><strong>飲</strong>（吸取）</td><td>暗黑系武器 / 邪能</td><td>傷害敵人同時恢復玩家 HP</td><td>防（魔法）</td></tr>
+<tr><td><strong>散</strong>（散彈）</td><td>多目標武器</td><td>同時打多個敵人，單體 dmg 較低</td><td>各個防禦</td></tr>
+<tr><td><strong>跨</strong>（跨距）</td><td>弓類 / 投擲類</td><td>遠距離攻擊，可隔行跨行</td><td>各個防禦</td></tr>
+</table>
+
+<div class="tactic-card">
+<strong>戰術選擇</strong>：怪物 binary 中有「防砍 / 防刺 / 防敲」三軸（offset 0x40 / 0x42 / 0x44）—
+判斷怪物類型選對應攻擊方式：
+<ul>
+<li>骷髏 / 髑髏兵 → <strong>敲</strong>系（棍棒對骨骼有效）</li>
+<li>重甲戰士 / 騎士 → <strong>刺</strong>系（長槍穿甲）</li>
+<li>軟身怪物（蛇 / 蝙蝠）→ <strong>砍</strong>系（劍直接斬殺）</li>
+<li>群體小怪 → <strong>散</strong> / <strong>跨</strong>（弓 / 投擲一次多隻）</li>
+</ul>
+</div>
+
+<h2>📊 戰鬥系統 binary 對照</h2>
+
+<h3>玩家 / NPC 角色（LUNACHAR.SAV byte offsets）</h3>
+
+<div class="dmg-formula">
+0x36-0x3D: 8 大屬性 (1 byte each) — 力 / 智 / 靈 / 敏 / 直 / 魅 / 體 / 精
+0x3E-0x45: 8 屬性上限 (1 byte each)
+0x78-0x86: 15 技能熟練度 (1 byte each, 0x87 為空隙)
+0x88: 物理系魔法 (u16 LE bitfield)
+0x8A: 元素系魔法 (u16 LE bitfield)
+0x8C: 神聖系魔法 (u16 LE bitfield)
+0x8E: 暗黑系魔法 (u16 LE bitfield)
+0x90: 精靈系魔法 (u16 LE bitfield)
+0x92: 武技 (u16 LE，可裝備到 0xFFFF 全武技)
+</div>
+
+<h3>怪物（MONSTER.DAT byte offsets）</h3>
+
+<div class="dmg-formula">
+0x14: HP (u16 LE)
+0x16: MP (u16 LE)
+0x18: STM 體力 (u16 LE)
+0x1A: 等級 Lv (u16 LE)
+0x24: 經驗值 (u16 LE)
+0x3E: ATK 攻擊力 (u16 LE)
+0x40: 防砍 (u16 LE)
+0x42: 防刺 (u16 LE)
+0x44: 防敲 (u16 LE)
+</div>
+
+<h2>⚡ 戰鬥流程 & 行動順序</h2>
+
+<div class="combat-grid">
+
+  <div class="combat-card">
+    <h3>① 速度判定</h3>
+    <p><strong>敏捷屬性</strong>（byte 0x39）決定行動先後。敏捷高的角色先行動。</p>
+    <p>建議：練「敏捷」對所有戰鬥都重要 — 先攻佔便宜。</p>
+  </div>
+
+  <div class="combat-card">
+    <h3>② 命中判定</h3>
+    <p>武器命中率 + 玩家「直覺」（byte 0x3A）+ 武器技能熟練度 → 計算最終命中率。</p>
+    <p>建議：選一兩種武器類別練到熟練度 90+。</p>
+  </div>
+
+  <div class="combat-card">
+    <h3>③ 傷害計算</h3>
+    <p>武器攻擊力 + 屬性加成 - 敵人對應防禦（防砍 / 防刺 / 防敲）= 最終 dmg。</p>
+    <p>必殺技傷害 = power 值（HISSATSU.MST byte 4-5）— 跳過普通計算。</p>
+  </div>
+
+  <div class="combat-card">
+    <h3>④ STM 消耗</h3>
+    <p>每次攻擊消耗 STM（體力）。普通攻擊 ~5-10；必殺技 ~85-118（變體更多）。</p>
+    <p>STM 為 0 時無法攻擊，需休息回復。</p>
+  </div>
+
+  <div class="combat-card">
+    <h3>⑤ MP 消耗</h3>
+    <p>魔法施展消耗 MP。低階法術 ~10-30 MP；高階 ~50-100 MP。</p>
+    <p>MP 不足時換施低階魔法或補 MP。</p>
+  </div>
+
+  <div class="combat-card">
+    <h3>⑥ 狀態異常</h3>
+    <p>中毒 / 失明 / 麻痺 / 沉默 / 石化等。用對應道具 / 神聖系魔法解除。</p>
+    <p>boss 多用狀態異常 — 準備充足解除道具。</p>
+  </div>
+
+</div>
+
+<h2>🎯 戰術配對：弱點 + 攻擊方式 + 必殺技</h2>
+
+<table class="attack-table">
+<tr><th>怪物類型</th><th>弱點</th><th>建議攻擊方式</th><th>建議必殺技</th><th>建議魔法</th></tr>
+<tr><td>動物類（蝙蝠 / 兔牛 / 蛇）</td><td>野獸恐懼症</td><td>砍 / 普</td><td>拔刀波斬流（劍）</td><td>元素系</td></tr>
+<tr><td>魔法系怪物（魔魂兒 / 半人馬）</td><td>魔法生物恐懼症</td><td>砍 / 跨</td><td>真槍貫術 / 爆矢眼弓法</td><td>暗黑系（震亡 / 石化）</td></tr>
+<tr><td>巨人類（蜘蛛 / 大巨人）</td><td>巨人恐懼症</td><td>刺 / 敲</td><td><strong>真槍貫術</strong>（穿刺破甲）</td><td>元素系（隕石 / 衝擊）</td></tr>
+<tr><td>不死生物（殭屍 / 髑髏 / 屍狼）</td><td>不死生物恐懼症</td><td>敲（骨骼）/ 普</td><td>暴棍撲術（棍系）</td><td><strong>神聖系（除魔大法）</strong></td></tr>
+<tr><td>妖精 / 鬼魂</td><td>幽靈恐懼症</td><td>跨 / 飲（吸取）</td><td>波動六骸法（內功）</td><td>神聖系（祝福 / 除魔）</td></tr>
+<tr><td>龍類（火龍 / 黑龍 / 邪火龍）</td><td>魔獸恐懼症</td><td>刺 / 跨</td><td>真槍貫術變體 / 爆矢眼弓法變體</td><td>對應屬性魔法（冰凍 / 隕石）</td></tr>
+<tr><td>boss 級（魔王群）</td><td>沒有</td><td>必殺技變體 + 神器級武器</td><td>所有變體都能用</td><td>5 系全打 + 4 召喚獸</td></tr>
+</table>
+
+<h2>🛡️ 防禦戰術</h2>
+
+<h3>① 物理防禦</h3>
+<ul>
+<li><strong>頭部護具</strong>：流星盔 / 羽飾盔 / 名甲 / 鐵甲（防砍 / 防敲為主）</li>
+<li><strong>身體防具</strong>：鋼甲 / 鎧甲 / 厚皮甲 / 軟皮甲（防砍 / 防刺平衡）</li>
+<li><strong>手部護具</strong>：鎧手套 / 護腕 / 鐵拳（防敲為主）</li>
+<li><strong>腿腳護具</strong>：鏈甲靴 / 強盜靴 / 皮靴（防刺）</li>
+<li><strong>盾類</strong>：方盾 / 圓盾 / 龍鱗盾 / 銳刃盾（全方位防禦）</li>
+</ul>
+
+<h3>② 魔法防禦</h3>
+
+<p>每件武器 / 防具都有「魔法防禦上限」（攻略書 PART 5 ch2 part2 第 7-12 欄）：</p>
+<ul>
+<li>聖 / 火 / 水 / 地 / 風 / 刀 / 力 / 神聖 — 8 種魔導屬性</li>
+<li>強化武器 / 防具到 32 級可大幅提升魔法防禦</li>
+</ul>
+
+<h3>③ 狀態異常防禦</h3>
+<ul>
+<li><strong>解毒石</strong> — 解除中毒狀態</li>
+<li><strong>解沈靜符</strong> — 解除沉默狀態</li>
+<li><strong>防盲目鏡片</strong> — 防止失明</li>
+<li><strong>守護娃娃</strong> — 全狀態防禦</li>
+</ul>
+
+<h3>④ 神聖系守護法術</h3>
+<ul>
+<li>祝福術 — 提高隊伍 STM</li>
+<li>護身術 — 提高指定角色防禦力</li>
+<li>封魔術 — 全隊免疫對方魔法</li>
+</ul>
+
+<h2>💀 boss 戰術整理</h2>
+
+<p>對應<a href="monsters-guide.html">怪物攻略整合篇</a>的 boss 群（id 122-127 全 Lv 50）：</p>
+
+<div class="combat-grid">
+
+  <div class="combat-card">
+    <h3>提斯卡托（最終 boss）</h3>
+    <p><strong>HP 999 / ATK 170 / 魔法 21 系</strong></p>
+    <ul>
+      <li>用「沉默術」斷魔（物理系）</li>
+      <li>必殺技變體輪流發動（power 400-490）</li>
+      <li>4 召喚獸全用（伊弗利朵 / 琴恩 / 克拉肯 / 貝希摩斯）</li>
+      <li>準備大療法（神聖系）+ 全狀態解除</li>
+    </ul>
+  </div>
+
+  <div class="combat-card">
+    <h3>魔王阿迦魯瑪</h3>
+    <p><strong>HP 788 / ATK 155</strong></p>
+    <ul>
+      <li>除魔大法（神聖）對魔王屬性有特效</li>
+      <li>裝備神器級武器（火炎神斷）</li>
+      <li>同行 NPC 配置 1 戰 1 法 1 治療</li>
+    </ul>
+  </div>
+
+  <div class="combat-card">
+    <h3>共工 / 酒吞童子（中華 / 日式神話）</h3>
+    <p><strong>HP 790-795 / ATK 160-162 / 魔法 0-3</strong></p>
+    <ul>
+      <li>純物理戰士型，對應「敲」/「刺」破防</li>
+      <li>用真槍貫術變體（power 490）破甲</li>
+      <li>不需擔心對方法術 — 純戰</li>
+    </ul>
+  </div>
+
+  <div class="combat-card">
+    <h3>貝利亞 / 帕茲斯（西亞神話）</h3>
+    <p><strong>HP 792-800 / ATK 150-152 / 魔法 21</strong></p>
+    <ul>
+      <li>魔法系 boss，先沉默或封魔</li>
+      <li>暗黑系反制（震亡術 / 石化術）</li>
+      <li>防範狀態異常攻擊（多解毒石）</li>
+    </ul>
+  </div>
+
+</div>
+
+<h2>📈 戰鬥能力提升路徑</h2>
+
+<ol>
+<li><strong>新手期</strong>：練 1-2 種武器類別到熟練度 30+，敏捷 / 力量提到 12+</li>
+<li><strong>初期</strong>：學物理系魔法（照明 / 開鎖 / 索敵 / 護身）— 探索 + 防禦兼顧</li>
+<li><strong>中期</strong>：選元素系（攻擊）或神聖系（治療）為主魔法路線</li>
+<li><strong>中後期</strong>：必殺技主形 + 強化武器到 16-24 級</li>
+<li><strong>後期</strong>：必殺技變體（STM ≥ 150）+ 強化武器 32 級 + 暗黑系狀態異常</li>
+<li><strong>終局</strong>：5 系魔法全會 + 4 召喚獸 + 神器級武器（火炎神斷 / 神切劍 / 火焰神杖）</li>
+</ol>
+
+<h2>🔬 戰鬥的隱藏細節</h2>
+
+<div class="notice">
+<strong>狀態異常持續性</strong>：中毒會每回合扣 HP；麻痺停止行動 N 回合；石化是「永久」需道具解。boss 用石化超強！
+<br><br>
+<strong>STM 回復速度</strong>：戰鬥外慢回；旅店 / 城堡可瞬間補滿。長戰前先補 STM。
+<br><br>
+<strong>必殺技冷卻</strong>：發動後不能立刻再發 — 切換普通攻擊幾次再發。
+<br><br>
+<strong>同行 NPC AI</strong>：自動戰鬥但會浪費 STM / MP — 用「指令」按鈕介入。
+</div>
+
+<h2>🔗 相關攻略 / 資料庫</h2>
+<ul>
+<li><a href="hissatsu-guide.html">必殺技使用指南</a>（8 武器類詳細）</li>
+<li><a href="magic-5-systems.html">5 系魔法施展指南</a></li>
+<li><a href="monsters-guide.html">怪物攻略整合篇</a>（128 隻 + boss 詳細）</li>
+<li><a href="weapon-formulas-paths.html">武器系統 + 玩家成長路徑</a>（屬性公式）</li>
+<li><a href="weakness-bonus.html">弱點與加成攻略</a>（社群整理版）</li>
+<li><a href="../save-editor.html">屬性修改器</a>（編輯戰鬥相關屬性）</li>
+<li><a href="../database/items.html">武器 / 防具資料庫</a>（456 物品）</li>
+</ul>
+
+</article>
+
+</main>
+
+<footer class="site-footer">
+  <p>本攻略整合 LUNACHAR.SAV / MONSTER.DAT / HISSATSU.MST / MGCDATA.MST 完整 binary 逆向 + LUNA2.EXE 7 弱點 / 7 攻擊方式字串提取 + 攻略書 PART 5 cross-validate。</p>
+  <p>整理：toni 2026 / 第二十五波 · <a href="../../">回主站</a></p>
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>俠客遊 II 新手上手指南 · 吟遊詩人的傳說</title>
+<meta name="description" content="俠客遊 II 新手上手指南：8 大屬性配點 / 8 種出身（貴族 / 農家 / 戰士 / 武士 / 騎士 / 魔術師 / 祭司 / 盜賊）/ 第一週玩法 / 8 篇整合性攻略導覽。基於攻略書 PART 0 + PART 1 + 說明書整理。">
+<link rel="stylesheet" href="../../assets/css/fonts-wuxia.css">
+<link rel="stylesheet" href="../../assets/css/wuxia.css">
+<style>
+.attr-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+.attr-card {
+  border: 2px solid #8b6f3a;
+  background: rgba(255, 248, 230, 0.6);
+  padding: 12px 16px;
+}
+.attr-card h4 {
+  color: #6b4a1a;
+  margin: 0 0 6px;
+  font-size: 16px;
+}
+.attr-card .icon {
+  font-size: 24px;
+  margin-right: 8px;
+}
+.attr-card .desc {
+  font-size: 13px;
+  color: #5b3f1a;
+  line-height: 1.6;
+}
+.attr-card .effect {
+  background: #f5e9c8;
+  padding: 6px 10px;
+  font-size: 12px;
+  margin-top: 6px;
+  font-family: 'Courier New', monospace;
+  color: #6b4a1a;
+}
+
+.origin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+.origin-card {
+  border: 2px solid #8b6f3a;
+  background: rgba(255, 248, 230, 0.6);
+  padding: 12px 16px;
+}
+.origin-card h4 {
+  color: #6b4a1a;
+  margin: 0 0 6px;
+  font-size: 14px;
+}
+.origin-card .stats { font-size: 12px; color: #5b3f1a; }
+
+.steps-list {
+  margin: 16px 0;
+}
+.steps-list .step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 12px 0;
+  padding: 12px;
+  background: rgba(255, 248, 230, 0.6);
+  border-left: 3px solid #8b6f3a;
+}
+.steps-list .step-num {
+  background: #8b6f3a;
+  color: #fff;
+  border-radius: 4px;
+  width: 24px; height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+.steps-list .step-content { flex: 1; }
+.steps-list h4 { margin: 0 0 6px; color: #6b4a1a; }
+
+.guide-link-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+.guide-link {
+  display: block;
+  border: 1px solid #b8a070;
+  background: #fff8e6;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: #6b4a1a;
+}
+.guide-link:hover { background: #f5e9c8; border-color: #8b6f3a; }
+.guide-link h4 { margin: 0 0 4px; }
+.guide-link .desc { font-size: 12px; color: #5b3f1a; }
+
+.notice {
+  border-left: 3px solid #8b6f3a;
+  padding: 8px 16px;
+  background: rgba(255, 240, 200, 0.4);
+  margin: 16px 0;
+  font-size: 14px;
+  color: #5b3f1a;
+}
+</style>
+</head>
+<body class="guide-page">
+<div class="wrap">
+
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <h1 class="pixel">俠客遊 II 新手上手指南</h1>
+      <div class="header-sub">LUNATIC DAWN II · 8 屬性 + 出身 + 第一週玩法 + 攻略導覽 · toni 第二十五波整理</div>
+    </div>
+    <div class="header-sub header-right">
+      <div><a href="../../">◀ 回主站</a></div>
+      <div><a href="./">▸ 攻略索引</a></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<article>
+
+<h2>📜 歡迎進入《俠客遊 II》的世界</h2>
+
+<p>1996 年 Artdink 製作的《俠客遊 II》（Lunatic Dawn II）是同年代最複雜的開放世界 RPG 之一。
+玩家在 6 個國家自由旅行，接任務 / 練武 / 學魔法 / 招募 NPC / 挑戰魔王。
+本指南幫助新手在第一週上手，避開常見地雷。</p>
+
+<div class="notice">
+<strong>建議閱讀順序</strong>：本指南 → <a href="dos-faq.html">DOS 執行 FAQ</a>（解決執行問題）→
+<a href="weapon-formulas-paths.html">武器系統 + 玩家成長路徑</a>（理解戰鬥）→ 其他攻略。
+</div>
+
+<h2>⚡ 8 大基礎屬性</h2>
+
+<p>每個角色（玩家 + NPC）都有 8 大屬性，從攻略書 PART 1 ch1 + LUNA2.EXE 偏移 0x0401A8 提取確認：</p>
+
+<div class="attr-grid">
+
+  <div class="attr-card">
+    <h4>力量（力）</h4>
+    <p class="desc">物理攻擊力的基礎，決定劍 / 斧 / 棍 / 槍系武器威力。</p>
+    <div class="effect">劍 = (力×2 + 敏)÷3</div>
+  </div>
+
+  <div class="attr-card">
+    <h4>智力（智）</h4>
+    <p class="desc">魔法系統的智力強度，影響魔法學習速度 + 成功率。</p>
+    <div class="effect">學魔法所需智力門檻</div>
+  </div>
+
+  <div class="attr-card">
+    <h4>靈巧（靈）</h4>
+    <p class="desc">手部精細動作 — 開鎖 / 解陷阱 / 偷竊技能基礎。</p>
+    <div class="effect">盜賊系技能基礎</div>
+  </div>
+
+  <div class="attr-card">
+    <h4>敏捷（敏）</h4>
+    <p class="desc">行動速度 + 命中率輔助。先攻 / 閃避取決於敏捷。</p>
+    <div class="effect">行動順序 / 命中率</div>
+  </div>
+
+  <div class="attr-card">
+    <h4>直覺（直）</h4>
+    <p class="desc">直覺反應 — 弓 / 投擲類武器命中 + 偵測陷阱。</p>
+    <div class="effect">弓 / 投擲 = (力+敏+直)÷3</div>
+  </div>
+
+  <div class="attr-card">
+    <h4>魅力（魅）</h4>
+    <p class="desc">招募 NPC 成功率 + 商店買賣價差。</p>
+    <div class="effect">影響招募 / 貿易</div>
+  </div>
+
+  <div class="attr-card">
+    <h4>體格（體）</h4>
+    <p class="desc">HP / STM 上限基礎，決定武器搬運能力。</p>
+    <div class="effect">槍 = (力+體×3)÷4</div>
+  </div>
+
+  <div class="attr-card">
+    <h4>精神（精）</h4>
+    <p class="desc">MP 上限 + 抗魔法能力 + 神聖系威力基礎。</p>
+    <div class="effect">MP 上限 / 抗魔</div>
+  </div>
+
+</div>
+
+<h2>👤 8 種出身選擇</h2>
+
+<p>遊戲開始時玩家從攻略書 PART 1 提到的多種出身選擇（部分如下）：</p>
+
+<div class="origin-grid">
+
+  <div class="origin-card">
+    <h4>① 貴族</h4>
+    <div class="stats">所有屬性平均高 ~141；起始金錢 10000 G；魅力為主。建議玩家：英雄之路 / 金錢之路。</div>
+  </div>
+
+  <div class="origin-card">
+    <h4>② 農家</h4>
+    <div class="stats">力量 / 體格高 156；起始金錢 89 G；劍 / 斧 / 槍適合。建議玩家：英雄之路（戰士類）。</div>
+  </div>
+
+  <div class="origin-card">
+    <h4>③ 戰士</h4>
+    <div class="stats">力量 / 體格 / STM 高；劍 / 雙手刀類武器。建議玩家：英雄 / 邪惡之路。</div>
+  </div>
+
+  <div class="origin-card">
+    <h4>④ 武士</h4>
+    <div class="stats">力量高 + 武術技能高；雙手刀 / 太刀類。建議玩家：英雄之路。</div>
+  </div>
+
+  <div class="origin-card">
+    <h4>⑤ 騎士</h4>
+    <div class="stats">力量 + 體格 + 神聖魔法；長槍 / 騎兵武器。建議玩家：英雄之路（神聖魔法路）。</div>
+  </div>
+
+  <div class="origin-card">
+    <h4>⑥ 魔術師</h4>
+    <div class="stats">智力 / 精神高；元素 / 物理魔法精通。建議玩家：邪惡 / 金錢之路（暗黑魔法）。</div>
+  </div>
+
+  <div class="origin-card">
+    <h4>⑦ 祭司</h4>
+    <div class="stats">智力 / 精神 / 神聖魔法熟練度高。建議玩家：英雄之路（神聖路線）。</div>
+  </div>
+
+  <div class="origin-card">
+    <h4>⑧ 盜賊</h4>
+    <div class="stats">靈巧 / 敏捷高；偷竊 / 解鎖 / 陷阱偵測。建議玩家：邪惡 / 金錢之路。</div>
+  </div>
+
+</div>
+
+<h2>📅 新手第一週玩法</h2>
+
+<div class="steps-list">
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <h4>第 1-2 天：神聖吉札帝國 歐德普克</h4>
+      <ul style="margin: 6px 0; font-size: 14px;">
+        <li>進入主城歐德普克（首府）</li>
+        <li>逛 5 大店家：武器店 / 道具店 / 魔法屋 / 訓練所 / 旅店</li>
+        <li>練 1 種武器類別到熟練度 5（每級 250 G，5 級花 1250 G）</li>
+        <li>到神聖系寺院學 1 個基礎神聖魔法（治療術）</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <h4>第 3-4 天：第一個任務</h4>
+      <ul style="margin: 6px 0; font-size: 14px;">
+        <li>到旅店接任務（送貨 / 送信類，難度 Easy）</li>
+        <li>報酬 500-2000 G — 第一筆「主動」收入</li>
+        <li>跟著驛馬車到目的地 → 完成 → 回報酬</li>
+        <li>完成 2-3 個任務後 → 等級提升 + 名聲累積</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <h4>第 5-6 天：學物理系魔法</h4>
+      <ul style="margin: 6px 0; font-size: 14px;">
+        <li>到魔法屋學 3 個必備物理系魔法：<strong>照明術</strong>（地下城用）+ <strong>索敵術</strong>（顯示敵人）+ <strong>開鎖術</strong></li>
+        <li>這 3 個對地下城探險絕對必備</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-content">
+      <h4>第 7 天：招募第一個 NPC</h4>
+      <ul style="margin: 6px 0; font-size: 14px;">
+        <li>到旅店 / 城堡周邊找適合 NPC</li>
+        <li>選別號「戰士」「魔法師」類，種族「人類」</li>
+        <li>魅力 ≥ 12 提高成功率</li>
+        <li>邀請後組隊 → 戰力翻倍</li>
+        <li>看 <a href="npc-companions.html">同行 NPC 招募流程</a> 詳細</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">5</div>
+    <div class="step-content">
+      <h4>第 2 週起：跨國</h4>
+      <ul style="margin: 6px 0; font-size: 14px;">
+        <li>準備跨國通行證（神聖吉札 → 敦津 / 樸哈爾）</li>
+        <li>探索新國家 — 解鎖訓練 / 魔法 / 武器</li>
+        <li>選定主要路線（英雄 / 邪惡 / 金錢）</li>
+        <li>看 <a href="weapon-formulas-paths.html">武器系統 + 玩家成長路徑</a> 規劃</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<h2>⚠️ 新手地雷</h2>
+
+<div class="notice">
+<strong>① 沒 save 就死了</strong>：俠客遊 II 沒自動 save。死亡 = 重最後一次 save。
+<strong>務必每進新區 / 接任務後 save</strong>。USER0-USER9 共 10 個 slots — 多用幾個。
+</div>
+
+<div class="notice">
+<strong>② 一開始全屬性練</strong>：分散 ROI 低。
+<strong>選 1-2 個主屬性</strong>（按出身 / 路線）+ 1-2 種武器類別專練。
+</div>
+
+<div class="notice">
+<strong>③ 武器太重不能裝備</strong>：每件武器有「體格需求」（攻略書 PART 5 ch2「體格」欄）。
+力量 / 體格不夠拿不起來。**買武器前看體格需求**。
+</div>
+
+<div class="notice">
+<strong>④ 跨國沒通行證被擋</strong>：不同國家間移動需要對應「城（通行證）」（如敦津 25000 G / 馬尼卡帕王國 25000 G）。
+跨國前確認金錢 + 通行證。
+</div>
+
+<div class="notice">
+<strong>⑤ 訓練選錯路線</strong>：同武器類在不同國家可選不同訓練深度。
+<strong>江都（敦津）</strong>訓練所最完整 — 含元素系魔法。建議中期玩家去那。
+</div>
+
+<h2>🎮 操作技巧（DOSBox）</h2>
+
+<p>俠客遊 II 是 DOS 遊戲，需用 DOSBox 模擬器執行（本站<a href="../launcher/">跨平台啟動器</a>已封裝）：</p>
+
+<ul>
+<li><strong>速度調整</strong>：cycles=fixed 50000（Pentium 100 等效，符合 1996 設計）</li>
+<li><strong>Save/Load</strong>：F2 選擇存檔槽 → S 儲存 / L 讀取</li>
+<li><strong>地圖移動</strong>：方向鍵走動，Enter 對話 / 互動</li>
+<li><strong>戰鬥指令</strong>：A 攻擊 / M 魔法 / S 必殺技 / D 防禦 / R 逃跑</li>
+<li><strong>退出 DOSBox</strong>：Ctrl+F9 或 exit 命令</li>
+</ul>
+
+<p>詳細執行問題請看 <a href="dos-faq.html">DOS 執行 FAQ</a>（青衫 1990s 末撰寫，至今適用）。</p>
+
+<h2>🔧 善用本站工具</h2>
+
+<div class="guide-link-grid">
+
+  <a class="guide-link" href="../save-editor.html">
+    <h4>▸ 屬性修改器</h4>
+    <div class="desc">編輯角色 8 屬性 / 15 技能 / 5 系魔法 / HP-MP-STM。新手期不一定要修，後期想轉路線可用。</div>
+  </a>
+
+  <a class="guide-link" href="../chritem-viewer.html">
+    <h4>▸ 物品欄編輯器 v0.2</h4>
+    <div class="desc">編輯 160 角色物品欄（16 slots × 48 bytes）。新增 / 刪除 / 改物品。</div>
+  </a>
+
+  <a class="guide-link" href="../shopitem-viewer.html">
+    <h4>▸ 商店物品查看器</h4>
+    <div class="desc">查看 6 國 11 城店家當前庫存。配合貿易路線決策。</div>
+  </a>
+
+  <a class="guide-link" href="../launcher/">
+    <h4>▸ 跨平台啟動器</h4>
+    <div class="desc">Mac / Win / Linux 一鍵啟動 DOSBox-X 跑遊戲。</div>
+  </a>
+
+  <a class="guide-link" href="../ez/">
+    <h4>▸ Luna2_EZ 懶人包</h4>
+    <div class="desc">87 MB 解壓即玩版。內建 DOSBox + 中文 Big5 支援。</div>
+  </a>
+
+  <a class="guide-link" href="../database/">
+    <h4>▸ 遊戲資料庫</h4>
+    <div class="desc">456 物品 / 128 怪物 / 80 魔法 / 32 武技 / 40 迷宮 / 660 NPC 字典。</div>
+  </a>
+
+</div>
+
+<h2>📚 8 篇整合性攻略導覽（推薦閱讀順序）</h2>
+
+<div class="guide-link-grid">
+
+  <a class="guide-link" href="getting-started.html" style="background: #f5e9c8; border-color: #8b6f3a;">
+    <h4>① 新手上手指南（本篇）</h4>
+    <div class="desc">8 屬性 + 8 出身 + 第一週玩法 + 地雷避雷。</div>
+  </a>
+
+  <a class="guide-link" href="weapon-formulas-paths.html">
+    <h4>② 武器系統 + 玩家成長路徑</h4>
+    <div class="desc">6 大武器公式 + 6 國地理深度版 + 三條路線（英雄 / 邪惡 / 金錢）。</div>
+  </a>
+
+  <a class="guide-link" href="geography-6-nations.html">
+    <h4>③ 6 國地理速查</h4>
+    <div class="desc">10 設施類型 + 驛馬車網路 + 訓練所技能。</div>
+  </a>
+
+  <a class="guide-link" href="combat-strategy.html">
+    <h4>④ 戰鬥策略整合篇</h4>
+    <div class="desc">7 攻擊方式 + 弱點配對 + boss 戰術。</div>
+  </a>
+
+  <a class="guide-link" href="hissatsu-guide.html">
+    <h4>⑤ 必殺技使用指南</h4>
+    <div class="desc">8 武器類必殺技 × 主形/變體 + STM/power 比率。</div>
+  </a>
+
+  <a class="guide-link" href="magic-5-systems.html">
+    <h4>⑥ 5 系魔法施展指南</h4>
+    <div class="desc">物理 / 元素 / 神聖 / 暗黑 / 精靈 + 4 召喚獸。</div>
+  </a>
+
+  <a class="guide-link" href="monsters-guide.html">
+    <h4>⑦ 怪物攻略整合篇</h4>
+    <div class="desc">128 隻 5 階段分類 + 7 弱點 + boss 群數據。</div>
+  </a>
+
+  <a class="guide-link" href="npc-companions.html">
+    <h4>⑧ 同行 NPC 招募流程</h4>
+    <div class="desc">660 字典 + 招募策略 + 子分/親分系統。</div>
+  </a>
+
+  <a class="guide-link" href="quest-system.html">
+    <h4>⑨ 任務系統與冒險指南</h4>
+    <div class="desc">5 任務類型 + 訓練 + Save/Load + 13 SAV 結構。</div>
+  </a>
+
+</div>
+
+<h2>📜 還有 9 篇 2004-2008 社群整理攻略</h2>
+
+<p>本站保留 9 篇 2004-2008 年 GameBase 遊戲基地 / 巴哈姆特社群整理的歷史攻略，由<strong>青衫</strong>等前輩撰寫：</p>
+
+<ul>
+<li><a href="walkthrough.html">主攻略（青衫）</a> — 六國地理、任務流程、NPC 與事件完整介紹</li>
+<li><a href="items-towns.html">物品與城鎮</a> — 完整物品代碼表、武器 / 防具屬性、六國城鎮商品清單</li>
+<li><a href="save-format.html">存檔格式解析</a> — LUNACHAR.SAV 結構（社群早期逆向）</li>
+<li><a href="modifier-notes.html">修改筆記</a> — 修改器使用心得</li>
+<li><a href="marriage-party.html">結婚條件與隊友分析</a></li>
+<li><a href="starting-stats.html">人物起始能力</a></li>
+<li><a href="weakness-bonus.html">弱點與加成攻略</a></li>
+<li><a href="dos-faq.html">DOS 執行 FAQ（青衫）</a></li>
+<li><a href="readme.html">攻略集 readme</a></li>
+</ul>
+
+<p>共 18 篇攻略（9 社群歷史 + 9 toni 2026 整合）。</p>
+
+<h2>🔗 開始旅程</h2>
+
+<p><strong>準備好開始你的俠客遊 II 冒險了嗎？</strong>建議步驟：</p>
+
+<ol>
+<li>下載 <a href="../ez/">Luna2_EZ 懶人包</a> 或用 <a href="../launcher/">跨平台啟動器</a></li>
+<li>選擇出身 + 配點屬性</li>
+<li>進神聖吉札帝國練 1 週基礎</li>
+<li>選定路線（英雄 / 邪惡 / 金錢）+ 跨國</li>
+<li>挑戰魔王群（提斯卡托 HP 999）</li>
+</ol>
+
+<p style="text-align: center; font-size: 18px; color: #6b4a1a; margin: 32px 0;">
+<strong>祝你在《俠客遊 II》的世界中冒險愉快！</strong><br>
+<span style="font-size: 14px; color: #5b3f1a;">— toni & 1996 Artdink 製作團隊精神延續 —</span>
+</p>
+
+</article>
+
+</main>
+
+<footer class="site-footer">
+  <p>本指南整合 1996 攻略書 PART 0（歡迎）+ PART 1 ch1（如何創出好人物）+ 說明書（操作 / 介面）+ 站上 8 篇整合性攻略導覽。</p>
+  <p>整理：toni 2026 / 第二十五波 · <a href="../../">回主站</a></p>
+</footer>
+
+</div>
+</body>
+</html>

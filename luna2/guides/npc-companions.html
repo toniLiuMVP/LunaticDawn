@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>俠客遊 II 同行 NPC 招募流程 · 吟遊詩人的傳說</title>
+<meta name="description" content="俠客遊 II 同行 NPC 招募流程：660 NPC 字典 + 攻略書 PART 5 ch1 NPC 大全（150-170 重要 NPC）+ KOBUN.SAV 小弟系統 + OYABUN.SAV 親分系統。基於第十七 / 十八 / 二十二波 NPC 結構整理 + 第二十五波 SAV 逆向。">
+<link rel="stylesheet" href="../../assets/css/fonts-wuxia.css">
+<link rel="stylesheet" href="../../assets/css/wuxia.css">
+<style>
+.flow-step {
+  display: flex;
+  margin: 16px 0;
+  align-items: flex-start;
+  gap: 12px;
+}
+.flow-step .step-num {
+  background: #8b6f3a;
+  color: #fff;
+  border-radius: 50%;
+  width: 32px; height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.flow-step .step-content {
+  flex: 1;
+  background: rgba(255, 248, 230, 0.6);
+  padding: 12px 16px;
+  border-left: 2px solid #8b6f3a;
+}
+.flow-step h4 {
+  color: #6b4a1a;
+  margin: 0 0 6px;
+  font-size: 16px;
+}
+
+.profession-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 8px;
+  margin: 12px 0;
+}
+.profession-tag {
+  border: 1px solid #b8a070;
+  background: #fff8e6;
+  padding: 6px 12px;
+  font-size: 13px;
+  color: #6b4a1a;
+}
+
+.race-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 8px;
+  margin: 12px 0;
+}
+.race-card {
+  border: 2px solid #8b6f3a;
+  background: rgba(255, 248, 230, 0.6);
+  padding: 10px 14px;
+  font-size: 13px;
+}
+.race-card h4 { margin: 0 0 4px; color: #6b4a1a; }
+
+.notice {
+  border-left: 3px solid #8b6f3a;
+  padding: 8px 16px;
+  background: rgba(255, 240, 200, 0.4);
+  margin: 16px 0;
+  font-size: 14px;
+  color: #5b3f1a;
+}
+</style>
+</head>
+<body class="guide-page">
+<div class="wrap">
+
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <h1 class="pixel">同行 NPC 招募流程</h1>
+      <div class="header-sub">LUNATIC DAWN II · 660 字典 + 150-170 重要 NPC + 子分/親分 · toni 第二十五波整理</div>
+    </div>
+    <div class="header-sub header-right">
+      <div><a href="../../">◀ 回主站</a></div>
+      <div><a href="./">▸ 攻略索引</a></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<article>
+
+<h2>📜 NPC 系統概要</h2>
+
+<p>俠客遊 II 是開放世界 RPG，玩家可以在各地招募 <strong>同行 NPC</strong> 組成隊伍。
+NPC 系統分三層：</p>
+
+<ol>
+<li><strong>NPC 字典</strong>（660 個獨特字串）— 遊戲生成 NPC 名字的字典池
+   <ul><li>CALLNAME 別號 180 + MCNAME0 男名 192 + MCNAME1 姓 192 + FCNAME 女名 96</li>
+   <li>男性全名組合空間 36,864 種；含別號約 6.6M 種</li></ul></li>
+<li><strong>重要 NPC 數值表</strong>（攻略書 PART 5 ch1，150-170 個）— 含 8 屬性 + 15 技能熟練度
+   <ul><li>對應存檔修改器 byte 0x36-0x86 結構</li></ul></li>
+<li><strong>玩家親分 / 子分系統</strong>（KOBUN.SAV / OYABUN.SAV）— 玩家當「老大」帶「小弟」
+   <ul><li>第二十五波 binary 逆向初步釐清結構</li></ul></li>
+</ol>
+
+<h2>👥 NPC 三大基礎屬性</h2>
+
+<h3>① 種族</h3>
+
+<div class="race-grid">
+  <div class="race-card">
+    <h4>人類</h4>
+    <p>最常見，平均屬性。玩家可遇 80%+ NPC 是人類。</p>
+  </div>
+  <div class="race-card">
+    <h4>獸人</h4>
+    <p>少數，戰士系居多，力量 / 體格高。</p>
+  </div>
+  <div class="race-card">
+    <h4>妖精</h4>
+    <p>少數，魔法系居多，敏捷 / 靈巧高。</p>
+  </div>
+  <div class="race-card">
+    <h4>精靈</h4>
+    <p>稀有，多在馬尼卡帕王國 / 芙庫基歐區，精靈系魔法。</p>
+  </div>
+  <div class="race-card">
+    <h4>矮人</h4>
+    <p>稀有，工匠 / 戰士類，體格高。</p>
+  </div>
+</div>
+
+<h3>② 職業類型（攻略書 NPC 表第 6 欄）</h3>
+
+<div class="profession-grid">
+  <div class="profession-tag">戰士</div>
+  <div class="profession-tag">戰士+戰士</div>
+  <div class="profession-tag">戰士+魔法</div>
+  <div class="profession-tag">魔法</div>
+  <div class="profession-tag">魔法+魔法</div>
+  <div class="profession-tag">僧侶</div>
+  <div class="profession-tag">盜士</div>
+  <div class="profession-tag">魔法+盜士</div>
+</div>
+
+<h3>③ 別號（CALLNAME 字典 180 種）</h3>
+
+<p>NPC 別號分兩類：</p>
+
+<ul>
+<li><strong>6 國職業稱號</strong>（每國 16 種，總 96 個）：
+  <ul>
+    <li>武器店店主 / 道具店店主 / 魔法屋店主 / 訓練所教練 / 旅店老闆</li>
+    <li>祭司 / 僧侶 / 巫術師 / 方術師 / 咒術師 / 精靈術師（按國家）</li>
+    <li>貴族 / 國王 / 皇帝 / 家臣 / 高官 / 族長 / 大酋長 / 女王</li>
+    <li>舞者 / 舞姬 / 歌舞妓 / 吟遊詩人 / 辯士 / 史官 / 說書人 / 商人 / 旅人 / 遊牧民族</li>
+  </ul>
+</li>
+<li><strong>通用稱號</strong>（id 96+，跨國通用 80+ 個）：
+  <ul>
+    <li><strong>戰鬥派</strong>：屠龍者 / 屠熊者 / 殺人高手 / 吸血鬼殺手 / 獵人 / 傭兵 / 荒野一匹狼 / 原野武士 / 修行僧 / 占卜師 / 神之化身</li>
+    <li><strong>性格描述</strong>：怪傑 / 激進小子 / 豪放小子 / 火爆男子漢 / 大智若愚 / 痞子 / 花花公子 / 冷若冰霜</li>
+    <li><strong>異稱</strong>：騎士 / 聖騎士 / 超人 / 天下無敵 / 膽大妄為 / 不死之身</li>
+    <li><strong>女性</strong>：絕世美女 / 美麗豔女 / 勇敢女神 / 賢者 / 黑髮女 / 紅毛女 / 火燄女 / 太陽女 / 雲遊戰士 / 薔薇女</li>
+    <li><strong>暗黑系</strong>：殺人犯 / 惡的變身 / 惡的化身 / 暗影支配者 / 恐怖人 / 背叛者 / 黑暗帝王 / 黑暗使者 / 黑暗騎士 / 死神</li>
+    <li><strong>武術高手</strong>：刀劍高手 / 使斧高手 / 棍棒高手 / 使槍高手 / 弓箭高手 / 擲矛高手 / 格鬥高手 / 閃躲高手 / 物理魔法高手 / 元素魔法高手 / 神聖魔法高手 / 黑暗魔法高手 / 精靈魔法高手</li>
+  </ul>
+</li>
+</ul>
+
+<p>完整 660 字典請查 <a href="../database/npcs.html">NPC 名字字典</a>。</p>
+
+<h2>🤝 NPC 招募流程</h2>
+
+<div class="flow-step">
+  <div class="step-num">1</div>
+  <div class="step-content">
+    <h4>遇到 NPC</h4>
+    <p>玩家在城鎮 / 旅店 / 任務地點遇到 NPC。每個 NPC 有：別號 + 名 + 姓組合（隨機從字典生成）+ 屬性數值（攻略書記錄重要 NPC）。</p>
+  </div>
+</div>
+
+<div class="flow-step">
+  <div class="step-num">2</div>
+  <div class="step-content">
+    <h4>觀察 NPC</h4>
+    <p>判斷 NPC 種族 / 職業 / 別號是否符合需求。看別號很重要：「戰士」「武術高手」「魔法師」清楚標明強項；「商人」「吟遊詩人」適合金錢路線。</p>
+  </div>
+</div>
+
+<div class="flow-step">
+  <div class="step-num">3</div>
+  <div class="step-content">
+    <h4>邀請加入隊伍</h4>
+    <p>跟 NPC 對話選擇「邀請」選項。NPC 會根據自己的等級 / 個性 / 玩家魅力決定是否加入。
+    <strong>魅力屬性高</strong>的玩家招募成功率高（玩家屬性 byte 0x3B）。</p>
+  </div>
+</div>
+
+<div class="flow-step">
+  <div class="step-num">4</div>
+  <div class="step-content">
+    <h4>建立子分（小弟）關係</h4>
+    <p>NPC 同意後加入隊伍，記錄到 <code>USER0/KOBUN.SAV</code>（542 bytes）。
+    第二十五波 binary 結構釐清：含小弟 ID + 各種數值（u16 LE 多欄位 — 13/16/32 等可能是「忠誠度 / 等級 / 屬性」）。</p>
+  </div>
+</div>
+
+<div class="flow-step">
+  <div class="step-num">5</div>
+  <div class="step-content">
+    <h4>玩家成為親分（老大）</h4>
+    <p>當隊伍人數達到一定，玩家本身會記錄到 <code>USER0/OYABUN.SAV</code>（258 bytes）。
+    第二十五波結構初步釐清：byte 0-7 = 玩家親分編號 / 隊伍人數；byte 8+ = 屬性概要（u16 sequence 971/7/12/10/30 等）。</p>
+  </div>
+</div>
+
+<div class="flow-step">
+  <div class="step-num">6</div>
+  <div class="step-content">
+    <h4>同行戰鬥 / 探險</h4>
+    <p>同行 NPC 自動戰鬥（按 AI），玩家可看狀態 + 給予命令。NPC 可裝備武器（從 CHRITEM.SAV 對應 char_id 物品欄）。</p>
+  </div>
+</div>
+
+<div class="flow-step">
+  <div class="step-num">7</div>
+  <div class="step-content">
+    <h4>NPC 流失條件</h4>
+    <p>NPC 可能因下列原因離開：
+    <ul>
+      <li>戰死（HP 歸零未復活）</li>
+      <li>跟玩家路線不合（暗黑路線時神聖系 NPC 會離開）</li>
+      <li>玩家攻擊同伴（魅力降低 + NPC 反目）</li>
+      <li>長期不付薪水（少數金錢路線 NPC）</li>
+    </ul></p>
+  </div>
+</div>
+
+<h2>🎯 招募策略建議</h2>
+
+<h3>① 早期招募（Lv 1-15）</h3>
+<ul>
+<li><strong>目標 NPC 類型</strong>：「戰士」「武術高手」「物理魔法高手」</li>
+<li><strong>主要城鎮</strong>：神聖吉札帝國 歐德普克 / 路特卡得（旅店 / 城堡周邊）</li>
+<li><strong>魅力建議</strong>：玩家魅力 ≥ 12 提高招募成功率</li>
+</ul>
+
+<h3>② 中期招募（Lv 15-30）</h3>
+<ul>
+<li><strong>目標 NPC 類型</strong>：「神聖魔法高手」「元素魔法高手」「賢者」「神之化身」</li>
+<li><strong>主要城鎮</strong>：敦津江都 / 樸哈爾阿薩拉姆 / 日傑紫陽（神聖系寺院附近）</li>
+</ul>
+
+<h3>③ 後期招募（Lv 30-50）</h3>
+<ul>
+<li><strong>目標 NPC 類型</strong>：「勇敢女神」「太陽女」「薔薇女」「精靈魔法高手」</li>
+<li><strong>主要城鎮</strong>：馬尼卡帕王國 聖米哥 / 埃爾門德 / 里歐庫列歐</li>
+<li><strong>稀有種族</strong>：精靈 / 矮人 NPC 多在後期區出現</li>
+</ul>
+
+<h3>④ 暗黑路線招募</h3>
+<ul>
+<li><strong>目標 NPC 類型</strong>：「黑暗帝王」「黑暗使者」「黑暗騎士」「黑暗魔道師」「殺人高手」</li>
+<li><strong>主要城鎮</strong>：暗黑系寺院（神聖吉札 / 樸哈爾 / 馬尼卡帕）</li>
+</ul>
+
+<h2>🔬 NPC 屬性對應 binary 結構</h2>
+
+<p>NPC 在 binary 中的數值結構（已逆向）：</p>
+<ul>
+<li><strong>NPC 屬性</strong>：byte 0x36-0x3D（8 大屬性 力/智/靈/敏/直/魅/體/精）+ 0x3E-0x45（屬性上限）</li>
+<li><strong>NPC 技能熟練度</strong>：byte 0x78-0x86（15 技能：劍/槍/棍/弓/投/拳 + 5 系魔法 + 治癒/探查/偷/盜）</li>
+<li><strong>NPC 物品欄</strong>：CHRITEM.SAV 對應 char_id × 768 bytes（16 物品 slots × 48 bytes）</li>
+<li><strong>NPC 隊伍狀態</strong>：KOBUN.SAV / OYABUN.SAV（第二十五波部分釐清）</li>
+</ul>
+
+<p>玩家可用<a href="../save-editor.html">存檔修改器</a>修改自己的屬性 / 技能 / 5 系魔法；用<a href="../chritem-viewer.html">物品欄編輯器 v0.2</a>修改物品。
+<strong>但 KOBUN / OYABUN edit 模式仍 PENDING</strong>（第二十五波結構釐清，尚無 viewer）。</p>
+
+<h2>🎯 玩家路線 + NPC 招募策略整合</h2>
+
+<p>對應<a href="weapon-formulas-paths.html">三條玩家路線</a>：</p>
+
+<ul>
+<li><strong>英雄之路</strong> — 招募「戰士」「武術高手」「神聖魔法高手」「勇敢女神」「神之化身」</li>
+<li><strong>邪惡之路</strong> — 招募「黑暗系列」「殺人高手」「死神」「破滅之徒」</li>
+<li><strong>金錢之路</strong> — 招募「商人」「吟遊詩人」「賞金獵人」「賢者」</li>
+</ul>
+
+<h2>🔗 相關資料庫 / 攻略</h2>
+<ul>
+<li><a href="../database/npcs.html">NPC 名字字典</a>（660 字串完整列表）</li>
+<li><a href="weapon-formulas-paths.html">武器系統 + 玩家成長路徑</a>（三條路線）</li>
+<li><a href="hissatsu-guide.html">必殺技使用指南</a>（戰士類 NPC 用）</li>
+<li><a href="magic-5-systems.html">5 系魔法施展指南</a>（魔法類 NPC 用）</li>
+<li><a href="../save-editor.html">屬性修改器</a>（修改 NPC 屬性 + 技能熟練度）</li>
+<li><a href="../chritem-viewer.html">物品欄編輯器</a>（修改 NPC 裝備）</li>
+<li><a href="marriage-party.html">結婚條件與隊友分析（社群整理版）</a></li>
+</ul>
+
+</article>
+
+</main>
+
+<footer class="site-footer">
+  <p>本攻略基於 4 個 ENC 字典（CALLNAME / MCNAME0 / MCNAME1 / FCNAME）660 字串完整解密 + 攻略書 PART 5 ch1 NPC 大全結構 + 第二十五波 KOBUN/OYABUN/HIST SAV 初步逆向整理。</p>
+  <p>NPC 字典名稱是 binary 解密事實；隊伍系統 binary 結構研究中。</p>
+  <p>整理：toni 2026 / 第二十五波 · <a href="../../">回主站</a></p>
+</footer>
+
+</div>
+</body>
+</html>

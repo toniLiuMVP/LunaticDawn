@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>USERN 存檔結構總覽 · 俠客遊 II</title>
+<meta name="description" content="俠客遊 II 13 個 USER0/USERN SAV 檔結構總覽：LUNACHAR / CHRITEM / SHOPITEM / LUNAHEAD / KOBUN / OYABUN / HIST / SCENDATA / TOWNDATA / TOWNITEM / VDD / VDDKEY / DUNGDATA。drag-drop hex viewer 支援。">
+<link rel="stylesheet" href="../assets/css/fonts-retro.css">
+<link rel="stylesheet" href="../assets/css/retro.css">
+<style>
+.intro {
+  border: 1px solid var(--phosphor-fade);
+  padding: 12px 16px;
+  background: var(--bg-panel);
+  margin: 16px 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--phosphor-dim);
+}
+.intro strong { color: var(--amber); }
+.intro code { background: var(--bg-input); padding: 2px 6px; color: var(--phosphor); font-family: 'VT323', monospace; }
+
+.sav-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+.sav-card {
+  border: 1px solid var(--phosphor-dim);
+  background: var(--bg-panel);
+  padding: 16px;
+}
+.sav-card h3 {
+  color: var(--amber);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 13px;
+  margin: 0 0 8px;
+  border-bottom: 1px dotted var(--phosphor-fade);
+  padding-bottom: 6px;
+}
+.sav-card .size { color: var(--phosphor); font-family: 'Courier New', monospace; font-size: 12px; }
+.sav-card .status {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 11px;
+  margin-left: 4px;
+  font-family: 'VT323', monospace;
+}
+.status-done { background: rgba(0, 255, 65, 0.15); color: var(--phosphor); border: 1px solid var(--phosphor); }
+.status-partial { background: rgba(255, 176, 0, 0.15); color: var(--amber); border: 1px solid var(--amber); }
+.status-todo { background: rgba(160, 160, 160, 0.15); color: var(--phosphor-fade); border: 1px solid var(--phosphor-fade); }
+
+.sav-card .structure {
+  font-size: 12px;
+  margin-top: 8px;
+  color: var(--phosphor-dim);
+  line-height: 1.6;
+}
+.sav-card .structure strong { color: var(--phosphor); }
+.sav-card .tool-link {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--amber);
+}
+
+#hex-viewer {
+  margin-top: 24px;
+  border: 1px solid var(--phosphor-dim);
+  background: var(--bg-panel);
+  padding: 16px;
+}
+#hex-viewer h3 {
+  color: var(--amber);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  margin: 0 0 8px;
+}
+#hex-output {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  background: var(--bg-input);
+  padding: 12px;
+  white-space: pre;
+  overflow-x: auto;
+  max-height: 400px;
+  color: var(--phosphor);
+  border: 1px solid var(--phosphor-fade);
+}
+#drop-zone {
+  border: 2px dashed var(--phosphor-dim);
+  padding: 20px;
+  text-align: center;
+  margin: 12px 0;
+  cursor: pointer;
+}
+#drop-zone:hover { border-color: var(--amber); }
+#drop-zone.drag-active { background: rgba(0, 255, 65, 0.05); border-color: var(--amber); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="pixel">USERN 存檔結構總覽</h1>
+      <nav>
+        <a href="save-editor.html">屬性修改器</a>
+        ·
+        <a href="chritem-viewer.html">物品欄編輯</a>
+        ·
+        <a href="shopitem-viewer.html">商店查看</a>
+        ·
+        <a href="../">回主站</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="intro">
+    俠客遊 II 玩家存檔在 <code>USERN/</code>（N=0~9，10 個 slots），每 slot 含 <strong>13 個 SAV 檔</strong>共約 740 KB。
+    本頁總覽全 13 SAV 結構研究進度（截至 2026-05-02 第二十五波）+ drag-drop hex viewer。
+    <br><br>
+    <strong>已可編輯</strong>：LUNACHAR.SAV（屬性修改器）+ CHRITEM.SAV（物品欄編輯器 v0.2）。<br>
+    <strong>已可查看</strong>：SHOPITEM.SAV（商店查看器）。<br>
+    <strong>結構釐清</strong>：LUNAHEAD / KOBUN / OYABUN / HIST / SCENDATA / TOWNDATA（第二十五波 binary survey）。<br>
+    <strong>待逆向</strong>：TOWNITEM（92 KB） / VDD / VDDKEY（各 200 KB） / DUNGDATA（map data）。
+  </div>
+
+  <div class="sav-grid">
+
+    <div class="sav-card">
+      <h3>LUNACHAR.SAV <span class="status status-done">編輯 v0.2</span></h3>
+      <div class="size">size: 30,720 bytes (30 KB)</div>
+      <div class="structure">
+        <strong>結構</strong>：160 角色 × 192 bytes/角色<br>
+        <strong>內容</strong>：玩家 + 159 NPC 角色完整資料（8 屬性 + 15 技能熟練度 + 5 系魔法 + 武技 + HP/MP/STM）<br>
+        <strong>逆向波次</strong>：第八波（2026-04）+ 多次 cross-validate 確認 offsets
+      </div>
+      <a class="tool-link" href="save-editor.html">▸ 開啟屬性修改器 →</a>
+    </div>
+
+    <div class="sav-card">
+      <h3>CHRITEM.SAV <span class="status status-done">編輯 v0.2</span></h3>
+      <div class="size">size: 122,880 bytes (120 KB)</div>
+      <div class="structure">
+        <strong>結構</strong>：160 角色 × 16 物品 slots × 48 bytes/slot<br>
+        <strong>內容</strong>：每角色物品欄（item_id 對應 ITEMNAME 1-456 + value2 + 8 byte modifier + 32 byte data）<br>
+        <strong>逆向波次</strong>：第二十二波 binary 結構 + 第二十四波 edit 模式
+      </div>
+      <a class="tool-link" href="chritem-viewer.html">▸ 開啟物品欄編輯器 →</a>
+    </div>
+
+    <div class="sav-card">
+      <h3>SHOPITEM.SAV <span class="status status-done">查看 v0.1</span></h3>
+      <div class="size">size: 12,288 bytes (12 KB)</div>
+      <div class="structure">
+        <strong>結構</strong>：16 shops × 768 bytes/shop<br>
+        <strong>內容</strong>：每 shop u32 header + u16 LE item IDs 序列直到 0xFFFF<br>
+        <strong>城鎮對應</strong>：6 國 11 城店家（神聖吉札 0-2 / 樸哈爾 4 / 日傑 7-8 / 馬尼卡帕 10-11 / 芙庫基歐 12-13 / 終局 15）<br>
+        <strong>逆向波次</strong>：第二十四波
+      </div>
+      <a class="tool-link" href="shopitem-viewer.html">▸ 開啟商店查看器 →</a>
+    </div>
+
+    <div class="sav-card">
+      <h3>LUNAHEAD.SAV <span class="status status-partial">結構釐清</span></h3>
+      <div class="size">size: 256 bytes</div>
+      <div class="structure">
+        <strong>內容</strong>：玩家存檔表頭概要<br>
+        <strong>byte 0-2</strong>：00 47 09（u16 = 18176, 1801 — 可能是日期 / 等級）<br>
+        <strong>byte 5-12</strong>：Big5 中文字串（玩家姓名）<br>
+        <strong>byte 13-17</strong>：u32 = 87 + u16 = 48（等級 / age？）<br>
+        <strong>byte 18+</strong>：0xFF padding
+      </div>
+    </div>
+
+    <div class="sav-card">
+      <h3>KOBUN.SAV <span class="status status-partial">結構釐清</span></h3>
+      <div class="size">size: 542 bytes（不整除任何因子）</div>
+      <div class="structure">
+        <strong>內容</strong>：子分（小弟）資料 — 玩家招募 NPC 後加入此檔<br>
+        <strong>byte 0-13</strong>：u16 序列 0/0/1/13/13/16/32（小弟編號 + 屬性 + 等級）<br>
+        <strong>非零比例</strong>：68.3%<br>
+        <strong>對應</strong>：<a href="guides/npc-companions.html">同行 NPC 招募流程</a>
+      </div>
+    </div>
+
+    <div class="sav-card">
+      <h3>OYABUN.SAV <span class="status status-partial">結構釐清</span></h3>
+      <div class="size">size: 258 bytes（不整除任何因子）</div>
+      <div class="structure">
+        <strong>內容</strong>：親分（老大）資料 — 玩家當頭目時的隊伍狀態<br>
+        <strong>byte 0-7</strong>：u32 = 1, 2（玩家親分編號 + 隊伍人數）<br>
+        <strong>byte 12-25</strong>：u16 序列 971/7/12/10/30/7/10/3（屬性 / 等級概要）<br>
+        <strong>非零比例</strong>：60.9%
+      </div>
+    </div>
+
+    <div class="sav-card">
+      <h3>HIST.SAV <span class="status status-partial">結構釐清</span></h3>
+      <div class="size">size: 16,384 bytes (16 KB)</div>
+      <div class="structure">
+        <strong>內容</strong>：玩家歷史紀錄 / 事件 log<br>
+        <strong>byte 0-7</strong>：u16 序列 0/971/7/12（事件類型 + 日期）<br>
+        <strong>byte 8+</strong>：大量 0xFF padding<br>
+        <strong>結構</strong>：可能是「玩家事件紀錄表」每事件 N bytes
+      </div>
+    </div>
+
+    <div class="sav-card">
+      <h3>SCENDATA.SAV <span class="status status-partial">結構釐清</span></h3>
+      <div class="size">size: 6,144 bytes (6 KB)</div>
+      <div class="structure">
+        <strong>內容</strong>：場景資料 — 玩家進入過的場景紀錄<br>
+        <strong>非零比例</strong>：11.7%（多場景未訪問）<br>
+        <strong>byte 0-7</strong>：01 0c 00 06 ff ff 05 ff（u16 = 3073, 1536, 65535, 65285）<br>
+        <strong>byte 8-15</strong>：49 00 ff ff 68 42 00 00（u16 = 73, 65535, 17000, 0）<br>
+        <strong>因子</strong>：16/32/48/64/96/128 bytes/entry
+      </div>
+    </div>
+
+    <div class="sav-card">
+      <h3>TOWNDATA.SAV <span class="status status-partial">結構釐清</span></h3>
+      <div class="size">size: 8,192 bytes (8 KB)</div>
+      <div class="structure">
+        <strong>內容</strong>：城鎮資料 — 玩家在每城鎮的記錄<br>
+        <strong>非零比例</strong>：77.4%（多城已訪問）<br>
+        <strong>byte 0-7</strong>：01 00 bc da bc 77（u16 = 1, 55996, 30652）<br>
+        <strong>因子</strong>：16/32/64/128/256/512 bytes/entry
+      </div>
+    </div>
+
+    <div class="sav-card">
+      <h3>TOWNITEM.SAV <span class="status status-todo">待逆向</span></h3>
+      <div class="size">size: 92,160 bytes (90 KB)</div>
+      <div class="structure">
+        <strong>內容</strong>：城鎮物品 — 玩家在城鎮 store 的物品堆積<br>
+        <strong>因子</strong>：可能 96 × 960 bytes 或 192 × 480 bytes
+      </div>
+    </div>
+
+    <div class="sav-card">
+      <h3>VDD.SAV <span class="status status-todo">待逆向</span></h3>
+      <div class="size">size: 204,800 bytes (200 KB)</div>
+      <div class="structure">
+        <strong>內容</strong>：影像資料 — 推測為玩家 sprite cache / VDD pages<br>
+        <strong>注意</strong>：VDD 可能跟 BCHRKP runtime 填入相關（第二十波發現 BCHRKP 全 0 是 template）
+      </div>
+    </div>
+
+    <div class="sav-card">
+      <h3>VDDKEY.SAV <span class="status status-todo">待逆向</span></h3>
+      <div class="size">size: 204,800 bytes (200 KB)</div>
+      <div class="structure">
+        <strong>內容</strong>：影像 key — VDD.SAV 的索引 / decryption key<br>
+        <strong>關係</strong>：跟 VDD.SAV 同 size，疑似 paired 結構
+      </div>
+    </div>
+
+    <div class="sav-card">
+      <h3>DUNGDATA.SAV <span class="status status-partial">map data</span></h3>
+      <div class="size">size: 30,720 bytes (30 KB)</div>
+      <div class="structure">
+        <strong>內容</strong>：玩家生成迷宮 layout（不是 metadata）<br>
+        <strong>來源</strong>：DUNGDATA.MST template 全 0x00 → 遊戲安裝時複製到 USERN，玩家用過後填入 map<br>
+        <strong>非零比例</strong>：91%<br>
+        <strong>逆向波次</strong>：第十四波釐清 vs metadata 區分
+      </div>
+    </div>
+
+  </div>
+
+  <h2 style="color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 14px; margin-top: 24px;">▸ HEX VIEWER（拖放任意 SAV 看 raw bytes）</h2>
+
+  <div id="drop-zone">
+    <p>拖放 SAV 檔到此處查看前 256 bytes</p>
+    <p style="font-size: 12px; color: var(--phosphor-dim);">或 <span style="color: var(--amber); cursor: pointer; text-decoration: underline;" id="click-select">點擊選擇</span></p>
+    <input type="file" id="file-input" accept=".SAV,.sav" style="display: none;">
+  </div>
+
+  <div id="hex-viewer" style="display: none;">
+    <h3 id="hex-title">— 待選擇檔案 —</h3>
+    <div id="hex-output"></div>
+  </div>
+
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+
+function formatHex(buf, max) {
+  const view = new Uint8Array(buf);
+  const lines = [];
+  const len = Math.min(view.length, max || 256);
+  for (let i = 0; i < len; i += 16) {
+    const offset = i.toString(16).padStart(4, '0');
+    const hexParts = [];
+    const asciiParts = [];
+    for (let j = 0; j < 16 && i + j < len; j++) {
+      const b = view[i + j];
+      hexParts.push(b.toString(16).padStart(2, '0'));
+      asciiParts.push(b >= 32 && b < 127 ? String.fromCharCode(b) : '.');
+    }
+    lines.push(`${offset}: ${hexParts.join(' ').padEnd(48)} | ${asciiParts.join('')}`);
+  }
+  return lines.join('\n');
+}
+
+async function handleFile(file) {
+  const buf = await file.arrayBuffer();
+  $('hex-title').textContent = `${file.name} (${buf.byteLength.toLocaleString()} bytes — first 256 bytes)`;
+  $('hex-output').textContent = formatHex(buf, 256);
+  $('hex-viewer').style.display = 'block';
+}
+
+const dz = $('drop-zone');
+dz.addEventListener('dragover', ev => { ev.preventDefault(); dz.classList.add('drag-active'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('drag-active'));
+dz.addEventListener('drop', ev => {
+  ev.preventDefault();
+  dz.classList.remove('drag-active');
+  if (ev.dataTransfer.files.length > 0) handleFile(ev.dataTransfer.files[0]);
+});
+$('click-select').addEventListener('click', () => $('file-input').click());
+$('file-input').addEventListener('change', ev => {
+  if (ev.target.files.length > 0) handleFile(ev.target.files[0]);
+});
+dz.addEventListener('click', ev => {
+  if (ev.target.id === 'drop-zone') $('file-input').click();
+});
+</script>
+</body>
+</html>
