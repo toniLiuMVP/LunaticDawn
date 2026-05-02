@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SHOPITEM.SAV 商店物品查看器 · 俠客遊 II</title>
+<meta name="description" content="俠客遊 II 商店物品庫存查看器。SHOPITEM.SAV (12288 bytes，16 shops × 768 bytes) 玩家當前看到的店家庫存。第二十四波結構逆向。純前端解析。">
+<link rel="stylesheet" href="../assets/css/fonts-retro.css">
+<link rel="stylesheet" href="../assets/css/retro.css">
+<style>
+.intro {
+  border: 1px solid var(--phosphor-fade);
+  padding: 12px 16px;
+  background: var(--bg-panel);
+  margin: 16px 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--phosphor-dim);
+}
+.intro strong { color: var(--amber); }
+.intro code { background: var(--bg-input); padding: 2px 6px; color: var(--phosphor); font-family: 'VT323', monospace; }
+
+#drop-zone {
+  border: 2px dashed var(--phosphor-dim);
+  padding: 40px;
+  text-align: center;
+  margin: 20px 0;
+  cursor: pointer;
+}
+#drop-zone:hover { border-color: var(--amber); }
+#drop-zone.drag-active { background: rgba(0, 255, 65, 0.05); border-color: var(--amber); }
+
+.shops-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+.shop-card {
+  border: 1px solid var(--phosphor-dim);
+  background: var(--bg-panel);
+  padding: 16px;
+}
+.shop-card h3 {
+  color: var(--amber);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  margin: 0 0 8px;
+  border-bottom: 1px dotted var(--phosphor-fade);
+  padding-bottom: 6px;
+}
+.shop-card .header { color: var(--phosphor-fade); font-size: 11px; font-family: 'Courier New', monospace; }
+.shop-card .item-count { color: var(--phosphor); font-size: 13px; margin-bottom: 8px; }
+.shop-card.empty {
+  border-style: dashed;
+  background: transparent;
+}
+.shop-card.empty .item-count { color: var(--phosphor-fade); font-style: italic; }
+
+.item-list {
+  list-style: none;
+  padding-left: 0;
+  font-size: 13px;
+  margin: 0;
+}
+.item-list li {
+  padding: 3px 0;
+  border-bottom: 1px dotted var(--phosphor-fade);
+  display: flex;
+  justify-content: space-between;
+}
+.item-list li:hover { background: rgba(0, 255, 65, 0.05); }
+.item-list .item-id { color: var(--phosphor-fade); font-family: 'Courier New', monospace; font-size: 11px; }
+.item-list .item-name { color: var(--phosphor); }
+
+.country-marker {
+  display: inline-block;
+  padding: 2px 6px;
+  font-size: 10px;
+  background: var(--bg-input);
+  color: var(--amber);
+  margin-left: 6px;
+}
+
+.error { color: var(--danger); padding: 20px; border: 1px solid var(--danger); margin: 16px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="pixel">SHOPITEM.SAV 商店物品查看器</h1>
+      <nav>
+        <a href="chritem-viewer.html">← 物品欄查看器</a>
+        ·
+        <a href="save-editor.html">屬性修改器</a>
+        ·
+        <a href="../">回主站</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="intro">
+    俠客遊 II 玩家當前看到的店家庫存存於 <code>USER0/SHOPITEM.SAV</code>（12288 bytes）。
+    本工具是 <strong>read-only viewer</strong>（只查看不編輯），解析 16 個店家的物品列表。
+    <br><br>
+    <strong>結構（2026-05-02 第二十四波逆向）</strong>：16 shops × 768 bytes/shop。
+    每 shop：byte 0-3 = u32 LE header（值 = shop_id × 0x10000 + sub_id）；
+    byte 4+ = u16 LE item IDs 序列直到 0xFFFF marker；之後 padding 到 768 bytes。
+    <br><br>
+    <strong>16 shops 對應 6 國城鎮店家</strong>：shop 0-2 神聖吉札帝國 / shop 4 樸哈爾帝國 /
+    shop 7-8 日傑 / shop 10-11 馬尼卡帕王國 / shop 12-13 芙庫基歐 / shop 15 終局武器。
+    一般 16 個 slot 中 11 個有 items，5 個 empty。
+  </div>
+
+  <div id="drop-zone">
+    <h2 class="pixel">▶ 拖放 SHOPITEM.SAV 到這裡</h2>
+    <p>或 <span style="color: var(--amber); cursor: pointer; text-decoration: underline;" id="click-select">點擊選擇檔案</span></p>
+    <p style="color: var(--phosphor-dim); font-size: 13px;">[ 檔案通常在 LUNA2/USERN/SHOPITEM.SAV ]</p>
+    <input type="file" id="file-input" accept=".SAV,.sav" style="display: none;">
+  </div>
+
+  <div id="content"></div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+
+let shopData = null;
+let itemNames = {};
+
+function el(tag, attrs, ...children) {
+  const e = document.createElement(tag);
+  if (attrs) {
+    for (const [k, v] of Object.entries(attrs)) {
+      if (k === 'class') e.className = v;
+      else if (k === 'on') for (const [evt, fn] of Object.entries(v)) e.addEventListener(evt, fn);
+      else e.setAttribute(k, v);
+    }
+  }
+  for (const c of children) {
+    if (c == null || c === false) continue;
+    e.appendChild(typeof c === 'string' || typeof c === 'number' ? document.createTextNode(String(c)) : c);
+  }
+  return e;
+}
+
+const SHOP_COUNTRY_MAP = {
+  0: '神聖吉札', 1: '神聖吉札', 2: '神聖吉札',
+  4: '樸哈爾',
+  7: '日傑', 8: '日傑',
+  10: '馬尼卡帕', 11: '馬尼卡帕',
+  12: '芙庫基歐', 13: '芙庫基歐',
+  15: '終局'
+};
+
+function parseShopitem(buffer) {
+  if (buffer.byteLength !== 12288) {
+    throw new Error(`預期 12288 bytes，實際 ${buffer.byteLength}。檔案可能不是 SHOPITEM.SAV。`);
+  }
+  const view = new DataView(buffer);
+  const shops = [];
+  for (let sid = 0; sid < 16; sid++) {
+    const off = sid * 768;
+    const header = view.getUint32(off, true);
+    const items = [];
+    for (let i = 4; i < 768; i += 2) {
+      const v = view.getUint16(off + i, true);
+      if (v === 0xFFFF) break;
+      if (v === 0) continue;
+      items.push(v);
+    }
+    shops.push({shopId: sid, header, items});
+  }
+  return shops;
+}
+
+async function loadItemNames() {
+  try {
+    const r = await fetch('database/game_data.json');
+    if (r.ok) {
+      const data = await r.json();
+      const map = {};
+      for (const item of data.items || []) {
+        if (item.id != null && item.name) {
+          map[item.id] = item.name;
+        }
+      }
+      return map;
+    }
+  } catch (e) {
+    console.warn('Failed to load item names:', e);
+  }
+  return {};
+}
+
+function renderShops() {
+  const grid = el('div', {class: 'shops-grid'});
+  for (const shop of shopData) {
+    const isEmpty = shop.items.length === 0;
+    const country = SHOP_COUNTRY_MAP[shop.shopId];
+    const card = el('div', {class: 'shop-card' + (isEmpty ? ' empty' : '')});
+    card.appendChild(el('h3', null,
+      `Shop #${shop.shopId}`,
+      country ? el('span', {class: 'country-marker'}, country) : null
+    ));
+    card.appendChild(el('div', {class: 'header'}, `header: 0x${shop.header.toString(16).padStart(8, '0')}`));
+    card.appendChild(el('div', {class: 'item-count'},
+      isEmpty ? '(empty / 無物品)' : `${shop.items.length} items`
+    ));
+
+    if (!isEmpty) {
+      const ul = el('ul', {class: 'item-list'});
+      for (const iid of shop.items) {
+        const name = itemNames[iid] || `(unknown id ${iid})`;
+        ul.appendChild(el('li', null,
+          el('span', {class: 'item-name'}, name),
+          el('span', {class: 'item-id'}, `#${iid}`)
+        ));
+      }
+      card.appendChild(ul);
+    }
+    grid.appendChild(card);
+  }
+  $('content').replaceChildren(grid);
+  $('drop-zone').style.display = 'none';
+}
+
+async function handleFile(file) {
+  try {
+    const buffer = await file.arrayBuffer();
+    shopData = parseShopitem(buffer);
+    itemNames = await loadItemNames();
+    renderShops();
+  } catch (e) {
+    $('content').replaceChildren(el('div', {class: 'error'}, '錯誤：' + e.message));
+  }
+}
+
+const dz = $('drop-zone');
+dz.addEventListener('dragover', ev => { ev.preventDefault(); dz.classList.add('drag-active'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('drag-active'));
+dz.addEventListener('drop', ev => {
+  ev.preventDefault();
+  dz.classList.remove('drag-active');
+  if (ev.dataTransfer.files.length > 0) handleFile(ev.dataTransfer.files[0]);
+});
+$('click-select').addEventListener('click', () => $('file-input').click());
+$('file-input').addEventListener('change', ev => {
+  if (ev.target.files.length > 0) handleFile(ev.target.files[0]);
+});
+dz.addEventListener('click', ev => {
+  if (ev.target.id === 'drop-zone') $('file-input').click();
+});
+</script>
+</body>
+</html>

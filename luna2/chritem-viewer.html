@@ -129,6 +129,90 @@
 .stats strong { color: var(--phosphor); }
 
 .error { color: var(--danger); padding: 20px; border: 1px solid var(--danger); margin: 16px 0; }
+
+/* edit mode */
+.mode-toggle {
+  margin: 8px 0;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.mode-toggle button {
+  background: var(--bg-input);
+  color: var(--phosphor);
+  border: 1px solid var(--phosphor-dim);
+  padding: 6px 14px;
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  cursor: pointer;
+}
+.mode-toggle button:hover { border-color: var(--amber); }
+.mode-toggle button.active { background: var(--amber); color: var(--bg); border-color: var(--amber); }
+
+.item-slot.editable { cursor: pointer; }
+.item-slot.editable:hover { border-color: var(--amber); background: rgba(255, 176, 0, 0.05); }
+
+.edit-panel {
+  border: 2px solid var(--amber);
+  background: var(--bg-panel);
+  padding: 16px;
+  margin: 16px 0;
+}
+.edit-panel h4 {
+  color: var(--amber);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  margin: 0 0 12px;
+}
+.edit-panel .row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.edit-panel label { color: var(--phosphor-dim); font-size: 14px; min-width: 80px; }
+.edit-panel input {
+  background: var(--bg-input);
+  color: var(--phosphor);
+  border: 1px solid var(--phosphor-dim);
+  padding: 6px 10px;
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  flex: 1;
+}
+.edit-panel input:focus { outline: none; border-color: var(--amber); }
+.edit-panel .item-search-result {
+  color: var(--amber);
+  font-size: 13px;
+  margin-left: 88px;
+  font-style: italic;
+}
+.edit-panel .actions { display: flex; gap: 8px; margin-top: 12px; }
+.edit-panel button {
+  background: var(--bg-input);
+  color: var(--phosphor);
+  border: 1px solid var(--phosphor-dim);
+  padding: 8px 16px;
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  cursor: pointer;
+}
+.edit-panel button.primary { background: var(--amber); color: var(--bg); border-color: var(--amber); }
+.edit-panel button.danger { color: var(--danger); border-color: var(--danger); }
+
+#download-bar {
+  position: sticky;
+  bottom: 0;
+  background: var(--bg-panel);
+  border-top: 2px solid var(--amber);
+  padding: 12px 16px;
+  margin-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#download-bar .changes-count { color: var(--phosphor-dim); }
+#download-bar .changes-count strong { color: var(--amber); }
 </style>
 </head>
 <body>
@@ -146,7 +230,7 @@
 
   <div class="intro">
     俠客遊 II 玩家物品欄存於 <code>USER0/CHRITEM.SAV</code>（122880 bytes）。
-    本工具是 <strong>read-only viewer</strong>（只查看不編輯），支援解析 160 個角色（玩家 + NPC 同行）的物品欄。
+    本工具支援 <strong>查看 + 編輯</strong>（v0.2 第二十四波加入 edit 模式），可解析 160 個角色（玩家 + NPC 同行）的物品欄。
     <br><br>
     <strong>結構（2026-05-02 第二十二波逆向）</strong>：160 角色 × 16 物品 slots × 48 bytes/slot。
     每 slot：byte 0-3 = item_id（對應 ITEMNAME.ENC 的 1-456 物品）；byte 4-7 = value2（推測為價格）；
@@ -164,14 +248,23 @@
   </div>
 
   <div id="content"></div>
+
+  <div id="download-bar" style="display: none;">
+    <span class="changes-count">未保存變動：<strong id="changes-count">0</strong> 處</span>
+    <button id="btn-download" class="primary">▼ 下載修改後的 CHRITEM.SAV</button>
+  </div>
 </div>
 
 <script>
 const $ = id => document.getElementById(id);
 
 let chritemData = null;
+let originalBuffer = null;
 let itemNames = null;
 let activeChar = 0;
+let editMode = false;
+let editingSlot = null;
+let changesCount = 0;
 
 function el(tag, attrs, ...children) {
   const e = document.createElement(tag);
@@ -273,20 +366,45 @@ function renderCharList() {
 function renderItems() {
   const items = chritemData[activeChar];
   const panel = el('div', {class: 'items-panel'});
+
   panel.appendChild(el('h3', null, `角色 #${String(activeChar).padStart(3, '0')} 的物品欄`));
+
+  // mode toggle
+  panel.appendChild(el('div', {class: 'mode-toggle'},
+    el('span', {style: 'color: var(--phosphor-dim);'}, '模式：'),
+    el('button', {
+      class: editMode ? '' : 'active',
+      on: {click: () => { editMode = false; editingSlot = null; renderAll(); }}
+    }, '檢視'),
+    el('button', {
+      class: editMode ? 'active' : '',
+      on: {click: () => { editMode = true; renderAll(); }}
+    }, '編輯')
+  ));
+
+  // edit panel (if a slot is being edited)
+  if (editingSlot && editingSlot.char === activeChar) {
+    panel.appendChild(renderEditPanel());
+  }
 
   const grid = el('div', {class: 'items-grid'});
   for (const item of items) {
+    const slotClass = 'item-slot' + (item.empty ? ' empty' : '') + (editMode ? ' editable' : '');
+    const handlers = editMode ? {click: () => {
+      editingSlot = {char: activeChar, slot: item.slot};
+      renderAll();
+    }} : null;
+
     if (item.empty) {
-      grid.appendChild(el('div', {class: 'item-slot empty'},
+      grid.appendChild(el('div', {class: slotClass, on: handlers},
         el('div', {class: 'slot-num'}, `slot ${item.slot}`),
-        el('div', {class: 'item-name'}, '(空)')
+        el('div', {class: 'item-name'}, '(空)' + (editMode ? ' ▸ 點擊新增' : ''))
       ));
     } else {
       const name = itemNames[item.itemId] || `(unknown id ${item.itemId})`;
-      grid.appendChild(el('div', {class: 'item-slot'},
+      grid.appendChild(el('div', {class: slotClass, on: handlers},
         el('div', {class: 'slot-num'}, `slot ${item.slot}`),
-        el('div', {class: 'item-name'}, name),
+        el('div', {class: 'item-name'}, name + (editMode ? ' ▸' : '')),
         el('div', {class: 'item-id'}, `id #${item.itemId}`),
         el('div', {class: 'item-value'}, `value2: ${item.value2}`),
         el('div', {class: 'item-value'}, `mod: ${item.modifiersHex}`)
@@ -297,13 +415,128 @@ function renderItems() {
 
   // Stats
   const itemCount = items.filter(i => !i.empty).length;
-  const totalValue = items.filter(i => !i.empty).reduce((s, i) => s + i.value2, 0);
+  const totalValue = items.filter(i => !i.empty).reduce((s, i) => s + (i.value2 || 0), 0);
   panel.appendChild(el('div', {class: 'stats'},
     el('div', null, `物品數：`, el('strong', null, `${itemCount}/16`)),
     el('div', null, `value2 總計：`, el('strong', null, totalValue.toLocaleString()))
   ));
 
   return panel;
+}
+
+function renderEditPanel() {
+  const {char, slot} = editingSlot;
+  const item = chritemData[char][slot];
+  const isEmpty = item.empty;
+
+  const panel = el('div', {class: 'edit-panel'});
+  panel.appendChild(el('h4', null, `編輯 角色 #${String(char).padStart(3, '0')} slot ${slot}` + (isEmpty ? '（新增）' : '')));
+
+  // Item ID input
+  const idInput = el('input', {type: 'number', min: '1', max: '456',
+    value: isEmpty ? '1' : String(item.itemId), id: 'edit-id'});
+  const searchResult = el('div', {class: 'item-search-result', id: 'edit-search-result'});
+
+  function updateSearch() {
+    const v = parseInt(idInput.value, 10);
+    if (v >= 1 && v <= 456) {
+      const name = itemNames[v] || '(無名稱)';
+      searchResult.textContent = `→ ${name}`;
+    } else {
+      searchResult.textContent = '(無效 ID，範圍 1-456)';
+    }
+  }
+  idInput.addEventListener('input', updateSearch);
+  setTimeout(updateSearch, 0);
+
+  panel.appendChild(el('div', {class: 'row'},
+    el('label', {for: 'edit-id'}, 'item ID:'),
+    idInput
+  ));
+  panel.appendChild(searchResult);
+
+  panel.appendChild(el('div', {class: 'row'},
+    el('label', {for: 'edit-value2'}, 'value2:'),
+    el('input', {type: 'number', min: '0', max: '99999999',
+      value: isEmpty ? '0' : String(item.value2), id: 'edit-value2'})
+  ));
+
+  // Actions
+  const actions = el('div', {class: 'actions'});
+  actions.appendChild(el('button', {class: 'primary', on: {click: () => {
+    const newId = parseInt($('edit-id').value, 10);
+    const newValue2 = parseInt($('edit-value2').value, 10);
+    if (newId < 1 || newId > 456 || isNaN(newId)) {
+      alert('item ID 必須在 1-456 範圍內'); return;
+    }
+    if (newValue2 < 0 || isNaN(newValue2)) {
+      alert('value2 必須 ≥ 0'); return;
+    }
+    saveSlot(char, slot, newId, newValue2);
+    editingSlot = null;
+    renderAll();
+  }}}, '✓ 儲存'));
+
+  if (!isEmpty) {
+    actions.appendChild(el('button', {class: 'danger', on: {click: () => {
+      if (confirm(`確定要刪除 slot ${slot} 的物品？`)) {
+        clearSlot(char, slot);
+        editingSlot = null;
+        renderAll();
+      }
+    }}}, '✗ 刪除'));
+  }
+  actions.appendChild(el('button', {on: {click: () => {
+    editingSlot = null;
+    renderAll();
+  }}}, '取消'));
+
+  panel.appendChild(actions);
+  return panel;
+}
+
+function saveSlot(char, slot, itemId, value2) {
+  // Update both originalBuffer and chritemData
+  const view = new DataView(originalBuffer);
+  const off = char * 768 + slot * 48;
+  view.setUint32(off, itemId, true);
+  view.setUint32(off + 4, value2, true);
+
+  const item = chritemData[char][slot];
+  item.empty = false;
+  item.itemId = itemId;
+  item.value2 = value2;
+  // modifiers/extra preserved from original (or zero if was empty)
+
+  changesCount++;
+  updateDownloadBar();
+}
+
+function clearSlot(char, slot) {
+  const view = new DataView(originalBuffer);
+  const off = char * 768 + slot * 48;
+  // mark as empty: 0xFFFFFFFF item_id
+  view.setUint32(off, 0xFFFFFFFF, true);
+  view.setUint32(off + 4, 0xFFFFFFFF, true);
+
+  chritemData[char][slot] = {slot, empty: true};
+  changesCount++;
+  updateDownloadBar();
+}
+
+function updateDownloadBar() {
+  $('changes-count').textContent = String(changesCount);
+  $('download-bar').style.display = changesCount > 0 ? 'flex' : 'none';
+}
+
+function downloadModified() {
+  const blob = new Blob([originalBuffer], {type: 'application/octet-stream'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'CHRITEM.SAV';
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 function renderAll() {
@@ -322,13 +555,21 @@ function renderAll() {
 async function handleFile(file) {
   try {
     const buffer = await file.arrayBuffer();
-    chritemData = parseChritem(buffer);
+    // Make a mutable copy for edits
+    originalBuffer = buffer.slice(0);
+    chritemData = parseChritem(originalBuffer);
     itemNames = await loadItemNames();
+    changesCount = 0;
+    editMode = false;
+    editingSlot = null;
+    updateDownloadBar();
     renderAll();
   } catch (e) {
     $('content').replaceChildren(el('div', {class: 'error'}, '錯誤：' + e.message));
   }
 }
+
+$('btn-download').addEventListener('click', downloadModified);
 
 // Drop zone
 const dz = $('drop-zone');
