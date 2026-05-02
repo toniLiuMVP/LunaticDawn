@@ -77,6 +77,49 @@ color_index = plane_0_bit | (plane_1_bit << 1) | (plane_2_bit << 2) | (plane_3_b
 
 `tools/extract/decode_ddt.py` + `decode_ddt_multi.py`（C 類純技術腳本）
 
+## .DDT Sister Formats（2026-05-02 第十七~二十波 survey + 部分逆向）
+
+LD 第十七波 DDT real header 釐清後，第十八/二十波對 sister formats 做結構性 survey：
+
+### .DD9 — 壓縮版 .DDT
+
+- **檔數**：27 個（74 KB total，size 範圍 225-6648 bytes）
+- **header**：byte 0-15 是 `X.DDT` filename（非 X.DD9）
+- **magic bytes**：byte 12 = `0x9c` 一致 ✓ / byte 14 = `0x91` 一致 ✓ — 兩個 magic
+- **byte 13 / 15**：parameter A/B（壓縮率 hint / chunks count）
+- **壓縮性質**：BOAT.DD9 byte distribution 14/256 unique bytes（高壓縮）/ ICON0.DD9 245/256（低壓縮）
+- **狀態**：⏳ 完整 LZ decompressor 待 LUNA2.EXE 反組譯確認算法（推測 LZSS 變體）
+
+### .BCHRKP*.DDT — Runtime template（**全 0 已駁回**）
+
+- **檔數**：28 個（505 KB total，每檔 18464 bytes uniform）
+- **2026-05-02 第二十波發現**：所有 28 檔都是 **100% 全 0 bytes**！
+- **真相**：跟 `DUNGDATA.MST` 同 pattern — runtime template，遊戲安裝時的初始狀態（runtime 由 USERN/ 填入）
+- **狀態**：❌ 駁回「BCHRKP dim 視覺驗證」PENDING — 沒像素資料可解碼
+
+### .PAC — 多檔打包格式
+
+- **檔數**：60 個（6.8 MB total，size 範圍 4 KB - 1.4 MB）
+- **header**：byte 0-X 是 **u32 LE size table**（無 filename header）
+- **第二十波突破**：`FTEDAT.PAC` / `OTEDAT.PAC` 結構完美對齊：
+  - 78 entries × 576 bytes 各自獨立資料
+  - byte 0-311 size table（u32 LE × 78，全為 576）
+  - byte 312-45239 = 78 × 576 = 44928 bytes data
+- **entry 內部 sub-header**：u32 LE × 4（FTEDAT entry: 0/192/608/1024 / OTEDAT entry: 0/416/768/1216）— 推測 sub-data offsets
+- **filename 推測**：FTE32 = Font Two-byte Extended 32×32 / OTE32 = Other / EVE = Event 動畫 / FTEDAT/OTEDAT = Font/Other Data
+- **狀態**：🟢 size table + entry size 確認；entry 內 sub-format decoder 待逆向
+
+### .E32 — Enemy 32×32 sprites
+
+- **檔數**：45 個（803 KB total，size 範圍 600-28880 bytes）
+- **header**：無一致 pattern（C00 / T80 / T81 等短碼 filename）
+- **第二十波突破**：`C00.E32` 結構釐清：
+  - 5632 bytes = **11 sprites × 32×32 4bpp planar**（每 sprite 512 bytes，整除）
+  - 無 header，pixel data 從 byte 0 開始
+- **filename 推測**：C?? = Common 怪物 / T?? = Town / Trap / Type sprite
+- **大檔差異**：T80.E32 28880 bytes 不是 sprite size 整除 → 含 frame metadata 或不同 dim 序列
+- **狀態**：🟢 C00 全 11 sprites 解碼成功；T?? 不同檔可能有不同 dim 結構
+
 ## 衍生檔案的版權處理
 
 依 `PUBLISHING.md` 規範：
