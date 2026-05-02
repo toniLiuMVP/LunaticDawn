@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>俠客遊 II 怪物攻略整合篇 · 吟遊詩人的傳說</title>
+<meta name="description" content="俠客遊 II 怪物攻略整合：128 隻怪物分類（人類組 / 動物 / 龍蛇 / 巨人 / 不死生物 / 妖精 / 龍 / 昆蟲 / 魔王）+ 弱點屬性對照 + boss 群數據（魔王阿迦魯瑪 Lv 50）+ 必殺技匹配。基於 MONSTER.DAT 13 欄位完整逆向 + 攻略書 PART 5 ch3 cross-validate。">
+<link rel="stylesheet" href="../../assets/css/fonts-wuxia.css">
+<link rel="stylesheet" href="../../assets/css/wuxia.css">
+<style>
+.tier-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+.tier-card {
+  border: 2px solid #8b6f3a;
+  background: rgba(255, 248, 230, 0.6);
+  padding: 16px;
+}
+.tier-card h3 {
+  border-bottom: 1px dotted #8b6f3a;
+  padding-bottom: 6px;
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+.tier-easy h3 { color: #4a8b3a; }
+.tier-mid h3 { color: #8b6f3a; }
+.tier-hard h3 { color: #c34010; }
+.tier-boss h3 { color: #6b1a4a; }
+
+.boss-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin: 16px 0;
+}
+.boss-table th, .boss-table td {
+  border: 1px solid #b8a070;
+  padding: 6px 10px;
+  text-align: left;
+}
+.boss-table th { background: #f5e9c8; color: #6b4a1a; }
+.boss-table .num { text-align: right; font-family: 'Courier New', monospace; }
+.boss-table tr.highlight { background: rgba(255, 200, 100, 0.15); }
+
+.tactic-card {
+  border-left: 3px solid #8b6f3a;
+  padding: 8px 16px;
+  background: rgba(255, 240, 200, 0.4);
+  margin: 12px 0;
+  font-size: 14px;
+}
+.tactic-card strong { color: #6b4a1a; }
+
+.weakness-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin: 12px 0;
+}
+.weakness-table th, .weakness-table td {
+  border: 1px solid #b8a070;
+  padding: 4px 8px;
+}
+.weakness-table th { background: #f5e9c8; }
+.weakness-table .effective { color: #4a8b3a; font-weight: bold; }
+.weakness-table .resistant { color: #c34010; }
+</style>
+</head>
+<body class="guide-page">
+<div class="wrap">
+
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <h1 class="pixel">俠客遊 II 怪物攻略整合篇</h1>
+      <div class="header-sub">LUNATIC DAWN II · 128 怪物分類 + boss 群打法 · toni 第二十四波整理</div>
+    </div>
+    <div class="header-sub header-right">
+      <div><a href="../../">◀ 回主站</a></div>
+      <div><a href="./">▸ 攻略索引</a></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<article>
+
+<h2>📜 怪物系統概要</h2>
+
+<p>俠客遊 II 共有 <strong>128 隻怪物</strong>（id 0-127）存於 <code>P/MONSTER.DAT</code>，每記錄 104 bytes 含 13 個欄位（HP / MP / STM / Lv / ATK / 經驗 / 金錢 / 掉寶 ×2 / 防砍刺敲 等）。
+本攻略基於第八/十三/十四波 binary 完整逆向 + 攻略書 PART 5 ch3「怪物資料大全」cross-validate。</p>
+
+<h2>🐺 怪物分類（按等級階段）</h2>
+
+<div class="tier-grid">
+
+  <div class="tier-card tier-easy">
+    <h3>① 新手期（Lv 3-7）id 0-30 區</h3>
+    <p style="font-size: 13px; color: #5b3f1a;">人類組（盜賊 / 戰士 / 武士 / 騎士 等）+ 部分動物類</p>
+    <ul style="font-size: 14px;">
+      <li><strong>人類組</strong>：強盜 / 忍者 / 殺手 / 戰士 / 魔術師 / 祈禱師 / 盜賊 / 獵人 / 騎士 / 武士 / 僧侶 / 尼姑 / 狂戰士 / 劍鬥士 / 勁裝戰士 / 吟遊詩人</li>
+      <li><strong>HP 範圍</strong>：60-160</li>
+      <li><strong>ATK 範圍</strong>：32-82</li>
+      <li><strong>建議裝備</strong>：寶劍刀類 / 雙手刀類，加 1-2 件護具</li>
+    </ul>
+  </div>
+
+  <div class="tier-card tier-mid">
+    <h3>② 中期（Lv 10-25）動物 / 龍蛇類</h3>
+    <p style="font-size: 13px; color: #5b3f1a;">動物類（大蝙蝠 / 大兔牛 / 巨蛇 / 貓兒）+ 龍蛇類（蜥蜴 / 人面蛇 / 巨蛙 / 蛇蝎女妖）</p>
+    <ul style="font-size: 14px;">
+      <li><strong>HP 範圍</strong>：100-300</li>
+      <li><strong>特殊狀態</strong>：部分有「中毒」「石化」攻擊（用解毒石 / 解石符）</li>
+      <li><strong>建議</strong>：學物理系魔法的「沉默術」「停時術」克制 spawn 多的動物群</li>
+    </ul>
+  </div>
+
+  <div class="tier-card tier-hard">
+    <h3>③ 中後期（Lv 25-40）魔法系 + 巨人類</h3>
+    <p style="font-size: 13px; color: #5b3f1a;">魔法系（魔魂兒 / 敏蝠魔 / 酸魔魂 / 半人馬 / 半蛇人 / 石膏蝠）+ 巨人類（蜘蛛 / 石巨蛇 / 大巨人 / 龐巨人）</p>
+    <ul style="font-size: 14px;">
+      <li><strong>HP 範圍</strong>：200-500</li>
+      <li><strong>魔法防禦</strong>：學「封魔術」減低魔法系 dmg</li>
+      <li><strong>建議</strong>：必殺技「真槍貫術」「直棍撲術」破甲</li>
+    </ul>
+  </div>
+
+  <div class="tier-card tier-hard">
+    <h3>④ 後期（Lv 35-45）不死 / 妖精 / 昆蟲</h3>
+    <p style="font-size: 13px; color: #5b3f1a;">不死生物（殭屍人 / 髑髏兵 / 屍狼 / 不死之主）+ 妖精（精靈 / 鬼魂 / 巨蜂 / 闇龍）+ 昆蟲（蜂霊 / 毒火 / 森林女神 / 林霊騎士）</p>
+    <ul style="font-size: 14px;">
+      <li><strong>HP 範圍</strong>：300-700</li>
+      <li><strong>不死類</strong>：神聖系魔法「除魔大法」一招擊潰</li>
+      <li><strong>妖精類</strong>：物理攻擊較弱，用元素系魔法（爆炸 / 隕石）</li>
+    </ul>
+  </div>
+
+  <div class="tier-card tier-boss">
+    <h3>⑤ 終局（Lv 45-50）龍類 + 魔王群</h3>
+    <p style="font-size: 13px; color: #5b3f1a;">龍類（雙頸龍 / 傳龍 / 火龍 / 死之龍 / 黑龍 / 邪火龍 / 赤龍）+ 魔王群（id 122-127）</p>
+    <ul style="font-size: 14px;">
+      <li><strong>HP 範圍</strong>：500-999</li>
+      <li><strong>特殊技</strong>：boss 級用必殺技 + 多重屬性攻擊</li>
+      <li><strong>建議</strong>：學齊 5 系魔法 + 必殺技變體形態 + 神器級武器（火炎神斷 / 神切劍）</li>
+    </ul>
+  </div>
+
+</div>
+
+<h2>👹 boss 群數據（Lv 50 神話 boss）</h2>
+
+<p>攻略書 PART 5 ch3 列出最終 boss 群（id 122-127），LD 第八/十三波 binary 逆向**完美對照**（boss 6/6 全 match）：</p>
+
+<table class="boss-table">
+<tr>
+<th>id</th>
+<th>名稱</th>
+<th class="num">Lv</th>
+<th class="num">HP</th>
+<th class="num">ATK</th>
+<th>魔法數</th>
+<th>典故</th>
+</tr>
+<tr><td>122</td><td>貝利亞</td><td class="num">50</td><td class="num">800</td><td class="num">150</td><td>21</td><td>Beliyaal（猶太教墮天使）</td></tr>
+<tr><td>123</td><td>帕茲斯</td><td class="num">50</td><td class="num">792</td><td class="num">152</td><td>21</td><td>Pazuzu（美索不達米亞風魔王）</td></tr>
+<tr><td>124</td><td>共工</td><td class="num">50</td><td class="num">790</td><td class="num">160</td><td>3</td><td>共工（中華水神 / 撞不周山）</td></tr>
+<tr><td>125</td><td>酒吞童子</td><td class="num">50</td><td class="num">795</td><td class="num">162</td><td>0</td><td>酒呑童子（日本大江山鬼王）</td></tr>
+<tr><td>126</td><td>魔王阿迦魯瑪</td><td class="num">50</td><td class="num">788</td><td class="num">155</td><td>21</td><td>原創 boss</td></tr>
+<tr class="highlight"><td>127</td><td><strong>提斯卡托</strong>（最終 boss）</td><td class="num">50</td><td class="num">999</td><td class="num">170</td><td>21</td><td>Tezcatlipoca（阿茲特克黑暗之神）</td></tr>
+</table>
+
+<div class="tactic-card">
+<strong>boss 群打法</strong>：6 隻全 Lv 50 / HP 接近 ✓ ATK 150-170。**最終 boss 提斯卡托 HP 999 是全遊戲最高**。建議：
+<ol>
+<li>等級練到 50+ 再挑戰</li>
+<li>學齊 5 系魔法 + 4 召喚獸（伊弗利朵 / 琴恩 / 克拉肯 / 貝希摩斯）</li>
+<li>裝備神器級武器（火炎神斷 / 神切劍）+ 強化到 32 級上限</li>
+<li>STM 練到 200+ 才能連續發動必殺技變體形態（威力 400-490）</li>
+<li>準備大量解毒石 / 解沈靜符 / 高級療傷藥（boss 用狀態異常多）</li>
+</ol>
+</div>
+
+<h2>🛡️ 弱點屬性對照</h2>
+
+<p>俠客遊 II 怪物有 <strong>7 種弱點類型</strong>（從 LUNA2.EXE 偏移 0x040DCC 提取確認）：</p>
+
+<table class="weakness-table">
+<tr><th>弱點</th><th>對應怪物類別</th><th>有效攻擊</th></tr>
+<tr><td><strong>野獸恐懼症</strong></td><td>動物類</td><td class="effective">物理攻擊 + 元素系</td></tr>
+<tr><td><strong>魔獸恐懼症</strong></td><td>魔法系怪物 / 龍類</td><td class="effective">物理攻擊 + 神聖系</td></tr>
+<tr><td><strong>魔法生物恐懼症</strong></td><td>魔魂兒 / 半人馬 / 妖精類</td><td class="effective">物理攻擊 + 暗黑系</td></tr>
+<tr><td><strong>巨人恐懼症</strong></td><td>巨人類</td><td class="effective">必殺技「真槍貫術」/「直棍撲術」</td></tr>
+<tr><td><strong>不死生物恐懼症</strong></td><td>殭屍 / 髑髏 / 屍狼 / 不死之主</td><td class="effective">神聖系「除魔大法」</td></tr>
+<tr><td><strong>幽靈恐懼症</strong></td><td>鬼魂 / 闇龍</td><td class="effective">神聖系魔法</td></tr>
+<tr><td><strong>沒有</strong></td><td>無弱點（多為 boss 級）</td><td class="resistant">需高等級 + 多種策略</td></tr>
+</table>
+
+<h2>🔥 怪物使用必殺技（HISSATSU.MST records 16-31）</h2>
+
+<p>怪物使用的 16 個特殊類必殺技：</p>
+<ul>
+<li><strong>12 common</strong>（id 16-21, 26-31）：b1=60，威力 250-500，無玩家動畫</li>
+<li><strong>4 low_cost</strong>（id 22-25）：b1=15 或 10，威力 100，自動觸發</li>
+</ul>
+
+<p>怪物資料庫的「必殺技 O/X」欄位標 O 的怪物會用這些必殺技。多數低階怪物（人類組 / 動物類）標 X，**只有 boss 級 + 部分龍類 / 魔法系**才有必殺技。</p>
+
+<div class="tactic-card">
+<strong>對抗 boss 必殺技的策略</strong>：
+<ol>
+<li>識別 boss 必殺技的「目標」 — 全體 / 單體 / 直線</li>
+<li>用「沉默術」（物理系）阻止施法型 boss</li>
+<li>用「停時術」延遲 boss 動作</li>
+<li>分散站位避免全體必殺技</li>
+</ol>
+</div>
+
+<h2>💰 經驗值與掉寶</h2>
+
+<p>MONSTER.DAT 13 欄位含 EXP / 金錢 / 掉寶 ×2，常見模式：</p>
+<ul>
+<li><strong>新手期</strong>：EXP 10-30，金錢 50-200</li>
+<li><strong>中期</strong>：EXP 50-100，金錢 500-2000</li>
+<li><strong>後期</strong>：EXP 100-150，金錢 2000-5000</li>
+<li><strong>boss 級</strong>：EXP 150-170，金錢 / 掉寶有特殊高階物品</li>
+</ul>
+
+<p>具體每隻怪物的 EXP / 金錢 / 掉寶請查 <a href="../database/monsters.html">怪物資料庫</a>（128 records 完整數據）。</p>
+
+<h2>🎯 玩家路線建議</h2>
+
+<ol>
+<li><strong>Lv 1-10</strong>：神聖吉札帝國練人類組怪物，學基礎武器 + 物理系魔法</li>
+<li><strong>Lv 10-20</strong>：跨國去敦津 / 樸哈爾，打動物 / 龍蛇類，學元素系魔法</li>
+<li><strong>Lv 20-30</strong>：日傑練魔法系怪物 + 巨人類，必殺技變體形態解鎖</li>
+<li><strong>Lv 30-40</strong>：馬尼卡帕王國學神聖 / 暗黑系，打不死類 + 妖精</li>
+<li><strong>Lv 40-50</strong>：芙庫基歐學精靈系召喚獸，準備挑戰魔王群</li>
+<li><strong>Lv 50</strong>：挑戰提斯卡托（最終 boss，HP 999）</li>
+</ol>
+
+<h2>🔬 技術細節（給逆向有興趣的人）</h2>
+
+<p>MONSTER.DAT 結構（每 record 104 bytes）：</p>
+<ul>
+<li><code>0x14</code>: HP（u16 LE）</li>
+<li><code>0x16</code>: MP（u16 LE）</li>
+<li><code>0x18</code>: <strong>STM 體力</strong>（u16 LE，第十三波 PDF cross-validate 確認）</li>
+<li><code>0x1A</code>: 等級</li>
+<li><code>0x24</code>: 經驗值</li>
+<li><code>0x28</code>: 金錢</li>
+<li><code>0x3E</code>: ATK 攻擊力</li>
+<li><code>0x40-0x44</code>: 防砍 / 防刺 / 防敲</li>
+</ul>
+
+<p>parser + cross-validate 程式：<a href="https://github.com/toniLiuMVP/LunaticDawn/blob/main/tools/extract/cross_validate_monsters.py">tools/extract/cross_validate_monsters.py</a></p>
+
+<h2>🔗 相關資料庫 / 攻略</h2>
+<ul>
+<li><a href="../database/monsters.html">怪物資料庫</a>（128 records 完整數據）</li>
+<li><a href="../database/items.html">武器 / 防具資料庫</a>（456 物品，找最強裝備）</li>
+<li><a href="hissatsu-guide.html">必殺技使用指南</a></li>
+<li><a href="magic-5-systems.html">5 系魔法施展指南</a></li>
+<li><a href="weakness-bonus.html">弱點與加成攻略</a>（社群整理版本）</li>
+<li><a href="geography-6-nations.html">6 國地理速查</a></li>
+</ul>
+
+</article>
+
+</main>
+
+<footer class="site-footer">
+  <p>本攻略基於 MONSTER.DAT 13 欄位完整逆向（第八/十三/十四波）+ 攻略書 PART 5 ch3 cross-validate（boss 6/6 完美對齊）+ LUNA2.EXE 7 種弱點字串提取（第十波）整理。</p>
+  <p>具體怪物名 / 屬性是 binary 解出的事實；boss 群典故來自神話文獻。</p>
+  <p>整理：toni 2026 / 第二十四波 · <a href="../../">回主站</a></p>
+</footer>
+
+</div>
+</body>
+</html>

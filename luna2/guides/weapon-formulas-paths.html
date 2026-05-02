@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>俠客遊 II 武器系統 + 玩家成長路徑 · 吟遊詩人的傳說</title>
+<meta name="description" content="俠客遊 II 武器類別 vs 屬性對應公式（劍/斧/槍/棍棒/弓 = (力×N + 敏×M) ÷ K）+ 6 國地理深度版（含 11 城鎮設施分類）+ PART 4 三條玩家路線（英雄之路 / 邪惡之路 / 金錢之路）整合攻略。基於 1996 攻略書 PART 1 + PART 2 + PART 4 整理。">
+<link rel="stylesheet" href="../../assets/css/fonts-wuxia.css">
+<link rel="stylesheet" href="../../assets/css/wuxia.css">
+<style>
+.formula-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+.formula-card {
+  border: 2px solid #8b6f3a;
+  background: rgba(255, 248, 230, 0.6);
+  padding: 12px 16px;
+}
+.formula-card h4 {
+  color: #6b4a1a;
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+.formula-card .formula {
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  background: #f5e9c8;
+  padding: 8px 12px;
+  margin: 8px 0;
+  color: #6b4a1a;
+}
+.formula-card .desc {
+  font-size: 13px;
+  color: #5b3f1a;
+}
+
+.path-card {
+  border: 2px solid #8b6f3a;
+  background: rgba(255, 248, 230, 0.6);
+  padding: 16px;
+  margin: 16px 0;
+}
+.path-card h3 {
+  border-bottom: 1px dotted #8b6f3a;
+  padding-bottom: 6px;
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+.path-hero h3 { color: #4a8b1a; }
+.path-evil h3 { color: #6b1a4a; }
+.path-money h3 { color: #c8a410; }
+
+.nation-deep {
+  border: 2px solid #8b6f3a;
+  background: rgba(255, 248, 230, 0.6);
+  padding: 16px;
+  margin: 16px 0;
+}
+.nation-deep h3 {
+  color: #6b4a1a;
+  border-bottom: 1px dotted #8b6f3a;
+  padding-bottom: 6px;
+  margin: 0 0 8px;
+}
+.nation-deep .cities {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+.nation-deep .city {
+  border: 1px solid #b8a070;
+  background: #fff8e6;
+  padding: 8px 12px;
+  font-size: 13px;
+}
+.nation-deep .city h4 {
+  margin: 0 0 4px;
+  color: #6b4a1a;
+  font-size: 14px;
+}
+.nation-deep .city .facilities {
+  color: #5b3f1a;
+  font-size: 12px;
+}
+
+.notice {
+  border-left: 3px solid #8b6f3a;
+  padding: 8px 16px;
+  background: rgba(255, 240, 200, 0.4);
+  margin: 16px 0;
+  font-size: 14px;
+  color: #5b3f1a;
+}
+
+.legend-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin: 12px 0;
+}
+.legend-table th, .legend-table td {
+  border: 1px solid #b8a070;
+  padding: 6px 10px;
+}
+.legend-table th { background: #f5e9c8; color: #6b4a1a; }
+</style>
+</head>
+<body class="guide-page">
+<div class="wrap">
+
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <h1 class="pixel">武器系統 + 玩家成長路徑</h1>
+      <div class="header-sub">LUNATIC DAWN II · PART 1 + PART 2 + PART 4 整合 · toni 第二十四波整理</div>
+    </div>
+    <div class="header-sub header-right">
+      <div><a href="../../">◀ 回主站</a></div>
+      <div><a href="./">▸ 攻略索引</a></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<article>
+
+<h2>📜 為什麼需要這篇</h2>
+
+<p>俠客遊 II 是開放世界 RPG，玩家初期最常困惑的是：
+「我練什麼武器？」「我走哪條成長路線？」「哪個國家適合我？」
+這篇攻略把攻略書 <strong>PART 1（武器系統公式）</strong> + <strong>PART 2（6 國地理深度版）</strong> + <strong>PART 4（三條玩家路線）</strong>整合，
+讓玩家在新手期就能規劃整個 game 的成長路徑。</p>
+
+<div class="notice">
+本篇是<a href="geography-6-nations.html">6 國地理速查</a>（第二十二波）的深度版，
+補充武器系統 + 三條玩家路線 + 11 城鎮設施分類。
+</div>
+
+<h2>⚔️ 武器類別 vs 屬性對應公式</h2>
+
+<p>俠客遊 II 的武器系統有 <strong>6 大武器類別</strong>，每類的「相關技能」由「基礎技能」（8 大屬性）線性組合產生（攻略書 PART 1 ch1）：</p>
+
+<div class="formula-grid">
+
+  <div class="formula-card">
+    <h4>① 劍類</h4>
+    <div class="formula">劍 = (力量 × 2 + 敏捷) ÷ 3</div>
+    <div class="desc">主要看力量（×2 權重），輔助敏捷。寶劍刀類 / 雙手刀類武器發動。</div>
+  </div>
+
+  <div class="formula-card">
+    <h4>② 斧類</h4>
+    <div class="formula">斧 = (力量 + 體格) ÷ 2</div>
+    <div class="desc">力量 + 體格（重型攻擊）。命中率較低，攻擊力高。</div>
+  </div>
+
+  <div class="formula-card">
+    <h4>③ 棍棒類（榴棒）</h4>
+    <div class="formula">榴棒 = (力量 × 3 + 體格 × 2) ÷ 5</div>
+    <div class="desc">力量 × 3 為主，體格 × 2 輔，最重視蠻力。</div>
+  </div>
+
+  <div class="formula-card">
+    <h4>④ 槍類</h4>
+    <div class="formula">槍 = (力量 + 體格 × 3) ÷ 4</div>
+    <div class="desc">體格 × 3 主導 — 唯一不同的是槍要兩手使用。</div>
+  </div>
+
+  <div class="formula-card">
+    <h4>⑤ 弓類</h4>
+    <div class="formula">弓 = (基本力 + 敏捷 + 直覺) ÷ 3</div>
+    <div class="desc">三屬性平均（力量 / 敏捷 / 直覺）。遠距武器，缺技能威力降低。</div>
+  </div>
+
+  <div class="formula-card">
+    <h4>⑥ 投擲類</h4>
+    <div class="formula">投擲 = (力量 + 敏捷 + 直覺) ÷ 3</div>
+    <div class="desc">同弓類算法但投擲類武器（飛鏢 / 飛矢 / 投石）。</div>
+  </div>
+
+</div>
+
+<h2>🌍 6 國地理深度版（11 城鎮）</h2>
+
+<div class="nation-deep">
+  <h3>① 神聖吉札帝國（Imperium 神權）</h3>
+  <p><strong>地理 / 文化</strong>：帝國中心，神聖系魔法發源地。神聖系寺院 / 暗黑系寺院並存。
+  <strong>玩家階段</strong>：早期（Lv 1-15）— 新手起點。</p>
+  <div class="cities">
+    <div class="city">
+      <h4>歐德普克（首府）</h4>
+      <div class="facilities">武器店 / 道具店（特產品）/ 魔法屋 / 神聖系寺院 / 暗黑系寺院 / 訓練所（劍 / 斧 / 棍 / 弓 / 投 / 盜賊 / 野營 / 物理魔法）/ 城（通行證）/ 驛馬車</div>
+    </div>
+    <div class="city">
+      <h4>路特卡得</h4>
+      <div class="facilities">魔法屋 / 道具店（特產品）/ 神聖系寺院 / 驛馬車</div>
+    </div>
+  </div>
+</div>
+
+<div class="nation-deep">
+  <h3>② 敦津（中華城邦）</h3>
+  <p><strong>地理 / 文化</strong>：中華風格地方城邦，江都是訓練所最完整城（含元素系魔法）。
+  <strong>玩家階段</strong>：中期（Lv 10-25）。</p>
+  <div class="cities">
+    <div class="city">
+      <h4>江都</h4>
+      <div class="facilities">武器店 / 道具店 / 魔法屋 / 神聖系寺院 / 暗黑系寺院 / 城（通行證 25000G）/ 訓練所（劍 / 斧 / 棍棒 / 弓 / 槍 / 盾 / 避免 / 盜賊 / 野營 / 物理 / 元素系魔法）/ 驛馬車</div>
+    </div>
+    <div class="city">
+      <h4>華安</h4>
+      <div class="facilities">武器店 / 道具店 / 神聖系寺院 / 驛馬車（含港口連接）</div>
+    </div>
+  </div>
+</div>
+
+<div class="nation-deep">
+  <h3>③ 樸哈爾帝國（西亞 / 阿拉伯）</h3>
+  <p><strong>地理 / 文化</strong>：西亞 / 阿拉伯風格帝國，道具店有特產（香料 / 絨毯）。
+  <strong>玩家階段</strong>：中期（Lv 15-25）。</p>
+  <div class="cities">
+    <div class="city">
+      <h4>阿薩拉姆</h4>
+      <div class="facilities">武器店 / 道具店（特產品香料 / 絨毯）/ 魔法屋 / 神聖系寺院 / 暗黑系寺院 / 城（通行證 敦津 20000G / 馬尼卡帕王國 25000G）/ 訓練所（劍 / 槍 / 弓 / 格鬥 / 迴避 / 盜賊 / 野營 / 元素 / 神聖系魔法）/ 驛馬車</div>
+    </div>
+    <div class="city">
+      <h4>埃耳卡拉亞</h4>
+      <div class="facilities">魔法屋 / 道具店 / 神聖系寺院 / 暗黑系寺院 / 驛馬車 + 港口</div>
+    </div>
+    <div class="city">
+      <h4>帕爾基吉</h4>
+      <div class="facilities">武器店 / 道具店 / 魔法屋 / 訓練所 / 神聖系寺院 / 暗黑系寺院 / 城（通行證 日傑 10000G）/ 驛馬車</div>
+    </div>
+    <div class="city">
+      <h4>隆努</h4>
+      <div class="facilities">道具店（祕密軟膏）/ 神聖系寺院 / 驛馬車（帕爾基吉 / 庫列車迪）</div>
+    </div>
+  </div>
+</div>
+
+<div class="nation-deep">
+  <h3>④ 日傑（日式諸國）</h3>
+  <p><strong>地理 / 文化</strong>：日式諸國風格，武術豐富，道具店有特殊道具（松茸 / 妖刀 / 銅鎌）。
+  <strong>玩家階段</strong>：中後期（Lv 20-35）。</p>
+  <div class="cities">
+    <div class="city">
+      <h4>紫陽</h4>
+      <div class="facilities">武器店 / 道具店（特產品松茸 23300G）/ 魔法屋 / 神聖系寺院 / 暗黑系寺院 / 港口（紫波羅）/ 驛馬車</div>
+    </div>
+    <div class="city">
+      <h4>鹿谷</h4>
+      <div class="facilities">魔法屋 / 道具店 / 神聖系寺院 / 港口（觀眼）</div>
+    </div>
+    <div class="city">
+      <h4>龍諸野</h4>
+      <div class="facilities">武器店（忍刀 / 銅鎌 / 蹴打甲）/ 訓練所（斧 / 榴棒 / 迴避 / 盜賊 / 元素系魔法）/ 神聖系寺院 / 港口</div>
+    </div>
+  </div>
+</div>
+
+<div class="nation-deep">
+  <h3>⑤ 馬尼卡帕王國（中亞 / 印度）</h3>
+  <p><strong>地理 / 文化</strong>：中亞 / 印度風格王國，港口連接外國，高階魔法物品（特產蜂王乳 / 水晶）。
+  <strong>玩家階段</strong>：後期（Lv 30-45）。</p>
+  <div class="cities">
+    <div class="city">
+      <h4>聖米哥</h4>
+      <div class="facilities">武器店（石劍 / 銀斧 / 龍骨弓）/ 道具店 / 魔法屋 / 訓練所（劍 / 弓 / 格鬥 / 野營 / 物理魔法）/ 驛馬車</div>
+    </div>
+    <div class="city">
+      <h4>埃爾門德</h4>
+      <div class="facilities">魔法屋（油樟神戒 23500G）/ 道具店（蜂王乳 24800G）/ 暗黑系寺院 / 驛馬車 + 港口</div>
+    </div>
+    <div class="city">
+      <h4>里歐庫列歐</h4>
+      <div class="facilities">暗黑系寺院 / 驛馬車（紫斯塔利貝 11 日 5500G）+ 港口（埃耳卡拉亞 10 日 6000G）</div>
+    </div>
+  </div>
+</div>
+
+<div class="nation-deep">
+  <h3>⑥ 芙庫基歐（邊境終局）</h3>
+  <p><strong>地理 / 文化</strong>：邊境地區，最後解鎖。可能含隱藏終局區（魔王 boss 群所在）。
+  <strong>玩家階段</strong>：終局（Lv 45-50）— 挑戰提斯卡托等魔王。</p>
+  <p style="font-style: italic; color: #5b3f1a;">具體城鎮 + 隱藏地點待玩家自行探索（攻略書 PART 2 ch6）。</p>
+</div>
+
+<h2>🛤️ 三條玩家路線（PART 4 ch1/ch2/ch3）</h2>
+
+<div class="path-card path-hero">
+  <h3>① 英雄之路（PART 4 ch1）</h3>
+  <p><strong>目標</strong>：成為傳說中的英雄，挑戰魔王群並拯救世界。</p>
+  <p><strong>典型路徑</strong>：</p>
+  <ol>
+    <li>新手期 神聖吉札帝國 歐德普克 → 學基礎武器 + 物理魔法</li>
+    <li>初期擴展 路特卡得 → 學進階神聖系</li>
+    <li>中期跨國 敦津江都 → 學元素系</li>
+    <li>後期 馬尼卡帕王國 聖米哥 → 學高階神聖 + 召喚獸</li>
+    <li>終局 芙庫基歐 → 挑戰魔王群（提斯卡托 HP 999）</li>
+  </ol>
+  <p><strong>建議職業</strong>：戰士 + 神聖魔法（騎士類）、貴族出身（攻略書 PART 1 提到）</p>
+</div>
+
+<div class="path-card path-evil">
+  <h3>② 邪惡之路（PART 4 ch2）</h3>
+  <p><strong>目標</strong>：走暗黑系成為邪神化身，使用暗黑系魔法 + 即死技。</p>
+  <p><strong>典型路徑</strong>：</p>
+  <ol>
+    <li>初期 神聖吉札帝國 → 學基礎物理</li>
+    <li>中期 樸哈爾帝國 阿薩拉姆 → 學暗黑系第一階（毒氣 / 失明 / 麻痺）</li>
+    <li>後期 馬尼卡帕王國 埃爾門德 / 里歐庫列歐 → 學高階暗黑系</li>
+    <li>學「震亡術」即死技 + 神器級武器（火焰神杖 / 制刀封套）</li>
+  </ol>
+  <p><strong>建議職業</strong>：魔術師 + 暗黑魔法、農家出身（PART 1 提到的另一基礎人物）</p>
+</div>
+
+<div class="path-card path-money">
+  <h3>③ 金錢之路（PART 4 ch3）</h3>
+  <p><strong>目標</strong>：透過商業 / 賞金 / 各國特產品貿易賺錢。</p>
+  <p><strong>典型路徑</strong>：</p>
+  <ol>
+    <li>各國跨國貿易：樸哈爾帝國（香料 / 絨毯）↔ 日傑（妖刀 / 松茸）↔ 馬尼卡帕王國（蜂王乳 / 水晶）</li>
+    <li>賞金獵人路線（CALLNAME 別號 #98 賞金獵人 / #99 屠龍者 / #100 屠熊者）</li>
+    <li>商業活動：道具店「特產品」價差套利</li>
+  </ol>
+  <p><strong>建議職業</strong>：商人（CALLNAME #11）+ 高直覺 / 高魅力屬性</p>
+</div>
+
+<h2>🎁 11 件神器級武器（隱藏中的秘寶）</h2>
+
+<p>攻略書 PART 2「最強裝備介紹 + 隱藏中的秘寶」（印頁 P43-P44）列出全遊戲<strong>最強級裝備</strong>：</p>
+
+<table class="legend-table">
+<tr><th>類別</th><th>武器</th><th>分類</th></tr>
+<tr><td>劍類</td><td><strong>火炎神斷</strong></td><td>劍系神器，攻略書「特殊寶物類」</td></tr>
+<tr><td>劍類</td><td><strong>神切劍</strong></td><td>劍系神器，攻略書「特殊寶物類」</td></tr>
+<tr><td>武器</td><td>電刀 / 牛角盔 / 蝠牙</td><td>劍類強化版</td></tr>
+<tr><td>武器</td><td>制刀封套 / 制針板 / 製垂</td><td>特殊製作類武器</td></tr>
+<tr><td>魔法器</td><td><strong>火焰神杖</strong></td><td>元素系最強杖，需精靈系最高階才能拿</td></tr>
+<tr><td>魔法器</td><td>水帝之槍</td><td>元素系槍類</td></tr>
+<tr><td>武器</td><td>穿刺擊</td><td>暗黑系武器，使用後對方下毒</td></tr>
+<tr><td>防具</td><td>鳶鈎靴</td><td>輕量防具，不易踩到陷阱</td></tr>
+</table>
+
+<p style="font-style: italic; color: #5b3f1a;">具體取得方式請查 1996 攻略書 PART 2「最強裝備介紹」+「隱藏中的秘寶」章節。本站不抄錄完整攻略文字（依出版社版權）。</p>
+
+<h2>📊 玩家屬性 → 武器選擇推薦表</h2>
+
+<table class="legend-table">
+<tr><th>玩家屬性偏向</th><th>建議武器類別</th><th>對應公式</th><th>推薦職業</th></tr>
+<tr><td><strong>力量高</strong></td><td>劍 / 棍棒</td><td>(力×2+敏)÷3 / (力×3+體×2)÷5</td><td>戰士 / 狂戰士</td></tr>
+<tr><td><strong>力量+體格雙高</strong></td><td>斧 / 槍</td><td>(力+體)÷2 / (力+體×3)÷4</td><td>武士 / 騎士</td></tr>
+<tr><td><strong>敏捷+直覺高</strong></td><td>弓 / 投擲</td><td>(力+敏+直)÷3</td><td>獵人 / 賞金獵人 / 忍者</td></tr>
+<tr><td><strong>智力+精神高</strong></td><td>魔法器（杖 / 戒指）</td><td>5 系魔法不直接用屬性公式</td><td>魔術師 / 巫術師 / 祭司</td></tr>
+<tr><td><strong>魅力+智力高</strong></td><td>商業路線（不依武器）</td><td>—</td><td>商人 / 吟遊詩人</td></tr>
+</table>
+
+<h2>🎯 玩家路線總建議</h2>
+
+<ol>
+<li><strong>新手選擇</strong>：根據出身（貴族 / 農家）+ 屬性傾向選 1-2 種武器類別練 — 不要全練（資源分散）</li>
+<li><strong>武器升級</strong>：每國的訓練所提供「劍 / 弓 / 棍棒 / 槍 / 投擲 / 拳 / 物理魔法」訓練 — 同一武器類別可在多國訓練深化</li>
+<li><strong>路線選擇</strong>：英雄之路（戰士+神聖魔法）vs 邪惡之路（魔法+暗黑系）vs 金錢之路（商人+貿易）— 三條路線可混合</li>
+<li><strong>神器追蹤</strong>：火炎神斷 / 神切劍 / 火焰神杖 是全遊戲最強裝備，需玩家完成特定任務取得</li>
+<li><strong>終局準備</strong>：Lv 45+ 學齊 5 系魔法 + 4 召喚獸（伊弗利朵 / 琴恩 / 克拉肯 / 貝希摩斯）</li>
+</ol>
+
+<h2>🔗 相關攻略 / 資料庫</h2>
+<ul>
+<li><a href="geography-6-nations.html">6 國地理速查（v1）</a></li>
+<li><a href="hissatsu-guide.html">必殺技使用指南</a></li>
+<li><a href="magic-5-systems.html">5 系魔法施展指南</a></li>
+<li><a href="monsters-guide.html">怪物攻略整合篇</a></li>
+<li><a href="../database/items.html">武器 / 防具資料庫</a>（456 物品）</li>
+<li><a href="starting-stats.html">人物起始能力（社群整理版）</a></li>
+<li><a href="marriage-party.html">結婚條件與隊友分析（社群整理版）</a></li>
+</ul>
+
+</article>
+
+</main>
+
+<footer class="site-footer">
+  <p>本攻略整合 1996 攻略書 PART 1 ch1（武器公式）+ PART 2（6 國地理深度）+ PART 4 ch1/ch2/ch3（三條玩家路線）+ 站上資料庫交叉驗證。</p>
+  <p>具體物價 / 完整武器清單 / NPC 屬性資料屬於原版攻略書版權，請查 1996 年攻略書原文。</p>
+  <p>整理：toni 2026 / 第二十四波 · <a href="../../">回主站</a></p>
+</footer>
+
+</div>
+</body>
+</html>

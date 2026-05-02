@@ -6,12 +6,15 @@
   <!-- 俠客遊 II -->
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/save-editor.html</loc><priority>0.9</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/chritem-viewer.html</loc><priority>0.8</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/shopitem-viewer.html</loc><priority>0.8</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/</loc><priority>0.8</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/walkthrough.html</loc><priority>0.7</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/items-towns.html</loc><priority>0.7</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/geography-6-nations.html</loc><priority>0.8</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/hissatsu-guide.html</loc><priority>0.8</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/magic-5-systems.html</loc><priority>0.8</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/monsters-guide.html</loc><priority>0.8</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/weapon-formulas-paths.html</loc><priority>0.8</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/save-format.html</loc><priority>0.7</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/modifier-notes.html</loc><priority>0.6</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/marriage-party.html</loc><priority>0.6</priority></url>
