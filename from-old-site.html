@@ -82,7 +82,7 @@
     <p style="margin-top: 24px;">
       新站功能：純前端存檔修改器、9 篇社群攻略 HTML、<br>
       跨平台啟動器、Luna2_EZ 懶人包、<br>
-      <span style="color: var(--amber);">遊戲二進制資料庫</span>（456 物品 / 128 怪物 / 80 魔法 / 40 迷宮）
+      <span style="color: var(--amber);">遊戲二進制資料庫</span>（456 物品 / 128 怪物 / 80 魔法 / 32 武技 / 40 迷宮 / 660 NPC 字典）
     </p>
 
     <p style="margin-top: 32px;">
@@ -92,11 +92,26 @@
     <p class="countdown" id="countdown">5 秒後自動跳轉...</p>
 
     <div class="history">
-      <h2>站點歷史</h2>
+      <h2>舊站 → 新站功能對照</h2>
+      <table style="width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px;">
+        <tr style="border-bottom: 1px dotted var(--phosphor-fade);">
+          <th style="text-align: left; padding: 6px 4px; color: var(--phosphor-dim);">舊站（Google Sites）</th>
+          <th style="text-align: left; padding: 6px 4px; color: var(--phosphor);">新站（GitHub Pages）</th>
+        </tr>
+        <tr><td style="padding: 4px;">攻略文件下載</td><td style="padding: 4px;"><a href="luna2/guides/" style="color: var(--amber);">9 篇 HTML 攻略</a>（線上直接看）</td></tr>
+        <tr><td style="padding: 4px;">存檔修改工具下載</td><td style="padding: 4px;"><a href="luna2/save-editor.html" style="color: var(--amber);">瀏覽器版修改器</a>（無需安裝）</td></tr>
+        <tr><td style="padding: 4px;">遊戲下載連結</td><td style="padding: 4px;"><a href="luna2/ez/" style="color: var(--amber);">Luna2_EZ 懶人包</a>（含 DOSBox）</td></tr>
+        <tr><td style="padding: 4px;">問題回報</td><td style="padding: 4px;"><a href="https://github.com/toniLiuMVP/LunaticDawn/issues" style="color: var(--amber);">GitHub Issues</a></td></tr>
+        <tr><td style="padding: 4px;">（舊站無）</td><td style="padding: 4px;"><a href="luna2/database/" style="color: var(--amber);">★ 遊戲資料庫</a>（2026 新增）</td></tr>
+        <tr><td style="padding: 4px;">（舊站無）</td><td style="padding: 4px;"><a href="luna2/launcher/" style="color: var(--amber);">★ 跨平台啟動器</a>（2026 新增）</td></tr>
+      </table>
+
+      <h2 style="margin-top: 16px;">站點歷史</h2>
       <ul style="margin-left: 20px;">
         <li>2003 年起 — 巴哈姆特 / GameBase 遊戲基地社群整理</li>
         <li>2007-2010 — 收錄於 Google Sites <code>sites.google.com/site/lunticdawn</code></li>
         <li>2026-04 — 搬家到 GitHub Pages，新增資料庫子站、二進制逆向工程</li>
+        <li>2026-05 — LUNA2.EXE 字串提取、MGCDATA / HISSATSU 完整逆向、NPC 字典公開、DDT real header 修正</li>
       </ul>
     </div>
   </div>

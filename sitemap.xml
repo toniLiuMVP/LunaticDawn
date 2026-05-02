@@ -18,6 +18,18 @@
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/ez/</loc><priority>0.8</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/launcher/</loc><priority>0.7</priority></url>
 
+  <!-- 俠客遊 II 資料庫（2026-04 新增，2026-05 第十七波加 NPC） -->
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/database/</loc><priority>0.8</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/database/items.html</loc><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/database/monsters.html</loc><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/database/magics.html</loc><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/database/hissatsu.html</loc><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/database/dungeons.html</loc><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/database/npcs.html</loc><priority>0.7</priority></url>
+
+  <!-- 舊 Google Sites 搬遷導流頁 -->
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/from-old-site.html</loc><priority>0.5</priority></url>
+
   <!-- 前途道標 -->
   <url><loc>https://toniliumvp.github.io/LunaticDawn/passage/</loc><priority>0.7</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/passage/intro.html</loc><priority>0.6</priority></url>
