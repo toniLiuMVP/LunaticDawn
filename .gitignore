@@ -22,3 +22,9 @@ serve.py
 _local/
 *.local.json
 *_full.json
+
+# 永久規則（toni 2026-05-03）：網站只放 README.md，其他 .md 都不上傳
+# 開發筆記（ARCHITECTURE / PUBLISHING / QUALITY_BAR / docs/*.md 等）
+# 全部放 _local/dev_notes/ 不進 git
+*.md
+!README.md

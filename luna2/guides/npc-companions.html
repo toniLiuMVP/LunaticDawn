@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>俠客遊 II 同行 NPC 招募流程 · 吟遊詩人的傳說</title>
-<meta name="description" content="俠客遊 II 同行 NPC 招募流程：660 NPC 字典 + 攻略書 PART 5 ch1 NPC 大全（150-170 重要 NPC）+ KOBUN.SAV 小弟系統 + OYABUN.SAV 親分系統。基於第十七 / 十八 / 二十二波 NPC 結構整理 + 第二十五波 SAV 逆向。">
+<meta name="description" content="俠客遊 II 同行 NPC 招募流程：660 NPC 字典 + 攻略書 PART 5 ch1 NPC 大全（150-170 重要 NPC）+ KOBUN.SAV 小弟系統 + OYABUN.SAV 親分系統。基於第十七 / 十八 / 二十二波 NPC 結構整理 + 2026 SAV 逆向。">
 <link rel="stylesheet" href="../../assets/css/fonts-wuxia.css">
 <link rel="stylesheet" href="../../assets/css/wuxia.css">
 <style>
@@ -83,7 +83,7 @@
   <div class="header-inner">
     <div>
       <h1 class="pixel">同行 NPC 招募流程</h1>
-      <div class="header-sub">LUNATIC DAWN II · 660 字典 + 150-170 重要 NPC + 子分/親分 · toni 第二十五波整理</div>
+      <div class="header-sub">LUNATIC DAWN II · 660 字典 + 150-170 重要 NPC + 子分/親分 · toni 2026整理</div>
     </div>
     <div class="header-sub header-right">
       <div><a href="../../">◀ 回主站</a></div>
@@ -108,7 +108,7 @@ NPC 系統分三層：</p>
 <li><strong>重要 NPC 數值表</strong>（攻略書 PART 5 ch1，150-170 個）— 含 8 屬性 + 15 技能熟練度
    <ul><li>對應存檔修改器 byte 0x36-0x86 結構</li></ul></li>
 <li><strong>玩家親分 / 子分系統</strong>（KOBUN.SAV / OYABUN.SAV）— 玩家當「老大」帶「小弟」
-   <ul><li>第二十五波 binary 逆向初步釐清結構</li></ul></li>
+   <ul><li>2026 binary 逆向初步釐清結構</li></ul></li>
 </ol>
 
 <h2>👥 NPC 三大基礎屬性</h2>
@@ -210,7 +210,7 @@ NPC 系統分三層：</p>
   <div class="step-content">
     <h4>建立子分（小弟）關係</h4>
     <p>NPC 同意後加入隊伍，記錄到 <code>USER0/KOBUN.SAV</code>（542 bytes）。
-    第二十五波 binary 結構釐清：含小弟 ID + 各種數值（u16 LE 多欄位 — 13/16/32 等可能是「忠誠度 / 等級 / 屬性」）。</p>
+    2026 binary 結構釐清：含小弟 ID + 各種數值（u16 LE 多欄位 — 13/16/32 等可能是「忠誠度 / 等級 / 屬性」）。</p>
   </div>
 </div>
 
@@ -219,7 +219,7 @@ NPC 系統分三層：</p>
   <div class="step-content">
     <h4>玩家成為親分（老大）</h4>
     <p>當隊伍人數達到一定，玩家本身會記錄到 <code>USER0/OYABUN.SAV</code>（258 bytes）。
-    第二十五波結構初步釐清：byte 0-7 = 玩家親分編號 / 隊伍人數；byte 8+ = 屬性概要（u16 sequence 971/7/12/10/30 等）。</p>
+    2026結構初步釐清：byte 0-7 = 玩家親分編號 / 隊伍人數；byte 8+ = 屬性概要（u16 sequence 971/7/12/10/30 等）。</p>
   </div>
 </div>
 
@@ -280,11 +280,11 @@ NPC 系統分三層：</p>
 <li><strong>NPC 屬性</strong>：byte 0x36-0x3D（8 大屬性 力/智/靈/敏/直/魅/體/精）+ 0x3E-0x45（屬性上限）</li>
 <li><strong>NPC 技能熟練度</strong>：byte 0x78-0x86（15 技能：劍/槍/棍/弓/投/拳 + 5 系魔法 + 治癒/探查/偷/盜）</li>
 <li><strong>NPC 物品欄</strong>：CHRITEM.SAV 對應 char_id × 768 bytes（16 物品 slots × 48 bytes）</li>
-<li><strong>NPC 隊伍狀態</strong>：KOBUN.SAV / OYABUN.SAV（第二十五波部分釐清）</li>
+<li><strong>NPC 隊伍狀態</strong>：KOBUN.SAV / OYABUN.SAV（2026部分釐清）</li>
 </ul>
 
 <p>玩家可用<a href="../save-editor.html">存檔修改器</a>修改自己的屬性 / 技能 / 5 系魔法；用<a href="../chritem-viewer.html">物品欄編輯器 v0.2</a>修改物品。
-<strong>但 KOBUN / OYABUN edit 模式仍 PENDING</strong>（第二十五波結構釐清，尚無 viewer）。</p>
+<strong>但 KOBUN / OYABUN edit 模式仍 PENDING</strong>（2026結構釐清，尚無 viewer）。</p>
 
 <h2>🎯 玩家路線 + NPC 招募策略整合</h2>
 
@@ -312,9 +312,9 @@ NPC 系統分三層：</p>
 </main>
 
 <footer class="site-footer">
-  <p>本攻略基於 4 個 ENC 字典（CALLNAME / MCNAME0 / MCNAME1 / FCNAME）660 字串完整解密 + 攻略書 PART 5 ch1 NPC 大全結構 + 第二十五波 KOBUN/OYABUN/HIST SAV 初步逆向整理。</p>
+  <p>本攻略基於 4 個 ENC 字典（CALLNAME / MCNAME0 / MCNAME1 / FCNAME）660 字串完整解密 + 攻略書 PART 5 ch1 NPC 大全結構 + 2026 KOBUN/OYABUN/HIST SAV 初步逆向整理。</p>
   <p>NPC 字典名稱是 binary 解密事實；隊伍系統 binary 結構研究中。</p>
-  <p>整理：toni 2026 / 第二十五波 · <a href="../../">回主站</a></p>
+  <p>整理：toni 2026 / 2026 · <a href="../../">回主站</a></p>
 </footer>
 
 </div>
