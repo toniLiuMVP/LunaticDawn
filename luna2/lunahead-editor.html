@@ -159,8 +159,14 @@
 
       <div class="field-row">
         <label for="edit-name">玩家姓名 (Big5)：</label>
-        <input id="edit-name" type="text" maxlength="6">
-        <span class="hint">最多 6 個中文字（12 bytes）</span>
+        <input id="edit-name" type="text" disabled style="opacity: 0.7;">
+        <span class="hint">read-only 顯示（瀏覽器無原生 Big5 encoder）</span>
+      </div>
+
+      <div class="field-row">
+        <label for="edit-name-hex">姓名 byte 5-10 (hex)：</label>
+        <input id="edit-name-hex" type="text" placeholder="a5 b1 a6 dc 00 00" style="font-family: monospace;">
+        <span class="hint">6 bytes Big5 hex（每中文字 2 bytes，剩餘填 0x00）。Python: <code>'你的名字'.encode('big5').hex(' ')</code></span>
       </div>
 
       <div class="field-row">
@@ -311,6 +317,11 @@ function updateDownloadBar() {
 function loadHeader() {
   const h = parseHeader(workBuffer);
   $('edit-name').value = h.name;
+  // byte 5-10 hex 顯示
+  const view = new Uint8Array(workBuffer);
+  const nameHex = Array.from(view.slice(5, 11))
+    .map(b => b.toString(16).padStart(2, '0')).join(' ');
+  $('edit-name-hex').value = nameHex;
   $('edit-byte1').value = h.byte1;
   $('edit-byte2').value = h.byte2;
   $('edit-byte3').value = h.byte3;
@@ -343,25 +354,21 @@ function setupListeners() {
     });
   }
 
-  // Name field - encode Big5 (use TextEncoder big5 if available, else show warning)
-  $('edit-name').addEventListener('change', () => {
-    const newName = $('edit-name').value;
-    // Try to encode with Big5
-    let encoded;
-    try {
-      // Native browsers don't support Big5 encoding by default
-      // Show warning and abort for now
-      const view = new Uint8Array(workBuffer);
-      // For demo: only allow exact same length; replace bytes
-      // Attempt: new TextEncoder doesn't support Big5
-      // Workaround: use browser's encoding via input form (limited)
-      alert('注意：瀏覽器不直接支援 Big5 編碼。\n\n建議使用方式：\n1. 修改其他數值欄位\n2. 玩家姓名修改可能需要外部 Big5 工具\n\n本欄位顯示為 read-only 直到 Big5 encoder 整合（PENDING）。');
-      // Restore original
-      const h = parseHeader(workBuffer);
-      $('edit-name').value = h.name;
-    } catch (e) {
-      console.error(e);
+  // Name byte 5-10 (hex 直接編輯)
+  $('edit-name-hex').addEventListener('change', () => {
+    const raw = $('edit-name-hex').value.replace(/\s+/g, '').toLowerCase();
+    if (!/^[0-9a-f]{0,12}$/.test(raw)) {
+      alert('hex 格式錯誤：只能 0-9 a-f，最多 12 字元（6 bytes）');
+      loadHeader();
+      return;
     }
+    const view = new Uint8Array(workBuffer);
+    for (let i = 0; i < 6; i++) {
+      view[5 + i] = i * 2 < raw.length ? parseInt(raw.substr(i * 2, 2), 16) : 0x00;
+    }
+    changesCount++;
+    loadHeader();
+    updateDownloadBar();
   });
 
   $('btn-download').addEventListener('click', () => {
