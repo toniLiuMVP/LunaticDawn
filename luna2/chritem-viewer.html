@@ -307,15 +307,23 @@ function parseChritem(buffer) {
       if (itemId === 0xFFFFFFFF || (itemId === 0 && value2 === 0)) {
         items.push({slot, empty: true});
       } else {
+        const toHex = (arr) => Array.from(arr).map(b => b.toString(16).padStart(2, '0')).join(' ');
         const modifiers = new Uint8Array(buffer, entryOff + 8, 8);
-        const extra = new Uint8Array(buffer, entryOff + 16, 32);
+        const propValues = new Uint8Array(buffer, entryOff + 16, 8);
+        const marker = new Uint8Array(buffer, entryOff + 24, 4);
+        const modValues = new Uint8Array(buffer, entryOff + 28, 8);
+        const padding = new Uint8Array(buffer, entryOff + 36, 12);
         items.push({
           slot,
           empty: false,
           itemId,
           value2,
-          modifiersHex: Array.from(modifiers).map(b => b.toString(16).padStart(2, '0')).join(''),
-          extraHex: Array.from(extra).map(b => b.toString(16).padStart(2, '0')).join(' ')
+          modifiersHex: toHex(modifiers),
+          propValuesHex: toHex(propValues),
+          markerHex: toHex(marker),
+          modValuesHex: toHex(modValues),
+          paddingHex: toHex(padding),
+          modifiersAllZero: Array.from(modifiers).every(b => b === 0xff)
         });
       }
     }
@@ -410,13 +418,26 @@ function renderItems() {
       ));
     } else {
       const name = itemNames[item.itemId] || `(unknown id ${item.itemId})`;
-      grid.appendChild(el('div', {class: slotClass, on: handlers},
+      const tile = el('div', {class: slotClass, on: handlers},
         el('div', {class: 'slot-num'}, `slot ${item.slot}`),
         el('div', {class: 'item-name'}, name + (editMode ? ' ▸' : '')),
         el('div', {class: 'item-id'}, `id #${item.itemId}`),
         el('div', {class: 'item-value'}, `value2: ${item.value2}`),
-        el('div', {class: 'item-value'}, `mod: ${item.modifiersHex}`)
-      ));
+        el('div', {class: 'item-value'}, item.modifiersAllZero ? 'mod: (無)' : `mod: ${item.modifiersHex.replace(/ /g,'')}`)
+      );
+      // 進階 byte 8-47 結構（摺疊）
+      const adv = el('details', {class: 'slot-adv', style: 'margin-top: 6px; font-size: 11px;'});
+      const sum = el('summary', {style: 'cursor: pointer; color: var(--phosphor-dim);'}, '▸ 進階 byte 8-47');
+      adv.appendChild(sum);
+      const advBody = el('div', {style: 'margin-top: 6px; font-family: monospace; line-height: 1.6; color: var(--phosphor);'});
+      advBody.appendChild(el('div', null, `b8-15  modifier ID: ${item.modifiersHex}`));
+      advBody.appendChild(el('div', null, `b16-23 屬性數值區: ${item.propValuesHex}`));
+      advBody.appendChild(el('div', null, `b24-27 marker:     ${item.markerHex}`));
+      advBody.appendChild(el('div', null, `b28-35 屬性 mod:   ${item.modValuesHex}`));
+      adv.appendChild(advBody);
+      adv.addEventListener('click', (e) => e.stopPropagation()); // 防止 click 觸發 edit
+      tile.appendChild(adv);
+      grid.appendChild(tile);
     }
   }
   panel.appendChild(grid);
