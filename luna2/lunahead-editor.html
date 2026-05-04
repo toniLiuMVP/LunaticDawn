@@ -164,6 +164,21 @@
       </div>
 
       <div class="field-row">
+        <label for="edit-name-preset">預設姓名（快速套用）：</label>
+        <select id="edit-name-preset" style="font-family: 'VT323', monospace; font-size: 14px;">
+          <option value="">— 選預設 —</option>
+          <option value="a5bca5bcb556">未具名（USER0 default）</option>
+          <option value="bcc6a4ddb6b6">劍客玩家（自訂典型）</option>
+          <option value="ad4ba6ada451">主角阿安</option>
+          <option value="bbb1abefa451">武士山田</option>
+          <option value="b8c2aa6cb6b6">魔法師李</option>
+          <option value="b9c1ad4babbb">英雄王者</option>
+          <option value="000000000000">清空（全 0x00）</option>
+        </select>
+        <span class="hint">點選即套用 byte 5-10。（如要自訂，下方 hex 直接編輯）</span>
+      </div>
+
+      <div class="field-row">
         <label for="edit-name-hex">姓名 byte 5-10 (hex)：</label>
         <input id="edit-name-hex" type="text" placeholder="a5 b1 a6 dc 00 00" style="font-family: monospace;">
         <span class="hint">6 bytes Big5 hex（每中文字 2 bytes，剩餘填 0x00）。Python: <code>'你的名字'.encode('big5').hex(' ')</code></span>
@@ -353,6 +368,21 @@ function setupListeners() {
       renderHexPreview();
     });
   }
+
+  // 預設姓名 dropdown
+  $('edit-name-preset').addEventListener('change', () => {
+    const v = $('edit-name-preset').value;
+    if (!v) return;
+    // 把 12 字元 hex 拆成 6 bytes 寫入 + 同步到 hex input
+    const view = new Uint8Array(workBuffer);
+    for (let i = 0; i < 6; i++) {
+      view[5 + i] = parseInt(v.substr(i * 2, 2), 16);
+    }
+    changesCount++;
+    loadHeader();
+    updateDownloadBar();
+    $('edit-name-preset').value = ''; // reset dropdown
+  });
 
   // Name byte 5-10 (hex 直接編輯)
   $('edit-name-hex').addEventListener('change', () => {

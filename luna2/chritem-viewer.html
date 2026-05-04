@@ -244,6 +244,20 @@
     每 slot：byte 0-3 = item_id（對應 ITEMNAME.ENC 的 1-456 物品）；byte 4-7 = value2（推測為價格）；
     byte 8-47 = 強化值 + 屬性 modifier + 額外資料。
     <br><br>
+    <strong>byte 8-47 結構性分類（推測）</strong>：
+    <br>
+    ▸ <strong>byte 8-15（modifier ID 區）</strong>：8 bytes — 多為 0xFF 表「無 modifier」；含值時是「裝備類型 + 強化等級 + 屬性」組合（範例 <code>02 1a 5d 70 01 ff 02 00</code>）
+    <br>
+    ▸ <strong>byte 16-23（屬性數值區）</strong>：8 bytes — 推測對應「7 系魔法上限」+ STM 加成（範例 <code>0d 12 0f 14 0e 10 ff ff</code>）
+    <br>
+    ▸ <strong>byte 24-27（marker 區）</strong>：4 bytes — 多為 <code>00 00 ff ff</code> 或屬性類別標記
+    <br>
+    ▸ <strong>byte 28-35（屬性 modifier 區）</strong>：8 bytes — 玩家屬性加成值（力/智/靈/敏/直/魅/體/精，範例 <code>0a 04 0a 00 00 00 00 ff</code>）
+    <br>
+    ▸ <strong>byte 36-47（padding）</strong>：12 bytes 全 0，無實質資料
+    <br><br>
+    <em>※ 個別 modifier ID 的精確效果對照仍需在 DOSBox 內實機驗證（sample 角色 + 變動單一 byte 觀察）。本 viewer 僅顯示 raw bytes 不寫入。</em>
+    <br><br>
     <strong>使用方式</strong>：拖放或選擇 <code>USER0/CHRITEM.SAV</code> 檔案 → 左側選角色 → 右側看物品欄。
     所有解析在瀏覽器本地完成，不上傳任何資料。
   </div>
