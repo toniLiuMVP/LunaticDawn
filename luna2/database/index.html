@@ -117,7 +117,13 @@
   <section class="intro">
     <h2>LUNA2 DATABASE · 技術研究</h2>
     <p>本站為俠客遊 II DOS 版二進制檔案格式的獨立逆向研究。</p>
-    <p>公開頁面僅展示「技術知識」（檔案格式、加密演算法、struct 結構）與「逆向出的數值」（價格、HP、攻擊力等可量化數據）。原版受著作權保護的創意內容（圖像、劇情文字、完整名稱資料）不在公開頁面展示。</p>
+    <p>公開頁面展示「<strong>事實層</strong>」（檔案格式、加密演算法、struct 結構、價格、HP、攻擊力、名稱、規則等可量化資料）。「<strong>創作層</strong>」（美術、劇情文字、攻略書 narrative 段落）不在公開頁面展示。</p>
+    <div class="tech" style="background: rgba(255, 176, 0, 0.06); border-left: 3px solid var(--amber); padding: 8px 12px; margin: 12px 0; font-size: 13px;">
+      <strong>⚖️ 公開政策 v2.0（2026-05-05 修訂）</strong><br>
+      依日本著作權法第 2 條（創作性要件）+ 台灣著作權法第 9 條第 1 項第 3 款（明文：公式 / 數表 / 表格不得為著作權標的）+ 美國 Feist v Rural Telephone (1991)：<br>
+      ✅ 玩家正常玩可見的<strong>數值 / 名稱 / 規則 / 公式</strong>= 事實 = 不受著作權保護 → <strong>公開</strong><br>
+      ✅ 攻略書編排設計 / 美術 / 劇情 narrative = 創作性表現 → <strong>不公開</strong>（僅本機研究保留）
+    </div>
     <div class="tech">
       ▸ ENC 加密：4-byte XOR 演算法（key 為運作時硬編碼常數）<br>
       ▸ MST/DAT 結構：fixed-record 切片，u16/u8 little-endian struct<br>
