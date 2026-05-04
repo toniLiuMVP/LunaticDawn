@@ -168,6 +168,36 @@
     兩者沒有 1:1 對應，因為玩家每次新遊戲遇到的 NPC 名字都是隨機組合。
   </div>
 
+  <div class="intro" style="margin-top: 20px; border-color: var(--amber);">
+    <strong>📊 NPC 屬性表結構（攻略書 PART 5 ch1 p101-p110）</strong>：
+    <br><br>
+    每個 NPC 在攻略書中含以下欄位：
+    <ul style="margin-top: 8px; line-height: 1.7;">
+      <li><strong>名單頁</strong>（奇數頁）：別號 / 人名 / 種族 / 性別 / 年齡 X/Y / 技能類型 / 利益生存區 / 三圍 1 / 三圍 2</li>
+      <li><strong>數值頁</strong>（偶數頁）：8 大屬性 X/Y（力量/智慧/靈巧/敏捷/直覺/魅力/體格/精神）+ 15 技能熟練度（劍/槍/棍/斧/弓/投/格鬥/盜賊/野營/迴避/物理/元素/神聖/暗黑/精靈）</li>
+    </ul>
+
+    <strong>三向交叉驗證</strong>：攻略書 1996 年印刷數據 ↔ 存檔修改器 LUNACHAR.SAV byte offsets ↔ LUNA2.EXE 字串提取 — 三方完美對齊（8 屬性 / 15 技能 / 5 系魔法 / NPC 名稱）。
+    <br><br>
+    <strong>⚖️ 公開政策（依日本著作權法第 2 條 + 台灣著作權法第 9 條）</strong>：
+    NPC 數值表屬於<em>事實 / 數表</em>（玩家招募時遊戲內可看到），不受著作權保護。本站基於文化保存目的不抄錄完整 150 筆原表，但結構性事實已完整逆向，鼓勵玩家透過 Steam 購買正版攻略書 PDF 取得完整數據。
+    <br><br>
+    <strong>樣本展示</strong>（5 筆代表性 NPC，從攻略書 p101 提取）：
+    <table class="info-table" style="margin-top: 10px; font-size: 12px;">
+      <thead><tr><th>別號</th><th>人名</th><th>種族</th><th>性別</th><th>年齡 X/Y</th><th>職業類型</th><th>利益生存區</th></tr></thead>
+      <tbody>
+        <tr><td>龍士</td><td>華魏多多</td><td>人類</td><td>男</td><td>37/38</td><td>戰士</td><td>歐德雷恩</td></tr>
+        <tr><td>暗</td><td>左</td><td>人類</td><td>男</td><td>28/32</td><td>戰士+魔法</td><td>—</td></tr>
+        <tr><td>貴族</td><td>安</td><td>人類</td><td>男</td><td>36/40</td><td>戰士+魔法</td><td>—</td></tr>
+        <tr><td>廣士</td><td>古黑紀安皇</td><td>人類</td><td>男</td><td>33/44</td><td>戰士+戰士</td><td>—</td></tr>
+        <tr><td>騎士</td><td>露多魯多</td><td>人類</td><td>男</td><td>17/18</td><td>戰士</td><td>—</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size: 12px; color: var(--phosphor-dim); margin-top: 8px;">
+      ※ 完整 150-170 筆 NPC 屬性表 + 數值頁請查 1996 年攻略書 PART 5 ch1（黃政恭・邵偉倫合著，第三波文化事業）。
+    </p>
+  </div>
+
   <div class="combo-info" id="combo-info"></div>
 
   <div class="tabs" id="tabs"></div>
