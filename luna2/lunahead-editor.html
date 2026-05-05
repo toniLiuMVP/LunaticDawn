@@ -167,15 +167,32 @@
         <label for="edit-name-preset">預設姓名（快速套用）：</label>
         <select id="edit-name-preset" style="font-family: 'VT323', monospace; font-size: 14px;">
           <option value="">— 選預設 —</option>
-          <option value="a5bca5bcb556">未具名（USER0 default）</option>
-          <option value="bcc6a4ddb6b6">劍客玩家（自訂典型）</option>
-          <option value="ad4ba6ada451">主角阿安</option>
-          <option value="bbb1abefa451">武士山田</option>
-          <option value="b8c2aa6cb6b6">魔法師李</option>
-          <option value="b9c1ad4babbb">英雄王者</option>
+          <optgroup label="官方 / 中性">
+            <option value="a5bca8e3a657">未具名（USER0 default）</option>
+            <option value="abc8a448 0000">客人</option>
+            <option value="b94cabc8 0000">過客</option>
+            <option value="a544a8a4 0000">主角</option>
+          </optgroup>
+          <optgroup label="武俠風 2 字">
+            <option value="adb8c245 0000">飛鴻</option>
+            <option value="a464b8ad 0000">千葉</option>
+            <option value="a4ebb5d8 0000">月華</option>
+            <option value="adb7a4eb 0000">風月</option>
+            <option value="a5c9c073 0000">玉龍</option>
+            <option value="b448ac50 0000">寒星</option>
+            <option value="b6b3adb8 0000">雲飛</option>
+            <option value="b8a8b9d0 0000">落塵</option>
+            <option value="c3e8aae1 0000">鏡花</option>
+            <option value="a4f4a4eb 0000">水月</option>
+            <option value="ab43ad6d 0000">青衫（致敬攻略原作者）</option>
+          </optgroup>
+          <optgroup label="職業類">
+            <option value="aa5aa468 0000">武士</option>
+            <option value="c55daa6b 0000">魔法</option>
+          </optgroup>
           <option value="000000000000">清空（全 0x00）</option>
         </select>
-        <span class="hint">點選即套用 byte 5-10。（如要自訂，下方 hex 直接編輯）</span>
+        <span class="hint">16+ 預設選項（已用 Python `'name'.encode('big5').hex()` 驗證 hex）。如要自訂其他姓名，下方 hex 直接編輯。</span>
       </div>
 
       <div class="field-row">
@@ -371,9 +388,12 @@ function setupListeners() {
 
   // 預設姓名 dropdown
   $('edit-name-preset').addEventListener('change', () => {
-    const v = $('edit-name-preset').value;
+    const v = $('edit-name-preset').value.replace(/\s+/g, '');  // 移除空白（option value 可能含空格分隔）
     if (!v) return;
-    // 把 12 字元 hex 拆成 6 bytes 寫入 + 同步到 hex input
+    if (!/^[0-9a-fA-F]{12}$/.test(v)) {
+      console.warn('預設姓名 hex 格式錯誤:', v);
+      return;
+    }
     const view = new Uint8Array(workBuffer);
     for (let i = 0; i < 6; i++) {
       view[5 + i] = parseInt(v.substr(i * 2, 2), 16);
