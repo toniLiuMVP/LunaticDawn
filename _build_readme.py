@@ -117,7 +117,7 @@ def build_readme() -> str:
         games.append(("俠客遊 IV (Lunatic Dawn IV)", "2001", "密技"))
 
     if has_lde3:
-        games.append(("第三之書 (Lunatic Dawn: The Third Book)", "2002", "下載 + 工具 + 18 個歷史檔案"))
+        games.append(("第三之書 (Lunatic Dawn: The Third Book)", "2002", "Book 三部曲第三作 · 下載 + 工具 + 18 個歷史檔案"))
 
     # 組裝 README
     lines = []
@@ -170,7 +170,7 @@ def build_readme() -> str:
     if has_passage:
         lines.append("- **[前途道標攻略](./passage/)** — 1999 年 BBS 時代原創攻略（小蜜蜂 / 小傑 / Ertai）")
     if has_lde3:
-        lines.append("- **[第三之書專區](./lde3/)** — 2002 年資料片 · 18 個歷史檔案 + 下載 + 工具")
+        lines.append("- **[第三之書專區](./lde3/)** — 2002 年 Book 三部曲第三作 · 18 個歷史檔案 + 下載 + 工具")
     if has_luna3:
         lines.append("- **[未來之書密技](./luna3/)** — 未來之書 + 前途道標 + 俠客遊 III 密技彙整")
     if has_steam:
