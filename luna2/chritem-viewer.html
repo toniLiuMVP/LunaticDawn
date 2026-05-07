@@ -243,7 +243,7 @@
     <br>1️⃣ 將 <code>USER0/CHRITEM.SAV</code> 先複製為 <code>USER1/CHRITEM.SAV</code>（DOSBox 內可選 USER1 = 存檔 2）
     <br>2️⃣ 在 USER1 測試修改 + 載入遊戲驗證
     <br>3️⃣ 確認 OK 後再覆蓋 USER0
-    <br>（吸收2026 round 4 RedTime「寫工具與工具不同步」教訓）
+    <br>
     <br><br>
     <strong>結構（2026-05-02 2026逆向）</strong>：160 角色 × 16 物品 slots × 48 bytes/slot。
     每 slot：byte 0-3 = item_id（對應 ITEMNAME.ENC 的 1-456 物品）；byte 4-7 = value2（推測為價格）；
@@ -259,9 +259,9 @@
     <br>
     ▸ <strong>byte 28-35（屬性 modifier 區）</strong>：8 bytes — 玩家屬性加成值（力/智/靈/敏/直/魅/體/精，範例 <code>0a 04 0a 00 00 00 00 ff</code>）
     <br>
-    ▸ <strong>byte 36-47（padding 區）</strong>：12 bytes 全 0 — 第三十九波跨 10 USER 樣本 25,600 entries 統計確認 byte 37-47 純 padding (byte 17/19 也是)
+    ▸ <strong>byte 36-47（padding 區）</strong>：12 bytes 全 0 — 跨 10 USER 樣本 25,600 entries 統計確認 byte 37-47 純 padding (byte 17/19 也是)
     <br><br>
-    <strong>2026-05-08 第三十九波統計分析發現</strong>：
+    <strong>2026 統計分析發現</strong>：
     <br>
     ▸ byte 8 = main modifier type ID (8 種：0xff = 無 modifier / 其他 7 種類型)
     <br>
