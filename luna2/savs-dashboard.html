@@ -139,7 +139,7 @@
       <div class="structure">
         <strong>結構</strong>：160 角色 × 192 bytes/角色<br>
         <strong>內容</strong>：玩家 + 159 NPC 角色完整資料（8 屬性 + 15 技能熟練度 + 5 系魔法 + 武技 + HP/MP/STM）<br>
-        <strong>逆向波次</strong>：2026 早期（2026-04）+ 多次 cross-validate 確認 offsets
+        <strong>逆向時期</strong>：2026 早期（2026-04）+ 多次 cross-validate 確認 offsets
       </div>
       <a class="tool-link" href="save-editor.html">▸ 開啟屬性修改器 →</a>
     </div>
@@ -150,7 +150,7 @@
       <div class="structure">
         <strong>結構</strong>：160 角色 × 16 物品 slots × 48 bytes/slot<br>
         <strong>內容</strong>：每角色物品欄（item_id 對應 ITEMNAME 1-456 + value2 + 8 byte modifier + 32 byte data）<br>
-        <strong>逆向波次</strong>：2026 binary 結構 + 2026 edit 模式
+        <strong>逆向時期</strong>：2026 binary 結構 + 2026 edit 模式
       </div>
       <a class="tool-link" href="chritem-viewer.html">▸ 開啟物品欄編輯器 →</a>
     </div>
@@ -162,7 +162,7 @@
         <strong>結構</strong>：16 shops × 768 bytes/shop<br>
         <strong>內容</strong>：每 shop u32 header + u16 LE item IDs 序列直到 0xFFFF<br>
         <strong>城鎮對應</strong>：6 國 11 城店家（神聖吉札 0-2 / 樸哈爾 4 / 日傑 7-8 / 馬尼卡帕 10-11 / 芙庫基歐 12-13 / 終局 15）<br>
-        <strong>逆向波次</strong>：2026
+        <strong>逆向時期</strong>：2026
       </div>
       <a class="tool-link" href="shopitem-viewer.html">▸ 開啟商店查看器 →</a>
     </div>
@@ -269,7 +269,7 @@
         <strong>內容</strong>：玩家生成迷宮 layout（不是 metadata）<br>
         <strong>來源</strong>：DUNGDATA.MST template 全 0x00 → 遊戲安裝時複製到 USERN，玩家用過後填入 map<br>
         <strong>非零比例</strong>：91%<br>
-        <strong>逆向波次</strong>：2026釐清 vs metadata 區分
+        <strong>逆向時期</strong>：2026釐清 vs metadata 區分
       </div>
     </div>
 

@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="../assets/css/fonts-retro.css">
 <link rel="stylesheet" href="../assets/css/retro.css">
 <meta property="og:type" content="website">
-<meta property="og:title" content="第三之書瀏覽器版修改器 v0.1">
+<meta property="og:title" content="第三之書瀏覽器版修改器 v0.2">
 <meta property="og:description" content="第三之書 lde3s.le3 瀏覽器版 hex 編輯 + 下載。">
 <meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/lde3/modifier.html">
 <meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
@@ -61,7 +61,6 @@
     <br>1️⃣ 先把整個 <code>usr/</code> 資料夾複製為 <code>usr_backup/</code>
     <br>2️⃣ 在備份上測試 + 載入遊戲驗證
     <br>3️⃣ 確認 OK 後再覆蓋原檔
-    <br>（吸收 RedTime「寫工具與工具不同步」教訓）
     <br><br>
     <strong>本工具當前功能</strong>（v0.2）：
     <br>▸ 拖放 lde3s.le3 → header 驗證 + 結構區段識別
@@ -71,9 +70,7 @@
     <br>▸ <strong>★ 跨版本 diff</strong>（上傳 .bak / .bk2 找 byte 差異 → 推測哪些 offset 對應「上一次存檔之後的變動」）
     <br>▸ 下載修改後 SAV
     <br><br>
-    <strong>第三十九波 + 第四十波發現</strong>：lde3s.le3 是 <strong>MFC CArchive serialized stream</strong>（不是 raw struct dump），跨版本 99.66% byte 都會變動 — 直接「找固定 offset 修改」不可行。本工具改用 search-and-replace + diff 找變化區段方式輔助修改。
-    <br><br>
-    <strong>v0.3+ 規劃</strong>：等 Ghidra 反組譯 LDE3.EXE 找 CArchive::Serialize 函數後，加 field-level 結構解析。
+    <strong>技術說明</strong>：lde3s.le3 是 <strong>MFC CArchive 序列化資料流</strong>（非 raw struct dump），跨檔差異率高，直接「固定 offset 修改」不可行。本工具改用 search-and-replace + diff 找變化區段方式輔助修改。
     <br><br>
     <em>所有解析在瀏覽器本地完成，不上傳任何資料。</em>
   </div>
