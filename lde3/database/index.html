@@ -42,6 +42,22 @@
     </div>
   </header>
 
+  <div class="notice" style="border-left-color: var(--phosphor);">
+    <strong>第四十二波發現（2026-05-08）</strong>：第三之書更新修正檔 1.1+1.2 內含 <strong>11 個遊戲資料 .dat 檔</strong>（位於 <code>Lde3Patch/...patch1.1+1.2/{card,mon,item}/</code>），包括：
+    <br>
+    ▸ <code>ItemNameStr.dat</code>（7,134 B，~250-400 道具名）/ <code>ItemParam.dat</code>（29,575 B 二進位數值）/ <code>ItemPropStr.dat</code>（25,530 B 屬性說明）
+    <br>
+    ▸ <code>MonsterNameStr.dat</code>（8,868 B，~200-300 怪物名）/ <code>MonsterParam.dat</code>（111,357 B 完整怪物參數）
+    <br>
+    ▸ <code>SpCardNameStr.dat</code>（7,550 B 特殊卡片名）/ <code>SpCardParam.dat</code>（4,047 B 卡片參數）
+    <br>
+    ▸ <code>ItemNtoCardI.dat</code> + <code>MonsterNtoCardI.dat</code>（物品/怪物 → 卡片 ID 映射表）
+    <br><br>
+    <strong>共同 header</strong>：byte 0-3 file size + byte 8-11 ASCII magic「HF\0\0」+ byte 28-31 重複 byte 4-7 之值。
+    <br>
+    <strong>狀態</strong>：⏳ <span class="amber">data section 加密 / 壓縮（byte 分布均勻 1-2%/byte，俠客遊 II 用的 4-byte XOR 9A BC DE 00 不適用）— 待 Ghidra 反組譯 LDE3.EXE 找 dat decrypt function 後可公開資料</span>。
+  </div>
+
   <div class="notice">
     <strong>第三之書 LDE3.EXE 逆向字串字典</strong>（810 個有效中文字串，第三十九波 toni 提取）
     <br><br>
