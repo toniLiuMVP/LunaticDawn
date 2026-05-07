@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>第三之書瀏覽器版修改器 v0.1 · 吟遊詩人的傳說</title>
-<meta name="description" content="第三之書瀏覽器版修改器 — lde3s.le3 (985,542 bytes) hex viewer + 編輯 + 下載。純前端，無上傳。">
+<title>第三之書瀏覽器版修改器 v0.2 · 吟遊詩人的傳說</title>
+<meta name="description" content="第三之書瀏覽器版修改器 v0.2 — lde3s.le3 hex 編輯 + Big5 字串搜尋 + 區段熱圖 + 跨版本 diff。純前端，無上傳。">
 <link rel="stylesheet" href="../assets/css/fonts-retro.css">
 <link rel="stylesheet" href="../assets/css/retro.css">
 <meta property="og:type" content="website">
@@ -41,7 +41,7 @@
     <div class="header-inner">
       <h1 class="pixel">第三之書瀏覽器版修改器</h1>
       <nav>
-        <span style="color: var(--phosphor-dim); font-size: 12px;">v0.1 · 結構性 hex 編輯 + 下載</span>
+        <span style="color: var(--phosphor-dim); font-size: 12px;">v0.2 · Big5 搜尋 + 區段熱圖 + 跨版本 diff</span>
         ·
         <a href="./">回第三之書索引</a>
         ·
@@ -51,7 +51,7 @@
   </header>
 
   <div class="intro">
-    <strong>第三之書瀏覽器版修改器</strong>（v0.1）— 跨平台 / 純前端 / 無上傳。
+    <strong>第三之書瀏覽器版修改器</strong>（v0.2）— 跨平台 / 純前端 / 無上傳。
     <br><br>
     <strong>支援檔案</strong>：<code>lde3s.le3</code>（主存檔，985,542 bytes）位於<code>遊戲資料夾/usr/</code>。
     <br>
@@ -63,13 +63,17 @@
     <br>3️⃣ 確認 OK 後再覆蓋原檔
     <br>（吸收 RedTime「寫工具與工具不同步」教訓）
     <br><br>
-    <strong>本工具當前功能</strong>：
+    <strong>本工具當前功能</strong>（v0.2）：
     <br>▸ 拖放 lde3s.le3 → header 驗證 + 結構區段識別
-    <br>▸ Hex viewer（前 1024 bytes）
-    <br>▸ Hex 編輯器（任意 byte 直編）
+    <br>▸ Hex viewer（前 1024 bytes）+ 完整 hex 編輯
+    <br>▸ <strong>★ Big5 字串搜尋</strong>（找玩家姓名 / 城鎮 / 物品在 SAV 內位置）
+    <br>▸ <strong>★ 區段熱圖</strong>（每 16KB 統計 non-zero ratio + 變化區）
+    <br>▸ <strong>★ 跨版本 diff</strong>（上傳 .bak / .bk2 找 byte 差異 → 推測哪些 offset 對應「上一次存檔之後的變動」）
     <br>▸ 下載修改後 SAV
     <br><br>
-    <strong>未來版本</strong>（v0.2+）：field-level 結構解析（金錢 / 等級 / 屬性 / 物品），需逆向 lde3s.le3 結構。
+    <strong>第三十九波 + 第四十波發現</strong>：lde3s.le3 是 <strong>MFC CArchive serialized stream</strong>（不是 raw struct dump），跨版本 99.66% byte 都會變動 — 直接「找固定 offset 修改」不可行。本工具改用 search-and-replace + diff 找變化區段方式輔助修改。
+    <br><br>
+    <strong>v0.3+ 規劃</strong>：等 Ghidra 反組譯 LDE3.EXE 找 CArchive::Serialize 函數後，加 field-level 結構解析。
     <br><br>
     <em>所有解析在瀏覽器本地完成，不上傳任何資料。</em>
   </div>
@@ -108,6 +112,36 @@
         <tr><td class="num">0x20</td><td class="num">32</td><td><code>"Copyright (C) ARTDINK Corp. 2000"</code> + nulls</td></tr>
         <tr><td class="num">0x54+</td><td class="num">~985KB</td><td>Binary game data（玩家 / 角色 / 物品 / 地圖 / NPC / 任務）— 結構待逆向</td></tr>
       </table>
+    </div>
+
+    <div class="editor-panel">
+      <h3>★ Big5 字串搜尋（v0.2）</h3>
+      <p class="hint">輸入中文（例：玩家姓名、城鎮名、物品名）→ 在 SAV 內找出所有位置 + 前後 hex context。</p>
+      <div class="field-row">
+        <label for="big5-search-input">搜尋字串：</label>
+        <input id="big5-search-input" type="text" placeholder="例：歐德普克 / 玩家姓名" maxlength="20">
+        <button id="btn-big5-search" type="button">搜尋</button>
+        <span id="big5-search-status" class="hint" style="margin-left: 8px;"></span>
+      </div>
+      <div id="big5-search-results" class="hex-viewer" style="display: none; max-height: 300px;"></div>
+    </div>
+
+    <div class="editor-panel">
+      <h3>★ 區段熱圖（v0.2）</h3>
+      <p class="hint">每 16 KB 區塊顯示 non-zero ratio 跟最常見 byte。可看出 SAV 內哪些區段「資料密集」vs「sparse / padding」。</p>
+      <button id="btn-heatmap" type="button" style="margin-bottom: 8px;">產生熱圖</button>
+      <div id="heatmap-output" class="hex-viewer" style="display: none; max-height: 400px; font-size: 11px;"></div>
+    </div>
+
+    <div class="editor-panel">
+      <h3>★ 跨版本 diff（v0.2）</h3>
+      <p class="hint">上傳 lde3s.bak（上一次存檔）對比當前 lde3s.le3 → 列出所有 byte 變化位置。可推測「兩次存檔間玩家做了什麼」對應哪些 SAV offset。</p>
+      <div class="field-row">
+        <input type="file" id="diff-file-input" accept=".le3,.bak,.bk2">
+        <button id="btn-diff" type="button">執行 diff</button>
+        <span id="diff-status" class="hint" style="margin-left: 8px;"></span>
+      </div>
+      <div id="diff-output" class="hex-viewer" style="display: none; max-height: 300px;"></div>
     </div>
 
     <div class="editor-panel">
@@ -188,6 +222,12 @@ function showError(msg) {
 
 async function handleFile(file) {
   try {
+    // B-SEC-002 FileReader size guard
+    const MIN_SIZE = 100 * 1024;       // 100 KB minimum
+    const MAX_SIZE = 2 * 1024 * 1024;  // 2 MB maximum
+    if (file.size < MIN_SIZE || file.size > MAX_SIZE) {
+      throw new Error(`檔案大小異常 (${file.size.toLocaleString()} bytes) — lde3s.le3 預期 ~985,542 bytes，允許範圍 ${MIN_SIZE / 1024} KB ~ ${MAX_SIZE / 1024 / 1024} MB`);
+    }
     const buffer = await file.arrayBuffer();
     workBuffer = new Uint8Array(buffer);
     originalFileName = file.name;
@@ -252,6 +292,198 @@ $('btn-reset').addEventListener('click', () => {
   $('status').textContent = '準備就緒';
 });
 
+// ===== v0.2 Big5 字串搜尋 =====
+$('btn-big5-search').addEventListener('click', () => {
+  if (!workBuffer) { alert('請先載入 SAV'); return; }
+  const q = $('big5-search-input').value.trim();
+  if (!q) { alert('請輸入搜尋字串'); return; }
+  const status = $('big5-search-status');
+  const out = $('big5-search-results');
+
+  // Big5 encode using small lookup hack: try fetch big5-encoder-table.json from luna2/
+  // 實作: 直接用 byte pattern matching — 把 query 用 TextEncoder + 假設 Big5 高區間轉 bytes
+  // 簡易做法: 用 Big5 encoded lookup if available, else fall back to raw byte sequence search
+  encodeBig5ForSearch(q).then(qBytes => {
+    if (!qBytes || qBytes.length === 0) {
+      status.textContent = '✗ 字串無法編碼為 Big5';
+      status.style.color = 'var(--danger)';
+      return;
+    }
+    const positions = findAllOccurrences(workBuffer, qBytes);
+    status.textContent = `✓ 找到 ${positions.length} 處`;
+    status.style.color = 'var(--phosphor)';
+
+    if (positions.length === 0) {
+      out.style.display = 'block';
+      out.textContent = '沒有找到該字串。\n\n提示：\n- 第三之書 SAV 大部分用 ID lookup（不是直接存 Big5），玩家姓名等可能不會出現。\n- 試搜尋系統字串（如 "歐德普克" 城鎮名 / 物品名）看哪些直接 store 在 SAV 內。';
+      return;
+    }
+
+    const lines = [];
+    lines.push(`搜尋: '${q}' (Big5: ${Array.from(qBytes).map(b=>b.toString(16).padStart(2,'0')).join(' ')})`);
+    lines.push(`找到 ${positions.length} 處:\n`);
+    for (let i = 0; i < Math.min(positions.length, 50); i++) {
+      const off = positions[i];
+      const s = Math.max(0, off - 8);
+      const e = Math.min(workBuffer.length, off + qBytes.length + 8);
+      const ctx = Array.from(workBuffer.slice(s, e)).map(b => b.toString(16).padStart(2, '0')).join(' ');
+      lines.push(`  0x${off.toString(16).padStart(8, '0')}: ...${ctx}...`);
+    }
+    if (positions.length > 50) lines.push(`\n（顯示前 50 筆，共 ${positions.length} 處）`);
+    out.textContent = lines.join('\n');
+    out.style.display = 'block';
+  });
+});
+
+let big5Table = null;
+async function encodeBig5ForSearch(str) {
+  // Try load Big5 table from luna2/ (sibling encoder)
+  if (!big5Table) {
+    try {
+      const r = await fetch('../luna2/big5-encoder-table.json');
+      big5Table = await r.json();
+    } catch (e) {
+      console.warn('Big5 table 載入失敗：', e);
+      big5Table = {};
+    }
+  }
+  const bytes = [];
+  for (const ch of str) {
+    if (big5Table[ch]) {
+      const hex = big5Table[ch];
+      bytes.push(parseInt(hex.substr(0, 2), 16));
+      bytes.push(parseInt(hex.substr(2, 2), 16));
+    } else if (ch.charCodeAt(0) < 0x80) {
+      bytes.push(ch.charCodeAt(0));
+    } else {
+      // Skip unmappable chars
+    }
+  }
+  return new Uint8Array(bytes);
+}
+
+function findAllOccurrences(buf, pattern) {
+  const positions = [];
+  for (let i = 0; i <= buf.length - pattern.length; i++) {
+    let match = true;
+    for (let j = 0; j < pattern.length; j++) {
+      if (buf[i + j] !== pattern[j]) { match = false; break; }
+    }
+    if (match) positions.push(i);
+  }
+  return positions;
+}
+
+// ===== v0.2 區段熱圖 =====
+$('btn-heatmap').addEventListener('click', () => {
+  if (!workBuffer) { alert('請先載入 SAV'); return; }
+  const out = $('heatmap-output');
+
+  const blockSize = 16384; // 16 KB
+  const blocks = Math.ceil(workBuffer.length / blockSize);
+  const lines = [];
+  lines.push(`區段熱圖（${blocks} 個 16KB 區塊，總 ${workBuffer.length.toLocaleString()} bytes）\n`);
+  lines.push('Block | Offset Range          | Non-zero% | Most-common byte | Bar');
+  lines.push('-'.repeat(85));
+
+  for (let b = 0; b < blocks; b++) {
+    const start = b * blockSize;
+    const end = Math.min(start + blockSize, workBuffer.length);
+    const block = workBuffer.slice(start, end);
+
+    let nonzero = 0;
+    const counts = new Map();
+    for (const byte of block) {
+      if (byte !== 0) nonzero++;
+      counts.set(byte, (counts.get(byte) || 0) + 1);
+    }
+    const pct = (nonzero / block.length * 100);
+    const sorted = Array.from(counts.entries()).sort((a, b) => b[1] - a[1]);
+    const topByte = sorted[0][0];
+    const topByteHex = topByte.toString(16).padStart(2, '0');
+    const topPct = (sorted[0][1] / block.length * 100).toFixed(1);
+
+    const barLen = Math.round(pct / 2.5);
+    const bar = '█'.repeat(barLen) + '░'.repeat(40 - barLen);
+
+    lines.push(
+      `${b.toString().padStart(5, ' ')} | ` +
+      `0x${start.toString(16).padStart(6, '0')}-0x${end.toString(16).padStart(6, '0')} | ` +
+      `${pct.toFixed(1).padStart(8)}% | ` +
+      `0x${topByteHex} (${topPct}%)`.padEnd(16) + ' | ' +
+      bar
+    );
+  }
+  out.textContent = lines.join('\n');
+  out.style.display = 'block';
+});
+
+// ===== v0.2 跨版本 diff =====
+$('btn-diff').addEventListener('click', async () => {
+  if (!workBuffer) { alert('請先載入主 SAV'); return; }
+  const fileInput = $('diff-file-input');
+  if (!fileInput.files[0]) { alert('請選擇對比檔（lde3s.bak / bk2）'); return; }
+
+  const status = $('diff-status');
+  const out = $('diff-output');
+  status.textContent = '⏳ 計算中...';
+  status.style.color = 'var(--phosphor-dim)';
+
+  try {
+    const otherBuf = new Uint8Array(await fileInput.files[0].arrayBuffer());
+    const other = otherBuf;
+    const main = workBuffer;
+    const common = Math.min(main.length, other.length);
+    const diffs = [];
+    for (let i = 0; i < common; i++) {
+      if (main[i] !== other[i]) diffs.push(i);
+    }
+
+    const lines = [];
+    lines.push(`Diff: 主 ${main.length.toLocaleString()} bytes vs ${fileInput.files[0].name} ${other.length.toLocaleString()} bytes`);
+    lines.push(`Common: ${common.toLocaleString()}, 差異 byte 數: ${diffs.length.toLocaleString()} (${(diffs.length/common*100).toFixed(2)}%)`);
+    lines.push('');
+
+    // 找連續 diff regions（同一個 region 內連續多個 diff）
+    const regions = [];
+    let curStart = -1;
+    let curEnd = -1;
+    for (const off of diffs) {
+      if (curStart < 0) {
+        curStart = off; curEnd = off;
+      } else if (off - curEnd <= 32) {
+        curEnd = off;
+      } else {
+        regions.push([curStart, curEnd]);
+        curStart = off; curEnd = off;
+      }
+    }
+    if (curStart >= 0) regions.push([curStart, curEnd]);
+    lines.push(`連續 diff regions: ${regions.length} 個`);
+    lines.push('');
+
+    // 列前 40 個 region
+    lines.push('前 40 個 diff regions:');
+    for (let i = 0; i < Math.min(regions.length, 40); i++) {
+      const [s, e] = regions[i];
+      const len = e - s + 1;
+      // sample bytes from this region
+      const mainSample = Array.from(main.slice(s, Math.min(s + 8, e + 1))).map(b => b.toString(16).padStart(2, '0')).join(' ');
+      const otherSample = Array.from(other.slice(s, Math.min(s + 8, e + 1))).map(b => b.toString(16).padStart(2, '0')).join(' ');
+      lines.push(`  0x${s.toString(16).padStart(6, '0')}-0x${e.toString(16).padStart(6, '0')} (${len} byte): main=[${mainSample}] vs other=[${otherSample}]`);
+    }
+    if (regions.length > 40) lines.push(`...（總 ${regions.length} 個 region）`);
+
+    out.textContent = lines.join('\n');
+    out.style.display = 'block';
+    status.textContent = `✓ ${diffs.length.toLocaleString()} byte 差 / ${regions.length} regions`;
+    status.style.color = 'var(--phosphor)';
+  } catch (e) {
+    status.textContent = '✗ ' + e.message;
+    status.style.color = 'var(--danger)';
+  }
+});
+
 const dz = $('drop-zone');
 dz.addEventListener('dragover', ev => { ev.preventDefault(); dz.classList.add('drag-active'); });
 dz.addEventListener('dragleave', () => dz.classList.remove('drag-active'));
@@ -268,7 +500,7 @@ dz.addEventListener('click', ev => {
   if (ev.target.id === 'drop-zone') $('file-input').click();
 });
 
-console.log('%c第三之書瀏覽器版修改器 v0.1', 'color:#00ff41;font-family:monospace;font-size:16px');
+console.log('%c第三之書瀏覽器版修改器 v0.2', 'color:#00ff41;font-family:monospace;font-size:16px');
 console.log('%c吟遊詩人的傳說 · 俠客遊 · by toni', 'color:#00aa2b;font-family:monospace');
 </script>
 </body>
