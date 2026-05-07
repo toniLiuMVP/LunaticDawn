@@ -98,6 +98,9 @@
   <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/new.html</loc><priority>0.6</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/afterply.html</loc><priority>0.6</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/bbs-1.html</loc><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/thing2.html</loc><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/enemy-data.html</loc><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/man-data.html</loc><priority>0.7</priority></url>
 
   <!-- 俠客遊 III 密技 -->
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna3/</loc><priority>0.6</priority></url>
