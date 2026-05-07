@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>KOBUN / OYABUN 子分・親分查看器 · 俠客遊 II</title>
 <meta name="description" content="俠客遊 II 子分（小弟）/ 親分（老大）系統查看器。KOBUN.SAV (542 bytes) + OYABUN.SAV (258 bytes)。2026 binary 結構釐清。read-only。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="KOBUN / OYABUN 子分・親分查看器 · 俠客遊 II">
+<meta property="og:description" content="俠客遊 II 子分（小弟）/ 親分（老大）系統查看器。KOBUN.SAV (542 bytes) + OYABUN.SAV (258 bytes)。2026 binary 結構釐清。read-only。">
+<meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
+<meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
 <link rel="stylesheet" href="../assets/css/fonts-retro.css">
 <link rel="stylesheet" href="../assets/css/retro.css">
 <style>
@@ -105,7 +110,9 @@
     <strong>OYABUN.SAV</strong>（258 bytes）— 親分（老大）資料：玩家當頭目時的隊伍狀態。
     <br><br>
     <strong>結構（2026-05-03 2026 binary 結構釐清）</strong>：
-    跟 <code>P/KOBUN.MST</code> + <code>P/OYABUN.MST</code> template 對比，玩家活動後寫入特定 fields。本工具是 <strong>read-only viewer</strong>（不編輯，避免 byte 結構未驗證風險）。
+    跟 <code>P/KOBUN.MST</code> + <code>P/OYABUN.MST</code> template 對比，玩家活動後寫入特定 fields。
+    <br><br>
+    <strong style="color: var(--danger, #c00);">⚠️ 修改前務必備份</strong>：byte field 個別意義未經實機驗證，本工具提供 hex 直編模式給有經驗的玩家。請務必先把 USER0 → USER1 備份，在 USER1 測試確認遊戲讀取正常後再覆蓋 USER0。
     <br><br>
     參考相關攻略：<a href="guides/npc-companions.html">同行 NPC 招募流程</a>。
   </div>
@@ -279,15 +286,69 @@ function renderOyabun(buffer) {
   content.appendChild(el('div', {class: 'hex-section'}, formatHex(buffer)));
 }
 
+// B4 v0.2: hex 直編 + 下載
+let workBuffer = null;  // Uint8Array of current loaded SAV
+let originalFileName = '';
+
+function renderEditTools(buffer, name) {
+  const wrapper = el('div', {style: 'margin-top: 20px; padding: 12px; border: 1px solid var(--phosphor-fade); border-radius: 4px;'});
+  wrapper.appendChild(el('h4', {style: 'color: var(--amber);'}, '★ hex 直編模式（v0.2 進階）'));
+  wrapper.appendChild(el('p', {class: 'muted', style: 'font-size: 13px;'},
+    '修改下方 hex（每 byte 2 字元，空白分隔），按下「套用 + 下載」匯出修改後 SAV。⚠️ 修改後務必先在 USER1 測試！'));
+
+  const ta = el('textarea', {
+    id: 'hex-editor',
+    style: 'width: 100%; min-height: 200px; font-family: monospace; font-size: 12px; background: var(--bg); color: var(--phosphor); border: 1px solid var(--phosphor-fade); padding: 8px;'
+  });
+  // Format: 16 bytes per row
+  const lines = [];
+  const u8 = new Uint8Array(buffer);
+  for (let i = 0; i < u8.length; i += 16) {
+    const row = Array.from(u8.slice(i, i + 16))
+      .map(b => b.toString(16).padStart(2, '0')).join(' ');
+    lines.push(row);
+  }
+  ta.value = lines.join('\n');
+  wrapper.appendChild(ta);
+
+  const btnApply = el('button', {
+    id: 'btn-apply-hex',
+    style: 'margin-top: 8px; padding: 8px 16px; background: var(--amber); color: var(--bg); border: none; cursor: pointer; font-family: \'VT323\', monospace; font-size: 14px;'
+  }, '套用 + 下載');
+  btnApply.addEventListener('click', () => {
+    const raw = ta.value.replace(/[^0-9a-fA-F]/g, '');
+    if (raw.length !== buffer.byteLength * 2) {
+      alert(`hex 字元數錯誤：應為 ${buffer.byteLength * 2}，實際 ${raw.length}`);
+      return;
+    }
+    const newBuf = new Uint8Array(buffer.byteLength);
+    for (let i = 0; i < newBuf.length; i++) {
+      newBuf[i] = parseInt(raw.substr(i * 2, 2), 16);
+    }
+    const blob = new Blob([newBuf], {type: 'application/octet-stream'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = name; a.click();
+    URL.revokeObjectURL(url);
+  });
+  wrapper.appendChild(btnApply);
+
+  return wrapper;
+}
+
 async function handleFile(file) {
   try {
     const buffer = await file.arrayBuffer();
+    workBuffer = new Uint8Array(buffer);
+    originalFileName = file.name;
     if (activeTab === 'kobun') {
       if (buffer.byteLength !== 542) throw new Error(`KOBUN.SAV 應為 542 bytes，實際 ${buffer.byteLength}。`);
       renderKobun(buffer);
+      $('content').appendChild(renderEditTools(buffer, file.name || 'KOBUN.SAV'));
     } else {
       if (buffer.byteLength !== 258) throw new Error(`OYABUN.SAV 應為 258 bytes，實際 ${buffer.byteLength}。`);
       renderOyabun(buffer);
+      $('content').appendChild(renderEditTools(buffer, file.name || 'OYABUN.SAV'));
     }
     $('drop-zone').style.display = 'none';
   } catch (e) {

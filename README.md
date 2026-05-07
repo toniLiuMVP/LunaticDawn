@@ -25,7 +25,7 @@
 | 作品 | 年代 | 本站狀態 |
 |------|------|----------|
 | 俠客遊 II (Lunatic Dawn II) | 1996 | ✅ 攻略 18 篇 + 存檔修改器 + 啟動器 + 懶人包 |
-| 未來之書 (Lunatic Dawn: The Book of Futures) | 1998 | ✅ 密技（2 頁） |
+| 俠客遊 III (Lunatic Dawn III) | 2000 | ✅ 密技 + 下載（2 頁） |
 | 前途道標 (Lunatic Dawn: Passage of The Book) | 1999 | ✅ 完整攻略（5 頁） |
 | 俠客遊 IV (Lunatic Dawn IV) | 2001 | ✅ 密技（3 頁） |
 | 第三之書 (Lunatic Dawn: The Third Book) | 2002 | ✅ Book 三部曲第三作 · 下載 + 工具 + 18 個歷史檔案 |
@@ -38,7 +38,7 @@
 - **[自己裝啟動器](./luna2/launcher/)** — 搭配 DOSBox-X + GM MIDI 高音質音樂
 - **[前途道標攻略](./passage/)** — 1999 年 BBS 時代原創攻略（小蜜蜂 / 小傑 / Ertai）
 - **[第三之書專區](./lde3/)** — 2002 年 Book 三部曲第三作 · 18 個歷史檔案 + 下載 + 工具
-- **[未來之書密技](./luna3/)** — 未來之書 + 前途道標 + 俠客遊 III 密技彙整
+- **[俠客遊 III 子站](./luna3/)** — 俠客遊 III (2000) · 密技整理含 1998 未來之書 + 1999 前途道標 + 官方更新檔下載
 - **[Steam 購買指南](./steam/)** — Steam 版購買說明
 - **[通用資訊](./general/)** — 編碼 FAQ、社群連結
 - **[俠客遊 II 資料庫](./luna2/database/)** — DOS 二進制檔案格式逆向研究與數值欄位資料
@@ -93,7 +93,7 @@
 - 總頁數：**58** 個 HTML
 - 攻略數：**18** 篇
 - 基礎建設：sitemap.xml · 404.html · Open Graph 標籤 · 本地化字型（零外部依賴） · Google Search Console 已驗證
-- 最後更新：2026-05-06
+- 最後更新：2026-05-08
 
 ## 📜 授權
 

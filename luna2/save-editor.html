@@ -496,7 +496,7 @@ footer .footer-note { margin-top: 8px; color: var(--phosphor-fade); }
   <div class="header-inner">
     <div>
       <h1 class="pixel">俠客遊 II 存檔修改器</h1>
-      <div class="header-sub">LUNATIC DAWN II · SAVE EDITOR · v0.4 (8 屬性 + 5 系法術 + 武技 + HP/MP/STM + 批次操作)</div>
+      <div class="header-sub">LUNATIC DAWN II · SAVE EDITOR · v0.5 (8 屬性 + 5 系法術 + 武技 + HP/MP/STM + 批次 + 角色匯入/匯出)</div>
     </div>
     <div class="header-sub header-right">
       <div><a href="../">◀ 回吟遊詩人的傳說-俠客遊小站</a></div>
@@ -559,6 +559,9 @@ footer .footer-note { margin-top: 8px; color: var(--phosphor-fade); }
     <option value="god-mode">神級套餐（上述全套）</option>
   </select>
   <button class="btn" id="btn-batch-apply">套用</button>
+  <button class="btn" id="btn-export-char">📤 匯出當前角色 (JSON)</button>
+  <button class="btn" id="btn-import-char">📥 匯入角色 JSON</button>
+  <input type="file" id="char-import-input" accept=".json" style="display: none;">
   <button class="btn btn-amber" id="btn-reset">↺ 重新載入原檔</button>
   <button class="btn" id="btn-download">▼ 下載修改後的 LUNACHAR.SAV</button>
 </div>
@@ -1249,8 +1252,88 @@ function initActionButtons() {
     document.getElementById('status').textContent = `✓ 已套用：${document.getElementById('batch-select').selectedOptions[0].textContent}（角色 #${idx}）`;
   });
 
-  // v0.4 角色 JSON 匯入 / 匯出（範本套用）
-  // (留待後續擴充——當前版本：批次操作已涵蓋大多數需求)
+  // v0.5 角色 JSON 匯出 — 把當前角色 192 bytes 轉成 base64 + metadata
+  document.getElementById('btn-export-char').addEventListener('click', () => {
+    if (state.activeIdx == null) { alert('請先選擇角色'); return; }
+    const idx = state.activeIdx;
+    const base = charBase(idx);
+    const charBytes = state.buffer.slice(base, base + CHAR_SIZE);
+
+    // base64 encode
+    let bin = '';
+    for (const b of charBytes) bin += String.fromCharCode(b);
+    const b64 = btoa(bin);
+
+    // Metadata for human readability
+    // Big5 name decode (find null terminator)
+    let nameEnd = 0x0F;
+    for (let i = 0x02; i < 0x0F; i++) {
+      if (state.buffer[base + i] === 0) { nameEnd = i; break; }
+    }
+    const nameStr = big5Decoder.decode(state.buffer.slice(base + 0x02, base + nameEnd)) || `角色#${idx}`;
+    const exportData = {
+      _meta: '俠客遊 II save-editor v0.5 角色匯出',
+      _exported_at: new Date().toISOString(),
+      _format_version: 1,
+      char_index: idx,
+      char_name_big5: nameStr,
+      level_age: state.buffer[base + 0x10],
+      money: dv().getUint32(base + 0x14, true),
+      maxHP: dv().getUint16(base + 0x2A, true),
+      maxMP: dv().getUint16(base + 0x2C, true),
+      char_data_base64: b64,
+      char_data_size_bytes: CHAR_SIZE,
+      _usage: '匯入時驗證 _format_version + char_data_size_bytes，將 char_data_base64 解碼後寫入 LUNACHAR.SAV 指定 slot',
+    };
+
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `lunachar-char${idx}-${nameStr.replace(/[\\/:?*"<>|]/g, '_')}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    document.getElementById('status').textContent = `✓ 已匯出角色 #${idx} (${nameStr})`;
+  });
+
+  // v0.5 角色 JSON 匯入 — 解析 + 寫入當前 slot
+  document.getElementById('btn-import-char').addEventListener('click', () => {
+    if (state.activeIdx == null) { alert('請先選擇要匯入到哪個角色 slot'); return; }
+    document.getElementById('char-import-input').click();
+  });
+
+  document.getElementById('char-import-input').addEventListener('change', async (ev) => {
+    const file = ev.target.files[0];
+    if (!file) return;
+    try {
+      const text = await file.text();
+      const data = JSON.parse(text);
+      if (data._format_version !== 1) throw new Error('JSON 版本不符（需要 _format_version: 1）');
+      if (data.char_data_size_bytes !== CHAR_SIZE) throw new Error(`角色資料 size 錯誤（${data.char_data_size_bytes} ≠ ${CHAR_SIZE}）`);
+      if (!data.char_data_base64) throw new Error('缺少 char_data_base64');
+
+      // base64 decode
+      const bin = atob(data.char_data_base64);
+      if (bin.length !== CHAR_SIZE) throw new Error(`解碼後 size 錯誤（${bin.length} ≠ ${CHAR_SIZE}）`);
+
+      if (!confirm(`匯入角色 "${data.char_name_big5}" → slot #${state.activeIdx}？\n\n當前 slot 資料將被覆蓋（可用「重新載入原檔」還原）`)) return;
+
+      const idx = state.activeIdx;
+      const base = charBase(idx);
+      for (let i = 0; i < CHAR_SIZE; i++) {
+        state.buffer[base + i] = bin.charCodeAt(i);
+      }
+      state.dirty = true;
+      renderEditor();
+      renderHexView();
+      renderCharList();
+      document.getElementById('status').textContent = `✓ 已匯入角色 "${data.char_name_big5}" → slot #${idx}`;
+    } catch (e) {
+      alert(`匯入失敗：${e.message}`);
+    } finally {
+      ev.target.value = '';  // reset file input
+    }
+  });
 
   document.getElementById('btn-reset').addEventListener('click', () => {
     if (!state.dirty) { alert('沒有未儲存的變更'); return; }
@@ -1280,7 +1363,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCharListDelegate();
   initActionButtons();
 
-  console.log('%c俠客遊 II SAVE EDITOR v0.4',
+  console.log('%c俠客遊 II SAVE EDITOR v0.5',
     'color:#00ff41;font-family:monospace;font-size:16px');
   console.log('%c吟遊詩人的傳說 · 俠客遊 LUNATIC DAWN · by toni',
     'color:#00aa2b;font-family:monospace');

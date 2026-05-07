@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CHRITEM.SAV 物品欄查看器 · 俠客遊 II</title>
 <meta name="description" content="俠客遊 II 玩家物品欄查看器，支援 CHRITEM.SAV (122880 bytes，160 角色 × 16 物品 slots)。2026結構逆向。純前端解析。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CHRITEM.SAV 物品欄查看器 · 俠客遊 II">
+<meta property="og:description" content="俠客遊 II 玩家物品欄查看器，支援 CHRITEM.SAV (122880 bytes，160 角色 × 16 物品 slots)。2026結構逆向。純前端解析。">
+<meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
+<meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
 <link rel="stylesheet" href="../assets/css/fonts-retro.css">
 <link rel="stylesheet" href="../assets/css/retro.css">
 <style>
@@ -254,9 +259,19 @@
     <br>
     ▸ <strong>byte 28-35（屬性 modifier 區）</strong>：8 bytes — 玩家屬性加成值（力/智/靈/敏/直/魅/體/精，範例 <code>0a 04 0a 00 00 00 00 ff</code>）
     <br>
-    ▸ <strong>byte 36-47（padding）</strong>：12 bytes 全 0，無實質資料
+    ▸ <strong>byte 36-47（padding 區）</strong>：12 bytes 全 0 — 第三十九波跨 10 USER 樣本 25,600 entries 統計確認 byte 37-47 純 padding (byte 17/19 也是)
     <br><br>
-    <em>※ 個別 modifier ID 的精確效果對照仍需在 DOSBox 內實機驗證（sample 角色 + 變動單一 byte 觀察）。本 viewer 僅顯示 raw bytes 不寫入。</em>
+    <strong>2026-05-08 第三十九波統計分析發現</strong>：
+    <br>
+    ▸ byte 8 = main modifier type ID (8 種：0xff = 無 modifier / 其他 7 種類型)
+    <br>
+    ▸ byte 9 / byte 16 = 高 diversity 數值欄位（推測為強化等級 / 耐久度 / 多餘屬性 strength）
+    <br>
+    ▸ byte 26 = secondary modifier type (8 種)
+    <br>
+    ▸ byte 28-35 = 8 個屬性 modifier values（對應 8 屬性 力/智/靈/敏/直/魅/體/精）
+    <br><br>
+    <em>※ 個別 modifier ID 的精確效果對照仍需在 DOSBox 內實機驗證（sample 角色 + 變動單一 byte 觀察）。本 viewer 提供 read 模式（v0.1）+ edit 模式（v0.2）。</em>
     <br><br>
     <strong>使用方式</strong>：拖放或選擇 <code>USER0/CHRITEM.SAV</code> 檔案 → 左側選角色 → 右側看物品欄。
     所有解析在瀏覽器本地完成，不上傳任何資料。

@@ -102,9 +102,9 @@ def build_readme() -> str:
         games.append(("俠客遊 II (Lunatic Dawn II)", "1996", " + ".join(features)))
 
     if has_luna3 and n_luna3 > 1:
-        games.append(("未來之書 (Lunatic Dawn: The Book of Futures)", "1998", f"密技（{n_luna3} 頁）"))
+        games.append(("俠客遊 III (Lunatic Dawn III)", "2000", f"密技 + 下載（{n_luna3} 頁）"))
     elif has_luna3:
-        games.append(("未來之書 (Lunatic Dawn: The Book of Futures)", "1998", "密技"))
+        games.append(("俠客遊 III (Lunatic Dawn III)", "2000", "密技 + 下載"))
 
     if has_passage and n_passage > 1:
         games.append(("前途道標 (Lunatic Dawn: Passage of The Book)", "1999", f"完整攻略（{n_passage} 頁）"))
@@ -172,7 +172,7 @@ def build_readme() -> str:
     if has_lde3:
         lines.append("- **[第三之書專區](./lde3/)** — 2002 年 Book 三部曲第三作 · 18 個歷史檔案 + 下載 + 工具")
     if has_luna3:
-        lines.append("- **[未來之書密技](./luna3/)** — 未來之書 + 前途道標 + 俠客遊 III 密技彙整")
+        lines.append("- **[俠客遊 III 子站](./luna3/)** — 俠客遊 III (2000) · 密技整理含 1998 未來之書 + 1999 前途道標 + 官方更新檔下載")
     if has_steam:
         lines.append("- **[Steam 購買指南](./steam/)** — Steam 版購買說明")
     if has_general:
