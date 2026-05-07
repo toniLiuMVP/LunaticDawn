@@ -496,7 +496,7 @@ footer .footer-note { margin-top: 8px; color: var(--phosphor-fade); }
   <div class="header-inner">
     <div>
       <h1 class="pixel">俠客遊 II 存檔修改器</h1>
-      <div class="header-sub">LUNATIC DAWN II · SAVE EDITOR · v0.3 (8 屬性 + 5 系法術 + 武技 + HP/MP/STM)</div>
+      <div class="header-sub">LUNATIC DAWN II · SAVE EDITOR · v0.4 (8 屬性 + 5 系法術 + 武技 + HP/MP/STM + 批次操作)</div>
     </div>
     <div class="header-sub header-right">
       <div><a href="../">◀ 回吟遊詩人的傳說-俠客遊小站</a></div>
@@ -548,6 +548,17 @@ footer .footer-note { margin-top: 8px; color: var(--phosphor-fade); }
 <!-- ============ BOTTOM BAR ============ -->
 <div id="bottom-bar">
   <div id="status" aria-live="polite">準備就緒</div>
+  <select id="batch-select" class="btn" style="font-family: 'VT323', monospace;">
+    <option value="">— 批次操作（當前角色）—</option>
+    <option value="attrs-cap">全 8 屬性 → 各自上限</option>
+    <option value="attrs-100">全 8 屬性 → 100（含上限）</option>
+    <option value="skills-100">全 15 技能 → 100</option>
+    <option value="spells-all">全 5 系魔法 → 全學會</option>
+    <option value="hp-mp-stm-cap">HP/MP/STM → 上限</option>
+    <option value="martial-max">武技 → 0xFFFF（全絕招）</option>
+    <option value="god-mode">神級套餐（上述全套）</option>
+  </select>
+  <button class="btn" id="btn-batch-apply">套用</button>
   <button class="btn btn-amber" id="btn-reset">↺ 重新載入原檔</button>
   <button class="btn" id="btn-download">▼ 下載修改後的 LUNACHAR.SAV</button>
 </div>
@@ -1177,6 +1188,70 @@ function initActionButtons() {
     markClean('✓ 已下載：' + state.fileName + ' · 請覆蓋回 USERx/ 目錄，建議先備份原檔');
   });
 
+  // v0.4 批次操作
+  document.getElementById('btn-batch-apply').addEventListener('click', () => {
+    const op = document.getElementById('batch-select').value;
+    if (!op) { alert('請先選擇批次操作'); return; }
+    if (state.activeIdx == null) { alert('請先選擇角色'); return; }
+    if (!confirm(`套用「${document.getElementById('batch-select').selectedOptions[0].textContent}」到當前角色？`)) return;
+
+    const idx = state.activeIdx;
+    const apply = {
+      'attrs-cap': () => {
+        // 屬性 → 各自上限
+        for (let i = 0; i < 8; i++) {
+          const cap = state.buffer[charBase(idx) + OFFSETS.attrCaps + i];
+          state.buffer[charBase(idx) + OFFSETS.attrs + i] = cap;
+        }
+      },
+      'attrs-100': () => {
+        for (let i = 0; i < 8; i++) {
+          state.buffer[charBase(idx) + OFFSETS.attrs + i] = 100;
+          state.buffer[charBase(idx) + OFFSETS.attrCaps + i] = 100;
+        }
+      },
+      'skills-100': () => {
+        for (let i = 0; i < 15; i++) {
+          state.buffer[charBase(idx) + OFFSETS.skills + i] = 100;
+        }
+      },
+      'spells-all': () => {
+        const dv = view();
+        for (const s of SPELL_SCHOOLS) {
+          dv.setUint16(charBase(idx) + s.offset, s.fullMask, true);
+        }
+      },
+      'hp-mp-stm-cap': () => {
+        const dv = view();
+        dv.setUint16(charBase(idx) + OFFSETS.maxHP, CAPS.maxHP, true);
+        dv.setUint16(charBase(idx) + OFFSETS.maxMP, CAPS.maxMP, true);
+        dv.setUint16(charBase(idx) + OFFSETS.maxSTM, CAPS.maxSTM, true);
+        dv.setUint16(charBase(idx) + OFFSETS.curHP, CAPS.curHP, true);
+        dv.setUint16(charBase(idx) + OFFSETS.curMP, CAPS.curMP, true);
+        dv.setUint16(charBase(idx) + OFFSETS.curSTM, CAPS.curSTM, true);
+      },
+      'martial-max': () => {
+        view().setUint16(charBase(idx) + OFFSETS.martial, 0xFFFF, true);
+      },
+      'god-mode': () => {
+        apply['attrs-100']();
+        apply['skills-100']();
+        apply['spells-all']();
+        apply['hp-mp-stm-cap']();
+        apply['martial-max']();
+      },
+    };
+    apply[op]();
+    state.dirty = true;
+    renderEditor();
+    renderHexView();
+    renderCharList();
+    document.getElementById('status').textContent = `✓ 已套用：${document.getElementById('batch-select').selectedOptions[0].textContent}（角色 #${idx}）`;
+  });
+
+  // v0.4 角色 JSON 匯入 / 匯出（範本套用）
+  // (留待後續擴充——當前版本：批次操作已涵蓋大多數需求)
+
   document.getElementById('btn-reset').addEventListener('click', () => {
     if (!state.dirty) { alert('沒有未儲存的變更'); return; }
     if (!confirm('確定要放棄所有修改、重新載入原檔嗎？')) return;
@@ -1205,7 +1280,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCharListDelegate();
   initActionButtons();
 
-  console.log('%c俠客遊 II SAVE EDITOR v0.3',
+  console.log('%c俠客遊 II SAVE EDITOR v0.4',
     'color:#00ff41;font-family:monospace;font-size:16px');
   console.log('%c吟遊詩人的傳說 · 俠客遊 LUNATIC DAWN · by toni',
     'color:#00aa2b;font-family:monospace');
