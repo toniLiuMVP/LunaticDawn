@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第三之書瀏覽器版修改器 v0.1 · 吟遊詩人的傳說</title>
+<meta name="description" content="第三之書瀏覽器版修改器 — lde3s.le3 (985,542 bytes) hex viewer + 編輯 + 下載。純前端，無上傳。">
+<link rel="stylesheet" href="../assets/css/fonts-retro.css">
+<link rel="stylesheet" href="../assets/css/retro.css">
+<meta property="og:type" content="website">
+<meta property="og:title" content="第三之書瀏覽器版修改器 v0.1">
+<meta property="og:description" content="第三之書 lde3s.le3 瀏覽器版 hex 編輯 + 下載。">
+<meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/lde3/modifier.html">
+<meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
+<meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
+<style>
+.intro { border: 1px solid var(--phosphor-fade); padding: 12px 16px; background: var(--bg-panel); margin: 16px 0; font-size: 14px; line-height: 1.7; color: var(--phosphor-dim); }
+.intro strong { color: var(--amber); }
+.intro code { background: var(--bg-input); padding: 2px 6px; color: var(--phosphor); font-family: 'VT323', monospace; }
+#drop-zone { border: 2px dashed var(--phosphor-dim); padding: 40px; text-align: center; margin: 20px 0; cursor: pointer; }
+#drop-zone:hover { border-color: var(--amber); }
+#drop-zone.drag-active { background: rgba(0, 255, 65, 0.05); border-color: var(--amber); }
+.editor-panel { border: 1px solid var(--phosphor-dim); background: var(--bg-panel); padding: 20px; margin: 20px 0; }
+.editor-panel h3 { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 14px; margin: 0 0 16px; border-bottom: 1px dotted var(--phosphor-fade); padding-bottom: 8px; }
+.field-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+.field-row label { color: var(--phosphor-dim); min-width: 140px; font-size: 14px; }
+.hex-viewer { margin-top: 16px; border: 1px solid var(--phosphor-fade); padding: 12px; background: var(--bg-input); font-family: 'Courier New', monospace; font-size: 12px; color: var(--phosphor); white-space: pre; overflow-x: auto; max-height: 500px; overflow-y: auto; }
+.hex-editor { width: 100%; min-height: 300px; background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-dim); padding: 8px; font-family: 'Courier New', monospace; font-size: 12px; white-space: pre; }
+#download-bar { position: sticky; bottom: 0; background: var(--bg-panel); border-top: 2px solid var(--amber); padding: 12px 16px; margin-top: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+#download-bar button { background: var(--amber); color: var(--bg); border: 1px solid var(--amber); padding: 8px 16px; font-family: 'VT323', monospace; font-size: 16px; cursor: pointer; }
+.error-banner { color: var(--danger); padding: 20px; border: 1px solid var(--danger); margin: 16px 0; }
+.region-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
+.region-table th, .region-table td { border: 1px solid var(--phosphor-fade); padding: 6px 10px; text-align: left; }
+.region-table th { background: var(--bg-panel); color: var(--amber); }
+.region-table .num { font-family: 'Courier New', monospace; text-align: right; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="pixel">第三之書瀏覽器版修改器</h1>
+      <nav>
+        <span style="color: var(--phosphor-dim); font-size: 12px;">v0.1 · 結構性 hex 編輯 + 下載</span>
+        ·
+        <a href="./">回第三之書索引</a>
+        ·
+        <a href="../">回主站</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="intro">
+    <strong>第三之書瀏覽器版修改器</strong>（v0.1）— 跨平台 / 純前端 / 無上傳。
+    <br><br>
+    <strong>支援檔案</strong>：<code>lde3s.le3</code>（主存檔，985,542 bytes）位於<code>遊戲資料夾/usr/</code>。
+    <br>
+    <strong>已知 header</strong>：byte 0-3 = <code>"le3\0"</code> magic / byte 4-31 = <code>"LUNATIC DAWN - The 3rd Book -"</code> + nulls / byte 32-63 = <code>"Copyright (C) ARTDINK Corp. 2000"</code> + nulls / byte 0x54+ = binary game data。
+    <br><br>
+    <strong style="color: var(--danger);">⚠️ 修改前務必備份</strong>：
+    <br>1️⃣ 先把整個 <code>usr/</code> 資料夾複製為 <code>usr_backup/</code>
+    <br>2️⃣ 在備份上測試 + 載入遊戲驗證
+    <br>3️⃣ 確認 OK 後再覆蓋原檔
+    <br>（吸收 RedTime「寫工具與工具不同步」教訓）
+    <br><br>
+    <strong>本工具當前功能</strong>：
+    <br>▸ 拖放 lde3s.le3 → header 驗證 + 結構區段識別
+    <br>▸ Hex viewer（前 1024 bytes）
+    <br>▸ Hex 編輯器（任意 byte 直編）
+    <br>▸ 下載修改後 SAV
+    <br><br>
+    <strong>未來版本</strong>（v0.2+）：field-level 結構解析（金錢 / 等級 / 屬性 / 物品），需逆向 lde3s.le3 結構。
+    <br><br>
+    <em>所有解析在瀏覽器本地完成，不上傳任何資料。</em>
+  </div>
+
+  <div id="drop-zone">
+    <h2 class="pixel">▶ 拖放 lde3s.le3 到這裡</h2>
+    <p>或 <span style="color: var(--amber); cursor: pointer; text-decoration: underline;" id="click-select">點擊選擇檔案</span></p>
+    <p style="color: var(--phosphor-dim); font-size: 13px;">[ 檔案位置：遊戲資料夾/usr/lde3s.le3 ]</p>
+    <input type="file" id="file-input" accept=".le3" style="display: none;">
+  </div>
+
+  <div id="editor" style="display: none;">
+
+    <div class="editor-panel">
+      <h3>檔案資訊</h3>
+      <div class="field-row">
+        <label>檔名：</label>
+        <span id="info-name" style="color: var(--phosphor);"></span>
+      </div>
+      <div class="field-row">
+        <label>大小：</label>
+        <span id="info-size" style="color: var(--phosphor);"></span>
+      </div>
+      <div class="field-row">
+        <label>Header 驗證：</label>
+        <span id="info-header" style="color: var(--phosphor);"></span>
+      </div>
+    </div>
+
+    <div class="editor-panel">
+      <h3>Header 結構（byte 0-127）</h3>
+      <table class="region-table">
+        <tr><th>Offset</th><th>Size</th><th>Content</th></tr>
+        <tr><td class="num">0x00</td><td class="num">4</td><td><code>"le3\0"</code> — magic byte</td></tr>
+        <tr><td class="num">0x04</td><td class="num">28</td><td><code>"LUNATIC DAWN - The 3rd Book -"</code> + null padding</td></tr>
+        <tr><td class="num">0x20</td><td class="num">32</td><td><code>"Copyright (C) ARTDINK Corp. 2000"</code> + nulls</td></tr>
+        <tr><td class="num">0x54+</td><td class="num">~985KB</td><td>Binary game data（玩家 / 角色 / 物品 / 地圖 / NPC / 任務）— 結構待逆向</td></tr>
+      </table>
+    </div>
+
+    <div class="editor-panel">
+      <h3>Hex Viewer（前 1024 bytes，read-only）</h3>
+      <div class="hex-viewer" id="hex-viewer"></div>
+    </div>
+
+    <div class="editor-panel">
+      <h3>Hex 編輯器（完整檔案）</h3>
+      <p class="hint">每 byte 兩字元（hex），空白分隔（每 16 bytes 一行）。修改後按下「套用 + 下載」。</p>
+      <textarea class="hex-editor" id="hex-editor" placeholder="拖入檔案後此處顯示完整 hex"></textarea>
+    </div>
+
+    <div id="download-bar">
+      <span id="status" style="color: var(--phosphor-dim);">準備就緒</span>
+      <button id="btn-apply-download">套用編輯 + 下載</button>
+      <button id="btn-reset" style="background: var(--bg-input); color: var(--phosphor);">↺ 重新載入</button>
+    </div>
+
+  </div>
+
+  <div id="error-display"></div>
+
+  <div class="editor-panel" style="margin-top: 24px;">
+    <h3>進階：對照其他工具</h3>
+    <p>更深度修改建議用：</p>
+    <ul>
+      <li><strong>kkarthur 修改器 v0.4</strong>：Windows 桌面版，field-level 編輯</li>
+      <li><strong>Morrowind ELF 工具 v1.62</strong>：編輯遊戲資料 ELF 檔（非存檔）</li>
+    </ul>
+    <p>下載見：<a href="./">第三之書索引頁</a> 或 <a href="../files/lde3/">檔案庫</a></p>
+  </div>
+
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+let workBuffer = null;
+let originalFileName = '';
+
+function formatHex(buf, max) {
+  const view = new Uint8Array(buf);
+  const lines = [];
+  const len = Math.min(view.length, max || view.length);
+  for (let i = 0; i < len; i += 16) {
+    const offset = i.toString(16).padStart(8, '0');
+    const hexParts = [];
+    const asciiParts = [];
+    for (let j = 0; j < 16 && i + j < len; j++) {
+      const b = view[i + j];
+      hexParts.push(b.toString(16).padStart(2, '0'));
+      asciiParts.push(b >= 32 && b < 127 ? String.fromCharCode(b) : '.');
+    }
+    lines.push(offset + '  ' + hexParts.join(' ').padEnd(48) + ' | ' + asciiParts.join(''));
+  }
+  return lines.join('\n');
+}
+
+function formatHexEdit(buf) {
+  const view = new Uint8Array(buf);
+  const lines = [];
+  for (let i = 0; i < view.length; i += 16) {
+    const row = Array.from(view.slice(i, i + 16))
+      .map(b => b.toString(16).padStart(2, '0')).join(' ');
+    lines.push(row);
+  }
+  return lines.join('\n');
+}
+
+function showError(msg) {
+  const errBox = $('error-display');
+  while (errBox.firstChild) errBox.removeChild(errBox.firstChild);
+  const div = document.createElement('div');
+  div.className = 'error-banner';
+  div.textContent = '錯誤：' + msg;
+  errBox.appendChild(div);
+}
+
+async function handleFile(file) {
+  try {
+    const buffer = await file.arrayBuffer();
+    workBuffer = new Uint8Array(buffer);
+    originalFileName = file.name;
+
+    // Header validation
+    const magic = String.fromCharCode(workBuffer[0], workBuffer[1], workBuffer[2]);
+    const titleBytes = workBuffer.slice(4, 32);
+    const titleStr = String.fromCharCode(...titleBytes).replace(/\0/g, '').trim();
+
+    let headerOk = false;
+    let headerMsg = '';
+    if (magic === 'le3' && workBuffer[3] === 0 && titleStr.includes('LUNATIC DAWN')) {
+      headerOk = true;
+      headerMsg = '✓ 第三之書存檔 (magic: "' + magic + '\\0", title: "' + titleStr + '")';
+    } else {
+      headerMsg = '✗ Header 不符（magic="' + magic + '", title="' + titleStr + '"），可能不是有效的 lde3s.le3';
+    }
+
+    $('info-name').textContent = file.name;
+    $('info-size').textContent = workBuffer.length.toLocaleString() + ' bytes (' + (workBuffer.length / 1024).toFixed(1) + ' KB)';
+    $('info-header').textContent = headerMsg;
+    $('info-header').style.color = headerOk ? 'var(--phosphor)' : 'var(--danger)';
+
+    $('hex-viewer').textContent = formatHex(buffer, 1024);
+    $('hex-editor').value = formatHexEdit(buffer);
+    $('drop-zone').style.display = 'none';
+    $('editor').style.display = 'block';
+    $('status').textContent = headerOk ? '✓ 載入成功，可開始編輯' : '⚠️ Header 異常';
+  } catch (e) {
+    showError(e.message);
+  }
+}
+
+$('btn-apply-download').addEventListener('click', () => {
+  if (!workBuffer) { alert('請先載入檔案'); return; }
+  const raw = $('hex-editor').value.replace(/[^0-9a-fA-F]/g, '');
+  if (raw.length !== workBuffer.length * 2) {
+    alert('hex 字元數錯誤：應為 ' + (workBuffer.length * 2) + '（= ' + workBuffer.length + ' bytes × 2），實際 ' + raw.length);
+    return;
+  }
+  const newBuf = new Uint8Array(workBuffer.length);
+  for (let i = 0; i < newBuf.length; i++) {
+    newBuf[i] = parseInt(raw.substr(i * 2, 2), 16);
+  }
+  const blob = new Blob([newBuf], {type: 'application/octet-stream'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = originalFileName || 'lde3s.le3';
+  a.click();
+  URL.revokeObjectURL(url);
+  $('status').textContent = '✓ 已下載 ' + originalFileName + '（檢查無誤後覆蓋 usr/）';
+});
+
+$('btn-reset').addEventListener('click', () => {
+  $('drop-zone').style.display = 'block';
+  $('editor').style.display = 'none';
+  $('hex-editor').value = '';
+  $('hex-viewer').textContent = '';
+  workBuffer = null;
+  originalFileName = '';
+  $('status').textContent = '準備就緒';
+});
+
+const dz = $('drop-zone');
+dz.addEventListener('dragover', ev => { ev.preventDefault(); dz.classList.add('drag-active'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('drag-active'));
+dz.addEventListener('drop', ev => {
+  ev.preventDefault();
+  dz.classList.remove('drag-active');
+  if (ev.dataTransfer.files.length > 0) handleFile(ev.dataTransfer.files[0]);
+});
+$('click-select').addEventListener('click', () => $('file-input').click());
+$('file-input').addEventListener('change', ev => {
+  if (ev.target.files.length > 0) handleFile(ev.target.files[0]);
+});
+dz.addEventListener('click', ev => {
+  if (ev.target.id === 'drop-zone') $('file-input').click();
+});
+
+console.log('%c第三之書瀏覽器版修改器 v0.1', 'color:#00ff41;font-family:monospace;font-size:16px');
+console.log('%c吟遊詩人的傳說 · 俠客遊 · by toni', 'color:#00aa2b;font-family:monospace');
+</script>
+</body>
+</html>
