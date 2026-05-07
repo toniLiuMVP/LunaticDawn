@@ -7,22 +7,6 @@
 <meta name="description" content="領主類同行 NPC 招募條件、屬性分析、推薦組合。">
 <link rel="stylesheet" href="../../assets/css/fonts-wuxia.css">
 <link rel="stylesheet" href="../../assets/css/wuxia.css">
-<style>
-.guide-content {
-  white-space: pre-wrap;
-  font-family: "Noto Sans TC", sans-serif;
-  font-size: 14px;
-  line-height: 1.7;
-  color: var(--phosphor);
-  background: var(--bg-input);
-  padding: 16px;
-  border: 1px solid var(--phosphor-fade);
-  margin: 16px 0;
-  overflow-x: auto;
-  max-width: 100%;
-  word-wrap: break-word;
-}
-</style>
 <meta property="og:type" content="website">
 <meta property="og:title" content="領主類 NPC · 吟遊詩人的傳說">
 <meta property="og:description" content="領主類同行 NPC 招募條件、屬性分析、推薦組合。">
@@ -61,7 +45,7 @@
 
 <section class="panel">
   <h2 class="panel-title">[ 內容 ]</h2>
-  <div class="guide-content">●俠客遊.未來之書：一代宗師篇
+  <pre class="raw-text">●俠客遊.未來之書：一代宗師篇
 
 ●遊戲中有忍者、武術與魔法三種一代宗師，他們和神一樣，會
   混在城市廣場的冒險者之中，必須主動和他們談話來啟動這個
@@ -123,7 +107,7 @@
 ％取得智者寶珠之後，無法控制要使出什麼法術。挑戰宗師時都
   被落雷和火龍Ｋ，自己用時常使出閃電（原本只要MP 5）或火
   球（原本MP -10）等小法術，所以一般認為不好用
-</div>
+</pre>
 </section>
 
 <section class="panel">
@@ -148,5 +132,44 @@
 </footer>
 
 </div>
+<script>
+/* 自動縮放 .raw-text 字型：
+   - 找最寬的「表格行」（含 Box Drawing ─│ 或 3+空格 或 3+全形空格的行）
+   - 按比例縮小字型讓表格行完整顯示不換行
+   - 段落行（無對齊格式）由 CSS pre-wrap 自然換行 */
+(function(){
+  var timer;
+  var tableRe=/[\u2500-\u257F]|   |\t|\u3000.*\u3000.*\u3000/;
+  function fit(){
+    var els=document.querySelectorAll('.raw-text');
+    for(var i=0;i<els.length;i++){
+      var el=els[i];
+      el.style.fontSize='';
+      var lines=el.textContent.split('\n');
+      var target='';
+      for(var j=0;j<lines.length;j++){
+        if(tableRe.test(lines[j])&&lines[j].length>target.length) target=lines[j];
+      }
+      if(!target) continue;
+      var ruler=document.createElement('span');
+      ruler.style.cssText='position:absolute;visibility:hidden;white-space:pre;font:inherit;';
+      ruler.textContent=target;
+      el.appendChild(ruler);
+      var lineW=ruler.offsetWidth;
+      ruler.remove();
+      var cs=getComputedStyle(el);
+      var maxFS=parseFloat(cs.fontSize);
+      var padL=parseFloat(cs.paddingLeft),padR=parseFloat(cs.paddingRight);
+      var availW=el.clientWidth-padL-padR;
+      if(lineW<=availW) continue;
+      var fs=Math.floor(maxFS*availW/lineW*2)/2;
+      if(fs<8) fs=8;
+      el.style.fontSize=fs+'px';
+    }
+  }
+  window.addEventListener('load',fit);
+  window.addEventListener('resize',function(){clearTimeout(timer);timer=setTimeout(fit,150);});
+})();
+</script>
 </body>
 </html>
