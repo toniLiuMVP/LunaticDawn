@@ -76,6 +76,64 @@
 </section>
 
 <section class="panel">
+  <h2 class="panel-title">[ INSTALL · 安裝設定 SOP ]</h2>
+  <p class="muted">第三之書原版光碟跨 Win98 / XP / Vista / 7 / 8 / 10 / 11 不同時代有不同安裝障礙。以下是 toni 跨年代維護整理的標準流程：</p>
+
+  <ol style="line-height: 1.9;">
+    <li><strong>確認執行檔版本為 1.0.8.2</strong>——這是台灣繁體中文版官方 1.2 更新檔的版本號。版本不對某些工具會無法正確 hook。</li>
+    <li><strong>遊戲資料夾路徑用簡潔英文</strong>，避免中文字 / 空格 / 過深層級。建議：<code>C:\ARTDINK\Lde3\</code> 或可攜版直接放隨身碟根目錄。</li>
+    <li><strong>套官方 1.2 更新檔</strong>——把<a href="https://drive.google.com/open?id=1mbvvxB6bBryYK8SHuN_AUjUjf-c5J-6k" target="_blank" rel="noopener">官方修正檔</a>解壓後複製到遊戲資料夾覆蓋。</li>
+    <li><strong>NoCD 化（避免每次都要放光碟）</strong>——<a href="https://drive.google.com/open?id=1B6n34wTsRJq0F9dGRb7JpiBG41_B_cZw" target="_blank" rel="noopener">第三之書保護光碟檔</a>解壓後跑，會建立 NoCD 環境。</li>
+    <li><strong>解 Win11 / XP / Win98 相容性</strong>（如果遇到「試玩版」或「找不到光碟」問題）——下載對應系統的<a href="../files/lde3/">登錄檔修正檔</a>解壓後執行。</li>
+    <li><strong>輔助工具放遊戲資料夾內執行</strong>（重要！相對路徑解析）——修改器 / ELF 工具 / 日期計算器都直接放在跟 LDE3.EXE 同層目錄。</li>
+    <li><strong>登錄檔路徑用雙斜線</strong>——若手動編輯登錄檔，路徑必須寫雙斜線，例：<br><code>c:\\Program Files\\ARTDINK\\Lde3\\LDE3.EXE</code></li>
+  </ol>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ FAQ · 常見問題排除 ]</h2>
+
+  <h3 style="color: var(--amber);">Q1. 安裝完跑遊戲變成「試玩版」？</h3>
+  <p>原因：登錄檔內遊戲執行檔路徑沒寫對 / 系統升級後路徑失效。<br>
+  解法：依作業系統下載對應修正檔——<a href="../files/lde3/lde3reg.zip">lde3reg.zip</a>（通用）/ <a href="../files/lde3/Lde3XP.zip">XP 版</a> / <a href="../files/lde3/LDE3win11.7z">Win11 版</a>。解壓後執行裡面的 .reg 或 .bat 檔即可。</p>
+
+  <h3 style="color: var(--amber);">Q2. 開啟遊戲提示「找不到光碟」？</h3>
+  <p>原因：未套用 NoCD 修正 / 光碟認證機制在新作業系統上失效。<br>
+  解法：套<a href="https://drive.google.com/open?id=1B6n34wTsRJq0F9dGRb7JpiBG41_B_cZw" target="_blank" rel="noopener">第三之書保護光碟檔</a>（最新版）或<a href="../files/lde3/Lde3_tw_1.2TC_1082_NoCD.7z.7z">歷史 NoCD 版</a>。</p>
+
+  <h3 style="color: var(--amber);">Q3. 想直接攜帶玩不要安裝？</h3>
+  <p>解法：用<a href="../files/lde3/PortableLde3_tw1082r1.zip">PortableLde3_tw1082r1.zip</a> 可攜版，解壓即用。適合放隨身碟 / SSD 帶到不同電腦玩。</p>
+
+  <h3 style="color: var(--amber);">Q4. 修改器抓不到存檔 / 數值改完沒反應？</h3>
+  <p>原因：執行檔版本不對 / 修改器版本舊 / 修改器跟 LDE3.EXE 不在同層目錄。<br>
+  解法：確認執行檔 1.0.8.2 + 用最新<a href="https://drive.google.com/open?id=1cCPao0_WN2XgVIlMaxrsmzv9TjJwCmo4" target="_blank" rel="noopener">第三之書修改器 v0.4</a>（kkarthur 製作）+ 放在跟 LDE3.EXE 同資料夾。</p>
+
+  <h3 style="color: var(--amber);">Q5. 想看原版手冊 / 認證碼說明？</h3>
+  <p>歷史<a href="../files/lde3/Lde3man103.zip">第三之書管理員 1.03</a> / <a href="../files/lde3/Lde3man106.zip">1.06</a> 包含部分手冊掃描跟說明。最新版用<a href="https://drive.google.com/open?id=175fzMHh9TRqqN6smdtS4LYk8PjY5nQMo" target="_blank" rel="noopener">第三之書管理員 1.0.6</a>（askacheng 製作）。</p>
+
+  <h3 style="color: var(--amber);">Q6. 為什麼推薦的工具製作年份是 2007-2010？</h3>
+  <p>第三之書 2002 年發行後，2007-2010 年是社群最活躍時期，多數修正工具完成於該段時間。Morrowind / kkarthur / askacheng 等社群開發者貢獻的工具至今仍是各時代最佳維護方案。</p>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ TOOLS · 工具用途速查 ]</h2>
+  <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+    <tr style="border-bottom: 1px dotted var(--phosphor-fade); color: var(--phosphor-dim);">
+      <th style="text-align: left; padding: 6px 4px;">工具</th>
+      <th style="text-align: left; padding: 6px 4px;">作者</th>
+      <th style="text-align: left; padding: 6px 4px;">用途</th>
+    </tr>
+    <tr><td style="padding: 4px;">第三之書修改器 v0.4</td><td>kkarthur</td><td>修改角色屬性 / 物品 / 金錢</td></tr>
+    <tr><td style="padding: 4px;">ELF 工具 v1.62</td><td>Morrowind</td><td>遊戲資料 ELF 檔案編輯（資料解碼）</td></tr>
+    <tr><td style="padding: 4px;">第三之書輔助工具</td><td>Morrowind</td><td>遊戲輔助功能（多種小工具集合）</td></tr>
+    <tr><td style="padding: 4px;">第三之書日期計算器</td><td>Morrowind</td><td>遊戲內日期 ↔ 現實日期換算</td></tr>
+    <tr><td style="padding: 4px;">第三之書存檔管理器</td><td>Morrowind 中文化</td><td>存檔備份 / 還原 / 切換</td></tr>
+    <tr><td style="padding: 4px;">第三之書管理員 1.0.6</td><td>askacheng</td><td>遊戲整合管理（啟動 / 設定）</td></tr>
+    <tr><td style="padding: 4px;">第三之書流動化啟動器</td><td>anDY &amp; aSKa STUDiO</td><td>免安裝啟動（搭配可攜版）</td></tr>
+  </table>
+</section>
+
+<section class="panel">
   <h2 class="panel-title">[ HISTORICAL ARCHIVE · 歷史附件 18 個 ]</h2>
   <p class="muted">由舊 Google Sites 附件搬遷而來——保留 2007 年前後社群釋出的歷史版本，研究與相容性參考用。</p>
   <ul style="font-size: 14px; line-height: 1.8;">
