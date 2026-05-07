@@ -7,22 +7,6 @@
 <meta name="description" content="未來之書地下城完整攻略，含層級、機關、寶物、Boss 戰術。">
 <link rel="stylesheet" href="../../assets/css/fonts-wuxia.css">
 <link rel="stylesheet" href="../../assets/css/wuxia.css">
-<style>
-.guide-content {
-  white-space: pre-wrap;
-  font-family: "Noto Sans TC", sans-serif;
-  font-size: 14px;
-  line-height: 1.7;
-  color: var(--phosphor);
-  background: var(--bg-input);
-  padding: 16px;
-  border: 1px solid var(--phosphor-fade);
-  margin: 16px 0;
-  overflow-x: auto;
-  max-width: 100%;
-  word-wrap: break-word;
-}
-</style>
 <meta property="og:type" content="website">
 <meta property="og:title" content="地下城 (JC-DUNG) 攻略 · 吟遊詩人的傳說">
 <meta property="og:description" content="未來之書地下城完整攻略，含層級、機關、寶物、Boss 戰術。">
@@ -61,7 +45,7 @@
 
 <section class="panel">
   <h2 class="panel-title">[ 內容 ]</h2>
-  <div class="guide-content">●俠客遊二●迷宮篇
+  <pre class="raw-text">●俠客遊二●迷宮篇
 
 －總算把每個迷宮都參觀一遍了... 底下是小弟接任務前參考用的，po出來
   和同好討論討論（呵呵，趁我還在玩的時候快來，一起把遊戲的剩餘價值
@@ -201,7 +185,7 @@
 5.破壞遺跡:4F,B1
 5.斜陽之館:4F
 5+斷命洞窟:B4
-</div>
+</pre>
 </section>
 
 <section class="panel">
@@ -226,5 +210,44 @@
 </footer>
 
 </div>
+<script>
+/* 自動縮放 .raw-text 字型：
+   - 找最寬的「表格行」（含 Box Drawing ─│ 或 3+空格 或 3+全形空格的行）
+   - 按比例縮小字型讓表格行完整顯示不換行
+   - 段落行（無對齊格式）由 CSS pre-wrap 自然換行 */
+(function(){
+  var timer;
+  var tableRe=/[\u2500-\u257F]|   |\t|\u3000.*\u3000.*\u3000/;
+  function fit(){
+    var els=document.querySelectorAll('.raw-text');
+    for(var i=0;i<els.length;i++){
+      var el=els[i];
+      el.style.fontSize='';
+      var lines=el.textContent.split('\n');
+      var target='';
+      for(var j=0;j<lines.length;j++){
+        if(tableRe.test(lines[j])&&lines[j].length>target.length) target=lines[j];
+      }
+      if(!target) continue;
+      var ruler=document.createElement('span');
+      ruler.style.cssText='position:absolute;visibility:hidden;white-space:pre;font:inherit;';
+      ruler.textContent=target;
+      el.appendChild(ruler);
+      var lineW=ruler.offsetWidth;
+      ruler.remove();
+      var cs=getComputedStyle(el);
+      var maxFS=parseFloat(cs.fontSize);
+      var padL=parseFloat(cs.paddingLeft),padR=parseFloat(cs.paddingRight);
+      var availW=el.clientWidth-padL-padR;
+      if(lineW<=availW) continue;
+      var fs=Math.floor(maxFS*availW/lineW*2)/2;
+      if(fs<8) fs=8;
+      el.style.fontSize=fs+'px';
+    }
+  }
+  window.addEventListener('load',fit);
+  window.addEventListener('resize',function(){clearTimeout(timer);timer=setTimeout(fit,150);});
+})();
+</script>
 </body>
 </html>
