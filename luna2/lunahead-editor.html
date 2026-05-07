@@ -160,7 +160,14 @@
       <div class="field-row">
         <label for="edit-name">玩家姓名 (Big5)：</label>
         <input id="edit-name" type="text" disabled style="opacity: 0.7;">
-        <span class="hint">read-only 顯示（瀏覽器無原生 Big5 encoder）</span>
+        <span class="hint">當前姓名顯示</span>
+      </div>
+
+      <div class="field-row">
+        <label for="edit-name-input">★ 自訂姓名（中文 1-3 字）：</label>
+        <input id="edit-name-input" type="text" maxlength="3" placeholder="輸入中文 1-3 字" style="width: 120px;">
+        <button id="btn-encode-name" type="button" style="margin-left: 8px;">→ 轉 Big5 hex</button>
+        <span id="encode-status" class="hint" style="margin-left: 8px;"></span>
       </div>
 
       <div class="field-row">
@@ -192,7 +199,7 @@
           </optgroup>
           <option value="000000000000">清空（全 0x00）</option>
         </select>
-        <span class="hint">16+ 預設選項（已用 Python `'name'.encode('big5').hex()` 驗證 hex）。如要自訂其他姓名，下方 hex 直接編輯。</span>
+        <span class="hint">16+ 預設選項（已用 Python `'name'.encode('big5').hex()` 驗證 hex）。任意中文字請用上方「自訂姓名」（13051 字 Big5 字典）。</span>
       </div>
 
       <div class="field-row">
@@ -292,13 +299,40 @@ function decodeBig5(bytes) {
   return Array.from(bytes).map(b => `\\x${b.toString(16).padStart(2, '0')}`).join('');
 }
 
-function encodeBig5(str) {
-  // No native Big5 encoder in browser. Use approximation:
-  // For each char, attempt mapping via known encoding or fallback to 0x00
-  // For real solution, would need a Big5 lookup table
-  // For now, only support if input matches existing decoded chars:
-  // Implementation: keep the original bytes if name unchanged, else show warning
-  return null;  // signal: needs special handling
+// Big5 encoder via lazy-loaded lookup table (~165 KB, 13051 chars)
+let big5EncodeTable = null;
+let big5LoadingPromise = null;
+
+async function loadBig5Table() {
+  if (big5EncodeTable) return big5EncodeTable;
+  if (big5LoadingPromise) return big5LoadingPromise;
+  big5LoadingPromise = fetch('big5-encoder-table.json')
+    .then(r => r.json())
+    .then(json => { big5EncodeTable = json; return json; });
+  return big5LoadingPromise;
+}
+
+// Encode a Chinese-or-ASCII string to 6-byte Big5 hex (3 chars max).
+// Returns { hex: "a5b1a6dc0000", warnings: [...] } or null if all chars failed.
+async function encodeBig5(str) {
+  const table = await loadBig5Table();
+  const hexParts = [];
+  const warnings = [];
+  for (const ch of str.slice(0, 3)) {
+    if (table[ch]) {
+      hexParts.push(table[ch]);
+    } else if (ch.charCodeAt(0) < 0x80) {
+      // ASCII char: 1 byte (high byte = char code, low byte filler 0x00 for align)
+      // But Big5 names use 2-byte chars; ASCII not standard here.
+      warnings.push(`「${ch}」非中文字，已略過`);
+    } else {
+      warnings.push(`「${ch}」不在 Big5 字典中`);
+    }
+  }
+  if (hexParts.length === 0) return null;
+  // Pad to 6 bytes total (each hex part = 2 bytes = 4 hex chars)
+  while (hexParts.length < 3) hexParts.push('0000');
+  return { hex: hexParts.join(''), warnings };
 }
 
 function parseHeader(buffer) {
@@ -419,6 +453,47 @@ function setupListeners() {
     changesCount++;
     loadHeader();
     updateDownloadBar();
+  });
+
+  // B2: 自訂姓名 → Big5 hex 即時轉換
+  $('btn-encode-name').addEventListener('click', async () => {
+    const input = $('edit-name-input').value.trim();
+    const status = $('encode-status');
+    if (!input) {
+      status.textContent = '⚠️ 請先輸入姓名';
+      status.style.color = 'var(--danger, #c00)';
+      return;
+    }
+    status.textContent = '⏳ 載入字典中...';
+    status.style.color = 'var(--phosphor-dim)';
+    try {
+      const result = await encodeBig5(input);
+      if (!result) {
+        status.textContent = '✗ 無字符可編碼（不在 Big5 字典）';
+        status.style.color = 'var(--danger, #c00)';
+        return;
+      }
+      // Apply to hex input + save buffer
+      $('edit-name-hex').value = result.hex.match(/.{2}/g).join(' ');
+      const view = new Uint8Array(workBuffer);
+      for (let i = 0; i < 6; i++) {
+        view[5 + i] = parseInt(result.hex.substr(i * 2, 2), 16);
+      }
+      changesCount++;
+      loadHeader();
+      updateDownloadBar();
+      const warn = result.warnings.length ? ` ⚠️ ${result.warnings.join('；')}` : '';
+      status.textContent = `✓ 已編碼為 ${result.hex}${warn}`;
+      status.style.color = 'var(--phosphor)';
+    } catch (e) {
+      status.textContent = `✗ 載入失敗：${e.message}`;
+      status.style.color = 'var(--danger, #c00)';
+    }
+  });
+
+  // 支援 Enter 鍵直接觸發
+  $('edit-name-input').addEventListener('keydown', (ev) => {
+    if (ev.key === 'Enter') { ev.preventDefault(); $('btn-encode-name').click(); }
   });
 
   $('btn-download').addEventListener('click', () => {
