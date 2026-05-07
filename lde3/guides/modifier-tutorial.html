@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第三之書修改器使用教學 · 吟遊詩人的傳說</title>
+<meta name="description" content="第三之書修改器使用教學 — kkarthur v0.4 + Morrowind ELF v1.62 + 安全修改流程。">
+<link rel="stylesheet" href="../../assets/css/fonts-wuxia.css">
+<link rel="stylesheet" href="../../assets/css/wuxia.css">
+<meta property="og:type" content="website">
+<meta property="og:title" content="第三之書修改器使用教學">
+<meta property="og:description" content="第三之書修改器使用教學 — 安全修改 + 備份 + 工具選擇。">
+<meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/lde3/guides/modifier-tutorial.html">
+<meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
+<meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
+</head>
+<body>
+<div class="wrap">
+<header class="site-header">
+  <div class="header-inner">
+    <div><h1 class="pixel">第三之書修改器使用教學</h1><div class="header-sub">LDE3 · MODIFIER TUTORIAL</div></div>
+    <div class="header-sub header-right"><div><a href="./">◀ 攻略總覽</a></div></div>
+  </div>
+</header>
+<main>
+<div class="breadcrumb"><a href="../../">吟遊詩人的傳說</a> / <a href="../">第三之書</a> / <a href="./">攻略</a> / <span class="dim">修改器教學</span></div>
+
+<section class="panel">
+  <h2 class="panel-title">[ 修改器選擇 ]</h2>
+  <p>第三之書修改工具選擇依需求不同：</p>
+  <table style="width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 12px;">
+    <tr style="border-bottom: 1px dotted var(--phosphor-fade); color: var(--phosphor-dim);">
+      <th style="text-align: left; padding: 6px 4px;">工具</th>
+      <th style="text-align: left; padding: 6px 4px;">適合</th>
+      <th style="text-align: left; padding: 6px 4px;">難度</th>
+    </tr>
+    <tr><td style="padding: 4px;"><strong>第三之書修改器 v0.4</strong>（kkarthur）</td><td>初學者修改屬性 / 物品 / 金錢</td><td>⭐ 簡單</td></tr>
+    <tr><td style="padding: 4px;"><strong>ELF 工具 v1.62</strong>（Morrowind）</td><td>進階玩家編輯遊戲資料 ELF 檔</td><td>⭐⭐⭐ 進階</td></tr>
+    <tr><td style="padding: 4px;"><strong>瀏覽器版修改器</strong>（toni · 即將推出）</td><td>跨平台 / 純前端 / 免安裝</td><td>⭐ 簡單</td></tr>
+  </table>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 安全修改 SOP ]</h2>
+  <p style="color: var(--danger);"><strong>⚠️ 修改前務必備份</strong></p>
+  <ol style="line-height: 1.9;">
+    <li><strong>先確認執行檔版本為 1.0.8.2</strong>（執行檔升不對，修改器抓不到存檔）</li>
+    <li><strong>備份原檔</strong>：把整個 <code>USER0/</code>（或對應存檔資料夾）複製為 <code>USER0_backup/</code></li>
+    <li><strong>修改器放遊戲資料夾</strong>：跟 LDE3.EXE 同層</li>
+    <li><strong>先小幅修改測試</strong>：例如金錢 +1000，看遊戲讀取是否正常</li>
+    <li><strong>確認無誤再大幅修改</strong>：屬性 / 物品 / 等級</li>
+    <li><strong>修改後 save / quit / re-load 驗證</strong>：避免存檔損毀</li>
+  </ol>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 第三之書修改器 v0.4 (kkarthur) ]</h2>
+  <p>下載：<a href="https://drive.google.com/open?id=1cCPao0_WN2XgVIlMaxrsmzv9TjJwCmo4" target="_blank" rel="noopener">Google Drive 主連結</a> · <a href="https://gofile.me/4OC17/TL7zLmbf3" target="_blank" rel="noopener">備用</a>（密碼：<code>lunaticdawn</code>）</p>
+
+  <h3 style="color: var(--amber);">基本用法</h3>
+  <ol style="line-height: 1.9;">
+    <li>把 <code>Lde3Edit_v0.4.exe</code> 放在跟 LDE3.EXE 同資料夾</li>
+    <li>遊戲先 save 一次（產生最新存檔）</li>
+    <li>關掉遊戲</li>
+    <li>跑 <code>Lde3Edit_v0.4.exe</code></li>
+    <li>選擇要修改的角色 + 屬性</li>
+    <li>修改完按「儲存」</li>
+    <li>重新進遊戲讀取存檔，確認修改生效</li>
+  </ol>
+
+  <h3 style="color: var(--amber);">可修改項目</h3>
+  <ul>
+    <li>角色屬性（力 / 智 / 靈 / 敏 / 直 / 魅 / 體 / 精）</li>
+    <li>HP / MP / STM 上限</li>
+    <li>金錢</li>
+    <li>物品欄</li>
+    <li>5 系魔法學會狀態</li>
+    <li>技能熟練度</li>
+  </ul>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ ELF 工具 v1.62 (Morrowind) ]</h2>
+  <p>下載：<a href="https://drive.google.com/open?id=1_69yJO9vux6ZtGOC198iGIDMdDv4TnRT" target="_blank" rel="noopener">Google Drive</a></p>
+
+  <p>ELF 工具編輯遊戲資料的 ELF 加密檔。比修改器更深入，可改：</p>
+  <ul>
+    <li>遊戲內物品定義（價格 / 攻擊力 / 防禦值）</li>
+    <li>怪物數值</li>
+    <li>地圖事件參數</li>
+    <li>NPC 設定</li>
+  </ul>
+
+  <p class="muted">⚠️ ELF 工具修改的是<strong>遊戲資料檔</strong>（不是存檔），所有玩家都會受影響。建議：</p>
+  <ul>
+    <li>先備份整個遊戲資料夾</li>
+    <li>了解 ELF 結構再修改（Morrowind 工具有說明文件）</li>
+    <li>適合「想改造遊戲體驗」的進階玩家</li>
+  </ul>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 修改器使用建議 ]</h2>
+  <ul style="line-height: 1.9;">
+    <li><strong>第一輪正常玩</strong>：體驗成長感跟挑戰</li>
+    <li><strong>卡關才用修改器</strong>：避免一開始就破壞樂趣</li>
+    <li><strong>修改幅度漸進</strong>：先小修，看遊戲反應，再大修</li>
+    <li><strong>用 USER1 測試 USER0 保留</strong>：作為對照</li>
+    <li><strong>修改後保留多個存檔點</strong>：避免單點故障</li>
+  </ul>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ NAVIGATION ]</h2>
+  <p>
+    <a href="./">◀ 攻略總覽</a> ·
+    <a href="../modifier.html">▸ 瀏覽器版修改器</a> ·
+    <a href="install-faq.html">▸ 安裝 SOP + FAQ</a> ·
+    <a href="../">▸ 第三之書索引</a>
+  </p>
+</section>
+
+</main>
+<footer class="site-footer">
+  <div>本站由 toni 整理重建，作為數位文化遺產保存。</div>
+  <div class="footer-big">｢ 吟遊詩人的傳說 · 俠客遊 LUNATIC DAWN ｣</div>
+  <div><a href="../../">◀ 主站</a> · <a href="https://github.com/toniLiuMVP/LunaticDawn" target="_blank" rel="noopener">GitHub</a> · 維護：toni</div>
+</footer>
+</div>
+</body>
+</html>
