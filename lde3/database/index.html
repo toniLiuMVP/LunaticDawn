@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第三之書資料庫 · 吟遊詩人的傳說</title>
+<meta name="description" content="第三之書 LDE3.EXE 逆向字串字典 — 810 個有效中文字串，依類別分組（魔法 / 卡片 / 武器 / 城鎮 / 召喚獸等）。">
+<link rel="stylesheet" href="../../assets/css/fonts-retro.css">
+<link rel="stylesheet" href="../../assets/css/retro.css">
+<meta property="og:type" content="website">
+<meta property="og:title" content="第三之書資料庫">
+<meta property="og:description" content="第三之書 LDE3.EXE 逆向字串字典 — 810 個有效中文字串。">
+<meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/lde3/database/">
+<meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
+<meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
+<style>
+.cat-section { margin: 20px 0; padding: 16px; background: var(--bg-panel); border: 1px solid var(--phosphor-fade); }
+.cat-title { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 14px; margin: 0 0 12px; }
+.cat-count { color: var(--phosphor-fade); font-size: 12px; margin-left: 8px; }
+.string-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 6px; }
+.string-item { background: var(--bg-input); padding: 6px 12px; font-size: 14px; color: var(--phosphor); border: 1px solid var(--phosphor-fade); border-radius: 2px; }
+.notice { padding: 12px 16px; background: rgba(255,176,0,0.08); border-left: 3px solid var(--amber); margin: 16px 0; font-size: 14px; color: var(--phosphor-dim); line-height: 1.7; }
+.search-box { display: flex; gap: 8px; margin: 16px 0; align-items: center; }
+.search-box input { flex: 1; background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-dim); padding: 8px 12px; font-family: 'VT323', monospace; font-size: 16px; }
+.search-box input:focus { outline: none; border-color: var(--amber); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="pixel">第三之書資料庫</h1>
+      <nav>
+        <a href="../">回第三之書索引</a>
+        ·
+        <a href="../guides/">攻略總覽</a>
+        ·
+        <a href="../modifier.html">修改器</a>
+        ·
+        <a href="../../">回主站</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="notice">
+    <strong>第三之書 LDE3.EXE 逆向字串字典</strong>（810 個有效中文字串，第三十九波 toni 提取）
+    <br><br>
+    <strong>方法</strong>：對 Lde3.exe (PE32, 2.5MB) 用 Big5 模式（high byte 0xA1-0xC6）+ ≥4 中文字 + null terminator 過濾，去重後分類。
+    <br><br>
+    <strong>合規</strong>：純名字 / 系統字串字典（事實層，依日本著作權法第 12 條²不受資料庫著作權保護），不含創作性編排。
+    <br><br>
+    <strong>用途</strong>：玩家遇到不熟字串時可在此查詢含義 / 玩家社群核對遊戲系統翻譯。完整 JSON 在 <a href="strings.json">strings.json</a>。
+  </div>
+
+  <div class="search-box">
+    <span style="color: var(--amber);">🔍 即時搜尋：</span>
+    <input id="search" type="text" placeholder="輸入中文關鍵字（例：魔法 / 卡片 / 召喚）...">
+    <span id="match-count" style="color: var(--phosphor-fade); font-size: 12px;"></span>
+  </div>
+
+  <div id="content"></div>
+
+</div>
+
+<script>
+let allData = null;
+
+async function load() {
+  const r = await fetch('strings.json');
+  allData = await r.json();
+  render();
+}
+
+function render(filter) {
+  const content = document.getElementById('content');
+  while (content.firstChild) content.removeChild(content.firstChild);
+
+  let totalShown = 0;
+  const cats = allData.categories;
+  const sortedCats = Object.keys(cats).sort((a, b) => cats[b].length - cats[a].length);
+
+  for (const cat of sortedCats) {
+    let items = cats[cat];
+    if (filter) {
+      items = items.filter(s => s.includes(filter));
+    }
+    if (items.length === 0) continue;
+
+    const section = document.createElement('div');
+    section.className = 'cat-section';
+    const title = document.createElement('div');
+    title.className = 'cat-title';
+    title.textContent = `[ ${cat} ]`;
+    const count = document.createElement('span');
+    count.className = 'cat-count';
+    count.textContent = ` ${items.length} 個`;
+    title.appendChild(count);
+    section.appendChild(title);
+
+    const grid = document.createElement('div');
+    grid.className = 'string-grid';
+    for (const s of items.slice(0, filter ? items.length : 100)) {
+      const item = document.createElement('div');
+      item.className = 'string-item';
+      item.textContent = s;
+      grid.appendChild(item);
+    }
+    if (!filter && items.length > 100) {
+      const more = document.createElement('div');
+      more.style.color = 'var(--phosphor-fade)';
+      more.style.padding = '8px 12px';
+      more.textContent = `... 共 ${items.length} 個（搜尋顯示完整）`;
+      grid.appendChild(more);
+    }
+    section.appendChild(grid);
+    content.appendChild(section);
+    totalShown += items.length;
+  }
+
+  const cnt = document.getElementById('match-count');
+  cnt.textContent = filter ? `${totalShown} 個符合` : `總計 ${allData.total_unique} 個`;
+}
+
+document.getElementById('search').addEventListener('input', (e) => {
+  render(e.target.value.trim());
+});
+
+load().catch(e => {
+  const err = document.createElement('div');
+  err.className = 'notice';
+  err.style.color = 'var(--danger)';
+  err.textContent = '載入錯誤：' + e.message;
+  document.getElementById('content').appendChild(err);
+});
+
+console.log('%c第三之書資料庫 v0.1', 'color:#00ff41;font-family:monospace;font-size:16px');
+console.log('%c吟遊詩人的傳說 · 俠客遊 · by toni', 'color:#00aa2b;font-family:monospace');
+</script>
+</body>
+</html>

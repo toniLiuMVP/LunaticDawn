@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>重要 NPC 大全 · 吟遊詩人的傳說</title>
+<meta name="description" content="未來之書 150+ 個重要 NPC 屬性整理（類似俠客遊 II 的 NPC 大全）。">
+<link rel="stylesheet" href="../../assets/css/fonts-wuxia.css">
+<link rel="stylesheet" href="../../assets/css/wuxia.css">
+<style>
+.guide-content {
+  white-space: pre-wrap;
+  font-family: "Noto Sans TC", sans-serif;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--phosphor);
+  background: var(--bg-input);
+  padding: 16px;
+  border: 1px solid var(--phosphor-fade);
+  margin: 16px 0;
+  overflow-x: auto;
+  max-width: 100%;
+  word-wrap: break-word;
+}
+</style>
+<meta property="og:type" content="website">
+<meta property="og:title" content="重要 NPC 大全 · 吟遊詩人的傳說">
+<meta property="og:description" content="未來之書 150+ 個重要 NPC 屬性整理（類似俠客遊 II 的 NPC 大全）。">
+<meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/book/guides/man.html">
+<meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
+<meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
+</head>
+<body>
+<div class="wrap">
+
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <h1 class="pixel">重要 NPC 大全</h1>
+      <div class="header-sub">150+ NPC 屬性整理</div>
+    </div>
+    <div class="header-sub header-right">
+      <div><a href="./">◀ 攻略總覽</a></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="breadcrumb">
+  <a href="../../">吟遊詩人的傳說</a> /
+  <a href="../">未來之書</a> /
+  <a href="./">攻略</a> /
+  <span class="dim">重要 NPC 大全</span>
+</div>
+
+<section class="panel">
+  <h2 class="panel-title">[ ABOUT ]</h2>
+  <p class="amber">未來之書 150+ 個重要 NPC 屬性整理（類似俠客遊 II 的 NPC 大全）。</p>
+  <p class="muted">原始 TXT：<code>MAN.TXT</code> · BBS 時代社群整理 · 2026 toni 整合</p>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 內容 ]</h2>
+  <div class="guide-content">●俠客遊.未來之書－人物修改資料
+
+大家好，
+  開始動手改就表示快要把遊戲收起來了，一些骨灰級的先進們，
+有空的時候記得把遊戲灌回硬碟，試試看不同的玩法吧。新手們
+就要酌量使用了，畢竟這個是戰鬥、升級份量很重的遊戲，一下
+子升到頂級會喪失大部分樂趣的
+                                           jesse w.  ^-^
+
+●
+ 0000h: ↓ ** ** **  ↓ ** ** ** | ↓ ** ** **  ** ** ** **
+        系統內部編號 生命狀態	   姓名
+ 0010h: ** ** ** **  ** ** ** ** | 00 ↓ ** **  ** ** ** **
+				      外號
+ 0020h: ** ** ** **  ** ** ** ** | ** 00 00 00  00 00 00 00
+
+ 0030h: ↓ ** ** **  ↓ ** ** ** | ↓ ** ** **  ↓ ** ** **
+	性別	     年齡	   壽命	       	生日(月)
+ 0040h: ↓ ** ** **  ?? ?? ?? ?? | ?? ?? ?? ??  ↓ ** ** **
+       	生日(日)				秩序魔法值
+ 0050h: ↓ ** ** **  ↓ ** ** ** | ↓ ** ** **  ↓ ** ** **
+	混亂魔法值   善魔法值	   惡魔法值	出生國
+ 0060h: ↓ ** ** **  ?? ?? ?? ?? | ↓ ** ** **  ↓ ** ** **
+	出身地			   配偶編號	父親姓名
+ 0070h: ** ** ** **  ** ** ** ** | ** ** ** **  00 00 00 00
+
+ 0080h: ↓ ** ** **  ↓ ** ** ** | ** ** ** **  ** ** ** **
+	父親編號     母親姓名
+ 0090h: ** ** ** **  00 00 00 00 | ↓ ** ** **  ↓ ** ** **
+				   母親編號     知名度0
+ 00a0h: ↓ ** ** **  ↓ ** ** ** | ↓ ** ** **  ↓ ** ** **
+	知名度1      知名度2	   知名度3      知名度4
+ 00b0h: ↓ ** ** **  ↓ ** ** ** | ↓ ** ** **  ↓ ** ** **
+ 00c0h: ↓ ** ** **  ↓ ** ** ** | ↓ ** ** **  ↓ ** ** **
+ 00d0h: ↓ ** ** **  ↓ ** ** ** | ↓ ** ** **  00 00 00 00
+	知名度13     知名度14	   知名度15
+ 00e0h: ↓ ** ** **  ** ** ** ** | ↓ ** ** **  ↓ ** ** **
+	錢			   人像、造形   HP
+ 00f0h: ↓ ** ** **  ↓ ** ** ** | ↓ ** ** **  ↓ ** ** **
+	MP	     MaxHP	   MaxMP	STR現值
+ 0100h:	↓ ** ** **  ↓ ** ** ** | ↓ ** ** **  ↓ ** ** **
+	INT現值	     SPD現值	   CHG現值	STR累積經驗
+ 0110h:	↓ ** ** **  ↓ ** ** ** | ↓ ** ** **  ↓ ** ** **
+	INT累積經驗  SPD累積經驗   CHG累積經驗	STR訓練極限
+ 0120h:	↓ ** ** **  ↓ ** ** ** | ↓ ** ** **  ↓ ** ** **
+	INT訓練極限  SPD訓練極限   CHG訓練極限	STR成長瓶頸
+ 0130h:	↓ ** ** **  ↓ ** ** ** | ↓ ** ** **  ↓ ** ** **
+	INT成長瓶頸  SPD成長瓶頸   CHG成長瓶頸	STR成長極限
+ 0140h:	↓ ** ** **  ↓ ** ** ** | ↓ ** ** **  ↓ ** ** **
+	INT成長極限  SPD成長極限   CHG成長極限	提升之STR
+ 0150h:	↓ ** ** **  ↓ ** ** ** | ↓ ** ** **  ↓ ** ** **
+	提升之INT    提升之SPD     提升之CHG	綜合攻擊力
+ 0160h: ↓ ** ** **  ↓ ** ** ** | ↓ ** ** **  ↓ ** ** **
+	綜合防禦力   提升之秩序    提升之混亂   提升之善
+ 0170h: ↓ ** ** **
+	提升之惡
+
+％位置以16進位表示
+－0044，0048，0064尚未確定意義，可能的數值依序為0-3，0-3，
+  0-5，尚缺好感度、職業未找到位置
+
+－0004：生命狀態 1:正常 3:死亡 513:等待救援
+
+－004c+0050=100：秩序與混亂值相加必須等於100
+  0054+0058=100：善與惡相加必須等於100
+
+－MaxHP= STR×2 + (SPD - STR)/2
+  MaxMP= INT×2
+
+－00fc- 0108：四種人物屬性現值，不包括裝備提升（減少）量
+
+－010c- 0118：累積經驗值，最高1000，超過則星星亮度+1
+
+－011c- 0128：四種屬性訓練後的最佳結果，與00fc -0108相減
+              為屬性後的星星亮度，最大亮度為10
+
+－012c- 0138：四種屬性的成長瓶頸，超過之後訓練結果趨緩
+
+－013c- 0148：四種屬性的成長極限，前三者通過神的考驗後可
+              達100
+
+－014c- 0158: 因裝備而提高四個屬性值
+
+－0164- 0170: 因裝備而提高四個魔法屬性值
+
+－出身地與知名度編號如下：
+ 0 水裂都市  1 河之村    2 湖畔之鎮  3 峽谷之鎮
+ 4 斷崖都市  5 孤島之鎮  6 砂丘港鎮  7 砂之村
+ 8 灣岸都市  9 草原之鎮 10 高頂之城 11 深綠之城
+12 礦山都市 13 海風之鎮 14 岬之鎮   15 瀑布之村
+</div>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ NAVIGATION ]</h2>
+  <p>
+    <a href="./">◀ 攻略總覽</a> ·
+    <a href="../">▸ 未來之書索引</a> ·
+    <a href="../../">▸ 主站</a>
+  </p>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div>所有 BBS 時代原創內容版權屬於各原作者。本站由 toni 整理重建，作為數位文化遺產保存。</div>
+  <div class="footer-big">｢ 吟遊詩人的傳說 · 俠客遊 LUNATIC DAWN ｣</div>
+  <div>
+    <a href="../../">◀ 主站</a> ·
+    <a href="https://github.com/toniLiuMVP/LunaticDawn" target="_blank" rel="noopener">GitHub</a> ·
+    維護：toni
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
