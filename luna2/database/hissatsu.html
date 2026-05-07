@@ -50,8 +50,23 @@
       <li><strong>斷強破防</strong> — 斧類絕招（推測）</li>
     </ol>
     <p style="margin-top: 8px; color: var(--phosphor-fade); font-size: 13px;">
-      32 records 推測為「8 種武器類別 × 4 階變體」或「16 主動技 + 16 被動技」，
-      具體 ID 對應仍在驗證。HISSATSU.MST byte[1-2] 的 ASCII 規律 (R/_ /<) 可能對應「主動 / 進階 / 特殊」三類。
+      <strong>32 records 真實結構（2026 逆向確認）</strong>：
+      <br>▸ <strong>records 0-15</strong>：8 種武器類別 × 2 變體（主形 + 進階變體）
+      <br>▸ <strong>records 16-31</strong>：16 隻 boss / 龍 / 精靈 / 不死類怪物的<strong>專屬必殺技</strong>（byte[16] = 怪物 ID 99-127 lookup）
+    </p>
+  </div>
+
+  <div class="note" style="border-color: var(--phosphor); background: rgba(0, 255, 65, 0.05);">
+    <strong style="color: var(--phosphor); font-family: 'Press Start 2P', monospace; font-size: 11px;">▸ records 16-31 boss 專屬必殺技對照</strong><br>
+    HISSATSU records 16-31 對應 16 隻具備「專屬必殺技」的 boss 級怪物：
+    <ul style="margin: 12px 0 0 24px; line-height: 1.9;">
+      <li><strong>1 隻不死類</strong>：不死之王（ID 99）— 受神聖系魔法弱點</li>
+      <li><strong>5 條龍類</strong>：死亡之龍 / 赤龍 / 青龍 / 火龍 / 那伽龍（ID 106-112）</li>
+      <li><strong>4 個元素精靈</strong>：火 / 風 / 水 / 地（ID 114-118，互剋元素，4 個 low_cost 必殺技）</li>
+      <li><strong>6 隻終局 Boss</strong>：貝利亞 / 帕茲斯 / 共工 / 酒吞童子 / 魔王阿迦魯瑪 / 提斯卡托（ID 122-127，Lv 50 全 HP 999）</li>
+    </ul>
+    <p style="margin-top: 8px; color: var(--phosphor-fade); font-size: 13px;">
+      點擊下方 records 16-31 看 detail 可見「★ byte[16] 怪物 ID」+ 對應怪物名稱。
     </p>
   </div>
   <div class="toolbar">
@@ -69,12 +84,12 @@
 window.LIST_CONFIG = {
   dataKey: 'hissatsu',
   totalCount: 32,
-  columns: ['ID', '必殺技名稱', '變體', '威力', '動畫'],
-  searchField: (h) => String(h.id) + (h.name || '') + (h.variant || ''),
+  columns: ['ID', '必殺技名稱', '變體 / 怪物', '威力', '動畫'],
+  searchField: (h) => String(h.id) + (h.name || '') + (h.variant || '') + (h.monster_name || ''),
   getRowFields: (h) => [
     { value: '0x' + h.id.toString(16).toUpperCase().padStart(2, '0'), class: 'num' },
     { value: h.name || '?', class: h.kind === 'special' ? 'dim' : '' },
-    { value: h.variant || '?' },
+    { value: h.monster_name ? `${h.monster_name} (${h.monster_category || '?'})` : (h.variant || '?') },
     { value: h.power ?? '—', class: 'num atk' },
     { value: h.anim_id ?? '—', class: 'num' },
   ],
@@ -84,13 +99,18 @@ window.LIST_CONFIG = {
       ['ID', '0x' + h.id.toString(16).toUpperCase().padStart(2, '0')],
       ['必殺技名稱', h.name || '?'],
       ['變體 / 類型', h.variant || '?'],
-      ['類別 (kind)', h.kind === 'weapon' ? '8 武器類別主必殺' : '特殊類 (boss / 事件 / 怪物用)'],
+      ['類別 (kind)', h.kind === 'weapon' ? '8 武器類別主必殺' : '特殊類 (boss / 怪物專屬)'],
       ['威力 (power)', h.power ?? '?'],
       ['動畫 ID (sprite)', h.anim_id ?? '無 (0xFFFF)'],
       ['b1 內部碼', h.b1],
-      ['record offset', '0x' + h._offset.toString(16).toUpperCase().padStart(4, '0')],
-      ['record size', h._size + ' bytes'],
     ];
+    if (h.monster_id !== undefined) {
+      fields.push(['★ byte[16] 怪物 ID', '0x' + h.monster_id.toString(16).padStart(2, '0') + ' (' + h.monster_id + ')']);
+      fields.push(['★ 對應怪物', h.monster_name || '?']);
+      fields.push(['★ 怪物類別', h.monster_category || '?']);
+    }
+    fields.push(['record offset', '0x' + h._offset.toString(16).toUpperCase().padStart(4, '0')]);
+    fields.push(['record size', h._size + ' bytes']);
     for (const [label, value] of fields) {
       const div = window.el('div', null,
         window.el('b', null, label),

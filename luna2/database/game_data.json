@@ -19272,7 +19272,7 @@
     },
     {
       "id": 16,
-      "name": "(特殊類)",
+      "name": "不死之王的必殺技",
       "variant": "common",
       "kind": "special",
       "b1": 60,
@@ -19280,11 +19280,14 @@
       "power": 250,
       "_offset": 576,
       "_size": 36,
-      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）"
+      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）",
+      "monster_id": 99,
+      "monster_name": "不死之王",
+      "monster_category": "不死類"
     },
     {
       "id": 17,
-      "name": "(特殊類)",
+      "name": "死亡之龍的必殺技",
       "variant": "common",
       "kind": "special",
       "b1": 60,
@@ -19292,11 +19295,14 @@
       "power": 350,
       "_offset": 612,
       "_size": 36,
-      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）"
+      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）",
+      "monster_id": 106,
+      "monster_name": "死亡之龍",
+      "monster_category": "龍類"
     },
     {
       "id": 18,
-      "name": "(特殊類)",
+      "name": "赤龍的必殺技",
       "variant": "common",
       "kind": "special",
       "b1": 60,
@@ -19304,11 +19310,14 @@
       "power": 360,
       "_offset": 648,
       "_size": 36,
-      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）"
+      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）",
+      "monster_id": 107,
+      "monster_name": "赤龍",
+      "monster_category": "龍類"
     },
     {
       "id": 19,
-      "name": "(特殊類)",
+      "name": "青龍的必殺技",
       "variant": "common",
       "kind": "special",
       "b1": 60,
@@ -19316,11 +19325,14 @@
       "power": 360,
       "_offset": 684,
       "_size": 36,
-      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）"
+      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）",
+      "monster_id": 108,
+      "monster_name": "青龍",
+      "monster_category": "龍類"
     },
     {
       "id": 20,
-      "name": "(特殊類)",
+      "name": "火龍的必殺技",
       "variant": "common",
       "kind": "special",
       "b1": 60,
@@ -19328,11 +19340,14 @@
       "power": 360,
       "_offset": 720,
       "_size": 36,
-      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）"
+      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）",
+      "monster_id": 111,
+      "monster_name": "火龍",
+      "monster_category": "龍類"
     },
     {
       "id": 21,
-      "name": "(特殊類)",
+      "name": "那伽龍的必殺技",
       "variant": "common",
       "kind": "special",
       "b1": 60,
@@ -19340,11 +19355,14 @@
       "power": 370,
       "_offset": 756,
       "_size": 36,
-      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）"
+      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）",
+      "monster_id": 112,
+      "monster_name": "那伽龍",
+      "monster_category": "龍類"
     },
     {
       "id": 22,
-      "name": "(特殊類)",
+      "name": "火精靈的必殺技",
       "variant": "low_cost",
       "kind": "special",
       "b1": 15,
@@ -19352,11 +19370,14 @@
       "power": 100,
       "_offset": 792,
       "_size": 36,
-      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）"
+      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）",
+      "monster_id": 114,
+      "monster_name": "火精靈",
+      "monster_category": "元素精靈"
     },
     {
       "id": 23,
-      "name": "(特殊類)",
+      "name": "風精靈的必殺技",
       "variant": "low_cost",
       "kind": "special",
       "b1": 15,
@@ -19364,11 +19385,14 @@
       "power": 100,
       "_offset": 828,
       "_size": 36,
-      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）"
+      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）",
+      "monster_id": 115,
+      "monster_name": "風精靈",
+      "monster_category": "元素精靈"
     },
     {
       "id": 24,
-      "name": "(特殊類)",
+      "name": "水精靈的必殺技",
       "variant": "low_cost",
       "kind": "special",
       "b1": 15,
@@ -19376,11 +19400,14 @@
       "power": 100,
       "_offset": 864,
       "_size": 36,
-      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）"
+      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）",
+      "monster_id": 116,
+      "monster_name": "水精靈",
+      "monster_category": "元素精靈"
     },
     {
       "id": 25,
-      "name": "(特殊類)",
+      "name": "地精靈的必殺技",
       "variant": "low_cost",
       "kind": "special",
       "b1": 10,
@@ -19388,11 +19415,14 @@
       "power": 100,
       "_offset": 900,
       "_size": 36,
-      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）"
+      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）",
+      "monster_id": 118,
+      "monster_name": "地精靈",
+      "monster_category": "元素精靈"
     },
     {
       "id": 26,
-      "name": "(特殊類)",
+      "name": "貝利亞的必殺技",
       "variant": "common",
       "kind": "special",
       "b1": 60,
@@ -19400,11 +19430,14 @@
       "power": 500,
       "_offset": 936,
       "_size": 36,
-      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）"
+      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）",
+      "monster_id": 122,
+      "monster_name": "貝利亞",
+      "monster_category": "終局 Boss"
     },
     {
       "id": 27,
-      "name": "(特殊類)",
+      "name": "帕茲斯的必殺技",
       "variant": "common",
       "kind": "special",
       "b1": 60,
@@ -19412,11 +19445,14 @@
       "power": 500,
       "_offset": 972,
       "_size": 36,
-      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）"
+      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）",
+      "monster_id": 123,
+      "monster_name": "帕茲斯",
+      "monster_category": "終局 Boss"
     },
     {
       "id": 28,
-      "name": "(特殊類)",
+      "name": "共工的必殺技",
       "variant": "common",
       "kind": "special",
       "b1": 60,
@@ -19424,11 +19460,14 @@
       "power": 500,
       "_offset": 1008,
       "_size": 36,
-      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）"
+      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）",
+      "monster_id": 124,
+      "monster_name": "共工",
+      "monster_category": "終局 Boss"
     },
     {
       "id": 29,
-      "name": "(特殊類)",
+      "name": "酒吞童子的必殺技",
       "variant": "common",
       "kind": "special",
       "b1": 60,
@@ -19436,11 +19475,14 @@
       "power": 500,
       "_offset": 1044,
       "_size": 36,
-      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）"
+      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）",
+      "monster_id": 125,
+      "monster_name": "酒吞童子",
+      "monster_category": "終局 Boss"
     },
     {
       "id": 30,
-      "name": "(特殊類)",
+      "name": "魔王阿迦魯瑪的必殺技",
       "variant": "common",
       "kind": "special",
       "b1": 60,
@@ -19448,11 +19490,14 @@
       "power": 500,
       "_offset": 1080,
       "_size": 36,
-      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）"
+      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）",
+      "monster_id": 126,
+      "monster_name": "魔王阿迦魯瑪",
+      "monster_category": "終局 Boss"
     },
     {
       "id": 31,
-      "name": "(特殊類)",
+      "name": "提斯卡托的必殺技",
       "variant": "common",
       "kind": "special",
       "b1": 60,
@@ -19460,7 +19505,10 @@
       "power": 500,
       "_offset": 1116,
       "_size": 36,
-      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）"
+      "toni_note": "特殊類必殺技（推測：byte[2]=0xFF 標記，可能為 boss 專用或未啟用）",
+      "monster_id": 127,
+      "monster_name": "提斯卡托",
+      "monster_category": "終局 Boss"
     }
   ],
   "dungeons": [

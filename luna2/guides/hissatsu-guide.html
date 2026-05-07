@@ -224,15 +224,45 @@ power / STM_cost 比率（投資效率）：
 變體形態普遍比主形效率高 4-15%，但 STM 消耗也高 20-30。
 玩家初期 STM 不高時優先用主形；STM 練上去後切換變體。</p>
 
-<h2>🐲 怪物用必殺技（records 16-31）</h2>
+<h2>🐲 16 隻 boss 級怪物的專屬必殺技（records 16-31）</h2>
 
-<p>HISSATSU.MST 後半 16 records（id 16-31）是怪物 / 事件用的特殊類必殺技：</p>
+<p>HISSATSU.MST 後半 16 records（id 16-31）是<strong>每隻 boss 級怪物的專屬必殺技定義</strong>。byte[16] = 對應怪物 ID（MONSTER.DAT index）：</p>
+
+<table>
+<tr><th>HISSATSU id</th><th>byte[16]</th><th>怪物 ID</th><th>怪物名稱</th><th>類別</th></tr>
+<tr><td>16</td><td>0x63</td><td>99</td><td>不死之王</td><td>不死類</td></tr>
+<tr><td>17</td><td>0x6a</td><td>106</td><td>死亡之龍</td><td>龍類</td></tr>
+<tr><td>18</td><td>0x6b</td><td>107</td><td>赤龍</td><td>龍類</td></tr>
+<tr><td>19</td><td>0x6c</td><td>108</td><td>青龍</td><td>龍類</td></tr>
+<tr><td>20</td><td>0x6f</td><td>111</td><td>火龍</td><td>龍類</td></tr>
+<tr><td>21</td><td>0x70</td><td>112</td><td>那伽龍</td><td>龍類</td></tr>
+<tr><td>22</td><td>0x72</td><td>114</td><td>火精靈</td><td>元素精靈</td></tr>
+<tr><td>23</td><td>0x73</td><td>115</td><td>風精靈</td><td>元素精靈</td></tr>
+<tr><td>24</td><td>0x74</td><td>116</td><td>水精靈</td><td>元素精靈</td></tr>
+<tr><td>25</td><td>0x76</td><td>118</td><td>地精靈</td><td>元素精靈</td></tr>
+<tr><td>26</td><td>0x7a</td><td>122</td><td>貝利亞</td><td>終局 Boss</td></tr>
+<tr><td>27</td><td>0x7b</td><td>123</td><td>帕茲斯</td><td>終局 Boss</td></tr>
+<tr><td>28</td><td>0x7c</td><td>124</td><td>共工</td><td>終局 Boss</td></tr>
+<tr><td>29</td><td>0x7d</td><td>125</td><td>酒吞童子</td><td>終局 Boss</td></tr>
+<tr><td>30</td><td>0x7e</td><td>126</td><td>魔王阿迦魯瑪</td><td>終局 Boss</td></tr>
+<tr><td>31</td><td>0x7f</td><td>127</td><td>提斯卡托</td><td>終局 Boss</td></tr>
+</table>
+
+<p><strong>分類統計</strong>：</p>
 <ul>
-<li><strong>12 個 common</strong>（id 16-21, 26-31）：b1=60，威力 250-500，無動畫（b2-3 = 0xFFFF）</li>
-<li><strong>4 個 low_cost</strong>（id 22-25）：b1=15 或 10，威力 100，特殊低消耗（可能事件用 / 自動觸發）</li>
+<li><strong>1 隻不死類</strong>（不死之王 ID 99）— 受神聖系魔法弱點</li>
+<li><strong>5 條龍類</strong>（死亡 / 赤 / 青 / 火 / 那伽，ID 106-112）— 各有屬性弱點</li>
+<li><strong>4 個元素精靈</strong>（火 / 風 / 水 / 地，ID 114-118）— 互剋元素</li>
+<li><strong>6 隻終局 Boss</strong>（貝利亞 / 帕茲斯 / 共工 / 酒吞童子 / 魔王阿迦魯瑪 / 提斯卡托，ID 122-127）— Lv 50 全 HP 999</li>
 </ul>
 
-<p>怪物使用這些必殺技時，怪物資料庫的「必殺技 O/X」欄位會標 O。
+<p><strong>STM 消耗 pattern</strong>：</p>
+<ul>
+<li><strong>12 個 common</strong>（id 16-21, 26-31）：b1=60，威力 250-500，無動畫（b2-3 = 0xFFFF）</li>
+<li><strong>4 個 low_cost</strong>（id 22-25 = 4 元素精靈）：b1=15 或 10，威力 100，元素精靈快攻特性</li>
+</ul>
+
+<p>怪物使用這些必殺技時，<a href="../database/monsters.html">怪物資料庫</a>的「必殺技 O/X」欄位會標 O。
 本站<a href="../database/hissatsu.html">必殺技資料庫</a>有 32 records 完整列表 + parser 結構。</p>
 
 <h2>🎯 玩家路線建議</h2>
@@ -253,8 +283,11 @@ byte 0:    record id (0-31)
 byte 1:    變體碼 / 推測 STM 消耗（待遊戲內實測）
 byte 2-3:  u16 LE 動畫 sprite ID（records 16-31 = 0xFFFF 無動畫）
 byte 4-5:  u16 LE power（威力值）
-byte 6-7:  u16 LE flags（per-技 multi-bit flag，意義待 LUNA2.EXE 反組譯）
-byte 8-35: 28 bytes 細部設定 + padding
+byte 6-7:  u16 LE flags（per-技 multi-bit flag）
+byte 8-9:  u16 LE secondary power（暴擊 / 連擊 power）
+byte 10-15: 細部設定（specials 用作冷卻時間 / AOE 範圍）
+byte 16:   ★ 怪物 ID lookup（records 16-31 對應 MONSTER.DAT index）
+byte 17-35: 19 bytes 細部設定 + padding
 </div>
 
 <p>parser 程式：<code><a href="https://github.com/toniLiuMVP/LunaticDawn/blob/main/tools/extract/cross_validate_monsters.py">tools/extract/</a></code> 內。</p>
