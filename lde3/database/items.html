@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第三之書 · 道具列表 · 吟遊詩人的傳說</title>
+<meta name="description" content="俠客遊：第三之書 道具列表 — 215 個遊戲內可拾取的道具 / 武器 / 防具 / 卡片 / 神器名稱（依 ID 排序，含搜尋）。">
+<link rel="stylesheet" href="../../assets/css/fonts-retro.css">
+<link rel="stylesheet" href="../../assets/css/retro.css">
+<meta property="og:type" content="website">
+<meta property="og:title" content="第三之書 · 道具列表">
+<meta property="og:description" content="俠客遊：第三之書 215 個道具名稱（依 ID 排序）。">
+<meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/lde3/database/items.html">
+<meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
+<meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
+<style>
+.toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 16px 0; padding: 12px; border: 1px solid var(--phosphor-dim); background: var(--bg-panel); }
+.toolbar input, .toolbar select { background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-dim); padding: 6px 10px; font-family: 'VT323', monospace; font-size: 18px; }
+.toolbar input:focus, .toolbar select:focus { outline: none; border-color: var(--amber); }
+.toolbar label { color: var(--phosphor-dim); font-size: 16px; }
+.toolbar .count { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 12px; margin-left: auto; }
+.items-table { width: 100%; border-collapse: collapse; font-size: 16px; }
+.items-table th, .items-table td { border: 1px solid var(--phosphor-fade); padding: 6px 10px; text-align: left; }
+.items-table th { background: var(--bg-panel); color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 11px; position: sticky; top: 0; z-index: 10; }
+.items-table .num { text-align: right; font-family: 'Courier New', monospace; color: var(--phosphor-fade); }
+.items-table tbody tr:hover { background: rgba(0, 255, 65, 0.06); }
+.notice { padding: 12px 16px; background: rgba(255,176,0,0.08); border-left: 3px solid var(--amber); margin: 16px 0; font-size: 14px; color: var(--phosphor-dim); line-height: 1.7; }
+.range-tabs { display: flex; gap: 4px; flex-wrap: wrap; margin: 12px 0; }
+.range-tab { padding: 4px 12px; font-family: 'VT323', monospace; font-size: 16px; cursor: pointer; border: 1px solid var(--phosphor-dim); background: var(--bg-panel); color: var(--phosphor-dim); }
+.range-tab:hover { color: var(--phosphor); border-color: var(--phosphor); }
+.range-tab.active { color: var(--amber); border-color: var(--amber); background: rgba(255,176,0,0.08); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="pixel">第三之書 · 道具列表</h1>
+      <nav>
+        <a href="index.html">← 資料庫首頁</a>
+        ·
+        <a href="../guides/">攻略總覽</a>
+        ·
+        <a href="../modifier.html">修改器</a>
+        ·
+        <a href="../../">回主站</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="notice">
+    <strong>第三之書 道具列表</strong>（215 筆，依 ID 排序）
+    <br><br>
+    <strong>內容</strong>：遊戲內可拾取 / 購買 / 任務取得的道具名稱，依數值 ID 排序。包括武器、護具、消耗品、特殊卡片、神器、任務道具。
+    <br><br>
+    <strong>用途</strong>：玩家撞名 / 翻譯對照 / 收集進度查詢。完整 JSON 在 <a href="items.json">items.json</a>。
+    <br><br>
+    <strong>合規說明</strong>：道具名稱屬遊戲事實層內容（玩家於商店、寶箱、道具欄即可看見），依日本著作權法第 2 條僅創作性表現受保護，事實名稱不在保護範圍。
+  </div>
+
+  <div class="toolbar">
+    <label for="search">搜尋:</label>
+    <input id="search" type="search" placeholder="輸入名稱或 ID...">
+    <span class="count" id="count">— / 215</span>
+  </div>
+
+  <div class="range-tabs" id="range-tabs"></div>
+
+  <div id="content"><div style="padding: 40px; text-align: center; color: var(--phosphor-dim);">載入中...</div></div>
+</div>
+
+<script>
+let allItems = null;
+let activeRange = 'all';
+
+async function load() {
+  const r = await fetch('items.json');
+  const data = await r.json();
+  allItems = data.items;
+  buildRangeTabs();
+  render();
+}
+
+function buildRangeTabs() {
+  const tabs = document.getElementById('range-tabs');
+  while (tabs.firstChild) tabs.removeChild(tabs.firstChild);
+
+  const ranges = [
+    { key: 'all', label: '全部 (215)', test: () => true },
+    { key: '0-49', label: 'ID 0-49', test: it => it.id < 50 },
+    { key: '50-99', label: 'ID 50-99', test: it => it.id >= 50 && it.id < 100 },
+    { key: '100-149', label: 'ID 100-149', test: it => it.id >= 100 && it.id < 150 },
+    { key: '150-199', label: 'ID 150-199', test: it => it.id >= 150 && it.id < 200 },
+    { key: '200-249', label: 'ID 200-249', test: it => it.id >= 200 && it.id < 250 },
+    { key: '250-299', label: 'ID 250-299', test: it => it.id >= 250 && it.id < 300 },
+    { key: '300-349', label: 'ID 300-349', test: it => it.id >= 300 && it.id < 350 },
+    { key: '350-399', label: 'ID 350-399', test: it => it.id >= 350 && it.id < 400 },
+    { key: '400-449', label: 'ID 400-449', test: it => it.id >= 400 && it.id < 450 },
+    { key: '450-499', label: 'ID 450-499', test: it => it.id >= 450 },
+  ];
+
+  for (const r of ranges) {
+    const count = allItems.filter(r.test).length;
+    if (count === 0) continue;
+    const tab = document.createElement('span');
+    tab.className = 'range-tab' + (r.key === activeRange ? ' active' : '');
+    tab.textContent = `${r.label} (${count})`;
+    tab.addEventListener('click', () => {
+      activeRange = r.key;
+      const allTabs = document.querySelectorAll('.range-tab');
+      for (const t of allTabs) t.classList.remove('active');
+      tab.classList.add('active');
+      render();
+    });
+    tabs.appendChild(tab);
+  }
+}
+
+function render() {
+  const content = document.getElementById('content');
+  while (content.firstChild) content.removeChild(content.firstChild);
+
+  const search = document.getElementById('search').value.trim().toLowerCase();
+  let filtered = allItems;
+
+  // Range filter
+  if (activeRange !== 'all') {
+    const [lo, hi] = activeRange.split('-').map(Number);
+    filtered = filtered.filter(it => it.id >= lo && it.id <= hi);
+  }
+
+  // Search filter
+  if (search) {
+    filtered = filtered.filter(it =>
+      it.name.toLowerCase().includes(search) || String(it.id).includes(search)
+    );
+  }
+
+  // Sort by ID
+  filtered.sort((a, b) => a.id - b.id);
+
+  document.getElementById('count').textContent = `${filtered.length} / ${allItems.length}`;
+
+  // Build table
+  const table = document.createElement('table');
+  table.className = 'items-table';
+
+  const thead = document.createElement('thead');
+  const trHead = document.createElement('tr');
+  for (const h of ['ID', '道具名稱']) {
+    const th = document.createElement('th');
+    th.textContent = h;
+    trHead.appendChild(th);
+  }
+  thead.appendChild(trHead);
+  table.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+  for (const it of filtered) {
+    const tr = document.createElement('tr');
+    const tdId = document.createElement('td');
+    tdId.className = 'num';
+    tdId.textContent = it.id;
+    const tdName = document.createElement('td');
+    tdName.textContent = it.name;
+    tr.appendChild(tdId);
+    tr.appendChild(tdName);
+    tbody.appendChild(tr);
+  }
+  table.appendChild(tbody);
+  content.appendChild(table);
+}
+
+document.getElementById('search').addEventListener('input', render);
+
+load().catch(e => {
+  const err = document.createElement('div');
+  err.className = 'notice';
+  err.style.color = 'var(--danger, #ff6666)';
+  err.textContent = '載入錯誤：' + e.message;
+  document.getElementById('content').textContent = '';
+  document.getElementById('content').appendChild(err);
+});
+</script>
+</body>
+</html>

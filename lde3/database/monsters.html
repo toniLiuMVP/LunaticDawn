@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第三之書 · 怪物列表 · 吟遊詩人的傳說</title>
+<meta name="description" content="俠客遊：第三之書 怪物列表 — 15 大類 × 5 種，共 75 個怪物名稱（依族群分類，含搜尋）。">
+<link rel="stylesheet" href="../../assets/css/fonts-retro.css">
+<link rel="stylesheet" href="../../assets/css/retro.css">
+<meta property="og:type" content="website">
+<meta property="og:title" content="第三之書 · 怪物列表">
+<meta property="og:description" content="俠客遊：第三之書 75 個怪物名稱（15 族群分類）。">
+<meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/lde3/database/monsters.html">
+<meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
+<meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
+<style>
+.toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 16px 0; padding: 12px; border: 1px solid var(--phosphor-dim); background: var(--bg-panel); }
+.toolbar input { background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-dim); padding: 6px 10px; font-family: 'VT323', monospace; font-size: 18px; }
+.toolbar input:focus { outline: none; border-color: var(--amber); }
+.toolbar label { color: var(--phosphor-dim); font-size: 16px; }
+.toolbar .count { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 12px; margin-left: auto; }
+.notice { padding: 12px 16px; background: rgba(255,176,0,0.08); border-left: 3px solid var(--amber); margin: 16px 0; font-size: 14px; color: var(--phosphor-dim); line-height: 1.7; }
+.cat-section { margin: 20px 0; padding: 14px; background: var(--bg-panel); border: 1px solid var(--phosphor-fade); }
+.cat-title { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 13px; margin: 0 0 12px; display: flex; align-items: baseline; gap: 12px; }
+.cat-num { color: var(--phosphor-fade); font-size: 11px; }
+.monster-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
+.monster-item { background: var(--bg-input); padding: 8px 14px; font-size: 16px; color: var(--phosphor); border: 1px solid var(--phosphor-fade); border-radius: 2px; }
+.monster-item.first { border-color: var(--amber); background: rgba(255,176,0,0.08); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="pixel">第三之書 · 怪物列表</h1>
+      <nav>
+        <a href="index.html">← 資料庫首頁</a>
+        ·
+        <a href="items.html">道具列表</a>
+        ·
+        <a href="../guides/">攻略總覽</a>
+        ·
+        <a href="../../">回主站</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="notice">
+    <strong>第三之書 怪物列表</strong>（15 族群 × 5 種，共 75 筆）
+    <br><br>
+    <strong>結構</strong>：每個族群有 1 個族群代表（金色框）+ 4 個同族變體，遵循 1990 年代 RPG 的「同族繼承外觀」設計（同族共享 sprite 但戰鬥屬性不同）。
+    <br><br>
+    <strong>用途</strong>：玩家撞名 / 翻譯對照 / 戰鬥準備（同族通常有相似弱點）。完整 JSON 在 <a href="monsters.json">monsters.json</a>。
+    <br><br>
+    <strong>合規說明</strong>：怪物名稱屬遊戲事實層內容（玩家於戰鬥中即可看見），依日本著作權法第 2 條僅創作性表現受保護，事實名稱不在保護範圍。
+  </div>
+
+  <div class="toolbar">
+    <label for="search">搜尋:</label>
+    <input id="search" type="search" placeholder="輸入怪物名稱...">
+    <span class="count" id="count">15 族群 / 75 怪物</span>
+  </div>
+
+  <div id="content"><div style="padding: 40px; text-align: center; color: var(--phosphor-dim);">載入中...</div></div>
+</div>
+
+<script>
+let allData = null;
+
+async function load() {
+  const r = await fetch('monsters.json');
+  allData = await r.json();
+  render();
+}
+
+function render() {
+  const content = document.getElementById('content');
+  while (content.firstChild) content.removeChild(content.firstChild);
+
+  const search = document.getElementById('search').value.trim().toLowerCase();
+  let totalShown = 0;
+  let catShown = 0;
+
+  for (const cat of allData.categories) {
+    const matched = search
+      ? cat.monsters.filter(m => m.name.toLowerCase().includes(search))
+      : cat.monsters;
+    if (matched.length === 0) continue;
+
+    catShown++;
+    totalShown += matched.length;
+
+    const section = document.createElement('div');
+    section.className = 'cat-section';
+
+    const title = document.createElement('div');
+    title.className = 'cat-title';
+    const titleText = document.createTextNode(`[ 族群 ${cat.category_index} · ${cat.category_name} ]`);
+    title.appendChild(titleText);
+    const num = document.createElement('span');
+    num.className = 'cat-num';
+    num.textContent = `${matched.length} 種`;
+    title.appendChild(num);
+    section.appendChild(title);
+
+    const grid = document.createElement('div');
+    grid.className = 'monster-grid';
+    matched.forEach((m, idx) => {
+      const item = document.createElement('div');
+      item.className = 'monster-item' + (idx === 0 && !search ? ' first' : '');
+      item.textContent = m.name;
+      grid.appendChild(item);
+    });
+    section.appendChild(grid);
+    content.appendChild(section);
+  }
+
+  document.getElementById('count').textContent =
+    search ? `${catShown} 族群 / ${totalShown} 隻符合` : `${allData.total_categories} 族群 / ${allData.total_monsters} 隻`;
+}
+
+document.getElementById('search').addEventListener('input', render);
+
+load().catch(e => {
+  const err = document.createElement('div');
+  err.className = 'notice';
+  err.style.color = 'var(--danger, #ff6666)';
+  err.textContent = '載入錯誤：' + e.message;
+  document.getElementById('content').textContent = '';
+  document.getElementById('content').appendChild(err);
+});
+</script>
+</body>
+</html>

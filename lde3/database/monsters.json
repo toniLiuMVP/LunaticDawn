@@ -1,0 +1,321 @@
+{
+ "total_categories": 15,
+ "total_monsters": 75,
+ "categories": [
+  {
+   "category_index": 0,
+   "category_name": "亂數",
+   "monsters": [
+    {
+     "name": "亂數"
+    },
+    {
+     "name": "老鼠"
+    },
+    {
+     "name": "蝙蝠"
+    },
+    {
+     "name": "毒蝙蝠"
+    },
+    {
+     "name": "吸血蝙蝠"
+    }
+   ]
+  },
+  {
+   "category_index": 1,
+   "category_name": "蟑螂",
+   "monsters": [
+    {
+     "name": "蟑螂"
+    },
+    {
+     "name": "蜘蛛"
+    },
+    {
+     "name": "毒蜘蛛"
+    },
+    {
+     "name": "蝗蟲"
+    },
+    {
+     "name": "蠍子"
+    }
+   ]
+  },
+  {
+   "category_index": 2,
+   "category_name": "蛾",
+   "monsters": [
+    {
+     "name": "蛾"
+    },
+    {
+     "name": "植物"
+    },
+    {
+     "name": "蛇"
+    },
+    {
+     "name": "毒蛇"
+    },
+    {
+     "name": "魚"
+    }
+   ]
+  },
+  {
+   "category_index": 3,
+   "category_name": "海龍",
+   "monsters": [
+    {
+     "name": "海龍"
+    },
+    {
+     "name": "土精靈"
+    },
+    {
+     "name": "肉人"
+    },
+    {
+     "name": "史萊姆"
+    },
+    {
+     "name": "哥布林"
+    }
+   ]
+  },
+  {
+   "category_index": 4,
+   "category_name": "柯柏爾特",
+   "monsters": [
+    {
+     "name": "柯柏爾特"
+    },
+    {
+     "name": "歐克"
+    },
+    {
+     "name": "貓男"
+    },
+    {
+     "name": "狼男"
+    },
+    {
+     "name": "虎男"
+    }
+   ]
+  },
+  {
+   "category_index": 5,
+   "category_name": "牛男",
+   "monsters": [
+    {
+     "name": "牛男"
+    },
+    {
+     "name": "天狗"
+    },
+    {
+     "name": "烏天狗"
+    },
+    {
+     "name": "鼻高天狗"
+    },
+    {
+     "name": "梅杜莎"
+    }
+   ]
+  },
+  {
+   "category_index": 6,
+   "category_name": "蛇女",
+   "monsters": [
+    {
+     "name": "蛇女"
+    },
+    {
+     "name": "特洛魯"
+    },
+    {
+     "name": "巨人"
+    },
+    {
+     "name": "鬼"
+    },
+    {
+     "name": "木人"
+    }
+   ]
+  },
+  {
+   "category_index": 7,
+   "category_name": "石人",
+   "monsters": [
+    {
+     "name": "石人"
+    },
+    {
+     "name": "鐵人"
+    },
+    {
+     "name": "骸骨"
+    },
+    {
+     "name": "杜拉漢"
+    },
+    {
+     "name": "木乃伊"
+    }
+   ]
+  },
+  {
+   "category_index": 8,
+   "category_name": "殭屍(活死人)",
+   "monsters": [
+    {
+     "name": "殭屍(活死人)"
+    },
+    {
+     "name": "古魯"
+    },
+    {
+     "name": "殭屍"
+    },
+    {
+     "name": "鬼魂"
+    },
+    {
+     "name": "雷伊斯"
+    }
+   ]
+  },
+  {
+   "category_index": 9,
+   "category_name": "精神體",
+   "monsters": [
+    {
+     "name": "精神體"
+    },
+    {
+     "name": "邦西"
+    },
+    {
+     "name": "尼恩夫"
+    },
+    {
+     "name": "鬼火"
+    },
+    {
+     "name": "騷靈"
+    }
+   ]
+  },
+  {
+   "category_index": 10,
+   "category_name": "目玉",
+   "monsters": [
+    {
+     "name": "目玉"
+    },
+    {
+     "name": "米米克"
+    },
+    {
+     "name": "吸血鬼"
+    },
+    {
+     "name": "死神"
+    },
+    {
+     "name": "夢魔"
+    }
+   ]
+  },
+  {
+   "category_index": 11,
+   "category_name": "史普利坎",
+   "monsters": [
+    {
+     "name": "史普利坎"
+    },
+    {
+     "name": "加哥伊爾"
+    },
+    {
+     "name": "撒旦"
+    },
+    {
+     "name": "蜥蜴人"
+    },
+    {
+     "name": "龍紐特"
+    }
+   ]
+  },
+  {
+   "category_index": 12,
+   "category_name": "鳥人",
+   "monsters": [
+    {
+     "name": "鳥人"
+    },
+    {
+     "name": "赫爾郝德"
+    },
+    {
+     "name": "加魯姆"
+    },
+    {
+     "name": "狐"
+    },
+    {
+     "name": "鐮鼬"
+    }
+   ]
+  },
+  {
+   "category_index": 13,
+   "category_name": "瓦伊邦",
+   "monsters": [
+    {
+     "name": "瓦伊邦"
+    },
+    {
+     "name": "死龍"
+    },
+    {
+     "name": "紅龍"
+    },
+    {
+     "name": "藍龍"
+    },
+    {
+     "name": "白龍"
+    }
+   ]
+  },
+  {
+   "category_index": 14,
+   "category_name": "綠龍",
+   "monsters": [
+    {
+     "name": "綠龍"
+    },
+    {
+     "name": "史芬克斯"
+    },
+    {
+     "name": "阿茲可"
+    },
+    {
+     "name": "古力風"
+    },
+    {
+     "name": "恐龍"
+    }
+   ]
+  }
+ ]
+}
