@@ -65,12 +65,39 @@
   <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/npc-companions.html</loc><priority>0.6</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/quest-system.html</loc><priority>0.6</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/modifier-tutorial.html</loc><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/database/</loc><priority>0.7</priority></url>
 
-  <!-- 未來之書 (1998) — 獨立子站 -->
+  <!-- 未來之書 (1998) — 獨立子站 + 25 篇 BBS 攻略 -->
   <url><loc>https://toniliumvp.github.io/LunaticDawn/book/</loc><priority>0.7</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/book/cheats.html</loc><priority>0.6</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/book/getting-started.html</loc><priority>0.6</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/book/hidden-characters.html</loc><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/</loc><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/all.html</loc><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/mission.html</loc><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/weapon.html</loc><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/thing.html</loc><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/man.html</loc><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/enemy.html</loc><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/enemy2.html</loc><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/special.html</loc><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/special2.html</loc><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/jc-dung.html</loc><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/jc-map.html</loc><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/god.html</loc><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/king.html</loc><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/supergod.html</loc><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/w-test-1.html</loc><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/w-test-2.html</loc><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/bard.html</loc><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/singer.html</loc><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/leader.html</loc><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/guard.html</loc><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/big-guy.html</loc><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/ginlin.html</loc><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/new.html</loc><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/afterply.html</loc><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/bbs-1.html</loc><priority>0.6</priority></url>
 
   <!-- 俠客遊 III 密技 -->
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna3/</loc><priority>0.6</priority></url>

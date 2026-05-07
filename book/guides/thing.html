@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>物品 / 道具大全 · 吟遊詩人的傳說</title>
+<meta name="description" content="未來之書物品 / 道具完整列表，含價格 / 攻擊力 / 防禦力等屬性。">
+<link rel="stylesheet" href="../../assets/css/fonts-wuxia.css">
+<link rel="stylesheet" href="../../assets/css/wuxia.css">
+<style>
+.guide-content {
+  white-space: pre-wrap;
+  font-family: "Noto Sans TC", sans-serif;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--phosphor);
+  background: var(--bg-input);
+  padding: 16px;
+  border: 1px solid var(--phosphor-fade);
+  margin: 16px 0;
+  overflow-x: auto;
+  max-width: 100%;
+  word-wrap: break-word;
+}
+</style>
+<meta property="og:type" content="website">
+<meta property="og:title" content="物品 / 道具大全 · 吟遊詩人的傳說">
+<meta property="og:description" content="未來之書物品 / 道具完整列表，含價格 / 攻擊力 / 防禦力等屬性。">
+<meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/book/guides/thing.html">
+<meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
+<meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
+</head>
+<body>
+<div class="wrap">
+
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <h1 class="pixel">物品 / 道具大全</h1>
+      <div class="header-sub">武器 / 防具 / 消耗品 完整列表</div>
+    </div>
+    <div class="header-sub header-right">
+      <div><a href="./">◀ 攻略總覽</a></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="breadcrumb">
+  <a href="../../">吟遊詩人的傳說</a> /
+  <a href="../">未來之書</a> /
+  <a href="./">攻略</a> /
+  <span class="dim">物品 / 道具大全</span>
+</div>
+
+<section class="panel">
+  <h2 class="panel-title">[ ABOUT ]</h2>
+  <p class="amber">未來之書物品 / 道具完整列表，含價格 / 攻擊力 / 防禦力等屬性。</p>
+  <p class="muted">原始 TXT：<code>THING.TXT</code> · BBS 時代社群整理 · 2026 toni 整合</p>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 內容 ]</h2>
+  <div class="guide-content">●俠客遊.未來之書－物品修改資料
+
+ 0000h: ↓ ** ** **  ↓ ** ** ** | ** ** ** **  ** ** ** **
+	物品編號     名稱
+ 0010h: ** ** ** **  00 00 00 00 | 00 00 00 00  00 00 00 00
+
+ 0020h: 00 00 00 00  00 00 00 00 | ↓ ** ** **  ↓ ** ** **
+ 				   攻擊/防禦力	來源或魔性
+ 0030h: ↓ ** ** **  ↓ ** ** ** | 00 00 00 00  ↓ ** ** **
+	功能   	     佩戴部位    		價錢
+ 0040h: ↓ ** ** **  ↓ ** ** ** | ↓ ** ** **  ↓ ** ** **
+	不明，只有妖精之劍為9	   攻擊範圍	攻擊速度
+ 0050h: ↓ ** ** **  ↓ ** ** ** | ↓ ** ** **  ↓ ** ** **
+	命中率	     致命一擊率	   單次殺傷力	防禦力
+ 0060h: ↓ ** ** **  ↓ ** ** ** | ↓ ** ** **  ↓ ** ** ** 
+	強化程度     強化極限	   秩序魔法1	混亂魔法1
+ 0070h: ↓ ** ** **  ↓ ** ** ** | ↓ ** ** **  ↓ ** ** ** 
+	善魔法1      惡魔法1	   秩序魔法2	混亂魔法2
+ 0080h: ↓ ** ** **  ↓ ** ** ** | ↓ ** ** **  ↓ ** ** ** 
+	善魔法2      惡魔法2	   提升之STR	提升之INT
+ 0090h: ↓ ** ** **  ↓ ** ** ** | 00 00 00 00  ↓ ** ** ** 
+	提升之SPD    提升之CHG	   		智慧戒指=2
+ 00a0h: ↓ ** ** **  00 00 00 00 | 00 00 00 00  ↓ ** ** **
+	int限制					
+ 00b0h: ↓ ** ** **  ↓ ** ** ** | ↓ ** ** **  ↓ ** ** ** 
+	對敵效果     對己效果	   正式隊友效果 臨時隊友效果
+ 00c0h: ↓ ** ** **  ↓ ** ** ** | ↓ ** ** **  ↓ ** ** ** 
+	用後消失機率 秩序加成效果  混亂加成效果	善加成效果
+ 00d0h: ↓ ** ** **  ↓ ** ** ** | ↓ ** ** **  ↓ ** ** ** 
+	惡加成效果   特殊物品欄
+
+－消失後的物品編號為-1，改回原編號則物品重現
+
+－改變名稱不影響功能
+
+－0028視物品種類而定，武器大都為攻擊力，防具為防禦力，魔
+  法則為種類
+
+－002c為物品來源或魔性，0-秩序，1-混亂，2-善，3-惡，4-妖
+  精王國
+
+－0030為物品功能，0-肉搏或輕兵器，1-重兵器，2-槍叉，3-射
+  擊， 10-盾牌， 20-頭盔， 30-鎧甲， 40∼46-四種國王象徵
+  物與特別佩戴物， 50-魔法， 60-返老丸與三種寶珠， 70-乳
+  酪陳年美酒等購買物品，80∼110-藥丸，120-復活用寶物，
+  130∼170- 迷宮用品
+
+－0034為佩戴部位，0-肉搏攻擊（大部分是怪物攻擊法），1-單
+  手，2-雙手， 10-盾牌， 20-頭盔，30-鎧甲，40-特別佩戴物
+
+－四種魔法各有兩個值，應該分別為攻擊與防禦用
+
+－00ac應與武器的使用效果（聲音、戰鬥姿勢）或有效範圍有關
+
+－可以使用的物品00c0都是100(64h)，只有曼多拉藥草與螢光燈
+  為5
+
+－若特殊物品則00d4=1，但三個宗師裝備的六項武器防具，和妖
+  精國物品為0
+</div>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ NAVIGATION ]</h2>
+  <p>
+    <a href="./">◀ 攻略總覽</a> ·
+    <a href="../">▸ 未來之書索引</a> ·
+    <a href="../../">▸ 主站</a>
+  </p>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div>所有 BBS 時代原創內容版權屬於各原作者。本站由 toni 整理重建，作為數位文化遺產保存。</div>
+  <div class="footer-big">｢ 吟遊詩人的傳說 · 俠客遊 LUNATIC DAWN ｣</div>
+  <div>
+    <a href="../../">◀ 主站</a> ·
+    <a href="https://github.com/toniLiuMVP/LunaticDawn" target="_blank" rel="noopener">GitHub</a> ·
+    維護：toni
+  </div>
+</footer>
+
+</div>
+</body>
+</html>

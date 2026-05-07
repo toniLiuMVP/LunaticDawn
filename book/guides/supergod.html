@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>超神事件 · 吟遊詩人的傳說</title>
+<meta name="description" content="未來之書終極事件「超神」攻略：條件嚴苛但獎勵驚人。">
+<link rel="stylesheet" href="../../assets/css/fonts-wuxia.css">
+<link rel="stylesheet" href="../../assets/css/wuxia.css">
+<style>
+.guide-content {
+  white-space: pre-wrap;
+  font-family: "Noto Sans TC", sans-serif;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--phosphor);
+  background: var(--bg-input);
+  padding: 16px;
+  border: 1px solid var(--phosphor-fade);
+  margin: 16px 0;
+  overflow-x: auto;
+  max-width: 100%;
+  word-wrap: break-word;
+}
+</style>
+<meta property="og:type" content="website">
+<meta property="og:title" content="超神事件 · 吟遊詩人的傳說">
+<meta property="og:description" content="未來之書終極事件「超神」攻略：條件嚴苛但獎勵驚人。">
+<meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/book/guides/supergod.html">
+<meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
+<meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
+</head>
+<body>
+<div class="wrap">
+
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <h1 class="pixel">超神事件</h1>
+      <div class="header-sub">終極 boss + 隱藏結局</div>
+    </div>
+    <div class="header-sub header-right">
+      <div><a href="./">◀ 攻略總覽</a></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="breadcrumb">
+  <a href="../../">吟遊詩人的傳說</a> /
+  <a href="../">未來之書</a> /
+  <a href="./">攻略</a> /
+  <span class="dim">超神事件</span>
+</div>
+
+<section class="panel">
+  <h2 class="panel-title">[ ABOUT ]</h2>
+  <p class="amber">未來之書終極事件「超神」攻略：條件嚴苛但獎勵驚人。</p>
+  <p class="muted">原始 TXT：<code>SUPERGOD.TXT</code> · BBS 時代社群整理 · 2026 toni 整合</p>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 內容 ]</h2>
+  <div class="guide-content">●俠客遊.未來之書: 超神一族
+
+  這是小弟應用前面兩篇資料的修改範例，因為是實測過，所以
+把實際的資料附上，讓同好們方便比對。
+
+●準備工作
+
+1.創造世界：保持平均（好像剛灌好遊戲不要改變設定，直接創
+  造新世界的結果都會一樣，連每個迷宮所在的城市都可以用小
+  弟先前畫的那個地圖）
+
+2.選擇人物：10∼20歲，男魔法師，中津國(有灣岸都市那個，剛
+  開始送貨近)
+	→彬彬有禮的 郭 勺光
+  輸入名字、外號、出生日期
+	→jesse、超美形的、2月20日(為了妖精之國)
+  選擇人物造型：...
+
+3.調好你的視窗，設定遊戲速度，脫下全部裝備，去旅舍睡個14
+  天後存檔
+
+4.找到人物位置 (我常用Uedit或FPE)
+％建議位置(位置為16進位)
+ 00: 編號
+ 08: 姓名			&lt;-- 出現次數太多，不好找
+ 11: 外號			&lt;-- Uedit找這個比較快
+ e0: 錢				&lt;-- 很好找，用8 byte更快
+14c: HP, MP, MaxHP, MaxMP	&lt;-- FPE找這個比較快，用個恩惠符就好了
+
+1d4是第一個物品的編號，下4 byte是名稱，每個物品長度d8
+
+●●●● 修改範例(Ⅰ) ●●●●
+jesse曰：
+－最好連名稱一起改，否則會不小心賣掉
+－記得照下面順序先輸入low byte，再輸入high byte
+
+▲測敵 木棍：就選一開始就有的那個
+  攻擊範圍	48		= 06
+  命中		50		= 64
+  攻擊力	58		= e7 03 (有死亡玉的殺傷力，帥吧？)
+  使用效果	b4		= 0c 00 00 00 (可測敵，原為ff ff ff ff)
+
+▲尋寶 紙甲：就選一開始就有的那個
+  防禦力	5c		= e7 03 (不要大意, 挨一下還是會HP -1)
+  魔法屬性	68, 6c,..., 84	= 5a, 5a,..., 5a (連續兩行)
+  屬性提升	88, 8c, 90, 9c	= 5a, 5a, 5a, 5a (連續一行)
+  使用效果	b4		= 0d 00 00 00 (可尋寶，原為ff ff ff ff)
+  屬性加成效果	c4, c8, cc, d0	= 0a, 0a, 0a, 0a
+
+▲好用的 復力丹: 一開始有一個
+  使用效果	b0, b4, b8, bc	= 09, 09, 09, 09 （原06, 改為滿力丹）
+  用後消失機率	c0		= 00  （用不完）
+
+％直接買個滿力丹，就只要改c0，比較好用(因為有時候MP不足，但電腦不會自
+  動以復力丹幫隊友補MP)
+
+▲不熄的 燈籠：一開始有一個
+  用後消失機率	c0		= 00  （用不壞）
+
+％最後記得把超神裝備戴上去
+
+jesse曰
+：開始慢慢的送貨吧。什麼？連＄都一起改了？第一次玩的人不要這樣啦...
+
+
+●●●● 修改範例(Ⅱ) ●●●●
+
+迷宮走累了嗎？同伴死掉了嗎？到寺院買個恩惠符和安寧符，組隊逛迷宮時，
+下面兩個東東很有用
+
+▲脫離 恩惠符: 初期賣出價$357
+  使用效果	b0, b4, b8, bc	= 2d, 2d, 00, 00 （原3a, 改成脫離水晶）
+  知性限制	a0		= 0a （知性不滿30的要改這個）
+
+▲轉生 安寧符: 初期賣出價$964
+  使用效果	b0, b4, b8, bc	= 00, 3d, 3d, 3d （原38, 改成轉生符）
+  知性限制	a0		= 0a （知性不滿40的要改這個）
+
+▲永恆的 返老丸：如果你國慶日摸彩摸到頭獎
+  用後消失機率	c0		= 00  （老不了...）
+
+jesse曰
+－危險的時候再把測敵木棍拿再手上，平時空手打再練練魔法就好（經驗值看出
+  手次數，而非出手結果），不然同伴賺不到什麼經驗值，久了會怨恨你的
+－這種裝備還是要注意隱形陷阱，有些一次損血數十點，該開始的人物來不及用
+  好用的 復力丹，就呵屁了...
+
+
+●●●● 修改範例(Ⅲ) ●●●●
+
+有個宗師當同伴甚至老婆不賴吧？可惜這是不可能的，但起碼可以弄一套宗師的
+配備給老婆用，合起來的效果比宗師還高檔喔
+
+
+▲找到隊友的位置(請參考第一部份)，把下面位置改成：
+03c, 040	  : 03, 01		&lt;-- 生日都改為3/1,才會記得送禮
+15c, 160	  : e7 03, e7 03	&lt;-- 十進位=999, 先打low byte
+164, 168, 16c, 170: 5a, 5a, 5a, 5a	
+14c, 150, 154, 158: 5a, 5a, 5a, 5a	&lt;-- 這鍋不那麼必要啦，因為...
+					    你看了就知道
+jesse曰：
+－前面那個部份是沒有辦法中的辦法，抓到其他訣竅的網友來討論吧
+－位置正確的話，下8 byte就會看到第一個物品的名稱，開始改下兩個部份
+
+▲聖十字 青龍戟
+00: 88 00 00 00  b8 74 a4 51 - a6 72 20 ab  43 c0 73 b4
+10: 75 00 00 00  00 00 00 00 - 00 00 00 00  00 00 00 00
+20: 00 00 00 00  00 00 00 00 - 78 00 00 00  02 00 00 00
+30: 02 00 00 00  02 00 00 00 - 00 00 00 00  10 27 00 00
+40: 00 00 00 00  00 00 00 00 - 04 00 00 00  64 00 00 00
+ 			       ↑夠長了啦   ↑提高速度
+50: 64 00 00 00  04 00 00 00 - 96 00 00 00  00 00 00 00
+    ↑提高命中率               ↑攻擊力（150=最強的聖十字劍）
+60: • • • •  • • • • - 00 00 00 00  00 00 00 00
+70: 0a 00 00 00  00 00 00 00 - 00 00 00 00  00 00 00 00
+80: 0a 00 00 00  00 00 00 00 - 00 00 00 00  00 00 00 00
+90: 00 00 00 00  00 00 00 00 - 00 00 00 00  00 00 00 00
+a0: 00 00 00 00  00 00 00 00 - 00 00 00 00  04 00 00 00
+b0: ff ff ff ff  ff ff ff ff - ff ff ff ff  ff ff ff ff
+c0: 00 00 00 00  0a 00 00 00 - 0a 00 00 00  0a 00 00 00
+d0: 0a 00 00 00  00 00 00 00 
+  
+▲明光 龍鱗鎧
+00: 56 00 00 00  a9 fa a5 fa - 20 c0 73 c5  ec f1 5a 00
+10: 00 00 00 00  00 00 00 00 - 00 00 00 00  00 00 00 00
+20: 00 00 00 00  00 00 00 00 - 90 01 00 00  01 00 00 00
+30: 1e 00 00 00  1e 00 00 00 - 00 00 00 00  10 27 00 00
+40: 00 00 00 00  00 00 00 00 - 00 00 00 00  00 00 00 00
+50: 00 00 00 00  04 00 00 00 - 00 00 00 00  90 01 00 00
+    	                                    ↑龍鱗鎧的防禦力400!!!
+60: • • • •  • • • • - 5a 00 00 00  5a 00 00 00
+    ↑保留	 	       ↑明光鎧的防魔能力
+70: 5a 00 00 00  5a 00 00 00 - 5a 00 00 00  5a 00 00 00
+80: 5a 00 00 00  5a 00 00 00 - • • • •  • • • •
+			       ↑保留
+90: • • • •  • • • • - 00 00 00 00  00 00 00 00
+a0: 00 00 00 00  00 00 00 00 - 00 00 00 00  ff ff ff ff
+b0: ff ff ff ff  ff ff ff ff - ff ff ff ff  ff ff ff ff
+c0: 00 00 00 00  0a 00 00 00 - 0a 00 00 00  0a 00 00 00
+d0: 0a 00 00 00  00 00 00 00 
+    
+▲再用第一篇的方法，改幾個用不完的滿力丹，每個隊友送一個
+</div>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ NAVIGATION ]</h2>
+  <p>
+    <a href="./">◀ 攻略總覽</a> ·
+    <a href="../">▸ 未來之書索引</a> ·
+    <a href="../../">▸ 主站</a>
+  </p>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div>所有 BBS 時代原創內容版權屬於各原作者。本站由 toni 整理重建，作為數位文化遺產保存。</div>
+  <div class="footer-big">｢ 吟遊詩人的傳說 · 俠客遊 LUNATIC DAWN ｣</div>
+  <div>
+    <a href="../../">◀ 主站</a> ·
+    <a href="https://github.com/toniLiuMVP/LunaticDawn" target="_blank" rel="noopener">GitHub</a> ·
+    維護：toni
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
