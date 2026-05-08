@@ -85,10 +85,54 @@
 </section>
 
 <section class="panel">
+  <h2 class="panel-title">[ 光碟結構分析（2026 逆向）]</h2>
+  <p class="muted">2026 年 toni 將實體光碟拷貝到電腦後，本站對 LD4 完整光碟結構做了二進位分析：</p>
+
+  <h3 style="color: var(--amber);">主程式</h3>
+  <ul style="line-height: 1.8;">
+    <li><code>LD4.exe</code> — 2,561,024 bytes（約 2.5 MB），編譯日期 <strong>2001-05-25</strong>，PE32 格式（Windows 32-bit i386 GUI）</li>
+    <li>跟 LD3（2000）僅相差 6 個月發行；採同樣 MFC 框架但加入連線功能</li>
+    <li>遊戲資料總大小約 334 MB（比 LD3 多 60 MB，多在 Character 跟 Effect）</li>
+  </ul>
+
+  <h3 style="color: var(--amber);">★ Web/ 模板系統（LD4 獨有）</h3>
+  <p>LD4 內建 <strong>Web/Models/</strong> 4 種主題的 HTML 模板，玩家世界檔上傳到伺服器後會生成對應 HTML 頁面：</p>
+  <ul style="line-height: 1.8;">
+    <li><strong>standard</strong> 標準主題：title 寫「LD IV WORLD INFORMATION」</li>
+    <li><strong>colors</strong> / <strong>games</strong> / <strong>users</strong>：不同視覺主題</li>
+    <li>每個主題含 5 個頁面：index / world / top / menu / player</li>
+  </ul>
+
+  <p>從 <code>Web/Models/standard/world.html</code> 可看到玩家世界資訊頁的欄位設計：</p>
+  <ul style="line-height: 1.8;">
+    <li>HOME WORLD <strong>IP ADDRESS</strong>（核心 — 別人連你世界的進入點）</li>
+    <li>世界名稱 / 公開狀態 / 開放狀況 / 容許人數</li>
+    <li><strong>訪客履歷</strong>：近 4 位訪客名單（World 名稱 + 玩家名稱 + 訪問時間 + 退出時間）</li>
+  </ul>
+
+  <p class="muted" style="font-size: 13px;">⚠️ 第三波官方伺服器於 2007 年前後關閉。但 IP 直連功能仍可用 — 詳見上方<a href="multiplayer.html">▸ 連線方法</a>。</p>
+
+  <h3 style="color: var(--amber);">遊戲資料分類（Data/）</h3>
+  <p>LD4 沿用 LD3 的 9 大類資料結構（系列共通設計）：</p>
+  <ul style="line-height: 1.8;">
+    <li><strong>Map</strong> 107 MB — 地圖資料（最大）</li>
+    <li><strong>Monster</strong> 82 MB — 怪物 sprite（增加大量新怪物）</li>
+    <li><strong>Character</strong> 43 MB — 角色 sprite（比 LD3 多 19 MB）</li>
+    <li><strong>Effect</strong> 8.1 MB — 戰鬥特效（比 LD3 多 3.7 MB）</li>
+    <li><strong>Weapon / Shield</strong> 約 4 MB — 武器 / 盾牌資料</li>
+    <li><strong>Campaign / Range / MSG</strong> — 劇本 / 範圍 / 訊息字典</li>
+    <li><strong>usr/</strong>（LD4 新增）— 使用者存檔資料夾</li>
+  </ul>
+
+  <p class="muted" style="font-size: 13px;">⚠️ 怪物 / 角色 sprite 是創作性表現（屬版權保護內容），本站不公開。</p>
+</section>
+
+<section class="panel">
   <h2 class="panel-title">[ NAVIGATION ]</h2>
   <p>
     <a href="../">◀ 主站</a> ·
     <a href="../luna2/guides/">▸ 俠客遊 II 攻略</a> ·
+    <a href="../luna3/">▸ 俠客遊 III</a> ·
     <a href="../files/">📦 檔案庫（含俠客遊 IV 下載 + LunaticConsortia 工具）</a>
   </p>
 </section>
