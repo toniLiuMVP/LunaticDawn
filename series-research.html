@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>俠客遊系列 二進位研究筆記 · 吟遊詩人的傳說</title>
+<meta name="description" content="俠客遊系列 4 作（LUNA2 / LD3 / LD4 / Lde3）的二進位逆向工程研究筆記整合 — 加密策略、共通設計 DNA、檔案結構、跨年代演進">
+<link rel="stylesheet" href="assets/css/fonts-wuxia.css">
+<link rel="stylesheet" href="assets/css/wuxia.css">
+<meta property="og:type" content="article">
+<meta property="og:title" content="俠客遊系列 二進位研究筆記">
+<meta property="og:description" content="LUNA2 / LD3 / LD4 / Lde3 二進位逆向工程整合筆記">
+<meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/series-research.html">
+<meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
+<meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
+<style>
+.timeline { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+.timeline th, .timeline td { border: 1px solid var(--phosphor-fade); padding: 8px 12px; text-align: left; vertical-align: top; }
+.timeline th { background: var(--bg-panel); color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 11px; }
+.section-block { margin: 24px 0; padding: 16px; background: var(--bg-panel); border-left: 3px solid var(--amber); }
+.code-inline { background: var(--bg-input); padding: 2px 6px; font-family: 'VT323', monospace; }
+h2 { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 14px; margin-top: 32px; }
+h3 { color: var(--amber); margin-top: 20px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="pixel">俠客遊系列 · 二進位研究筆記</h1>
+      <nav>
+        <a href="index.html">◀ 主站</a> ·
+        <a href="luna2/database/">II 資料庫</a> ·
+        <a href="luna3/database/">III 名字字典</a> ·
+        <a href="luna4/database/">IV 名字字典</a> ·
+        <a href="lde3/database/">第三之書資料庫</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+  <p class="muted">本頁是 2026 年對俠客遊系列 4 作（LUNA2 / LD3 / LD4 / 第三之書）二進位逆向工程的整合筆記，文檔系列共通設計 DNA、加密策略演進、檔案格式跨年代變化。資料來源全為 toni 的實體光碟拷貝，分析方法為 binary hex diff、known plaintext attack、跨檔比對。</p>
+
+  <h2>[ 1. 系列時序 + 二進位格式 ]</h2>
+
+  <table class="timeline">
+    <thead>
+      <tr>
+        <th style="width: 12%;">作品</th>
+        <th style="width: 8%;">年份</th>
+        <th style="width: 12%;">EXE 格式</th>
+        <th style="width: 10%;">EXE 大小</th>
+        <th style="width: 13%;">資料目錄結構</th>
+        <th>核心設計</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>俠客遊 II</strong> (LUNA2)</td>
+        <td>1996-06</td>
+        <td>DOS MZ 16-bit</td>
+        <td>610 KB</td>
+        <td>單目錄（A/ B/ ... P/）</td>
+        <td>8 屬性 / 5 種族 / 6 boss 跨文化神話 / DOSBox 必備</td>
+      </tr>
+      <tr>
+        <td><strong>俠客遊 III</strong> (LD3)</td>
+        <td>2000-11</td>
+        <td>PE32 MFC</td>
+        <td>2.49 MB</td>
+        <td>9 大類 Data + res/</td>
+        <td>次元之門連線 / 隨機世界生成器（1183 名字 pool）</td>
+      </tr>
+      <tr>
+        <td><strong>俠客遊 IV</strong> (LD4)</td>
+        <td>2001-05</td>
+        <td>PE32 MFC + 網路</td>
+        <td>2.56 MB</td>
+        <td>9 大類 Data + res/ + Web/Models</td>
+        <td>世界分享 HTML 模板 / IP 連線 / 4 個檔加密</td>
+      </tr>
+      <tr>
+        <td><strong>第三之書</strong> (Lde3, spin-off)</td>
+        <td>2002-11</td>
+        <td>PE32 MFC + CArchive</td>
+        <td>2.5 MB</td>
+        <td>單目錄 + .dat 加密</td>
+        <td>卡片戰鬥 / 4 陣營（光闇混沌秩序）/ 全 .dat Huffman 加密</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>[ 2. Artdink 加密策略演進 ]</h2>
+
+  <div class="section-block">
+    <p>從 1996 到 2002 共 6 年的設計變遷，加密策略**逐步加強**：</p>
+
+    <table class="timeline">
+      <thead>
+        <tr>
+          <th>作品</th>
+          <th>加密類型</th>
+          <th>2026 破解狀態</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>LUNA2 (1996)</strong></td>
+          <td>4-byte cyclic XOR (key: <code class="code-inline">9A BC DE 00</code>)，僅 ENC 加密 ENC.ENC ITEMNAME.ENC 等 ~40 個檔</td>
+          <td>✅ <strong>完全破解</strong>（W08 解出 4400+ 字元）</td>
+        </tr>
+        <tr>
+          <td><strong>LD3 (2000)</strong></td>
+          <td>無加密！36 個 .BIN 全 <code class="code-inline">\\0LD3</code> magic 明文</td>
+          <td>✅ 直接讀（1183 字串）</td>
+        </tr>
+        <tr>
+          <td><strong>LD4 (2001)</strong></td>
+          <td>選擇性加密：40 個明文 + <strong>4 個加密</strong>（ITEM_GUARD / NORMAL / WEAPON + MonsterPara.BIN）</td>
+          <td>🟡 <strong>部分破解</strong>（用 LD3 plaintext attack 解出前 24 byte XOR keystream，byte 24+ 為 stream cipher state-based 仍未破）</td>
+        </tr>
+        <tr>
+          <td><strong>第三之書 (2002)</strong></td>
+          <td>所有 .dat 用 Huffman 壓縮 + 加密（含 ItemNameStr.dat / MonsterNameStr.dat / SpCardNameStr.dat / 4 ItemParam.dat 等 11 檔）</td>
+          <td>❌ <strong>未破解</strong>（LZSS 8 變體全失敗，需反組譯 Lde3.exe 找 cipher init）</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><strong>密碼學評論</strong>：Artdink 加密設計不是專業密碼學，是「擋業餘玩家修改」程度。LD4 用 zero padding 作為 known plaintext 立刻洩漏 24 byte keystream，是新手錯誤。</p>
+  </div>
+
+  <h2>[ 3. 系列共通設計 DNA ]</h2>
+
+  <div class="section-block">
+    <p>從 LD3 (2000) 起，俠客遊系列確立了核心設計 — LD4 跟第三之書都繼承這套 DNA：</p>
+
+    <h3>3.1 共通最終魔王 — 安哥摩爾（Angra Mainyu，波斯邪神）</h3>
+    <ul style="line-height: 1.9;">
+      <li><strong>LUNA2 (1996)</strong>：「魔王安哥爾莫亞」內嵌譯名 / 「魔王阿迦魯瑪」資料表譯名（雙譯名差異反映開發過程翻譯不統一）</li>
+      <li><strong>LD3 (2000)</strong>：「安哥摩爾」（× 4 變體）— 從 MonsterPara.BIN 提取確認</li>
+      <li><strong>第三之書 (2002)</strong>：作為「魔王」概念延續</li>
+    </ul>
+
+    <h3>3.2 共通 4 元素精靈（火 / 水 / 風 / 土）</h3>
+    <p>所有 4 作都有 4 元素精靈系統，每作各 4 變體（共 16 隻精靈）。在 LD3 / LD4 / 第三之書都對應「卡片陣營屬性」設計。</p>
+
+    <h3>3.3 共通 4 陣營（光 / 闇 / 混沌 / 秩序）</h3>
+    <ul style="line-height: 1.9;">
+      <li><strong>LD3 (2000)</strong>：怪物分類已有「光的狂信者 / 闇的狂信者 / 混沌的狂信者 / 秩序的狂信者」</li>
+      <li><strong>LD4 (2001)</strong>：沿用</li>
+      <li><strong>第三之書 (2002)</strong>：成為卡片戰鬥的核心陣營（CoCard.dll 4 陣營屬性）</li>
+    </ul>
+
+    <h3>3.4 4-tier sub-id 系統</h3>
+    <p>LD3 怪物名出現 4 次重複（撒旦 × 4 / 天馬 × 4 / 九尾狐 × 4 等）— 暗示有「弱 / 中 / 強 / 王」4 級難度變體。這設計後來在第三之書也延續。</p>
+
+    <h3>3.5 隨機世界生成器</h3>
+    <p>LD3 確立了「隨機名字 pool + runtime 組合」設計（mt_*.BIN 共 1183 個 unique 字串）。LD4 沿用並擴充為 1200 字串 + Web/Models HTML 模板。每次新遊戲產生獨一無二的世界內容。</p>
+  </div>
+
+  <h2>[ 4. 跨檔翻譯不統一現象 ]</h2>
+
+  <div class="section-block">
+    <p>系列多處顯示「台灣版直接從日文版改翻譯」的痕跡：</p>
+
+    <h3>4.1 LUNA2 boss 雙譯名</h3>
+    <p>同 6 隻終局 boss 在 MONSTERS.ENC 解密版 vs LUNA2.EXE 內嵌譯名**不同**：</p>
+    <ul style="line-height: 1.9;">
+      <li>貝利亞 (ENC) vs 培利亞耳 (EXE)</li>
+      <li>提斯卡托 (ENC) vs 帖斯卡特利波加 (EXE)</li>
+      <li>魔王阿迦魯瑪 (ENC) vs 魔王安哥爾莫亞 (EXE)</li>
+    </ul>
+    <p>反映**開發過程翻譯不統一** — 戰鬥畫面、NPC 對話、劇情敘述用不同來源的譯名。</p>
+
+    <h3>4.2 LD4 Web/Models 模板日文助詞殘留</h3>
+    <p>placeholder 留有日文助詞「の / ライセンス / アイテム / ハンドル」未翻譯（cp950 顯示為「ソ / ヲьиュЧヱ / ヤユЪу / г⑦Эю」）— 譯者沒翻完整。</p>
+
+    <h3>4.3 MONSTER.DAT byte[8-15] 日文原文殘留</h3>
+    <p>俠客遊 II MONSTER.DAT 含「中文名 + 日文原名（Shift-JIS）」雙欄位，只有 18 boss 級怪物有日文原文（一般人類組全 0）— 證明 boss 命名是「日文先寫 → 翻譯後填入」流程。</p>
+  </div>
+
+  <h2>[ 5. 圖像格式分類 ]</h2>
+
+  <div class="section-block">
+    <table class="timeline">
+      <thead>
+        <tr><th>格式</th><th>使用作品</th><th>內容</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>DDT</strong></td><td>LUNA2</td><td>4-plane separate planar EGA (mode 2-39 共 23 種解析度)</td></tr>
+        <tr><td><strong>DD9</strong></td><td>LUNA2</td><td>4bpp linear bitmap（小 sprite 用，**不是壓縮 DDT**）</td></tr>
+        <tr><td><strong>E32</strong></td><td>LUNA2</td><td>32×32 4bpp planar sprite container（45 檔 / 1587 個 sprite）</td></tr>
+        <tr><td><strong>PAC</strong></td><td>LUNA2</td><td>多 sub-file container（60 檔 / uniform-size 22 + variable-size 38）</td></tr>
+        <tr><td><strong>BMH</strong></td><td>LD3 / LD4</td><td>BitmapHeader 圖像（前 4 bytes 是 file size）</td></tr>
+        <tr><td><strong>TIL</strong></td><td>LD3 / LD4</td><td>tile 圖像（magic <code class="code-inline">20 04 00 00</code>）</td></tr>
+        <tr><td><strong>BIN</strong></td><td>LD3 / LD4</td><td>遊戲資料（magic <code class="code-inline">\\0LD3</code> / <code class="code-inline">\\0LD4</code>）</td></tr>
+        <tr><td><strong>.dat</strong></td><td>第三之書</td><td>遊戲資料 (Huffman 壓縮 + 加密，含 HF magic)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>[ 6. 網路功能演進 ]</h2>
+
+  <div class="section-block">
+    <table class="timeline">
+      <thead>
+        <tr><th>作品</th><th>網路功能</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>LUNA2 (1996)</strong></td><td>無網路（DOS 時代）</td></tr>
+        <tr><td><strong>LD3 (2000)</strong></td><td><strong>次元之門連線系統</strong>（從 LD3.exe .rsrc 確認）— 開放狀態 / 限制性開放 / 確認性開放 / LAN 內自動檢索 / 第三波伺服器 / 接受上限人數</td></tr>
+        <tr><td><strong>LD4 (2001)</strong></td><td>沿用次元之門 + <strong>新增 Web/Models 4 主題 HTML 模板</strong> — 玩家世界檔上傳到伺服器後生成 HTML 頁面（含 IP / 訪問者履歷）讓其他玩家點 IP 連入</td></tr>
+        <tr><td><strong>第三之書 (2002)</strong></td><td>**世界分享下載**（不是即時對戰，是上傳 / 下載世界檔機制）— CoCard.dll 含完整 TCP/IP 通訊邏輯</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>歷史事實</strong>：第三波官方伺服器於 2007 年前後關閉。LD4 以 IP 直連方式仍可在 LAN 內運作（現代玩家可用）。</p>
+  </div>
+
+  <h2>[ 7. 已破解 vs 未破解 ]</h2>
+
+  <div class="section-block">
+    <h3>已完全破解</h3>
+    <ul style="line-height: 1.9;">
+      <li>✅ LUNA2 ENC 加密（4-byte XOR）</li>
+      <li>✅ LUNA2 MONSTER.DAT (128 records × 104 bytes，13 + 日文原名欄位)</li>
+      <li>✅ LUNA2 ITEMDATA.MST (456 物品 × 48 bytes，28 個欄位)</li>
+      <li>✅ LUNA2 MGCDATA.MST (80 records × 32 bytes，49 有效 + 31 空 slot)</li>
+      <li>✅ LUNA2 HISSATSU.MST (32 records，含 byte[16] = boss 怪物 ID)</li>
+      <li>✅ LUNA2 PLT 調色盤（GRB444 編碼）</li>
+      <li>✅ LUNA2 DDT mode 2-39 (4-plane planar EGA)</li>
+      <li>✅ LD3 全 36 BIN（明文，1183 字串）</li>
+      <li>✅ LD4 40 BIN（明文，1200 字串）</li>
+      <li>✅ Lde3.exe 內嵌字串（215 道具 / 75 怪物 / 40 卡片 / 660 NPC 名 等）</li>
+    </ul>
+
+    <h3>部分破解</h3>
+    <ul style="line-height: 1.9;">
+      <li>🟡 LD4 4 加密 BIN 前 24 byte XOR keystream（W56 known plaintext attack）</li>
+      <li>🟡 lde3s.le3 結構分區（0x00-0x6B header / 0x6C-0x18F 半固定 24 bytes 變動 / 0x190+ MFC CArchive 動態）</li>
+      <li>🟡 第三之書 .dat Huffman header 結構（HF magic / 256 length table 推測）</li>
+    </ul>
+
+    <h3>仍未破解（需要外部條件）</h3>
+    <ul style="line-height: 1.9;">
+      <li>❌ LD4 byte 24+ 加密 stream cipher state（需反組譯 LD4.exe）</li>
+      <li>❌ 第三之書 .dat 完整 Huffman 解碼（需反組譯 Lde3.exe 找 dat decoder function）</li>
+      <li>❌ LD3 / LD4 MSG 加密（XOR 8 keys 全失敗）</li>
+      <li>❌ TIL sprite 完整解碼為 PNG（圖像格式 + 創作性表現考量）</li>
+      <li>❌ DD9 完整像素圖（部分背景 fill 已知，但 dim 未知）</li>
+    </ul>
+  </div>
+
+  <h2>[ 8. 研究方法論 ]</h2>
+
+  <div class="section-block">
+    <h3>有效方法</h3>
+    <ol style="line-height: 1.9;">
+      <li><strong>跨檔比對</strong>：同一 record 結構在不同版本（LD3 vs LD4）對比，找出 patch 差異</li>
+      <li><strong>密度分布掃描</strong>：用 4KB / 16KB chunk 統計字串密度，找高密度區段</li>
+      <li><strong>魔法 byte 識別</strong>：file header 前 4-8 bytes 的 magic 看格式類型</li>
+      <li><strong>Known plaintext attack</strong>：已知明文結構（如 magic header / 0 padding）反推加密 keystream</li>
+      <li><strong>byte-by-byte diff</strong>：相似存檔（同 slot 不同時刻）找出變動 byte</li>
+      <li><strong>多編碼嘗試</strong>：cp950 / Big5 / Big5-HKSCS / Shift-JIS（特別是日文原文殘留）</li>
+    </ol>
+
+    <h3>失效方法（從多輪嘗試學到）</h3>
+    <ol style="line-height: 1.9;">
+      <li>對 .text section 做 cp950 解碼 — 大量 false positive（random bytes 像中文）</li>
+      <li>用 LZSS 標準變體解 LD4 / Lde3 加密 — 算法不對</li>
+      <li>對 16-bit DOS EXE 用 r2 自動 xref — DOS reloc 處理有限</li>
+    </ol>
+  </div>
+
+  <h2>[ 9. 致謝 + 來源 ]</h2>
+
+  <div class="section-block">
+    <p>本研究筆記基於 toni 拷貝的實體光碟 + 1996-2010 年間社群留下的工具：</p>
+    <ul style="line-height: 1.9;">
+      <li>俠客遊 II 攻略集 / 說明書 PDF（toni 持有實體書，本機掃描，本站不上傳僅資料參考）</li>
+      <li>第三之書精靈工具 Lde3ET（1990s 玩家社群，提取 42 詩稱號 + 71 神器）</li>
+      <li>kkarthur 第三之書修改器 v0.4（記憶體 cheat 工具，2003）</li>
+      <li>Morrowind LunaticConsortia (LD4 工具)</li>
+      <li>1998-2000 BBS 玩家原創攻略（jesse / Ertai / 純情大毛蟲 等）</li>
+      <li>radare2 (r2) 反組譯器</li>
+      <li>Ghidra 12.0.4 反組譯器</li>
+    </ul>
+
+    <p style="margin-top: 16px; color: var(--phosphor-dim); font-size: 13px;">本研究筆記僅作為玩家社群參考。所有遊戲創作性表現（圖像 / 劇情 / 美術）版權屬 Artdink 及其代理商，本站不公開。事實層內容（名稱 / 數值 / 結構）依日本著作權法第 2 條僅創作性表現受保護。</p>
+  </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>● <a href="index.html">主站</a> ● <a href="https://github.com/toniLiuMVP/LunaticDawn" target="_blank" rel="noopener">GitHub</a> ● 維護者：<a href="mailto:luntic.dawn@gmail.com">toni</a> ● 2026</p>
+  </footer>
+</div>
+</body>
+</html>

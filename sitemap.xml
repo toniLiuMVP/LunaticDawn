@@ -117,6 +117,8 @@
 
   <!-- 俠客遊 IV -->
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/</loc><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/database/</loc><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/series-research.html</loc><priority>0.8</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/exp-farming.html</loc><priority>0.5</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/multiplayer.html</loc><priority>0.5</priority></url>
 
