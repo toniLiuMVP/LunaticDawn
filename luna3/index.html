@@ -106,6 +106,25 @@
     <li><strong>遊戲系統</strong>：「武器資料編輯」/「對象物品設定」/「報酬設定」/「場所設定」/「狀態設定」</li>
   </ul>
   <p class="muted" style="font-size: 13px;">→ <strong>確認 LD3 也有「次元之門」連線系統</strong>（不只是 LD4 才有）— 系列共通設計。</p>
+
+  <h3 style="color: var(--amber);">res/MonsterPara.BIN — 146 怪物名（明文！）</h3>
+  <p>LD3 主資料 <code>res/MonsterPara.BIN</code>（31,788 bytes，<code>\\0LD3</code> magic header）<strong>沒有加密</strong>，可直接逆向。提取出 146 隻怪物名，揭露俠客遊系列的設計傳承：</p>
+
+  <ul style="line-height: 1.8;">
+    <li><strong>共通最終 boss</strong>：「安哥摩爾」(× 4 變體) — 跟<a href="../luna2/database/system-terms.html">俠客遊 II</a>的「魔王安哥爾莫亞」同一個！系列共通的最終魔王</li>
+    <li><strong>4 元素精靈（× 4 變體）</strong>：火 / 水 / 風 / 土 — 跟 II 完全一致</li>
+    <li><strong>4 狂信者</strong>：光 / 闇 / 混沌 / 秩序 — 對應<a href="../lde3/database/cards.html">第三之書的 4 卡片陣營屬性</a>，從 LD3 (2000) 起就存在</li>
+    <li><strong>4 變體系統</strong>：許多怪物名重複 4 次（撒旦 × 4 / 天馬 × 4 / 九尾狐 × 4 等）— 暗示有「弱 / 中 / 強 / 王」4 級 sub-id</li>
+    <li><strong>不死系</strong>：骷髏 / 狂骨人 / 骸骨人 / 殭屍 / 死屍 / 惡鬼 / 腐屍妖</li>
+    <li><strong>4 種天使</strong>：秩序 / 混沌 / 光 / 闇 各 4 變體 = 共 16 種天使</li>
+  </ul>
+
+  <h3 style="color: var(--amber);">res/ 完整檔案統計（36 BIN + 187 BMH + 24 TIL）</h3>
+  <ul style="line-height: 1.8;">
+    <li><strong>36 個 .BIN</strong>：全部 <code>\\0LD3</code> magic（明文，無加密）</li>
+    <li><strong>187 個 .BMH</strong>：BitmapHeader 圖像 — magic 4 bytes 其實是 file size（5 個主要 size 範圍）</li>
+    <li><strong>24 個 .TIL</strong>：tile 圖像，magic <code>20 04 00 00</code> = 1056（推測 width × height）</li>
+  </ul>
 </section>
 
 <section class="panel">

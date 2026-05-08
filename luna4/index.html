@@ -155,6 +155,28 @@
 
   <p class="muted" style="font-size: 13px;">→ 4 主題 × 5 頁 = 20 個模板，部分日文助詞「の / ライセンス / アイテム / ハンドル」未翻譯（cp950 顯示為「ソ / ヲьиュЧヱ / ヤユЪу / г⑦Эю」），證明台灣版直接從日文版改翻譯，留下日文助詞殘留。</p>
 
+  <h3 style="color: var(--amber);">★ Artdink 加密策略演進（2026 跨檔對照發現）</h3>
+  <p>從 LUNA2 (1996) 到第三之書 (2002)，Artdink 對遊戲資料的加密策略逐步加強：</p>
+  <table style="width: 100%; border-collapse: collapse; margin: 12px 0;">
+    <thead>
+      <tr style="background: var(--bg-panel);">
+        <th style="border: 1px solid var(--phosphor-fade); padding: 8px;">作品</th>
+        <th style="border: 1px solid var(--phosphor-fade); padding: 8px;">加密狀態</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td style="border: 1px solid var(--phosphor-fade); padding: 8px;">LUNA2 (1996)</td><td style="border: 1px solid var(--phosphor-fade); padding: 8px;">ENC 4-byte XOR（簡單，已破解）</td></tr>
+      <tr><td style="border: 1px solid var(--phosphor-fade); padding: 8px;">LD3 (2000)</td><td style="border: 1px solid var(--phosphor-fade); padding: 8px;"><strong>完全明文</strong>（36 個 .BIN 全 <code>\\0LD3</code> magic）</td></tr>
+      <tr><td style="border: 1px solid var(--phosphor-fade); padding: 8px;">LD4 (2001)</td><td style="border: 1px solid var(--phosphor-fade); padding: 8px;"><strong>選擇性加密</strong>：40 個明文 + 4 個加密（ITEM_GUARD / ITEM_NORMAL / ITEM_WEAPON / MonsterPara.BIN，magic 0x9a 開頭）</td></tr>
+      <tr><td style="border: 1px solid var(--phosphor-fade); padding: 8px;">第三之書 (2002)</td><td style="border: 1px solid var(--phosphor-fade); padding: 8px;">.dat 檔全 Huffman 壓縮 + 加密</td></tr>
+    </tbody>
+  </table>
+  <p>LD4 把<strong>最關鍵的 4 個資料檔</strong>加密（怪物參數 + 3 種道具表），其他世界 / 建築 / 地形仍明文。Artdink 顯然意識到「玩家會破解什麼」就先把那 4 種鎖起來。</p>
+
+  <h3 style="color: var(--amber);">res/ 完整檔案統計（44 BIN + 366 BMH + 33 TIL）</h3>
+  <p>LD4 比 LD3 多了 8 個獨有 .BIN（如 Bld_Farm.BIN — 農場系統，Area_Dungeon_E.BIN — 地下城東區）。BMH 數量翻倍（187 → 366）跟 TIL 增多反映 LD4 美術資源大幅擴充。</p>
+</section>
+
   <h3 style="color: var(--amber);">資料安全</h3>
   <p>LD4 的網頁系統設計上，<strong>玩家世界的 IP address 直接寫進 HTML</strong>給其他玩家看到。在 2001 年是進步設計（玩家可以直接連線進入別人世界），但今天看是「IP 公開暴露」的設計。第三波官方伺服器於 2007 年前後關閉後，玩家只能用 LAN 內 IP 直連。</p>
 </section>
