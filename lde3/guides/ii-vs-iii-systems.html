@@ -92,6 +92,21 @@ h2 { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 1
         <td class="ii"><strong>5 種族</strong>：人類 / 小妖精 / 侏儒 / 半環 / 半小妖精（從 LUNA2.EXE 0x48A07 驗證）</td>
         <td class="iii">沿用 5 種族（譯名可能略有差異）</td>
       </tr>
+      <tr class="diff">
+        <td class="label">角色出身</td>
+        <td class="ii"><strong>8 種</strong>（從 LUNA2.EXE 0x40CA4 提取）：貴族 / 農家 / 一般 / 學者 / 傭兵 / 僧侶 / 盜賊 / 孤兒 — 影響起始屬性 / 金錢 / 裝備</td>
+        <td class="iii">未在 Lde3.exe 確認對應陣列（可能改進為其他系統）</td>
+      </tr>
+      <tr class="diff">
+        <td class="label">性別</td>
+        <td class="ii">2 種：男性 / 女性</td>
+        <td class="iii">3 種：男性 / 女性 / <strong>雙性人</strong>（III 新增第三性別設計）</td>
+      </tr>
+      <tr class="diff">
+        <td class="label">恐懼症系統</td>
+        <td class="ii"><strong>6 種</strong>（從 LUNA2.EXE 0x40DCC 提取）：野獸 / 魔獸 / 魔法生物 / 巨人 / 不死生物 / 幽靈 — 戰鬥中可能觸發恐懼反應</td>
+        <td class="iii">未在 Lde3.exe 確認（卡片戰鬥可能改用其他機制）</td>
+      </tr>
     </tbody>
   </table>
 
@@ -132,10 +147,19 @@ h2 { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 1
       <tr><th>項目</th><th>俠客遊 II</th><th>第三之書</th></tr>
     </thead>
     <tbody>
+      <tr class="diff">
+        <td class="label">任務類型</td>
+        <td class="ii"><strong>15 種</strong>（從 LUNA2.EXE 0x40224 提取）：送貨 / 購物 / 護衛 / 探索 / 修行 / 復甦 / 決鬥 / 調查 / 擊退 / 奪回 / 救出 / 強盜 / 暗殺 / 綁架 / 收買</td>
+        <td class="iii"><strong>14 種</strong>：逃獄 / 通緝 / 討伐 / 試練 / 探索 / 驅退 / 打敵人 / 暗殺 / 奪回 / 強盜 / 走私 / 買東西 / 秘密出口 / 送貨</td>
+      </tr>
+      <tr class="diff">
+        <td class="label">任務類型差異</td>
+        <td class="ii">II 獨有：購物 / 修行 / 復甦 / 決鬥 / 調查 / 擊退 / 救出 / 綁架 / 收買 (9 種)</td>
+        <td class="iii">III 獨有：逃獄 / 通緝 / 討伐 / 試練 / 驅退 / 打敵人 / 走私 / 買東西 / 秘密出口 (9 種)</td>
+      </tr>
       <tr class="same">
-        <td class="label">任務類型數</td>
-        <td class="ii">14 種：逃獄 / 通緝 / 討伐 / 試練 / 探索 / 驅退 / 打敵人 / 暗殺 / 奪回 / 強盜 / 走私 / 買東西 / 秘密出口 / 送貨</td>
-        <td class="iii">同 14 種（沿用設計）+ 7 個事件子分類</td>
+        <td class="label">任務類型 - 共通</td>
+        <td class="ii" colspan="2" style="text-align: center;">II + III 共通 5 種：探索 / 奪回 / 暗殺 / 強盜 / 送貨</td>
       </tr>
       <tr class="same">
         <td class="label">委託發布</td>
