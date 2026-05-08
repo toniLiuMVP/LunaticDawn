@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>俠客遊 II · 系統詞彙 · 吟遊詩人的傳說</title>
+<meta name="description" content="俠客遊 II 內嵌系統詞彙 — 81 個系統字串（屬性 / 種族 / 技能 / 戰鬥指令 / 6 大魔王 / 1996 安裝介面）。">
+<link rel="stylesheet" href="../../assets/css/fonts-retro.css">
+<link rel="stylesheet" href="../../assets/css/retro.css">
+<meta property="og:type" content="website">
+<meta property="og:title" content="俠客遊 II · 系統詞彙">
+<meta property="og:description" content="LUNA2.EXE + INSTALL.EXE 內嵌系統字串 81 個。">
+<meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/luna2/database/system-terms.html">
+<meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
+<meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
+<style>
+.toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 16px 0; padding: 12px; border: 1px solid var(--phosphor-dim); background: var(--bg-panel); }
+.toolbar input { background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-dim); padding: 6px 10px; font-family: 'VT323', monospace; font-size: 18px; }
+.toolbar input:focus { outline: none; border-color: var(--amber); }
+.toolbar label { color: var(--phosphor-dim); font-size: 16px; }
+.toolbar .count { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 12px; margin-left: auto; }
+.notice { padding: 12px 16px; background: rgba(255,176,0,0.08); border-left: 3px solid var(--amber); margin: 16px 0; font-size: 14px; color: var(--phosphor-dim); line-height: 1.7; }
+.cat-section { margin: 20px 0; padding: 14px; background: var(--bg-panel); border: 1px solid var(--phosphor-fade); }
+.cat-title { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 13px; margin: 0 0 8px; display: flex; align-items: baseline; gap: 12px; }
+.cat-num { color: var(--phosphor-fade); font-size: 11px; }
+.cat-desc { color: var(--phosphor-dim); font-size: 13px; margin: 0 0 12px; line-height: 1.6; }
+.term-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 6px; }
+.term-item { background: var(--bg-input); padding: 6px 12px; font-size: 16px; color: var(--phosphor); border: 1px solid var(--phosphor-fade); border-radius: 2px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="pixel">俠客遊 II · 系統詞彙</h1>
+      <nav>
+        <a href="index.html">← 資料庫首頁</a>
+        ·
+        <a href="../guides/">攻略總覽</a>
+        ·
+        <a href="../../lde3/database/game-systems.html">第三之書系統詞彙</a>
+        ·
+        <a href="../../">回主站</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="notice">
+    <strong>俠客遊 II 內嵌系統詞彙</strong>（81 筆，10 大類）
+    <br><br>
+    <strong>來源</strong>：從 <code>LUNA2.EXE</code>（610 KB，0x42000-0x49000 .data 區段）+ <code>INSTALL.EXE</code>（1996 年安裝程式）二進位提取。
+    <br><br>
+    <strong>注意</strong>：本頁的<strong>怪物 / boss 譯名</strong>跟 <a href="monsters.html">怪物列表</a> / <a href="hissatsu.html">武技資料庫</a>會有差異 — 因為 LUNA2.EXE 內嵌字串跟 MONSTERS.ENC 解密版用了**不同譯名**，反映開發過程的翻譯不統一。雙來源並存是事實。
+    <br><br>
+    <strong>合規說明</strong>：屬性 / 種族 / 系統名詞屬遊戲事實層內容，依日本著作權法第 2 條僅創作性表現受保護，事實名稱不在保護範圍。
+  </div>
+
+  <div class="toolbar">
+    <label for="search">搜尋:</label>
+    <input id="search" type="search" placeholder="輸入詞彙（例：屬性 / 魔王 / 設定）...">
+    <span class="count" id="count">10 大類 / 81 詞彙</span>
+  </div>
+
+  <div id="content"><div style="padding: 40px; text-align: center; color: var(--phosphor-dim);">載入中...</div></div>
+</div>
+
+<script>
+let allData = null;
+
+async function load() {
+  const r = await fetch('system_terms.json');
+  allData = await r.json();
+  render();
+}
+
+function render() {
+  const content = document.getElementById('content');
+  while (content.firstChild) content.removeChild(content.firstChild);
+
+  const search = document.getElementById('search').value.trim().toLowerCase();
+  let totalShown = 0;
+  let catShown = 0;
+
+  for (const [catName, catData] of Object.entries(allData.categories)) {
+    const matched = search
+      ? catData.items.filter(t => t.toLowerCase().includes(search))
+      : catData.items;
+    if (matched.length === 0) continue;
+
+    catShown++;
+    totalShown += matched.length;
+
+    const section = document.createElement('div');
+    section.className = 'cat-section';
+
+    const title = document.createElement('div');
+    title.className = 'cat-title';
+    title.appendChild(document.createTextNode(`[ ${catName} ]`));
+    const num = document.createElement('span');
+    num.className = 'cat-num';
+    num.textContent = `${matched.length} 筆`;
+    title.appendChild(num);
+    section.appendChild(title);
+
+    const desc = document.createElement('p');
+    desc.className = 'cat-desc';
+    desc.textContent = catData.description;
+    section.appendChild(desc);
+
+    const grid = document.createElement('div');
+    grid.className = 'term-grid';
+    for (const t of matched) {
+      const item = document.createElement('div');
+      item.className = 'term-item';
+      item.textContent = t;
+      grid.appendChild(item);
+    }
+    section.appendChild(grid);
+    content.appendChild(section);
+  }
+
+  document.getElementById('count').textContent =
+    search ? `${catShown} 大類 / ${totalShown} 詞彙符合` : `${Object.keys(allData.categories).length} 大類 / ${allData.total} 詞彙`;
+}
+
+document.getElementById('search').addEventListener('input', render);
+
+load().catch(e => {
+  const err = document.createElement('div');
+  err.className = 'notice';
+  err.style.color = 'var(--danger, #ff6666)';
+  err.textContent = '載入錯誤：' + e.message;
+  document.getElementById('content').textContent = '';
+  document.getElementById('content').appendChild(err);
+});
+</script>
+</body>
+</html>
