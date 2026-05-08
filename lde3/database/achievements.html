@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第三之書 · 成就詩稱號 · 吟遊詩人的傳說</title>
+<meta name="description" content="俠客遊：第三之書 成就詩稱號 — 42 個玩家完成大事件後獲得的「詩」稱號（5 大類）。">
+<link rel="stylesheet" href="../../assets/css/fonts-retro.css">
+<link rel="stylesheet" href="../../assets/css/retro.css">
+<meta property="og:type" content="website">
+<meta property="og:title" content="第三之書 · 成就詩稱號">
+<meta property="og:description" content="42 個成就詩稱號（5 大類：王國 / 武器高手 / 神話 boss / 大事件 / 一般）。">
+<meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/lde3/database/achievements.html">
+<meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
+<meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
+<style>
+.toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 16px 0; padding: 12px; border: 1px solid var(--phosphor-dim); background: var(--bg-panel); }
+.toolbar input { background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-dim); padding: 6px 10px; font-family: 'VT323', monospace; font-size: 18px; }
+.toolbar input:focus { outline: none; border-color: var(--amber); }
+.toolbar label { color: var(--phosphor-dim); font-size: 16px; }
+.toolbar .count { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 12px; margin-left: auto; }
+.notice { padding: 12px 16px; background: rgba(255,176,0,0.08); border-left: 3px solid var(--amber); margin: 16px 0; font-size: 14px; color: var(--phosphor-dim); line-height: 1.7; }
+.cat-section { margin: 20px 0; padding: 14px; background: var(--bg-panel); border: 1px solid var(--phosphor-fade); }
+.cat-title { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 13px; margin: 0 0 8px; display: flex; align-items: baseline; gap: 12px; }
+.cat-num { color: var(--phosphor-fade); font-size: 11px; }
+.cat-desc { color: var(--phosphor-dim); font-size: 13px; margin: 0 0 12px; line-height: 1.6; }
+.ach-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 8px; }
+.ach-item { background: var(--bg-input); padding: 10px 14px; border: 1px solid var(--phosphor-fade); border-radius: 2px; }
+.ach-name { color: var(--phosphor); font-size: 16px; font-weight: bold; }
+.ach-meta { color: var(--phosphor-fade); font-size: 12px; margin-top: 4px; font-family: 'VT323', monospace; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="pixel">第三之書 · 成就詩稱號</h1>
+      <nav>
+        <a href="index.html">← 資料庫首頁</a>
+        ·
+        <a href="items.html">道具列表</a>
+        ·
+        <a href="monsters.html">怪物列表</a>
+        ·
+        <a href="cards.html">卡片詞彙</a>
+        ·
+        <a href="../../">回主站</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="notice">
+    <strong>第三之書 成就詩稱號</strong>（42 首，5 大類）
+    <br><br>
+    <strong>什麼是「詩」</strong>：第三之書沿用日式 RPG「事跡 / 詩」收集系統的傳統 — 玩家達成大事件、討伐 boss、收集成就，會在角色紀錄留下對應的「詩」稱號。
+    <br><br>
+    <strong>5 大類</strong>：
+    <ul style="margin: 8px 0 0 24px; line-height: 1.9;">
+      <li><strong>王國稱號 (8 國)</strong> — 完成國家級事件（取得王位 / 拯救王國）</li>
+      <li><strong>武器類高手稱號 (8 種)</strong> — 8 種武器技能的最高境界</li>
+      <li><strong>神話 boss 稱號 (8 隻)</strong> — 討伐神話級 boss</li>
+      <li><strong>大事件稱號 (5 件)</strong> — 世界級神話事件</li>
+      <li><strong>一般成就稱號 (13 件)</strong> — 個人 / 探索 / 商業等成就</li>
+    </ul>
+    <br>
+    <strong>合規說明</strong>：成就稱號屬遊戲事實層內容（玩家於角色紀錄即可看見），依日本著作權法第 2 條僅創作性表現受保護，事實名稱不在保護範圍。
+  </div>
+
+  <div class="toolbar">
+    <label for="search">搜尋:</label>
+    <input id="search" type="search" placeholder="輸入稱號名稱（例：王 / 高手 / 龍）...">
+    <span class="count" id="count">5 大類 / 42 首</span>
+  </div>
+
+  <div id="content"><div style="padding: 40px; text-align: center; color: var(--phosphor-dim);">載入中...</div></div>
+</div>
+
+<script>
+let allData = null;
+
+async function load() {
+  const r = await fetch('achievements.json');
+  allData = await r.json();
+  render();
+}
+
+function render() {
+  const content = document.getElementById('content');
+  while (content.firstChild) content.removeChild(content.firstChild);
+
+  const search = document.getElementById('search').value.trim().toLowerCase();
+  let totalShown = 0;
+  let catShown = 0;
+
+  for (const [catName, catData] of Object.entries(allData.categories)) {
+    const matched = search
+      ? catData.achievements.filter(a => a.name.toLowerCase().includes(search) ||
+          (a.country && a.country.includes(search)) ||
+          (a.weapon && a.weapon.includes(search)) ||
+          (a.boss && a.boss.toLowerCase().includes(search)) ||
+          (a.event && a.event.includes(search)) ||
+          (a.type && a.type.includes(search)))
+      : catData.achievements;
+    if (matched.length === 0) continue;
+
+    catShown++;
+    totalShown += matched.length;
+
+    const section = document.createElement('div');
+    section.className = 'cat-section';
+
+    const title = document.createElement('div');
+    title.className = 'cat-title';
+    title.appendChild(document.createTextNode(`[ ${catName} ]`));
+    const num = document.createElement('span');
+    num.className = 'cat-num';
+    num.textContent = `${matched.length} 首`;
+    title.appendChild(num);
+    section.appendChild(title);
+
+    const desc = document.createElement('p');
+    desc.className = 'cat-desc';
+    desc.textContent = catData.description;
+    section.appendChild(desc);
+
+    const grid = document.createElement('div');
+    grid.className = 'ach-grid';
+    for (const a of matched) {
+      const item = document.createElement('div');
+      item.className = 'ach-item';
+      const nameDiv = document.createElement('div');
+      nameDiv.className = 'ach-name';
+      nameDiv.textContent = a.name;
+      item.appendChild(nameDiv);
+      const metaDiv = document.createElement('div');
+      metaDiv.className = 'ach-meta';
+      const metaParts = [];
+      if (a.country) metaParts.push(`國家: ${a.country}`);
+      if (a.weapon) metaParts.push(`武器: ${a.weapon}`);
+      if (a.boss) metaParts.push(`boss: ${a.boss}`);
+      if (a.event) metaParts.push(`事件: ${a.event}`);
+      if (a.type) metaParts.push(`類型: ${a.type}`);
+      metaDiv.textContent = metaParts.join(' · ');
+      if (metaParts.length > 0) item.appendChild(metaDiv);
+      grid.appendChild(item);
+    }
+    section.appendChild(grid);
+    content.appendChild(section);
+  }
+
+  document.getElementById('count').textContent =
+    search ? `${catShown} 大類 / ${totalShown} 首符合` : `${Object.keys(allData.categories).length} 大類 / ${allData.total} 首`;
+}
+
+document.getElementById('search').addEventListener('input', render);
+
+load().catch(e => {
+  const err = document.createElement('div');
+  err.className = 'notice';
+  err.style.color = 'var(--danger, #ff6666)';
+  err.textContent = '載入錯誤：' + e.message;
+  document.getElementById('content').textContent = '';
+  document.getElementById('content').appendChild(err);
+});
+</script>
+</body>
+</html>
