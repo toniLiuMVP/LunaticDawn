@@ -85,6 +85,18 @@
       </li>
       <li><strong>0x190+ (約 1MB)</strong>：MFC CArchive object stream，每次 save 整體 re-serialize（99.7% byte 在跨存檔間都不同）</li>
     </ul>
+
+    <strong>★ 24 bytes 識別 SOP（推薦做法）</strong>：
+    <ol style="margin: 8px 0 0 20px; line-height: 1.7;">
+      <li><strong>準備 USER0 backup</strong>：複製 lde3s.le3 → lde3s_backup.le3</li>
+      <li><strong>記下「修改前狀態」</strong>：用本工具上傳，記錄 0x72-0x7E / 0x88-0x8E / 0xA6 / 0x16C-0x16E byte 值</li>
+      <li><strong>進遊戲只改 1 個變數</strong>：例如「升 1 級」「改名」「改性別」其中一個（不要同時改多個！）</li>
+      <li><strong>存檔後比對</strong>：上傳新 lde3s.le3，看 24 bytes 哪個變了 → 該 byte = 你修改的變數欄位</li>
+      <li><strong>記下對照表</strong>：例如「0x72-0x73 = 等級」「0xA6 = 性別」</li>
+      <li><strong>未來直接 offset-based 修改</strong>：知道 offset 後就能用本工具的 hex editor 直接改值，不用再進遊戲</li>
+    </ol>
+    <p style="margin: 8px 0 0; color: var(--phosphor-dim); font-size: 13px;">⚠️ 0x190+ 動態流區段不適用 offset-based 修改（每次 save 整體重排）— 那邊只能用本工具的「Big5 字串搜尋 + diff」找特定字串再改。</p>
+
     <em>所有解析在瀏覽器本地完成，不上傳任何資料。</em>
   </div>
 
