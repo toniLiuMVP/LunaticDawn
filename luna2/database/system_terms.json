@@ -1,5 +1,5 @@
 {
- "total": 210,
+ "total": 226,
  "description": "俠客遊 II（LUNA2.EXE，1996 / 0x42000-0x49000 .data 區段）內嵌系統詞彙。涵蓋角色屬性、種族、技能、戰鬥指令、城鎮系統、狀態效果。",
  "categories": {
   "8 大屬性": {
@@ -303,16 +303,17 @@
    ]
   },
   "DD9 = 壓縮版 DDT (27 檔)": {
-   "description": "DD9 檔案 filename header 全部標『*.DDT』(如 BOAT.DD9 內部標 BOAT.DDT) — 確認 DD9 是壓縮版 DDT。magic byte 12=0x9c, 14=0x91。壓縮算法是私有變體（俠客遊 II 的自家算法），尚未解開。",
+   "description": "**重大修正（先前推測錯誤）**：DD9 不是壓縮 DDT！27 個 DD9 對應的 .DDT 全都不存在；filename header 標 *.DDT 只是 format convention。實測 BOAT.DD9 hex dump 顯示是『直接 4bpp linear bitmap』格式（vs DDT 的 4-plane separate planar），大段 `bf bf` 是背景透明色填充不是壓縮 magic。DD9 跟 DDT 是兩種平行的 sprite 格式 — DD9 用於小尺寸（225-6648 bytes），DDT 用於大尺寸（最大 124KB 開場圖）。",
    "items": [
-    "BOAT.DD9 → BOAT.DDT (船圖像)",
-    "CARRIAGE.DD9 → CARRIAGE.DDT (馬車圖像)",
-    "CHRSTYLE.DD9 → CHRSTYLE.DDT (角色 style)",
-    "ICON0/1/2.DD9 → ICON0/1/2.DDT (圖示)",
-    "WALL.DD9 → WALL0.DDT (牆面)",
-    "BCHRST.DD9 → BCHRST.DDT (起始角色)",
-    "MVMODE.DD9 → MVMODE.DDT (移動模式)",
-    "SCRAR.DD9 → SCRAR.DDT (?)"
+    "BOAT.DD9 (225B) - 船小圖示",
+    "CARRIAGE.DD9 (987B) - 馬車",
+    "CHRSTYLE.DD9 (5810B) - 角色 style",
+    "ICON0/1/2.DD9 - 圖示",
+    "WALL.DD9 (4685B) - 牆面",
+    "BCHRST.DD9 (6648B) - 起始角色",
+    "MVMODE.DD9 - 移動模式",
+    "magic byte 12=0x9c, 14=0x91 (DD9 識別碼)",
+    "其他 ATLAS / FLDCHAR / SATDAT 等 17 個 sprite 檔"
    ]
   },
   "MGCDATA 5 系 80 records 統計": {
@@ -335,6 +336,31 @@
     "啟動序列: DOS INT 21h ah=0x30 取版本 + ah=0x35/0x25 設中斷向量",
     "Data segment 起始: 0x3def",
     "字串集中區: 0x3F000-0x4A000 (8 個 chunk × 4KB)"
+   ]
+  },
+  "E32 sprite container 完整統計": {
+   "description": "45 個 E32 檔案總共含 1,587 個 32×32 sprites（4bpp planar）。4 個檔 size 整除 512（純 sprite 無 metadata），41 個檔含 64-496 byte metadata tail。",
+   "items": [
+    "C 系列 (Common 怪物 sprite)：C00-C50 共 6 檔 ~33-36 sprites",
+    "T 系列 (Town/Tile)：T00-T81 + TC3 + TF0/TE0 ~30+ 檔",
+    "SHADOW.E32 (1 sprite + 88 byte tail)",
+    "BTLBFE32.PAC 內含 ~78 個 4608-byte E32 子檔",
+    "MONE32.PAC (1.5MB) 含 ~234 個怪物戰鬥 sprite",
+    "總計 1,587 個 32×32 sprites in 45 個檔"
+   ]
+  },
+  "PAC container 完整統計 (60 檔)": {
+   "description": "60 個 PAC 容器檔，分兩種結構。22 個 uniform-size（每個 sub-file 大小相同，可直接除得 sub-file 數）；38 個 variable-size（前面有 size table）。",
+   "items": [
+    "BTLBFE32.PAC (360KB / 78 × 4608 bytes) - 戰鬥背景",
+    "MONDAT.PAC (134KB / 234 × 576 bytes) - 怪物資料",
+    "MONE32.PAC (1.5MB / variable) - 怪物 sprite",
+    "BOMB.PAC (43KB / 80 × 544 bytes) - 炸彈動畫",
+    "FLYOBJ.PAC (51KB / 93 × 544 bytes) - 飛行物件 (箭/法術投影)",
+    "BIGBOM.PAC (90KB / 4 × 22560 bytes) - 大型爆炸",
+    "ARASI.PAC (74KB / 6 × 12320 bytes) - 暴風",
+    "BALOON.PAC (82KB / 10 × 8224 bytes) - 對話氣泡",
+    "FBALL.PAC / FRBALL.PAC - 火球動畫"
    ]
   }
  }
