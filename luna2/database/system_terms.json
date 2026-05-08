@@ -1,5 +1,5 @@
 {
- "total": 158,
+ "total": 210,
  "description": "俠客遊 II（LUNA2.EXE，1996 / 0x42000-0x49000 .data 區段）內嵌系統詞彙。涵蓋角色屬性、種族、技能、戰鬥指令、城鎮系統、狀態效果。",
  "categories": {
   "8 大屬性": {
@@ -258,6 +258,83 @@
     "請指定攻擊目標",
     "戰鬥輸了",
     "戰鬥贏了"
+   ]
+  },
+  "18 隻 boss 的日文原名片段": {
+   "description": "MONSTER.DAT byte[8-15] 含 8 bytes 日文原文（Shift-JIS 編碼），多為截斷片段。只有 boss 級怪物有此欄位 — 證明 boss 命名是「先有日文原文再翻譯」，普通怪物用通用中文。括號內是推測的完整日文（依文化原型）。",
+   "items": [
+    "亞馬遜女 → アマゾネス (Amazonness)",
+    "龍人 → ドラゴン人 (Dragon humanoid)",
+    "劍齒虎 → サーベルタイガー (Saber-tooth Tiger)",
+    "冥府三頭 → ケルベロス (Cerberus, 三頭犬)",
+    "鷺面獅身 → スフィンクス (Sphinx)",
+    "魔盔甲 → リビングアーマー (Living Armor)",
+    "鐵石像魔 → ゴーレム (Golem)",
+    "魔雕像 → スタチュ (Statue)",
+    "醜臉巨人 → トロール (Troll)",
+    "夜魔 → サキュバス / インキュバス (Succubus/Incubus)",
+    "不死之王 → リッチキング (Lich King)",
+    "死亡之龍 → デスドラゴン (Death Dragon)",
+    "赤龍 → レッドドラゴン (Red Dragon)",
+    "青龍 → ブルードラゴン (Blue Dragon)",
+    "火龍 → ファイヤードラゴン (Fire Dragon)",
+    "精靈騎士 → エルフナイト (Elf Knight)",
+    "魔王阿迦魯瑪 → アングラ・マイニュ (Angra Mainyu, 波斯邪神)",
+    "提斯卡托 → テスカトリポカ (Tezcatlipoca, 阿茲特克神)"
+   ]
+  },
+  "DDT 23 種 mode 對應解析度": {
+   "description": "DDT 圖像格式有 23 種 mode（從全 106 個 DDT 檔提取），每個 mode 對應特定圖像尺寸。mode 0 是 runtime template (28 個 BCHRKP)，mode 2/4 小尺寸 UI，mode 24-39 大尺寸開場 / 漢字 / NOCOPY 防盜版。",
+   "items": [
+    "mode 0: 28 BCHRKP* (runtime template, 全 0)",
+    "mode 2: 16 個 (16~32 寬)",
+    "mode 4: 4 個 (字型 STR_*)",
+    "mode 5: PAUSE.DDT 16×80",
+    "mode 6: 6 個 DICE / HOLEITEM (16-240 寬)",
+    "mode 14: 8 個 DEAD0/DEAD1 (136×224)",
+    "mode 15: 6 個 CHR1/CHR2 (400×240)",
+    "mode 16: 9 個 NAME / PASSWD",
+    "mode 18: KANJI.DDT 140×288 (漢字字型)",
+    "mode 24: LUNA2.DDT 304×376",
+    "mode 25: 5 個 GOBW (200×400)",
+    "mode 35: NOCOPY.DDT 232×560 (防盜版)",
+    "mode 36: ALLCHR.DDT 216×576 (主字型) + LOGO",
+    "mode 39: 3 個 LOGOBK (400×624 開場圖)"
+   ]
+  },
+  "DD9 = 壓縮版 DDT (27 檔)": {
+   "description": "DD9 檔案 filename header 全部標『*.DDT』(如 BOAT.DD9 內部標 BOAT.DDT) — 確認 DD9 是壓縮版 DDT。magic byte 12=0x9c, 14=0x91。壓縮算法是私有變體（俠客遊 II 的自家算法），尚未解開。",
+   "items": [
+    "BOAT.DD9 → BOAT.DDT (船圖像)",
+    "CARRIAGE.DD9 → CARRIAGE.DDT (馬車圖像)",
+    "CHRSTYLE.DD9 → CHRSTYLE.DDT (角色 style)",
+    "ICON0/1/2.DD9 → ICON0/1/2.DDT (圖示)",
+    "WALL.DD9 → WALL0.DDT (牆面)",
+    "BCHRST.DD9 → BCHRST.DDT (起始角色)",
+    "MVMODE.DD9 → MVMODE.DDT (移動模式)",
+    "SCRAR.DD9 → SCRAR.DDT (?)"
+   ]
+  },
+  "MGCDATA 5 系 80 records 統計": {
+   "description": "MGCDATA.MST 80 records × 32 bytes（從 W14 完整 dump）。每系 16 slots：物理 8 有效 / 元素 10 有效 / 神聖 12 有效 / 暗黑 11 有效 / 精靈 8 有效 + 4 召喚獸固定 mp=70 atk=330。共 49 招實際魔法 + 31 空 slot。",
+   "items": [
+    "物理系: 8 有效 / 8 空 (MP 40-120, ATK 0-300)",
+    "元素系: 10 有效 / 6 空 (MP 16-100, ATK 25-666)",
+    "神聖系: 12 有效 / 4 空 (MP 24-160, 全部輔助型 ATK=0)",
+    "暗黑系: 11 有效 / 5 空 (MP 10-200, 全部輔助型)",
+    "精靈系: 8 自然 + 4 召喚獸 (MP=70 ATK=330) + 4 空"
+   ]
+  },
+  "LUNA2.EXE 二進位結構": {
+   "description": "用 r2 反組譯確認的結構資訊。",
+   "items": [
+    "格式: MS-DOS MZ executable (16-bit i386, 不是 PE32)",
+    "大小: 610,736 bytes",
+    "Entry point: 0x2643d (segment 2000:643d)",
+    "函式總數: 737 個 (r2 自動分析)",
+    "啟動序列: DOS INT 21h ah=0x30 取版本 + ah=0x35/0x25 設中斷向量",
+    "Data segment 起始: 0x3def",
+    "字串集中區: 0x3F000-0x4A000 (8 個 chunk × 4KB)"
    ]
   }
  }
