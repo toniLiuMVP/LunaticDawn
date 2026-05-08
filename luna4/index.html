@@ -125,6 +125,38 @@
   </ul>
 
   <p class="muted" style="font-size: 13px;">⚠️ 怪物 / 角色 sprite 是創作性表現（屬版權保護內容），本站不公開。</p>
+
+  <h3 style="color: var(--amber);">.rsrc 內含 UI 字串（2026 提取）</h3>
+  <p>從 LD4.exe .rsrc resource section 提取出 <strong>448 個唯一中文 UI 字串</strong>（UTF-16LE 編碼，比 LD3 多 148 個）。LD4 獨有功能字串：</p>
+  <ul style="line-height: 1.8;">
+    <li><strong>網頁開啟功能</strong>：「開啟網頁」/「詳細資料」/「遊戲情報」</li>
+    <li><strong>世界主題系統</strong>：standard / colors / games / users 4 種主題對應 Web/Models/ 模板</li>
+  </ul>
+
+  <h3 style="color: var(--amber);">★ Web/Models 模板 placeholder 欄位（330+ 個）</h3>
+
+  <p><strong>world.html (世界資訊頁，41 placeholder)</strong>：</p>
+  <ul style="line-height: 1.8; font-size: 14px;">
+    <li>世界名 / 世界の氣候 / 開放狀態 / 世界の許容人數 / 世界のコメント</li>
+    <li>訪問者履歷（多筆）：訪問 PC 名 / 訪問者名 / 訪問時間 / 退出時間</li>
+  </ul>
+
+  <p><strong>player.html (玩家頁，54 placeholder)</strong>：</p>
+  <ul style="line-height: 1.8; font-size: 14px;">
+    <li>PC 稱號 / PC 名 / PC 性別 / PC 年齡 / PC 體力最大值 / PC 魔力最大值</li>
+    <li>PC 武器ライセンス + PC 武器名 / PC 防具ライセンス + PC 防具名 / PC 盾ライセンス + PC 盾名</li>
+    <li>PC アイテム名（多項道具）/ 他世界訪問回數 / 發見アイテム種數</li>
+  </ul>
+
+  <p><strong>menu.html (選單，6 placeholder)</strong>：</p>
+  <ul style="line-height: 1.8; font-size: 14px;">
+    <li>世界名 / ハンドル名（帳號名）/ PC 稱號 / PC 名 / 開放狀態 / 許容人數</li>
+  </ul>
+
+  <p class="muted" style="font-size: 13px;">→ 4 主題 × 5 頁 = 20 個模板，部分日文助詞「の / ライセンス / アイテム / ハンドル」未翻譯（cp950 顯示為「ソ / ヲьиュЧヱ / ヤユЪу / г⑦Эю」），證明台灣版直接從日文版改翻譯，留下日文助詞殘留。</p>
+
+  <h3 style="color: var(--amber);">資料安全</h3>
+  <p>LD4 的網頁系統設計上，<strong>玩家世界的 IP address 直接寫進 HTML</strong>給其他玩家看到。在 2001 年是進步設計（玩家可以直接連線進入別人世界），但今天看是「IP 公開暴露」的設計。第三波官方伺服器於 2007 年前後關閉後，玩家只能用 LAN 內 IP 直連。</p>
 </section>
 
 <section class="panel">
