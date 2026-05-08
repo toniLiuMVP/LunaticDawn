@@ -273,7 +273,41 @@ h3 { color: var(--amber); margin-top: 20px; }
     </ol>
   </div>
 
-  <h2>[ 9. 致謝 + 來源 ]</h2>
+  <h2>[ 9. EXE 反組譯結果 ]</h2>
+
+  <div class="section-block">
+    <p>用 radare2 (r2) 對 4 個 EXE 做反組譯統計：</p>
+
+    <table class="timeline">
+      <thead>
+        <tr><th>EXE</th><th>r2 函式數</th><th>關鍵 imports</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>LUNA2.EXE</strong></td><td>737</td><td>DOS INT 21h（DOS API 中斷向量）— 無網路</td></tr>
+        <tr><td><strong>LD3.exe</strong></td><td>114（r2 自動分析受限，可能 packed 或特殊 PE 結構）</td><td>未確認（受限於分析深度）</td></tr>
+        <tr><td><strong>LD4.exe</strong></td><td><strong>6637</strong></td><td>MFC + <code class="code-inline">CInternetConnection</code> / <code class="code-inline">CInternetSession</code> / <code class="code-inline">CInternetFile</code> — 用 MFC Internet class 處理 HTTP</td></tr>
+        <tr><td><strong>Lde3.exe</strong></td><td><strong>6113</strong></td><td>MFC CArchive 序列化 + MFC Internet class — dat decoder 函式定位完成（256-symbol Huffman tree builder）</td></tr>
+      </tbody>
+    </table>
+
+    <h3>9.1 LD4 加密 cipher init 反組譯嘗試</h3>
+    <p>用 r2 自動 xref 找 ITEM_GUARD / ITEM_NORMAL / ITEM_WEAPON / MonsterPara 的 file open 函式 — 失敗。原因：</p>
+    <ul style="line-height: 1.9;">
+      <li>r2 對 PE32 reloc / IAT 自動處理有限</li>
+      <li>UTF-16LE 字串透過 LoadStringW 動態讀取（用 resource ID 而非 byte address push）</li>
+      <li>無法直接 push imm32 找 xref</li>
+    </ul>
+    <p>完整破解需要：(a) Ghidra GUI 互動分析 (b) IDA Pro 商業工具 (c) 動態分析 Wine + gdb 跑 LD4 看記憶體 trace。</p>
+
+    <h3>9.2 各 EXE 反組譯狀態</h3>
+    <ul style="line-height: 1.9;">
+      <li><strong>LUNA2.EXE</strong>：DOS MZ 16-bit，entry point 識別 + DOS 啟動序列（INT 21h API）確認。函式級 game logic 因 16-bit reloc 困難未深入</li>
+      <li><strong>Lde3.exe</strong>：dat decoder 函式 + 256-symbol Huffman tree builder 函式定位完成。完整 dat 解碼需手動移植到 Python 或 r2 emulation</li>
+      <li><strong>LD4.exe</strong>：6637 函式中含 cipher init / decrypt function，但需更深入互動分析</li>
+    </ul>
+  </div>
+
+  <h2>[ 10. 致謝 + 來源 ]</h2>
 
   <div class="section-block">
     <p>本研究筆記基於 toni 拷貝的實體光碟 + 1996-2010 年間社群留下的工具：</p>
