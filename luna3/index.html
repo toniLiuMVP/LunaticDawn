@@ -125,6 +125,23 @@
     <li><strong>187 個 .BMH</strong>：BitmapHeader 圖像 — magic 4 bytes 其實是 file size（5 個主要 size 範圍）</li>
     <li><strong>24 個 .TIL</strong>：tile 圖像，magic <code>20 04 00 00</code> = 1056（推測 width × height）</li>
   </ul>
+
+  <h3 style="color: var(--amber);">★ res/ 各 mt_*.BIN — 1,183 個明文中文字串</h3>
+  <p>LD3 res/ 各 mt_*.BIN 跟 MonsterPara.BIN 全部明文，提取出 <strong>1,183 個 unique 中文字串</strong>，這是 LD3 <strong>隨機世界生成器</strong>用的 name pool：</p>
+  <ul style="line-height: 1.8;">
+    <li><strong>世界 / 國家名 516 個</strong>（mt_world.BIN）：阿修連 / 阿古納拉達 / 阿古雷特 / 阿茲里亞 / 阿托地克 等</li>
+    <li><strong>城鎮名 144 個</strong>（mt_f_town.BIN）：開始之鎮 / 冒險者之鎮 / 月之鎮 / 博愛之鎮 等</li>
+    <li><strong>怪物名 87 個</strong>（MonsterPara.BIN）：食人觸手 / 鬼魂 / 安哥摩爾 / 4 元素精靈 等</li>
+    <li><strong>自然之地名 89 個</strong>（mt_f_nature.BIN）：繁華之地 / 背叛之地 / 神秘之地 等</li>
+    <li><strong>人類迷宮名 87 個</strong>（mt_d_human.BIN）：斷絕的迷宮 / 虛無的迷宮 / 疑惑的迷宮 等</li>
+    <li><strong>自然洞窟名 78 個</strong>（mt_d_nature.BIN）：偽之洞窟 / 謊言洞窟 / 虛偽的洞窟 等</li>
+    <li><strong>連結門 / 祠名 70 個</strong>（mt_f_linkgate.BIN）：神聖之祠 / 神秘之祠 / 狂信之祠 等</li>
+    <li><strong>地形名 14 個</strong>（mt_element.BIN）：灼熱地帶 / 暖濕地帶 / 砂漠地帶 等</li>
+  </ul>
+
+  <p>→ <strong>每次新遊戲</strong>，LD3 系統從這些 pool 隨機選名字組合產生獨一無二的世界。LD4 進一步把這設計擴充成 <a href="../luna4/">Web/Models 模板</a>，可以分享給其他玩家。</p>
+
+  <p><a href="database/" style="display: inline-block; padding: 10px 20px; background: var(--amber); color: black; text-decoration: none; font-weight: bold; margin: 12px 0;">▸ 進入名字字典 (1,183 個 unique 字串可搜尋)</a></p>
 </section>
 
 <section class="panel">
