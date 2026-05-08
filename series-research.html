@@ -39,7 +39,7 @@ h3 { color: var(--amber); margin-top: 20px; }
   </header>
 
   <main>
-  <p class="muted">本頁是 2026 年對俠客遊系列 4 作（LUNA2 / LD3 / LD4 / 第三之書）二進位逆向工程的整合筆記，文檔系列共通設計 DNA、加密策略演進、檔案格式跨年代變化。資料來源全為 toni 的實體光碟拷貝，分析方法為 binary hex diff、known plaintext attack、跨檔比對。</p>
+  <p class="muted">本頁是 2026 年對俠客遊系列 4 作（LUNA2 / LD3 / LD4 / 第三之書）二進位逆向工程的整合筆記，文檔系列共通設計 DNA、加密策略演進、檔案格式跨年代變化。資料來源全為 <strong>toni 持有的正版遊戲實體光碟</strong>拷貝（toni 在 1996-2002 年購買原版實體光碟，2024 年俠客遊：第三之書 Steam 版發行後再次購買），分析方法為 binary hex diff、known plaintext attack、跨檔比對。</p>
 
   <h2>[ 1. 系列時序 + 二進位格式 ]</h2>
 
@@ -107,7 +107,7 @@ h3 { color: var(--amber); margin-top: 20px; }
         <tr>
           <td><strong>LUNA2 (1996)</strong></td>
           <td>4-byte cyclic XOR (key: <code class="code-inline">9A BC DE 00</code>)，僅 ENC 加密 ENC.ENC ITEMNAME.ENC 等 ~40 個檔</td>
-          <td>✅ <strong>完全破解</strong>（W08 解出 4400+ 字元）</td>
+          <td>✅ <strong>完全破解</strong>（2026 解出 4400+ 字元）</td>
         </tr>
         <tr>
           <td><strong>LD3 (2000)</strong></td>
@@ -237,7 +237,7 @@ h3 { color: var(--amber); margin-top: 20px; }
 
     <h3>部分破解</h3>
     <ul style="line-height: 1.9;">
-      <li>🟡 LD4 4 加密 BIN 前 24 byte XOR keystream（W56 known plaintext attack）</li>
+      <li>🟡 LD4 4 加密 BIN 前 24 byte XOR keystream（2026 known plaintext attack）</li>
       <li>🟡 lde3s.le3 結構分區（0x00-0x6B header / 0x6C-0x18F 半固定 24 bytes 變動 / 0x190+ MFC CArchive 動態）</li>
       <li>🟡 第三之書 .dat Huffman header 結構（HF magic / 256 length table 推測）</li>
     </ul>
@@ -307,10 +307,66 @@ h3 { color: var(--amber); margin-top: 20px; }
     </ul>
   </div>
 
-  <h2>[ 10. 致謝 + 來源 ]</h2>
+  <h2>[ 10. 國際同類網站對照 + 法律地位 ]</h2>
 
   <div class="section-block">
-    <p>本研究筆記基於 toni 拷貝的實體光碟 + 1996-2010 年間社群留下的工具：</p>
+    <p>本站做的事在國際同類社群是常見實踐：</p>
+
+    <table class="timeline">
+      <thead>
+        <tr><th>網站</th><th>運作年份</th><th>做法</th><th>法律地位</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>The Cutting Room Floor</strong><br><a href="https://tcrf.net/" target="_blank" rel="noopener">tcrf.net</a></td>
+          <td>2010 至今（16+ 年）</td>
+          <td>用 hex editor / debugger 研究遊戲未使用內容、文字、結構，公開研究成果</td>
+          <td>長期合法運作。首次 legal notice 2024 才收到（且是 trademark 而非著作權）</td>
+        </tr>
+        <tr>
+          <td><strong>ROMhacking.net</strong><br><a href="https://www.romhacking.net/" target="_blank" rel="noopener">romhacking.net</a></td>
+          <td>2005 至今</td>
+          <td>發布 patch（不發 ROM）+ reverse engineering 文件</td>
+          <td>長期合法。明確政策：不 host ROM，玩家自取</td>
+        </tr>
+        <tr>
+          <td><strong>日本 atwiki / seesaa</strong></td>
+          <td>2000 年代至今</td>
+          <td>RPG 攻略 wiki，公開玩家可見資料 / 數值 / 名稱</td>
+          <td>法律 grey zone 但業界長期容忍</td>
+        </tr>
+        <tr>
+          <td><strong>巴哈姆特哈拉版</strong></td>
+          <td>2003 至今</td>
+          <td>玩家社群討論 + 攻略</td>
+          <td>俠客遊系列原始攻略大量出自此處</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>本站符合業界 norm</h3>
+    <ul style="line-height: 1.9;">
+      <li>✅ <strong>不發布</strong>原版 EXE / ROM / 圖像 / 音效</li>
+      <li>✅ <strong>不發布</strong>遊戲對白 narrative / 劇情</li>
+      <li>✅ <strong>不發布</strong>美術原作（sprite / portrait）</li>
+      <li>✅ <strong>來源合法</strong>：toni 持有正版遊戲實體光碟（1996-2002 年陸續購買原版）+ 2024 年俠客遊：第三之書 Steam 版發行後再次購買支持</li>
+      <li>✅ <strong>公開內容限事實層</strong>：名稱 / 結構觀察 / 數值對照（依日本著作權法第 2 條僅創作性表現受保護，事實名稱不在保護範圍）</li>
+      <li>✅ <strong>引用三邊著作權法</strong>：日本著作権法 §2 + 美國 17 USC §102(b) + Feist v. Rural Telephone (1991) + Sega v. Accolade (1992)</li>
+    </ul>
+
+    <h3>本站額外的合規措施</h3>
+    <ul style="line-height: 1.9;">
+      <li>強調「正版遊戲實體光碟」來源（toni 購買兩次：實體 + Steam）</li>
+      <li>反向工程目的限數位文化保存（俠客遊系列 1990 年代繁中代理已絕版）</li>
+      <li>本站非營利、無廣告、無付費內容</li>
+      <li>所有公開頁面通過自動化版權合規 audit (tools/audit/site_audit.sh 共 9 條檢查)</li>
+    </ul>
+  </div>
+
+  <h2>[ 11. 致謝 + 來源 ]</h2>
+
+  <div class="section-block">
+    <p>本研究筆記基於 <strong>toni 持有的正版遊戲實體光碟</strong>拷貝 + 1996-2010 年間社群留下的工具：</p>
     <ul style="line-height: 1.9;">
       <li>俠客遊 II 攻略集 / 說明書 PDF（toni 持有實體書，本機掃描，本站不上傳僅資料參考）</li>
       <li>第三之書精靈工具 Lde3ET（1990s 玩家社群，提取 42 詩稱號 + 71 神器）</li>

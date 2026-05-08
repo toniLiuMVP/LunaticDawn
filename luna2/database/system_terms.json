@@ -317,7 +317,7 @@
    ]
   },
   "MGCDATA 5 系 80 records 統計": {
-   "description": "MGCDATA.MST 80 records × 32 bytes（從 W14 完整 dump）。每系 16 slots：物理 8 有效 / 元素 10 有效 / 神聖 12 有效 / 暗黑 11 有效 / 精靈 8 有效 + 4 召喚獸固定 mp=70 atk=330。共 49 招實際魔法 + 31 空 slot。",
+   "description": "MGCDATA.MST 80 records × 32 bytes（從 2026 完整 dump）。每系 16 slots：物理 8 有效 / 元素 10 有效 / 神聖 12 有效 / 暗黑 11 有效 / 精靈 8 有效 + 4 召喚獸固定 mp=70 atk=330。共 49 招實際魔法 + 31 空 slot。",
    "items": [
     "物理系: 8 有效 / 8 空 (MP 40-120, ATK 0-300)",
     "元素系: 10 有效 / 6 空 (MP 16-100, ATK 25-666)",
