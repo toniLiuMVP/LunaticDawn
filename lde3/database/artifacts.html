@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第三之書 · 神器圖鑑 · 吟遊詩人的傳說</title>
+<meta name="description" content="俠客遊：第三之書 神器圖鑑 — 71 件神器級武器（光榮系列 / 中華神話 / 希臘神話 / 北歐神話 / 印度神話 等 11 大類）。">
+<link rel="stylesheet" href="../../assets/css/fonts-retro.css">
+<link rel="stylesheet" href="../../assets/css/retro.css">
+<meta property="og:type" content="website">
+<meta property="og:title" content="第三之書 · 神器圖鑑">
+<meta property="og:description" content="71 件神器級武器，跨多文化神話系統。">
+<meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/lde3/database/artifacts.html">
+<meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
+<meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
+<style>
+.toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 16px 0; padding: 12px; border: 1px solid var(--phosphor-dim); background: var(--bg-panel); }
+.toolbar input { background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-dim); padding: 6px 10px; font-family: 'VT323', monospace; font-size: 18px; }
+.toolbar input:focus { outline: none; border-color: var(--amber); }
+.toolbar label { color: var(--phosphor-dim); font-size: 16px; }
+.toolbar .count { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 12px; margin-left: auto; }
+.notice { padding: 12px 16px; background: rgba(255,176,0,0.08); border-left: 3px solid var(--amber); margin: 16px 0; font-size: 14px; color: var(--phosphor-dim); line-height: 1.7; }
+.cat-section { margin: 20px 0; padding: 14px; background: var(--bg-panel); border: 1px solid var(--phosphor-fade); }
+.cat-title { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 13px; margin: 0 0 8px; display: flex; align-items: baseline; gap: 12px; }
+.cat-num { color: var(--phosphor-fade); font-size: 11px; }
+.cat-desc { color: var(--phosphor-dim); font-size: 13px; margin: 0 0 12px; line-height: 1.6; }
+.art-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 8px; }
+.art-item { background: var(--bg-input); padding: 10px 14px; border: 1px solid var(--phosphor-fade); border-radius: 2px; }
+.art-name { color: var(--phosphor); font-size: 16px; font-weight: bold; }
+.art-meta { color: var(--phosphor-fade); font-size: 12px; margin-top: 4px; font-family: 'VT323', monospace; }
+.art-lore { color: var(--amber); font-size: 12px; margin-top: 4px; font-family: 'VT323', monospace; opacity: 0.85; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="pixel">第三之書 · 神器圖鑑</h1>
+      <nav>
+        <a href="index.html">← 資料庫首頁</a>
+        ·
+        <a href="items.html">道具列表</a>
+        ·
+        <a href="achievements.html">成就稱號</a>
+        ·
+        <a href="cards.html">卡片詞彙</a>
+        ·
+        <a href="../../">回主站</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="notice">
+    <strong>第三之書 神器圖鑑</strong>（71 件，11 大類）
+    <br><br>
+    <strong>內容</strong>：第三之書神器級武器命名橫跨多文化神話系統，本頁列出 71 件神器（從第三之書精靈工具 Lde3ET.exe 提取）依文化系統分類。
+    <br><br>
+    <strong>命名來源</strong>：
+    <ul style="margin: 8px 0 0 24px; line-height: 1.9;">
+      <li><strong>遊戲原創套裝</strong>：光榮系列 11 件 + 混沌系列 4 件 + 暗黑系列 4 件</li>
+      <li><strong>中華神話</strong>：七星劍 / 九龍槍 / 玉璽 / 青龍刀（關公青龍偃月刀典）等</li>
+      <li><strong>希臘神話</strong>：大阿波羅之弓 (Apollo) / 阿爾提蜜絲之弓 (Artemis)</li>
+      <li><strong>北歐神話</strong>：巴爾基里之槍 (Valkyrie 女武神)</li>
+      <li><strong>印度 / 佛教</strong>：阿修羅之弓 / 夜叉王之劍</li>
+      <li><strong>元素 / 自然</strong>：火炎 / 火燄 / 大地 / 地脈 / 星屑 / 時空</li>
+      <li><strong>v1.2 修正</strong>：祭品之杖（v1.0 原譯遠古之杖）</li>
+    </ul>
+    <br>
+    <strong>合規說明</strong>：神器名稱屬遊戲事實層內容（玩家於商店、寶箱、戰利品即可看見），依日本著作權法第 2 條僅創作性表現受保護，事實名稱與其文化典故來源不在保護範圍。
+  </div>
+
+  <div class="toolbar">
+    <label for="search">搜尋:</label>
+    <input id="search" type="search" placeholder="輸入神器名稱（例：劍 / 神 / 之斧）...">
+    <span class="count" id="count">11 大類 / 71 件</span>
+  </div>
+
+  <div id="content"><div style="padding: 40px; text-align: center; color: var(--phosphor-dim);">載入中...</div></div>
+</div>
+
+<script>
+let allData = null;
+
+async function load() {
+  const r = await fetch('artifacts.json');
+  allData = await r.json();
+  render();
+}
+
+function render() {
+  const content = document.getElementById('content');
+  while (content.firstChild) content.removeChild(content.firstChild);
+
+  const search = document.getElementById('search').value.trim().toLowerCase();
+  let totalShown = 0;
+  let catShown = 0;
+
+  for (const [catName, catData] of Object.entries(allData.categories)) {
+    const matched = search
+      ? catData.artifacts.filter(a => a.name.toLowerCase().includes(search) ||
+          (a.type && a.type.toLowerCase().includes(search)) ||
+          (a.lore && a.lore.toLowerCase().includes(search)))
+      : catData.artifacts;
+    if (matched.length === 0) continue;
+
+    catShown++;
+    totalShown += matched.length;
+
+    const section = document.createElement('div');
+    section.className = 'cat-section';
+
+    const title = document.createElement('div');
+    title.className = 'cat-title';
+    title.appendChild(document.createTextNode(`[ ${catName} ]`));
+    const num = document.createElement('span');
+    num.className = 'cat-num';
+    num.textContent = `${matched.length} 件`;
+    title.appendChild(num);
+    section.appendChild(title);
+
+    const desc = document.createElement('p');
+    desc.className = 'cat-desc';
+    desc.textContent = catData.description;
+    section.appendChild(desc);
+
+    const grid = document.createElement('div');
+    grid.className = 'art-grid';
+    for (const a of matched) {
+      const item = document.createElement('div');
+      item.className = 'art-item';
+      const nameDiv = document.createElement('div');
+      nameDiv.className = 'art-name';
+      nameDiv.textContent = a.name;
+      item.appendChild(nameDiv);
+      if (a.type) {
+        const metaDiv = document.createElement('div');
+        metaDiv.className = 'art-meta';
+        metaDiv.textContent = `類型: ${a.type}`;
+        item.appendChild(metaDiv);
+      }
+      if (a.lore) {
+        const loreDiv = document.createElement('div');
+        loreDiv.className = 'art-lore';
+        loreDiv.textContent = `▸ ${a.lore}`;
+        item.appendChild(loreDiv);
+      }
+      grid.appendChild(item);
+    }
+    section.appendChild(grid);
+    content.appendChild(section);
+  }
+
+  document.getElementById('count').textContent =
+    search ? `${catShown} 大類 / ${totalShown} 件符合` : `${Object.keys(allData.categories).length} 大類 / ${allData.total} 件`;
+}
+
+document.getElementById('search').addEventListener('input', render);
+
+load().catch(e => {
+  const err = document.createElement('div');
+  err.className = 'notice';
+  err.style.color = 'var(--danger, #ff6666)';
+  err.textContent = '載入錯誤：' + e.message;
+  document.getElementById('content').textContent = '';
+  document.getElementById('content').appendChild(err);
+});
+</script>
+</body>
+</html>
