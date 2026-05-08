@@ -72,6 +72,19 @@
     <br><br>
     <strong>技術說明</strong>：lde3s.le3 是 <strong>MFC CArchive 序列化資料流</strong>（非 raw struct dump），跨檔差異率高，直接「固定 offset 修改」不可行。本工具改用 search-and-replace + diff 找變化區段方式輔助修改。
     <br><br>
+    <strong>2026 結構分區發現</strong>（4 個玩家存檔 byte diff 取得）：
+    <ul style="margin: 8px 0 0 20px; line-height: 1.7;">
+      <li><strong>0x00-0x6B (108 bytes)</strong>：固定 header — magic <code>le3\\0</code> + ASCII 版權字串 + version u32=0x3d</li>
+      <li><strong>0x6C-0x18F (約 256 bytes)</strong>：半固定區 — 玩家可變只 24 bytes：
+        <ul style="margin: 4px 0 0 20px; font-size: 13px;">
+          <li><code>0x72-0x7E</code>: 13 bytes 玩家識別 / 屬性</li>
+          <li><code>0x88-0x8E</code>: 7 bytes 玩家屬性</li>
+          <li><code>0xA6</code>: 1 byte (推測種族 / 性別)</li>
+          <li><code>0x16C-0x16E</code>: 3 bytes (推測等級 / 年齡)</li>
+        </ul>
+      </li>
+      <li><strong>0x190+ (約 1MB)</strong>：MFC CArchive object stream，每次 save 整體 re-serialize（99.7% byte 在跨存檔間都不同）</li>
+    </ul>
     <em>所有解析在瀏覽器本地完成，不上傳任何資料。</em>
   </div>
 

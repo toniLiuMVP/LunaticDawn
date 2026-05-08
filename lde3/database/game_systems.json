@@ -1,5 +1,5 @@
 {
- "total": 241,
+ "total": 250,
  "description": "第三之書 遊戲系統詞彙 — 從 Lde3.exe 主程式提取的 UI 選單 / 任務類型 / 城鎮設施 / 怪物分類等基礎遊戲詞彙。每個玩家都會在遊戲過程中看見這些。",
  "categories": {
   "城鎮設施": {
@@ -361,6 +361,20 @@
     "格斗術",
     "机械術",
     "鬼捷避術"
+   ]
+  },
+  "lde3s.le3 存檔結構觀察": {
+   "description": "存檔檔案 lde3s.le3 (~1MB) 的逆向觀察。從 4 個獨立樣本的 byte-level diff 取得。Lde3.exe 用 MFC CArchive 序列化整個遊戲狀態，導致 ~99.7% byte 在不同存檔間都不同。但有 3 個關鍵分區可作 offset-based 修改器立足點。",
+   "items": [
+    "0x00-0x6B (108 bytes): 固定 header (magic 'le3\\\\0' + 版權字串 + version u32=0x3d)",
+    "0x6C-0x18F (約 256 bytes): 半固定區，~24 bytes 玩家可變",
+    "  └─ 0x72-0x7E: 13 bytes 玩家識別 / 屬性",
+    "  └─ 0x88-0x8E: 7 bytes 玩家屬性",
+    "  └─ 0xA6: 1 byte (推測種族 / 性別)",
+    "  └─ 0x16C-0x16E: 3 bytes (推測等級 / 年齡)",
+    "0x190+ (~1MB): MFC CArchive object stream，整檔 re-serialize",
+    "Lde3.exe 用 CreateFileA + MFC CFile::Open 讀取存檔（2 個 caller 函式）",
+    "存檔 slots: lde3s.le3 (主存檔) / lde3s.bak (備份) / lde3s.bk2 (備份 2) / s0000000.le3 (自訂 slot)"
    ]
   }
  }
