@@ -180,7 +180,7 @@ h2 { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 1
       <tr class="diff">
         <td class="label">國家數</td>
         <td class="ii">6 國（神聖吉札 / 敦津 / 樸哈爾 / 日傑 / 馬尼卡帕 / 芙庫基歐）</td>
-        <td class="iii">8 個世界 / 國家（長唐 / 日倭 / 伊塔爾 / 芭拉克夏 / 伊雷儂莫 / 瑪尼卡帕 / 羅馬爾 / 卡爾茲赫姆）</td>
+        <td class="iii">8 個世界 / 國家（v1.2 譯名）：長唐 / 日倭 / 伊塔爾 / 巴拉克夏 / 伊雷儂莫 / 馬尼卡帕 / 羅瑪爾 / 卡茲赫姆<br><span style="color: var(--phosphor-fade); font-size: 12px;">（v1.0 原譯：芭拉克夏 / 瑪尼卡帕 / 羅馬爾 / 卡爾茲赫姆，v1.2 patch 統一）</span></td>
       </tr>
       <tr class="new3">
         <td class="label">世界連結</td>
@@ -220,14 +220,67 @@ h2 { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 1
     </tbody>
   </table>
 
+  <h2>[ 第三之書 v1.0 → v1.2 patch 修正紀錄 ]</h2>
+
+  <p>第三之書於 2002 年 11 月發行 v1.0 後，2003 年 2 月推出 v1.2 修正檔。從 EXE 字串差分可確認以下修改：</p>
+
+  <table class="compare-table">
+    <thead>
+      <tr><th>修正項目</th><th>v1.0（2002-11）</th><th>v1.2（2003-02）</th></tr>
+    </thead>
+    <tbody>
+      <tr class="diff">
+        <td class="label">國名譯名統一</td>
+        <td class="ii">瑪尼卡帕 / 芭拉克夏 / 羅馬爾 / 卡爾茲赫姆</td>
+        <td class="iii">馬尼卡帕 / 巴拉克夏 / 羅瑪爾 / 卡茲赫姆（4 個改名跟俠客遊 II 風格更一致）</td>
+      </tr>
+      <tr class="diff">
+        <td class="label">武器更名</td>
+        <td class="ii">遠古之杖</td>
+        <td class="iii">祭品之杖（同樣道具改名）</td>
+      </tr>
+      <tr class="new3">
+        <td class="label">武器新增</td>
+        <td class="ii">—</td>
+        <td class="iii">單手戰斧（新武器類別）</td>
+      </tr>
+      <tr class="removed3">
+        <td class="label">網路功能精簡</td>
+        <td class="ii">完整 HTTP 錯誤訊息（伺服器錯誤 / 連線拒絕 / 媒體類型 等）</td>
+        <td class="iii">部分訊息移除（伺服器多年前已關閉，前端訊息一併精簡）</td>
+      </tr>
+      <tr class="removed3">
+        <td class="label">未翻譯日文殘留</td>
+        <td class="ii">「アホ以上、保管ザわネオモ。」（殘缺日文字串）</td>
+        <td class="iii">已移除</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>[ 卡片戰鬥的隱藏系統 ]</h2>
+
+  <p>從 <code>CoCard.dll</code>（卡片戰鬥引擎 DLL，352 KB）逆向取得：</p>
+
+  <ul style="line-height: 1.9;">
+    <li><strong>4 種卡片陣營屬性</strong>：黑暗 / 神聖 / 混沌 / 秩序 — 每張卡片屬於一個陣營</li>
+    <li><strong>支援卡片 vs 攻擊卡片</strong>：卡片戰鬥區分支援型與攻擊型</li>
+    <li><strong>網路對戰功能</strong>（v1.0）：完整的 TCP/IP 通訊機制（主機解決 / 受信 / 送信 / 待機 / 接續 / 切斷）— 2002 年代相當前衛的設計</li>
+  </ul>
+
+  <p style="color: var(--phosphor-fade); font-size: 13px;">
+    註：網路對戰伺服器目前已不可用，但 DLL 內仍保留完整通訊邏輯，這是第三之書設計史上的重要事實。
+  </p>
+
   <div class="notice" style="border-left-color: var(--phosphor);">
     <strong>結論</strong>：第三之書並非「俠客遊 II 加強版」，而是同世界觀 + 同任務概念上的<strong>戰鬥系統大改寫</strong>。II 的老玩家轉到第三之書時，最大學習曲線在卡片戰鬥的牌組構築。
     <br><br>
     <strong>選擇建議</strong>：偏好傳統 RPG 玩法 → II；偏好策略 / 牌組構築 → III。
+    <br><br>
+    <strong>版本選擇</strong>：建議套用 v1.2 patch，譯名跟 II 一致 + 字串修正。
   </div>
 
   <div class="notice">
-    <strong>合規說明</strong>：本對照表所列差異全屬玩家於遊戲中可見之事實（屬性名稱 / 任務類型名稱 / 系統機制存在與否），依日本著作權法第 2 條僅創作性表現受保護，事實名稱與系統觀察不在保護範圍。
+    <strong>合規說明</strong>：本對照表所列差異全屬玩家於遊戲中可見之事實（屬性名稱 / 任務類型名稱 / 系統機制存在與否 / patch 修正紀錄），依日本著作權法第 2 條僅創作性表現受保護，事實名稱與系統觀察不在保護範圍。
   </div>
 
 </div>
