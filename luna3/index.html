@@ -68,6 +68,37 @@
 </section>
 
 <section class="panel">
+  <h2 class="panel-title">[ 光碟結構分析（2026 逆向）]</h2>
+  <p class="muted">2026 年 toni 將實體光碟拷貝到電腦後，本站對 LD3 完整光碟結構做了二進位分析：</p>
+
+  <h3 style="color: var(--amber);">主程式</h3>
+  <ul style="line-height: 1.8;">
+    <li><code>LD3.exe</code> — 2,494,898 bytes（約 2.4 MB），編譯日期 <strong>2000-11-17</strong>，PE32 格式（Windows 32-bit i386 GUI）</li>
+    <li>跟<a href="../lde3/">第三之書</a>（2002）一樣是 MFC 程式，但 LD3 比第三之書早 2 年發行</li>
+  </ul>
+
+  <h3 style="color: var(--amber);">光碟結構</h3>
+  <ul style="line-height: 1.8;">
+    <li><strong>安裝光碟</strong>（LD3_INSTALL）：DirectX 安裝程式 + DirectXMedia + 主程式（ld3 資料夾）</li>
+    <li><strong>遊戲光碟</strong>（LD3_GAME_DISC）：Movie 動畫 + initial</li>
+    <li>遊戲資料總大小約 275 MB</li>
+  </ul>
+
+  <h3 style="color: var(--amber);">遊戲資料分類（Data/）</h3>
+  <p>LD3 資料分 9 大類，跟 LD4 結構一致（系列共通設計）：</p>
+  <ul style="line-height: 1.8;">
+    <li><strong>Map</strong> 97 MB — 地圖資料（最大）</li>
+    <li><strong>Monster</strong> 42 MB — 怪物 sprite（用 .TIL 格式，每隻怪物有多個動作檔）</li>
+    <li><strong>Character</strong> 24 MB — 角色 sprite</li>
+    <li><strong>Effect</strong> 4.4 MB — 戰鬥特效</li>
+    <li><strong>Weapon / Shield</strong> 約 3 MB — 武器 / 盾牌資料</li>
+    <li><strong>Campaign</strong> / <strong>Range</strong> / <strong>MSG</strong> — 劇本 / 範圍 / 訊息字典</li>
+  </ul>
+
+  <p class="muted" style="font-size: 13px;">⚠️ 怪物 / 角色 sprite 是創作性表現（屬版權保護內容），本站不公開。</p>
+</section>
+
+<section class="panel">
   <h2 class="panel-title">[ NAVIGATION ]</h2>
   <p>
     <a href="../">◀ 主站</a> ·
