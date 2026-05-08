@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>俠客遊 II vs 第三之書 — 系統對照 · 吟遊詩人的傳說</title>
+<meta name="description" content="俠客遊 II（1996）與 第三之書（2002）的核心系統對照 — 屬性 / 戰鬥 / 任務 / 法術 等差異全表。">
+<link rel="stylesheet" href="../../assets/css/fonts-retro.css">
+<link rel="stylesheet" href="../../assets/css/retro.css">
+<meta property="og:type" content="article">
+<meta property="og:title" content="俠客遊 II vs 第三之書 系統對照">
+<meta property="og:description" content="兩代核心系統差異全表：6 vs 8 屬性 / 卡片戰鬥 vs 技能戰鬥 / 任務系統 / 魔法系統。">
+<meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/lde3/guides/ii-vs-iii-systems.html">
+<meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
+<meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
+<style>
+.compare-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 15px; }
+.compare-table th, .compare-table td { border: 1px solid var(--phosphor-fade); padding: 8px 12px; text-align: left; vertical-align: top; }
+.compare-table th { background: var(--bg-panel); color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 11px; }
+.compare-table .label { color: var(--phosphor-dim); font-weight: bold; width: 16%; }
+.compare-table .ii { width: 38%; }
+.compare-table .iii { width: 38%; }
+.compare-table .same { background: rgba(0, 255, 65, 0.04); }
+.compare-table .diff { background: rgba(255, 176, 0, 0.06); }
+.compare-table .new3 { background: rgba(0, 200, 255, 0.06); color: #cce; }
+.compare-table .removed3 { background: rgba(255, 90, 90, 0.06); color: #fcc; }
+.notice { padding: 12px 16px; background: rgba(255,176,0,0.08); border-left: 3px solid var(--amber); margin: 16px 0; font-size: 14px; color: var(--phosphor-dim); line-height: 1.7; }
+.legend { display: flex; gap: 16px; margin: 12px 0; font-size: 13px; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 6px; }
+.legend-box { width: 14px; height: 14px; border: 1px solid var(--phosphor-fade); }
+h2 { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 13px; margin-top: 32px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="pixel">II vs 第三之書 — 系統對照</h1>
+      <nav>
+        <a href="index.html">← 攻略總覽</a>
+        ·
+        <a href="../">回第三之書</a>
+        ·
+        <a href="../../luna2/">回俠客遊 II</a>
+        ·
+        <a href="../../">主站</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="notice">
+    <strong>本頁主題</strong>：俠客遊 II（1996，Artdink）與 第三之書（2002，Artdink）核心系統差異對照。所有差異皆從遊戲二進位逆向確認，非主觀解讀。
+    <br><br>
+    <strong>特別說明</strong>：兩作雖然同系列，但戰鬥系統、屬性系統、整體玩法在第三之書都做了明顯重構。本表幫助 II 的老玩家理解第三之書的學習曲線。
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><span class="legend-box" style="background: rgba(0, 255, 65, 0.04);"></span> 相同 / 沿用</div>
+    <div class="legend-item"><span class="legend-box" style="background: rgba(255, 176, 0, 0.06);"></span> 改寫 / 簡化</div>
+    <div class="legend-item"><span class="legend-box" style="background: rgba(0, 200, 255, 0.06);"></span> III 新增</div>
+    <div class="legend-item"><span class="legend-box" style="background: rgba(255, 90, 90, 0.06);"></span> III 移除</div>
+  </div>
+
+  <h2>[ 角色系統 ]</h2>
+
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>項目</th>
+        <th>俠客遊 II（1996）</th>
+        <th>第三之書（2002）</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="diff">
+        <td class="label">屬性數量</td>
+        <td class="ii"><strong>8 屬性</strong>：力 / 智 / 靈 / 敏 / 直 / 魅 / 體 / 精</td>
+        <td class="iii"><strong>6 屬性</strong>：肌力 / 智力 / 敏捷 / 靈巧 / 直覺 / 魅力</td>
+      </tr>
+      <tr class="removed3">
+        <td class="label">移除屬性</td>
+        <td class="ii">體（體格）/ 精（精神）</td>
+        <td class="iii">— 推測併入 HP / MP 直接計算</td>
+      </tr>
+      <tr class="diff">
+        <td class="label">屬性命名</td>
+        <td class="ii">單字精煉風（力 / 智 / 靈 ...）</td>
+        <td class="iii">雙字白話風（肌力 / 智力 / 敏捷 ...）</td>
+      </tr>
+      <tr class="same">
+        <td class="label">玩家種族</td>
+        <td class="ii">人類 / 半精靈 / 精靈 / 矮人 / 巨人</td>
+        <td class="iii">同（種族系統沿用）</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>[ 戰鬥系統 ]</h2>
+
+  <table class="compare-table">
+    <thead>
+      <tr><th>項目</th><th>俠客遊 II</th><th>第三之書</th></tr>
+    </thead>
+    <tbody>
+      <tr class="diff">
+        <td class="label">戰鬥模式</td>
+        <td class="ii">傳統 RPG 回合制 + 武技 / 必殺技</td>
+        <td class="iii"><strong>卡片戰鬥</strong>（最大特色）— 每張卡片代表一個動作 / 法術，玩家組牌進行戰鬥</td>
+      </tr>
+      <tr class="diff">
+        <td class="label">技能 / 招式</td>
+        <td class="ii">15 種技能熟練度（劍 / 槍 / 棍 / 弓 / 投 / 拳 + 5 系魔法 + 治癒 / 探查 / 偷 / 盜）</td>
+        <td class="iii">改用 <strong>40+ 卡片</strong>（力場 / 陣式 / 召喚 / 攻擊 / 回復 / 負面 等 11 大類）</td>
+      </tr>
+      <tr class="new3">
+        <td class="label">特殊機制</td>
+        <td class="ii">—</td>
+        <td class="iii"><strong>陣式系統</strong>（反轉陣式 / 亂數陣式）+ <strong>力場系統</strong>（8 種屬性力場）+ <strong>旋轉系統</strong>（左 / 右旋轉）</td>
+      </tr>
+      <tr class="same">
+        <td class="label">必殺技</td>
+        <td class="ii">8 大武器類別 × 變體（俠客遊 II 共 16 名）</td>
+        <td class="iii">沿用必殺技概念但整合進卡片系統</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>[ 任務 / 委託系統 ]</h2>
+
+  <table class="compare-table">
+    <thead>
+      <tr><th>項目</th><th>俠客遊 II</th><th>第三之書</th></tr>
+    </thead>
+    <tbody>
+      <tr class="same">
+        <td class="label">任務類型數</td>
+        <td class="ii">14 種：逃獄 / 通緝 / 討伐 / 試練 / 探索 / 驅退 / 打敵人 / 暗殺 / 奪回 / 強盜 / 走私 / 買東西 / 秘密出口 / 送貨</td>
+        <td class="iii">同 14 種（沿用設計）+ 7 個事件子分類</td>
+      </tr>
+      <tr class="same">
+        <td class="label">委託發布</td>
+        <td class="ii">城鎮酒館（旅館 / 廣場 / 寺院 / 訓練所 等）</td>
+        <td class="iii">沿用 9 大設施結構</td>
+      </tr>
+      <tr class="new3">
+        <td class="label">事件子標籤</td>
+        <td class="ii">—</td>
+        <td class="iii">7 個事件子分類：搜索 / 脫獄 / 逃亡 / 被懸賞者 / 護衛 / 救出 / 綁架</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>[ 魔法系統 ]</h2>
+
+  <table class="compare-table">
+    <thead>
+      <tr><th>項目</th><th>俠客遊 II</th><th>第三之書</th></tr>
+    </thead>
+    <tbody>
+      <tr class="diff">
+        <td class="label">魔法系數</td>
+        <td class="ii">5 系（物理 / 元素 / 神聖 / 暗黑 / 精靈）共 48 招</td>
+        <td class="iii">融入卡片系統（8 種力場 + 5 種攻擊 + 5 種負面 + 4 種回復 + 2 種召喚 等）</td>
+      </tr>
+      <tr class="same">
+        <td class="label">召喚獸</td>
+        <td class="ii">伊弗利朵 / 琴恩 / 克拉肯 / 貝希摩斯</td>
+        <td class="iii">依弗利特 / 鷹隼（譯名不同）</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>[ 世界觀 ]</h2>
+
+  <table class="compare-table">
+    <thead>
+      <tr><th>項目</th><th>俠客遊 II</th><th>第三之書</th></tr>
+    </thead>
+    <tbody>
+      <tr class="diff">
+        <td class="label">國家數</td>
+        <td class="ii">6 國（神聖吉札 / 敦津 / 樸哈爾 / 日傑 / 馬尼卡帕 / 芙庫基歐）</td>
+        <td class="iii">8 個世界 / 國家（長唐 / 日倭 / 伊塔爾 / 芭拉克夏 / 伊雷儂莫 / 瑪尼卡帕 / 羅馬爾 / 卡爾茲赫姆）</td>
+      </tr>
+      <tr class="new3">
+        <td class="label">世界連結</td>
+        <td class="ii">—</td>
+        <td class="iii"><strong>環節之門</strong>系統 — 玩家可在不同世界 / 國家間旅行，把道具卡片化攜帶</td>
+      </tr>
+      <tr class="same">
+        <td class="label">城鎮設施</td>
+        <td class="ii">9 大設施（武器店 / 道具店 / 訓練所 等）</td>
+        <td class="iii">同 9 大設施（沿用）</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>[ 二進位逆向觀察 ]</h2>
+
+  <table class="compare-table">
+    <thead>
+      <tr><th>項目</th><th>俠客遊 II（LUNA2.EXE）</th><th>第三之書（Lde3.exe）</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="label">執行檔大小</td>
+        <td class="ii">596 KB（Pentium 100 等級）</td>
+        <td class="iii">2.5 MB（Win98+ 級，MFC 框架）</td>
+      </tr>
+      <tr>
+        <td class="label">資料儲存</td>
+        <td class="ii">獨立 .MST / .DAT / .ENC 檔案</td>
+        <td class="iii">部分內嵌 EXE + 部分 .dat 檔（含 Huffman 壓縮）</td>
+      </tr>
+      <tr>
+        <td class="label">字元編碼</td>
+        <td class="ii">標準 Big5</td>
+        <td class="iii">CP950（Big5 + HKSCS 擴充字，如「手裏劍」）</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="notice" style="border-left-color: var(--phosphor);">
+    <strong>結論</strong>：第三之書並非「俠客遊 II 加強版」，而是同世界觀 + 同任務概念上的<strong>戰鬥系統大改寫</strong>。II 的老玩家轉到第三之書時，最大學習曲線在卡片戰鬥的牌組構築。
+    <br><br>
+    <strong>選擇建議</strong>：偏好傳統 RPG 玩法 → II；偏好策略 / 牌組構築 → III。
+  </div>
+
+  <div class="notice">
+    <strong>合規說明</strong>：本對照表所列差異全屬玩家於遊戲中可見之事實（屬性名稱 / 任務類型名稱 / 系統機制存在與否），依日本著作權法第 2 條僅創作性表現受保護，事實名稱與系統觀察不在保護範圍。
+  </div>
+
+</div>
+</body>
+</html>
