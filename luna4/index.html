@@ -155,6 +155,17 @@
 
   <p class="muted" style="font-size: 13px;">→ 4 主題 × 5 頁 = 20 個模板，部分日文助詞「の / ライセンス / アイテム / ハンドル」未翻譯（cp950 顯示為「ソ / ヲьиュЧヱ / ヤユЪу / г⑦Эю」），證明台灣版直接從日文版改翻譯，留下日文助詞殘留。</p>
 
+  <h3 style="color: var(--amber);">★ LD4 加密分析（2026 known plaintext attack）</h3>
+  <p>2026 年用 known plaintext attack 對 LD4 加密 BIN 取得部分突破：</p>
+  <ul style="line-height: 1.8;">
+    <li><strong>已知</strong>：LD3 MonsterPara.BIN 是明文 (<code>\\0LD3</code> magic + 12 bytes 0 padding)</li>
+    <li><strong>推測</strong>：LD4 MonsterPara.BIN 對應原檔開頭應為 <code>\\0LD4</code> (差 byte 3：0x33→0x34)</li>
+    <li><strong>解出</strong>：用 <code>\\0LD4 + 0 padding</code> 反推前 24 byte XOR key：<br><code style="font-size: 12px;">97 6e e2 ce bc bb 8a d5 00 55 3e 93 36 ee 32 3e 6a 87 66 d7 9e 20 9a 70</code></li>
+    <li><strong>驗證</strong>：解出 byte 0-3 = <code>00 4c 44 34</code> = <code>\\0LD4</code>，前 24 bytes 完全對應 ✓</li>
+    <li><strong>限制</strong>：byte 24+ 不是 cyclic XOR — cipher 切到 stream / state-based 算法。完整破解需要反組譯 LD4.exe 找 cipher init function。</li>
+  </ul>
+  <p class="muted" style="font-size: 13px;">→ 這是「**已加密但不安全**」的設計：用 zero padding 作為 known plaintext 立刻洩漏前 24 bytes XOR keystream。Artdink 顯然不是專業 cryptographer。</p>
+
   <h3 style="color: var(--amber);">★ Artdink 加密策略演進（2026 跨檔對照發現）</h3>
   <p>從 LUNA2 (1996) 到第三之書 (2002)，Artdink 對遊戲資料的加密策略逐步加強：</p>
   <table style="width: 100%; border-collapse: collapse; margin: 12px 0;">
