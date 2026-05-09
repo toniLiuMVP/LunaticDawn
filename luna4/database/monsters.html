@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>俠客遊 IV · 怪物大全 · 吟遊詩人的傳說</title>
+<meta name="description" content="LD4 怪物完整資料庫 — 505 隻怪物含 Lv/HP/MP + 9 屬性對。源自 LunaticConsortia (2007)。">
+<link rel="stylesheet" href="../../assets/css/fonts-retro.css">
+<link rel="stylesheet" href="../../assets/css/retro.css">
+<style>
+.notice { padding: 12px; border: 1px dashed var(--phosphor-dim); color: var(--phosphor-dim); margin-bottom: 16px; font-size: 14px; line-height: 1.7; }
+.search-box { display: flex; gap: 8px; margin: 16px 0; align-items: center; flex-wrap: wrap; }
+.search-box input { flex: 1; min-width: 240px; background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-dim); padding: 8px 12px; font-family: 'VT323', monospace; font-size: 16px; }
+.search-box input:focus { outline: none; border-color: var(--amber); }
+.mon-card { background: var(--bg-panel); border: 1px solid var(--phosphor-fade); padding: 12px; margin-bottom: 10px; }
+.mon-name { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 13px; margin: 0 0 6px; }
+.mon-stats { color: var(--phosphor); font-size: 14px; margin: 4px 0; font-family: 'VT323', monospace; }
+.mon-group { color: var(--phosphor-fade); font-size: 13px; margin: 4px 0; }
+.attr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; font-size: 12px; color: var(--phosphor-fade); margin-top: 6px; }
+.attr-cell { background: var(--bg-input); padding: 3px 6px; border-radius: 2px; font-family: 'VT323', monospace; }
+</style>
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="pixel">俠客遊 IV · 怪物大全</h1>
+      <nav>
+        <a href="./">← 資料庫首頁</a> · <a href="../">回俠客遊 IV</a> · <a href="../../">主站</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="notice">
+      <strong>LD4 怪物完整資料庫</strong>（<span id="count">505</span> 隻 · 含 Lv / HP / MP / 群組 / 攻防魔敏 / 9 系屬性）
+      <br>
+      <strong>來源</strong>：LunaticConsortia 2007 MDBIG5.dat — 玩家戰鬥時可見的事實層數值。
+    </div>
+
+    <div class="search-box">
+      <span style="color: var(--amber);">🔍</span>
+      <input id="search" type="text" placeholder="搜尋怪物名 / 群組（例：龍 / 機械）...">
+      <span id="match-count" style="color: var(--phosphor-fade); font-size: 12px;"></span>
+    </div>
+
+    <div id="content"></div>
+  </main>
+</div>
+
+<script>
+let DATA = null;
+
+async function load() {
+  const r = await fetch('ld4_lc_dat.json');
+  DATA = await r.json();
+  document.getElementById('count').textContent = DATA.monster_count;
+  render();
+}
+
+function makeAttrGrid(attrs) {
+  const grid = document.createElement('div');
+  grid.className = 'attr-grid';
+  Object.entries(attrs).forEach(([k, v]) => {
+    const cell = document.createElement('div');
+    cell.className = 'attr-cell';
+    cell.textContent = k + ' ' + v;
+    grid.appendChild(cell);
+  });
+  return grid;
+}
+
+function render() {
+  const filter = document.getElementById('search').value.trim().toLowerCase();
+  const root = document.getElementById('content');
+  while (root.firstChild) root.removeChild(root.firstChild);
+
+  let matched = 0;
+  for (const m of DATA.monsters) {
+    if (filter) {
+      const hay = (m.name + ' ' + m.group + ' ' + m.stats).toLowerCase();
+      if (!hay.includes(filter)) continue;
+    }
+    matched++;
+    const card = document.createElement('div');
+    card.className = 'mon-card';
+    const name = document.createElement('div');
+    name.className = 'mon-name';
+    name.textContent = m.name;
+    card.appendChild(name);
+    if (m.stats) {
+      const stats = document.createElement('div');
+      stats.className = 'mon-stats';
+      stats.textContent = m.stats;
+      card.appendChild(stats);
+    }
+    if (m.group) {
+      const grp = document.createElement('div');
+      grp.className = 'mon-group';
+      grp.textContent = '群組：' + m.group;
+      card.appendChild(grp);
+    }
+    if (m.combat) {
+      const c = document.createElement('div');
+      c.className = 'mon-stats';
+      c.textContent = m.combat;
+      card.appendChild(c);
+    }
+    if (m.attributes && Object.keys(m.attributes).length) {
+      card.appendChild(makeAttrGrid(m.attributes));
+    }
+    root.appendChild(card);
+  }
+
+  document.getElementById('match-count').textContent =
+    filter ? '符合：' + matched : '共 ' + matched + ' 筆';
+}
+
+document.getElementById('search').addEventListener('input', render);
+load();
+</script>
+</body>
+</html>

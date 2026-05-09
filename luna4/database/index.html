@@ -44,15 +44,30 @@
   </header>
 
   <div class="notice">
+    <strong>俠客遊 IV 攻略資料庫合併版（Mac/Win/手機通吃）</strong>
+    <br><br>
+    本資料庫整合三大來源 → 跨平台 web，無需 Wine + 無需安裝 Win32 工具：
+    <br>
+    1. <a href="items.html"><strong>道具大全</strong></a> — LunaticConsortia 2007 解壓 627 道具 + 272 簡名（繁中）
+    <br>
+    2. <a href="monsters.html"><strong>怪物大全</strong></a> — LunaticConsortia 2007 解壓 505 隻怪（繁中）
+    <br>
+    3. <a href="magics.html"><strong>魔法 / 必殺技</strong></a> — 神之眼 1.1（2001）<code>ld4navi.def</code> 解壓 66 魔法 + 5 NPC 任務（日文 ARTDINK 官方）
+    <br>
+    4. <a href="#world-pool"><strong>世界生成器名字字典</strong></a> — LD4 res/ 提取 1,200 個 unique 中文字串（下方）
+    <br><br>
+    <strong>「神之眼」修復狀態</strong>：原版 ld4navi.exe 是 Delphi 5 + runtime memory hook，2001 年寫死的 LD4 process address 對 NoCD/IDskip 修補版已失效。本資料庫**直接 parse 純文字 .def**，繞過 EXE 完全 Mac 跨平台。
+    <br><br>
+    <strong>「LunaticConsortia」修復狀態</strong>：原版 .exe 需 MFC42.DLL（VC6 runtime）+ Wine 設定才能跑。本資料庫**直接 parse Big5 .dat**，繞過 EXE 完全 Mac 跨平台。
+    <br><br>
+    <strong>合規</strong>：純名字字典 + 事實層數值，依日本著作權法第 2 條僅創作性表現受保護。所有公開內容是玩家於遊戲中可見之事實。
+  </div>
+
+  <h2 id="world-pool" style="color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 14px; margin-top: 32px;">[ 世界生成器名字字典 ]</h2>
+  <div class="notice" style="margin-top: 8px;">
     <strong>俠客遊 IV 隨機世界生成器名字字典</strong>（1,200 個 unique 中文字串）
-    <br><br>
-    <strong>來源</strong>：LD4 res/ 各明文 .BIN 提取（<strong>跳過 4 個加密檔</strong>：ITEM_GUARD / ITEM_NORMAL / ITEM_WEAPON / MonsterPara.BIN）
-    <br><br>
-    <strong>跟 LD3 比較</strong>：LD4 的世界名 pool 從 LD3 的 516 增到 602（+86 個新國家名），其他 pool 大致相同 — LD4 沿用 LD3 的隨機世界生成器設計，再擴充地圖 pool。
-    <br><br>
-    <strong>合規</strong>：純名字字典，事實層內容（玩家於遊戲中會看到這些字串），依日本著作權法第 2 條僅創作性表現受保護，事實名稱不在保護範圍。
-    <br><br>
-    完整 JSON 在 <a href="ld4_world_pool.json">ld4_world_pool.json</a>。
+    <br><strong>跟 LD3 比較</strong>：LD4 從 LD3 的 516 增到 602（+86 新國家名）。
+    <br>完整 JSON 在 <a href="ld4_world_pool.json">ld4_world_pool.json</a>。
   </div>
 
   <div class="search-box">
