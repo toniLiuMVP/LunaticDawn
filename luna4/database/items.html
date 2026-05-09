@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>俠客遊 IV · 道具大全 · 吟遊詩人的傳說</title>
+<meta name="description" content="LD4 道具完整資料庫 — 627 個道具含描述 + 9 屬性對。源自 LunaticConsortia (2007)，跨平台 Mac/Win/手機通吃。">
+<link rel="stylesheet" href="../../assets/css/fonts-retro.css">
+<link rel="stylesheet" href="../../assets/css/retro.css">
+<style>
+.notice { padding: 12px; border: 1px dashed var(--phosphor-dim); color: var(--phosphor-dim); margin-bottom: 16px; font-size: 14px; line-height: 1.7; }
+.search-box { display: flex; gap: 8px; margin: 16px 0; align-items: center; flex-wrap: wrap; }
+.search-box input { flex: 1; min-width: 240px; background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-dim); padding: 8px 12px; font-family: 'VT323', monospace; font-size: 16px; }
+.search-box input:focus { outline: none; border-color: var(--amber); }
+.item-card { background: var(--bg-panel); border: 1px solid var(--phosphor-fade); padding: 12px; margin-bottom: 12px; }
+.item-name { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 13px; margin: 0 0 6px; }
+.item-meta { color: var(--phosphor); font-size: 13px; margin-bottom: 6px; white-space: pre; font-family: 'VT323', monospace; }
+.item-desc { color: var(--phosphor-fade); font-size: 14px; line-height: 1.5; margin: 6px 0; white-space: pre-wrap; }
+.attr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; font-size: 12px; color: var(--phosphor-fade); margin-top: 6px; }
+.attr-cell { background: var(--bg-input); padding: 3px 6px; border-radius: 2px; font-family: 'VT323', monospace; }
+.tabs { display: flex; gap: 8px; margin: 16px 0; flex-wrap: wrap; }
+.tab-btn { background: var(--bg-input); color: var(--phosphor-dim); border: 1px solid var(--phosphor-dim); padding: 6px 14px; cursor: pointer; font-family: 'VT323', monospace; font-size: 14px; }
+.tab-btn.active { color: var(--amber); border-color: var(--amber); }
+.simple-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px; }
+.simple-item { background: var(--bg-input); padding: 6px 12px; font-size: 14px; color: var(--phosphor); border: 1px solid var(--phosphor-fade); border-radius: 2px; }
+</style>
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="pixel">俠客遊 IV · 道具大全</h1>
+      <nav>
+        <a href="./">← 資料庫首頁</a> · <a href="../">回俠客遊 IV</a> · <a href="../../">主站</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="notice">
+      <strong>LD4 道具完整資料庫</strong>（<span id="full-count">627</span> 道具含描述 + 9 屬性 / <span id="list-count">272</span> 道具簡名列表）
+      <br><br>
+      <strong>來源</strong>：LunaticConsortia 2007 IDBIG5.dat / LGDBIG5.dat — Big5 純文字資料，玩家於遊戲中可見。
+      <br>
+      <strong>跨平台</strong>：純 HTML/CSS/JS，Mac / Windows / iPad / Android 瀏覽器都能用 — 無需安裝 LunaticConsortia.exe（VC6 + MFC42）。
+      <br>
+      <strong>合規</strong>：依 PUBLISHING.md v2.0 — 玩家可見的遊戲事實層內容（道具名 / 屬性數值 / 規則描述）。
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="full" onclick="switchTab('full')">完整 627 筆</button>
+      <button class="tab-btn" data-tab="list" onclick="switchTab('list')">簡名 272 筆</button>
+    </div>
+
+    <div class="search-box">
+      <span style="color: var(--amber);">🔍</span>
+      <input id="search" type="text" placeholder="搜尋道具名或描述...">
+      <span id="match-count" style="color: var(--phosphor-fade); font-size: 12px;"></span>
+    </div>
+
+    <div id="content-full"></div>
+    <div id="content-list" style="display:none;"></div>
+  </main>
+</div>
+
+<script>
+let DATA = null;
+let curTab = 'full';
+
+async function load() {
+  const r = await fetch('ld4_lc_dat.json');
+  DATA = await r.json();
+  document.getElementById('full-count').textContent = DATA.item_full_count;
+  document.getElementById('list-count').textContent = DATA.item_simple_count;
+  render();
+}
+
+function switchTab(t) {
+  curTab = t;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === t));
+  document.getElementById('content-full').style.display = t === 'full' ? '' : 'none';
+  document.getElementById('content-list').style.display = t === 'list' ? '' : 'none';
+  render();
+}
+
+function makeAttrGrid(attrs) {
+  const grid = document.createElement('div');
+  grid.className = 'attr-grid';
+  Object.entries(attrs).forEach(([k, v]) => {
+    const cell = document.createElement('div');
+    cell.className = 'attr-cell';
+    cell.textContent = k + ' ' + v;
+    grid.appendChild(cell);
+  });
+  return grid;
+}
+
+function render() {
+  const filter = document.getElementById('search').value.trim().toLowerCase();
+  let matched = 0;
+
+  if (curTab === 'full') {
+    const root = document.getElementById('content-full');
+    while (root.firstChild) root.removeChild(root.firstChild);
+    for (const item of DATA.items_full) {
+      if (filter) {
+        const hay = (item.name + ' ' + item.description + ' ' + item.meta).toLowerCase();
+        if (!hay.includes(filter)) continue;
+      }
+      matched++;
+      const card = document.createElement('div');
+      card.className = 'item-card';
+      const name = document.createElement('div');
+      name.className = 'item-name';
+      name.textContent = item.name;
+      card.appendChild(name);
+      if (item.meta) {
+        const meta = document.createElement('div');
+        meta.className = 'item-meta';
+        meta.textContent = item.meta;
+        card.appendChild(meta);
+      }
+      if (item.description) {
+        const desc = document.createElement('div');
+        desc.className = 'item-desc';
+        desc.textContent = item.description;
+        card.appendChild(desc);
+      }
+      if (item.attached_magic) {
+        const am = document.createElement('div');
+        am.className = 'item-meta';
+        am.textContent = '附加魔法：' + item.attached_magic;
+        card.appendChild(am);
+      }
+      if (item.attributes && Object.keys(item.attributes).length) {
+        card.appendChild(makeAttrGrid(item.attributes));
+      }
+      root.appendChild(card);
+    }
+  } else {
+    const root = document.getElementById('content-list');
+    while (root.firstChild) root.removeChild(root.firstChild);
+    const grid = document.createElement('div');
+    grid.className = 'simple-grid';
+    for (const name of DATA.item_simple_list) {
+      if (filter && !name.toLowerCase().includes(filter)) continue;
+      matched++;
+      const cell = document.createElement('div');
+      cell.className = 'simple-item';
+      cell.textContent = name;
+      grid.appendChild(cell);
+    }
+    root.appendChild(grid);
+  }
+
+  document.getElementById('match-count').textContent =
+    filter ? '符合：' + matched : '共 ' + matched + ' 筆';
+}
+
+document.getElementById('search').addEventListener('input', render);
+load();
+</script>
+</body>
+</html>

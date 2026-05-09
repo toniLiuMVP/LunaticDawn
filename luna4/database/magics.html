@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>俠客遊 IV · 魔法 / 特殊攻擊 · 吟遊詩人的傳說</title>
+<meta name="description" content="LD4 魔法資料庫 — 66 個魔法 / 必殺技含屬性 / Lv / 對象 / MP / 威力 / 描述。源自神之眼 1.1 (2001) 日文官方資料 + 5 NPC 任務。">
+<link rel="stylesheet" href="../../assets/css/fonts-retro.css">
+<link rel="stylesheet" href="../../assets/css/retro.css">
+<style>
+.notice { padding: 12px; border: 1px dashed var(--phosphor-dim); color: var(--phosphor-dim); margin-bottom: 16px; font-size: 14px; line-height: 1.7; }
+.search-box { display: flex; gap: 8px; margin: 16px 0; align-items: center; flex-wrap: wrap; }
+.search-box input { flex: 1; min-width: 240px; background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-dim); padding: 8px 12px; font-family: 'VT323', monospace; font-size: 16px; }
+.search-box input:focus { outline: none; border-color: var(--amber); }
+.tabs { display: flex; gap: 8px; margin: 16px 0; flex-wrap: wrap; }
+.tab-btn { background: var(--bg-input); color: var(--phosphor-dim); border: 1px solid var(--phosphor-dim); padding: 6px 14px; cursor: pointer; font-family: 'VT323', monospace; font-size: 14px; }
+.tab-btn.active { color: var(--amber); border-color: var(--amber); }
+.spell-card { background: var(--bg-panel); border: 1px solid var(--phosphor-fade); padding: 12px; margin-bottom: 10px; }
+.spell-name { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 12px; margin: 0 0 6px; }
+.spell-meta { color: var(--phosphor); font-size: 14px; margin: 4px 0; font-family: 'VT323', monospace; white-space: pre; }
+.spell-desc { color: var(--phosphor-fade); font-size: 14px; line-height: 1.6; margin: 6px 0; white-space: pre-wrap; }
+.link-card { background: var(--bg-input); padding: 10px; margin: 8px 0; font-family: 'VT323', monospace; color: var(--phosphor-fade); font-size: 14px; }
+</style>
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="pixel">俠客遊 IV · 魔法 / 特殊攻擊</h1>
+      <nav>
+        <a href="./">← 資料庫首頁</a> · <a href="../">回俠客遊 IV</a> · <a href="../../">主站</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="notice">
+      <strong>LD4 魔法 / 特殊攻擊資料庫</strong>（<span id="m-count">66</span> 個魔法 / <span id="n-count">5</span> NPC 任務 / 4 連結）
+      <br>
+      <strong>來源</strong>：神之眼 1.1（2001）<code>ld4navi.def</code> — Shift-JIS 日文官方資料，源自 ARTDINK 攻略。
+      <br>
+      <strong>跨平台</strong>：神之眼 ld4navi.exe 是 Windows + Delphi 5 runtime memory hook 工具，2001 年的記憶體 address 對 NoCD 修補版已失效。本頁直接 parse <code>.def</code> 純文字，<strong>0 EXE 依賴 + 跨 Mac/Win/手機</strong>。
+      <br>
+      <strong>合併版</strong>：本資料跟「道具大全」「怪物大全」（LunaticConsortia 繁中）並置，組成 LD4 完整攻略資料庫。
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="magics" onclick="switchTab('magics')">魔法 / 必殺技</button>
+      <button class="tab-btn" data-tab="quests" onclick="switchTab('quests')">NPC 任務</button>
+      <button class="tab-btn" data-tab="links" onclick="switchTab('links')">官方連結</button>
+    </div>
+
+    <div class="search-box">
+      <span style="color: var(--amber);">🔍</span>
+      <input id="search" type="text" placeholder="搜尋名稱 / 屬性 / 描述...">
+      <span id="match-count" style="color: var(--phosphor-fade); font-size: 12px;"></span>
+    </div>
+
+    <div id="content"></div>
+  </main>
+</div>
+
+<script>
+let DATA = null;
+let curTab = 'magics';
+
+async function load() {
+  const r = await fetch('ld4_godseye_def.json');
+  DATA = await r.json();
+  if (DATA.lists[0]) document.getElementById('m-count').textContent = DATA.lists[0].items.length;
+  if (DATA.lists[1]) document.getElementById('n-count').textContent = DATA.lists[1].items.length;
+  render();
+}
+
+function switchTab(t) {
+  curTab = t;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === t));
+  render();
+}
+
+function makeSpellCard(it) {
+  const card = document.createElement('div');
+  card.className = 'spell-card';
+  const name = document.createElement('div');
+  name.className = 'spell-name';
+  name.textContent = it.name;
+  card.appendChild(name);
+  if (it.attribute) {
+    const a = document.createElement('div'); a.className = 'spell-meta'; a.textContent = it.attribute; card.appendChild(a);
+  }
+  if (it.target) {
+    const t = document.createElement('div'); t.className = 'spell-meta'; t.textContent = it.target; card.appendChild(t);
+  }
+  if (it.mp_power) {
+    const m = document.createElement('div'); m.className = 'spell-meta'; m.textContent = it.mp_power; card.appendChild(m);
+  }
+  if (it.description) {
+    const d = document.createElement('div'); d.className = 'spell-desc'; d.textContent = it.description; card.appendChild(d);
+  }
+  return card;
+}
+
+function render() {
+  const filter = document.getElementById('search').value.trim().toLowerCase();
+  const root = document.getElementById('content');
+  while (root.firstChild) root.removeChild(root.firstChild);
+
+  let matched = 0;
+
+  if (curTab === 'magics' && DATA.lists[0]) {
+    for (const it of DATA.lists[0].items) {
+      if (filter) {
+        const hay = (it.name + ' ' + (it.attribute||'') + ' ' + (it.target||'') + ' ' + (it.description||'')).toLowerCase();
+        if (!hay.includes(filter)) continue;
+      }
+      matched++;
+      root.appendChild(makeSpellCard(it));
+    }
+  } else if (curTab === 'quests' && DATA.lists[1]) {
+    for (const it of DATA.lists[1].items) {
+      if (filter) {
+        const hay = (it.name + ' ' + (it.description||'')).toLowerCase();
+        if (!hay.includes(filter)) continue;
+      }
+      matched++;
+      root.appendChild(makeSpellCard(it));
+    }
+  } else if (curTab === 'links') {
+    for (const link of DATA.links) {
+      if (filter && !link.toLowerCase().includes(filter)) continue;
+      matched++;
+      const card = document.createElement('div');
+      card.className = 'link-card';
+      card.textContent = link;
+      root.appendChild(card);
+    }
+  }
+
+  document.getElementById('match-count').textContent =
+    filter ? '符合：' + matched : '共 ' + matched + ' 筆';
+}
+
+document.getElementById('search').addEventListener('input', render);
+load();
+</script>
+</body>
+</html>
