@@ -115,6 +115,7 @@
 
 .error { color: var(--danger); padding: 20px; border: 1px solid var(--danger); margin: 16px 0; }
 </style>
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 </head>
 <body>
 <div class="wrap">
@@ -289,6 +290,13 @@ function render(buffer) {
 async function handleFile(file) {
   try {
     const cfg = TAB_CONFIG[activeTab];
+    // OOM guard：避免讀入超大檔（超過 1 MB 一律拒絕）
+    if (file.size > 1024 * 1024) {
+      throw new Error(`檔案太大（${file.size.toLocaleString()} bytes）— 預期 SAV 大小 ${cfg.size} bytes。`);
+    }
+    if (file.size !== cfg.size) {
+      throw new Error(`${cfg.name}.SAV 預期 ${cfg.size} bytes，實際 ${file.size} bytes。`);
+    }
     const buffer = await file.arrayBuffer();
     if (buffer.byteLength !== cfg.size) {
       throw new Error(`${cfg.name}.SAV 預期 ${cfg.size} bytes，實際 ${buffer.byteLength}。`);

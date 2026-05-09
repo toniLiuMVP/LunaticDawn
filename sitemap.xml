@@ -131,6 +131,7 @@
   <url><loc>https://toniliumvp.github.io/LunaticDawn/general/encoding-faq.html</loc><priority>0.5</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/general/community.html</loc><priority>0.5</priority></url>
 
-  <!-- 俠客遊 III sitemap 註解更正 -->
-  <!-- luna3/ 目錄存放的是「未來之書」(1998) + 俠客遊 III 密技 -->
+  <!-- 歷史檔案庫（46 個社群歷史下載檔索引）-->
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/files/</loc><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/files/lde3/</loc><priority>0.5</priority></url>
 </urlset>

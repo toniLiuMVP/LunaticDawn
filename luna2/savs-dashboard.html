@@ -103,6 +103,7 @@
 #drop-zone:hover { border-color: var(--amber); }
 #drop-zone.drag-active { background: rgba(0, 255, 65, 0.05); border-color: var(--amber); }
 </style>
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 </head>
 <body>
 <div class="wrap">
@@ -312,6 +313,14 @@ function formatHex(buf, max) {
 }
 
 async function handleFile(file) {
+  // OOM guard：俠客遊 II 最大 SAV 是 VDD/VDDKEY 約 200 KB；放寬到 1 MB 一律拒絕
+  const MAX_SIZE = 1024 * 1024;
+  if (file.size > MAX_SIZE) {
+    $('hex-title').textContent = `❌ 檔案太大：${file.name} (${file.size.toLocaleString()} bytes，上限 1 MB)`;
+    $('hex-output').textContent = '請上傳俠客遊 II USERN/ 內的 SAV 檔（最大約 200 KB）。';
+    $('hex-viewer').style.display = 'block';
+    return;
+  }
   const buf = await file.arrayBuffer();
   $('hex-title').textContent = `${file.name} (${buf.byteLength.toLocaleString()} bytes — first 256 bytes)`;
   $('hex-output').textContent = formatHex(buf, 256);
