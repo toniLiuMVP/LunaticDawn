@@ -179,6 +179,8 @@ def build_readme() -> str:
         lines.append("- **[第三之書專區](./lde3/)** — 2002 年 Book 三部曲第三作 · 18 個歷史檔案 + 下載 + 工具")
     if has_luna3:
         lines.append("- **[俠客遊 III 子站](./luna3/)** — 俠客遊 III (2000) · 密技整理 + 官方更新檔下載")
+    if has_luna4:
+        lines.append("- **[俠客遊 IV 子站](./luna4/)** — 俠客遊 IV (2001) · 連線方法 / 鞠躬練功法 / 輔助工具下載")
     if has_steam:
         lines.append("- **[Steam 購買指南](./steam/)** — Steam 版購買說明")
     if has_general:
