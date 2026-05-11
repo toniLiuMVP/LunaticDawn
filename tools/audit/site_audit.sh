@@ -173,6 +173,17 @@ else
   print_warn "Draft markers found"
 fi
 
+# A10. Pirate / infringement site URLs / names (BLOCKER, 2026-05-12 toni 永久規則 #7)
+# 不公告盜版/侵權站,即使批判語境也算變相宣傳
+print_section "[A10] Pirate / infringement site URLs / names (BLOCKER)"
+HITS=$(echo "$PUB_FILES" | xargs -I{} grep -nE "wanyx|gamenoir|dos\.zczc|dosgameol|3DM[^v]|好游快爆|游侠|ggheart|blogspot\.com|mediafire\.com|百度网盘|百度網盤" {} 2>/dev/null)
+if [ -z "$HITS" ]; then
+  print_pass "No pirate site URLs / names"
+else
+  echo "$HITS" | head -8
+  print_blocker "A10: Pirate / infringement site URLs or names found — remove per absolute rule #7"
+fi
+
 # Summary
 echo ""
 echo "════════════════════════════════════════════════════════════"
