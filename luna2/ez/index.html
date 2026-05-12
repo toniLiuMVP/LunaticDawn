@@ -155,21 +155,48 @@ td.highlight { color: var(--heading); font-weight: 700; }
   </p>
 </section>
 
-<!-- ==================== KNOWN ISSUE: 校驗碼跳出 ==================== -->
+<!-- ==================== KNOWN ISSUE: 有音樂音效版跳出 ==================== -->
 <section class="panel" style="border-color: var(--phosphor);">
-  <h2 class="panel-title" style="color: var(--phosphor);">[ ⚠️ 1996 年校驗碼機制提醒 ]</h2>
-  <p><strong>1996 年第三波代理俠客遊 II 內建了反盜版機制</strong> — 遊戲執行到某些劇情點會跳出<strong>校驗碼查驗對話框</strong>:</p>
-  <blockquote style="border-left:3px solid var(--phosphor);padding-left:1em;margin:1em 0;color:var(--phosphor-fade);">「請輸入第 N 號角色的校驗碼」</blockquote>
-  <p>這是寫死在 LUNA2.EXE 的設計,跟懶人包升級為「有音樂音效版」<strong>無關</strong> — 升級後一樣會觸發。1996 年原版玩家是從遊戲說明書內附校驗碼表查詢輸入,過了 30 年,這份說明書多半遺失。</p>
+  <h2 class="panel-title" style="color: var(--phosphor);">[ ⚠️ 有音樂音效版「玩到某項一定跳出」歷史問題 ]</h2>
+  <p>toni 在 2000 年代前後玩有音樂音效版時,<strong>玩到某個遊戲項目一定會跳出</strong>(改回無音樂音效版就不會跳),這也是過去 20+ 年網路流傳的 toni 版 Luna2 是「無音樂音效版」的原因。</p>
+  <p>2026 年透過 Claude Code 升級回有音樂音效版後,<strong>此 bug 有可能會再出現</strong>(DOSBox Staging 用 SB16 模擬,跟 XP 時代用 VDMSound 不同,但俠客遊 II 的音效資料是同一份)。toni 目前還沒確認具體是哪個項目觸發 — <strong>需要玩家回報才能定位</strong>。</p>
 
-  <h3 style="margin-top:1em;">▌ 如果你卡在校驗碼對話框</h3>
-  <p>本站基於數位文化保存目的<strong>不公開列校驗碼數字</strong>(避免變相散布盜版輔助),但 toni 收藏完整校驗碼表。請來信:</p>
-  <p style="text-align:center;margin-top:0.5em;">
-    <a href="mailto:luntic.dawn@gmail.com?subject=俠客遊%20II%20校驗碼查詢" style="display:inline-block;padding:0.5em 1em;border:2px solid var(--phosphor);color:var(--phosphor);text-decoration:none;">▸ 來信告知 toni</a>
+  <h3 style="margin-top:1em;">▌ 俠客遊 II 音效系統規模</h3>
+  <p>遊戲 <code>M/</code> 資料夾包含 <strong>30 個 XMI BGM 檔</strong> + <strong>19 個 WAV 音效檔</strong>。最可能的 crash 點:</p>
+  <ul style="line-height:1.7;">
+    <li><strong>戰鬥 BGM 切換</strong> — BTL-A.XMI / BTL-B.XMI / BTL-W.XMI(3 種戰鬥)+ VIC.XMI(勝利)</li>
+    <li><strong>遭遇戰 BGM</strong> — ENC-B.XMI / ENC-Z.XMI(踩到怪物觸發)</li>
+    <li><strong>結局 BGM</strong> — END-D.XMI(死亡)/ END-S.XMI / END-T.XMI(老死 / 退休)</li>
+    <li><strong>城鎮 / 野外 / 地下城 BGM 切換</strong> — TWN0-5 / FLD0-5 / DGN0-3(切換場景觸發)</li>
+    <li><strong>觸發音效</strong> — TR10-TR28.WAV(19 個動作音效,特定動作觸發)</li>
+  </ul>
+
+  <h3 style="margin-top:1em;">▌ 如果你玩到跳出 — 請寄信告訴 toni</h3>
+  <p>寄信時請<strong>盡量描述當時做了什麼</strong>,例如:</p>
+  <ul style="line-height:1.7;">
+    <li>當下場景(城鎮 / 野外 / 地下城 / 戰鬥 / 對話)</li>
+    <li>動作(剛進場景 / 戰鬥開始瞬間 / 戰鬥結束 / 使用必殺技 / 死亡 / 退休)</li>
+    <li>城鎮名稱 / 地下城樓層 / 怪物名稱(若是戰鬥相關)</li>
+    <li>跳出前最後一個動作是否伴隨音效播放</li>
+  </ul>
+  <p style="text-align:center;margin-top:1em;">
+    <a href="mailto:luntic.dawn@gmail.com?subject=俠客遊%20II%20有音樂音效版跳出回報&body=跳出前場景:%0A跳出前動作:%0A%0A(請附上越多細節越好,toni 會根據回報定位是哪個 BGM/WAV 觸發 crash)" style="display:inline-block;padding:0.5em 1em;border:2px solid var(--phosphor);color:var(--phosphor);text-decoration:none;">▸ 來信回報跳出場景</a>
   </p>
-  <p class="muted" style="font-size:13px;">寄信時請附上:(1) 你跳出對話框時的劇情點 (2) 詢問的角色號碼 N。toni 收信後會回覆對應校驗碼。</p>
+  <p class="muted" style="font-size:13px;">玩家越多回報,toni 越能定位是哪個 .XMI / .WAV 檔在 DOSBox 模擬下出問題。<strong>定位後可以針對該檔做替換或停用</strong>,讓所有玩家都能在有音樂音效版玩到結局。</p>
 
-  <p class="muted" style="font-size:13px;margin-top:1em;">💡 <strong>歷史趣味</strong>:1990s DOS 遊戲普遍有此設計(玩家無說明書 → 無法繼續遊戲)— 反映當時對抗盜版的時代背景。本站作數位文化保存,跳出時請來信,我們協助你繼續冒險。</p>
+  <h3 style="margin-top:1em;">▌ 緊急 fallback:切回無音樂音效版</h3>
+  <p>若跳出嚴重影響進度,可<strong>暫時切回無音樂音效版繼續遊戲</strong>(操作:還原 <code>SNDSET.CFG</code> 為無聲版本,啟動腳本內附)。和 toni 過去 20+ 年流傳的版本一樣。等 toni 定位修復後再切回有音樂音效版。</p>
+</section>
+
+<!-- ==================== KNOWN ISSUE: 校驗碼(獨立問題) ==================== -->
+<section class="panel">
+  <h2 class="panel-title">[ 🔐 1996 年校驗碼機制(獨立議題,跟音效無關)]</h2>
+  <p>除了上面的音效跳出問題,還有<strong>另一個獨立的 1996 反盜版機制</strong> — 遊戲執行到某些劇情點會跳出<strong>校驗碼查驗對話框</strong>:</p>
+  <blockquote style="border-left:3px solid var(--phosphor-fade);padding-left:1em;margin:1em 0;color:var(--phosphor-fade);">「請輸入第 N 號角色的校驗碼」</blockquote>
+  <p>這是寫死在 LUNA2.EXE 的設計,有音樂音效或無音樂音效版<strong>都會觸發</strong>。1996 年原版玩家從說明書內附校驗碼表查詢輸入,過了 30 年,這份說明書多半遺失。</p>
+  <p>本站基於數位文化保存目的不公開列校驗碼數字,但 toni 收藏完整校驗碼表。卡在校驗碼對話框時請寄信:
+    <a href="mailto:luntic.dawn@gmail.com?subject=俠客遊%20II%20校驗碼查詢">luntic.dawn@gmail.com</a>(附上跳出時詢問的角色號碼 N)。
+  </p>
 </section>
 
 <!-- ==================== QUICK START ==================== -->
