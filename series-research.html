@@ -253,6 +253,37 @@ h3 { color: var(--amber); margin-top: 20px; }
     </ul>
   </div>
 
+  <h3 style="margin-top: 2em;">▌ 2026 Steam ARTDINK reissue 觀察（抽象描述）</h3>
+
+  <div class="section-block">
+    <p>2024 年 ARTDINK 在 Steam 重新發行<a href="https://store.steampowered.com/app/338070/_/" target="_blank" rel="noopener">俠客遊 I / II / III 合輯</a>與<a href="https://store.steampowered.com/app/335420/_/" target="_blank" rel="noopener">前途道標</a>。本站逆向研究進行時順帶觀察到 Steam 復刻版的高層次架構特徵：</p>
+
+    <h4>1. 跨 30 年雙 codebase 同 game design</h4>
+    <ul style="line-height: 1.9;">
+      <li>1996 DOS 版（LUNA2.EXE）與 2024 Steam 版（LD2.exe）為<strong>兩條獨立 codebase</strong>，分別針對 DOS 16-bit real mode + 32-bit Windows PE32 撰寫</li>
+      <li>但<strong>game design 完全保留</strong> — SAV 檔結構（30720 bytes = 160 角色 × 192 bytes / record）、必殺技 8 技內部名稱、boss 怪物 ID 序列（122-127）在兩版 binary 內<strong>跨 30 年完美對齊</strong></li>
+      <li>本站 LD 存檔修改器（<a href="luna2/save-editor.html">save-editor.html</a>）對 Steam 日文版同樣可用（僅需切換姓名 decoder 從 Big5 → SJIS）</li>
+    </ul>
+
+    <h4>2. ARTDINK 自家重製策略</h4>
+    <ul style="line-height: 1.9;">
+      <li>Steam 復刻版不是「升級舊版」，而是「<strong>用同樣 game design 重做 Windows 版</strong>」</li>
+      <li>本站不公開 Steam 版內部資料結構細節（保護 ARTDINK 商業利益 + Sega v. Accolade 1992 fair use 範圍以「相容性研究」為止）</li>
+      <li>對玩家友善的觀察：<strong>1996 老磁碟片玩家</strong>與 <strong>Steam 玩家</strong>使用本站 LD 懶人包都能達到「中文化 + 有音樂音效 + 跨平台」效果（同 game design 故 LD 工具雙向相容）</li>
+    </ul>
+
+    <h4>3. 對「數位文化保存 vs 商業 reissue 並存」的觀察</h4>
+    <p>俠客遊系列 1996-2002 由台灣第三波 / 美商藝電代理繁中發行 → 2000-2010 巴哈姆特 / GameBase 社群整理攻略 + 修改器 → 2024 ARTDINK 自家 Steam 復刻日文版 → 2026 LD 站延續舊 BBS 時代精神做數位保存。<strong>三條時間線並行</strong>：</p>
+    <ul style="line-height: 1.9;">
+      <li>🇯🇵 ARTDINK Steam 商業 reissue（日文，提供合法購買管道）</li>
+      <li>🇹🇼 LD 數位文化保存（繁中，玩家可見事實層 + 攻略 + 修改器）</li>
+      <li>🌐 跨海玩家社群（PTT Old-Games / 巴哈姆特 / BBS 歷史 / Google Sites 舊站）</li>
+    </ul>
+    <p>三者<strong>互相支持不衝突</strong>：LD 站 footer 主動導流 Steam 正版購買，Steam 玩家可用 LD 工具 / 攻略增加中文化體驗，社群歷史經 LD 數位化保存。</p>
+
+    <p class="muted" style="font-size: 13px;">※ 本節為高層次觀察，不包含具體 binary 結構細節、加密算法、UI 腳本格式等。對 reverse engineering 同類專案研究者，本站提供的事實層研究範圍止於 1996-2002 第三波繁中版（玩家持有正版實體磁碟片 / 光碟拷貝），不延伸到 2024 Steam reissue 內部結構。</p>
+  </div>
+
   <h2>[ 8. 研究方法論 ]</h2>
 
   <div class="section-block">
