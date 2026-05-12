@@ -38,10 +38,33 @@
 </div>
 
 <section class="panel">
+  <h2 class="panel-title">[ ⚠️ Step 0 · 玩家請先做這件事 ]</h2>
+  <div style="padding: 16px; border-left: 4px solid var(--amber); background: rgba(255,176,0,0.08);">
+    <p style="font-size: 16px; margin-bottom: 12px;"><strong style="color: var(--amber);">先到 Steam 購買正版前途道標</strong> — 支持 Artdink 原作，這是使用本補丁的前提：</p>
+    <p style="font-size: 15px; margin-bottom: 8px;">
+      ▸ <a href="https://store.steampowered.com/developer/artdink" target="_blank" rel="noopener"><strong>Steam · Artdink 開發者頁面</strong></a>（搜尋「Lunatic Dawn」前途道標）
+    </p>
+    <p class="muted" style="font-size: 13px; margin: 0;">※ Steam 上的前途道標<strong>僅日文介面</strong>（2022 Artdink 重發版）— 沒關係，本補丁覆蓋後會變成繁體中文版（toni 修改的繁中 NoCD 版本），<strong>連介面語言問題也一起解決</strong>。</p>
+  </div>
+</section>
+
+<section class="panel">
   <h2 class="panel-title">[ 問題背景 ]</h2>
   <div class="prose">
     <p>1999 年 Artdink 釋出的<strong>俠客遊：前途道標 (Lunatic Dawn: Passage of the Book)</strong> 是 Windows 95 時代的 Win32 GUI 程式 — 內部寫死 96 DPI 假設（Win95 標準）。</p>
-    <p>到了 Windows 10 / 11 時代，遊戲視窗內<strong>字體會重疊在一起</strong>，看不清楚。這個問題從 Win10 推出（2015）以來困擾老玩家超過 10 年。</p>
+    <p>到了 Windows 10 / 11 時代，<strong>遊戲視窗內字體會重疊在一起</strong>，看不清楚。這個問題從 Win10 推出（2015）以來困擾老玩家超過 10 年。</p>
+    <p>另外 2022 年 Steam 重發版只有日文介面 — 對台灣玩家不友善。</p>
+  </div>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 本補丁一次解決三件事 ]</h2>
+  <div class="prose">
+    <ol style="line-height: 2;">
+      <li>✅ <strong>字體不重疊</strong>（DPI awareness）</li>
+      <li>✅ <strong>字夠大</strong>（GetStockObject hook + 倍率可調 50–400%）</li>
+      <li>✅ <strong>繁體中文化</strong>（覆蓋 Steam 日文版 Ld95.exe 成 toni 修改的繁中 NoCD 版）</li>
+    </ol>
   </div>
 </section>
 
@@ -81,14 +104,15 @@
 </section>
 
 <section class="panel">
-  <h2 class="panel-title">[ 安裝 3 步驟 ]</h2>
+  <h2 class="panel-title">[ 安裝 4 步驟（含 Step 0 Steam 購買）]</h2>
   <div class="prose">
     <ol style="line-height: 2;">
-      <li><strong>下載</strong>：從上方 Google Drive 連結拿 <code>POLd95Win11_WordOK.7z</code>（500 KB）</li>
-      <li><strong>解壓</strong>：用 7-Zip / WinRAR 解出 3 個檔（Ld95.exe / LDWMM.dll / ld95.ini）</li>
-      <li><strong>放到 Ld95 安裝目錄</strong>：覆蓋你既有的 Ld95.exe（建議先備份原版）+ 把 LDWMM.dll 跟 ld95.ini 一起丟進去</li>
+      <li><strong>Step 0 ✓ Steam 購買正版</strong>（見最上方）— 確保你已在 Steam 買到 Lunatic Dawn: Passage of the Book</li>
+      <li><strong>下載補丁</strong>：從上方 Google Drive 連結拿 <code>POLd95Win11_WordOK.7z</code>（500 KB）</li>
+      <li><strong>解壓</strong>：用 7-Zip / WinRAR 解出 <strong>3 個檔</strong>（<code>Ld95.exe</code> / <code>LDWMM.dll</code> / <code>ld95.ini</code>）</li>
+      <li><strong>覆蓋到 Steam 安裝目錄</strong>：把 3 個檔丟進 Steam 下載的前途道標資料夾，<strong>覆蓋既有的 Ld95.exe</strong>（建議先把 Steam 原版 Ld95.exe 改名 <code>Ld95.exe.steam_orig</code> 保留）</li>
     </ol>
-    <p>雙擊 <code>Ld95.exe</code> → <strong>字體放大 2 倍 + 不重疊 + 視窗保持正常大小</strong>。</p>
+    <p>雙擊 <code>Ld95.exe</code> → <strong>字體放大 2 倍 + 不重疊 + 視窗保持正常大小 + 繁體中文介面</strong>（一次解決三件事）。</p>
   </div>
 </section>
 
