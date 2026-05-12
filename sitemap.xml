@@ -139,4 +139,9 @@
   <!-- 歷史檔案庫（46 個社群歷史下載檔索引）-->
   <url><loc>https://toniliumvp.github.io/LunaticDawn/files/</loc><priority>0.6</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/files/lde3/</loc><priority>0.5</priority></url>
+  <url>
+    <loc>https://toniliumvp.github.io/LunaticDawn/passage/manual-tc.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
