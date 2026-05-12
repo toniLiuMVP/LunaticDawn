@@ -25,6 +25,7 @@
 .simple-item { background: var(--bg-input); padding: 6px 12px; font-size: 14px; color: var(--phosphor); border: 1px solid var(--phosphor-fade); border-radius: 2px; }
 </style>
 <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<link rel="canonical" href="https://toniliumvp.github.io/LunaticDawn/luna4/database/items.html">
 </head>
 <body>
 <div class="wrap">
@@ -49,8 +50,8 @@
     </div>
 
     <div class="tabs">
-      <button class="tab-btn active" data-tab="full" onclick="switchTab('full')">完整 627 筆</button>
-      <button class="tab-btn" data-tab="list" onclick="switchTab('list')">簡名 272 筆</button>
+      <button class="tab-btn active" data-tab="full">完整 627 筆</button>
+      <button class="tab-btn" data-tab="list">簡名 272 筆</button>
     </div>
 
     <div class="search-box">
@@ -69,11 +70,16 @@ let DATA = null;
 let curTab = 'full';
 
 async function load() {
+  try {
   const r = await fetch('ld4_lc_dat.json');
-  DATA = await r.json();
-  document.getElementById('full-count').textContent = DATA.item_full_count;
-  document.getElementById('list-count').textContent = DATA.item_simple_count;
-  render();
+    DATA = await r.json();
+    document.getElementById('full-count').textContent = DATA.item_full_count;
+    document.getElementById('list-count').textContent = DATA.item_simple_count;
+    render();
+  } catch (e) {
+    console.error("[load] failed:", e);
+    document.body.insertAdjacentText("beforeend", "資料載入失敗: " + e.message);
+  }
 }
 
 function switchTab(t) {

@@ -20,6 +20,7 @@
 .attr-cell { background: var(--bg-input); padding: 3px 6px; border-radius: 2px; font-family: 'VT323', monospace; }
 </style>
 <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<link rel="canonical" href="https://toniliumvp.github.io/LunaticDawn/luna4/database/monsters.html">
 </head>
 <body>
 <div class="wrap">
@@ -53,10 +54,15 @@
 let DATA = null;
 
 async function load() {
+  try {
   const r = await fetch('ld4_lc_dat.json');
-  DATA = await r.json();
-  document.getElementById('count').textContent = DATA.monster_count;
-  render();
+    DATA = await r.json();
+    document.getElementById('count').textContent = DATA.monster_count;
+    render();
+  } catch (e) {
+    console.error("[load] failed:", e);
+    document.body.insertAdjacentText("beforeend", "資料載入失敗: " + e.message);
+  }
 }
 
 function makeAttrGrid(attrs) {
