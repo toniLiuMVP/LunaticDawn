@@ -7,6 +7,7 @@
 <meta name="description" content="俠客遊 II 13 個 USER0/USERN SAV 檔結構總覽：LUNACHAR / CHRITEM / SHOPITEM / LUNAHEAD / KOBUN / OYABUN / HIST / SCENDATA / TOWNDATA / TOWNITEM / VDD / VDDKEY / DUNGDATA。drag-drop hex viewer 支援。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="USERN 存檔結構總覽 · 俠客遊 II">
+<meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/luna2/savs-dashboard.html">
 <meta property="og:description" content="俠客遊 II 13 個 USER0/USERN SAV 檔結構總覽：LUNACHAR / CHRITEM / SHOPITEM / LUNAHEAD / KOBUN / OYABUN / HIST / SCENDATA / TOWNDATA / TOWNITEM / VDD / VDDKEY / DUNGDATA。drag-drop hex viewer 支援。">
 <meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
@@ -104,6 +105,7 @@
 #drop-zone.drag-active { background: rgba(0, 255, 65, 0.05); border-color: var(--amber); }
 </style>
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="canonical" href="https://toniliumvp.github.io/LunaticDawn/luna2/savs-dashboard.html">
 </head>
 <body>
 <div class="wrap">
@@ -121,6 +123,9 @@
       </nav>
     </div>
   </header>
+
+<main>
+
 
   <div class="intro">
     俠客遊 II 玩家存檔在 <code>USERN/</code>（N=0~9，10 個 slots），每 slot 含 <strong>13 個 SAV 檔</strong>共約 740 KB。
@@ -343,5 +348,8 @@ dz.addEventListener('click', ev => {
   if (ev.target.id === 'drop-zone') $('file-input').click();
 });
 </script>
+<p class="muted" style="font-size: 12px; margin-top: 8px;">⚖️ 本工具為逆向工程相容性研究成果(Sega v. Accolade 1992 fair use 美國判例)。玩家修改自己持有的正版遊戲存檔合法。請務必備份原始存檔。</p>
+</main>
+
 </body>
 </html>

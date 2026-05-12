@@ -22,6 +22,7 @@
 .link-card { background: var(--bg-input); padding: 10px; margin: 8px 0; font-family: 'VT323', monospace; color: var(--phosphor-fade); font-size: 14px; }
 </style>
 <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<link rel="canonical" href="https://toniliumvp.github.io/LunaticDawn/luna4/database/magics.html">
 </head>
 <body>
 <div class="wrap">
@@ -46,9 +47,9 @@
     </div>
 
     <div class="tabs">
-      <button class="tab-btn active" data-tab="magics" onclick="switchTab('magics')">魔法 / 必殺技</button>
-      <button class="tab-btn" data-tab="quests" onclick="switchTab('quests')">NPC 任務</button>
-      <button class="tab-btn" data-tab="links" onclick="switchTab('links')">官方連結</button>
+      <button class="tab-btn active" data-tab="magics">魔法 / 必殺技</button>
+      <button class="tab-btn" data-tab="quests">NPC 任務</button>
+      <button class="tab-btn" data-tab="links">官方連結</button>
     </div>
 
     <div class="search-box">
@@ -66,11 +67,16 @@ let DATA = null;
 let curTab = 'magics';
 
 async function load() {
+  try {
   const r = await fetch('ld4_godseye_def.json');
-  DATA = await r.json();
-  if (DATA.lists[0]) document.getElementById('m-count').textContent = DATA.lists[0].items.length;
-  if (DATA.lists[1]) document.getElementById('n-count').textContent = DATA.lists[1].items.length;
-  render();
+    DATA = await r.json();
+    if (DATA.lists[0]) document.getElementById('m-count').textContent = DATA.lists[0].items.length;
+    if (DATA.lists[1]) document.getElementById('n-count').textContent = DATA.lists[1].items.length;
+    render();
+  } catch (e) {
+    console.error("[load] failed:", e);
+    document.body.insertAdjacentText("beforeend", "資料載入失敗: " + e.message);
+  }
 }
 
 function switchTab(t) {

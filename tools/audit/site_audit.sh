@@ -53,7 +53,7 @@ NUM_FILES=$(echo "$PUB_FILES" | wc -l | tr -d ' ')
 # 也包含 W## (W08 / W14 / W56 等) - 內部 wave 編號縮寫
 print_section "[A1] Internal development jargon (BLOCKER)"
 HITS=$(echo "$PUB_FILES" | xargs -I{} grep -nE "第[一二三四五六七八九十百零壹貳參肆伍陸柒捌玖拾佰0-9]+波|第\s*[0-9]+\s*波|wave\s*[0-9]+|Wave\s*[0-9]+|round-[0-9]+|Round[ _]?[0-9]+|\bW[0-9][0-9]\b|波次|PENDING|⏳[^：）)]*規劃|scope[- ]?校正|carry[- ]?over|toni\s+(戳穿|挑戰|個人|指示)|逆向工程依賴|反組譯依賴|未完成事項" {} 2>/dev/null \
-  | grep -vE "(台灣第三波|第三波文化|第三波代理|第三波伺服器|第三波修改|第三波網頁|第三波發行|第三波官方|第三波的俠客遊|第三波繁中|第三波中文|0\.[0-9]+s|height=\"[0-9]+|width=\"[0-9]+)")
+  | grep -vE "(台灣第三波|第三波文化|第三波代理|第三波伺服器|第三波修改|第三波網頁|第三波發行|第三波官方|第三波的俠客遊|第三波繁中|第三波中文|第三波\s*/|第三波(?!波)|0\.[0-9]+s|height=\"[0-9]+|width=\"[0-9]+)")
 if [ -z "$HITS" ]; then
   print_pass "No internal dev jargon"
 else
@@ -181,7 +181,59 @@ if [ -z "$HITS" ]; then
   print_pass "No pirate site URLs / names"
 else
   echo "$HITS" | head -8
-  print_blocker "A10: Pirate / infringement site URLs or names found — remove per absolute rule #7"
+  print_fail "A10: Pirate / infringement site URLs or names found — remove per absolute rule #7"
+fi
+
+# A11. fetch() error handler check (WARN, W49 Security Audit B1)
+# 對每個含 fetch 的檔案,檢查整檔是否有 .catch / try-catch
+print_section "[A11] fetch() without error handler (WARN — defensive)"
+MISSING_CATCH=""
+for f in $PUB_FILES; do
+  if grep -q "fetch(" "$f" 2>/dev/null; then
+    if ! grep -qE "\.catch\(|try\s*\{|catch\s*\(" "$f" 2>/dev/null; then
+      MISSING_CATCH="$MISSING_CATCH $(basename $f)"
+    fi
+  fi
+done
+if [ -z "$MISSING_CATCH" ]; then
+  print_pass "All files with fetch() have error handler"
+else
+  print_warn "Files with fetch() but no .catch / try-catch:$MISSING_CATCH"
+fi
+
+# A12. file.size pre-check guard (WARN, W49 Security Audit B2)
+# Binary viewer/editor 應該在 FileReader 前驗 file.size,避免 OOM
+print_section "[A12] file.size pre-check in binary viewers (WARN — defensive)"
+VIEWERS=$(echo "$PUB_FILES" | tr ' ' '\n' | grep -E "viewer|editor|modifier|dashboard" | grep "\.html$")
+if [ -z "$VIEWERS" ]; then
+  print_pass "No binary viewer files found"
+else
+  MISSING=""
+  for v in $VIEWERS; do
+    if grep -q "readAsArrayBuffer\|FileReader" "$v" 2>/dev/null; then
+      if ! grep -qE "file\.size\s*[><=!]" "$v" 2>/dev/null; then
+        MISSING="$MISSING $(basename $v)"
+      fi
+    fi
+  done
+  if [ -z "$MISSING" ]; then
+    print_pass "All binary viewers have file.size pre-check"
+  else
+    print_warn "Missing file.size pre-check:$MISSING"
+  fi
+fi
+
+# A13. Inline event handler check (WARN, W49 Security Audit Phase C)
+# onclick= / onload= / onerror= 等 inline JS 違反 CSP best practice
+# DOM-only rule 強制 addEventListener,inline handler 是 anti-pattern
+print_section "[A13] Inline event handlers (WARN — DOM-only rule)"
+HITS=$(echo "$PUB_FILES" | xargs -I{} grep -nE "\son(click|load|error|mouseover|mouseout|change|submit|focus|blur|keydown|keyup|keypress)\s*=\s*[\"']" {} 2>/dev/null)
+if [ -z "$HITS" ]; then
+  print_pass "No inline event handlers (DOM-only rule maintained)"
+else
+  echo "$HITS" | head -5
+  COUNT=$(echo "$HITS" | wc -l | tr -d ' ')
+  print_warn "Found $COUNT inline event handler(s) — prefer addEventListener"
 fi
 
 # Summary

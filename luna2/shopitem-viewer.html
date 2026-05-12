@@ -7,6 +7,7 @@
 <meta name="description" content="俠客遊 II 商店物品庫存查看器。SHOPITEM.SAV (12288 bytes，16 shops × 768 bytes) 玩家當前看到的店家庫存。2026結構逆向。純前端解析。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="SHOPITEM.SAV 商店物品查看器 · 俠客遊 II">
+<meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/luna2/shopitem-viewer.html">
 <meta property="og:description" content="俠客遊 II 商店物品庫存查看器。SHOPITEM.SAV (12288 bytes，16 shops × 768 bytes) 玩家當前看到的店家庫存。2026結構逆向。純前端解析。">
 <meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
@@ -90,6 +91,7 @@
 .error { color: var(--danger); padding: 20px; border: 1px solid var(--danger); margin: 16px 0; }
 </style>
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="canonical" href="https://toniliumvp.github.io/LunaticDawn/luna2/shopitem-viewer.html">
 </head>
 <body>
 <div class="wrap">
@@ -105,6 +107,9 @@
       </nav>
     </div>
   </header>
+
+<main>
+
 
   <div class="intro">
     俠客遊 II 玩家當前看到的店家庫存存於 <code>USER0/SHOPITEM.SAV</code>（12288 bytes）。
@@ -233,6 +238,11 @@ function renderShops() {
 }
 
 async function handleFile(file) {
+  if (!file) return;
+  if (file.size > 24576) {
+    alert(`檔案太大 (${file.size} bytes)。SHOPITEM.SAV 預期 16 商店 × 768 bytes。`);
+    return;
+  }
   try {
     const buffer = await file.arrayBuffer();
     shopData = parseShopitem(buffer);
@@ -259,5 +269,8 @@ dz.addEventListener('click', ev => {
   if (ev.target.id === 'drop-zone') $('file-input').click();
 });
 </script>
+<p class="muted" style="font-size: 12px; margin-top: 8px;">⚖️ 本工具為逆向工程相容性研究成果(Sega v. Accolade 1992 fair use 美國判例)。玩家修改自己持有的正版遊戲存檔合法。請務必備份原始存檔。</p>
+</main>
+
 </body>
 </html>
