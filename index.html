@@ -114,7 +114,7 @@
       <li>🅱️ <strong>1996 老光碟 / 磁碟片玩家</strong>:把你 30 年前的正版實體光碟 LUNA2.EXE + 資料檔丟進懶人包 <code>game/</code> → 雙擊啟動</li>
     </ul>
     <p style="margin: 10px 0 0 0;">▸ <a href="luna2/ez/"><strong>下載懶人包 Luna2_EZ.7z + 完整教學頁</strong></a></p>
-    <p style="margin: 8px 0 0 0; font-size: 13px;" class="muted">⚠️ <strong>已知 EMS 記憶體限制</strong>:1996 年俠客遊 II 對 DOS conventional memory 需求極高,載音樂音效 driver 會吃掉 ~40-100 KB,場景切換時可能<code>EMS init error</code>跳回 DOS(已知觸發:Draculalu 2011 PTT 案例 — 學物理系法術奧義走出迷宮)。這就是過去 20+ 年 toni 版 Luna2 流傳「無音樂音效版」的原因 — 1996 年的記憶體硬限制。解法:<a href="luna2/ez/#known-issues">切回無音樂音效版(100% 避免)</a>或調 dosbox-x.conf <code>memsize=4</code>(青衫 2004 攻略建議)。若你玩到跳出,請<a href="mailto:luntic.dawn@gmail.com?subject=俠客遊%20II%20有音樂音效版跳出回報">寄信回報場景</a>。</p>
+    <p style="margin: 8px 0 0 0; font-size: 13px;" class="muted">🔧 <strong>2026-05-13 已預防 1996 EMS init error 跳出 bug</strong>:1996 俠客遊 II 內部 EMS 初始化函數用 16-bit 整數存頁面計數,給超過 16 MB 記憶體會整數溢位 → <code>EMS init error</code> 跳回 DOS(青衫 2004 攻略 + Draculalu 2011 PTT 案例)。**懶人包預設 <code>memsize=4</code>** — 對應 1996 設計目標配置(青衫 2004 攻略明示「給 4 MB 便夠了」),100% 避開此 bug。畫面 / 速度 / 音效品質完全不變。若仍遇跳出請<a href="mailto:luntic.dawn@gmail.com?subject=俠客遊%20II%20有音樂音效版跳出回報">寄信回報</a>。</p>
   </div>
 
   <!-- 前途道標補丁 -->

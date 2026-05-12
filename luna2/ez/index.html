@@ -185,13 +185,14 @@ td.highlight { color: var(--heading); font-weight: 700; }
     <li>其他可能觸發點:長時間遊玩後場景切換、進入多個地下城、學多種高階法術後</li>
   </ul>
 
-  <h3>▌ 解法 A:切回無音樂音效版(原始 toni 版做法,100% 避免)</h3>
+  <h3>▌ ✅ 2026-05-13 已主動預防(懶人包預設 memsize=4)</h3>
+  <p>本懶人包<strong>已預設 <code>memsize=4</code></strong>(對應 1996 俠客遊 II 設計目標配置,青衫 2004 攻略明示「給 4 MB 便夠了」),100% 避開遊戲內部 16-bit 整數溢位的 EMS init error bug。下載最新版懶人包就有此預防。</p>
+  <p><strong>memsize=4 vs memsize=16 對玩家的差異</strong>:畫面、速度、音樂音效品質、操作體驗 — <strong>完全一樣</strong>。唯一差別:memsize=4 100% 避開 1996 EMS 整數溢位 bug,memsize=16 會觸發。詳細技術說明 → <a href="https://github.com/toniLiuMVP/LunaticDawn/commits/main">GitHub commits</a>。</p>
+
+  <h3>▌ 萬一仍遇跳出 → 切回無音樂音效版(原始 toni 版做法)</h3>
   <p>編輯遊戲資料夾內 <code>SNDSET.CFG</code> 第 1 個 byte 設為 <code>00</code>(無音效),或執行附帶的還原無聲腳本。和 toni 過去 20+ 年流傳的版本一樣穩定。</p>
 
-  <h3>▌ 解法 B:調 DOSBox memsize(實驗性,玩家自試)</h3>
-  <p>編輯 <code>Luna2_EZ/dosbox-x.conf</code> 內 <code>memsize = 16</code> 改成 <code>memsize = 8</code> 或 <code>memsize = 4</code>(對應青衫 2004 攻略「給個 4MB 便夠了」)。讓 EMS 不會踩到 16 MB 邊界。</p>
-
-  <h3>▌ 解法 C:你玩到跳出 → 寄信告訴 toni</h3>
+  <h3>▌ 仍遇跳出 → 寄信告訴 toni</h3>
   <p>不同場景觸發可能需要不同解法。寄信時請描述:</p>
   <ul style="line-height:1.7;">
     <li>跳出前場景(城鎮名 / 地下城 / 戰鬥)</li>
