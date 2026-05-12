@@ -133,23 +133,43 @@ td.highlight { color: var(--heading); font-weight: 700; }
 </section>
 
 <!-- ==================== ABOUT ==================== -->
-<section class="panel">
-  <h2 class="panel-title">[ ABOUT ]</h2>
-  <p>
-    <span class="amber">Luna2_EZ</span> 是俠客遊 II 的「懶人包」——
-    把 <span class="amber">DOSBox Staging</span> 引擎、啟動腳本、遊戲設定檔全部打包好，
-    你只需要放入自己的正版遊戲檔案，<span class="amber">雙擊就能玩</span>。
-    不用自己裝 DOSBox、不用改設定、不用處理音效驅動。
-  </p>
-  <p>
-    跨 macOS（含 macOS 26 Tahoe）/ Windows / Linux。
-  </p>
+<section class="panel" style="border-color: var(--amber);">
+  <h2 class="panel-title" style="color: var(--amber);">[ ⭐ 2026 升級:有音樂音效 + 跨平台 + 中文化 ]</h2>
+  <p><strong>本懶人包(Luna2_EZ)是本專案「吟遊詩人的傳說 · 俠客遊小站」的<span class="amber">起源</span>。</strong>過去 20+ 年網路流傳的 toni 版 Luna2 是<strong>「無音樂音效版」</strong>(早年 XP 時代音效驅動不易處理);2026 年透過 Claude Code 技術升級,正式進化為:</p>
+  <ul style="line-height:1.8;">
+    <li>✅ <strong>有音樂音效版</strong> — DOSBox Staging 內建 SoundBlaster 模擬,1996 年原版 BGM 與音效全部還原</li>
+    <li>✅ <strong>繁體中文化</strong> — 1996 年第三波代理繁中版資料保留</li>
+    <li>✅ <strong>跨平台</strong> — macOS(含 macOS 26 Tahoe)/ Windows / Linux 三平台啟動腳本</li>
+    <li>✅ <strong>解壓即玩</strong> — 不用自己裝 DOSBox、不用改設定、不用處理音效驅動</li>
+  </ul>
+
+  <h3 style="margin-top:1em;">▌ 玩家流程</h3>
+  <ol style="line-height:1.9;">
+    <li>🅰️ <strong>Steam 玩家</strong>:先至 Steam 購買 <a href="https://store.steampowered.com/app/338070/_/?curator_clanid=44120255" target="_blank" rel="noopener"><strong>俠客遊 I/II/III 合輯</strong></a>(僅日文介面)→ 下載本懶人包 → 用 Steam 版的遊戲原檔覆蓋懶人包 <code>game/</code> 資料夾 → 雙擊啟動 → <strong>中文化 + 有音樂音效 + 跨平台</strong></li>
+    <li>🅱️ <strong>1996 老光碟 / 磁碟片玩家</strong>:同上流程 — 把你 27 年前的正版實體光碟內的 LUNA2.EXE + 原版資料檔丟進 <code>game/</code> 資料夾 → 雙擊啟動 → <strong>中文化 + 有音樂音效 + 跨平台</strong></li>
+  </ol>
+
   <p class="muted">
-    ※ 請先至 <a href="https://store.steampowered.com/app/338070/_/?curator_clanid=44120255" target="_blank" rel="noopener">Steam 商店購買正版俠客遊 II</a> 支持原作。
-    本站不提供遊戲本體下載，請自備 LUNA2.EXE 及原版資料檔。<br>
-    ※ 想要自己安裝 DOSBox-X + GM 高音質音樂？請參考
-    <a href="../launcher/">▸ 自己裝版本（DOSBox-X）</a>。
+    ※ 本站不提供遊戲本體下載 — 請務必透過 Steam 正版或自己的合法授權實體光碟取得 <code>LUNA2.EXE</code> 及原版資料檔。<br>
+    ※ 想要自己安裝 DOSBox-X + GM 高音質音樂?請參考 <a href="../launcher/">▸ 自己裝版本(DOSBox-X)</a>。
   </p>
+</section>
+
+<!-- ==================== KNOWN ISSUE: 校驗碼跳出 ==================== -->
+<section class="panel" style="border-color: var(--phosphor);">
+  <h2 class="panel-title" style="color: var(--phosphor);">[ ⚠️ 1996 年校驗碼機制提醒 ]</h2>
+  <p><strong>1996 年第三波代理俠客遊 II 內建了反盜版機制</strong> — 遊戲執行到某些劇情點會跳出<strong>校驗碼查驗對話框</strong>:</p>
+  <blockquote style="border-left:3px solid var(--phosphor);padding-left:1em;margin:1em 0;color:var(--phosphor-fade);">「請輸入第 N 號角色的校驗碼」</blockquote>
+  <p>這是寫死在 LUNA2.EXE 的設計,跟懶人包升級為「有音樂音效版」<strong>無關</strong> — 升級後一樣會觸發。1996 年原版玩家是從遊戲說明書內附校驗碼表查詢輸入,過了 30 年,這份說明書多半遺失。</p>
+
+  <h3 style="margin-top:1em;">▌ 如果你卡在校驗碼對話框</h3>
+  <p>本站基於數位文化保存目的<strong>不公開列校驗碼數字</strong>(避免變相散布盜版輔助),但 toni 收藏完整校驗碼表。請來信:</p>
+  <p style="text-align:center;margin-top:0.5em;">
+    <a href="mailto:luntic.dawn@gmail.com?subject=俠客遊%20II%20校驗碼查詢" style="display:inline-block;padding:0.5em 1em;border:2px solid var(--phosphor);color:var(--phosphor);text-decoration:none;">▸ 來信告知 toni</a>
+  </p>
+  <p class="muted" style="font-size:13px;">寄信時請附上:(1) 你跳出對話框時的劇情點 (2) 詢問的角色號碼 N。toni 收信後會回覆對應校驗碼。</p>
+
+  <p class="muted" style="font-size:13px;margin-top:1em;">💡 <strong>歷史趣味</strong>:1990s DOS 遊戲普遍有此設計(玩家無說明書 → 無法繼續遊戲)— 反映當時對抗盜版的時代背景。本站作數位文化保存,跳出時請來信,我們協助你繼續冒險。</p>
 </section>
 
 <!-- ==================== QUICK START ==================== -->
