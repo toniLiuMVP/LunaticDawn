@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Win10/11 字體修復補丁 POLd95Win11_WordOK · 吟遊詩人的傳說</title>
+<meta name="description" content="1999 年前途道標 Ld95.exe 在 Win10/11 字體重疊問題 — 拖 3 個檔即玩，不改系統 DPI、不影響其他程式、不用登出登入。完整安裝教學 + 7 個版本演進故事 + 技術原理說明。">
+<link rel="stylesheet" href="../assets/css/fonts-wuxia.css">
+<link rel="stylesheet" href="../assets/css/wuxia.css">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Win10/11 字體修復補丁 · 前途道標 · 吟遊詩人的傳說">
+<meta property="og:description" content="1999 前途道標在 Win10/11 字體重疊問題 — 2026 補丁拖檔即玩，告別 2019 改系統 DPI hack。">
+<meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/passage/win10-font-fix.html">
+<meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
+<meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
+<meta name="google-site-verification" content="aQwPgW1H0N4XYMg0Q_takJ0SxDPnRbwyRpinPZjbbJA">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+</head>
+<body>
+<div class="wrap">
+
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <h1 class="pixel">Win10/11 字體修復補丁</h1>
+      <div class="header-sub">POLd95Win11_WordOK · 1999 年問題的 2026 年優雅解法</div>
+    </div>
+    <div class="header-sub header-right">
+      <div><a href="../">◀ 回主站</a></div>
+      <div><a href="./">▸ 前途道標索引</a></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="breadcrumb">
+  <a href="../">吟遊詩人的傳說</a> / <a href="./">前途道標</a> / <span class="dim">Win10/11 字體修復</span>
+</div>
+
+<section class="panel">
+  <h2 class="panel-title">[ 問題背景 ]</h2>
+  <div class="prose">
+    <p>1999 年 Artdink 釋出的<strong>俠客遊：前途道標 (Lunatic Dawn: Passage of the Book)</strong> 是 Windows 95 時代的 Win32 GUI 程式 — 內部寫死 96 DPI 假設（Win95 標準）。</p>
+    <p>到了 Windows 10 / 11 時代，遊戲視窗內<strong>字體會重疊在一起</strong>，看不清楚。這個問題從 Win10 推出（2015）以來困擾老玩家超過 10 年。</p>
+  </div>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 2019 阿呆 hack vs 2026 優雅解法 ]</h2>
+  <div class="prose">
+    <p>本站站長 toni 在 2019 年自己 try 出來的解法：把 Windows 系統 DPI 設成 <strong>124%</strong>（為什麼是 124%？因為要對齊 Ld95 GDI font metrics 整數倍）、然後<strong>登出 → 重新登入</strong>讓系統重新計算所有視窗 — 才看得到清楚的字。</p>
+    <p style="color: var(--amber);">超阿呆 XDDDDDDDDDDDDD</p>
+    <p>2026 年的本補丁用 DLL injection + IAT hook 在程式層級解決，連系統設定都不用碰：</p>
+  </div>
+
+  <table class="timeline">
+    <thead>
+      <tr><th style="width: 30%;">維度</th><th>2019 系統 DPI 124% hack</th><th>2026 POLd95Win11_WordOK 補丁</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>怎麼裝</strong></td><td>進系統設定改 DPI 數值</td><td>解壓 3 個檔到 Ld95 目錄</td></tr>
+      <tr><td><strong>要重啟系統嗎</strong></td><td>⚠️ 要登出重新登入</td><td>✅ 不用，雙擊立刻生效</td></tr>
+      <tr><td><strong>影響其他程式</strong></td><td>❌ 全系統所有程式都被縮放</td><td>✅ 只影響 Ld95.exe，其他程式正常</td></tr>
+      <tr><td><strong>可攜性</strong></td><td>❌ 換電腦要重設系統</td><td>✅ 資料夾帶著走（隨身碟 OK）</td></tr>
+      <tr><td><strong>放大倍率</strong></td><td>固定 124%</td><td>50%–400% 自由調整（ini 即時生效）</td></tr>
+      <tr><td><strong>字體重疊</strong></td><td>✅ 解決</td><td>✅ 解決（用 Win10 1809+ DPI awareness API）</td></tr>
+      <tr><td><strong>檔案大小</strong></td><td>無檔案，改設定</td><td>500 KB 7z</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 下載 ]</h2>
+  <div class="card-grid">
+    <a class="card" href="https://drive.google.com/open?id=13gT5EllImeIqVlljiR3HubQk9u9Lhl7-" target="_blank" rel="noopener">
+      <span class="card-title">▸ POLd95Win11_WordOK.7z (500 KB)</span>
+      <span class="card-desc">內含 3 個檔：Ld95.exe (繁中 NoCD 版) + LDWMM.dll (10 KB proxy DLL) + ld95.ini (倍率設定範本)。Google Drive 即時下載。</span>
+      <span class="card-meta">Google Drive 下載 · 2026 整理</span>
+    </a>
+  </div>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 安裝 3 步驟 ]</h2>
+  <div class="prose">
+    <ol style="line-height: 2;">
+      <li><strong>下載</strong>：從上方 Google Drive 連結拿 <code>POLd95Win11_WordOK.7z</code>（500 KB）</li>
+      <li><strong>解壓</strong>：用 7-Zip / WinRAR 解出 3 個檔（Ld95.exe / LDWMM.dll / ld95.ini）</li>
+      <li><strong>放到 Ld95 安裝目錄</strong>：覆蓋你既有的 Ld95.exe（建議先備份原版）+ 把 LDWMM.dll 跟 ld95.ini 一起丟進去</li>
+    </ol>
+    <p>雙擊 <code>Ld95.exe</code> → <strong>字體放大 2 倍 + 不重疊 + 視窗保持正常大小</strong>。</p>
+  </div>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 微調倍率 ]</h2>
+  <div class="prose">
+    <p>用 Notepad 開 <code>ld95.ini</code>，找 <code>[Window]</code> 段：</p>
+    <pre style="background: rgba(0,255,65,0.05); padding: 10px; border-left: 3px solid var(--phosphor);">[Window]
+ScalePercent=200</pre>
+    <p>把 <code>200</code> 改成你要的倍率，存檔，重啟 Ld95.exe 即生效（不用重啟系統 / 不用登出）：</p>
+  </div>
+  <table class="timeline">
+    <thead><tr><th>ScalePercent</th><th>倍率</th><th>適用場景</th></tr></thead>
+    <tbody>
+      <tr><td>100</td><td>1.0x</td><td>原始大小（跟不裝補丁一樣）</td></tr>
+      <tr><td>150</td><td>1.5x</td><td>1080p 螢幕 / 字稍大</td></tr>
+      <tr><td><strong>200</strong></td><td><strong>2.0x</strong></td><td><strong>4K 螢幕舒適（預設）</strong></td></tr>
+      <tr><td>250</td><td>2.5x</td><td>字很大 / 視力不便</td></tr>
+      <tr><td>300</td><td>3.0x</td><td>字超大</td></tr>
+      <tr><td>400</td><td>4.0x</td><td>最大（範圍上限）</td></tr>
+    </tbody>
+  </table>
+  <p class="muted" style="font-size: 13px;">範圍 50–400，超出會 fallback 200。</p>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 怎麼解決的 — 7 個版本演進故事 ]</h2>
+  <div class="prose">
+    <p>這個補丁從 v1 到 v7 經過 <strong>7 個版本</strong>才攻克，每個失敗都教了我們一件事：</p>
+  </div>
+
+  <table class="timeline">
+    <thead><tr><th>版本</th><th>嘗試什麼</th><th>結果</th><th>學到</th></tr></thead>
+    <tbody>
+      <tr><td><strong>v1</strong></td><td>呼叫 <code>SetProcessDpiAwarenessContext(UNAWARE_GDISCALED)</code>，讓 Win10+ DWM bitmap stretch 接管縮放</td><td>🟡 字不重疊但字小</td><td>DWM stretch 需配合 Windows 顯示縮放設定 &gt; 100% 才會放大</td></tr>
+      <tr><td><strong>v2</strong></td><td>+ IAT hook <code>user32!CreateWindowExA</code> 把主視窗 nWidth/nHeight × 2</td><td>🔴 視窗變大但 client area 沒變大 — 留下大片空白邊框</td><td>MFC 視窗 size 來自 <code>SetWindowPlacement</code> 而非 <code>CreateWindowEx</code></td></tr>
+      <tr><td><strong>v3</strong></td><td>+ IAT hook <code>SetWindowPlacement</code> 攔截 MFC restore</td><td>🔴 視窗 + client 都大了，但字仍是 96 DPI 小字</td><td>視窗大小不等於字體大小，GDI 渲染按邏輯像素獨立</td></tr>
+      <tr><td><strong>v4</strong></td><td>+ IAT hook <code>gdi32!CreateFontIndirectA</code> 把 lfHeight × scale</td><td>🔴 字仍沒變大</td><td><code>lfHeight=0</code> 時被跳過 — MFC 大宗用 lfHeight=0 讓 GDI 自選</td></tr>
+      <tr><td><strong>v5</strong></td><td>修 <code>lfHeight=0</code> → 強制 -11 再乘 scale</td><td>🟡 MFC UI 字（功能表 / 按鈕）變大了，但<strong>遊戲主畫面字仍沒大</strong></td><td>遊戲字根本不走 <code>CreateFontIndirectA</code></td></tr>
+      <tr><td><strong>v6</strong></td><td>用 <strong>r2 反組譯 Ld95.exe</strong>，發現遊戲字真正 path：<code>GetStockObject(SYSTEM_FONT)</code> + <code>SelectObject</code> + <code>TextOutA</code>。Hook <code>GetStockObject</code> 回傳自建大字體</td><td>🔴 字 + 視窗都消失 — 自建 LOGFONT 用 DEFAULT_CHARSET，GDI 在繁中環境 pick 非中文字體</td><td>cp950 環境下自建 LOGFONT 必須明確設 charset，否則 Big5 字無法渲染</td></tr>
+      <tr><td><strong>v7</strong></td><td>改用 <code>GetObjectA</code> 取原 SYSTEM_FONT 的 LOGFONTA（含正確 charset / faceName），<strong>只改 lfHeight 乘 scale</strong>，再 CreateFontIndirectA</td><td>✅ <strong>成功！</strong>字大 + 不重疊 + 視窗正常 + UI 字也保持原大小</td><td>不要自建，從系統原 stock font 拷貝屬性只改要改的</td></tr>
+    </tbody>
+  </table>
+
+  <div class="prose">
+    <p style="margin-top: 16px;"><strong>轉捩點是 v6 用 r2 反組譯</strong>找出真實字體渲染 path — 此前 v1–v5 都在猜（user32 視窗 hook / CreateFont hook），猜了 5 輪沒中。反組譯 ground truth 給出來後，v6 → v7 兩個版本一發中。</p>
+    <p>最終解決方案：<strong>1 個 IAT hook + 1 個 GetObjectA 呼叫 + 改 1 個欄位</strong>。整個 LDWMM.dll <strong>不到 10 KB</strong>，純 Win32 API，零 CRT 依賴。</p>
+  </div>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 為什麼之前那麼難解 ]</h2>
+  <div class="prose">
+    <ul style="line-height: 1.9;">
+      <li><strong>Win95 GUI 程式 hardcoded 96 DPI</strong>：1999 沒人預期 4K 螢幕，所有像素都寫死</li>
+      <li><strong>MFC 字體渲染分兩條 path</strong>：UI 字（功能表 / 按鈕）走 <code>CreateFontIndirectA</code>，遊戲主畫面字走 <code>GetStockObject(SYSTEM_FONT)</code> — 攔錯一條就只放大一半</li>
+      <li><strong>Windows DLL search order 有 KnownDLLs 機制</strong>：<code>winmm.dll</code> 永遠從 system32 載入，application directory 的同名 DLL 會被忽略 — 必須改 PE import name 成 <code>LDWMM.dll</code>（9 byte 同長度替換）才能 hook 載入</li>
+      <li><strong>DllMain 階段呼叫複雜 GDI API 可能 fail</strong>：v6 失敗根因，OS loader 階段 GDI subsystem 尚未 fully init（v7 學到要從 stock object 拷貝屬性）</li>
+      <li><strong>cp950 / Big5 字符集 trap</strong>：自建 LOGFONT 用 DEFAULT_CHARSET，GDI 可能 pick 非中文字體 → 中文字渲染失敗看起來「字消失」</li>
+    </ul>
+  </div>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 技術原理摘要 ]</h2>
+  <div class="prose">
+    <ol style="line-height: 1.9;">
+      <li><strong>不重疊</strong>：DllMain 呼叫 <code>SetProcessDpiAwarenessContext(UNAWARE_GDISCALED)</code>，Win10 1809+ DWM bitmap stretch 處理 DPI scaling</li>
+      <li><strong>字夠大</strong>：DllMain 內<br>
+        a. <code>GetStockObject(SYSTEM_FONT)</code> 取原系統字體 HFONT<br>
+        b. <code>GetObjectA</code> 拿出 LOGFONTA（含正確 cp950 charset + 系統內建中文字體 faceName）<br>
+        c. 改 <code>lfHeight × ScalePercent / 100</code><br>
+        d. <code>CreateFontIndirectA</code> 建大字體 HFONT 存進全域變數
+      </li>
+      <li><strong>運行時攔截</strong>：hook <code>gdi32!GetStockObject</code>，當 Ld95 請求 <code>SYSTEM_FONT</code> / <code>DEFAULT_GUI_FONT</code> / <code>OEM_FIXED_FONT</code> 等字體 stock object → 回傳我們建的大字體；非字體 stock object（palette / brush / pen / bitmap）pass-through 不攔</li>
+      <li><strong>WINMM rename</strong>：Ld95.exe PE import name <code>WINMM.dll</code> → <code>LDWMM.dll</code>（9 byte 同長度 byte-level 替換）繞 Windows KnownDLLs，讓 application directory 的 LDWMM.dll 被優先載入</li>
+      <li><strong>純 Win32 API 零 CRT 依賴</strong>：LDWMM.dll 用 <code>-nostdlib -nodefaultlibs</code> 編譯，避免跟 MFC 內建 runtime 衝突</li>
+    </ol>
+  </div>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 致謝 / 法律 ]</h2>
+  <div class="prose">
+    <p><strong>遊戲本體</strong>：請至 <a href="https://store.steampowered.com/developer/artdink" target="_blank" rel="noopener">Steam 商店 Artdink 開發者頁</a>購買 Lunatic Dawn 系列正版（前途道標僅日文介面版本）。</p>
+    <p><strong>本補丁適用對象</strong>：合法持有 Ld95.exe 副本的玩家自行套用。</p>
+    <p><strong>法律依據（三邊著作權）</strong>：</p>
+    <ul style="line-height: 1.8;">
+      <li>🇹🇼 著作權法 §10-2（事實 / 單純傳達事實之語文著作不受保護）+ §9 第 1 項第 3 款（公式 / 數表 / 表格不得為著作權標的）</li>
+      <li>🇯🇵 著作権法 §2 第 1 項 第 1 號（創作性要件）+ §12-2（資料庫保護創意性編排）</li>
+      <li>🇺🇸 17 USC §102(b)（事實 / 發現 / 原則 / 過程不受著作權保護）+ Feist v Rural Telephone (1991) + Sega v Accolade (1992)（逆向工程 disassembly = fair use）</li>
+    </ul>
+    <p><strong>逆向工程聲明</strong>：本補丁透過 r2 反組譯靜態分析 Ld95.exe 找出字體渲染 path，未修改遊戲邏輯、未繞過授權機制、未提取遊戲資源 — 純為解決相容性問題的 fair use 範圍。</p>
+    <p><strong>不公告盜版站</strong>：本站不分享任何盜版 / 私人 ROM 下載連結 — 玩家需自備合法 Ld95.exe 副本（Steam 購買或 1999 年原版實體光碟）。</p>
+  </div>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ NAVIGATION ]</h2>
+  <p>
+    <a href="../">◀ 主站</a> ·
+    <a href="./">▸ 前途道標索引</a> ·
+    <a href="../lde3/">▸ 第三之書</a> ·
+    <a href="../files/">📦 檔案庫</a>
+  </p>
+</section>
+
+</main>
+</div>
+</body>
+</html>

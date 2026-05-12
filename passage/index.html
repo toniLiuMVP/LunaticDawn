@@ -70,25 +70,15 @@
 
 <section class="panel">
   <h2 class="panel-title">[ Win10/11 字體修復補丁 ]</h2>
-  <p>1999 年 Ld95.exe 在 Win10/11 上字體會重疊看不清楚 — 舊解法要改系統 DPI 124% + 登出登入（影響所有程式、不可攜）。本補丁用 LDWMM.dll proxy + IAT hook 在程式 process 級別解決，不影響系統設定。</p>
+  <p>1999 年 Ld95.exe 在 Win10/11 上字體會重疊看不清楚 — 困擾老玩家超過 10 年。<strong>本補丁拖 3 個檔到 Ld95 目錄即用</strong>，告別 2019 年「改系統 DPI 124% + 登出登入」的阿呆 hack。</p>
 
   <div class="card-grid">
-    <a class="card" href="https://drive.google.com/open?id=13gT5EllImeIqVlljiR3HubQk9u9Lhl7-" target="_blank" rel="noopener">
-      <span class="card-title">▸ POLd95Win11_WordOK.7z (500 KB)</span>
-      <span class="card-desc">內含 3 個檔：Ld95.exe (繁中 NoCD 版，已 patch WINMM→LDWMM import name) + LDWMM.dll (10 KB proxy DLL) + ld95.ini (含 ScalePercent 倍率設定範本，玩家可在 50-400 範圍微調)。解壓後把 3 檔放到既有 Ld95 安裝目錄即可。資料夾帶著走（隨身碟亦可）— 不改系統 DPI、不影響其他程式、不用登出登入。</span>
-      <span class="card-meta">Google Drive 下載 · 2026 整理</span>
+    <a class="card" href="win10-font-fix.html">
+      <span class="card-title">▸ 完整教學 + 技術說明</span>
+      <span class="card-desc">下載連結 / 安裝 3 步驟 / ini 微調倍率 50–400 / 7 個版本演進故事（v1→v7 怎麼從失敗 5 次到 r2 反組譯一發中）/ 為什麼 20+ 年沒解 / 技術原理摘要。</span>
+      <span class="card-meta">2026 整理 · 含 Google Drive 下載</span>
     </a>
   </div>
-
-  <h3 style="margin-top: 16px;">技術說明</h3>
-  <ul style="line-height: 1.8;">
-    <li><strong>不重疊</strong>：DllMain 呼叫 <code>SetProcessDpiAwarenessContext(UNAWARE_GDISCALED)</code> — Win10 1809+ DWM bitmap stretch 接管縮放</li>
-    <li><strong>字夠大</strong>：DllMain 用 <code>GetObjectA(SYSTEM_FONT)</code> 取原系統字體 LOGFONTA，只改 <code>lfHeight × scale</code>，再 <code>CreateFontIndirectA</code> 建大字體。Hook <code>gdi32!GetStockObject</code> 把 Ld95 對 <code>SYSTEM_FONT</code> 的請求換成我們的大字體</li>
-    <li><strong>WINMM rename</strong>：Ld95.exe PE import name 改 <code>WINMM.dll</code> → <code>LDWMM.dll</code>（9 byte 同長度替換）繞 Windows KnownDLLs，讓 application directory 的 LDWMM.dll 被優先載入</li>
-    <li><strong>放大倍率可調</strong>：在 <code>ld95.ini</code> 加 <code>[Window] ScalePercent=200</code>（200 = 2.0x），範圍 50-400</li>
-  </ul>
-
-  <p class="muted" style="font-size: 13px;">遊戲本體請至 <a href="https://store.steampowered.com/developer/artdink" target="_blank" rel="noopener">Steam 商店</a>購買 Artdink 正版（前途道標僅日文介面）。本補丁僅供合法持有玩家自行套用使用。</p>
 </section>
 
 <section class="panel">
