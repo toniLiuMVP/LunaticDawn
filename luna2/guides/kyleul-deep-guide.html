@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kyleul 的 Luna2 深度攻略彙整 (2023) · 吟遊詩人的傳說</title>
+<meta name="description" content="kyleul (凱布洛) 2023 年 2 月 PTT Old-Games 看板發表的俠客遊 II 深度攻略彙整 — 開局人物、初期任務賺錢、大地圖移動、技能修練、傷害計算、附魔研究、實用魔法 / 必殺技、遊戲小技巧 10 大段。經作者授權收錄。">
+<link rel="stylesheet" href="../../assets/css/fonts-wuxia.css">
+<link rel="stylesheet" href="../../assets/css/wuxia.css">
+<meta property="og:type" content="website">
+<meta property="og:title" content="kyleul 的 Luna2 深度攻略彙整 (2023) · 吟遊詩人的傳說">
+<meta property="og:description" content="kyleul (凱布洛) 2023 年 2 月 PTT Old-Games 看板俠客遊 II 深度攻略彙整 — 經作者授權收錄。">
+<meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/luna2/guides/kyleul-deep-guide.html">
+<meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
+<meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
+<meta name="google-site-verification" content="aQwPgW1H0N4XYMg0Q_takJ0SxDPnRbwyRpinPZjbbJA">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+</head>
+<body>
+<div class="wrap">
+
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <h1 class="pixel">kyleul 的 Luna2 深度攻略彙整</h1>
+      <div class="header-sub">作者：kyleul (凱布洛) · 2023-02-23 PTT Old-Games 看板</div>
+    </div>
+    <div class="header-sub header-right">
+      <div><a href="../../">◀ 回主站</a></div>
+      <div><a href="./">▸ 俠客遊 II 攻略索引</a></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="breadcrumb">
+  <a href="../../">吟遊詩人的傳說</a> / <a href="../">俠客遊 II</a> / <a href="./">攻略</a> / <span class="dim">kyleul 深度攻略彙整</span>
+</div>
+
+<section class="panel">
+  <h2 class="panel-title">[ 收錄來源與授權 ]</h2>
+  <div class="attribution">本頁內容為 <strong>kyleul（凱布洛 / 阿里不達）</strong> 2023 年 2 月 23 日於 <a href="https://www.ptt.cc/bbs/Old-Games/M.1677108707.A.98E.html" target="_blank" rel="noopener">PTT Old-Games 看板</a>發表的原創攻略心得，經作者授權收錄至本站。</div>
+  <div class="prose">
+    <p>kyleul 是俠客遊 II 老玩家，從 2007 年起就在 PTT Old-Games 看板發表個人心得，2023 年 2 月經 16 年間斷重溫後再次發表「深度攻略彙整」並訂正 2007 年舊文勘誤。</p>
+    <p>本攻略主要涵蓋 10 大主題：開局人物 / 初期任務賺錢極限版 / 大地圖移動 / 技能修練 / 傷害計算 / 附魔研究 / 實用魔法 / 實用必殺技 / 遊戲小技巧 / 後語。</p>
+  </div>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 開局人物篇 ]</h2>
+  <div class="prose">
+    <p>初始能力 2.5~4 倍為上限值，上限值最高 100。</p>
+    <ul>
+      <li>智力（漢藥）</li>
+      <li>直覺（鴉片、曼陀羅花）</li>
+      <li>體格（蜂王乳）</li>
+      <li>精神（麻藥、松茸）</li>
+    </ul>
+    <p>這四個能力可以用道具店特產品提高上限值。追求完美的話可以把開局點數先加到其他數值，開局能力逼近 40 即可。</p>
+  </div>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 初期任務賺錢篇 · 極限版 ]</h2>
+  <div class="prose">
+    <p>武器店跟魔法屋也能接任務，只要該店主是可以加入隊伍的人物，可以用 kkt_zzz 的修改器先看店主是否有人物資料，有的話就是可以加入的。</p>
+    <p>到該店裡按下詢問店主，就會出現任務（如果沒有可能店主被綁架了）。任務有送貨跟購物兩種，而這個購物跟旅店的購物不一樣：</p>
+    <ul>
+      <li>旅店的購物要的是他國道具店特產</li>
+      <li>武器店是他國特殊道具（只能在遺跡裡開寶箱得到）</li>
+      <li>魔法屋是他國魔法屋道具</li>
+    </ul>
+    <p><strong>極限玩法</strong>：開局骰到一個旅店有送貨任務，內容是送玻璃裝飾品或水彩壁畫（光明之鑰、光榮雕像、滅亡王室酒杯這種高價的也行）。把任務接下來後拿到道具店賣掉，這時候持有金大概已經超過 2 萬。再到王城花兩萬買敦津的通行證，然後到魔法屋把解毒石買滿 16 個（單顆賣價在 42~78）。</p>
+    <p>立刻出城前往敦津國天陽城找魔法屋的麗妃阿姨尋求包養（阿姨...我不想努力了）。包養的方法是進城後先存檔，然後到魔法屋找麗妃阿姨聊天（只要她沒被綁架）：</p>
+    <ul>
+      <li>如出現的任務是購買神聖吉札帝國的解毒石，酬勞會坐落在 6000~6900</li>
+      <li>不是就讀檔重來，重點在完成任務後可以馬上再聊天再接（任務隨機）</li>
+      <li>所以在遊戲時間一天內可以不斷 SL 到賣完所有的解毒石</li>
+    </ul>
+    <p>這樣至少有 <strong>16 × 6000 = 96000</strong> 的啟動資金。拿到 10 萬元遊戲才過去不到兩個月，比打魔王還好賺。相對的也可以買天陽的魔法屋道具，賣回歐德普克的魔法屋。</p>
+  </div>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 大地圖移動篇 ]</h2>
+  <div class="prose">
+    <p><strong>結論：</strong>移動速度 草地 = 黃土 &gt; 沙漠 = 凍原 &gt; 森林 = 馬尼叢林 &gt;&gt;&gt; 山地</p>
+    <p><strong>實測方式：</strong>先找一個到螢幕對角完全同地形的地方然後存檔，用修改器看當下遊戲內時間，再讀檔時人物會在地圖中間。以 16:8 行程行走至對角，然後存檔，再用修改器看遊戲內時間。</p>
+  </div>
+  <table class="timeline">
+    <thead><tr><th>地形</th><th>16:8 行程耗時</th></tr></thead>
+    <tbody>
+      <tr><td>草地</td><td>3 天 17 小時</td></tr>
+      <tr><td>黃土</td><td>3 天 19 小時</td></tr>
+      <tr><td>沙漠</td><td>4 天 9 小時</td></tr>
+      <tr><td>凍原</td><td>4 天 11 小時</td></tr>
+      <tr><td>森林</td><td>5 天 5 小時</td></tr>
+      <tr><td>馬尼叢林</td><td>5 天 3 小時</td></tr>
+      <tr><td><strong>山地</strong></td><td><strong>18 天 8 小時！！！</strong></td></tr>
+    </tbody>
+  </table>
+  <p class="muted">誤差值可能點擊時略為的差距，得出結論。</p>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 技能修練篇 ]</h2>
+  <div class="prose">
+    <p>修練技能可以加相關基本能力 0~2 點：</p>
+    <ul>
+      <li><strong>修練兵器格鬥</strong>可加 力量、靈巧、敏捷、體格</li>
+      <li><strong>修練魔法</strong>可加 智力、直覺、精神</li>
+      <li><strong>修練盜賊</strong>可加 力量、靈巧、敏捷</li>
+      <li><strong>修練野營</strong>可加 體格</li>
+    </ul>
+    <p>修練基本能力可加 1~3 點。</p>
+  </div>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 傷害計算篇 ]</h2>
+  <div class="prose">
+    <p><strong>普攻傷害</strong> =（進攻方武器攻擊力 − 防守方相對進攻方武器攻擊模式的防禦力）最小為 0<br>
+        +（進攻方武器附魔 − 防守方對應進攻方武器附魔的魔防）最小為 0</p>
+    <p><strong>範例</strong>：拿攻擊力 102、神聖附魔 29 的銀斧打洞穴野人，銀斧攻擊模式是「砍」、洞穴野人防砍 17、神聖屬性防禦為 45：</p>
+    <pre style="background: rgba(0,255,65,0.05); padding: 10px; border-left: 3px solid var(--phosphor);">(102 − 17) + (29 − 45) = 85 + 0（最小為 0）= 85 傷害</pre>
+    <p>所以一次普攻沒爆擊是 85 的傷害。</p>
+    <p><strong>魔法傷害</strong> = 攻擊法術基本傷害值 − 防守方對應法術屬性魔防</p>
+    <p><strong>必殺技傷害</strong> = 必殺技基本傷害值 − 防守方相對必殺技攻擊模式的防禦力</p>
+  </div>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 傷害結論衍伸裝備篇 ]</h2>
+  <div class="prose">
+    <p><strong>結論：</strong></p>
+    <ol>
+      <li>附魔越多越好</li>
+      <li>會飛行的情況下，防禦三圍中單圍不用超過 100</li>
+    </ol>
+    <p><strong>討論</strong>：因為遊戲內最高攻擊力是魔王的 170，而且魔王不會飛行。會飛行的怪攻擊最高是死亡之龍的 135，遠距離攻擊最高是半人馬的 100，大怪的必殺技物理攻擊力最高是寒冰氣息的 100。</p>
+    <p>kyleul 玩這遊戲快 30 年還沒被魔王跟龍族近距離普攻過。會飛行的情況下，與其撐三圍倒不如選擇高附魔裝備。</p>
+  </div>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 裝備附魔深入研究篇 ]</h2>
+  <div class="prose">
+    <p><strong>結論：</strong></p>
+    <ol>
+      <li>附魔重要性：<strong>暗黑 &gt; 炎熱 = 冷卻 = 電光 &gt; 精靈 &gt; 神聖 &gt; 物理</strong></li>
+      <li>攻擊武器的附魔也會增加到防禦附魔上</li>
+    </ol>
+    <p><strong>討論：</strong></p>
+    <ul>
+      <li><strong>暗黑</strong>重要：因為魔王的必殺技幾乎都是暗黑屬性的。打魔王戰時魔王會優先放必殺技，不加暗黑附魔會被打歪。</li>
+      <li><strong>炎熱、冷卻、電光</strong>重要性：打龍族時必殺技都是這三屬性，龍族跟魔王一樣會優先放必殺技。以及野外遭遇戰遇到魔術師時被放鷹彈術少點傷害。</li>
+      <li><strong>精靈</strong>重要性主要是野外遭遇戰，少點被放魔法的傷害。</li>
+      <li><strong>神聖</strong>開始就有點雞肋了。雖然神聖屬性防禦高的怪比較少，拿神聖附魔的武器打怪整體傷害可能比較高，但沒有怪物的傷害附魔跟傷害魔法是神聖系的，且有除魔大法的情況下，不要附魔神聖系比較好。</li>
+      <li><strong>物理無用</strong>。物理魔法只有一個隕石擊，傷害很高但只打地面，後期人人會飛行的情況下根本不會被打到。而物理附魔攻擊的怪只有劍鬥士跟貓人，兩個都不會飛行，所以物理附魔根本無用。</li>
+    </ul>
+  </div>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 實用魔法篇 ]</h2>
+  <div class="prose">
+    <ul style="line-height: 1.9;">
+      <li><strong>索敵術</strong>：擊退任務時找漏網之魚</li>
+      <li><strong>浮游術</strong>：沒拿到飛行裝備前的神技</li>
+      <li><strong>大停時術</strong>：打魔王戰時最保險的法術</li>
+      <li><strong>大治療術</strong>：神技，可恢復 STM，用必殺技清敵，最節省的方式下迷宮，且擁有這法術後可以在大地圖就可以 30:1 的行程來跑圖了</li>
+      <li><strong>爆烈術</strong>：學必殺技的迷宮路上清怪用</li>
+      <li><strong>除魔大法</strong>：普攻無效的鬼魂跟幽靈，必殺技很可能也會 miss（機率較大），用除魔大法清比較穩</li>
+      <li><strong>復活術</strong>：玩熟這遊戲後幾乎都是單人通關，原則上學這法術單純是怕救出或護衛任務的隊友被 30:1 的行程操死了</li>
+      <li><strong>奪能術</strong>：在回魔道具用完，MP 與 STM 都快見底的時候，這技能有時候能救自己一命</li>
+      <li><strong>四大精靈達人魔法</strong>：必殺技 miss 又懶的一個個打時候拿來清怪</li>
+    </ul>
+  </div>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 實用必殺技篇 ]</h2>
+  <div class="prose">
+    <ul style="line-height: 1.9;">
+      <li><strong>天空迅雷弓</strong>：清屏神技</li>
+      <li><strong>剛斧大瀑布</strong>：範圍第二大的必殺技</li>
+      <li><strong>衝擊展波斧</strong>：範圍第三大的必殺技</li>
+    </ul>
+  </div>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 遊戲小技巧篇 ]</h2>
+  <div class="prose">
+    <h3>1. 雙持武器</h3>
+    <p>能看到這還不按左鍵退出的，大部分都是對這遊戲有研究的，應該都知道雙手武器 + 盾的方法。但其實不只可以拿盾，<strong>也可以雙手武器 + 單手武器</strong>。這樣好處是附魔可有多樣選擇而且可以在戰鬥中用多種必殺技。</p>
+
+    <h3>2. 接任務</h3>
+    <p>遊戲機制是進城後先存檔，旅店的任務會隨機洗，武器店與魔法屋沒詢問店主前存檔，任務也會隨機洗。兩者搭配可以選到比較適合的任務。</p>
+
+    <h3>3. 縮短攻擊間隔</h3>
+    <p>攻擊指令會攻擊單一敵人至少三次。三次攻擊後如對象沒死會再出現一次指令。這時攻擊武器是弓箭的話，需要等弓箭動畫跑完才會射出下一箭。<strong>如果三次攻擊完，先往旁邊移動一小格再按攻擊，會馬上射出下一箭</strong>。畫面上會出現兩隻箭，等於移動的話會重置武器攻擊頻率。短距離武器如果一擊必殺敵人，攻擊下一個很快，整場跟切瓜一樣。但如果有無法一擊必殺或 MISS 的狀況，就會停頓一段時間，可能有一個 DL 值可以用移動或擊殺來免除。</p>
+  </div>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 後語 ]</h2>
+  <div class="prose">
+    <blockquote class="attribution" style="margin: 0;">
+      <p>我整理了一個魔法必殺技的 excel 檔，會傳到吟遊詩人的傳說 · 俠客遊小站，如 toni 站長覺得內容 OK 有上傳到網站的話，大家可以去下載看看。打了這麼長篇文章，很多都是網路上沒有的資訊，希望大家喜歡的話能多多支持俠客遊系列遊戲。另外希望站上有高手可以試看看怎麼修改大地圖和驛馬站港口目的地的方法，不勝感謝。</p>
+      <p>— kyleul (凱布洛) · 2023-02-23 PTT Old-Games</p>
+    </blockquote>
+    <p style="margin-top: 16px;"><strong>kyleul 提到的魔法必殺技 Excel 檔</strong>已收錄於本站 Luna2_EZ 懶人包同一個整理包內（<code>Luna2魔法及必殺技資料.xlsx</code> + 配套 PDF 版），可從 <a href="../../files/">檔案庫</a>下載。</p>
+  </div>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 原文出處 ]</h2>
+  <p>PTT Old-Games 看板，2023-02-23 發表：</p>
+  <p>▸ <a href="https://www.ptt.cc/bbs/Old-Games/M.1677108707.A.98E.html" target="_blank" rel="noopener">https://www.ptt.cc/bbs/Old-Games/M.1677108707.A.98E.html</a></p>
+  <p class="muted" style="font-size: 13px;">kyleul 同篇早期版本：2007-01-08 PTT Old-Games（已被納入精華區），2023 年版本為作者經 16 年間斷重溫後重新整理 + 訂正勘誤。</p>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ NAVIGATION ]</h2>
+  <p>
+    <a href="../../">◀ 主站</a> ·
+    <a href="./">▸ 俠客遊 II 攻略索引</a> ·
+    <a href="../ez/">▸ Luna2_EZ 懶人包</a> ·
+    <a href="../../files/">📦 檔案庫</a>
+  </p>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div>
+    本頁攻略原創內容版權屬於 kyleul (凱布洛 / 阿里不達)，經作者授權收錄。
+    本站由 toni 整理重建，作為數位文化遺產保存。
+  </div>
+  <div class="footer-big">｢ 吟遊詩人的傳說 · 俠客遊 LUNATIC DAWN ｣</div>
+  <div>
+    <a href="../../">◀ 主站</a> ·
+    <a href="https://github.com/toniLiuMVP/LunaticDawn" target="_blank" rel="noopener">GitHub</a> ·
+    維護：toni
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
