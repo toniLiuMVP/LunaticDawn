@@ -341,6 +341,26 @@ tbody tr:hover { background: rgba(0,255,65,0.05); }
 
 .card.wip .card-title { color: var(--phosphor-fade); }
 
+/* ---- card-multi: div card with independently clickable links ---- */
+.card-multi { display: block; }
+.card-multi:hover {
+  border-color: var(--phosphor);
+  background: rgba(0,255,65,0.05);
+  box-shadow: 0 0 16px rgba(0,255,65,0.2);
+}
+.card-title-link { text-decoration: none; }
+.card-title-link:hover .card-title { text-shadow: 0 0 8px var(--amber); }
+.badge-link {
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.badge-link:hover {
+  background: var(--phosphor);
+  color: var(--bg);
+  box-shadow: 0 0 8px var(--phosphor);
+}
+
 /* ---- ASCII 藝術框 ---- */
 .ascii-art {
   font-family: 'Courier New', monospace;
