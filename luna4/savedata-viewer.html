@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>俠客遊 IV 存檔檢視器 · 吟遊詩人的傳說</title>
+<meta name="description" content="俠客遊 IV LDTSV0.dat 存檔檢視器 — header 解析 + Big5 字串掃描 + 區段熱圖 + hex 檢視。純前端、跨平台、不上傳，瀏覽器拖放即看。">
+<link rel="stylesheet" href="../assets/css/fonts-retro.css">
+<link rel="stylesheet" href="../assets/css/retro.css">
+<meta property="og:type" content="website">
+<meta property="og:title" content="俠客遊 IV 存檔檢視器">
+<meta property="og:description" content="俠客遊 IV LDTSV0.dat 存檔檢視器 — 純前端、跨平台、拖放即看。">
+<meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/luna4/savedata-viewer.html">
+<meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
+<meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
+<style>
+.intro { border: 1px solid var(--phosphor-fade); padding: 12px 16px; background: var(--bg-panel); margin: 16px 0; font-size: 14px; line-height: 1.7; color: var(--phosphor-dim); }
+.intro strong { color: var(--amber); }
+.intro code { background: var(--bg-input); padding: 2px 6px; color: var(--phosphor); font-family: 'VT323', monospace; }
+#drop-zone { border: 2px dashed var(--phosphor-dim); padding: 40px; text-align: center; margin: 20px 0; cursor: pointer; }
+#drop-zone:hover { border-color: var(--amber); }
+#drop-zone.drag-active { background: rgba(0, 255, 65, 0.05); border-color: var(--amber); }
+.viewer-panel { border: 1px solid var(--phosphor-dim); background: var(--bg-panel); padding: 20px; margin: 20px 0; }
+.viewer-panel h3 { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 14px; margin: 0 0 16px; border-bottom: 1px dotted var(--phosphor-fade); padding-bottom: 8px; }
+.field-row { display: flex; align-items: baseline; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+.field-row label { color: var(--phosphor-dim); min-width: 130px; font-size: 14px; }
+.field-row .val { color: var(--phosphor); font-family: 'Courier New', monospace; word-break: break-all; }
+.hint { color: var(--phosphor-fade); font-size: 13px; margin: 0 0 10px; }
+.hex-viewer { margin-top: 12px; border: 1px solid var(--phosphor-fade); padding: 12px; background: var(--bg-input); font-family: 'Courier New', monospace; font-size: 12px; color: var(--phosphor); white-space: pre; overflow-x: auto; max-height: 460px; overflow-y: auto; }
+.region-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
+.region-table th, .region-table td { border: 1px solid var(--phosphor-fade); padding: 6px 10px; text-align: left; vertical-align: top; }
+.region-table th { background: var(--bg-input); color: var(--amber); }
+.region-table .num { font-family: 'Courier New', monospace; text-align: right; white-space: nowrap; }
+.error-banner { color: var(--danger); padding: 20px; border: 1px solid var(--danger); margin: 16px 0; }
+.heatmap { display: grid; grid-template-columns: repeat(auto-fill, minmax(14px, 1fr)); gap: 2px; margin: 12px 0; }
+.heatmap .cell { aspect-ratio: 1; border: 1px solid rgba(0,0,0,0.4); }
+.heatmap-legend { font-size: 12px; color: var(--phosphor-fade); margin-top: 8px; }
+#big5-results, #heatmap-detail { display: none; }
+.toolbar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 8px; }
+.toolbar input[type=text] { background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-dim); padding: 6px 8px; font-family: 'VT323', monospace; font-size: 15px; }
+.toolbar button { background: var(--amber); color: var(--bg); border: 1px solid var(--amber); padding: 6px 14px; font-family: 'VT323', monospace; font-size: 15px; cursor: pointer; }
+.toolbar button.ghost { background: var(--bg-input); color: var(--phosphor); border-color: var(--phosphor-dim); }
+.note-warn { border-left: 3px solid var(--amber); padding: 8px 12px; margin: 10px 0; background: rgba(255,176,0,0.05); font-size: 13px; color: var(--amber); }
+</style>
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="canonical" href="https://toniliumvp.github.io/LunaticDawn/luna4/savedata-viewer.html">
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="pixel">俠客遊 IV 存檔檢視器</h1>
+      <nav>
+        <span style="color: var(--phosphor-dim); font-size: 12px;">v0.1 · header 解析 + Big5 掃描 + 熱圖</span>
+        ·
+        <a href="./">回俠客遊 IV 索引</a>
+        ·
+        <a href="../">回主站</a>
+      </nav>
+    </div>
+  </header>
+
+<main>
+
+  <div class="intro">
+    <strong>俠客遊 IV 存檔檢視器</strong>（v0.1）— 跨平台 / 純前端 / 不上傳 / 免安裝。
+    <br><br>
+    <strong>支援檔案</strong>：<code>LDTSV0.dat</code> ~ <code>LDTSV9.dat</code>（10 個存檔槽）及
+    <code>LDTSVFIX.dat</code> / <code>LDTSVC.dat</code> 等，位於<code>遊戲資料夾/Usr/</code>。
+    <br><br>
+    <strong>為什麼做這個</strong>：俠客遊 IV 的記憶體工具「神之眼 ld4navi.exe」是 2000 年針對<strong>日文版 ver.1.2.1.5</strong> 做的——它的存檔解析器寫死了日文版的欄位位置，讀<strong>繁體中文版</strong>存檔會因 layout 不符而出錯。這個檢視器是直接針對繁體中文版 <code>LDTSV0.dat</code> 做的，瀏覽器拖放即看，不需要安裝、不需要登錄檔、不需要任何外掛。
+    <br><br>
+    <strong>本工具當前功能</strong>（v0.1）：
+    <br>▸ 拖放 <code>LDTSV*.dat</code> → magic 驗證 + header 結構解析
+    <br>▸ 存檔標題（Big5 角色名）+ 存檔來源路徑解析
+    <br>▸ <strong>★ Big5 字串掃描</strong>（掃出檔案內所有可解碼的中文片段）
+    <br>▸ <strong>★ 區段熱圖</strong>（每區塊 entropy / 非零比例視覺化）
+    <br>▸ 完整 hex 檢視（含已知區段標註）
+    <br><br>
+    <strong>技術說明</strong>：繁中版 <code>LDTSV0.dat</code> 的 <code>0x00-0x6D</code> 是可讀的 header（magic + 標題 + 來源路徑），<code>0x70</code> 之後是 Delphi/MFC <strong>物件圖記憶體傾印</strong>（serialized object graph，含大量原始指標值）——<strong>沒有加密</strong>，但欄位語意需要進一步逆向才能對應到「等級 / 屬性 / 物品」。所以 v0.1 是<strong>檢視器（read-only 分析）</strong>，不是數值編輯器。
+    <br><br>
+    <em>所有解析在你的瀏覽器本機完成。檔案（含其中的存檔來源路徑）不會上傳到任何地方。</em>
+  </div>
+
+  <div id="drop-zone">
+    <h2 class="pixel">▶ 拖放 LDTSV0.dat 到這裡</h2>
+    <p>或 <span style="color: var(--amber); cursor: pointer; text-decoration: underline;" id="click-select">點擊選擇檔案</span></p>
+    <p style="color: var(--phosphor-dim); font-size: 13px;">[ 檔案位置：遊戲資料夾/Usr/LDTSV0.dat ]</p>
+    <input type="file" id="file-input" accept=".dat,.DAT" style="display: none;">
+  </div>
+
+  <div id="viewer" style="display: none;">
+
+    <div class="viewer-panel">
+      <h3>檔案資訊</h3>
+      <div class="field-row"><label>檔名：</label><span class="val" id="info-name"></span></div>
+      <div class="field-row"><label>大小：</label><span class="val" id="info-size"></span></div>
+      <div class="field-row"><label>Magic 驗證：</label><span class="val" id="info-magic"></span></div>
+    </div>
+
+    <div class="viewer-panel">
+      <h3>Header 解析（byte 0x00 - 0x6F）</h3>
+      <div class="field-row"><label>Magic（0x00）：</label><span class="val" id="hd-magic"></span></div>
+      <div class="field-row"><label>版本位元組（0x10）：</label><span class="val" id="hd-ver"></span></div>
+      <div class="field-row"><label>存檔標題（0x20，Big5）：</label><span class="val" id="hd-title" style="color: var(--amber);"></span></div>
+      <div class="field-row"><label>0x34 區（8 bytes）：</label><span class="val" id="hd-misc"></span></div>
+      <div class="field-row"><label>存檔來源路徑（0x3C）：</label><span class="val" id="hd-path"></span></div>
+      <div class="note-warn" id="hd-godseye-note"></div>
+    </div>
+
+    <div class="viewer-panel">
+      <h3>結構區段表</h3>
+      <table class="region-table">
+        <tr><th>Offset</th><th>大小</th><th>內容</th></tr>
+        <tr><td class="num">0x00</td><td class="num">16</td><td><code>"LUNATIC DAWN 4  "</code> magic（含結尾兩個空格）</td></tr>
+        <tr><td class="num">0x10</td><td class="num">16</td><td>header 欄位（版本碼 + 內部指標）</td></tr>
+        <tr><td class="num">0x20</td><td class="num">~20</td><td>存檔標題（Big5 角色名），null 補齊</td></tr>
+        <tr><td class="num">0x34</td><td class="num">8</td><td>雜項（一個 dword + 一個小整數）— <strong>神之眼日文版 parser 在這裡期望「22-byte 玩家名欄位 A」</strong></td></tr>
+        <tr><td class="num">0x3C</td><td class="num">~50</td><td>存檔當下的絕對路徑字串（null 結尾）— <strong>神之眼 parser 把 <code>0x63</code> 當「記錄筆數」，但這裡其實是路徑字元 → 讀到 0x4C=76 → 索引爆界 → 亂碼錯誤</strong></td></tr>
+        <tr><td class="num">0x70+</td><td class="num">餘下全部</td><td>Delphi/MFC 物件圖記憶體傾印（serialized object graph）：原始指標、整數、打包記錄。<strong>未加密</strong>，但欄位語意待逆向</td></tr>
+      </table>
+    </div>
+
+    <div class="viewer-panel">
+      <h3>★ Big5 字串掃描</h3>
+      <p class="hint">掃描整個檔案，列出所有可解碼為 Big5 的中文片段（≥ 2 字）。</p>
+      <div class="toolbar">
+        <button id="btn-big5-scan" type="button">掃描 Big5 字串</button>
+        <input id="big5-filter" type="text" placeholder="（選填）只看含此字的結果" maxlength="20">
+        <span class="hint" id="big5-status" style="margin:0;"></span>
+      </div>
+      <div class="note-warn">
+        ⚠ 誠實提醒：<code>0x70</code> 之後是物件圖傾印，裡面隨機的位元組組合常常「剛好」是合法 Big5 編碼但解出來是亂碼。<strong>只有 header 區（0x20 標題）的字串是可靠的</strong>；掃描結果裡其餘多數是誤判，請對照 offset 自行判斷。
+      </div>
+      <div id="big5-results" class="hex-viewer"></div>
+    </div>
+
+    <div class="viewer-panel">
+      <h3>★ 區段熱圖</h3>
+      <p class="hint">把檔案切成等分區塊，用顏色顯示每塊的 entropy（資訊密度）。亮綠 = 高密度物件資料；暗 = sparse / padding。點一格看該區段細節。</p>
+      <button id="btn-heatmap" class="ghost" type="button" style="margin-bottom: 8px;">產生熱圖</button>
+      <div id="heatmap" class="heatmap"></div>
+      <div class="heatmap-legend" id="heatmap-legend"></div>
+      <div id="heatmap-detail" class="hex-viewer" style="max-height: 300px;"></div>
+    </div>
+
+    <div class="viewer-panel">
+      <h3>Hex 檢視器（read-only）</h3>
+      <div class="toolbar">
+        <button id="hex-prev" class="ghost" type="button">◀ 上一頁</button>
+        <span class="hint" id="hex-pageinfo" style="margin:0;"></span>
+        <button id="hex-next" class="ghost" type="button">下一頁 ▶</button>
+        <input id="hex-jump" type="text" placeholder="跳到 offset（hex，如 70）" maxlength="8">
+        <button id="hex-jump-btn" class="ghost" type="button">跳轉</button>
+      </div>
+      <div class="hex-viewer" id="hex-viewer"></div>
+    </div>
+
+    <div class="toolbar" style="margin-top: 8px;">
+      <span class="hint" id="status" style="margin:0;">準備就緒</span>
+      <button id="btn-reset" class="ghost" type="button">↺ 重新載入另一個檔案</button>
+    </div>
+
+  </div>
+
+  <div id="error-display"></div>
+
+  <div class="viewer-panel" style="margin-top: 24px;">
+    <h3>關於「神之眼」與這個檢視器</h3>
+    <p style="color: var(--phosphor-dim); font-size: 14px; line-height: 1.7;">
+      「神之眼 ld4navi.exe」是 2000 年由社群為<strong>日文版俠客遊 IV ver.1.2.1.5</strong> 製作的記憶體 / 存檔工具。它有兩個先天限制讓它讀不了繁體中文版：
+    </p>
+    <ul style="color: var(--phosphor-dim); font-size: 14px; line-height: 1.7;">
+      <li><strong>讀執行中遊戲</strong>：靠掃描遊戲行程的 heap、比對<strong>寫死的日文版記憶體簽章</strong>——繁中版記憶體配置不同，簽章對不上。</li>
+      <li><strong>讀存檔</strong>：解析器用<strong>寫死的日文版欄位位置 / 步距</strong>——繁中版 <code>LDTSV0.dat</code> 的 layout 不同，解析會爆界出錯。</li>
+    </ul>
+    <p style="color: var(--phosphor-dim); font-size: 14px; line-height: 1.7;">
+      這些是<strong>版本相容性</strong>問題，不是 bug——硬要神之眼吃繁中版，等於把它整個重寫。所以這個瀏覽器版檢視器是直接針對繁中版存檔做的：拖放即看、跨平台、零安裝、零外掛——對玩家來說才是真正「懶人」的方式。
+    </p>
+    <p style="color: var(--phosphor-dim); font-size: 14px; line-height: 1.7;">
+      v0.1 先做到 header 解析 + 結構分析。把 <code>0x70+</code> 物件圖的欄位語意完整逆向（對應到等級 / 屬性 / 物品）是後續工作。
+    </p>
+  </div>
+
+  <div class="site-footer">
+    <p><a href="../">◀ 回吟遊詩人的傳說 · 俠客遊小站</a></p>
+  </div>
+
+</main>
+</div>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+let buf = null;            // Uint8Array of the loaded file
+let dv = null;             // DataView
+let fileName = '';
+let hexPage = 0;
+const HEX_PAGE_BYTES = 1024;
+const big5Decoder = (() => { try { return new TextDecoder('big5'); } catch (e) { return null; } })();
+
+const MAGIC = 'LUNATIC DAWN 4  ';   // 16 bytes incl. trailing 2 spaces
+
+function showError(msg) {
+  const box = $('error-display');
+  while (box.firstChild) box.removeChild(box.firstChild);
+  const div = document.createElement('div');
+  div.className = 'error-banner';
+  div.textContent = '錯誤：' + msg;
+  box.appendChild(div);
+}
+
+function asciiByte(b) { return (b >= 32 && b < 127) ? String.fromCharCode(b) : '.'; }
+
+function decodeBig5(bytes) {
+  if (!big5Decoder) return null;
+  try { return big5Decoder.decode(bytes); } catch (e) { return null; }
+}
+
+// hex dump of a slice, with absolute offsets
+function formatHex(start, length) {
+  const end = Math.min(buf.length, start + length);
+  const lines = [];
+  for (let i = start; i < end; i += 16) {
+    const off = i.toString(16).padStart(8, '0');
+    const hexParts = [];
+    const asc = [];
+    for (let j = 0; j < 16 && i + j < end; j++) {
+      hexParts.push(buf[i + j].toString(16).padStart(2, '0'));
+      asc.push(asciiByte(buf[i + j]));
+    }
+    lines.push(off + '  ' + hexParts.join(' ').padEnd(48) + ' | ' + asc.join(''));
+  }
+  return lines.join('\n');
+}
+
+function shannonEntropy(start, end) {
+  const counts = new Uint32Array(256);
+  let n = 0;
+  for (let i = start; i < end; i++) { counts[buf[i]]++; n++; }
+  if (!n) return 0;
+  let e = 0;
+  for (let k = 0; k < 256; k++) {
+    if (!counts[k]) continue;
+    const p = counts[k] / n;
+    e -= p * Math.log2(p);
+  }
+  return e;
+}
+
+function parseHeader() {
+  // magic
+  let magicStr = '';
+  for (let i = 0; i < 16 && i < buf.length; i++) magicStr += asciiByte(buf[i]);
+  $('hd-magic').textContent = '"' + magicStr + '"';
+
+  // version dwords at 0x10
+  const verParts = [];
+  for (let i = 0x10; i < 0x20 && i < buf.length; i++) verParts.push(buf[i].toString(16).padStart(2, '0'));
+  $('hd-ver').textContent = verParts.join(' ');
+
+  // Big5 title at 0x20 — read until null
+  let tEnd = 0x20;
+  while (tEnd < buf.length && tEnd < 0x34 && buf[tEnd] !== 0) tEnd++;
+  const titleBytes = buf.slice(0x20, tEnd);
+  const title = decodeBig5(titleBytes);
+  $('hd-title').textContent = (title && title.trim()) ? title : '（無 / 無法解碼）';
+
+  // 0x34 misc — show two dwords
+  if (buf.length >= 0x3c) {
+    const d0 = dv.getUint32(0x34, true);
+    const d1 = dv.getUint32(0x38, true);
+    $('hd-misc').textContent = '0x' + d0.toString(16).padStart(8, '0') +
+      '  /  0x' + d1.toString(16).padStart(8, '0') + ' (' + d1 + ')';
+  } else {
+    $('hd-misc').textContent = '（檔案太短）';
+  }
+
+  // embedded save path at 0x3C — ASCII with · for nulls, up to 0x70
+  let pathStr = '';
+  const pEnd = Math.min(buf.length, 0x70);
+  for (let i = 0x3c; i < pEnd; i++) {
+    const b = buf[i];
+    pathStr += (b === 0) ? '·' : asciiByte(b);
+  }
+  $('hd-path').textContent = pathStr.replace(/·+$/, '') || '（無）';
+
+  // 神之眼 incompatibility note — show the byte 神之眼 misreads as record count
+  const b63 = (buf.length > 0x63) ? buf[0x63] : 0;
+  $('hd-godseye-note').textContent =
+    '神之眼（日文版 parser）會把 0x63 的位元組當「記錄筆數」：本檔 0x63 = 0x' +
+    b63.toString(16).padStart(2, '0') + ' (' + b63 + ')。在繁中版這其實是來源路徑字串的一個字元，' +
+    '所以神之眼會以為有 ' + b63 + ' 筆記錄、用固定步距索引 → 讀爆 buffer → 亂碼錯誤。' +
+    '這就是神之眼讀不了繁中版存檔的直接原因。';
+}
+
+function renderHexPage() {
+  const start = hexPage * HEX_PAGE_BYTES;
+  $('hex-viewer').textContent = formatHex(start, HEX_PAGE_BYTES);
+  const totalPages = Math.ceil(buf.length / HEX_PAGE_BYTES);
+  $('hex-pageinfo').textContent =
+    'offset 0x' + start.toString(16) + ' — 第 ' + (hexPage + 1) + ' / ' + totalPages + ' 頁';
+}
+
+function scanBig5(filter) {
+  const out = $('big5-results');
+  const found = [];
+  let i = 0;
+  while (i < buf.length - 1) {
+    let j = i;
+    while (j < buf.length - 1) {
+      const lead = buf[j], trail = buf[j + 1];
+      const okLead = lead >= 0xA1 && lead <= 0xF9;
+      const okTrail = (trail >= 0x40 && trail <= 0x7E) || (trail >= 0xA1 && trail <= 0xFE);
+      if (okLead && okTrail) j += 2; else break;
+    }
+    if (j - i >= 4) {            // >= 2 CJK chars
+      const dec = decodeBig5(buf.slice(i, j));
+      if (dec) found.push([i, dec]);
+      i = j;
+    } else {
+      i++;
+    }
+  }
+  const lines = [];
+  let shown = 0;
+  for (const [off, s] of found) {
+    if (filter && s.indexOf(filter) === -1) continue;
+    if (shown < 400) {
+      const tag = (off >= 0x20 && off < 0x34) ? '  ← header 標題（可靠）' : '';
+      lines.push('0x' + off.toString(16).padStart(6, '0') + '  ' + s + tag);
+    }
+    shown++;
+  }
+  if (shown > 400) lines.push('\n…（共 ' + shown + ' 筆，只顯示前 400 筆）');
+  out.textContent = lines.length ? lines.join('\n') : '（沒有符合的 Big5 片段）';
+  out.style.display = 'block';
+  $('big5-status').textContent = '共 ' + found.length + ' 筆 Big5 片段' +
+    (filter ? '，符合「' + filter + '」者 ' + shown + ' 筆' : '');
+}
+
+function buildHeatmap() {
+  const grid = $('heatmap');
+  while (grid.firstChild) grid.removeChild(grid.firstChild);
+  const BLOCKS = 128;
+  const blockSize = Math.max(1, Math.ceil(buf.length / BLOCKS));
+  for (let b = 0; b < BLOCKS; b++) {
+    const start = b * blockSize;
+    if (start >= buf.length) break;
+    const end = Math.min(buf.length, start + blockSize);
+    const e = shannonEntropy(start, end);
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    // entropy 0..8 → green brightness
+    const intensity = Math.max(0, Math.min(1, e / 8));
+    const g = Math.round(40 + intensity * 215);
+    cell.style.background = 'rgb(0,' + g + ',' + Math.round(g * 0.26) + ')';
+    cell.title = 'offset 0x' + start.toString(16) + ' – 0x' + end.toString(16) +
+      '  entropy ' + e.toFixed(2);
+    cell.addEventListener('click', () => {
+      const detail = $('heatmap-detail');
+      detail.textContent = formatHex(start, Math.min(512, end - start));
+      detail.style.display = 'block';
+    });
+    grid.appendChild(cell);
+  }
+  $('heatmap-legend').textContent =
+    '每格 ≈ ' + blockSize.toLocaleString() + ' bytes。亮 = 高 entropy（物件圖密集區）、暗 = 低 entropy（header / padding / sparse）。點一格看 hex。';
+}
+
+function handleFile(file) {
+  try {
+    const MIN_SIZE = 256;
+    const MAX_SIZE = 8 * 1024 * 1024;
+    if (file.size < MIN_SIZE || file.size > MAX_SIZE) {
+      throw new Error('檔案大小異常 (' + file.size.toLocaleString() +
+        ' bytes)。LDTSV*.dat 應在 ' + MIN_SIZE + ' bytes ~ 8 MB 之間。');
+    }
+    file.arrayBuffer().then(ab => {
+      buf = new Uint8Array(ab);
+      dv = new DataView(ab);
+      fileName = file.name;
+      hexPage = 0;
+
+      // magic check
+      let magicStr = '';
+      for (let i = 0; i < 16 && i < buf.length; i++) magicStr += asciiByte(buf[i]);
+      const magicOk = magicStr === MAGIC;
+
+      $('info-name').textContent = fileName;
+      $('info-size').textContent = buf.length.toLocaleString() + ' bytes (' +
+        (buf.length / 1024).toFixed(1) + ' KB)';
+      const mi = $('info-magic');
+      if (magicOk) {
+        mi.textContent = '✓ 俠客遊 IV 存檔（magic: "' + magicStr + '"）';
+        mi.style.color = 'var(--phosphor)';
+      } else {
+        mi.textContent = '✗ Magic 不符（讀到 "' + magicStr +
+          '"，預期 "' + MAGIC + '"）— 可能不是 LDTSV*.dat，下方解析僅供參考';
+        mi.style.color = 'var(--danger)';
+      }
+
+      parseHeader();
+      renderHexPage();
+      $('big5-results').style.display = 'none';
+      $('big5-status').textContent = '';
+      $('heatmap-detail').style.display = 'none';
+      while ($('heatmap').firstChild) $('heatmap').removeChild($('heatmap').firstChild);
+      $('heatmap-legend').textContent = '';
+
+      $('drop-zone').style.display = 'none';
+      $('viewer').style.display = 'block';
+      $('status').textContent = magicOk ? '✓ 載入成功' : '⚠ Magic 異常，仍可檢視';
+      const eb = $('error-display');
+      while (eb.firstChild) eb.removeChild(eb.firstChild);
+    }).catch(e => showError(e.message));
+  } catch (e) {
+    showError(e.message);
+  }
+}
+
+// ===== events =====
+$('click-select').addEventListener('click', () => $('file-input').click());
+$('file-input').addEventListener('change', e => {
+  if (e.target.files && e.target.files[0]) handleFile(e.target.files[0]);
+});
+const dz = $('drop-zone');
+dz.addEventListener('click', () => $('file-input').click());
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag-active'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('drag-active'));
+dz.addEventListener('drop', e => {
+  e.preventDefault();
+  dz.classList.remove('drag-active');
+  if (e.dataTransfer.files && e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+});
+
+$('btn-big5-scan').addEventListener('click', () => {
+  if (!buf) return;
+  scanBig5($('big5-filter').value.trim());
+});
+$('btn-heatmap').addEventListener('click', () => { if (buf) buildHeatmap(); });
+
+$('hex-prev').addEventListener('click', () => {
+  if (!buf || hexPage === 0) return;
+  hexPage--; renderHexPage();
+});
+$('hex-next').addEventListener('click', () => {
+  if (!buf) return;
+  if ((hexPage + 1) * HEX_PAGE_BYTES < buf.length) { hexPage++; renderHexPage(); }
+});
+$('hex-jump-btn').addEventListener('click', () => {
+  if (!buf) return;
+  const v = parseInt($('hex-jump').value.trim(), 16);
+  if (isNaN(v) || v < 0 || v >= buf.length) { $('status').textContent = '✗ offset 超出範圍'; return; }
+  hexPage = Math.floor(v / HEX_PAGE_BYTES);
+  renderHexPage();
+});
+
+$('btn-reset').addEventListener('click', () => {
+  buf = null; dv = null; fileName = ''; hexPage = 0;
+  $('drop-zone').style.display = 'block';
+  $('viewer').style.display = 'none';
+  $('file-input').value = '';
+  $('status').textContent = '準備就緒';
+});
+</script>
+</body>
+</html>
