@@ -131,6 +131,7 @@ h1.pixel::after  { content: "_"; animation: blink 1s steps(1) infinite; }
   position: absolute;
   top: -12px;
   left: 16px;
+  margin: 0;
   background: var(--bg);
   padding: 0 8px;
   font-size: 13px;
