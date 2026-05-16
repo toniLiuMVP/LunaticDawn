@@ -427,3 +427,46 @@ tbody tr:hover { background: rgba(0,255,65,0.05); }
   .raw-text { font-size: 15px; padding: 12px; }
   .card-grid { grid-template-columns: 1fr; }
 }
+
+/* ---- a11y (2026-05-17 Codex review B4 採納) ---- */
+
+/* :focus-visible — 鍵盤導航看得到 focus */
+a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(255, 176, 0, 0.2);
+}
+
+/* skip link (跟「跳到主內容」連結配合,各頁面 <main id="main-content">) */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--amber);
+  color: var(--bg);
+  padding: 8px 16px;
+  z-index: 10001;
+  text-decoration: none;
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+}
+.skip-link:focus {
+  top: 0;
+}
+
+/* prefers-reduced-motion — 關閉 blink / CRT 掃描線 / vignette / 過渡動畫
+   尊重使用者「減少動態效果」系統設定(前庭功能障礙 / 暈動症 / etc) */
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after {
+    display: none !important;
+  }
+  h1.pixel::after {
+    animation: none !important;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.001s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001s !important;
+  }
+}

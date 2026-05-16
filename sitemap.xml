@@ -1,145 +1,145 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- 主站 -->
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/</loc><priority>1.0</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/</loc><lastmod>2026-05-15</lastmod><priority>1.0</priority></url>
 
   <!-- 俠客遊 II -->
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/save-editor.html</loc><priority>0.9</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/chritem-viewer.html</loc><priority>0.8</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/shopitem-viewer.html</loc><priority>0.8</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/savs-dashboard.html</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/lunahead-editor.html</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/kobun-oyabun-viewer.html</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/world-state-viewer.html</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/</loc><priority>0.8</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/walkthrough.html</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/items-towns.html</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/geography-6-nations.html</loc><priority>0.8</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/hissatsu-guide.html</loc><priority>0.8</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/magic-5-systems.html</loc><priority>0.8</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/monsters-guide.html</loc><priority>0.8</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/weapon-formulas-paths.html</loc><priority>0.8</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/getting-started.html</loc><priority>0.9</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/combat-strategy.html</loc><priority>0.8</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/npc-companions.html</loc><priority>0.8</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/kyleul-deep-guide.html</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/quest-system.html</loc><priority>0.8</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/save-format.html</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/modifier-notes.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/marriage-party.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/starting-stats.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/weakness-bonus.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/dos-faq.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/readme.html</loc><priority>0.5</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/ez/</loc><priority>0.8</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/launcher/</loc><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/save-editor.html</loc><lastmod>2026-05-13</lastmod><priority>0.9</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/chritem-viewer.html</loc><lastmod>2026-05-13</lastmod><priority>0.8</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/shopitem-viewer.html</loc><lastmod>2026-05-13</lastmod><priority>0.8</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/savs-dashboard.html</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/lunahead-editor.html</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/kobun-oyabun-viewer.html</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/world-state-viewer.html</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/</loc><lastmod>2026-05-13</lastmod><priority>0.8</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/walkthrough.html</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/items-towns.html</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/geography-6-nations.html</loc><lastmod>2026-05-13</lastmod><priority>0.8</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/hissatsu-guide.html</loc><lastmod>2026-05-13</lastmod><priority>0.8</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/magic-5-systems.html</loc><lastmod>2026-05-13</lastmod><priority>0.8</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/monsters-guide.html</loc><lastmod>2026-05-13</lastmod><priority>0.8</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/weapon-formulas-paths.html</loc><lastmod>2026-05-13</lastmod><priority>0.8</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/getting-started.html</loc><lastmod>2026-05-13</lastmod><priority>0.9</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/combat-strategy.html</loc><lastmod>2026-05-13</lastmod><priority>0.8</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/npc-companions.html</loc><lastmod>2026-05-13</lastmod><priority>0.8</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/kyleul-deep-guide.html</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/quest-system.html</loc><lastmod>2026-05-13</lastmod><priority>0.8</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/save-format.html</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/modifier-notes.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/marriage-party.html</loc><lastmod>2026-05-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/starting-stats.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/weakness-bonus.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/dos-faq.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/readme.html</loc><lastmod>2026-05-13</lastmod><priority>0.5</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/ez/</loc><lastmod>2026-05-17</lastmod><priority>0.8</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/launcher/</loc><lastmod>2026-05-17</lastmod><priority>0.7</priority></url>
 
   <!-- 俠客遊 II 資料庫（2026-04 新增，2026-05 2026加 NPC） -->
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/database/</loc><priority>0.8</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/database/items.html</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/database/monsters.html</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/database/system-terms.html</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/database/magics.html</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/database/hissatsu.html</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/database/dungeons.html</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/database/npcs.html</loc><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/database/</loc><lastmod>2026-05-13</lastmod><priority>0.8</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/database/items.html</loc><lastmod>2026-05-15</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/database/monsters.html</loc><lastmod>2026-05-15</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/database/system-terms.html</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/database/magics.html</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/database/hissatsu.html</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/database/dungeons.html</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/database/npcs.html</loc><lastmod>2026-05-15</lastmod><priority>0.7</priority></url>
 
   <!-- 舊 Google Sites 搬遷導流頁 -->
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/from-old-site.html</loc><priority>0.5</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/from-old-site.html</loc><lastmod>2026-05-13</lastmod><priority>0.5</priority></url>
 
   <!-- 前途道標 (1999) -->
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/passage/</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/passage/intro.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/passage/intermediate.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/passage/advanced.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/passage/treasure-hunter.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/passage/win10-font-fix.html</loc><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/passage/</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/passage/intro.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/passage/intermediate.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/passage/advanced.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/passage/treasure-hunter.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/passage/win10-font-fix.html</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
 
   <!-- 第三之書 (2002) — Book 三部曲第三作，獨立子站 -->
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/modifier.html</loc><priority>0.8</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/getting-started.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/install-faq.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/combat-strategy.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/magic-systems.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/hissatsu-guide.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/monsters-guide.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/npc-companions.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/quest-system.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/modifier-tutorial.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/ii-vs-iii-systems.html</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/database/</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/database/items.html</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/database/monsters.html</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/database/cards.html</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/database/game-systems.html</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/database/achievements.html</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/database/artifacts.html</loc><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/modifier.html</loc><lastmod>2026-05-13</lastmod><priority>0.8</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/getting-started.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/install-faq.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/combat-strategy.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/magic-systems.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/hissatsu-guide.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/monsters-guide.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/npc-companions.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/quest-system.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/modifier-tutorial.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/ii-vs-iii-systems.html</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/database/</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/database/items.html</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/database/monsters.html</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/database/cards.html</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/database/game-systems.html</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/database/achievements.html</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/database/artifacts.html</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
 
   <!-- 未來之書 (1998) — 獨立子站 + 25 篇 BBS 攻略 -->
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/cheats.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/getting-started.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/hidden-characters.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/all.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/mission.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/weapon.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/thing.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/man.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/enemy.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/enemy2.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/special.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/special2.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/jc-dung.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/jc-map.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/god.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/king.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/supergod.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/w-test-1.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/w-test-2.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/bard.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/singer.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/leader.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/guard.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/big-guy.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/ginlin.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/new.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/afterply.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/bbs-1.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/thing2.html</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/enemy-data.html</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/man-data.html</loc><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/cheats.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/getting-started.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/hidden-characters.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/all.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/mission.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/weapon.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/thing.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/man.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/enemy.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/enemy2.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/special.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/special2.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/jc-dung.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/jc-map.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/god.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/king.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/supergod.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/w-test-1.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/w-test-2.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/bard.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/singer.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/leader.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/guard.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/big-guy.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/ginlin.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/new.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/afterply.html</loc><lastmod>2026-05-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/bbs-1.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/thing2.html</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/enemy-data.html</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/book/guides/man-data.html</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
 
   <!-- 俠客遊 III 密技 -->
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna3/</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna3/database/</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna3/cheats.html</loc><priority>0.5</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna3/</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna3/database/</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna3/cheats.html</loc><lastmod>2026-05-13</lastmod><priority>0.5</priority></url>
 
   <!-- 俠客遊 IV -->
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/database/</loc><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/database/items.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/database/monsters.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/database/magics.html</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/series-research.html</loc><priority>0.8</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/exp-farming.html</loc><priority>0.5</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/multiplayer.html</loc><priority>0.5</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/savedata-viewer.html</loc><priority>0.5</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/</loc><lastmod>2026-05-15</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/database/</loc><lastmod>2026-05-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/database/items.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/database/monsters.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/database/magics.html</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/series-research.html</loc><lastmod>2026-05-13</lastmod><priority>0.8</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/exp-farming.html</loc><lastmod>2026-05-13</lastmod><priority>0.5</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/multiplayer.html</loc><lastmod>2026-05-13</lastmod><priority>0.5</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/savedata-viewer.html</loc><lastmod>2026-05-17</lastmod><priority>0.5</priority></url>
 
   <!-- Steam -->
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/steam/</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/steam/passage-chinese.html</loc><priority>0.5</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/steam/</loc><lastmod>2026-05-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/steam/passage-chinese.html</loc><lastmod>2026-05-13</lastmod><priority>0.5</priority></url>
 
   <!-- 通用 -->
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/general/</loc><priority>0.5</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/general/encoding-faq.html</loc><priority>0.5</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/general/community.html</loc><priority>0.5</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/general/</loc><lastmod>2026-05-13</lastmod><priority>0.5</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/general/encoding-faq.html</loc><lastmod>2026-05-13</lastmod><priority>0.5</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/general/community.html</loc><lastmod>2026-05-17</lastmod><priority>0.5</priority></url>
 
   <!-- 歷史檔案庫（46 個社群歷史下載檔索引）-->
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/files/</loc><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/files/lde3/</loc><priority>0.5</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/files/</loc><lastmod>2026-05-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/files/lde3/</loc><lastmod>2026-05-13</lastmod><priority>0.5</priority></url>
   <url>
     <loc>https://toniliumvp.github.io/LunaticDawn/passage/manual-tc.html</loc>
     <changefreq>monthly</changefreq>

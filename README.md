@@ -139,7 +139,7 @@
 
 ## 📊 站點資訊
 
-- 總頁數：**125** 個 HTML
+- 總頁數：**126** 個 HTML
 - 攻略數：**19** 篇
 - 基礎建設：sitemap.xml · 404.html · Open Graph 標籤 · 本地化字型（零外部依賴） · Google Search Console 已驗證
 - 最後更新：2026-05-17

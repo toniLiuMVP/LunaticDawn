@@ -104,7 +104,7 @@
       <div class="field-row"><label>版本位元組（0x10）：</label><span class="val" id="hd-ver"></span></div>
       <div class="field-row"><label>存檔標題（0x20，Big5）：</label><span class="val" id="hd-title" style="color: var(--amber);"></span></div>
       <div class="field-row"><label>0x34 區（8 bytes）：</label><span class="val" id="hd-misc"></span></div>
-      <div class="field-row"><label>存檔來源路徑（0x3C）：</label><span class="val" id="hd-path"></span></div>
+      <div class="field-row"><label>存檔來源路徑（0x3C）：</label><span class="val" id="hd-path"></span> <button id="btn-show-full-path" type="button" style="background: var(--bg-input); color: var(--phosphor-dim); border: 1px solid var(--phosphor-fade); padding: 2px 8px; font-size: 12px; cursor: pointer; display: none;">顯示完整路徑</button></div>
       <div class="field-row"><label>💰 主角金錢（0xC8BE，NOT u16 LE）：</label><span class="val" id="hd-money" style="color: var(--amber);"></span></div>
       <div class="note-warn" id="hd-godseye-note"></div>
     </div>
@@ -278,13 +278,31 @@ function parseHeader() {
   }
 
   // embedded save path at 0x3C — ASCII with · for nulls, up to 0x70
-  let pathStr = '';
+  // privacy: default 只顯示 basename(避免 leak 本機 username / 完整目錄結構)
+  // 點「顯示完整路徑」button 才 expand
+  let pathFull = '';
   const pEnd = Math.min(buf.length, 0x70);
   for (let i = 0x3c; i < pEnd; i++) {
     const b = buf[i];
-    pathStr += (b === 0) ? '·' : asciiByte(b);
+    pathFull += (b === 0) ? '·' : asciiByte(b);
   }
-  $('hd-path').textContent = pathStr.replace(/·+$/, '') || '（無）';
+  pathFull = pathFull.replace(/·+$/, '');
+  // 抽 basename:以 \ 或 / 為界,取最後一段
+  const m = pathFull.match(/[\\/]([^\\/]+)$/);
+  const pathBasename = m ? m[1] : pathFull;
+  const pathDisplay = pathFull ? ('…\\' + pathBasename + '   <隱私模式 — 點右側按鈕顯示完整路徑>') : '（無）';
+  $('hd-path').textContent = pathDisplay;
+  // expand 邏輯
+  const btn = $('btn-show-full-path');
+  if (pathFull && pathFull !== pathBasename) {
+    btn.style.display = 'inline-block';
+    btn.addEventListener('click', () => {
+      $('hd-path').textContent = pathFull;
+      btn.style.display = 'none';
+    }, { once: true });
+  } else {
+    btn.style.display = 'none';
+  }
 
   // v0.2: money field @ 0x00C8BE — NOT u16 LE encoded (1990s anti-edit obfuscation)
   // confirmed via Anzai PowerShell hex-grep unique (1 hit in 113KB) + 716↔666 diff (W53)
