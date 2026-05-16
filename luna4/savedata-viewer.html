@@ -105,6 +105,7 @@
       <div class="field-row"><label>存檔標題（0x20，Big5）：</label><span class="val" id="hd-title" style="color: var(--amber);"></span></div>
       <div class="field-row"><label>0x34 區（8 bytes）：</label><span class="val" id="hd-misc"></span></div>
       <div class="field-row"><label>存檔來源路徑（0x3C）：</label><span class="val" id="hd-path"></span></div>
+      <div class="field-row"><label>💰 主角金錢（0xC8BE，NOT u16 LE）：</label><span class="val" id="hd-money" style="color: var(--amber);"></span></div>
       <div class="note-warn" id="hd-godseye-note"></div>
     </div>
 
@@ -284,6 +285,16 @@ function parseHeader() {
     pathStr += (b === 0) ? '·' : asciiByte(b);
   }
   $('hd-path').textContent = pathStr.replace(/·+$/, '') || '（無）';
+
+  // v0.2: money field @ 0x00C8BE — NOT u16 LE encoded (1990s anti-edit obfuscation)
+  // confirmed via Anzai PowerShell hex-grep unique (1 hit in 113KB) + 716↔666 diff (W53)
+  if (buf.length >= 0x00c8c0) {
+    const raw = dv.getUint16(0x00c8be, true);     // little-endian u16
+    const money = (~raw) & 0xffff;                // bitwise NOT decode
+    $('hd-money').textContent = money + '  (raw u16 LE = 0x' + raw.toString(16).padStart(4, '0') + ')';
+  } else {
+    $('hd-money').textContent = '（檔案太短,無金錢欄位）';
+  }
 
   // 神之眼 incompatibility note — show the byte 神之眼 misreads as record count
   const b63 = (buf.length > 0x63) ? buf[0x63] : 0;
