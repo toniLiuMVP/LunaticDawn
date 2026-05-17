@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>俠客遊 IV 存檔修改器 v0.3 · 吟遊詩人的傳說</title>
+<title>俠客遊 IV 存檔修改器 v0.4 · 吟遊詩人的傳說</title>
 <meta name="description" content="俠客遊 IV LDTSV0.dat 存檔檢視器 — header 解析 + Big5 字串掃描 + 區段熱圖 + hex 檢視。純前端、跨平台、不上傳，瀏覽器拖放即看。">
 <link rel="stylesheet" href="../assets/css/fonts-retro.css">
 <link rel="stylesheet" href="../assets/css/retro.css">
@@ -51,7 +51,7 @@
     <div class="header-inner">
       <h1 class="pixel">俠客遊 IV 存檔檢視器</h1>
       <nav>
-        <span style="color: var(--phosphor-dim); font-size: 12px;">v0.1 · header 解析 + Big5 掃描 + 熱圖</span>
+        <span style="color: var(--phosphor-dim); font-size: 12px;">v0.4 · header + 金錢 edit + 跨檔 diff + NOT u8/u16 反向搜尋 + 熱圖</span>
         ·
         <a href="./">回俠客遊 IV 索引</a>
         ·
@@ -126,6 +126,30 @@
         </tbody>
       </table>
       <p class="hint">⚠ 這些候選都是「值 in 合理範圍」,**未 confirm 對應到哪個 field**。請對照你遊戲內看到的 HP/MP/level/年齡/exp 等具體數值,告知 toni / Anzai 哪個 offset 對哪個 field。</p>
+    </div>
+
+    <div class="viewer-panel">
+      <h3>★ 跨檔 diff 自助 anchor(v0.4)</h3>
+      <p class="hint">在遊戲內<strong>改 1 個變數</strong>(例如:升 1 級 / 改名 / 用掉 1 個物品 / 學 1 個新技能),存到不同槽。<strong>上傳兩份存檔</strong> → viewer 列所有變化 byte → 變化的 byte 就是該變數對應的 offset。</p>
+      <div class="toolbar">
+        <label style="color: var(--phosphor-dim);">對比存檔(改過 1 變數):</label>
+        <input type="file" id="diff-file-input" accept=".dat,.DAT">
+        <button id="btn-diff" type="button">執行 diff</button>
+        <span class="hint" id="diff-status" style="margin:0;"></span>
+      </div>
+      <div id="diff-output" class="hex-viewer" style="display: none; max-height: 300px;"></div>
+    </div>
+
+    <div class="viewer-panel">
+      <h3>★ NOT u8 反向搜尋(v0.4 — level/skill/屬性)</h3>
+      <p class="hint">遊戲內看到 <strong>1-99 範圍小值</strong>(level / 8 屬性 / 15 技能熟練度等)? 輸入此值,viewer 全檔掃 NOT(value) 的 byte 出現位置 — 因為 u8 範圍小常 false positive,通常需多值 cross-correlate。</p>
+      <div class="toolbar">
+        <label style="color: var(--phosphor-dim);">遊戲內小值(1-99):</label>
+        <input id="not-u8-search-input" type="number" min="1" max="99" placeholder="例 13">
+        <button id="not-u8-search-btn" type="button">NOT u8 全檔掃</button>
+        <span class="hint" id="not-u8-search-status" style="margin:0;"></span>
+      </div>
+      <div id="not-u8-search-results" class="hex-viewer" style="display: none; max-height: 200px;"></div>
     </div>
 
     <div class="viewer-panel">
@@ -469,6 +493,10 @@ function handleFile(file) {
       $('modified-indicator').style.display = 'none';
       $('not-search-results').style.display = 'none';
       $('not-search-status').textContent = '';
+      $('not-u8-search-results').style.display = 'none';   // v0.4
+      $('not-u8-search-status').textContent = '';
+      $('diff-output').style.display = 'none';             // v0.4
+      $('diff-status').textContent = '';
       $('big5-results').style.display = 'none';
       $('big5-status').textContent = '';
       $('heatmap-detail').style.display = 'none';
@@ -620,6 +648,101 @@ function populatePlayerFields() {
     tbody.appendChild(tr);
   }
 }
+
+// ===== v0.4: 跨檔 diff =====
+$('btn-diff').addEventListener('click', () => {
+  if (!buf) { alert('請先載入主存檔'); return; }
+  const fileInput = $('diff-file-input');
+  if (!fileInput.files || !fileInput.files[0]) { alert('請選對比存檔'); return; }
+  const f = fileInput.files[0];
+  if (f.size > 8 * 1024 * 1024) { alert('對比檔太大(> 8 MB)'); return; }
+  f.arrayBuffer().then(ab => {
+    const b2 = new Uint8Array(ab);
+    const minLen = Math.min(buf.length, b2.length);
+    const diffs = [];
+    for (let i = 0; i < minLen; i++) {
+      if (buf[i] !== b2[i]) diffs.push(i);
+    }
+    // group consecutive bytes
+    const regions = [];
+    if (diffs.length > 0) {
+      let cur = [diffs[0], diffs[0]];
+      for (let k = 1; k < diffs.length; k++) {
+        if (diffs[k] === cur[1] + 1) cur[1] = diffs[k];
+        else { regions.push([...cur]); cur = [diffs[k], diffs[k]]; }
+      }
+      regions.push(cur);
+    }
+    const lines = [];
+    lines.push(`主檔 (${fileName}): ${buf.length.toLocaleString()} bytes`);
+    lines.push(`對比 (${f.name}): ${b2.length.toLocaleString()} bytes`);
+    lines.push(`diff: ${diffs.length} bytes 變化 (${(100*diffs.length/minLen).toFixed(2)}%)`);
+    lines.push(`分成 ${regions.length} 個連續區段:`);
+    lines.push('');
+    for (let i = 0; i < Math.min(regions.length, 80); i++) {
+      const [s, e] = regions[i];
+      const sz = e - s + 1;
+      const a1 = Array.from(buf.slice(s, e + 1)).map(b => b.toString(16).padStart(2,'0')).join(' ');
+      const a2 = Array.from(b2.slice(s, e + 1)).map(b => b.toString(16).padStart(2,'0')).join(' ');
+      let note = '';
+      if (s === 0xc8be && e === 0xc8bf) note = '  ★ 0xC8BE 金錢 field (NOT u16 LE)';
+      else if (s >= 0xc8be && e <= 0xc8bf) note = '  ★ 金錢 field 內';
+      else if (s >= 0xc7be && e <= 0xc9be) note = '  (player struct 範圍 ±256B)';
+      lines.push(`  0x${s.toString(16).padStart(6,'0')}-0x${e.toString(16).padStart(6,'0')} (${sz} bytes)${note}`);
+      lines.push(`    主: ${a1}`);
+      lines.push(`    比: ${a2}`);
+      // NOT u16 LE decode if 2 bytes
+      if (sz === 2) {
+        const v1 = (~(buf[s] | (buf[s+1] << 8))) & 0xffff;
+        const v2 = (~(b2[s] | (b2[s+1] << 8))) & 0xffff;
+        lines.push(`    NOT u16 LE: 主=${v1}, 比=${v2}`);
+      }
+    }
+    if (regions.length > 80) lines.push(`\n…顯示前 80 區段,共 ${regions.length}`);
+    if (regions.length === 0) lines.push('(無變化 — 兩檔完全相同)');
+    if (buf.length !== b2.length) lines.push(`\n⚠ 大小不同,只比對前 ${minLen.toLocaleString()} bytes`);
+    const out = $('diff-output');
+    out.textContent = lines.join('\n');
+    out.style.display = 'block';
+    $('diff-status').textContent = `${diffs.length} bytes 變化 / ${regions.length} 區段`;
+    $('diff-status').style.color = diffs.length < 10 ? 'var(--phosphor)' : 'var(--amber)';
+  }).catch(e => showError('diff fail: ' + e.message));
+});
+
+// ===== v0.4: NOT u8 反向搜尋 =====
+$('not-u8-search-btn').addEventListener('click', () => {
+  if (!buf) { alert('請先載入存檔'); return; }
+  const v = parseInt($('not-u8-search-input').value, 10);
+  if (isNaN(v) || v < 1 || v > 99) {
+    alert('值需在 1-99 範圍內(level/skill/屬性)');
+    return;
+  }
+  const notV = (~v) & 0xff;
+  const hits = [];
+  for (let i = 0; i < buf.length; i++) {
+    if (buf[i] === notV) hits.push(i);
+  }
+  const out = $('not-u8-search-results');
+  while (out.firstChild) out.removeChild(out.firstChild);
+  const lines = [];
+  lines.push(`值 = ${v}  NOT u8 = 0x${notV.toString(16).padStart(2,'0')}`);
+  lines.push(`全檔 hit: ${hits.length} 處 — u8 範圍小通常 false positive 多,**需多值 cross-correlate** 才能 anchor`);
+  lines.push('');
+  // 對 player struct ±256 範圍特別標
+  for (const off of hits.slice(0, 50)) {
+    const inStruct = (off >= 0xc7be && off <= 0xc9be);
+    const tag = inStruct ? '  ★ player struct 範圍' : '';
+    const s = Math.max(0, off - 4);
+    const e = Math.min(buf.length, off + 6);
+    const ctx = Array.from(buf.slice(s, e)).map(b => b.toString(16).padStart(2,'0')).join(' ');
+    lines.push(`  0x${off.toString(16).padStart(6,'0')}: ...${ctx}...${tag}`);
+  }
+  if (hits.length > 50) lines.push(`\n…顯示前 50,共 ${hits.length}`);
+  out.textContent = lines.join('\n');
+  out.style.display = 'block';
+  $('not-u8-search-status').textContent = hits.length + ' hits';
+  $('not-u8-search-status').style.color = hits.length > 50 ? 'var(--phosphor-dim)' : 'var(--amber)';
+});
 
 // NOT u16 LE 反向搜尋
 $('not-search-btn').addEventListener('click', () => {
