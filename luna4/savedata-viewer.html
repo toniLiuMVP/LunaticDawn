@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>俠客遊 IV 存檔修改器 v0.7 · 吟遊詩人的傳說</title>
+<title>俠客遊 IV 存檔修改器 v0.8 · 吟遊詩人的傳說</title>
 <meta name="description" content="俠客遊 IV LDTSV0.dat 存檔檢視器 — header 解析 + Big5 字串掃描 + 區段熱圖 + hex 檢視。純前端、跨平台、不上傳，瀏覽器拖放即看。">
 <link rel="stylesheet" href="../assets/css/fonts-retro.css">
 <link rel="stylesheet" href="../assets/css/retro.css">
@@ -51,7 +51,7 @@
     <div class="header-inner">
       <h1 class="pixel">俠客遊 IV 存檔檢視器</h1>
       <nav>
-        <span style="color: var(--phosphor-dim); font-size: 12px;">v0.7 · ★ FSA 一鍵連檔 + 自動跟上遊戲存檔(Chromium) + 直接覆蓋原檔 + 智慧 anchor 精靈 + 自訂欄位管理</span>
+        <span style="color: var(--phosphor-dim); font-size: 12px;">v0.8 · ★★★★ Live RAM Bridge(取代神之眼即時 RPM/WPM,跨平台 PowerShell/Python helper)+ FSA 一鍵連檔 + 智慧 anchor 精靈 + 自訂欄位</span>
         ·
         <a href="./">回俠客遊 IV 索引</a>
         ·
@@ -175,6 +175,44 @@
         <span class="hint" id="not-search-status" style="margin:0;"></span>
       </div>
       <div id="not-search-results" class="hex-viewer" style="display: none; max-height: 200px;"></div>
+    </div>
+
+    <div class="viewer-panel" id="ram-bridge-panel" style="border: 2px solid var(--phosphor); display: none;">
+      <h3 style="color: var(--phosphor);">★★★★ 即時記憶體模式(v0.8 — bridge connected,超越 2000 神之眼)</h3>
+      <p class="hint">偵測到 <code>http://127.0.0.1:<span id="rb-port">8765</span>/</code> LD4 Live Bridge 在跑 → 直接讀寫 LD4.exe 正在跑的記憶體(不用存檔)。等效神之眼但跨平台 + 零安裝 + 0 admin。</p>
+      <div id="rb-status-box" class="hex-viewer" style="max-height: 80px; margin-bottom: 8px;"></div>
+
+      <h4 style="color: var(--phosphor); margin-top: 12px;">▸ Step 1:掃 RAM anchor(找你看到的數值在 LD4 process 哪)</h4>
+      <div class="toolbar">
+        <label style="color: var(--phosphor-dim);">遊戲內看到的值:</label>
+        <input id="rb-scan-value" type="number" min="0" max="4294967295" placeholder="例 7331(金錢)" style="width: 160px;">
+        <button id="rb-scan-btn" type="button">▸ /scan 整個 LD4 RAM(15+ encoding)</button>
+        <span class="hint" id="rb-scan-status" style="margin:0;"></span>
+      </div>
+      <div id="rb-scan-results" style="display: none; margin-top: 8px;">
+        <table class="region-table"><thead><tr><th>編碼</th><th>hits</th><th>RAM address</th><th>動作</th></tr></thead>
+        <tbody id="rb-scan-tbody"></tbody></table>
+        <p class="hint" id="rb-scan-summary" style="margin-top: 6px;"></p>
+      </div>
+
+      <h4 style="color: var(--phosphor); margin-top: 16px;">▸ Step 2:即時欄位(2 秒 polling 自動 refresh)</h4>
+      <table class="region-table" id="rb-fields-table">
+        <thead><tr><th>Label</th><th>RAM addr</th><th>編碼</th><th>當前值(live)</th><th>新值</th><th>動作</th></tr></thead>
+        <tbody id="rb-fields-tbody"><tr><td colspan="6" class="muted">(掃 anchor 後一鍵加入)</td></tr></tbody>
+      </table>
+      <div class="toolbar" style="margin-top: 8px;">
+        <label style="color: var(--phosphor-dim);">RAM polling:</label>
+        <button id="rb-poll-toggle" type="button">▶ 啟動 polling(2 秒)</button>
+        <button id="rb-export-btn" class="ghost" type="button">匯出 JSON</button>
+        <button id="rb-import-btn" class="ghost" type="button">匯入 JSON</button>
+        <button id="rb-clear-btn" class="ghost" type="button" style="color: var(--amber);">清空</button>
+        <span class="hint" id="rb-poll-status" style="margin:0;"></span>
+      </div>
+
+      <div class="note-warn" style="margin-top: 12px;">
+        ⚠ <strong>ASLR 提醒</strong>:每次重啟 LD4,玩家結構在 RAM 不同位置 — 每個遊戲 session 開頭都要重新掃 anchor。這是 Cheat Engine 也有的限制。<br>
+        ⚠ <strong>Bridge 是 native process</strong>:啟動指令見 <code>LD4_EZ/tools/live_bridge/README.txt</code>(Windows 雙擊 <code>Start_Bridge_Windows.bat</code> / Mac/Linux 跑 <code>Start_Bridge_Mac_Linux.command</code>)
+      </div>
     </div>
 
     <div class="viewer-panel" style="border: 2px solid var(--amber);">
@@ -1492,6 +1530,357 @@ $('btn-reset').addEventListener('click', () => {
   fsaFileHandle = null;
   $('btn-fsa-save').style.display = 'none';
 });
+
+// ===== v0.8: Live RAM Bridge — fetch http://127.0.0.1:8765/{status,read,write,scan} =====
+// 配 LD4_EZ/tools/live_bridge/ld4_bridge.ps1 (Win) 或 ld4_bridge.py (Linux/Mac)
+// 解 toni W57 戳穿:「20 年前的東西你會寫不出來?」— 用 native helper bridge 重現神之眼 RPM/WPM 能力
+
+const RB_PORT_DEFAULT = 8765;
+const RB_STORAGE_KEY = 'ld4_ram_fields_v1';
+let rbBase = `http://127.0.0.1:${RB_PORT_DEFAULT}`;
+let rbConnected = false;
+let rbStatusInfo = null;
+let rbPollTimer = null;
+const RB_POLL_INTERVAL_MS = 2000;
+
+async function rbProbe() {
+  // 偵測 bridge 是否在跑(預設 port 8765)
+  try {
+    const ctl = new AbortController();
+    const tm = setTimeout(() => ctl.abort(), 1000);
+    const r = await fetch(`${rbBase}/status`, { signal: ctl.signal });
+    clearTimeout(tm);
+    if (!r.ok) return false;
+    const j = await r.json();
+    rbStatusInfo = j;
+    rbConnected = true;
+    return true;
+  } catch (e) {
+    rbConnected = false;
+    return false;
+  }
+}
+
+function rbRenderStatusBox() {
+  const box = $('rb-status-box');
+  while (box.firstChild) box.removeChild(box.firstChild);
+  if (!rbStatusInfo) {
+    box.textContent = '(尚未連到 bridge)';
+    box.style.color = 'var(--phosphor-dim)';
+    return;
+  }
+  const lines = [
+    `bridge_version: ${rbStatusInfo.bridge_version || '?'}`,
+    `platform: ${rbStatusInfo.platform || 'Windows (PS)'}`,
+    `process: ${rbStatusInfo.process_name || 'LD4'}  /  pid: ${rbStatusInfo.pid || 0}  /  running: ${rbStatusInfo.running ? '✓ yes' : '✗ no'}`,
+    rbStatusInfo.running ? '✓ LD4 正在跑 — 可以開始掃 anchor' : '⚠ LD4 沒在跑 — 請先啟動遊戲'
+  ];
+  box.textContent = lines.join('\n');
+  box.style.color = rbStatusInfo.running ? 'var(--phosphor)' : 'var(--amber)';
+}
+
+async function rbScan() {
+  if (!rbConnected) { alert('Bridge 未連 — 請先啟動 ld4_bridge.ps1/.py'); return; }
+  const v = parseInt($('rb-scan-value').value, 10);
+  if (isNaN(v) || v < 0) { alert('請輸入合法非負整數'); return; }
+  $('rb-scan-status').textContent = '⏳ 掃描中(整個 LD4 RAM,可能 10-30 秒)...';
+  $('rb-scan-status').style.color = 'var(--amber)';
+  try {
+    const r = await fetch(`${rbBase}/scan?value=${v}`);
+    const j = await r.json();
+    if (!j.ok) {
+      $('rb-scan-status').textContent = '✗ ' + (j.error || 'scan failed');
+      $('rb-scan-status').style.color = 'var(--amber)';
+      return;
+    }
+    // 排序:unique → few → many → 0
+    const results = j.results.slice();
+    results.sort((a, b) => {
+      const score = n => n === 1 ? 0 : (n >= 2 && n <= 5 ? 1 : (n === 0 ? 3 : 2));
+      return score(a.hit_count) - score(b.hit_count);
+    });
+    const tbody = $('rb-scan-tbody');
+    while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
+    let uniq = 0, zero = 0;
+    for (const r of results) {
+      const tr = document.createElement('tr');
+      const n = r.hit_count;
+      const td1 = document.createElement('td');
+      if (n === 1) { td1.style.color = 'var(--phosphor)'; td1.style.fontWeight = 'bold'; td1.textContent = '★ ' + r.label; uniq++; }
+      else if (n === 0) { td1.style.color = 'var(--phosphor-dim)'; td1.textContent = r.label; zero++; }
+      else if (n >= 2 && n <= 5) { td1.style.color = 'var(--amber)'; td1.textContent = '☆ ' + r.label; }
+      else { td1.style.color = 'var(--phosphor-fade)'; td1.textContent = r.label; }
+      tr.appendChild(td1);
+      const td2 = document.createElement('td');
+      td2.className = 'num'; td2.textContent = String(n);
+      if (n === 1) { td2.style.color = 'var(--phosphor)'; td2.style.fontWeight = 'bold'; }
+      tr.appendChild(td2);
+      const td3 = document.createElement('td');
+      td3.className = 'num';
+      td3.textContent = n === 0 ? '—' : r.hits.slice(0, 3).join(', ') + (r.hits.length > 3 ? ' ...' : '');
+      tr.appendChild(td3);
+      const td4 = document.createElement('td');
+      if (n === 1 && r.key && CF_ENCODINGS[r.key]) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.textContent = '＋ 加進即時欄位';
+        btn.style.fontSize = '13px';
+        const addr = parseInt(r.hits[0], 16);
+        btn.addEventListener('click', () => rbAddField(addr, r.key, v));
+        td4.appendChild(btn);
+      } else if (n >= 2 && n <= 5 && r.key && CF_ENCODINGS[r.key]) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.textContent = '+ 加(候選)';
+        btn.className = 'ghost';
+        btn.style.fontSize = '13px';
+        const addr = parseInt(r.hits[0], 16);
+        btn.addEventListener('click', () => {
+          if (confirm(`此編碼有 ${n} hits 不是 unique anchor。仍要加進即時欄位嗎?`)) rbAddField(addr, r.key, v);
+        });
+        td4.appendChild(btn);
+      } else {
+        td4.textContent = '—'; td4.style.color = 'var(--phosphor-dim)';
+      }
+      tr.appendChild(td4);
+      tbody.appendChild(tr);
+    }
+    const sum = $('rb-scan-summary');
+    while (sum.firstChild) sum.removeChild(sum.firstChild);
+    sum.appendChild(document.createTextNode(`找到 ${uniq} ★ unique RAM anchor,${zero} 編碼 0-hit。Step 1 → Step 2:加進即時欄位開始 polling。`));
+    sum.style.color = uniq > 0 ? 'var(--phosphor)' : 'var(--amber)';
+    $('rb-scan-results').style.display = 'block';
+    $('rb-scan-status').textContent = `✓ scan 完成 / unique: ${uniq} / 0-hit: ${zero}`;
+    $('rb-scan-status').style.color = uniq > 0 ? 'var(--phosphor)' : 'var(--amber)';
+  } catch (e) {
+    $('rb-scan-status').textContent = '✗ ' + e.message;
+    $('rb-scan-status').style.color = 'var(--amber)';
+  }
+}
+
+function rbLoadFields() {
+  try {
+    const raw = localStorage.getItem(RB_STORAGE_KEY);
+    if (!raw) return [];
+    const arr = JSON.parse(raw);
+    if (!Array.isArray(arr)) return [];
+    return arr.filter(f => f && typeof f.addr === 'number' && CF_ENCODINGS[f.encoding] && typeof f.label === 'string');
+  } catch (e) { return []; }
+}
+
+function rbSaveFields(fields) {
+  try { localStorage.setItem(RB_STORAGE_KEY, JSON.stringify(fields)); }
+  catch (e) { alert('儲存失敗:' + e.message); }
+}
+
+function rbAddField(addr, encKey, val) {
+  const enc = CF_ENCODINGS[encKey];
+  if (!enc) { alert('未知編碼'); return; }
+  const label = prompt(`要給這個即時欄位什麼名稱?(例:金錢 / HP)\n\n編碼:${enc.label}\nRAM 位置:0x${addr.toString(16)}\n當前值:${val}`, '');
+  if (label === null) return;
+  const fields = rbLoadFields();
+  if (fields.some(f => f.addr === addr && f.encoding === encKey)) {
+    alert('此 addr + encoding 已存在即時欄位表'); return;
+  }
+  fields.push({ label: label.trim() || `RAM@0x${addr.toString(16)}`, addr, encoding: encKey });
+  fields.sort((a, b) => a.addr - b.addr);
+  rbSaveFields(fields);
+  rbRenderFields();
+  alert(`✓ 已加進即時欄位:「${label.trim() || 'unnamed'}」@ 0x${addr.toString(16)}(${enc.label})\n\n按下面「啟動 polling」viewer 會每 2 秒抓最新值。`);
+}
+
+function rbRenderFields() {
+  const tbody = $('rb-fields-tbody');
+  while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
+  const fields = rbLoadFields();
+  if (fields.length === 0) {
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+    td.colSpan = 6; td.className = 'muted';
+    td.textContent = '(掃 anchor 後一鍵加入)';
+    tr.appendChild(td); tbody.appendChild(tr);
+    return;
+  }
+  for (let i = 0; i < fields.length; i++) {
+    const f = fields[i];
+    const enc = CF_ENCODINGS[f.encoding];
+    const tr = document.createElement('tr');
+    const td1 = document.createElement('td'); td1.textContent = f.label; tr.appendChild(td1);
+    const td2 = document.createElement('td'); td2.className = 'num'; td2.textContent = '0x' + f.addr.toString(16); tr.appendChild(td2);
+    const td3 = document.createElement('td'); td3.textContent = enc.label; tr.appendChild(td3);
+    const td4 = document.createElement('td'); td4.className = 'num';
+    td4.id = `rb-live-${i}`; td4.textContent = '...';
+    tr.appendChild(td4);
+    const td5 = document.createElement('td');
+    const inp = document.createElement('input'); inp.type = 'number'; inp.min = enc.min; inp.max = enc.max;
+    inp.placeholder = '新值'; inp.style.width = '90px'; inp.id = `rb-edit-${i}`;
+    td5.appendChild(inp); tr.appendChild(td5);
+    const td6 = document.createElement('td');
+    const applyBtn = document.createElement('button'); applyBtn.type = 'button'; applyBtn.textContent = '即時寫入';
+    applyBtn.style.fontSize = '13px';
+    applyBtn.addEventListener('click', () => rbWriteField(i, inp.value));
+    td6.appendChild(applyBtn);
+    const delBtn = document.createElement('button'); delBtn.type = 'button'; delBtn.textContent = '✕';
+    delBtn.className = 'ghost'; delBtn.title = '刪除';
+    delBtn.addEventListener('click', () => {
+      if (!confirm(`刪除「${f.label}」?`)) return;
+      const fs = rbLoadFields(); fs.splice(i, 1); rbSaveFields(fs); rbRenderFields();
+    });
+    td6.appendChild(delBtn);
+    tr.appendChild(td6);
+    tbody.appendChild(tr);
+  }
+}
+
+async function rbReadField(i) {
+  const fields = rbLoadFields();
+  const f = fields[i];
+  if (!f) return null;
+  const enc = CF_ENCODINGS[f.encoding];
+  try {
+    const r = await fetch(`${rbBase}/read?addr=0x${f.addr.toString(16)}&size=${enc.size}`);
+    const j = await r.json();
+    if (!j.ok) return null;
+    // hex → bytes → 用 enc.read
+    const bytes = new Uint8Array(enc.size);
+    for (let k = 0; k < enc.size; k++) bytes[k] = parseInt(j.hex.substr(k * 2, 2), 16);
+    return enc.read(bytes, 0);
+  } catch (e) {
+    return null;
+  }
+}
+
+async function rbWriteField(i, valStr) {
+  if (!rbConnected) { alert('Bridge 未連'); return; }
+  const fields = rbLoadFields();
+  const f = fields[i];
+  if (!f) return;
+  const enc = CF_ENCODINGS[f.encoding];
+  const v = parseInt(valStr, 10);
+  if (isNaN(v) || v < enc.min || v > enc.max) {
+    alert(`值需在 ${enc.min}-${enc.max} 範圍(${enc.label})`); return;
+  }
+  const bytes = new Uint8Array(enc.size);
+  enc.write(bytes, 0, v);
+  const hex = Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
+  try {
+    const r = await fetch(`${rbBase}/write?addr=0x${f.addr.toString(16)}`, {
+      method: 'POST',
+      body: hex,
+      headers: { 'Content-Type': 'text/plain' }
+    });
+    const j = await r.json();
+    if (j.ok) {
+      $('rb-poll-status').textContent = `✓ 已即時寫入「${f.label}」= ${v} @ 0x${f.addr.toString(16)} (${new Date().toLocaleTimeString()})`;
+      $('rb-poll-status').style.color = 'var(--phosphor)';
+      // 立刻 refresh live 值
+      const live = await rbReadField(i);
+      const cell = $(`rb-live-${i}`);
+      if (cell) cell.textContent = live === null ? 'ERR' : String(live);
+    } else {
+      alert('WriteProcessMemory 失敗:' + (j.error || '?'));
+    }
+  } catch (e) {
+    alert('Bridge 通訊失敗:' + e.message);
+  }
+}
+
+async function rbPollOnce() {
+  if (!rbConnected) return;
+  const fields = rbLoadFields();
+  for (let i = 0; i < fields.length; i++) {
+    const v = await rbReadField(i);
+    const cell = $(`rb-live-${i}`);
+    if (cell) {
+      if (v === null) { cell.textContent = 'ERR'; cell.style.color = 'var(--amber)'; }
+      else { cell.textContent = String(v); cell.style.color = 'var(--phosphor)'; }
+    }
+  }
+}
+
+function rbStartPoll() {
+  if (rbPollTimer) return;
+  rbPollTimer = setInterval(rbPollOnce, RB_POLL_INTERVAL_MS);
+  rbPollOnce();
+  $('rb-poll-toggle').textContent = '■ 停止 polling';
+  $('rb-poll-status').textContent = `▶ polling 每 ${RB_POLL_INTERVAL_MS/1000} 秒(${new Date().toLocaleTimeString()} 開始)`;
+  $('rb-poll-status').style.color = 'var(--phosphor)';
+}
+
+function rbStopPoll() {
+  if (rbPollTimer) { clearInterval(rbPollTimer); rbPollTimer = null; }
+  $('rb-poll-toggle').textContent = '▶ 啟動 polling(2 秒)';
+  $('rb-poll-status').textContent = '⏸ polling 停止';
+  $('rb-poll-status').style.color = 'var(--phosphor-dim)';
+}
+
+// Init:probe bridge,有就顯示 panel
+(async () => {
+  const ok = await rbProbe();
+  if (ok) {
+    $('ram-bridge-panel').style.display = 'block';
+    rbRenderStatusBox();
+    rbRenderFields();
+    // 註冊事件
+    $('rb-scan-btn').addEventListener('click', rbScan);
+    $('rb-scan-value').addEventListener('keypress', e => { if (e.key === 'Enter') rbScan(); });
+    $('rb-poll-toggle').addEventListener('click', () => {
+      if (rbPollTimer) rbStopPoll(); else rbStartPoll();
+    });
+    $('rb-export-btn').addEventListener('click', () => {
+      const blob = new Blob([JSON.stringify(rbLoadFields(), null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'ld4_ram_fields_' + new Date().toISOString().slice(0,10) + '.json';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+    $('rb-import-btn').addEventListener('click', () => {
+      const inp = document.createElement('input'); inp.type = 'file'; inp.accept = '.json';
+      inp.addEventListener('change', e => {
+        const file = e.target.files && e.target.files[0]; if (!file) return;
+        const r = new FileReader();
+        r.onload = ev => {
+          try {
+            const arr = JSON.parse(ev.target.result);
+            if (!Array.isArray(arr)) throw new Error('not array');
+            const valid = arr.filter(f => f && typeof f.addr === 'number' && CF_ENCODINGS[f.encoding]);
+            const existing = rbLoadFields();
+            const key = f => f.addr + '|' + f.encoding;
+            const existingKeys = new Set(existing.map(key));
+            let added = 0;
+            for (const f of valid) if (!existingKeys.has(key(f))) { existing.push(f); added++; }
+            existing.sort((a, b) => a.addr - b.addr);
+            rbSaveFields(existing);
+            rbRenderFields();
+            alert(`匯入 ${added} 個新即時欄位`);
+          } catch (err) { alert('JSON parse 失敗:' + err.message); }
+        };
+        r.readAsText(file);
+      });
+      inp.click();
+    });
+    $('rb-clear-btn').addEventListener('click', () => {
+      if (!confirm('清空所有即時欄位?')) return;
+      rbSaveFields([]); rbRenderFields();
+    });
+    // 定期更新 bridge status box(每 5 秒)
+    setInterval(async () => {
+      const ok = await rbProbe();
+      if (!ok) {
+        rbStopPoll();
+        rbConnected = false;
+        rbStatusInfo = null;
+        rbRenderStatusBox();
+        $('rb-poll-status').textContent = '⚠ Bridge 失聯 — 確認 ld4_bridge.ps1/.py 仍在跑';
+        $('rb-poll-status').style.color = 'var(--amber)';
+      } else {
+        rbRenderStatusBox();
+      }
+    }, 5000);
+  }
+  // 沒 bridge 就靜默不顯示 panel(避免干擾 Safari 用戶)
+})();
 </script>
 </body>
 </html>
