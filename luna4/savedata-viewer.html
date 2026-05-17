@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>俠客遊 IV 存檔修改器 v0.4 · 吟遊詩人的傳說</title>
+<title>俠客遊 IV 存檔修改器 v0.5 · 吟遊詩人的傳說</title>
 <meta name="description" content="俠客遊 IV LDTSV0.dat 存檔檢視器 — header 解析 + Big5 字串掃描 + 區段熱圖 + hex 檢視。純前端、跨平台、不上傳，瀏覽器拖放即看。">
 <link rel="stylesheet" href="../assets/css/fonts-retro.css">
 <link rel="stylesheet" href="../assets/css/retro.css">
@@ -51,7 +51,7 @@
     <div class="header-inner">
       <h1 class="pixel">俠客遊 IV 存檔檢視器</h1>
       <nav>
-        <span style="color: var(--phosphor-dim); font-size: 12px;">v0.4 · header + 金錢 edit + 跨檔 diff + NOT u8/u16 反向搜尋 + 熱圖</span>
+        <span style="color: var(--phosphor-dim); font-size: 12px;">v0.5 · header + 金錢 edit + 跨檔 diff + NOT u8/u16 + 自訂欄位管理(localStorage 持久化)+ 熱圖</span>
         ·
         <a href="./">回俠客遊 IV 索引</a>
         ·
@@ -162,6 +162,39 @@
         <span class="hint" id="not-search-status" style="margin:0;"></span>
       </div>
       <div id="not-search-results" class="hex-viewer" style="display: none; max-height: 200px;"></div>
+    </div>
+
+    <div class="viewer-panel">
+      <h3>★ 自訂欄位管理(v0.5 — 持久化 confirmed offset)</h3>
+      <p class="hint">當你用上面的 <strong>跨檔 diff</strong> 或 <strong>NOT 反向搜尋</strong> confirm 一個 offset 對應的 field 時(例如「跨檔 diff 抓到 0x00c8be 是金錢」),把它加入自訂欄位表 — 之後拖任何 LDTSV*.dat 都會自動解碼顯示。<strong>儲存在瀏覽器 localStorage,不上傳</strong>。</p>
+      <table class="region-table" id="custom-fields-table">
+        <thead>
+          <tr><th>Label</th><th>Offset</th><th>編碼</th><th>當前值</th><th>新值</th><th>動作</th></tr>
+        </thead>
+        <tbody id="custom-fields-tbody">
+          <tr><td colspan="6" class="muted">(尚未新增任何自訂欄位 — 內建只有金錢 @ 0x00C8BE,其他待逆向)</td></tr>
+        </tbody>
+      </table>
+      <div class="toolbar" style="margin-top: 12px;">
+        <input id="cf-label" type="text" placeholder="名稱(如 HP / 等級)" maxlength="20" style="width: 140px;">
+        <input id="cf-offset" type="text" placeholder="offset hex(如 c8c0)" maxlength="8" style="width: 120px;">
+        <select id="cf-encoding" style="background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-fade); padding: 4px 8px; font-family: 'VT323', monospace; font-size: 14px;">
+          <option value="not_u16le">NOT u16 LE(LD4 標準)</option>
+          <option value="not_u8">NOT u8</option>
+          <option value="u8">u8(plain)</option>
+          <option value="u16le">u16 LE(plain)</option>
+          <option value="u32le">u32 LE(plain)</option>
+          <option value="xor80_u8">u8 XOR 0x80</option>
+          <option value="xor8080_u16le">u16 LE XOR 0x8080</option>
+        </select>
+        <button id="cf-add-btn" type="button">＋ 加入自訂欄位</button>
+        <button id="cf-export-btn" class="ghost" type="button">匯出 JSON</button>
+        <button id="cf-import-btn" class="ghost" type="button">匯入 JSON</button>
+        <button id="cf-clear-btn" class="ghost" type="button" style="color: var(--amber);">清空</button>
+      </div>
+      <div class="note-warn" style="margin-top: 10px;">
+        ⚠ 自訂欄位的「新值」會在你按 <strong>下載修改後存檔</strong> 時統一寫入 buffer。建議:每次 confirm 新欄位後立刻匯出 JSON 備份,避免清快取丟失。
+      </div>
     </div>
 
     <div class="viewer-panel">
@@ -785,6 +818,259 @@ $('btn-reset').addEventListener('click', () => {
   $('file-input').value = '';
   $('status').textContent = '準備就緒';
 });
+
+// ===== v0.5: Custom Field Manager (localStorage 持久化) =====
+const CF_STORAGE_KEY = 'ld4_custom_fields_v1';
+
+// Encoding spec — single source of truth for read/write/size
+const CF_ENCODINGS = {
+  'not_u16le': {
+    label: 'NOT u16 LE', size: 2, min: 0, max: 65535,
+    read: (b, o) => (~((b[o]) | (b[o + 1] << 8))) & 0xffff,
+    write: (b, o, v) => { const n = (~v) & 0xffff; b[o] = n & 0xff; b[o + 1] = (n >> 8) & 0xff; }
+  },
+  'not_u8': {
+    label: 'NOT u8', size: 1, min: 0, max: 255,
+    read: (b, o) => (~b[o]) & 0xff,
+    write: (b, o, v) => { b[o] = (~v) & 0xff; }
+  },
+  'u8': {
+    label: 'u8', size: 1, min: 0, max: 255,
+    read: (b, o) => b[o],
+    write: (b, o, v) => { b[o] = v & 0xff; }
+  },
+  'u16le': {
+    label: 'u16 LE', size: 2, min: 0, max: 65535,
+    read: (b, o) => b[o] | (b[o + 1] << 8),
+    write: (b, o, v) => { b[o] = v & 0xff; b[o + 1] = (v >> 8) & 0xff; }
+  },
+  'u32le': {
+    label: 'u32 LE', size: 4, min: 0, max: 4294967295,
+    read: (b, o) => (b[o] | (b[o + 1] << 8) | (b[o + 2] << 16) | (b[o + 3] << 24)) >>> 0,
+    write: (b, o, v) => { b[o] = v & 0xff; b[o + 1] = (v >> 8) & 0xff; b[o + 2] = (v >> 16) & 0xff; b[o + 3] = (v >>> 24) & 0xff; }
+  },
+  'xor80_u8': {
+    label: 'u8 XOR 0x80', size: 1, min: 0, max: 255,
+    read: (b, o) => b[o] ^ 0x80,
+    write: (b, o, v) => { b[o] = v ^ 0x80; }
+  },
+  'xor8080_u16le': {
+    label: 'u16 LE XOR 0x8080', size: 2, min: 0, max: 65535,
+    read: (b, o) => (b[o] | (b[o + 1] << 8)) ^ 0x8080,
+    write: (b, o, v) => { const x = v ^ 0x8080; b[o] = x & 0xff; b[o + 1] = (x >> 8) & 0xff; }
+  }
+};
+
+function cfLoad() {
+  try {
+    const raw = localStorage.getItem(CF_STORAGE_KEY);
+    if (!raw) return [];
+    const arr = JSON.parse(raw);
+    if (!Array.isArray(arr)) return [];
+    return arr.filter(f => f && typeof f.offset === 'number' && CF_ENCODINGS[f.encoding] && typeof f.label === 'string');
+  } catch (e) { return []; }
+}
+
+function cfSave(fields) {
+  try {
+    localStorage.setItem(CF_STORAGE_KEY, JSON.stringify(fields));
+  } catch (e) {
+    alert('儲存失敗(localStorage 已滿?):' + e.message);
+  }
+}
+
+function cfRenderTable() {
+  const tbody = $('custom-fields-tbody');
+  while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
+  const fields = cfLoad();
+  if (fields.length === 0) {
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+    td.colSpan = 6;
+    td.className = 'muted';
+    td.textContent = '(尚未新增任何自訂欄位 — 內建只有金錢 @ 0x00C8BE,其他待逆向)';
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+    return;
+  }
+  for (let idx = 0; idx < fields.length; idx++) {
+    const f = fields[idx];
+    const enc = CF_ENCODINGS[f.encoding];
+    const tr = document.createElement('tr');
+
+    // Label
+    const td1 = document.createElement('td');
+    td1.textContent = f.label;
+    tr.appendChild(td1);
+
+    // Offset
+    const td2 = document.createElement('td');
+    td2.className = 'num';
+    td2.textContent = '0x' + f.offset.toString(16).padStart(6, '0');
+    tr.appendChild(td2);
+
+    // Encoding
+    const td3 = document.createElement('td');
+    td3.textContent = enc.label;
+    tr.appendChild(td3);
+
+    // Current value
+    const td4 = document.createElement('td');
+    td4.className = 'num';
+    if (buf && f.offset + enc.size <= buf.length) {
+      try { td4.textContent = enc.read(buf, f.offset); }
+      catch (e) { td4.textContent = 'ERR'; td4.style.color = 'var(--amber)'; }
+    } else if (!buf) {
+      td4.textContent = '(載入後顯示)';
+      td4.style.color = 'var(--phosphor-dim)';
+    } else {
+      td4.textContent = 'out-of-bounds';
+      td4.style.color = 'var(--amber)';
+    }
+    tr.appendChild(td4);
+
+    // New value input
+    const td5 = document.createElement('td');
+    const inp = document.createElement('input');
+    inp.type = 'number';
+    inp.min = enc.min;
+    inp.max = enc.max;
+    inp.placeholder = '新值';
+    inp.style.width = '90px';
+    inp.dataset.fieldIdx = idx;
+    td5.appendChild(inp);
+    tr.appendChild(td5);
+
+    // Action
+    const td6 = document.createElement('td');
+    const applyBtn = document.createElement('button');
+    applyBtn.textContent = '套用';
+    applyBtn.type = 'button';
+    applyBtn.style.marginRight = '4px';
+    applyBtn.addEventListener('click', () => cfApply(idx, inp.value));
+    td6.appendChild(applyBtn);
+    const delBtn = document.createElement('button');
+    delBtn.textContent = '✕';
+    delBtn.type = 'button';
+    delBtn.className = 'ghost';
+    delBtn.title = '刪除此欄位';
+    delBtn.addEventListener('click', () => cfDelete(idx));
+    td6.appendChild(delBtn);
+    tr.appendChild(td6);
+
+    tbody.appendChild(tr);
+  }
+}
+
+function cfApply(idx, valStr) {
+  if (!buf) { alert('請先載入存檔'); return; }
+  const fields = cfLoad();
+  const f = fields[idx];
+  if (!f) return;
+  const enc = CF_ENCODINGS[f.encoding];
+  const v = parseInt(valStr, 10);
+  if (isNaN(v) || v < enc.min || v > enc.max) {
+    alert(`值需在 ${enc.min}-${enc.max} 範圍(${enc.label})`);
+    return;
+  }
+  if (f.offset + enc.size > buf.length) {
+    alert('offset 超出檔案範圍');
+    return;
+  }
+  enc.write(buf, f.offset, v);
+  markModified();
+  renderHexPage();
+  cfRenderTable();  // refresh current value display
+}
+
+function cfDelete(idx) {
+  const fields = cfLoad();
+  if (!fields[idx]) return;
+  if (!confirm(`刪除自訂欄位「${fields[idx].label}」?`)) return;
+  fields.splice(idx, 1);
+  cfSave(fields);
+  cfRenderTable();
+}
+
+$('cf-add-btn').addEventListener('click', () => {
+  const label = $('cf-label').value.trim();
+  const offsetStr = $('cf-offset').value.trim();
+  const encoding = $('cf-encoding').value;
+  if (!label) { alert('需要欄位名稱'); return; }
+  if (!offsetStr) { alert('需要 offset (hex,如 c8be)'); return; }
+  const offset = parseInt(offsetStr, 16);
+  if (isNaN(offset) || offset < 0) { alert('offset 必須是合法 hex'); return; }
+  if (!CF_ENCODINGS[encoding]) { alert('不認得的編碼'); return; }
+  const fields = cfLoad();
+  if (fields.some(f => f.offset === offset && f.encoding === encoding)) {
+    alert('已存在相同 offset + 編碼的欄位');
+    return;
+  }
+  fields.push({ label, offset, encoding });
+  fields.sort((a, b) => a.offset - b.offset);
+  cfSave(fields);
+  $('cf-label').value = '';
+  $('cf-offset').value = '';
+  cfRenderTable();
+});
+
+$('cf-export-btn').addEventListener('click', () => {
+  const fields = cfLoad();
+  const json = JSON.stringify(fields, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'ld4_custom_fields_' + new Date().toISOString().slice(0, 10) + '.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
+
+$('cf-import-btn').addEventListener('click', () => {
+  const inp = document.createElement('input');
+  inp.type = 'file';
+  inp.accept = '.json,application/json';
+  inp.addEventListener('change', (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const r = new FileReader();
+    r.onload = (ev) => {
+      try {
+        const arr = JSON.parse(ev.target.result);
+        if (!Array.isArray(arr)) throw new Error('不是 JSON 陣列');
+        const valid = arr.filter(f => f && typeof f.offset === 'number' && CF_ENCODINGS[f.encoding] && typeof f.label === 'string');
+        if (valid.length === 0) { alert('沒有合法欄位可匯入'); return; }
+        const existing = cfLoad();
+        // merge: 同 offset + encoding 跳過
+        const key = f => f.offset + '|' + f.encoding;
+        const existingKeys = new Set(existing.map(key));
+        let added = 0;
+        for (const f of valid) {
+          if (!existingKeys.has(key(f))) { existing.push(f); added++; }
+        }
+        existing.sort((a, b) => a.offset - b.offset);
+        cfSave(existing);
+        cfRenderTable();
+        alert(`已匯入 ${added} 個新欄位(${valid.length - added} 個重複跳過)`);
+      } catch (err) {
+        alert('JSON parse 失敗:' + err.message);
+      }
+    };
+    r.readAsText(file);
+  });
+  inp.click();
+});
+
+$('cf-clear-btn').addEventListener('click', () => {
+  if (!confirm('清空所有自訂欄位? (匯出 JSON 後再清比較安全)')) return;
+  cfSave([]);
+  cfRenderTable();
+});
+
+// 初次載入頁面就 render 一次(顯示已儲存的 fields,即使還沒載入存檔)
+cfRenderTable();
 </script>
 </body>
 </html>
