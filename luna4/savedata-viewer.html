@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>俠客遊 IV 存檔修改器 v0.5 · 吟遊詩人的傳說</title>
+<title>俠客遊 IV 存檔修改器 v0.6 · 吟遊詩人的傳說</title>
 <meta name="description" content="俠客遊 IV LDTSV0.dat 存檔檢視器 — header 解析 + Big5 字串掃描 + 區段熱圖 + hex 檢視。純前端、跨平台、不上傳，瀏覽器拖放即看。">
 <link rel="stylesheet" href="../assets/css/fonts-retro.css">
 <link rel="stylesheet" href="../assets/css/retro.css">
@@ -51,7 +51,7 @@
     <div class="header-inner">
       <h1 class="pixel">俠客遊 IV 存檔檢視器</h1>
       <nav>
-        <span style="color: var(--phosphor-dim); font-size: 12px;">v0.5 · header + 金錢 edit + 跨檔 diff + NOT u8/u16 + 自訂欄位管理(localStorage 持久化)+ 熱圖</span>
+        <span style="color: var(--phosphor-dim); font-size: 12px;">v0.6 · header + 金錢 edit + 跨檔 diff + 智慧 anchor 精靈(全 encoding 一鍵掃)+ 自訂欄位管理 + 熱圖</span>
         ·
         <a href="./">回俠客遊 IV 索引</a>
         ·
@@ -162,6 +162,29 @@
         <span class="hint" id="not-search-status" style="margin:0;"></span>
       </div>
       <div id="not-search-results" class="hex-viewer" style="display: none; max-height: 200px;"></div>
+    </div>
+
+    <div class="viewer-panel" style="border: 2px solid var(--amber);">
+      <h3>★★★ 智慧 anchor 精靈(v0.6 — 0 技術門檻 1-step anchor)</h3>
+      <p class="hint">遊戲內看到任何數值(金錢 / HP / MP / 等級 / exp / 年齡 / 物品數量 等)? <strong>直接輸入 → 一鍵跑全 15+ 編碼</strong>。viewer 自動找出 unique hit(★ 最強 anchor)+ 顯示「加進自訂欄位」按鈕,完全不需懂 NOT u16 LE / XOR / BCD 等技術名詞。</p>
+      <div class="toolbar">
+        <label style="color: var(--phosphor-dim);">遊戲內看到的值:</label>
+        <input id="wiz-value" type="number" min="0" max="4294967295" placeholder="例 716" style="width: 140px;">
+        <button id="wiz-run" type="button">▸ 全 encoding 自動掃</button>
+        <span class="hint" id="wiz-status" style="margin:0;"></span>
+      </div>
+      <div id="wiz-results" style="display: none; margin-top: 12px;">
+        <table class="region-table" id="wiz-table">
+          <thead>
+            <tr><th>編碼</th><th>hits</th><th>位置</th><th>動作</th></tr>
+          </thead>
+          <tbody id="wiz-tbody"></tbody>
+        </table>
+        <p class="hint" id="wiz-summary" style="margin-top: 8px;"></p>
+      </div>
+      <div class="note-warn" style="margin-top: 10px;">
+        💡 <strong>建議使用流程</strong>:① 遊戲內記下一個獨特數值(例:金錢 7,331 — 越獨特越好)② 存檔 ③ 上傳 → 輸入 7331 → 一鍵掃 ④ 看 ★ unique hit 那行按「加進欄位」(預填好 offset / encoding / 你給 label) ⑤ 之後拖任何存檔都會自動解碼這個 field。內化 Anzai r10 PowerShell hex-grep + W55 savescan bulk SOP — 完全純前端、無 Windows / 無 PowerShell 依賴。
+      </div>
     </div>
 
     <div class="viewer-panel">
@@ -1071,6 +1094,227 @@ $('cf-clear-btn').addEventListener('click', () => {
 
 // 初次載入頁面就 render 一次(顯示已儲存的 fields,即使還沒載入存檔)
 cfRenderTable();
+
+// ===== v0.6: 智慧 anchor 精靈 (bulk-encoding-search in browser) =====
+// 內化 _local/dev_notes/wave53_savescan.py bulk mode + Anzai r10 PowerShell SOP
+
+function wizBuildEncodings(val) {
+  // 對輸入 value 產出所有可能編碼的 needle bytes。
+  // 回傳 [{ label, bytes, key(若可加進自訂欄位), size }] 陣列。
+  const out = [];
+  if (val < 0 || !Number.isFinite(val)) return out;
+
+  // u8 族
+  if (val >= 0 && val < 256) {
+    out.push({ label: 'u8(plain)', bytes: new Uint8Array([val]), key: 'u8', size: 1 });
+    out.push({ label: 'NOT u8(LD4 anti-edit)', bytes: new Uint8Array([(~val) & 0xff]), key: 'not_u8', size: 1 });
+    out.push({ label: 'u8 XOR 0x80', bytes: new Uint8Array([val ^ 0x80]), key: 'xor80_u8', size: 1 });
+    out.push({ label: 'u8 XOR 0x55', bytes: new Uint8Array([val ^ 0x55]), key: null, size: 1 });
+    out.push({ label: 'u8 XOR 0xAA', bytes: new Uint8Array([val ^ 0xAA]), key: null, size: 1 });
+  }
+  // u16 族
+  if (val >= 0 && val < 65536) {
+    out.push({ label: 'u16 LE(plain)', bytes: new Uint8Array([val & 0xff, (val >> 8) & 0xff]), key: 'u16le', size: 2 });
+    out.push({ label: 'u16 BE', bytes: new Uint8Array([(val >> 8) & 0xff, val & 0xff]), key: null, size: 2 });
+    const nv16 = (~val) & 0xffff;
+    out.push({ label: '★ NOT u16 LE(LD4 標準金錢/HP/MP)', bytes: new Uint8Array([nv16 & 0xff, (nv16 >> 8) & 0xff]), key: 'not_u16le', size: 2 });
+    out.push({ label: 'NOT u16 BE', bytes: new Uint8Array([(nv16 >> 8) & 0xff, nv16 & 0xff]), key: null, size: 2 });
+    const x8080 = val ^ 0x8080;
+    out.push({ label: 'u16 LE XOR 0x8080', bytes: new Uint8Array([x8080 & 0xff, (x8080 >> 8) & 0xff]), key: 'xor8080_u16le', size: 2 });
+  }
+  // u32 族
+  if (val >= 0 && val < 4294967296) {
+    out.push({
+      label: 'u32 LE(plain)',
+      bytes: new Uint8Array([val & 0xff, (val >> 8) & 0xff, (val >> 16) & 0xff, (val >>> 24) & 0xff]),
+      key: 'u32le', size: 4
+    });
+    const nv32 = (~val) >>> 0;
+    out.push({
+      label: 'NOT u32 LE',
+      bytes: new Uint8Array([nv32 & 0xff, (nv32 >> 8) & 0xff, (nv32 >> 16) & 0xff, (nv32 >>> 24) & 0xff]),
+      key: null, size: 4
+    });
+  }
+  // BCD packed
+  const s = String(val);
+  if (s.length <= 8) {
+    const padded = (s.length % 2 === 0) ? s : ('0' + s);
+    try {
+      const bcd = new Uint8Array(padded.length / 2);
+      for (let i = 0; i < padded.length; i += 2) {
+        bcd[i / 2] = parseInt(padded.substr(i, 2), 16);
+      }
+      out.push({ label: `BCD packed(0x${padded})`, bytes: bcd, key: null, size: bcd.length });
+      // 反字節序
+      const rev = new Uint8Array(bcd.length);
+      for (let i = 0; i < bcd.length; i++) rev[i] = bcd[bcd.length - 1 - i];
+      out.push({ label: 'BCD packed reverse', bytes: rev, key: null, size: rev.length });
+    } catch (e) { /* skip */ }
+  }
+  // ASCII 數字
+  const enc = new TextEncoder();
+  const asciiBytes = enc.encode(s);
+  out.push({ label: `ASCII 數字"${s}"`, bytes: asciiBytes, key: null, size: asciiBytes.length });
+  return out;
+}
+
+function wizFindAll(haystack, needle) {
+  const hits = [];
+  if (needle.length === 0) return hits;
+  outer: for (let i = 0; i <= haystack.length - needle.length; i++) {
+    for (let j = 0; j < needle.length; j++) {
+      if (haystack[i + j] !== needle[j]) continue outer;
+    }
+    hits.push(i);
+    if (hits.length >= 50) break;  // cap
+  }
+  return hits;
+}
+
+// helper: 用 DOM API 把純文字 + <strong> 片段塞進 summary(不用 innerHTML 守 LD DOM-only 規則)
+function wizSetSummary(parent, parts, color) {
+  while (parent.firstChild) parent.removeChild(parent.firstChild);
+  for (const p of parts) {
+    if (typeof p === 'string') {
+      parent.appendChild(document.createTextNode(p));
+    } else if (p && p.tag) {
+      const el = document.createElement(p.tag);
+      el.textContent = p.text;
+      if (p.color) el.style.color = p.color;
+      if (p.bold) el.style.fontWeight = 'bold';
+      parent.appendChild(el);
+    }
+  }
+  if (color) parent.style.color = color;
+}
+
+function wizRun() {
+  if (!buf) { alert('請先載入存檔'); return; }
+  const v = parseInt($('wiz-value').value, 10);
+  if (isNaN(v) || v < 0) {
+    alert('請輸入合法的非負整數');
+    return;
+  }
+  const encodings = wizBuildEncodings(v);
+  const results = [];
+  for (const e of encodings) {
+    const hits = wizFindAll(buf, e.bytes);
+    results.push({ ...e, hits });
+  }
+  // 排序:unique (=1) → few (2-5) → many → zero
+  results.sort((a, b) => {
+    const score = (n) => n === 1 ? 0 : (n >= 2 && n <= 5 ? 1 : (n === 0 ? 3 : 2));
+    return score(a.hits.length) - score(b.hits.length);
+  });
+
+  const tbody = $('wiz-tbody');
+  while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
+  let uniqueCount = 0;
+  let zeroCount = 0;
+  for (const r of results) {
+    const tr = document.createElement('tr');
+    const n = r.hits.length;
+
+    // 編碼名
+    const td1 = document.createElement('td');
+    if (n === 1) { td1.style.color = 'var(--phosphor)'; td1.style.fontWeight = 'bold'; td1.textContent = '★ ' + r.label; uniqueCount++; }
+    else if (n === 0) { td1.style.color = 'var(--phosphor-dim)'; td1.textContent = r.label; zeroCount++; }
+    else if (n >= 2 && n <= 5) { td1.style.color = 'var(--amber)'; td1.textContent = '☆ ' + r.label; }
+    else { td1.style.color = 'var(--phosphor-fade)'; td1.textContent = r.label; }
+    tr.appendChild(td1);
+
+    // hits 數
+    const td2 = document.createElement('td');
+    td2.className = 'num';
+    td2.textContent = String(n);
+    if (n === 1) { td2.style.color = 'var(--phosphor)'; td2.style.fontWeight = 'bold'; }
+    else if (n === 0) { td2.style.color = 'var(--phosphor-dim)'; }
+    tr.appendChild(td2);
+
+    // 位置(前 3 個)
+    const td3 = document.createElement('td');
+    td3.className = 'num';
+    if (n === 0) {
+      td3.textContent = '—';
+      td3.style.color = 'var(--phosphor-dim)';
+    } else {
+      td3.textContent = r.hits.slice(0, 3).map(p => '0x' + p.toString(16).padStart(6, '0')).join(', ') + (n > 3 ? ' ...' : '');
+    }
+    tr.appendChild(td3);
+
+    // 動作:只 unique + key 不為 null(= 可加進自訂欄位)的才顯示「加進欄位」按鈕
+    const td4 = document.createElement('td');
+    if (n === 1 && r.key && CF_ENCODINGS[r.key]) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = '＋ 加進自訂欄位';
+      btn.style.fontSize = '13px';
+      btn.addEventListener('click', () => wizAddToFields(r.hits[0], r.key, v));
+      td4.appendChild(btn);
+    } else if (n >= 2 && n <= 5 && r.key && CF_ENCODINGS[r.key]) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = '+ 加(候選)';
+      btn.className = 'ghost';
+      btn.style.fontSize = '13px';
+      btn.title = '不是 unique anchor — 建議多測幾個值 cross-correlate 後再決定';
+      btn.addEventListener('click', () => {
+        if (confirm(`此編碼有 ${n} 個 hits 不是 unique anchor。仍要把第一個 hit (0x${r.hits[0].toString(16).padStart(6,'0')}) 加進自訂欄位嗎?建議多測幾個值 cross-correlate 後再決定。`)) {
+          wizAddToFields(r.hits[0], r.key, v);
+        }
+      });
+      td4.appendChild(btn);
+    } else {
+      td4.textContent = '—';
+      td4.style.color = 'var(--phosphor-dim)';
+    }
+    tr.appendChild(td4);
+    tbody.appendChild(tr);
+  }
+
+  // 摘要(純 DOM,不用 innerHTML)
+  const summary = $('wiz-summary');
+  if (uniqueCount > 0) {
+    wizSetSummary(summary, [
+      '✓ 找到 ',
+      { tag: 'strong', text: `${uniqueCount} 個 ★ unique anchor`, color: 'var(--phosphor)', bold: true },
+      '(cryptographic-level confirm)+ ',
+      { tag: 'span', text: `${zeroCount} 個編碼 0 hits`, color: 'var(--phosphor-dim)' },
+      '(這些編碼不在 save inline,但不代表「該值不存在」— 可能是其他 encoding 或 packed bitfield 或 runtime 計算值)'
+    ], 'var(--phosphor)');
+  } else {
+    wizSetSummary(summary, [
+      '⚠ 沒找到 unique anchor。可能原因:(1) 該值在 save 內用更冷門編碼存(LZ77 壓縮 / packed bitfield)(2) 該值是 runtime 計算出來的,不在 save inline(像 LD4 技能熟練度 13/9/5/1 已驗證找不到)(3) 換個更獨特的數值再試(例:你的隨身金錢避免用 100 / 1000 等常見值)'
+    ], 'var(--amber)');
+  }
+
+  $('wiz-results').style.display = 'block';
+  $('wiz-status').textContent = `共試 ${results.length} 種編碼 / unique: ${uniqueCount} / 0-hit: ${zeroCount}`;
+  $('wiz-status').style.color = uniqueCount > 0 ? 'var(--phosphor)' : 'var(--amber)';
+}
+
+function wizAddToFields(offset, encodingKey, observedValue) {
+  const enc = CF_ENCODINGS[encodingKey];
+  if (!enc) { alert('未知編碼'); return; }
+  const defaultLabel = `field@0x${offset.toString(16)} (=${observedValue})`;
+  const label = prompt(`要給這個欄位什麼名稱?(例:金錢 / HP / 等級 / exp)\n\n編碼:${enc.label}\n位置:0x${offset.toString(16).padStart(6, '0')}\n當前值:${observedValue}`, '');
+  if (label === null) return;  // 取消
+  const trimmedLabel = label.trim() || defaultLabel;
+  const fields = cfLoad();
+  if (fields.some(f => f.offset === offset && f.encoding === encodingKey)) {
+    alert('此 offset + encoding 已在自訂欄位表中');
+    return;
+  }
+  fields.push({ label: trimmedLabel, offset: offset, encoding: encodingKey });
+  fields.sort((a, b) => a.offset - b.offset);
+  cfSave(fields);
+  cfRenderTable();
+  alert(`✓ 已加進自訂欄位:「${trimmedLabel}」@ 0x${offset.toString(16).padStart(6,'0')}(${enc.label})\n\n下次拖任何 LDTSV*.dat 都會自動顯示這個 field 並可編輯。建議按「匯出 JSON」備份。`);
+}
+
+$('wiz-run').addEventListener('click', wizRun);
+$('wiz-value').addEventListener('keypress', (e) => { if (e.key === 'Enter') wizRun(); });
 </script>
 </body>
 </html>
