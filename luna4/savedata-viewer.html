@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>俠客遊 IV 存檔修改器 v0.8 · 吟遊詩人的傳說</title>
+<title>俠客遊 IV 存檔修改器 v0.9 · 吟遊詩人的傳說</title>
 <meta name="description" content="俠客遊 IV LDTSV0.dat 存檔檢視器 — header 解析 + Big5 字串掃描 + 區段熱圖 + hex 檢視。純前端、跨平台、不上傳，瀏覽器拖放即看。">
 <link rel="stylesheet" href="../assets/css/fonts-retro.css">
 <link rel="stylesheet" href="../assets/css/retro.css">
@@ -51,7 +51,7 @@
     <div class="header-inner">
       <h1 class="pixel">俠客遊 IV 存檔檢視器</h1>
       <nav>
-        <span style="color: var(--phosphor-dim); font-size: 12px;">v0.8 · ★★★★ Live RAM Bridge(取代神之眼即時 RPM/WPM,跨平台 PowerShell/Python helper)+ FSA 一鍵連檔 + 智慧 anchor 精靈 + 自訂欄位</span>
+        <span style="color: var(--phosphor-dim); font-size: 12px;">v0.9 · ★★★★★ 8 槽全連 grid view + Live RAM Bridge(取代神之眼)+ FSA 一鍵連檔 + 智慧 anchor 精靈 + 自訂欄位</span>
         ·
         <a href="./">回俠客遊 IV 索引</a>
         ·
@@ -82,6 +82,36 @@
     <em>所有解析在你的瀏覽器本機完成。檔案（含其中的存檔來源路徑）不會上傳到任何地方。</em>
   </div>
 
+  <div id="multi-slot-panel" class="viewer-panel" style="border: 2px solid var(--phosphor); margin-bottom: 16px; display: none;">
+    <h3 style="color: var(--phosphor);">★★★★★ 8 槽全連模式(v0.9 — Multi-Slot Grid)</h3>
+    <p class="hint">已連到整個 <code id="ms8-dir-name">Usr/</code> 資料夾,自動追蹤 8 個玩家槽(LDTSV0.dat ~ LDTSV7.dat)+ 每槽獨立 polling + 點 grid 切換 active save。</p>
+    <div id="ms8-grid" class="ms8-grid"></div>
+    <div class="toolbar" style="margin-top: 12px;">
+      <button id="ms8-refresh" class="ghost" type="button">↻ 手動 refresh 所有槽</button>
+      <button id="ms8-poll-toggle" type="button">▶ 啟動 polling(3 秒)</button>
+      <button id="ms8-exit" class="ghost" type="button" style="color: var(--amber);">✕ 離開多槽模式</button>
+      <span class="hint" id="ms8-poll-status" style="margin:0;"></span>
+    </div>
+  </div>
+
+  <style>
+    .ms8-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 8px; }
+    @media (max-width: 768px) { .ms8-grid { grid-template-columns: repeat(2, 1fr); } }
+    .ms8-card {
+      background: var(--bg-input); border: 1px solid var(--phosphor-fade);
+      padding: 10px; cursor: pointer; transition: border-color 0.2s, background 0.2s;
+      font-family: 'VT323', monospace; font-size: 13px; line-height: 1.5;
+    }
+    .ms8-card:hover { border-color: var(--phosphor); }
+    .ms8-card.active { border: 2px solid var(--phosphor); background: var(--bg-panel); }
+    .ms8-card.empty { color: var(--phosphor-dim); cursor: not-allowed; opacity: 0.5; }
+    .ms8-card.modified { border-color: var(--amber); }
+    .ms8-card-idx { color: var(--amber); font-weight: bold; font-size: 14px; }
+    .ms8-card-title { color: var(--phosphor); font-size: 13px; min-height: 18px; }
+    .ms8-card-money { color: var(--amber); }
+    .ms8-card-mtime { color: var(--phosphor-dim); font-size: 11px; }
+  </style>
+
   <div id="lazy-mode-banner" class="viewer-panel" style="border: 2px solid var(--amber); margin-bottom: 16px;">
     <h3 style="color: var(--amber);">★★★ 3 步驟懶人模式（v0.7 — 跟著遊戲存檔即時更新）</h3>
     <ol style="color: var(--phosphor-dim); font-size: 14px; line-height: 1.8; padding-left: 24px; margin: 8px 0;">
@@ -96,7 +126,7 @@
   <div id="drop-zone">
     <h2 class="pixel">▶ 拖放 LDTSV0.dat 到這裡</h2>
     <p>或 <span style="color: var(--amber); cursor: pointer; text-decoration: underline;" id="click-select">點擊選擇檔案</span>
-      <span id="fsa-pick-wrapper" style="display:none;"> | <button id="btn-fsa-pick" type="button" style="background: var(--amber); color: var(--bg); border: 1px solid var(--amber); padding: 4px 12px; font-family: 'VT323', monospace; cursor: pointer; font-size: 15px;">★ 一鍵連檔（直接讀寫 + 自動跟上）</button></span>
+      <span id="fsa-pick-wrapper" style="display:none;"> | <button id="btn-fsa-pick" type="button" style="background: var(--amber); color: var(--bg); border: 1px solid var(--amber); padding: 4px 12px; font-family: 'VT323', monospace; cursor: pointer; font-size: 15px;">★ 一鍵連檔（單檔）</button> <button id="btn-ms8-pick" type="button" style="background: var(--phosphor); color: var(--bg); border: 1px solid var(--phosphor); padding: 4px 12px; font-family: 'VT323', monospace; cursor: pointer; font-size: 15px;">★★ 8 槽全連（資料夾）</button></span>
     </p>
     <p style="color: var(--phosphor-dim); font-size: 13px;">[ 檔案位置：遊戲資料夾/Usr/LDTSV0.dat ]</p>
     <input type="file" id="file-input" accept=".dat,.DAT" style="display: none;">
@@ -1812,6 +1842,244 @@ function rbStopPoll() {
   $('rb-poll-toggle').textContent = '▶ 啟動 polling(2 秒)';
   $('rb-poll-status').textContent = '⏸ polling 停止';
   $('rb-poll-status').style.color = 'var(--phosphor-dim)';
+}
+
+// ===== v0.9: Multi-Slot 8-槽 grid view =====
+// 用 showDirectoryPicker(Chrome 86+)一次連 Usr/ 整個資料夾 →
+// 自動列 LDTSV{0-7}.dat 8 槽 → 點 grid 切換 active save + 全槽 polling
+
+let ms8DirHandle = null;
+let ms8Slots = [];          // [{ idx, handle, buf, dv, mtime, size, modified, name, file }]
+let ms8ActiveIdx = -1;
+let ms8PollTimer = null;
+const MS8_POLL_MS = 3000;
+const MS8_SUPPORTED = typeof window.showDirectoryPicker === 'function';
+
+async function ms8Pick() {
+  if (!MS8_SUPPORTED) {
+    alert('此瀏覽器不支援 showDirectoryPicker — 需要 Chrome 86+ / Edge 86+ / Opera 72+。Safari/Firefox 仍可用單檔 FSA 或拖放 fallback。');
+    return;
+  }
+  try {
+    ms8DirHandle = await window.showDirectoryPicker({ mode: 'readwrite' });
+    const perm = await ms8DirHandle.queryPermission({ mode: 'readwrite' });
+    if (perm !== 'granted') {
+      const req = await ms8DirHandle.requestPermission({ mode: 'readwrite' });
+      if (req !== 'granted') {
+        alert('未授權讀寫資料夾 — 多槽模式需要寫權限才能直接覆蓋');
+        ms8DirHandle = null;
+        return;
+      }
+    }
+    ms8Slots = [];
+    for (let i = 0; i < 8; i++) {
+      const slot = { idx: i, handle: null, buf: null, dv: null, mtime: 0, size: 0, modified: false, name: `LDTSV${i}.dat`, file: null };
+      try {
+        const fh = await ms8DirHandle.getFileHandle(`LDTSV${i}.dat`);
+        const f = await fh.getFile();
+        const ab = await f.arrayBuffer();
+        slot.handle = fh;
+        slot.buf = new Uint8Array(ab);
+        slot.dv = new DataView(ab);
+        slot.mtime = f.lastModified;
+        slot.size = f.size;
+        slot.file = f;
+      } catch (e) {
+        // 該 slot 不存在 — 留空
+      }
+      ms8Slots.push(slot);
+    }
+    $('multi-slot-panel').style.display = 'block';
+    $('ms8-dir-name').textContent = ms8DirHandle.name || 'Usr/';
+    ms8RenderGrid();
+    const firstIdx = ms8Slots.findIndex(s => s.buf !== null);
+    if (firstIdx >= 0) ms8SetActive(firstIdx);
+    if (typeof fsaStopPoll === 'function') fsaStopPoll();
+    $('fsa-indicator').style.display = 'none';
+    ms8StartPoll();
+    $('status').textContent = '✓ 8 槽全連成功 — 點 grid 卡片切換 active save';
+    $('status').style.color = 'var(--phosphor)';
+  } catch (e) {
+    if (e && e.name === 'AbortError') return;
+    console.error(e);
+    alert('8 槽連檔失敗:' + (e && e.message || e));
+  }
+}
+
+function ms8DecodeTitle(buf) {
+  if (!buf || buf.length < 0x40) return '?';
+  let end = 0x20;
+  while (end < 0x34 && buf[end] !== 0) end++;
+  const slice = buf.slice(0x20, end);
+  try { return new TextDecoder('big5').decode(slice) || '(空標題)'; }
+  catch (e) { return '?'; }
+}
+
+function ms8DecodeMoney(dv) {
+  if (!dv || dv.byteLength < 0x00c8c0) return 0;
+  const raw = dv.getUint16(0x00c8be, true);
+  return (~raw) & 0xffff;
+}
+
+function ms8FormatMtime(ms) {
+  if (!ms) return '—';
+  const d = new Date(ms);
+  const diffMin = (Date.now() - ms) / 60000;
+  if (diffMin < 1) return '剛剛';
+  if (diffMin < 60) return Math.floor(diffMin) + ' 分前';
+  if (diffMin < 1440) return Math.floor(diffMin / 60) + ' 時前';
+  return d.toLocaleDateString() + ' ' + d.toLocaleTimeString().slice(0, 5);
+}
+
+function ms8RenderGrid() {
+  const grid = $('ms8-grid');
+  while (grid.firstChild) grid.removeChild(grid.firstChild);
+  for (const slot of ms8Slots) {
+    const card = document.createElement('div');
+    card.className = 'ms8-card';
+    if (!slot.buf) card.classList.add('empty');
+    if (slot.idx === ms8ActiveIdx) card.classList.add('active');
+    if (slot.modified) card.classList.add('modified');
+
+    const idxEl = document.createElement('div');
+    idxEl.className = 'ms8-card-idx';
+    idxEl.textContent = `[${slot.idx}] LDTSV${slot.idx}.dat`;
+    card.appendChild(idxEl);
+
+    if (slot.buf) {
+      const titleEl = document.createElement('div');
+      titleEl.className = 'ms8-card-title';
+      titleEl.textContent = ms8DecodeTitle(slot.buf);
+      card.appendChild(titleEl);
+
+      const moneyEl = document.createElement('div');
+      moneyEl.className = 'ms8-card-money';
+      moneyEl.textContent = '💰 ' + ms8DecodeMoney(slot.dv).toLocaleString();
+      card.appendChild(moneyEl);
+
+      const mtEl = document.createElement('div');
+      mtEl.className = 'ms8-card-mtime';
+      mtEl.textContent = ms8FormatMtime(slot.mtime) + (slot.modified ? '  ⚠ 已修改' : '');
+      card.appendChild(mtEl);
+
+      card.addEventListener('click', () => ms8SetActive(slot.idx));
+    } else {
+      const emptyEl = document.createElement('div');
+      emptyEl.className = 'ms8-card-mtime';
+      emptyEl.textContent = '(空槽 / 不存在)';
+      card.appendChild(emptyEl);
+    }
+    grid.appendChild(card);
+  }
+}
+
+function ms8SetActive(idx) {
+  const slot = ms8Slots[idx];
+  if (!slot || !slot.buf) return;
+  // 切換前先把 active slot 的 modified state 存回 slot
+  if (ms8ActiveIdx >= 0 && ms8Slots[ms8ActiveIdx]) {
+    ms8Slots[ms8ActiveIdx].modified = modified;
+  }
+  ms8ActiveIdx = idx;
+  buf = slot.buf;
+  dv = slot.dv;
+  fileName = slot.name;
+  fsaFileHandle = slot.handle;
+  fsaLastMtime = slot.mtime;
+  fsaLastSize = slot.size;
+  modified = slot.modified;
+  hexPage = 0;
+  $('modified-indicator').style.display = modified ? 'inline' : 'none';
+  $('drop-zone').style.display = 'none';
+  $('viewer').style.display = 'block';
+  $('btn-fsa-save').style.display = 'inline-block';
+  renderInfo();
+  renderHeader();
+  populatePlayerFields();
+  renderHexPage();
+  $('not-search-results').style.display = 'none';
+  $('not-u8-search-results').style.display = 'none';
+  $('diff-output').style.display = 'none';
+  $('wiz-results').style.display = 'none';
+  ms8RenderGrid();
+  $('status').textContent = `✓ 切到槽 [${idx}] LDTSV${idx}.dat — ${ms8DecodeTitle(buf)}`;
+  $('status').style.color = 'var(--phosphor)';
+}
+
+async function ms8RefreshAll() {
+  let changed = 0;
+  for (const slot of ms8Slots) {
+    if (!slot.handle) continue;
+    try {
+      const f = await slot.handle.getFile();
+      if (f.lastModified === slot.mtime && f.size === slot.size) continue;
+      if (slot.modified) {
+        slot.mtime = f.lastModified;
+        slot.size = f.size;
+        continue;
+      }
+      const ab = await f.arrayBuffer();
+      slot.buf = new Uint8Array(ab);
+      slot.dv = new DataView(ab);
+      slot.mtime = f.lastModified;
+      slot.size = f.size;
+      slot.file = f;
+      changed++;
+      if (slot.idx === ms8ActiveIdx) {
+        buf = slot.buf; dv = slot.dv; fsaLastMtime = slot.mtime; fsaLastSize = slot.size;
+        renderInfo();
+        renderHeader();
+        populatePlayerFields();
+        renderHexPage();
+      }
+    } catch (e) { /* slot 消失 */ }
+  }
+  ms8RenderGrid();
+  if (changed > 0) {
+    $('ms8-poll-status').textContent = `✓ ${changed} 槽 refresh(${new Date().toLocaleTimeString()})`;
+    $('ms8-poll-status').style.color = 'var(--phosphor)';
+  }
+}
+
+function ms8StartPoll() {
+  if (ms8PollTimer) return;
+  ms8PollTimer = setInterval(ms8RefreshAll, MS8_POLL_MS);
+  $('ms8-poll-toggle').textContent = '■ 停止 polling';
+  $('ms8-poll-status').textContent = `▶ polling 每 ${MS8_POLL_MS/1000} 秒(${new Date().toLocaleTimeString()} 開始)`;
+  $('ms8-poll-status').style.color = 'var(--phosphor)';
+}
+
+function ms8StopPoll() {
+  if (ms8PollTimer) { clearInterval(ms8PollTimer); ms8PollTimer = null; }
+  $('ms8-poll-toggle').textContent = '▶ 啟動 polling(3 秒)';
+  $('ms8-poll-status').textContent = '⏸ polling 停止';
+  $('ms8-poll-status').style.color = 'var(--phosphor-dim)';
+}
+
+function ms8Exit() {
+  if (!confirm('離開多槽模式?(資料夾 handle 會丟掉,要再點「8 槽全連」重新授權)')) return;
+  ms8StopPoll();
+  ms8DirHandle = null;
+  ms8Slots = [];
+  ms8ActiveIdx = -1;
+  $('multi-slot-panel').style.display = 'none';
+  buf = null; dv = null; fileName = ''; fsaFileHandle = null;
+  modified = false;
+  $('modified-indicator').style.display = 'none';
+  $('viewer').style.display = 'none';
+  $('drop-zone').style.display = 'block';
+  $('btn-fsa-save').style.display = 'none';
+  $('status').textContent = '已離開多槽模式';
+  $('status').style.color = 'var(--phosphor-dim)';
+}
+
+if (MS8_SUPPORTED) {
+  $('btn-ms8-pick').addEventListener('click', ms8Pick);
+  $('ms8-refresh').addEventListener('click', ms8RefreshAll);
+  $('ms8-poll-toggle').addEventListener('click', () => {
+    if (ms8PollTimer) ms8StopPoll(); else ms8StartPoll();
+  });
+  $('ms8-exit').addEventListener('click', ms8Exit);
 }
 
 // Init:probe bridge,有就顯示 panel
