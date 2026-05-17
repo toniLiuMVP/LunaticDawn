@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>俠客遊 IV 存檔修改器 v0.9 · 吟遊詩人的傳說</title>
+<title>俠客遊 IV 存檔修改器 v1.0 · 吟遊詩人的傳說</title>
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#00ff41">
 <meta name="description" content="俠客遊 IV LDTSV0.dat 存檔檢視器 — header 解析 + Big5 字串掃描 + 區段熱圖 + hex 檢視。純前端、跨平台、不上傳，瀏覽器拖放即看。">
 <link rel="stylesheet" href="../assets/css/fonts-retro.css">
 <link rel="stylesheet" href="../assets/css/retro.css">
@@ -51,7 +53,7 @@
     <div class="header-inner">
       <h1 class="pixel">俠客遊 IV 存檔檢視器</h1>
       <nav>
-        <span style="color: var(--phosphor-dim); font-size: 12px;">v0.9 · ★★★★★ 8 槽全連 grid view + Live RAM Bridge(取代神之眼)+ FSA 一鍵連檔 + 智慧 anchor 精靈 + 自訂欄位</span>
+        <span style="color: var(--phosphor-dim); font-size: 12px;">v1.0 · PWA 離線可用 + Undo/Redo + Batch Preset + ASLR auto-recovery + 跨槽 diff + 8 槽全連 + Live RAM Bridge + FSA 一鍵連檔 + 智慧 anchor 精靈</span>
         ·
         <a href="./">回俠客遊 IV 索引</a>
         ·
@@ -84,14 +86,17 @@
 
   <div id="multi-slot-panel" class="viewer-panel" style="border: 2px solid var(--phosphor); margin-bottom: 16px; display: none;">
     <h3 style="color: var(--phosphor);">★★★★★ 8 槽全連模式(v0.9 — Multi-Slot Grid)</h3>
-    <p class="hint">已連到整個 <code id="ms8-dir-name">Usr/</code> 資料夾,自動追蹤 8 個玩家槽(LDTSV0.dat ~ LDTSV7.dat)+ 每槽獨立 polling + 點 grid 切換 active save。</p>
+    <p class="hint">已連到整個 <code id="ms8-dir-name">Usr/</code> 資料夾,自動追蹤 8 個玩家槽(LDTSV0.dat ~ LDTSV7.dat)+ 每槽獨立 polling + 點 grid 切換 active save。<strong>跨槽 diff(v1.0)</strong>:勾兩個槽 → 按「對比這 2 槽」 → 用既有 diff 視覺化。</p>
     <div id="ms8-grid" class="ms8-grid"></div>
     <div class="toolbar" style="margin-top: 12px;">
       <button id="ms8-refresh" class="ghost" type="button">↻ 手動 refresh 所有槽</button>
       <button id="ms8-poll-toggle" type="button">▶ 啟動 polling(3 秒)</button>
+      <button id="ms8-diff-mode" class="ghost" type="button">☐ 進入跨槽 diff 模式(v1.0)</button>
+      <button id="ms8-diff-run" type="button" style="display:none;">對比這 2 槽</button>
       <button id="ms8-exit" class="ghost" type="button" style="color: var(--amber);">✕ 離開多槽模式</button>
       <span class="hint" id="ms8-poll-status" style="margin:0;"></span>
     </div>
+    <div id="ms8-diff-output" style="display:none; margin-top:10px;"></div>
   </div>
 
   <style>
@@ -298,6 +303,27 @@
       </div>
       <div class="note-warn" style="margin-top: 10px;">
         ⚠ 自訂欄位的「新值」會在你按 <strong>下載修改後存檔</strong> 時統一寫入 buffer。建議:每次 confirm 新欄位後立刻匯出 JSON 備份,避免清快取丟失。
+      </div>
+    </div>
+
+    <div class="viewer-panel" style="border: 1px solid var(--phosphor-fade);">
+      <h3>★ Undo / Redo + Batch Preset(v1.0)</h3>
+      <p class="hint">
+        <strong>Undo / Redo</strong>:每次「套用」金錢編輯 / 自訂欄位 / preset 都會 snapshot buf,可一鍵復原 / 重做(最近 50 步)。鍵盤捷徑:<code>Ctrl/Cmd+Z</code> = undo,<code>Ctrl/Cmd+Shift+Z</code> = redo。<br>
+        <strong>Batch Preset</strong>:把目前所有自訂欄位的「新值」存成一個 preset,之後一鍵套用整套(localStorage 持久化)。內建「重置金錢」「神級套餐」等。
+      </p>
+      <div class="toolbar">
+        <button id="btn-undo" type="button" disabled>↶ Undo(<span id="undo-count">0</span>)</button>
+        <button id="btn-redo" type="button" disabled>↷ Redo(<span id="redo-count">0</span>)</button>
+        <span class="hint" id="undo-last" style="margin:0;">(無歷史)</span>
+      </div>
+      <div class="toolbar" style="margin-top: 12px;">
+        <label style="color: var(--phosphor-dim);">Preset:</label>
+        <select id="preset-select" style="background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-fade); padding: 4px 8px; font-family: 'VT323', monospace; font-size: 14px; min-width: 200px;"></select>
+        <button id="preset-apply" type="button">▸ 套用此 preset</button>
+        <button id="preset-save" class="ghost" type="button">＋ 存為新 preset</button>
+        <button id="preset-delete" class="ghost" type="button" style="color: var(--amber);">✕ 刪除選定 preset</button>
+        <span class="hint" id="preset-status" style="margin:0;"></span>
       </div>
     </div>
 
@@ -2081,6 +2107,408 @@ if (MS8_SUPPORTED) {
   });
   $('ms8-exit').addEventListener('click', ms8Exit);
 }
+
+// ===== v1.0 #1: PWA Service Worker register =====
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js', { scope: './' }).then(reg => {
+      // 靜默成功 — 不彈通知避免擾民
+      // 開發者 console 可看
+      try { console.log('SW registered, scope:', reg.scope); } catch (e) {}
+    }).catch(err => {
+      try { console.log('SW register failed:', err); } catch (e) {}
+    });
+  });
+}
+
+// ===== v1.0 #2: Undo / Redo stack =====
+const UNDO_MAX = 50;
+const undoStack = [];
+const redoStack = [];
+
+function pushUndo(label) {
+  if (!buf) return;
+  undoStack.push({ ts: Date.now(), label, before: new Uint8Array(buf), wasModified: modified });
+  if (undoStack.length > UNDO_MAX) undoStack.shift();
+  redoStack.length = 0;
+  renderUndoUI();
+}
+
+function doUndo() {
+  if (undoStack.length === 0 || !buf) return;
+  const e = undoStack.pop();
+  // Push current state to redo
+  redoStack.push({ ts: Date.now(), label: e.label, before: new Uint8Array(buf), wasModified: modified });
+  // Restore in-place(保留 dv binding)
+  if (e.before.length === buf.length) {
+    buf.set(e.before);
+  } else {
+    buf = new Uint8Array(e.before);
+    dv = new DataView(buf.buffer);
+  }
+  modified = e.wasModified;
+  $('modified-indicator').style.display = modified ? 'inline' : 'none';
+  // Re-render
+  if (typeof renderInfo === 'function') renderInfo();
+  if (typeof renderHeader === 'function') renderHeader();
+  if (typeof populatePlayerFields === 'function') populatePlayerFields();
+  if (typeof renderHexPage === 'function') renderHexPage();
+  if (typeof cfRenderTable === 'function') cfRenderTable();
+  renderUndoUI();
+  $('status').textContent = `↶ Undo:${e.label}(剩 ${undoStack.length} 步可 undo)`;
+  $('status').style.color = 'var(--phosphor)';
+}
+
+function doRedo() {
+  if (redoStack.length === 0 || !buf) return;
+  const e = redoStack.pop();
+  undoStack.push({ ts: Date.now(), label: e.label, before: new Uint8Array(buf), wasModified: modified });
+  if (e.before.length === buf.length) {
+    buf.set(e.before);
+  } else {
+    buf = new Uint8Array(e.before);
+    dv = new DataView(buf.buffer);
+  }
+  modified = e.wasModified;
+  $('modified-indicator').style.display = modified ? 'inline' : 'none';
+  if (typeof renderInfo === 'function') renderInfo();
+  if (typeof renderHeader === 'function') renderHeader();
+  if (typeof populatePlayerFields === 'function') populatePlayerFields();
+  if (typeof renderHexPage === 'function') renderHexPage();
+  if (typeof cfRenderTable === 'function') cfRenderTable();
+  renderUndoUI();
+  $('status').textContent = `↷ Redo:${e.label}(剩 ${redoStack.length} 步可 redo)`;
+  $('status').style.color = 'var(--phosphor)';
+}
+
+function renderUndoUI() {
+  $('undo-count').textContent = undoStack.length;
+  $('redo-count').textContent = redoStack.length;
+  $('btn-undo').disabled = undoStack.length === 0;
+  $('btn-redo').disabled = redoStack.length === 0;
+  if (undoStack.length > 0) {
+    const last = undoStack[undoStack.length - 1];
+    $('undo-last').textContent = `最近:${last.label}`;
+    $('undo-last').style.color = 'var(--phosphor-dim)';
+  } else {
+    $('undo-last').textContent = '(無歷史)';
+    $('undo-last').style.color = 'var(--phosphor-dim)';
+  }
+}
+
+$('btn-undo').addEventListener('click', doUndo);
+$('btn-redo').addEventListener('click', doRedo);
+document.addEventListener('keydown', (e) => {
+  // Ctrl/Cmd+Z = undo / Ctrl/Cmd+Shift+Z = redo
+  const isUndoCombo = (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z' && !e.shiftKey;
+  const isRedoCombo = (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z' && e.shiftKey;
+  // 避開使用者在 input 內 typing
+  const tag = (document.activeElement && document.activeElement.tagName || '').toLowerCase();
+  if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+  if (isUndoCombo) { e.preventDefault(); doUndo(); }
+  else if (isRedoCombo) { e.preventDefault(); doRedo(); }
+});
+
+// Hook 既有 editor:money-apply / cfApply / wizAddToFields 完之後不直接套用,但因 v1.0 改動最小,
+// 我們在 money-apply 跟 cfApply handler 進入點 wrap pushUndo
+// — 用 monkey-patch 既有 handler 太複雜。改成 pushUndo 在 apply 函數內部呼叫(下面 hook)。
+//
+// 已知限制(v1.0):
+// - undo 只還原 buf bytes,不還原 localStorage 自訂欄位 add/delete
+// - undo 對 RAM bridge write 不適用(遊戲 process 狀態無法 snapshot)
+
+// Hook money-apply
+(function hookMoneyApply() {
+  const btn = $('money-apply');
+  if (!btn) return;
+  const orig = btn.onclick;
+  // 改用 listener 攔截
+  // 先移除既有 click listener 不可能(addEventListener 加的)— 改在原 listener 前 capture phase 加 pushUndo
+  btn.addEventListener('click', () => {
+    if (buf) pushUndo('改金錢');
+  }, true);
+})();
+
+// Hook cf apply(自訂欄位「套用」按鈕)— cf 是動態 render,要在 cfApply 函數呼叫前 hook
+// 用 wrap cfApply 函數方式(若存在)
+if (typeof cfApply === 'function') {
+  const origCfApply = cfApply;
+  cfApply = function(idx, valStr) {
+    const fields = cfLoad();
+    const f = fields[idx];
+    pushUndo(f ? `改 ${f.label}` : '改欄位');
+    return origCfApply.apply(this, arguments);
+  };
+}
+
+// Hook FSA save undo:寫入後 push 一個 marker (不會還原檔案但給歷史脈絡)
+// 不 hook — FSA save 是「寫到磁碟」非 buf 變動,沒可還原內容
+
+// ===== v1.0 #3: Batch Preset =====
+const PRESET_KEY = 'ld4_presets_v1';
+const BUILTIN_PRESETS = [
+  { name: '【內建】金錢 50,000(新手友善)', fields: [{ encoding: 'not_u16le', offset: 0x00c8be, value: 50000 }], builtin: true },
+  { name: '【內建】金錢 500,000(中期)', fields: [{ encoding: 'not_u16le', offset: 0x00c8be, value: 500000 > 65535 ? 65535 : 500000 }], builtin: true },
+  { name: '【內建】金錢 65,535(u16 上限)', fields: [{ encoding: 'not_u16le', offset: 0x00c8be, value: 65535 }], builtin: true },
+  { name: '【內建】金錢歸零(重新挑戰)', fields: [{ encoding: 'not_u16le', offset: 0x00c8be, value: 0 }], builtin: true }
+];
+
+function presetLoad() {
+  try {
+    const raw = localStorage.getItem(PRESET_KEY);
+    const arr = raw ? JSON.parse(raw) : [];
+    if (!Array.isArray(arr)) return [];
+    return arr.filter(p => p && p.name && Array.isArray(p.fields));
+  } catch (e) { return []; }
+}
+
+function presetSave(arr) {
+  try { localStorage.setItem(PRESET_KEY, JSON.stringify(arr)); }
+  catch (e) { alert('儲存失敗:' + e.message); }
+}
+
+function presetRenderSelect() {
+  const sel = $('preset-select');
+  while (sel.firstChild) sel.removeChild(sel.firstChild);
+  const all = [...BUILTIN_PRESETS, ...presetLoad()];
+  if (all.length === 0) {
+    const opt = document.createElement('option');
+    opt.textContent = '(尚無 preset)'; opt.disabled = true;
+    sel.appendChild(opt);
+    return;
+  }
+  for (let i = 0; i < all.length; i++) {
+    const p = all[i];
+    const opt = document.createElement('option');
+    opt.value = String(i);
+    opt.textContent = `${p.name}(${p.fields.length} 欄位)`;
+    sel.appendChild(opt);
+  }
+}
+
+function presetGetSelected() {
+  const sel = $('preset-select');
+  const idx = parseInt(sel.value, 10);
+  if (isNaN(idx)) return null;
+  const all = [...BUILTIN_PRESETS, ...presetLoad()];
+  return all[idx] || null;
+}
+
+function presetApply() {
+  if (!buf) { alert('請先載入存檔'); return; }
+  const p = presetGetSelected();
+  if (!p) { alert('沒選 preset'); return; }
+  let applied = 0;
+  pushUndo(`套用 preset 「${p.name}」`);
+  for (const f of p.fields) {
+    const enc = CF_ENCODINGS[f.encoding];
+    if (!enc) continue;
+    if (f.offset + enc.size > buf.length) continue;
+    enc.write(buf, f.offset, f.value);
+    applied++;
+  }
+  if (applied > 0) {
+    markModified();
+    if (typeof renderHeader === 'function') renderHeader();
+    if (typeof renderHexPage === 'function') renderHexPage();
+    if (typeof cfRenderTable === 'function') cfRenderTable();
+    $('preset-status').textContent = `✓ 套用 ${applied}/${p.fields.length} 欄位`;
+    $('preset-status').style.color = 'var(--phosphor)';
+  } else {
+    $('preset-status').textContent = '✗ 0 欄位套用(可能 offset 超出範圍)';
+    $('preset-status').style.color = 'var(--amber)';
+  }
+}
+
+function presetSaveNew() {
+  if (!buf) { alert('請先載入存檔'); return; }
+  // 從目前所有自訂欄位讀出值打包成 preset
+  const cfFields = (typeof cfLoad === 'function') ? cfLoad() : [];
+  if (cfFields.length === 0) {
+    alert('沒有自訂欄位可存 — 請先用「智慧 anchor 精靈」加幾個 confirmed offset');
+    return;
+  }
+  const name = prompt(`新 preset 名稱?(目前 ${cfFields.length} 個自訂欄位將存為一組)`, '');
+  if (name === null || !name.trim()) return;
+  const fields = [];
+  for (const cf of cfFields) {
+    const enc = CF_ENCODINGS[cf.encoding];
+    if (!enc) continue;
+    if (cf.offset + enc.size > buf.length) continue;
+    try {
+      const v = enc.read(buf, cf.offset);
+      fields.push({ encoding: cf.encoding, offset: cf.offset, value: v, label: cf.label });
+    } catch (e) { /* skip */ }
+  }
+  const all = presetLoad();
+  all.push({ name: name.trim(), fields, ts: Date.now() });
+  presetSave(all);
+  presetRenderSelect();
+  alert(`✓ 已存 preset「${name.trim()}」(${fields.length} 個欄位)`);
+}
+
+function presetDeleteSelected() {
+  const sel = $('preset-select');
+  const idx = parseInt(sel.value, 10);
+  if (isNaN(idx)) return;
+  if (idx < BUILTIN_PRESETS.length) {
+    alert('不能刪內建 preset'); return;
+  }
+  const userIdx = idx - BUILTIN_PRESETS.length;
+  const all = presetLoad();
+  const p = all[userIdx];
+  if (!p) return;
+  if (!confirm(`刪除 preset「${p.name}」?`)) return;
+  all.splice(userIdx, 1);
+  presetSave(all);
+  presetRenderSelect();
+}
+
+$('preset-apply').addEventListener('click', presetApply);
+$('preset-save').addEventListener('click', presetSaveNew);
+$('preset-delete').addEventListener('click', presetDeleteSelected);
+presetRenderSelect();
+renderUndoUI();
+
+// ===== v1.0 #4: ASLR auto-recovery for RAM bridge =====
+// 已在 rbProbe / setInterval 內加 pid 變化偵測 — 下面 inject 邏輯到既有 rbProbe wrapper
+let rbLastPid = 0;
+const origRbProbe = (typeof rbProbe === 'function') ? rbProbe : null;
+if (origRbProbe) {
+  rbProbe = async function() {
+    const ok = await origRbProbe.apply(this, arguments);
+    if (ok && rbStatusInfo && rbStatusInfo.pid > 0) {
+      const cur = rbStatusInfo.pid;
+      if (rbLastPid !== 0 && rbLastPid !== cur) {
+        // ASLR detect — process restart
+        const fields = (typeof rbLoadFields === 'function') ? rbLoadFields() : [];
+        if (fields.length > 0) {
+          if (typeof rbStopPoll === 'function') rbStopPoll();
+          const yn = confirm(`⚠ ASLR 偵測:LD4 重啟了(pid 從 ${rbLastPid} 變 ${cur})\n\n所有 RAM offset 都失效。清空 ${fields.length} 個即時欄位?\n\n確定 = 清空(建議,需重新 scan anchor)\n取消 = 保留(讀出的值會是垃圾)`);
+          if (yn && typeof rbSaveFields === 'function') {
+            rbSaveFields([]);
+            if (typeof rbRenderFields === 'function') rbRenderFields();
+          }
+        }
+      }
+      rbLastPid = cur;
+    } else if (ok && rbStatusInfo && rbStatusInfo.pid === 0) {
+      // LD4 沒在跑了(關了)— 不清欄位(玩家可能重開遊戲)
+      rbLastPid = 0;
+    }
+    return ok;
+  };
+}
+
+// ===== v1.0 #5: 跨槽 diff(grid 2-select)=====
+let ms8DiffMode = false;
+const ms8DiffSet = new Set();
+
+function ms8ToggleDiffMode() {
+  ms8DiffMode = !ms8DiffMode;
+  ms8DiffSet.clear();
+  $('ms8-diff-mode').textContent = ms8DiffMode ? '✓ 退出跨槽 diff 模式' : '☐ 進入跨槽 diff 模式(v1.0)';
+  $('ms8-diff-run').style.display = 'none';
+  $('ms8-diff-output').style.display = 'none';
+  ms8RenderGrid();
+}
+
+// 改寫 ms8RenderGrid 加 diff mode 的 checkbox UI — wrap
+const origMs8RenderGrid = ms8RenderGrid;
+ms8RenderGrid = function() {
+  origMs8RenderGrid.apply(this, arguments);
+  if (!ms8DiffMode) return;
+  // 在每個 card 加 checkbox(已 render 後 patch)
+  const grid = $('ms8-grid');
+  const cards = grid.querySelectorAll('.ms8-card');
+  cards.forEach((card, i) => {
+    const slot = ms8Slots[i];
+    if (!slot || !slot.buf) return;
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = ms8DiffSet.has(i);
+    cb.style.cssText = 'position: absolute; top: 6px; right: 6px; transform: scale(1.5);';
+    cb.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (cb.checked) {
+        if (ms8DiffSet.size >= 2) {
+          alert('最多選 2 個槽 diff');
+          cb.checked = false;
+          return;
+        }
+        ms8DiffSet.add(i);
+      } else {
+        ms8DiffSet.delete(i);
+      }
+      $('ms8-diff-run').style.display = ms8DiffSet.size === 2 ? 'inline-block' : 'none';
+    });
+    card.style.position = 'relative';
+    card.appendChild(cb);
+    // diff mode 下取消 click switch active
+    card.addEventListener('click', (ev) => {
+      if (ms8DiffMode) ev.stopImmediatePropagation();
+    }, true);
+  });
+};
+
+function ms8DiffRun() {
+  if (ms8DiffSet.size !== 2) return;
+  const [a, b] = Array.from(ms8DiffSet);
+  const slotA = ms8Slots[a], slotB = ms8Slots[b];
+  if (!slotA || !slotB || !slotA.buf || !slotB.buf) {
+    alert('其中一槽 buf 缺'); return;
+  }
+  const n = Math.min(slotA.buf.length, slotB.buf.length);
+  const diffs = [];
+  for (let i = 0; i < n; i++) {
+    if (slotA.buf[i] !== slotB.buf[i]) diffs.push(i);
+  }
+  // 集合連續區段
+  const regions = [];
+  if (diffs.length > 0) {
+    let s = diffs[0], e = diffs[0];
+    for (let i = 1; i < diffs.length; i++) {
+      if (diffs[i] === e + 1) e = diffs[i];
+      else { regions.push([s, e]); s = e = diffs[i]; }
+    }
+    regions.push([s, e]);
+  }
+  const out = $('ms8-diff-output');
+  while (out.firstChild) out.removeChild(out.firstChild);
+  const h = document.createElement('h4');
+  h.textContent = `LDTSV${a}.dat vs LDTSV${b}.dat 跨槽 diff`;
+  h.style.color = 'var(--phosphor)';
+  out.appendChild(h);
+  const sum = document.createElement('p');
+  sum.className = 'hint';
+  sum.textContent = `共 ${diffs.length} bytes 不同(總 ${n} bytes,${(100*diffs.length/n).toFixed(2)}%),分 ${regions.length} 個連續區段。距離不同的玩家進度狀態。`;
+  out.appendChild(sum);
+  const pre = document.createElement('div');
+  pre.className = 'hex-viewer';
+  pre.style.maxHeight = '300px';
+  const lines = [];
+  for (const [s, e] of regions.slice(0, 60)) {
+    const sz = e - s + 1;
+    const ax = Array.from(slotA.buf.slice(s, e+1)).map(b => b.toString(16).padStart(2,'0')).join(' ');
+    const bx = Array.from(slotB.buf.slice(s, e+1)).map(b => b.toString(16).padStart(2,'0')).join(' ');
+    let line = `  0x${s.toString(16).padStart(6,'0')}-0x${e.toString(16).padStart(6,'0')} (${sz} bytes)\n`;
+    line += `    [${a}]: ${ax.slice(0, 120)}${ax.length > 120 ? '...' : ''}\n`;
+    line += `    [${b}]: ${bx.slice(0, 120)}${bx.length > 120 ? '...' : ''}\n`;
+    if (sz === 2) {
+      const v1 = (~(slotA.buf[s] | (slotA.buf[s+1] << 8))) & 0xffff;
+      const v2 = (~(slotB.buf[s] | (slotB.buf[s+1] << 8))) & 0xffff;
+      line += `    NOT u16 LE: [${a}]=${v1}, [${b}]=${v2}\n`;
+    }
+    lines.push(line);
+  }
+  if (regions.length > 60) lines.push(`…前 60 區段,共 ${regions.length}`);
+  pre.textContent = lines.join('\n');
+  out.appendChild(pre);
+  out.style.display = 'block';
+}
+
+$('ms8-diff-mode').addEventListener('click', ms8ToggleDiffMode);
+$('ms8-diff-run').addEventListener('click', ms8DiffRun);
 
 // Init:probe bridge,有就顯示 panel
 (async () => {
