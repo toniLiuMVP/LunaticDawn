@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>俠客遊 IV 存檔檢視器 · 吟遊詩人的傳說</title>
+<title>俠客遊 IV 存檔修改器 v0.3 · 吟遊詩人的傳說</title>
 <meta name="description" content="俠客遊 IV LDTSV0.dat 存檔檢視器 — header 解析 + Big5 字串掃描 + 區段熱圖 + hex 檢視。純前端、跨平台、不上傳，瀏覽器拖放即看。">
 <link rel="stylesheet" href="../assets/css/fonts-retro.css">
 <link rel="stylesheet" href="../assets/css/retro.css">
@@ -105,8 +105,39 @@
       <div class="field-row"><label>存檔標題（0x20，Big5）：</label><span class="val" id="hd-title" style="color: var(--amber);"></span></div>
       <div class="field-row"><label>0x34 區（8 bytes）：</label><span class="val" id="hd-misc"></span></div>
       <div class="field-row"><label>存檔來源路徑（0x3C）：</label><span class="val" id="hd-path"></span> <button id="btn-show-full-path" type="button" style="background: var(--bg-input); color: var(--phosphor-dim); border: 1px solid var(--phosphor-fade); padding: 2px 8px; font-size: 12px; cursor: pointer; display: none;">顯示完整路徑</button></div>
-      <div class="field-row"><label>💰 主角金錢（0xC8BE，NOT u16 LE）：</label><span class="val" id="hd-money" style="color: var(--amber);"></span></div>
+      <div class="field-row">
+        <label>💰 主角金錢（0xC8BE，NOT u16 LE）：</label>
+        <span class="val" id="hd-money" style="color: var(--amber);"></span>
+        <input id="money-edit" type="number" min="0" max="65535" style="background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-dim); padding: 4px 8px; width: 100px; font-family: 'VT323', monospace; font-size: 15px; margin-left: 8px;" placeholder="改成">
+        <button id="money-apply" type="button" style="background: var(--amber); color: var(--bg); border: 1px solid var(--amber); padding: 4px 12px; font-family: 'VT323', monospace; cursor: pointer;">套用</button>
+      </div>
       <div class="note-warn" id="hd-godseye-note"></div>
+    </div>
+
+    <div class="viewer-panel">
+      <h3>★ Player Struct 候選欄位掃描(v0.3)</h3>
+      <p class="hint">在 0xC8BE 金錢周邊 ±256 bytes 掃描所有 NOT u16 LE 落在「合理範圍 1-9999」的位置 — 這些是玩家結構候選欄位(HP/MP/level/exp/...) 中的可能值。<strong>需要 ground truth 來 anchor</strong>。</p>
+      <table class="region-table" id="player-fields-table">
+        <thead>
+          <tr><th>Offset</th><th>NOT u16 LE</th><th>類別猜測</th><th>說明 / 動作</th></tr>
+        </thead>
+        <tbody id="player-fields-tbody">
+          <tr><td colspan="4" class="muted">(載入存檔後填入)</td></tr>
+        </tbody>
+      </table>
+      <p class="hint">⚠ 這些候選都是「值 in 合理範圍」,**未 confirm 對應到哪個 field**。請對照你遊戲內看到的 HP/MP/level/年齡/exp 等具體數值,告知 toni / Anzai 哪個 offset 對哪個 field。</p>
+    </div>
+
+    <div class="viewer-panel">
+      <h3>★ NOT u16 LE 反向搜尋(v0.3)</h3>
+      <p class="hint">你在遊戲內看到某個 u16 值(HP/MP/exp/錢/年齡等)? 輸入此值,viewer 全檔掃 NOT(value) 對應的 byte sequence — 若全檔唯一(< 5 hits)= cryptographic-level confirm offset(學自 Anzai r10 突破)。</p>
+      <div class="toolbar">
+        <label style="color: var(--phosphor-dim);">遊戲內看到的值:</label>
+        <input id="not-search-input" type="number" min="0" max="65535" placeholder="例 716">
+        <button id="not-search-btn" type="button">NOT u16 LE 全檔掃</button>
+        <span class="hint" id="not-search-status" style="margin:0;"></span>
+      </div>
+      <div id="not-search-results" class="hex-viewer" style="display: none; max-height: 200px;"></div>
     </div>
 
     <div class="viewer-panel">
@@ -157,8 +188,10 @@
       <div class="hex-viewer" id="hex-viewer"></div>
     </div>
 
-    <div class="toolbar" style="margin-top: 8px;">
+    <div class="toolbar" style="margin-top: 8px; padding: 12px; background: var(--bg-panel); border-top: 2px solid var(--amber);">
       <span class="hint" id="status" style="margin:0;">準備就緒</span>
+      <span class="hint" id="modified-indicator" style="margin: 0 12px; color: var(--amber); display: none;">⚠ 已修改</span>
+      <button id="btn-download" type="button" style="background: var(--amber); color: var(--bg); border: 1px solid var(--amber); padding: 6px 14px; font-family: 'VT323', monospace; font-size: 15px; cursor: pointer;">💾 下載修改後存檔</button>
       <button id="btn-reset" class="ghost" type="button">↺ 重新載入另一個檔案</button>
     </div>
 
@@ -431,6 +464,11 @@ function handleFile(file) {
 
       parseHeader();
       renderHexPage();
+      populatePlayerFields();        // v0.3 — 自動填 player struct 候選表
+      modified = false;
+      $('modified-indicator').style.display = 'none';
+      $('not-search-results').style.display = 'none';
+      $('not-search-status').textContent = '';
       $('big5-results').style.display = 'none';
       $('big5-status').textContent = '';
       $('heatmap-detail').style.display = 'none';
@@ -483,6 +521,138 @@ $('hex-jump-btn').addEventListener('click', () => {
   if (isNaN(v) || v < 0 || v >= buf.length) { $('status').textContent = '✗ offset 超出範圍'; return; }
   hexPage = Math.floor(v / HEX_PAGE_BYTES);
   renderHexPage();
+});
+
+// ===== v0.3: edit + apply + download =====
+let modified = false;
+function markModified() {
+  modified = true;
+  $('modified-indicator').style.display = 'inline';
+  $('status').textContent = '已有未下載的修改';
+  $('status').style.color = 'var(--amber)';
+}
+
+$('money-apply').addEventListener('click', () => {
+  if (!buf) { alert('請先載入存檔'); return; }
+  const v = parseInt($('money-edit').value, 10);
+  if (isNaN(v) || v < 0 || v > 65535) {
+    alert('金錢值需在 0-65535 範圍內(u16 LE)');
+    return;
+  }
+  // write NOT(v) as u16 LE at 0x00c8be
+  const notV = (~v) & 0xffff;
+  buf[0x00c8be] = notV & 0xff;
+  buf[0x00c8bf] = (notV >> 8) & 0xff;
+  // re-decode display
+  const raw = dv.getUint16(0x00c8be, true);
+  const money = (~raw) & 0xffff;
+  $('hd-money').textContent = money + '  (raw u16 LE = 0x' + raw.toString(16).padStart(4, '0') + ')';
+  $('money-edit').value = '';
+  markModified();
+  renderHexPage();   // refresh hex viewer to show changed bytes
+});
+
+$('btn-download').addEventListener('click', () => {
+  if (!buf) { alert('請先載入存檔'); return; }
+  const blob = new Blob([buf], { type: 'application/octet-stream' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  // 加 timestamp 避免覆蓋原檔
+  const ts = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+  a.download = fileName.replace(/\.dat$/i, '') + '_modified_' + ts + '.dat';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  $('status').textContent = '✓ 已下載修改版 — 覆蓋遊戲 usr/ 前請備份原檔';
+  $('status').style.color = 'var(--phosphor)';
+});
+
+// Player struct 候選欄位 scan (在 0xC8BE ±256 bytes 範圍)
+function populatePlayerFields() {
+  const tbody = $('player-fields-tbody');
+  while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
+  const center = 0xc8be;
+  const start = Math.max(0, center - 256);
+  const end = Math.min(buf.length, center + 256);
+  const candidates = [];
+  for (let i = start; i < end - 1; i += 2) {  // 2-byte aligned u16
+    const raw = dv.getUint16(i, true);
+    const notV = (~raw) & 0xffff;
+    if (notV >= 1 && notV <= 9999) {
+      let cat = '';
+      if (notV <= 99) cat = 'level/skill';
+      else if (notV <= 999) cat = 'HP/MP/exp/小錢';
+      else cat = '錢/時間/exp';
+      candidates.push({ off: i, raw, notV, cat });
+    }
+  }
+  for (const c of candidates) {
+    const tr = document.createElement('tr');
+    const td1 = document.createElement('td');
+    td1.className = 'num';
+    td1.textContent = '0x' + c.off.toString(16).padStart(6, '0');
+    const td2 = document.createElement('td');
+    td2.className = 'num';
+    td2.textContent = c.notV;
+    if (c.off === center) { td2.style.color = 'var(--amber)'; td2.textContent += ' ★金錢'; }
+    const td3 = document.createElement('td');
+    td3.textContent = c.cat;
+    const td4 = document.createElement('td');
+    if (c.off === center) {
+      td4.textContent = '✓ confirmed 金錢欄位(W53 hex-grep unique + diff)';
+      td4.style.color = 'var(--phosphor)';
+    } else {
+      td4.textContent = '未 confirm — 等 ground truth';
+      td4.style.color = 'var(--phosphor-dim)';
+    }
+    tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3); tr.appendChild(td4);
+    tbody.appendChild(tr);
+  }
+  if (candidates.length === 0) {
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+    td.colSpan = 4;
+    td.className = 'muted';
+    td.textContent = '(範圍內無候選)';
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+  }
+}
+
+// NOT u16 LE 反向搜尋
+$('not-search-btn').addEventListener('click', () => {
+  if (!buf) { alert('請先載入存檔'); return; }
+  const v = parseInt($('not-search-input').value, 10);
+  if (isNaN(v) || v < 0 || v > 65535) {
+    alert('值需在 0-65535 範圍內');
+    return;
+  }
+  const notV = (~v) & 0xffff;
+  const target = new Uint8Array([notV & 0xff, (notV >> 8) & 0xff]);
+  const hits = [];
+  for (let i = 0; i < buf.length - 1; i++) {
+    if (buf[i] === target[0] && buf[i + 1] === target[1]) hits.push(i);
+  }
+  const out = $('not-search-results');
+  while (out.firstChild) out.removeChild(out.firstChild);
+  const lines = [];
+  const targetHex = Array.from(target).map(b => b.toString(16).padStart(2, '0')).join(' ');
+  lines.push('值 = ' + v + '  NOT u16 LE = 0x' + ((~v) & 0xffff).toString(16).padStart(4, '0') + '  bytes = ' + targetHex);
+  lines.push('全檔 hit: ' + hits.length + ' 處' + (hits.length === 1 ? '  ★ unique — cryptographic-level offset confirm' : (hits.length < 5 ? '  ⚠ 少數 hit — 高可能性 candidate' : '  too many — 不可信(coincidental bytes)')));
+  lines.push('');
+  for (const off of hits.slice(0, 30)) {
+    const s = Math.max(0, off - 6);
+    const e = Math.min(buf.length, off + 8);
+    const ctx = Array.from(buf.slice(s, e)).map(b => b.toString(16).padStart(2, '0')).join(' ');
+    lines.push('  0x' + off.toString(16).padStart(6, '0') + ':  ...' + ctx + '...');
+  }
+  if (hits.length > 30) lines.push('\n…顯示前 30,共 ' + hits.length + ' 處');
+  out.textContent = lines.join('\n');
+  out.style.display = 'block';
+  $('not-search-status').textContent = hits.length + ' hits';
+  $('not-search-status').style.color = hits.length === 1 ? 'var(--phosphor)' : (hits.length < 5 ? 'var(--amber)' : 'var(--phosphor-dim)');
 });
 
 $('btn-reset').addEventListener('click', () => {
