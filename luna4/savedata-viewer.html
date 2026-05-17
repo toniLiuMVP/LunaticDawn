@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>俠客遊 IV 存檔修改器 v0.6 · 吟遊詩人的傳說</title>
+<title>俠客遊 IV 存檔修改器 v0.7 · 吟遊詩人的傳說</title>
 <meta name="description" content="俠客遊 IV LDTSV0.dat 存檔檢視器 — header 解析 + Big5 字串掃描 + 區段熱圖 + hex 檢視。純前端、跨平台、不上傳，瀏覽器拖放即看。">
 <link rel="stylesheet" href="../assets/css/fonts-retro.css">
 <link rel="stylesheet" href="../assets/css/retro.css">
@@ -51,7 +51,7 @@
     <div class="header-inner">
       <h1 class="pixel">俠客遊 IV 存檔檢視器</h1>
       <nav>
-        <span style="color: var(--phosphor-dim); font-size: 12px;">v0.6 · header + 金錢 edit + 跨檔 diff + 智慧 anchor 精靈(全 encoding 一鍵掃)+ 自訂欄位管理 + 熱圖</span>
+        <span style="color: var(--phosphor-dim); font-size: 12px;">v0.7 · ★ FSA 一鍵連檔 + 自動跟上遊戲存檔(Chromium) + 直接覆蓋原檔 + 智慧 anchor 精靈 + 自訂欄位管理</span>
         ·
         <a href="./">回俠客遊 IV 索引</a>
         ·
@@ -82,9 +82,22 @@
     <em>所有解析在你的瀏覽器本機完成。檔案（含其中的存檔來源路徑）不會上傳到任何地方。</em>
   </div>
 
+  <div id="lazy-mode-banner" class="viewer-panel" style="border: 2px solid var(--amber); margin-bottom: 16px;">
+    <h3 style="color: var(--amber);">★★★ 3 步驟懶人模式（v0.7 — 跟著遊戲存檔即時更新）</h3>
+    <ol style="color: var(--phosphor-dim); font-size: 14px; line-height: 1.8; padding-left: 24px; margin: 8px 0;">
+      <li>遊戲內存檔（ESC → 存檔，或按指定快捷鍵）</li>
+      <li>下面 <strong style="color: var(--phosphor);">★ 一鍵連檔（Chromium 系）</strong> → 選 <code>LDTSV0.dat</code>（玩家槽 0） → 授權讀寫 → viewer 自動 polling 2 秒，遊戲存檔後自動跟上</li>
+      <li>改完數值 → 按 <strong style="color: var(--phosphor);">💾 直接覆蓋原檔</strong>（不用下載也不用手動 copy）→ 切回遊戲讀檔 → 完成</li>
+    </ol>
+    <p class="hint" style="margin-top: 8px;">📂 存檔典型位置：<code>LD4_EZ/LD4/Usr/LDTSV0.dat</code> ~ <code>LDTSV7.dat</code>（8 個玩家槽）</p>
+    <p class="hint" id="fsa-support-note" style="margin-top: 4px;"></p>
+  </div>
+
   <div id="drop-zone">
     <h2 class="pixel">▶ 拖放 LDTSV0.dat 到這裡</h2>
-    <p>或 <span style="color: var(--amber); cursor: pointer; text-decoration: underline;" id="click-select">點擊選擇檔案</span></p>
+    <p>或 <span style="color: var(--amber); cursor: pointer; text-decoration: underline;" id="click-select">點擊選擇檔案</span>
+      <span id="fsa-pick-wrapper" style="display:none;"> | <button id="btn-fsa-pick" type="button" style="background: var(--amber); color: var(--bg); border: 1px solid var(--amber); padding: 4px 12px; font-family: 'VT323', monospace; cursor: pointer; font-size: 15px;">★ 一鍵連檔（直接讀寫 + 自動跟上）</button></span>
+    </p>
     <p style="color: var(--phosphor-dim); font-size: 13px;">[ 檔案位置：遊戲資料夾/Usr/LDTSV0.dat ]</p>
     <input type="file" id="file-input" accept=".dat,.DAT" style="display: none;">
   </div>
@@ -271,6 +284,8 @@
     <div class="toolbar" style="margin-top: 8px; padding: 12px; background: var(--bg-panel); border-top: 2px solid var(--amber);">
       <span class="hint" id="status" style="margin:0;">準備就緒</span>
       <span class="hint" id="modified-indicator" style="margin: 0 12px; color: var(--amber); display: none;">⚠ 已修改</span>
+      <span class="hint" id="fsa-indicator" style="margin: 0 12px; color: var(--phosphor); display: none;">🔗 FSA 連檔中 · 自動 polling</span>
+      <button id="btn-fsa-save" type="button" style="background: var(--phosphor); color: var(--bg); border: 1px solid var(--phosphor); padding: 6px 14px; font-family: 'VT323', monospace; font-size: 15px; cursor: pointer; display: none;">★ 💾 直接覆蓋原檔(v0.7)</button>
       <button id="btn-download" type="button" style="background: var(--amber); color: var(--bg); border: 1px solid var(--amber); padding: 6px 14px; font-family: 'VT323', monospace; font-size: 15px; cursor: pointer;">💾 下載修改後存檔</button>
       <button id="btn-reset" class="ghost" type="button">↺ 重新載入另一個檔案</button>
     </div>
@@ -1315,6 +1330,168 @@ function wizAddToFields(offset, encodingKey, observedValue) {
 
 $('wiz-run').addEventListener('click', wizRun);
 $('wiz-value').addEventListener('keypress', (e) => { if (e.key === 'Enter') wizRun(); });
+
+// ===== v0.7: File System Access API — 直接讀寫原檔 + auto-reload polling =====
+// 解 toni W56 提問:「重遊戲中讀入的功能是否完美製作完成?」
+// 答:純前端 sandbox 物理上做不到 RPM,但 FSA API + 2 秒 polling 達成「遊戲存檔後自動跟上 + 直接覆蓋」等效懶人 workflow
+
+let fsaFileHandle = null;       // FileSystemFileHandle
+let fsaLastMtime = 0;            // 上次 mtime (避免 polling overwrite 自己剛存的)
+let fsaLastSize = 0;
+let fsaPollTimer = null;
+const FSA_POLL_INTERVAL_MS = 2000;
+const FSA_SUPPORTED = typeof window.showOpenFilePicker === 'function';
+
+function fsaInitUI() {
+  const note = $('fsa-support-note');
+  if (FSA_SUPPORTED) {
+    note.textContent = '✓ 你的瀏覽器支援 File System Access API — 可一鍵連檔。';
+    note.style.color = 'var(--phosphor)';
+    $('fsa-pick-wrapper').style.display = 'inline';
+  } else {
+    note.textContent = '⚠ 你的瀏覽器(Safari/Firefox)不支援 File System Access API — 請用拖放/點擊選檔 fallback flow(改完按「下載修改後存檔」+ 手動覆蓋原檔)。建議用 Chrome / Edge / Opera 達成自動模式。';
+    note.style.color = 'var(--amber)';
+  }
+}
+
+async function fsaPick() {
+  if (!FSA_SUPPORTED) { alert('此瀏覽器不支援 FSA — 請用拖放/檔案選擇 fallback'); return; }
+  try {
+    const opts = {
+      types: [{ description: 'LD4 Save Files', accept: { 'application/octet-stream': ['.dat'] } }],
+      excludeAcceptAllOption: false,
+      multiple: false
+    };
+    const [handle] = await window.showOpenFilePicker(opts);
+    fsaFileHandle = handle;
+    // 申請 readwrite 權限(只要一次,後續 polling 不會再彈)
+    const perm = await handle.queryPermission({ mode: 'readwrite' });
+    if (perm !== 'granted') {
+      const req = await handle.requestPermission({ mode: 'readwrite' });
+      if (req !== 'granted') {
+        alert('未授權讀寫權限 — 改用唯讀模式(無法直接覆蓋,要按下載)');
+      }
+    }
+    // 讀入
+    const file = await handle.getFile();
+    fsaLastMtime = file.lastModified;
+    fsaLastSize = file.size;
+    await handleFsaFile(file);
+    // 啟動 polling
+    fsaStartPoll();
+    $('fsa-indicator').style.display = 'inline';
+    $('btn-fsa-save').style.display = 'inline-block';
+    $('status').textContent = '✓ FSA 一鍵連檔成功:' + (file.name || 'unnamed') + ' (' + file.size + ' bytes)';
+    $('status').style.color = 'var(--phosphor)';
+  } catch (e) {
+    if (e && e.name === 'AbortError') return;  // 使用者取消選檔
+    console.error(e);
+    alert('FSA 失敗:' + (e && e.message || e));
+  }
+}
+
+async function handleFsaFile(file) {
+  // 共用既有 handleFile 邏輯
+  const ab = await file.arrayBuffer();
+  buf = new Uint8Array(ab);
+  dv = new DataView(ab);
+  fileName = file.name || 'LDTSV0.dat';
+  hexPage = 0;
+  modified = false;
+  $('modified-indicator').style.display = 'none';
+  $('drop-zone').style.display = 'none';
+  $('viewer').style.display = 'block';
+  // 觸發既有 render(以下抄 handleFile 流程)
+  renderInfo();
+  renderHeader();
+  populatePlayerFields();
+  renderHexPage();
+  // 隱藏其他結果區
+  $('not-search-results').style.display = 'none';
+  $('not-u8-search-results').style.display = 'none';
+  $('diff-output').style.display = 'none';
+  $('wiz-results').style.display = 'none';
+}
+
+function fsaStartPoll() {
+  if (fsaPollTimer) clearInterval(fsaPollTimer);
+  fsaPollTimer = setInterval(fsaPollOnce, FSA_POLL_INTERVAL_MS);
+}
+
+function fsaStopPoll() {
+  if (fsaPollTimer) { clearInterval(fsaPollTimer); fsaPollTimer = null; }
+  $('fsa-indicator').style.display = 'none';
+}
+
+async function fsaPollOnce() {
+  if (!fsaFileHandle) { fsaStopPoll(); return; }
+  try {
+    const file = await fsaFileHandle.getFile();
+    if (file.lastModified === fsaLastMtime && file.size === fsaLastSize) return;
+    // 檔案外部變動了(可能遊戲剛存檔)
+    if (modified) {
+      // 使用者有 pending 修改 — 警告
+      const ok = confirm('⚠ 偵測到原檔被外部變動(遊戲剛存檔?)\n\n你有未存的修改。是否捨棄修改、重讀新檔?\n\n- 確定 = 捨棄你的修改,讀新檔\n- 取消 = 保留你的修改,不重讀(直到你按「直接覆蓋原檔」或重新拖放才會再 sync)');
+      if (!ok) {
+        // 更新 mtime/size 避免每 2 秒問一次
+        fsaLastMtime = file.lastModified;
+        fsaLastSize = file.size;
+        return;
+      }
+    }
+    fsaLastMtime = file.lastModified;
+    fsaLastSize = file.size;
+    await handleFsaFile(file);
+    const statusEl = $('status');
+    statusEl.textContent = '✓ 自動重讀(' + new Date().toLocaleTimeString() + '): ' + (file.name || 'unnamed') + ' (' + file.size + ' bytes)';
+    statusEl.style.color = 'var(--phosphor)';
+  } catch (e) {
+    console.error('FSA poll error:', e);
+    fsaStopPoll();
+  }
+}
+
+async function fsaSave() {
+  if (!fsaFileHandle || !buf) { alert('沒有 FSA file handle — 請先按「一鍵連檔」'); return; }
+  try {
+    const perm = await fsaFileHandle.queryPermission({ mode: 'readwrite' });
+    if (perm !== 'granted') {
+      const req = await fsaFileHandle.requestPermission({ mode: 'readwrite' });
+      if (req !== 'granted') {
+        alert('未授權讀寫權限 — 改用下載 fallback');
+        return;
+      }
+    }
+    const writable = await fsaFileHandle.createWritable();
+    await writable.write(buf);
+    await writable.close();
+    // 更新 mtime 避免 polling 把我們剛寫的當成「外部變動」彈確認框
+    const file = await fsaFileHandle.getFile();
+    fsaLastMtime = file.lastModified;
+    fsaLastSize = file.size;
+    modified = false;
+    $('modified-indicator').style.display = 'none';
+    $('status').textContent = '✓ 已直接覆蓋原檔(' + new Date().toLocaleTimeString() + ')— 切回遊戲讀檔即可';
+    $('status').style.color = 'var(--phosphor)';
+  } catch (e) {
+    console.error(e);
+    alert('直接覆蓋失敗:' + (e && e.message || e) + '\n建議改用「下載修改後存檔」+ 手動 copy');
+  }
+}
+
+// 註冊 v0.7 事件
+fsaInitUI();
+if (FSA_SUPPORTED) {
+  $('btn-fsa-pick').addEventListener('click', fsaPick);
+  $('btn-fsa-save').addEventListener('click', fsaSave);
+}
+// reset 時清 FSA state
+const origResetHandler = $('btn-reset').onclick;
+$('btn-reset').addEventListener('click', () => {
+  fsaStopPoll();
+  fsaFileHandle = null;
+  $('btn-fsa-save').style.display = 'none';
+});
 </script>
 </body>
 </html>
