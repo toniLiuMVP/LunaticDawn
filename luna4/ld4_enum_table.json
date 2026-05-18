@@ -2,7 +2,7 @@
   "meta": {
     "source": "LD4.exe",
     "extracted_date": "2026-05-18",
-    "extracted_wave": "W62",
+    "extracted_wave": "W67 (擴充 v1.2 W62 base)",
     "segments_scanned": [
       {
         "start": "0x20c800",
@@ -13,9 +13,24 @@
         "start": "0x21d000",
         "end": "0x21d600",
         "description": "玩家初始稱號 table(俠客遊/冒險者 2 選 1)"
+      },
+      {
+        "start": "0x206400",
+        "end": "0x2068a4",
+        "description": "W67 — 遊戲 UI action enum(行動/模式/裝備/合成/委託/購買/...)110+ 字串"
+      },
+      {
+        "start": "0x20f520",
+        "end": "0x20f8b0",
+        "description": "W67 — 委託相關 enum(NPC 類型/地點類型/傷害屬性系/對話時點)~35 字串"
+      },
+      {
+        "start": "0x229200",
+        "end": "0x229700",
+        "description": "W67 — 怪物技能 + 屬性魔法 enum(龍之寶玉/雷射鎗/拜德拉克本體雷射/混沌神審判/...)~90 字串"
       }
     ],
-    "total_entries": 103,
+    "total_entries": 367,
     "note": "玩家可見事實層 enum table。給 viewer lookup 工具,不是抄錄資料庫。對齊 npc_dictionary.json 公開先例。LD4 真實 SAV/RAM 內這些值通常以 byte/word ID 儲存,viewer 對 hex byte 自動 decode 顯示對應字串。"
   },
   "categories": {
@@ -754,6 +769,1600 @@
         "text": "冒險者",
         "category": "title",
         "enum_id": 1
+      }
+    ],
+    "action_ui": [
+      {
+        "addr": "0x2063f2",
+        "len": 12,
+        "text": "對話檔初始化",
+        "enum_id": 0
+      },
+      {
+        "addr": "0x206402",
+        "len": 4,
+        "text": "輸出",
+        "enum_id": 1
+      },
+      {
+        "addr": "0x206407",
+        "len": 4,
+        "text": "摃唲",
+        "enum_id": 2
+      },
+      {
+        "addr": "0x206416",
+        "len": 4,
+        "text": "輸出",
+        "enum_id": 3
+      },
+      {
+        "addr": "0x206425",
+        "len": 6,
+        "text": "埡銂鴝",
+        "enum_id": 4
+      },
+      {
+        "addr": "0x206431",
+        "len": 4,
+        "text": "埡鉾",
+        "enum_id": 5
+      },
+      {
+        "addr": "0x20643c",
+        "len": 8,
+        "text": "對話設定",
+        "enum_id": 6
+      },
+      {
+        "addr": "0x206448",
+        "len": 10,
+        "text": "關於異世界",
+        "enum_id": 7
+      },
+      {
+        "addr": "0x206454",
+        "len": 8,
+        "text": "關於怪物",
+        "enum_id": 8
+      },
+      {
+        "addr": "0x206460",
+        "len": 8,
+        "text": "關於道具",
+        "enum_id": 9
+      },
+      {
+        "addr": "0x20646c",
+        "len": 4,
+        "text": "聽歌",
+        "enum_id": 10
+      },
+      {
+        "addr": "0x206474",
+        "len": 8,
+        "text": "金額變更",
+        "enum_id": 11
+      },
+      {
+        "addr": "0x206480",
+        "len": 4,
+        "text": "行動",
+        "enum_id": 12
+      },
+      {
+        "addr": "0x206488",
+        "len": 4,
+        "text": "模式",
+        "enum_id": 13
+      },
+      {
+        "addr": "0x206490",
+        "len": 4,
+        "text": "指示",
+        "enum_id": 14
+      },
+      {
+        "addr": "0x206498",
+        "len": 4,
+        "text": "道具",
+        "enum_id": 15
+      },
+      {
+        "addr": "0x2064a0",
+        "len": 4,
+        "text": "取出",
+        "enum_id": 16
+      },
+      {
+        "addr": "0x2064a8",
+        "len": 4,
+        "text": "放入",
+        "enum_id": 17
+      },
+      {
+        "addr": "0x2064b0",
+        "len": 8,
+        "text": "直接指定",
+        "enum_id": 18
+      },
+      {
+        "addr": "0x2064bc",
+        "len": 8,
+        "text": "登錄世界",
+        "enum_id": 19
+      },
+      {
+        "addr": "0x2064c8",
+        "len": 8,
+        "text": "回主世界",
+        "enum_id": 20
+      },
+      {
+        "addr": "0x2064d4",
+        "len": 8,
+        "text": "世界中斷",
+        "enum_id": 21
+      },
+      {
+        "addr": "0x2064e0",
+        "len": 4,
+        "text": "儲存",
+        "enum_id": 22
+      },
+      {
+        "addr": "0x2064e8",
+        "len": 8,
+        "text": "次元之証",
+        "enum_id": 23
+      },
+      {
+        "addr": "0x2064f4",
+        "len": 8,
+        "text": "奉獻祭品",
+        "enum_id": 24
+      },
+      {
+        "addr": "0x206500",
+        "len": 4,
+        "text": "關閉",
+        "enum_id": 25
+      },
+      {
+        "addr": "0x206508",
+        "len": 10,
+        "text": "設置公告欄",
+        "enum_id": 26
+      },
+      {
+        "addr": "0x206514",
+        "len": 4,
+        "text": "撤去",
+        "enum_id": 27
+      },
+      {
+        "addr": "0x20651c",
+        "len": 4,
+        "text": "抄寫",
+        "enum_id": 28
+      },
+      {
+        "addr": "0x206524",
+        "len": 4,
+        "text": "閱讀",
+        "enum_id": 29
+      },
+      {
+        "addr": "0x20652c",
+        "len": 4,
+        "text": "開啟",
+        "enum_id": 30
+      },
+      {
+        "addr": "0x206534",
+        "len": 4,
+        "text": "拾撿",
+        "enum_id": 31
+      },
+      {
+        "addr": "0x20653c",
+        "len": 4,
+        "text": "霸佔",
+        "enum_id": 32
+      },
+      {
+        "addr": "0x206544",
+        "len": 4,
+        "text": "卸下",
+        "enum_id": 33
+      },
+      {
+        "addr": "0x20654c",
+        "len": 4,
+        "text": "放置",
+        "enum_id": 34
+      },
+      {
+        "addr": "0x206554",
+        "len": 4,
+        "text": "讓渡",
+        "enum_id": 35
+      },
+      {
+        "addr": "0x20655c",
+        "len": 4,
+        "text": "重整",
+        "enum_id": 36
+      },
+      {
+        "addr": "0x206564",
+        "len": 4,
+        "text": "裝備",
+        "enum_id": 37
+      },
+      {
+        "addr": "0x20656c",
+        "len": 4,
+        "text": "魔法",
+        "enum_id": 38
+      },
+      {
+        "addr": "0x206574",
+        "len": 4,
+        "text": "使用",
+        "enum_id": 39
+      },
+      {
+        "addr": "0x20657c",
+        "len": 4,
+        "text": "加入",
+        "enum_id": 40
+      },
+      {
+        "addr": "0x206584",
+        "len": 4,
+        "text": "合成",
+        "enum_id": 41
+      },
+      {
+        "addr": "0x20658c",
+        "len": 4,
+        "text": "捐獻",
+        "enum_id": 42
+      },
+      {
+        "addr": "0x206594",
+        "len": 8,
+        "text": "魔法附加",
+        "enum_id": 43
+      },
+      {
+        "addr": "0x2065a0",
+        "len": 12,
+        "text": "精靈屬性強化",
+        "enum_id": 44
+      },
+      {
+        "addr": "0x2065b0",
+        "len": 12,
+        "text": "信仰屬性強化",
+        "enum_id": 45
+      },
+      {
+        "addr": "0x2065c0",
+        "len": 16,
+        "text": "關於次元之門迷宮",
+        "enum_id": 46
+      },
+      {
+        "addr": "0x2065d4",
+        "len": 8,
+        "text": "關於網路",
+        "enum_id": 47
+      },
+      {
+        "addr": "0x2065e0",
+        "len": 12,
+        "text": "關於操作方法",
+        "enum_id": 48
+      },
+      {
+        "addr": "0x2065f0",
+        "len": 14,
+        "text": "關於裝備與道具",
+        "enum_id": 49
+      },
+      {
+        "addr": "0x206600",
+        "len": 8,
+        "text": "關於魔法",
+        "enum_id": 50
+      },
+      {
+        "addr": "0x20660c",
+        "len": 14,
+        "text": "關於世界的屬性",
+        "enum_id": 51
+      },
+      {
+        "addr": "0x20661c",
+        "len": 12,
+        "text": "關於次元之門",
+        "enum_id": 52
+      },
+      {
+        "addr": "0x20662c",
+        "len": 8,
+        "text": "關於委託",
+        "enum_id": 53
+      },
+      {
+        "addr": "0x206638",
+        "len": 8,
+        "text": "關於冒險",
+        "enum_id": 54
+      },
+      {
+        "addr": "0x206644",
+        "len": 4,
+        "text": "購屋",
+        "enum_id": 55
+      },
+      {
+        "addr": "0x20664c",
+        "len": 4,
+        "text": "情報",
+        "enum_id": 56
+      },
+      {
+        "addr": "0x206654",
+        "len": 4,
+        "text": "委託",
+        "enum_id": 57
+      },
+      {
+        "addr": "0x20665c",
+        "len": 4,
+        "text": "提示",
+        "enum_id": 58
+      },
+      {
+        "addr": "0x206664",
+        "len": 4,
+        "text": "販賣",
+        "enum_id": 59
+      },
+      {
+        "addr": "0x20666c",
+        "len": 4,
+        "text": "購買",
+        "enum_id": 60
+      },
+      {
+        "addr": "0x206674",
+        "len": 4,
+        "text": "偷竊",
+        "enum_id": 61
+      },
+      {
+        "addr": "0x20667c",
+        "len": 8,
+        "text": "放棄委託",
+        "enum_id": 62
+      },
+      {
+        "addr": "0x206688",
+        "len": 4,
+        "text": "攻擊",
+        "enum_id": 63
+      },
+      {
+        "addr": "0x206690",
+        "len": 4,
+        "text": "犯罪",
+        "enum_id": 64
+      },
+      {
+        "addr": "0x206698",
+        "len": 8,
+        "text": "訂定契約",
+        "enum_id": 65
+      },
+      {
+        "addr": "0x2066a4",
+        "len": 8,
+        "text": "援護指示",
+        "enum_id": 66
+      },
+      {
+        "addr": "0x2066b0",
+        "len": 8,
+        "text": "回復指示",
+        "enum_id": 67
+      },
+      {
+        "addr": "0x2066bc",
+        "len": 8,
+        "text": "攻擊指示",
+        "enum_id": 68
+      },
+      {
+        "addr": "0x2066c8",
+        "len": 8,
+        "text": "移動指示",
+        "enum_id": 69
+      },
+      {
+        "addr": "0x2066d4",
+        "len": 4,
+        "text": "退出",
+        "enum_id": 70
+      },
+      {
+        "addr": "0x2066dc",
+        "len": 8,
+        "text": "斷絕關係",
+        "enum_id": 71
+      },
+      {
+        "addr": "0x2066e8",
+        "len": 4,
+        "text": "求婚",
+        "enum_id": 72
+      },
+      {
+        "addr": "0x2066f0",
+        "len": 8,
+        "text": "放置指示",
+        "enum_id": 73
+      },
+      {
+        "addr": "0x2066fc",
+        "len": 8,
+        "text": "行動指示",
+        "enum_id": 74
+      },
+      {
+        "addr": "0x206708",
+        "len": 4,
+        "text": "狀態",
+        "enum_id": 75
+      },
+      {
+        "addr": "0x206712",
+        "len": 8,
+        "text": "全員逃走",
+        "enum_id": 76
+      },
+      {
+        "addr": "0x20671e",
+        "len": 8,
+        "text": "防禦重視",
+        "enum_id": 77
+      },
+      {
+        "addr": "0x20672a",
+        "len": 8,
+        "text": "魔法攻擊",
+        "enum_id": 78
+      },
+      {
+        "addr": "0x206736",
+        "len": 8,
+        "text": "物理攻擊",
+        "enum_id": 79
+      },
+      {
+        "addr": "0x206742",
+        "len": 8,
+        "text": "全力攻擊",
+        "enum_id": 80
+      },
+      {
+        "addr": "0x20674e",
+        "len": 8,
+        "text": "保持戰力",
+        "enum_id": 81
+      },
+      {
+        "addr": "0x20675a",
+        "len": 8,
+        "text": "一般攻擊",
+        "enum_id": 82
+      },
+      {
+        "addr": "0x206765",
+        "len": 4,
+        "text": "摃唲",
+        "enum_id": 83
+      },
+      {
+        "addr": "0x206774",
+        "len": 8,
+        "text": "對象限制",
+        "enum_id": 84
+      },
+      {
+        "addr": "0x206780",
+        "len": 8,
+        "text": "踢除對象",
+        "enum_id": 85
+      },
+      {
+        "addr": "0x20678c",
+        "len": 4,
+        "text": "中止",
+        "enum_id": 86
+      },
+      {
+        "addr": "0x206794",
+        "len": 4,
+        "text": "退休",
+        "enum_id": 87
+      },
+      {
+        "addr": "0x20679c",
+        "len": 8,
+        "text": "人物情報",
+        "enum_id": 88
+      },
+      {
+        "addr": "0x2067a8",
+        "len": 8,
+        "text": "世界情報",
+        "enum_id": 89
+      },
+      {
+        "addr": "0x2067b4",
+        "len": 12,
+        "text": "外部劇本設定",
+        "enum_id": 90
+      },
+      {
+        "addr": "0x2067c4",
+        "len": 12,
+        "text": "世界介紹設定",
+        "enum_id": 91
+      },
+      {
+        "addr": "0x2067d4",
+        "len": 12,
+        "text": "連線對象設定",
+        "enum_id": 92
+      },
+      {
+        "addr": "0x2067e4",
+        "len": 8,
+        "text": "網頁更新",
+        "enum_id": 93
+      },
+      {
+        "addr": "0x2067f0",
+        "len": 12,
+        "text": "次元之門設定",
+        "enum_id": 94
+      },
+      {
+        "addr": "0x206800",
+        "len": 4,
+        "text": "結束",
+        "enum_id": 95
+      },
+      {
+        "addr": "0x206808",
+        "len": 8,
+        "text": "遊戲情報",
+        "enum_id": 96
+      },
+      {
+        "addr": "0x206814",
+        "len": 4,
+        "text": "網頁",
+        "enum_id": 97
+      },
+      {
+        "addr": "0x20681d",
+        "len": 4,
+        "text": "屣茬",
+        "enum_id": 98
+      },
+      {
+        "addr": "0x206829",
+        "len": 6,
+        "text": "苠掅蛦",
+        "enum_id": 99
+      },
+      {
+        "addr": "0x206834",
+        "len": 12,
+        "text": "世界資料上載",
+        "enum_id": 100
+      },
+      {
+        "addr": "0x206844",
+        "len": 12,
+        "text": "網頁輸出設定",
+        "enum_id": 101
+      },
+      {
+        "addr": "0x206854",
+        "len": 8,
+        "text": "網路設定",
+        "enum_id": 102
+      },
+      {
+        "addr": "0x206860",
+        "len": 8,
+        "text": "地名編集",
+        "enum_id": 103
+      },
+      {
+        "addr": "0x20686c",
+        "len": 8,
+        "text": "人物編輯",
+        "enum_id": 104
+      },
+      {
+        "addr": "0x206878",
+        "len": 8,
+        "text": "事件編輯",
+        "enum_id": 105
+      },
+      {
+        "addr": "0x206884",
+        "len": 8,
+        "text": "繼承角色",
+        "enum_id": 106
+      },
+      {
+        "addr": "0x206890",
+        "len": 8,
+        "text": "讀取世界",
+        "enum_id": 107
+      },
+      {
+        "addr": "0x20689c",
+        "len": 8,
+        "text": "新的世界",
+        "enum_id": 108
+      }
+    ],
+    "quest_role": [
+      {
+        "addr": "0x20f524",
+        "len": 4,
+        "text": "神官",
+        "enum_id": 0
+      },
+      {
+        "addr": "0x20f52c",
+        "len": 10,
+        "text": "合成屋老闆",
+        "enum_id": 1
+      },
+      {
+        "addr": "0x20f538",
+        "len": 10,
+        "text": "武器店老闆",
+        "enum_id": 2
+      },
+      {
+        "addr": "0x20f544",
+        "len": 8,
+        "text": "酒館老闆",
+        "enum_id": 3
+      },
+      {
+        "addr": "0x20f550",
+        "len": 4,
+        "text": "市民",
+        "enum_id": 4
+      },
+      {
+        "addr": "0x20f558",
+        "len": 6,
+        "text": "冒險者",
+        "enum_id": 5
+      },
+      {
+        "addr": "0x20f560",
+        "len": 8,
+        "text": "主對象者",
+        "enum_id": 6
+      },
+      {
+        "addr": "0x20f56c",
+        "len": 8,
+        "text": "主委託者",
+        "enum_id": 7
+      },
+      {
+        "addr": "0x20f57a",
+        "len": 6,
+        "text": "歲以上",
+        "enum_id": 8
+      },
+      {
+        "addr": "0x20f582",
+        "len": 4,
+        "text": "未滿",
+        "enum_id": 9
+      },
+      {
+        "addr": "0x20f58c",
+        "len": 4,
+        "text": "未滿",
+        "enum_id": 10
+      },
+      {
+        "addr": "0x20f598",
+        "len": 8,
+        "text": "主阻礙者",
+        "enum_id": 11
+      },
+      {
+        "addr": "0x20f5a4",
+        "len": 10,
+        "text": "人工系迷宮",
+        "enum_id": 12
+      },
+      {
+        "addr": "0x20f5b0",
+        "len": 10,
+        "text": "自然系迷宮",
+        "enum_id": 13
+      },
+      {
+        "addr": "0x20f5bc",
+        "len": 4,
+        "text": "廣場",
+        "enum_id": 14
+      },
+      {
+        "addr": "0x20f5c4",
+        "len": 4,
+        "text": "民家",
+        "enum_id": 15
+      },
+      {
+        "addr": "0x20f5cc",
+        "len": 4,
+        "text": "教會",
+        "enum_id": 16
+      },
+      {
+        "addr": "0x20f5d4",
+        "len": 6,
+        "text": "合成屋",
+        "enum_id": 17
+      },
+      {
+        "addr": "0x20f5dc",
+        "len": 6,
+        "text": "武器店",
+        "enum_id": 18
+      },
+      {
+        "addr": "0x20f5e4",
+        "len": 4,
+        "text": "酒館",
+        "enum_id": 19
+      },
+      {
+        "addr": "0x20f5ec",
+        "len": 4,
+        "text": "野外",
+        "enum_id": 20
+      },
+      {
+        "addr": "0x20f5f4",
+        "len": 8,
+        "text": "主目的地",
+        "enum_id": 21
+      }
+    ],
+    "damage_attribute": [
+      {
+        "addr": "0x20f644",
+        "len": 6,
+        "text": "惡魔系",
+        "enum_id": 0
+      },
+      {
+        "addr": "0x20f64c",
+        "len": 4,
+        "text": "獸系",
+        "enum_id": 1
+      },
+      {
+        "addr": "0x20f654",
+        "len": 6,
+        "text": "人型系",
+        "enum_id": 2
+      },
+      {
+        "addr": "0x20f65c",
+        "len": 6,
+        "text": "死靈系",
+        "enum_id": 3
+      },
+      {
+        "addr": "0x20f664",
+        "len": 6,
+        "text": "魔法系",
+        "enum_id": 4
+      },
+      {
+        "addr": "0x20f66c",
+        "len": 6,
+        "text": "昆蟲系",
+        "enum_id": 5
+      },
+      {
+        "addr": "0x20f674",
+        "len": 12,
+        "text": "向對象人物收",
+        "enum_id": 6
+      }
+    ],
+    "dialog_event_time": [
+      {
+        "addr": "0x20f7c8",
+        "len": 4,
+        "text": "台詞",
+        "enum_id": 0
+      },
+      {
+        "addr": "0x20f7d5",
+        "len": 6,
+        "text": "不使用",
+        "enum_id": 1
+      },
+      {
+        "addr": "0x20f7e0",
+        "len": 6,
+        "text": "阻礙者",
+        "enum_id": 2
+      },
+      {
+        "addr": "0x20f7e8",
+        "len": 6,
+        "text": "撤退時",
+        "enum_id": 3
+      },
+      {
+        "addr": "0x20f7f0",
+        "len": 6,
+        "text": "阻礙者",
+        "enum_id": 4
+      },
+      {
+        "addr": "0x20f7f8",
+        "len": 6,
+        "text": "臨死時",
+        "enum_id": 5
+      },
+      {
+        "addr": "0x20f800",
+        "len": 6,
+        "text": "阻礙者",
+        "enum_id": 6
+      },
+      {
+        "addr": "0x20f808",
+        "len": 6,
+        "text": "登場時",
+        "enum_id": 7
+      },
+      {
+        "addr": "0x20f810",
+        "len": 6,
+        "text": "對象者",
+        "enum_id": 8
+      },
+      {
+        "addr": "0x20f818",
+        "len": 6,
+        "text": "臨死時",
+        "enum_id": 9
+      },
+      {
+        "addr": "0x20f820",
+        "len": 6,
+        "text": "對象者",
+        "enum_id": 10
+      },
+      {
+        "addr": "0x20f828",
+        "len": 6,
+        "text": "攻擊時",
+        "enum_id": 11
+      },
+      {
+        "addr": "0x20f830",
+        "len": 6,
+        "text": "對象者",
+        "enum_id": 12
+      },
+      {
+        "addr": "0x20f838",
+        "len": 6,
+        "text": "攻擊前",
+        "enum_id": 13
+      },
+      {
+        "addr": "0x20f840",
+        "len": 6,
+        "text": "對象者",
+        "enum_id": 14
+      },
+      {
+        "addr": "0x20f848",
+        "len": 6,
+        "text": "達成時",
+        "enum_id": 15
+      },
+      {
+        "addr": "0x20f850",
+        "len": 6,
+        "text": "委託者",
+        "enum_id": 16
+      },
+      {
+        "addr": "0x20f858",
+        "len": 6,
+        "text": "臨死時",
+        "enum_id": 17
+      },
+      {
+        "addr": "0x20f860",
+        "len": 6,
+        "text": "委託者",
+        "enum_id": 18
+      },
+      {
+        "addr": "0x20f868",
+        "len": 6,
+        "text": "達成時",
+        "enum_id": 19
+      },
+      {
+        "addr": "0x20f870",
+        "len": 6,
+        "text": "委託者",
+        "enum_id": 20
+      },
+      {
+        "addr": "0x20f878",
+        "len": 6,
+        "text": "達成前",
+        "enum_id": 21
+      },
+      {
+        "addr": "0x20f880",
+        "len": 6,
+        "text": "委託者",
+        "enum_id": 22
+      },
+      {
+        "addr": "0x20f888",
+        "len": 6,
+        "text": "拒絕時",
+        "enum_id": 23
+      },
+      {
+        "addr": "0x20f890",
+        "len": 6,
+        "text": "委託者",
+        "enum_id": 24
+      },
+      {
+        "addr": "0x20f898",
+        "len": 6,
+        "text": "接受時",
+        "enum_id": 25
+      },
+      {
+        "addr": "0x20f8a0",
+        "len": 6,
+        "text": "委託者",
+        "enum_id": 26
+      },
+      {
+        "addr": "0x20f8a8",
+        "len": 6,
+        "text": "委託時",
+        "enum_id": 27
+      }
+    ],
+    "monster_skill": [
+      {
+        "addr": "0x229230",
+        "len": 8,
+        "text": "龍之寶玉",
+        "enum_id": 0
+      },
+      {
+        "addr": "0x22923c",
+        "len": 8,
+        "text": "十面骰子",
+        "enum_id": 1
+      },
+      {
+        "addr": "0x229248",
+        "len": 8,
+        "text": "六面骰子",
+        "enum_id": 2
+      },
+      {
+        "addr": "0x229254",
+        "len": 6,
+        "text": "西瓜籽",
+        "enum_id": 3
+      },
+      {
+        "addr": "0x22925c",
+        "len": 10,
+        "text": "翻車魚炸彈",
+        "enum_id": 4
+      },
+      {
+        "addr": "0x229268",
+        "len": 10,
+        "text": "背鰭迴力鏢",
+        "enum_id": 5
+      },
+      {
+        "addr": "0x229274",
+        "len": 10,
+        "text": "木天蓼飛鏢",
+        "enum_id": 6
+      },
+      {
+        "addr": "0x229280",
+        "len": 6,
+        "text": "雷射鎗",
+        "enum_id": 7
+      },
+      {
+        "addr": "0x229288",
+        "len": 6,
+        "text": "散彈石",
+        "enum_id": 8
+      },
+      {
+        "addr": "0x229290",
+        "len": 6,
+        "text": "迴旋環",
+        "enum_id": 9
+      },
+      {
+        "addr": "0x229298",
+        "len": 12,
+        "text": "高電磁溜溜球",
+        "enum_id": 10
+      },
+      {
+        "addr": "0x2292a8",
+        "len": 8,
+        "text": "炸裂飛鏢",
+        "enum_id": 11
+      },
+      {
+        "addr": "0x2292b4",
+        "len": 8,
+        "text": "迴力鏢改",
+        "enum_id": 12
+      },
+      {
+        "addr": "0x2292c0",
+        "len": 6,
+        "text": "迴力鏢",
+        "enum_id": 13
+      },
+      {
+        "addr": "0x2292c8",
+        "len": 6,
+        "text": "炸裂彈",
+        "enum_id": 14
+      },
+      {
+        "addr": "0x2292d0",
+        "len": 6,
+        "text": "十字鏢",
+        "enum_id": 15
+      },
+      {
+        "addr": "0x2292d8",
+        "len": 4,
+        "text": "毒鏢",
+        "enum_id": 16
+      },
+      {
+        "addr": "0x2292e0",
+        "len": 4,
+        "text": "飛刀",
+        "enum_id": 17
+      },
+      {
+        "addr": "0x2292e8",
+        "len": 6,
+        "text": "貫穿弓",
+        "enum_id": 18
+      },
+      {
+        "addr": "0x2292f0",
+        "len": 6,
+        "text": "速射弓",
+        "enum_id": 19
+      },
+      {
+        "addr": "0x2292f8",
+        "len": 8,
+        "text": "重十字弓",
+        "enum_id": 20
+      },
+      {
+        "addr": "0x229304",
+        "len": 6,
+        "text": "十字弓",
+        "enum_id": 21
+      },
+      {
+        "addr": "0x22930c",
+        "len": 8,
+        "text": "輕十字弓",
+        "enum_id": 22
+      },
+      {
+        "addr": "0x229318",
+        "len": 16,
+        "text": "拜德拉克分體雷射",
+        "enum_id": 23
+      },
+      {
+        "addr": "0x22932c",
+        "len": 16,
+        "text": "拜德拉克本體雷射",
+        "enum_id": 24
+      },
+      {
+        "addr": "0x229340",
+        "len": 8,
+        "text": "魔鬼魔法",
+        "enum_id": 25
+      },
+      {
+        "addr": "0x22934c",
+        "len": 12,
+        "text": "安哥摩爾魔法",
+        "enum_id": 26
+      },
+      {
+        "addr": "0x22935c",
+        "len": 10,
+        "text": "小天使魔法",
+        "enum_id": 27
+      },
+      {
+        "addr": "0x229368",
+        "len": 10,
+        "text": "大天使魔法",
+        "enum_id": 28
+      },
+      {
+        "addr": "0x229374",
+        "len": 10,
+        "text": "九尾狐魔法",
+        "enum_id": 29
+      },
+      {
+        "addr": "0x229380",
+        "len": 8,
+        "text": "龍獸吐火",
+        "enum_id": 30
+      },
+      {
+        "addr": "0x22938c",
+        "len": 8,
+        "text": "龍獸衝撞",
+        "enum_id": 31
+      },
+      {
+        "addr": "0x229398",
+        "len": 6,
+        "text": "機器人",
+        "enum_id": 32
+      },
+      {
+        "addr": "0x2293a8",
+        "len": 4,
+        "text": "雷射",
+        "enum_id": 33
+      },
+      {
+        "addr": "0x2293b0",
+        "len": 6,
+        "text": "機器人",
+        "enum_id": 34
+      },
+      {
+        "addr": "0x2293c0",
+        "len": 4,
+        "text": "雷射",
+        "enum_id": 35
+      },
+      {
+        "addr": "0x2293c8",
+        "len": 8,
+        "text": "撒旦魔法",
+        "enum_id": 36
+      },
+      {
+        "addr": "0x2293d4",
+        "len": 10,
+        "text": "獨角獸衝撞",
+        "enum_id": 37
+      },
+      {
+        "addr": "0x2293e0",
+        "len": 10,
+        "text": "食火獸吐火",
+        "enum_id": 38
+      },
+      {
+        "addr": "0x2293ec",
+        "len": 8,
+        "text": "天馬衝撞",
+        "enum_id": 39
+      },
+      {
+        "addr": "0x2293f8",
+        "len": 8,
+        "text": "雪人魔法",
+        "enum_id": 40
+      },
+      {
+        "addr": "0x229404",
+        "len": 10,
+        "text": "地獄犬魔法",
+        "enum_id": 41
+      },
+      {
+        "addr": "0x229410",
+        "len": 8,
+        "text": "地方的龍",
+        "enum_id": 42
+      },
+      {
+        "addr": "0x22941e",
+        "len": 4,
+        "text": "吐火",
+        "enum_id": 43
+      },
+      {
+        "addr": "0x229424",
+        "len": 8,
+        "text": "地方的龍",
+        "enum_id": 44
+      },
+      {
+        "addr": "0x229432",
+        "len": 4,
+        "text": "魔法",
+        "enum_id": 45
+      },
+      {
+        "addr": "0x229438",
+        "len": 8,
+        "text": "地方的龍",
+        "enum_id": 46
+      },
+      {
+        "addr": "0x229446",
+        "len": 4,
+        "text": "吐火",
+        "enum_id": 47
+      },
+      {
+        "addr": "0x22944c",
+        "len": 8,
+        "text": "妖精弓箭",
+        "enum_id": 48
+      },
+      {
+        "addr": "0x229458",
+        "len": 4,
+        "text": "蝙蝠",
+        "enum_id": 49
+      },
+      {
+        "addr": "0x229462",
+        "len": 4,
+        "text": "音波",
+        "enum_id": 50
+      },
+      {
+        "addr": "0x229468",
+        "len": 4,
+        "text": "蟑螂",
+        "enum_id": 51
+      },
+      {
+        "addr": "0x229472",
+        "len": 4,
+        "text": "衝撞",
+        "enum_id": 52
+      },
+      {
+        "addr": "0x229484",
+        "len": 4,
+        "text": "觸手",
+        "enum_id": 53
+      },
+      {
+        "addr": "0x22948c",
+        "len": 12,
+        "text": "普通的龍魔法",
+        "enum_id": 54
+      },
+      {
+        "addr": "0x22949c",
+        "len": 12,
+        "text": "普通的龍吐火",
+        "enum_id": 55
+      },
+      {
+        "addr": "0x2294ac",
+        "len": 10,
+        "text": "半鳥人音波",
+        "enum_id": 56
+      },
+      {
+        "addr": "0x2294b8",
+        "len": 10,
+        "text": "翼魔像魔法",
+        "enum_id": 57
+      },
+      {
+        "addr": "0x2294c4",
+        "len": 8,
+        "text": "惡魔魔法",
+        "enum_id": 58
+      },
+      {
+        "addr": "0x2294d0",
+        "len": 4,
+        "text": "蟑螂",
+        "enum_id": 59
+      },
+      {
+        "addr": "0x2294da",
+        "len": 4,
+        "text": "衝撞",
+        "enum_id": 60
+      },
+      {
+        "addr": "0x2294e0",
+        "len": 10,
+        "text": "史萊姆體液",
+        "enum_id": 61
+      },
+      {
+        "addr": "0x2294ec",
+        "len": 4,
+        "text": "蝙蝠",
+        "enum_id": 62
+      },
+      {
+        "addr": "0x2294f6",
+        "len": 4,
+        "text": "音波",
+        "enum_id": 63
+      },
+      {
+        "addr": "0x2294fc",
+        "len": 8,
+        "text": "鬼魂魔法",
+        "enum_id": 64
+      },
+      {
+        "addr": "0x229514",
+        "len": 4,
+        "text": "觸手",
+        "enum_id": 65
+      },
+      {
+        "addr": "0x22951c",
+        "len": 8,
+        "text": "神蹟之水",
+        "enum_id": 66
+      },
+      {
+        "addr": "0x229528",
+        "len": 8,
+        "text": "清淨之水",
+        "enum_id": 67
+      },
+      {
+        "addr": "0x229534",
+        "len": 8,
+        "text": "沼澤之水",
+        "enum_id": 68
+      },
+      {
+        "addr": "0x229540",
+        "len": 8,
+        "text": "治療之水",
+        "enum_id": 69
+      },
+      {
+        "addr": "0x22954c",
+        "len": 6,
+        "text": "大地震",
+        "enum_id": 70
+      },
+      {
+        "addr": "0x229554",
+        "len": 10,
+        "text": "大地的祝福",
+        "enum_id": 71
+      },
+      {
+        "addr": "0x229560",
+        "len": 8,
+        "text": "大地之眼",
+        "enum_id": 72
+      },
+      {
+        "addr": "0x22956c",
+        "len": 6,
+        "text": "地之爪",
+        "enum_id": 73
+      },
+      {
+        "addr": "0x229574",
+        "len": 8,
+        "text": "重力風壓",
+        "enum_id": 74
+      },
+      {
+        "addr": "0x229580",
+        "len": 8,
+        "text": "瘋狂暴風",
+        "enum_id": 75
+      },
+      {
+        "addr": "0x22958c",
+        "len": 6,
+        "text": "風之靴",
+        "enum_id": 76
+      },
+      {
+        "addr": "0x229594",
+        "len": 6,
+        "text": "龍捲風",
+        "enum_id": 77
+      },
+      {
+        "addr": "0x22959c",
+        "len": 8,
+        "text": "火燄放射",
+        "enum_id": 78
+      },
+      {
+        "addr": "0x2295a8",
+        "len": 8,
+        "text": "探險之火",
+        "enum_id": 79
+      },
+      {
+        "addr": "0x2295b4",
+        "len": 8,
+        "text": "防護炎壁",
+        "enum_id": 80
+      },
+      {
+        "addr": "0x2295c0",
+        "len": 6,
+        "text": "炎之柱",
+        "enum_id": 81
+      },
+      {
+        "addr": "0x2295c8",
+        "len": 8,
+        "text": "闇神之怒",
+        "enum_id": 82
+      },
+      {
+        "addr": "0x2295d4",
+        "len": 8,
+        "text": "闇之黑洞",
+        "enum_id": 83
+      },
+      {
+        "addr": "0x2295e0",
+        "len": 8,
+        "text": "闇黑波動",
+        "enum_id": 84
+      },
+      {
+        "addr": "0x2295ec",
+        "len": 6,
+        "text": "闇之毒",
+        "enum_id": 85
+      },
+      {
+        "addr": "0x2295f4",
+        "len": 8,
+        "text": "復活之光",
+        "enum_id": 86
+      },
+      {
+        "addr": "0x229600",
+        "len": 8,
+        "text": "奇蹟之光",
+        "enum_id": 87
+      },
+      {
+        "addr": "0x22960c",
+        "len": 8,
+        "text": "淨化之光",
+        "enum_id": 88
+      },
+      {
+        "addr": "0x229618",
+        "len": 8,
+        "text": "治癒之光",
+        "enum_id": 89
+      },
+      {
+        "addr": "0x229624",
+        "len": 10,
+        "text": "混沌神審判",
+        "enum_id": 90
+      },
+      {
+        "addr": "0x229630",
+        "len": 8,
+        "text": "混沌之毒",
+        "enum_id": 91
+      },
+      {
+        "addr": "0x22963c",
+        "len": 10,
+        "text": "混沌破壞波",
+        "enum_id": 92
+      },
+      {
+        "addr": "0x229648",
+        "len": 10,
+        "text": "混沌衝擊波",
+        "enum_id": 93
+      },
+      {
+        "addr": "0x229654",
+        "len": 10,
+        "text": "秩序神降臨",
+        "enum_id": 94
+      },
+      {
+        "addr": "0x229660",
+        "len": 10,
+        "text": "秩序神之力",
+        "enum_id": 95
+      },
+      {
+        "addr": "0x22966c",
+        "len": 8,
+        "text": "秩序之聲",
+        "enum_id": 96
+      },
+      {
+        "addr": "0x229678",
+        "len": 10,
+        "text": "秩序真空刃",
+        "enum_id": 97
       }
     ]
   }
