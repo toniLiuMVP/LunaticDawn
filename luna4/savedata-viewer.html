@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>俠客遊 IV 存檔修改器 v1.4 · 吟遊詩人的傳說</title>
+<title>俠客遊 IV 存檔修改器 v1.5 · 吟遊詩人的傳說</title>
 <link rel="manifest" href="./manifest.json">
 <meta name="theme-color" content="#00ff41">
 <meta name="description" content="俠客遊 IV LDTSV0.dat 存檔檢視器 — header 解析 + Big5 字串掃描 + 區段熱圖 + hex 檢視。純前端、跨平台、不上傳，瀏覽器拖放即看。">
@@ -53,7 +53,7 @@
     <div class="header-inner">
       <h1 class="pixel">俠客遊 IV 存檔檢視器</h1>
       <nav>
-        <span style="color: var(--phosphor-dim); font-size: 12px;">v1.4 · ★★★★ hex auto-hint(本頁 confirmed fields list)+ wizard enum mode(輸入字串自動反查 enum_id)+ enum encoding 自訂欄位 + Undo 全 + Preset I/O + PWA + ASLR + 跨槽 diff + 8 槽全連 + Live RAM Bridge + 智慧 anchor 精靈</span>
+        <span style="color: var(--phosphor-dim); font-size: 12px;">v1.5 · ★★★★★ Wizard cross-correlate(N 字串找共同 256-byte window = player struct 候選)+ enum_u16le 變體(SAV u16 對齊 enum 解)+ hex auto-hint + wizard enum mode + enum 編碼自訂欄位 + Undo 全 + Preset I/O + PWA + 跨槽 diff + 8 槽全連 + Live RAM Bridge</span>
         ·
         <a href="./">回俠客遊 IV 索引</a>
         ·
@@ -264,6 +264,12 @@
         <input id="wiz-enum-text" type="text" placeholder="例 正常 / 戰鬥 / 死亡 / 俠客遊" style="width: 180px;">
         <button id="wiz-enum-run" type="button">▸ 反查 enum_id + bulk-scan</button>
         <span class="hint" id="wiz-enum-status" style="margin:0;"></span>
+      </div>
+      <div class="toolbar" style="margin-top: 8px; align-items: flex-start;">
+        <label style="color: var(--phosphor-dim); padding-top: 6px;">★★ 多字串 cross-correlate(v1.5):</label>
+        <textarea id="wiz-xc-text" rows="3" cols="32" placeholder="每行一個 enum 字串 / 數值,例:&#10;正常&#10;熱血漢&#10;7" style="background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-dim); font-family: 'VT323', monospace; font-size: 13px; padding: 4px 8px;"></textarea>
+        <button id="wiz-xc-run" type="button">▸ 求共同 anchor</button>
+        <span class="hint" id="wiz-xc-status" style="margin:0;"></span>
       </div>
       <div id="wiz-results" style="display: none; margin-top: 12px;">
         <table class="region-table" id="wiz-table">
@@ -3037,6 +3043,258 @@ async function wizEnumRun() {
 
 $('wiz-enum-run').addEventListener('click', wizEnumRun);
 $('wiz-enum-text').addEventListener('keypress', (e) => { if (e.key === 'Enter') wizEnumRun(); });
+
+// ===== v1.5 #1: enum_u16le variant — 對應 LD4 SAV 內可能用 u16 LE 存的 enum =====
+// 解 v1.4 已知限制 #2:enum encoding size=1 only,實際 SAV 可能 u16 對齊
+// 升級 augmentCfEncodingsWithEnum 多加 enum_u16le_<cat> spec
+async function augmentCfEncodingsWithEnumU16() {
+  const tbl = await loadEnumTable();
+  if (!tbl) return;
+  let added = 0;
+  for (const [catName, entries] of Object.entries(tbl.categories)) {
+    if (!entries || entries.length === 0) continue;
+    const N = entries.length;
+    const key = 'enum_u16le_' + catName;
+    if (CF_ENCODINGS[key]) continue;
+    CF_ENCODINGS[key] = {
+      label: 'enum:' + catName + ' u16 LE (' + N + ' entries)',
+      size: 2,
+      min: 0,
+      max: N - 1,
+      read: (b, o) => b[o] | (b[o + 1] << 8),
+      write: (b, o, v) => { b[o] = v & 0xff; b[o + 1] = (v >> 8) & 0xff; },
+      isEnum: true,
+      enumCategory: catName,
+      enumEntries: entries
+    };
+    added++;
+  }
+  if (added > 0) {
+    const sel = document.getElementById('cf-encoding');
+    if (sel && !sel.querySelector('option[data-enum-u16-marker]')) {
+      const sepOpt = document.createElement('option');
+      sepOpt.disabled = true;
+      sepOpt.dataset.enumU16Marker = '1';
+      sepOpt.textContent = '── v1.5 enum u16 LE encodings ──';
+      sel.appendChild(sepOpt);
+      for (const [catName, entries] of Object.entries(tbl.categories)) {
+        if (!entries || entries.length === 0) continue;
+        const opt = document.createElement('option');
+        opt.value = 'enum_u16le_' + catName;
+        opt.textContent = 'enum:' + catName + ' u16 LE (' + entries.length + ')';
+        sel.appendChild(opt);
+      }
+    }
+    if (typeof cfRenderTable === 'function') cfRenderTable();
+  }
+}
+setTimeout(augmentCfEncodingsWithEnumU16, 200);
+
+// ===== v1.5 #2: Wizard multi-string cross-correlate =====
+// 輸入 N 個字串/數值 → 對每個跑 bulk-scan(enum 反查 or plain int 編碼)→
+// 找「相對位置一致」的 hits:對每個輸入的 hits,看它們是否在固定 stride 出現
+// 簡化版:每行 input 跑得到 hit set,輸出每個 input 的 unique hits + 列「同 stride 的 hits」
+async function wizCrossCorrelate() {
+  if (!buf) { alert('請先載入存檔'); return; }
+  const raw = $('wiz-xc-text').value.trim();
+  if (!raw) { alert('請輸入至少 2 行字串/數值(每行一個)'); return; }
+  const lines = raw.split('\n').map(s => s.trim()).filter(Boolean);
+  if (lines.length < 2) { alert('cross-correlate 需 ≥ 2 個輸入'); return; }
+
+  const tbl = await loadEnumTable();
+  if (!tbl) { alert('ld4_enum_table.json 未載入'); return; }
+
+  // 對每行:嘗試 (a) enum 反查 (b) 純整數 encoding
+  const inputResults = [];
+  for (const line of lines) {
+    const hits = new Set();
+    const meta = { input: line, encodings_tried: [] };
+    // 嘗試純整數
+    const asNum = parseInt(line, 10);
+    if (!isNaN(asNum) && asNum >= 0 && asNum < 65536) {
+      // u8 / NOT u8 / u16 LE / NOT u16 LE 跑
+      const cands = [
+        { lbl: 'u8', bytes: new Uint8Array([asNum & 0xff]) },
+        { lbl: 'NOT u8', bytes: new Uint8Array([(~asNum) & 0xff]) },
+      ];
+      if (asNum < 65536) {
+        cands.push({ lbl: 'u16 LE', bytes: new Uint8Array([asNum & 0xff, (asNum >> 8) & 0xff]) });
+        const nv = (~asNum) & 0xffff;
+        cands.push({ lbl: 'NOT u16 LE', bytes: new Uint8Array([nv & 0xff, (nv >> 8) & 0xff]) });
+      }
+      for (const c of cands) {
+        const h = wizFindAll(buf, c.bytes);
+        h.forEach(off => hits.add(off));
+        meta.encodings_tried.push(c.lbl + ': ' + h.length);
+      }
+    }
+    // 嘗試 enum 反查(若是字串)
+    let enumMatches = [];
+    for (const [catName, entries] of Object.entries(tbl.categories)) {
+      for (const e of entries) {
+        if (e.text === line) { enumMatches.push({ catName, entry: e, exact: true }); }
+      }
+    }
+    if (enumMatches.length === 0) {
+      // fallback substring
+      for (const [catName, entries] of Object.entries(tbl.categories)) {
+        for (const e of entries) {
+          if (e.text.includes(line)) { enumMatches.push({ catName, entry: e, exact: false }); }
+        }
+      }
+    }
+    for (const m of enumMatches) {
+      const id = m.entry.enum_id;
+      // u8 + NOT u8 + u16 LE
+      const cands = [
+        { lbl: '[' + m.catName + '].id=' + id + ' u8', bytes: new Uint8Array([id]) },
+        { lbl: '[' + m.catName + '].id=' + id + ' NOT u8', bytes: new Uint8Array([(~id) & 0xff]) },
+        { lbl: '[' + m.catName + '].id=' + id + ' u16 LE', bytes: new Uint8Array([id, 0]) },
+      ];
+      for (const c of cands) {
+        const h = wizFindAll(buf, c.bytes);
+        h.forEach(off => hits.add(off));
+        meta.encodings_tried.push(c.lbl + ': ' + h.length);
+      }
+    }
+    meta.total_hits = hits.size;
+    meta.hits = Array.from(hits).sort((a, b) => a - b);
+    inputResults.push(meta);
+  }
+
+  // 「共同 anchor」分析:
+  // 1. 完全相同 offset(unlikely 因為每行不同 enum_id)— 通常 0
+  // 2. **stride 一致**:對任 2 個 input,計算 hits[i] - hits[j] 看是否同一固定差距
+  //    e.g.「正常」hit @ 0xC8E0 + 「熱血漢」hit @ 0xC8E1 → diff=1 → 兩 byte adjacent = 性格欄位 2 bytes
+  // 3. **同 page 內的「附近 hits」**:對玩家結構通常欄位排在同 page 內,
+  //    找各 input 的 hits 都落在某 256-byte window 內 → 該 window 是 player struct 候選
+
+  // 簡化實作:找每個 input 都有至少 1 hit 落入的 256-byte window
+  const WINDOW = 256;
+  const windowCounts = new Map();  // window_base → Set of input indices that hit it
+  for (let i = 0; i < inputResults.length; i++) {
+    const ir = inputResults[i];
+    for (const off of ir.hits) {
+      const base = off - (off % WINDOW);
+      // also check window before (跨界 hit)
+      for (const w of [base, base - WINDOW]) {
+        if (w < 0) continue;
+        if (!windowCounts.has(w)) windowCounts.set(w, new Set());
+        windowCounts.get(w).add(i);
+      }
+    }
+  }
+
+  // 找包含「所有 input」的 windows
+  const fullWindows = [];
+  for (const [base, idxSet] of windowCounts.entries()) {
+    if (idxSet.size === inputResults.length) {
+      fullWindows.push(base);
+    }
+  }
+  fullWindows.sort();
+
+  // 渲染結果
+  const tbody = $('wiz-tbody');
+  while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
+  // first show each input's hit count
+  for (let i = 0; i < inputResults.length; i++) {
+    const ir = inputResults[i];
+    const tr = document.createElement('tr');
+    const td1 = document.createElement('td');
+    td1.style.color = ir.total_hits > 0 ? 'var(--phosphor)' : 'var(--amber)';
+    td1.textContent = '輸入 #' + (i + 1) + ': "' + ir.input + '"';
+    tr.appendChild(td1);
+    const td2 = document.createElement('td');
+    td2.className = 'num';
+    td2.textContent = String(ir.total_hits);
+    tr.appendChild(td2);
+    const td3 = document.createElement('td');
+    td3.className = 'num';
+    td3.style.fontSize = '11px';
+    td3.textContent = ir.hits.slice(0, 3).map(p => '0x' + p.toString(16)).join(', ');
+    tr.appendChild(td3);
+    const td4 = document.createElement('td');
+    td4.textContent = '—';
+    td4.style.color = 'var(--phosphor-dim)';
+    tr.appendChild(td4);
+    tbody.appendChild(tr);
+  }
+  // separator row
+  const trSep = document.createElement('tr');
+  const tdSep = document.createElement('td');
+  tdSep.colSpan = 4;
+  tdSep.style.color = 'var(--amber)';
+  tdSep.style.borderTop = '1px solid var(--amber)';
+  tdSep.style.paddingTop = '6px';
+  tdSep.textContent = '★★ cross-correlate 結果:' + fullWindows.length + ' 個 256-byte window 包含全部 ' + inputResults.length + ' 個 inputs';
+  trSep.appendChild(tdSep);
+  tbody.appendChild(trSep);
+
+  // 列前 10 個共同 window + 每個 input 在該 window 的 hit
+  for (const wbase of fullWindows.slice(0, 10)) {
+    const tr = document.createElement('tr');
+    const td1 = document.createElement('td');
+    td1.style.color = 'var(--phosphor)';
+    td1.style.fontWeight = 'bold';
+    td1.textContent = '★ window 0x' + wbase.toString(16).padStart(6, '0') + '-0x' + (wbase + WINDOW - 1).toString(16).padStart(6, '0');
+    tr.appendChild(td1);
+    const td2 = document.createElement('td');
+    td2.className = 'num';
+    td2.textContent = String(inputResults.length);
+    tr.appendChild(td2);
+    const td3 = document.createElement('td');
+    td3.className = 'num';
+    td3.style.fontSize = '11px';
+    // list each input's hits within this window
+    const detailParts = [];
+    for (let i = 0; i < inputResults.length; i++) {
+      const inWin = inputResults[i].hits.filter(h => h >= wbase && h < wbase + WINDOW);
+      if (inWin.length > 0) {
+        detailParts.push('#' + (i + 1) + '@' + inWin.map(h => '0x' + h.toString(16)).join(','));
+      }
+    }
+    td3.textContent = detailParts.join(' | ');
+    tr.appendChild(td3);
+    const td4 = document.createElement('td');
+    td4.textContent = '玩家結構候選';
+    td4.style.color = 'var(--phosphor)';
+    td4.style.fontSize = '11px';
+    tr.appendChild(td4);
+    tbody.appendChild(tr);
+  }
+  if (fullWindows.length > 10) {
+    const trMore = document.createElement('tr');
+    const td = document.createElement('td');
+    td.colSpan = 4;
+    td.style.color = 'var(--phosphor-dim)';
+    td.textContent = '...共 ' + fullWindows.length + ' 個 windows,只顯示前 10';
+    trMore.appendChild(td);
+    tbody.appendChild(trMore);
+  }
+
+  // summary
+  const sum = $('wiz-summary');
+  while (sum.firstChild) sum.removeChild(sum.firstChild);
+  if (fullWindows.length > 0) {
+    const s1 = document.createTextNode('✓ cross-correlate 找到 ');
+    const s2 = document.createElement('strong');
+    s2.style.color = 'var(--phosphor)';
+    s2.textContent = String(fullWindows.length) + ' 個 共同 window';
+    const s3 = document.createTextNode('(每個 256-byte 範圍內 ' + inputResults.length + ' 個 inputs 都有 hit)。**最少 window 數的位置最可能是 player struct 起點**。');
+    sum.appendChild(s1); sum.appendChild(s2); sum.appendChild(s3);
+    sum.style.color = 'var(--phosphor)';
+  } else {
+    const s = document.createTextNode('⚠ 沒找到包含所有 ' + inputResults.length + ' 個 inputs 的 256-byte window。可能原因:(1) inputs 散佈太遠(不在同一 player struct) (2) 部分 input encoding 沒抓到 → 試換 unique 值 (3) 把 WINDOW 改大(目前 256B)');
+    sum.appendChild(s);
+    sum.style.color = 'var(--amber)';
+  }
+  $('wiz-results').style.display = 'block';
+  $('wiz-xc-status').textContent = '✓ ' + inputResults.length + ' inputs / ' + fullWindows.length + ' 共同 windows';
+  $('wiz-xc-status').style.color = fullWindows.length > 0 ? 'var(--phosphor)' : 'var(--amber)';
+}
+
+$('wiz-xc-run').addEventListener('click', wizCrossCorrelate);
 
 // 加 import/export/rename 按鈕到 preset toolbar(找 existing toolbar)
 (function addPresetButtons() {
