@@ -1,0 +1,760 @@
+{
+  "meta": {
+    "source": "LD4.exe",
+    "extracted_date": "2026-05-18",
+    "extracted_wave": "W62",
+    "segments_scanned": [
+      {
+        "start": "0x20c800",
+        "end": "0x20cc00",
+        "description": "怪物名 + 種族 + 屬性 + buff + 性格 + 戰鬥狀態 enum table"
+      },
+      {
+        "start": "0x21d000",
+        "end": "0x21d600",
+        "description": "玩家初始稱號 table(俠客遊/冒險者 2 選 1)"
+      }
+    ],
+    "total_entries": 103,
+    "note": "玩家可見事實層 enum table。給 viewer lookup 工具,不是抄錄資料庫。對齊 npc_dictionary.json 公開先例。LD4 真實 SAV/RAM 內這些值通常以 byte/word ID 儲存,viewer 對 hex byte 自動 decode 顯示對應字串。"
+  },
+  "categories": {
+    "monster_high": [
+      {
+        "addr": "0x20c800",
+        "len": 6,
+        "text": "風精靈",
+        "category": "monster_high",
+        "enum_id": 0
+      },
+      {
+        "addr": "0x20c808",
+        "len": 6,
+        "text": "水精靈",
+        "category": "monster_high",
+        "enum_id": 1
+      },
+      {
+        "addr": "0x20c810",
+        "len": 6,
+        "text": "火精靈",
+        "category": "monster_high",
+        "enum_id": 2
+      },
+      {
+        "addr": "0x20c818",
+        "len": 8,
+        "text": "伊摩達爾",
+        "category": "monster_high",
+        "enum_id": 3
+      },
+      {
+        "addr": "0x20c824",
+        "len": 12,
+        "text": "拜德拉克分身",
+        "category": "monster_high",
+        "enum_id": 4
+      },
+      {
+        "addr": "0x20c834",
+        "len": 8,
+        "text": "拜德拉克",
+        "category": "monster_high",
+        "enum_id": 5
+      },
+      {
+        "addr": "0x20c844",
+        "len": 8,
+        "text": "拜德拉克",
+        "category": "monster_high",
+        "enum_id": 6
+      },
+      {
+        "addr": "0x20c84d",
+        "len": 4,
+        "text": "半壞",
+        "category": "monster_high",
+        "enum_id": 7
+      },
+      {
+        "addr": "0x20c854",
+        "len": 8,
+        "text": "拜德拉克",
+        "category": "monster_high",
+        "enum_id": 8
+      },
+      {
+        "addr": "0x20c85d",
+        "len": 4,
+        "text": "完全",
+        "category": "monster_high",
+        "enum_id": 9
+      },
+      {
+        "addr": "0x20c864",
+        "len": 4,
+        "text": "魔鬼",
+        "category": "monster_high",
+        "enum_id": 10
+      },
+      {
+        "addr": "0x20c86c",
+        "len": 6,
+        "text": "狂信徒",
+        "category": "monster_high",
+        "enum_id": 11
+      },
+      {
+        "addr": "0x20c878",
+        "len": 6,
+        "text": "狂信徒",
+        "category": "monster_high",
+        "enum_id": 12
+      },
+      {
+        "addr": "0x20c884",
+        "len": 8,
+        "text": "安哥摩爾",
+        "category": "monster_high",
+        "enum_id": 13
+      },
+      {
+        "addr": "0x20c890",
+        "len": 4,
+        "text": "天使",
+        "category": "monster_high",
+        "enum_id": 14
+      },
+      {
+        "addr": "0x20c89c",
+        "len": 4,
+        "text": "天使",
+        "category": "monster_high",
+        "enum_id": 15
+      },
+      {
+        "addr": "0x20c8a8",
+        "len": 4,
+        "text": "狼人",
+        "category": "monster_high",
+        "enum_id": 16
+      },
+      {
+        "addr": "0x20c8b0",
+        "len": 6,
+        "text": "九尾狐",
+        "category": "monster_high",
+        "enum_id": 17
+      },
+      {
+        "addr": "0x20c8b8",
+        "len": 4,
+        "text": "翼獅",
+        "category": "monster_high",
+        "enum_id": 18
+      },
+      {
+        "addr": "0x20c8c0",
+        "len": 4,
+        "text": "龍獸",
+        "category": "monster_high",
+        "enum_id": 19
+      },
+      {
+        "addr": "0x20c8c8",
+        "len": 6,
+        "text": "機器人",
+        "category": "monster_high",
+        "enum_id": 20
+      },
+      {
+        "addr": "0x20c8d4",
+        "len": 6,
+        "text": "機器人",
+        "category": "monster_high",
+        "enum_id": 21
+      },
+      {
+        "addr": "0x20c8dc",
+        "len": 4,
+        "text": "撒旦",
+        "category": "monster_high",
+        "enum_id": 22
+      },
+      {
+        "addr": "0x20c8e4",
+        "len": 6,
+        "text": "獨角獸",
+        "category": "monster_high",
+        "enum_id": 23
+      },
+      {
+        "addr": "0x20c8ec",
+        "len": 6,
+        "text": "食火獸",
+        "category": "monster_high",
+        "enum_id": 24
+      },
+      {
+        "addr": "0x20c8f4",
+        "len": 4,
+        "text": "天馬",
+        "category": "monster_high",
+        "enum_id": 25
+      },
+      {
+        "addr": "0x20c8fc",
+        "len": 4,
+        "text": "龍蝦",
+        "category": "monster_high",
+        "enum_id": 26
+      },
+      {
+        "addr": "0x20c904",
+        "len": 6,
+        "text": "石巨人",
+        "category": "monster_high",
+        "enum_id": 27
+      },
+      {
+        "addr": "0x20c90c",
+        "len": 4,
+        "text": "雪人",
+        "category": "monster_high",
+        "enum_id": 28
+      },
+      {
+        "addr": "0x20c914",
+        "len": 6,
+        "text": "地獄犬",
+        "category": "monster_high",
+        "enum_id": 29
+      },
+      {
+        "addr": "0x20c91c",
+        "len": 8,
+        "text": "地方的龍",
+        "category": "monster_high",
+        "enum_id": 30
+      },
+      {
+        "addr": "0x20c92c",
+        "len": 8,
+        "text": "地方的龍",
+        "category": "monster_high",
+        "enum_id": 31
+      },
+      {
+        "addr": "0x20c93c",
+        "len": 10,
+        "text": "邪惡土撥鼠",
+        "category": "monster_high",
+        "enum_id": 32
+      }
+    ],
+    "monster_normal": [
+      {
+        "addr": "0x20c948",
+        "len": 6,
+        "text": "貓臉人",
+        "category": "monster_normal",
+        "enum_id": 0
+      },
+      {
+        "addr": "0x20c950",
+        "len": 8,
+        "text": "邪惡矮人",
+        "category": "monster_normal",
+        "enum_id": 1
+      },
+      {
+        "addr": "0x20c95c",
+        "len": 8,
+        "text": "黑暗妖精",
+        "category": "monster_normal",
+        "enum_id": 2
+      },
+      {
+        "addr": "0x20c968",
+        "len": 4,
+        "text": "蝙蝠",
+        "category": "monster_normal",
+        "enum_id": 3
+      },
+      {
+        "addr": "0x20c974",
+        "len": 4,
+        "text": "蟑螂",
+        "category": "monster_normal",
+        "enum_id": 4
+      },
+      {
+        "addr": "0x20c990",
+        "len": 6,
+        "text": "半鳥人",
+        "category": "monster_normal",
+        "enum_id": 5
+      },
+      {
+        "addr": "0x20c998",
+        "len": 6,
+        "text": "翼魔像",
+        "category": "monster_normal",
+        "enum_id": 6
+      },
+      {
+        "addr": "0x20c9a0",
+        "len": 6,
+        "text": "蜥蜴人",
+        "category": "monster_normal",
+        "enum_id": 7
+      },
+      {
+        "addr": "0x20c9a8",
+        "len": 4,
+        "text": "巨人",
+        "category": "monster_normal",
+        "enum_id": 8
+      },
+      {
+        "addr": "0x20c9b0",
+        "len": 4,
+        "text": "殭屍",
+        "category": "monster_normal",
+        "enum_id": 9
+      },
+      {
+        "addr": "0x20c9b8",
+        "len": 4,
+        "text": "骷髏",
+        "category": "monster_normal",
+        "enum_id": 10
+      },
+      {
+        "addr": "0x20c9c0",
+        "len": 4,
+        "text": "惡魔",
+        "category": "monster_normal",
+        "enum_id": 11
+      },
+      {
+        "addr": "0x20c9c8",
+        "len": 4,
+        "text": "蟑螂",
+        "category": "monster_normal",
+        "enum_id": 12
+      },
+      {
+        "addr": "0x20c9d0",
+        "len": 6,
+        "text": "史萊姆",
+        "category": "monster_normal",
+        "enum_id": 13
+      },
+      {
+        "addr": "0x20c9d8",
+        "len": 6,
+        "text": "陷阱箱",
+        "category": "monster_normal",
+        "enum_id": 14
+      },
+      {
+        "addr": "0x20c9e4",
+        "len": 4,
+        "text": "鬼魂",
+        "category": "monster_normal",
+        "enum_id": 15
+      },
+      {
+        "addr": "0x20c9f4",
+        "len": 6,
+        "text": "麻雀牌",
+        "category": "monster_normal",
+        "enum_id": 16
+      },
+      {
+        "addr": "0x20c9fc",
+        "len": 6,
+        "text": "西瓜頭",
+        "category": "monster_normal",
+        "enum_id": 17
+      },
+      {
+        "addr": "0x20ca04",
+        "len": 4,
+        "text": "蝙蝠",
+        "category": "monster_normal",
+        "enum_id": 18
+      },
+      {
+        "addr": "0x20ca0c",
+        "len": 6,
+        "text": "土撥鼠",
+        "category": "monster_normal",
+        "enum_id": 19
+      },
+      {
+        "addr": "0x20ca14",
+        "len": 6,
+        "text": "翻車魚",
+        "category": "monster_normal",
+        "enum_id": 20
+      },
+      {
+        "addr": "0x20ca1c",
+        "len": 6,
+        "text": "茄子人",
+        "category": "monster_normal",
+        "enum_id": 21
+      },
+      {
+        "addr": "0x20ca24",
+        "len": 6,
+        "text": "線條人",
+        "category": "monster_normal",
+        "enum_id": 22
+      },
+      {
+        "addr": "0x20ca2c",
+        "len": 4,
+        "text": "小龍",
+        "category": "monster_normal",
+        "enum_id": 23
+      },
+      {
+        "addr": "0x20ca34",
+        "len": 4,
+        "text": "妖精",
+        "category": "monster_normal",
+        "enum_id": 24
+      },
+      {
+        "addr": "0x20ca3c",
+        "len": 4,
+        "text": "矮人",
+        "category": "monster_normal",
+        "enum_id": 25
+      },
+      {
+        "addr": "0x20ca44",
+        "len": 4,
+        "text": "貓人",
+        "category": "monster_normal",
+        "enum_id": 26
+      },
+      {
+        "addr": "0x20ca4c",
+        "len": 4,
+        "text": "人類",
+        "category": "monster_normal",
+        "enum_id": 27
+      }
+    ],
+    "race": [
+      {
+        "addr": "0x20ca54",
+        "len": 12,
+        "text": "怪物不敢靠近",
+        "category": "race",
+        "enum_id": 0
+      },
+      {
+        "addr": "0x20ca64",
+        "len": 12,
+        "text": "魔法攻擊無效",
+        "category": "race",
+        "enum_id": 1
+      },
+      {
+        "addr": "0x20ca74",
+        "len": 12,
+        "text": "狀態攻擊無效",
+        "category": "race",
+        "enum_id": 2
+      }
+    ],
+    "attribute_buff": [
+      {
+        "addr": "0x20ca84",
+        "len": 4,
+        "text": "熱血",
+        "category": "attribute_buff",
+        "enum_id": 0
+      },
+      {
+        "addr": "0x20ca8c",
+        "len": 4,
+        "text": "鬥魂",
+        "category": "attribute_buff",
+        "enum_id": 1
+      },
+      {
+        "addr": "0x20ca94",
+        "len": 6,
+        "text": "風之衣",
+        "category": "attribute_buff",
+        "enum_id": 2
+      },
+      {
+        "addr": "0x20caa0",
+        "len": 6,
+        "text": "風之衣",
+        "category": "attribute_buff",
+        "enum_id": 3
+      },
+      {
+        "addr": "0x20caac",
+        "len": 6,
+        "text": "風之衣",
+        "category": "attribute_buff",
+        "enum_id": 4
+      },
+      {
+        "addr": "0x20cab8",
+        "len": 6,
+        "text": "敏捷力",
+        "category": "attribute_buff",
+        "enum_id": 5
+      },
+      {
+        "addr": "0x20cac4",
+        "len": 6,
+        "text": "魔法力",
+        "category": "attribute_buff",
+        "enum_id": 6
+      },
+      {
+        "addr": "0x20cad0",
+        "len": 6,
+        "text": "防禦力",
+        "category": "attribute_buff",
+        "enum_id": 7
+      },
+      {
+        "addr": "0x20cadc",
+        "len": 6,
+        "text": "攻擊力",
+        "category": "attribute_buff",
+        "enum_id": 8
+      },
+      {
+        "addr": "0x20cae8",
+        "len": 6,
+        "text": "敏捷力",
+        "category": "attribute_buff",
+        "enum_id": 9
+      },
+      {
+        "addr": "0x20caf4",
+        "len": 6,
+        "text": "魔法力",
+        "category": "attribute_buff",
+        "enum_id": 10
+      },
+      {
+        "addr": "0x20cb00",
+        "len": 6,
+        "text": "防禦力",
+        "category": "attribute_buff",
+        "enum_id": 11
+      },
+      {
+        "addr": "0x20cb0c",
+        "len": 6,
+        "text": "攻擊力",
+        "category": "attribute_buff",
+        "enum_id": 12
+      }
+    ],
+    "sealed": [
+      {
+        "addr": "0x20cb18",
+        "len": 10,
+        "text": "攻擊被封印",
+        "category": "sealed",
+        "enum_id": 0
+      },
+      {
+        "addr": "0x20cb24",
+        "len": 10,
+        "text": "魔法被封印",
+        "category": "sealed",
+        "enum_id": 1
+      }
+    ],
+    "personality": [
+      {
+        "addr": "0x20cb30",
+        "len": 4,
+        "text": "麻痺",
+        "category": "personality",
+        "enum_id": 0
+      },
+      {
+        "addr": "0x20cb3c",
+        "len": 4,
+        "text": "混亂",
+        "category": "personality",
+        "enum_id": 1
+      },
+      {
+        "addr": "0x20cb44",
+        "len": 8,
+        "text": "沉默寡言",
+        "category": "personality",
+        "enum_id": 2
+      },
+      {
+        "addr": "0x20cb50",
+        "len": 4,
+        "text": "頑固",
+        "category": "personality",
+        "enum_id": 3
+      },
+      {
+        "addr": "0x20cb58",
+        "len": 6,
+        "text": "慢郎中",
+        "category": "personality",
+        "enum_id": 4
+      },
+      {
+        "addr": "0x20cb60",
+        "len": 6,
+        "text": "急性子",
+        "category": "personality",
+        "enum_id": 5
+      },
+      {
+        "addr": "0x20cb68",
+        "len": 6,
+        "text": "熱血漢",
+        "category": "personality",
+        "enum_id": 6
+      },
+      {
+        "addr": "0x20cb70",
+        "len": 4,
+        "text": "懦弱",
+        "category": "personality",
+        "enum_id": 7
+      },
+      {
+        "addr": "0x20cb78",
+        "len": 4,
+        "text": "強勢",
+        "category": "personality",
+        "enum_id": 8
+      },
+      {
+        "addr": "0x20cb80",
+        "len": 4,
+        "text": "秀逗",
+        "category": "personality",
+        "enum_id": 9
+      },
+      {
+        "addr": "0x20cb88",
+        "len": 4,
+        "text": "怪人",
+        "category": "personality",
+        "enum_id": 10
+      },
+      {
+        "addr": "0x20cb90",
+        "len": 4,
+        "text": "親切",
+        "category": "personality",
+        "enum_id": 11
+      },
+      {
+        "addr": "0x20cb98",
+        "len": 6,
+        "text": "愛說謊",
+        "category": "personality",
+        "enum_id": 12
+      },
+      {
+        "addr": "0x20cba0",
+        "len": 8,
+        "text": "性格不好",
+        "category": "personality",
+        "enum_id": 13
+      },
+      {
+        "addr": "0x20cbac",
+        "len": 6,
+        "text": "有常識",
+        "category": "personality",
+        "enum_id": 14
+      },
+      {
+        "addr": "0x20cbb4",
+        "len": 4,
+        "text": "陰暗",
+        "category": "personality",
+        "enum_id": 15
+      },
+      {
+        "addr": "0x20cbbc",
+        "len": 4,
+        "text": "開朗",
+        "category": "personality",
+        "enum_id": 16
+      }
+    ],
+    "battle_state": [
+      {
+        "addr": "0x20cbc4",
+        "len": 4,
+        "text": "固定",
+        "category": "battle_state",
+        "enum_id": 0
+      },
+      {
+        "addr": "0x20cbcc",
+        "len": 4,
+        "text": "死亡",
+        "category": "battle_state",
+        "enum_id": 1
+      },
+      {
+        "addr": "0x20cbd4",
+        "len": 4,
+        "text": "昏迷",
+        "category": "battle_state",
+        "enum_id": 2
+      },
+      {
+        "addr": "0x20cbdc",
+        "len": 4,
+        "text": "戰鬥",
+        "category": "battle_state",
+        "enum_id": 3
+      },
+      {
+        "addr": "0x20cbe4",
+        "len": 4,
+        "text": "正常",
+        "category": "battle_state",
+        "enum_id": 4
+      }
+    ],
+    "title": [
+      {
+        "addr": "0x21d510",
+        "len": 6,
+        "text": "俠客遊",
+        "category": "title",
+        "enum_id": 0
+      },
+      {
+        "addr": "0x21d518",
+        "len": 6,
+        "text": "冒險者",
+        "category": "title",
+        "enum_id": 1
+      }
+    ]
+  }
+}
