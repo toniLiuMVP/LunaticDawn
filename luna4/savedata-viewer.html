@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>俠客遊 IV 存檔修改器 v1.5 · 吟遊詩人的傳說</title>
+<title>俠客遊 IV 存檔修改器 v1.6 · 吟遊詩人的傳說</title>
 <link rel="manifest" href="./manifest.json">
 <meta name="theme-color" content="#00ff41">
 <meta name="description" content="俠客遊 IV LDTSV0.dat 存檔檢視器 — header 解析 + Big5 字串掃描 + 區段熱圖 + hex 檢視。純前端、跨平台、不上傳，瀏覽器拖放即看。">
@@ -53,7 +53,7 @@
     <div class="header-inner">
       <h1 class="pixel">俠客遊 IV 存檔檢視器</h1>
       <nav>
-        <span style="color: var(--phosphor-dim); font-size: 12px;">v1.5 · ★★★★★ Wizard cross-correlate(N 字串找共同 256-byte window = player struct 候選)+ enum_u16le 變體(SAV u16 對齊 enum 解)+ hex auto-hint + wizard enum mode + enum 編碼自訂欄位 + Undo 全 + Preset I/O + PWA + 跨槽 diff + 8 槽全連 + Live RAM Bridge</span>
+        <span style="color: var(--phosphor-dim); font-size: 12px;">v1.6 · ★★★★★★ Wizard cross-correlate WINDOW 可調(64-1024B)+ pair-wise stride 分析(同 distance 多次=強訊號)+ enum_u16le 變體 + hex auto-hint + wizard enum mode + enum 編碼自訂欄位 + Undo 全 + Preset I/O + PWA + 跨槽 diff + 8 槽全連 + Live RAM Bridge</span>
         ·
         <a href="./">回俠客遊 IV 索引</a>
         ·
@@ -268,7 +268,18 @@
       <div class="toolbar" style="margin-top: 8px; align-items: flex-start;">
         <label style="color: var(--phosphor-dim); padding-top: 6px;">★★ 多字串 cross-correlate(v1.5):</label>
         <textarea id="wiz-xc-text" rows="3" cols="32" placeholder="每行一個 enum 字串 / 數值,例:&#10;正常&#10;熱血漢&#10;7" style="background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-dim); font-family: 'VT323', monospace; font-size: 13px; padding: 4px 8px;"></textarea>
-        <button id="wiz-xc-run" type="button">▸ 求共同 anchor</button>
+        <div style="display: flex; flex-direction: column; gap: 4px;">
+          <label style="color: var(--phosphor-dim); font-size: 12px;">window 大小(v1.6):
+            <select id="wiz-xc-window" style="background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-fade); padding: 2px 6px; font-family: 'VT323', monospace; font-size: 13px;">
+              <option value="64">64 B(精細 / 同 byte align)</option>
+              <option value="128">128 B(小 struct)</option>
+              <option value="256" selected>256 B(預設 / 玩家結構)</option>
+              <option value="512">512 B(大 struct)</option>
+              <option value="1024">1024 B(broad)</option>
+            </select>
+          </label>
+          <button id="wiz-xc-run" type="button">▸ 求共同 anchor + 步距分析</button>
+        </div>
         <span class="hint" id="wiz-xc-status" style="margin:0;"></span>
       </div>
       <div id="wiz-results" style="display: none; margin-top: 12px;">
@@ -3169,8 +3180,9 @@ async function wizCrossCorrelate() {
   // 3. **同 page 內的「附近 hits」**:對玩家結構通常欄位排在同 page 內,
   //    找各 input 的 hits 都落在某 256-byte window 內 → 該 window 是 player struct 候選
 
-  // 簡化實作:找每個 input 都有至少 1 hit 落入的 256-byte window
-  const WINDOW = 256;
+  // v1.6: WINDOW 從 dropdown 讀(預設 256)
+  const windowSel = document.getElementById('wiz-xc-window');
+  const WINDOW = windowSel ? parseInt(windowSel.value, 10) || 256 : 256;
   const windowCounts = new Map();  // window_base → Set of input indices that hit it
   for (let i = 0; i < inputResults.length; i++) {
     const ir = inputResults[i];
@@ -3273,6 +3285,80 @@ async function wizCrossCorrelate() {
     tbody.appendChild(trMore);
   }
 
+  // v1.6: pair-wise stride 分析
+  // 對任 2 個 inputs 跑 hits[i] - hits[j] 看相對 byte distance 分布
+  // 同 distance 多次出現 = 該兩 inputs 在固定 stride 內共現 = strong field-adjacent signal
+  // 例:input "正常"(性格) hit @ 0xC8E0 / input "熱血漢"(性格) hit @ 0xC8E1
+  // → distance = 1 → 性格 byte 緊鄰存放
+  if (inputResults.length >= 2) {
+    const pairAnalyses = [];
+    for (let i = 0; i < inputResults.length; i++) {
+      for (let j = i + 1; j < inputResults.length; j++) {
+        const irA = inputResults[i];
+        const irB = inputResults[j];
+        if (irA.hits.length === 0 || irB.hits.length === 0) continue;
+        // 計算所有 (hitA, hitB) pair 的 distance — 限 |distance| < WINDOW * 2 避免噪音
+        const distanceFreq = new Map();
+        for (const ha of irA.hits) {
+          for (const hb of irB.hits) {
+            const d = hb - ha;
+            if (Math.abs(d) <= WINDOW * 2) {
+              distanceFreq.set(d, (distanceFreq.get(d) || 0) + 1);
+            }
+          }
+        }
+        // 找 top 3 distance(freq desc)
+        const top = Array.from(distanceFreq.entries()).sort((a, b) => b[1] - a[1]).slice(0, 3);
+        if (top.length > 0 && top[0][1] >= 2) {  // 至少 2 次重複才算強訊號
+          pairAnalyses.push({
+            pairLabel: '#' + (i + 1) + ' "' + irA.input + '" ↔ #' + (j + 1) + ' "' + irB.input + '"',
+            topDistances: top
+          });
+        }
+      }
+    }
+    // render pair analyses 在 fullWindows 之後
+    if (pairAnalyses.length > 0) {
+      const trH = document.createElement('tr');
+      const tdH = document.createElement('td');
+      tdH.colSpan = 4;
+      tdH.style.color = 'var(--amber)';
+      tdH.style.borderTop = '1px solid var(--amber)';
+      tdH.style.paddingTop = '6px';
+      tdH.style.marginTop = '4px';
+      tdH.textContent = '★★★ pair-wise stride 分析(v1.6):' + pairAnalyses.length + ' 個 input pair 有重複 distance';
+      trH.appendChild(tdH);
+      tbody.appendChild(trH);
+      for (const pa of pairAnalyses) {
+        const tr = document.createElement('tr');
+        const td1 = document.createElement('td');
+        td1.style.color = 'var(--phosphor)';
+        td1.style.fontSize = '12px';
+        td1.textContent = pa.pairLabel;
+        tr.appendChild(td1);
+        const td2 = document.createElement('td');
+        td2.className = 'num';
+        td2.textContent = String(pa.topDistances[0][1]);
+        td2.style.color = 'var(--phosphor)';
+        td2.style.fontWeight = 'bold';
+        tr.appendChild(td2);
+        const td3 = document.createElement('td');
+        td3.className = 'num';
+        td3.style.fontSize = '11px';
+        td3.textContent = pa.topDistances.map(([d, f]) =>
+          'd=' + (d >= 0 ? '+' : '') + d + ' (×' + f + ')'
+        ).join(' | ');
+        tr.appendChild(td3);
+        const td4 = document.createElement('td');
+        td4.textContent = '★ 強訊號';
+        td4.style.color = 'var(--phosphor)';
+        td4.style.fontSize = '11px';
+        tr.appendChild(td4);
+        tbody.appendChild(tr);
+      }
+    }
+  }
+
   // summary
   const sum = $('wiz-summary');
   while (sum.firstChild) sum.removeChild(sum.firstChild);
@@ -3281,16 +3367,16 @@ async function wizCrossCorrelate() {
     const s2 = document.createElement('strong');
     s2.style.color = 'var(--phosphor)';
     s2.textContent = String(fullWindows.length) + ' 個 共同 window';
-    const s3 = document.createTextNode('(每個 256-byte 範圍內 ' + inputResults.length + ' 個 inputs 都有 hit)。**最少 window 數的位置最可能是 player struct 起點**。');
+    const s3 = document.createTextNode('(每個 ' + WINDOW + '-byte 範圍內 ' + inputResults.length + ' 個 inputs 都有 hit)。**最少 window 數的位置最可能是 player struct 起點**。v1.6 加 pair-wise stride 分析:同 distance 多次出現 = 該 2 inputs 在固定 byte offset 存放。');
     sum.appendChild(s1); sum.appendChild(s2); sum.appendChild(s3);
     sum.style.color = 'var(--phosphor)';
   } else {
-    const s = document.createTextNode('⚠ 沒找到包含所有 ' + inputResults.length + ' 個 inputs 的 256-byte window。可能原因:(1) inputs 散佈太遠(不在同一 player struct) (2) 部分 input encoding 沒抓到 → 試換 unique 值 (3) 把 WINDOW 改大(目前 256B)');
+    const s = document.createTextNode('⚠ 沒找到包含所有 ' + inputResults.length + ' 個 inputs 的 ' + WINDOW + '-byte window。可能原因:(1) inputs 散佈太遠(不在同一 player struct) (2) 部分 input encoding 沒抓到 → 試換 unique 值 (3) 把 window 改大(v1.6 可選 512/1024)。**仍可看 pair-wise stride 分析找局部 hint**。');
     sum.appendChild(s);
     sum.style.color = 'var(--amber)';
   }
   $('wiz-results').style.display = 'block';
-  $('wiz-xc-status').textContent = '✓ ' + inputResults.length + ' inputs / ' + fullWindows.length + ' 共同 windows';
+  $('wiz-xc-status').textContent = '✓ ' + inputResults.length + ' inputs / ' + fullWindows.length + ' 共同 windows (' + WINDOW + 'B)';
   $('wiz-xc-status').style.color = fullWindows.length > 0 ? 'var(--phosphor)' : 'var(--amber)';
 }
 
