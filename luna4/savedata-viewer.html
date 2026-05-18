@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>俠客遊 IV 存檔修改器 v1.3 · 吟遊詩人的傳說</title>
+<title>俠客遊 IV 存檔修改器 v1.4 · 吟遊詩人的傳說</title>
 <link rel="manifest" href="./manifest.json">
 <meta name="theme-color" content="#00ff41">
 <meta name="description" content="俠客遊 IV LDTSV0.dat 存檔檢視器 — header 解析 + Big5 字串掃描 + 區段熱圖 + hex 檢視。純前端、跨平台、不上傳，瀏覽器拖放即看。">
@@ -53,7 +53,7 @@
     <div class="header-inner">
       <h1 class="pixel">俠客遊 IV 存檔檢視器</h1>
       <nav>
-        <span style="color: var(--phosphor-dim); font-size: 12px;">v1.3 · ★★★ enum encoding 自訂欄位整合(cf 可選 enum:battle_state 等 8 類,byte 自動 decode 成字串)+ LD4 enum 即時查 + Undo 全 + Preset I/O + PWA + ASLR + 跨槽 diff + 8 槽全連 + Live RAM Bridge + 智慧 anchor 精靈</span>
+        <span style="color: var(--phosphor-dim); font-size: 12px;">v1.4 · ★★★★ hex auto-hint(本頁 confirmed fields list)+ wizard enum mode(輸入字串自動反查 enum_id)+ enum encoding 自訂欄位 + Undo 全 + Preset I/O + PWA + ASLR + 跨槽 diff + 8 槽全連 + Live RAM Bridge + 智慧 anchor 精靈</span>
         ·
         <a href="./">回俠客遊 IV 索引</a>
         ·
@@ -259,6 +259,12 @@
         <button id="wiz-run" type="button">▸ 全 encoding 自動掃</button>
         <span class="hint" id="wiz-status" style="margin:0;"></span>
       </div>
+      <div class="toolbar" style="margin-top: 8px;">
+        <label style="color: var(--phosphor-dim);">或輸入 enum 字串(v1.4):</label>
+        <input id="wiz-enum-text" type="text" placeholder="例 正常 / 戰鬥 / 死亡 / 俠客遊" style="width: 180px;">
+        <button id="wiz-enum-run" type="button">▸ 反查 enum_id + bulk-scan</button>
+        <span class="hint" id="wiz-enum-status" style="margin:0;"></span>
+      </div>
       <div id="wiz-results" style="display: none; margin-top: 12px;">
         <table class="region-table" id="wiz-table">
           <thead>
@@ -396,6 +402,10 @@
         <button id="hex-jump-btn" class="ghost" type="button">跳轉</button>
       </div>
       <div class="hex-viewer" id="hex-viewer"></div>
+      <div id="hex-page-fields" style="margin-top: 8px; padding: 8px; background: var(--bg-panel); border-left: 3px solid var(--phosphor); display: none;">
+        <strong style="color: var(--phosphor);">★ 本頁 confirmed fields(v1.4 hex auto-hint):</strong>
+        <div id="hex-page-fields-list" style="margin-top: 6px; font-family: 'VT323', monospace; font-size: 14px; line-height: 1.6;"></div>
+      </div>
     </div>
 
     <div class="toolbar" style="margin-top: 8px; padding: 12px; background: var(--bg-panel); border-top: 2px solid var(--amber);">
@@ -2843,6 +2853,190 @@ async function augmentCfEncodingsWithEnum() {
 
 // 觸發 enum 整合(在 enumInit 完成後 — enumInit 已 await loadEnumTable)
 setTimeout(augmentCfEncodingsWithEnum, 100);
+
+// ===== v1.4 #1: hex viewer auto-hint — 本頁 confirmed fields list =====
+// 在 renderHexPage 後顯示該 page 範圍內 cf field offset 列表 + decoded value
+function renderHexPageFieldHints() {
+  const wrap = document.getElementById('hex-page-fields');
+  const list = document.getElementById('hex-page-fields-list');
+  if (!wrap || !list) return;
+  while (list.firstChild) list.removeChild(list.firstChild);
+  if (!buf || typeof hexPage === 'undefined') {
+    wrap.style.display = 'none';
+    return;
+  }
+  const pageStart = hexPage * HEX_PAGE_BYTES;
+  const pageEnd = pageStart + HEX_PAGE_BYTES;
+  const fields = (typeof cfLoad === 'function') ? cfLoad() : [];
+  const inPage = fields.filter(f => {
+    const enc = CF_ENCODINGS[f.encoding];
+    if (!enc) return false;
+    return f.offset >= pageStart && (f.offset + enc.size) <= pageEnd;
+  });
+  if (inPage.length === 0) {
+    wrap.style.display = 'none';
+    return;
+  }
+  for (const f of inPage) {
+    const enc = CF_ENCODINGS[f.encoding];
+    let liveText;
+    try { liveText = String(enc.read(buf, f.offset)); }
+    catch (e) { liveText = 'ERR'; }
+    let displayValue = liveText;
+    if (enc.isEnum && enc.enumEntries) {
+      const idNum = parseInt(liveText, 10);
+      if (!isNaN(idNum) && enc.enumEntries[idNum]) {
+        displayValue = idNum + ' → ' + enc.enumEntries[idNum].text;
+      }
+    }
+    const row = document.createElement('div');
+    const offsetSpan = document.createElement('span');
+    offsetSpan.style.color = 'var(--amber)';
+    offsetSpan.textContent = '@ 0x' + f.offset.toString(16).padStart(6, '0');
+    const sep1 = document.createTextNode('  ▸  ');
+    const labelSpan = document.createElement('span');
+    labelSpan.style.color = 'var(--phosphor)';
+    labelSpan.style.fontWeight = 'bold';
+    labelSpan.textContent = f.label;
+    const sep2 = document.createTextNode('  (' + enc.label + ')  =  ');
+    const valSpan = document.createElement('span');
+    valSpan.style.color = 'var(--phosphor)';
+    valSpan.textContent = displayValue;
+    row.appendChild(offsetSpan);
+    row.appendChild(sep1);
+    row.appendChild(labelSpan);
+    row.appendChild(sep2);
+    row.appendChild(valSpan);
+    list.appendChild(row);
+  }
+  wrap.style.display = 'block';
+}
+
+// Wrap renderHexPage 讓它每次 render 完都跑 field hints
+if (typeof renderHexPage === 'function') {
+  const origRenderHexPage = renderHexPage;
+  renderHexPage = function() {
+    const r = origRenderHexPage.apply(this, arguments);
+    try { renderHexPageFieldHints(); } catch (e) { /* skip on error */ }
+    return r;
+  };
+}
+
+// ===== v1.4 #2: Wizard enum mode — 輸入 enum 字串 → 反查 enum_id → bulk-scan =====
+async function wizEnumRun() {
+  if (!buf) { alert('請先載入存檔'); return; }
+  const text = $('wiz-enum-text').value.trim();
+  if (!text) { alert('請輸入 enum 字串(例:正常 / 戰鬥 / 俠客遊)'); return; }
+  const tbl = await loadEnumTable();
+  if (!tbl) { alert('ld4_enum_table.json 未載入 — v1.4 enum mode 需要它'); return; }
+
+  // 找所有 category 內含 text 或 == text 的 entries
+  const matches = [];
+  for (const [catName, entries] of Object.entries(tbl.categories)) {
+    for (const e of entries) {
+      if (e.text === text || e.text.includes(text)) {
+        matches.push({ catName, entry: e, exact: e.text === text });
+      }
+    }
+  }
+  if (matches.length === 0) {
+    $('wiz-enum-status').textContent = '✗ 字串「' + text + '」未在 enum table 找到';
+    $('wiz-enum-status').style.color = 'var(--amber)';
+    return;
+  }
+  // 偏好 exact match
+  const exactOnly = matches.filter(m => m.exact);
+  const finalMatches = exactOnly.length > 0 ? exactOnly : matches;
+
+  // 對每個 match 跑 u8 + NOT u8 + u16 LE + NOT u16 LE bulk-scan
+  // 注意:同 category 內不同 entry 的 enum_id 唯一,但跨 category 可能撞
+  const results = [];
+  for (const m of finalMatches) {
+    const id = m.entry.enum_id;
+    const cands = [
+      { label: 'u8 = ' + id, needle: new Uint8Array([id]), key: 'enum_' + m.catName },
+      { label: 'NOT u8 = 0x' + ((~id) & 0xff).toString(16), needle: new Uint8Array([(~id) & 0xff]), key: null },
+      { label: 'u16 LE = ' + id, needle: new Uint8Array([id, 0]), key: null },
+    ];
+    for (const c of cands) {
+      const hits = wizFindAll(buf, c.needle);
+      results.push({
+        category: m.catName,
+        text: m.entry.text,
+        enum_id: id,
+        encoding: c.label,
+        encoding_key: c.key,
+        hits
+      });
+    }
+  }
+  // 排序:unique → few → many → 0
+  results.sort((a, b) => {
+    const s = n => n === 1 ? 0 : (n >= 2 && n <= 5 ? 1 : (n === 0 ? 3 : 2));
+    return s(a.hits.length) - s(b.hits.length);
+  });
+
+  // 顯示在 wiz-results panel(reuse)
+  const tbody = $('wiz-tbody');
+  while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
+  let uniq = 0, zero = 0;
+  for (const r of results) {
+    const tr = document.createElement('tr');
+    const n = r.hits.length;
+    const td1 = document.createElement('td');
+    const labelText = '[' + r.category + '] "' + r.text + '" (id=' + r.enum_id + ') ' + r.encoding;
+    if (n === 1) { td1.style.color = 'var(--phosphor)'; td1.style.fontWeight = 'bold'; td1.textContent = '★ ' + labelText; uniq++; }
+    else if (n === 0) { td1.style.color = 'var(--phosphor-dim)'; td1.textContent = labelText; zero++; }
+    else if (n >= 2 && n <= 5) { td1.style.color = 'var(--amber)'; td1.textContent = '☆ ' + labelText; }
+    else { td1.style.color = 'var(--phosphor-fade)'; td1.textContent = labelText; }
+    tr.appendChild(td1);
+    const td2 = document.createElement('td'); td2.className = 'num'; td2.textContent = String(n);
+    if (n === 1) { td2.style.color = 'var(--phosphor)'; td2.style.fontWeight = 'bold'; }
+    tr.appendChild(td2);
+    const td3 = document.createElement('td'); td3.className = 'num';
+    td3.textContent = n === 0 ? '—' : r.hits.slice(0, 3).map(p => '0x' + p.toString(16).padStart(6, '0')).join(', ');
+    tr.appendChild(td3);
+    const td4 = document.createElement('td');
+    if (n === 1 && r.encoding_key && CF_ENCODINGS[r.encoding_key]) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = '＋ 加進自訂欄位';
+      btn.style.fontSize = '13px';
+      btn.addEventListener('click', () => wizAddToFields(r.hits[0], r.encoding_key, r.enum_id));
+      td4.appendChild(btn);
+    } else if (n >= 2 && n <= 5 && r.encoding_key && CF_ENCODINGS[r.encoding_key]) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = '+ 加(候選)';
+      btn.className = 'ghost';
+      btn.style.fontSize = '13px';
+      btn.addEventListener('click', () => {
+        if (confirm('此編碼有 ' + n + ' hits 不是 unique anchor。仍要加進自訂欄位嗎?')) {
+          wizAddToFields(r.hits[0], r.encoding_key, r.enum_id);
+        }
+      });
+      td4.appendChild(btn);
+    } else {
+      td4.textContent = '—'; td4.style.color = 'var(--phosphor-dim)';
+    }
+    tr.appendChild(td4);
+    tbody.appendChild(tr);
+  }
+  // summary
+  const sum = $('wiz-summary');
+  while (sum.firstChild) sum.removeChild(sum.firstChild);
+  sum.appendChild(document.createTextNode(
+    '✓ 字串「' + text + '」反查到 ' + finalMatches.length + ' 個 enum entries → 跑 ' + results.length +
+    ' 種 byte encoding scan / unique: ' + uniq + ' / 0-hit: ' + zero
+  ));
+  sum.style.color = uniq > 0 ? 'var(--phosphor)' : 'var(--amber)';
+  $('wiz-results').style.display = 'block';
+  $('wiz-enum-status').textContent = '✓ ' + finalMatches.length + ' enum matches / ' + uniq + ' unique';
+  $('wiz-enum-status').style.color = uniq > 0 ? 'var(--phosphor)' : 'var(--amber)';
+}
+
+$('wiz-enum-run').addEventListener('click', wizEnumRun);
+$('wiz-enum-text').addEventListener('keypress', (e) => { if (e.key === 'Enter') wizEnumRun(); });
 
 // 加 import/export/rename 按鈕到 preset toolbar(找 existing toolbar)
 (function addPresetButtons() {
