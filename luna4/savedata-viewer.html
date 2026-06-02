@@ -53,7 +53,7 @@
     <div class="header-inner">
       <h1 class="pixel">俠客遊 IV 存檔檢視器</h1>
       <nav>
-        <span style="color: var(--phosphor-dim); font-size: 12px;">v1.6 · ★★★★★★ Wizard cross-correlate WINDOW 可調(64-1024B)+ pair-wise stride 分析(同 distance 多次=強訊號)+ enum_u16le 變體 + hex auto-hint + wizard enum mode + enum 編碼自訂欄位 + Undo 全 + Preset I/O + PWA + 跨槽 diff + 8 槽全連 + Live RAM Bridge</span>
+        <span style="color: var(--phosphor-dim); font-size: 12px;">v1.7 · ★★★★★★★ SSE 即時推送(取代 2 秒 polling)+ Wizard cross-correlate WINDOW 可調(64-1024B)+ pair-wise stride 分析(同 distance 多次=強訊號)+ enum_u16le 變體 + hex auto-hint + wizard enum mode + enum 編碼自訂欄位 + Undo 全 + Preset I/O + PWA + 跨槽 diff + 8 槽全連 + Live RAM Bridge</span>
         ·
         <a href="./">回俠客遊 IV 索引</a>
         ·
@@ -230,14 +230,14 @@
         <p class="hint" id="rb-scan-summary" style="margin-top: 6px;"></p>
       </div>
 
-      <h4 style="color: var(--phosphor); margin-top: 16px;">▸ Step 2:即時欄位(2 秒 polling 自動 refresh)</h4>
+      <h4 style="color: var(--phosphor); margin-top: 16px;">▸ Step 2:即時欄位(v1.7 SSE 即時推送 0.5 秒,Python bridge;PowerShell bridge 自動 fallback 2 秒 polling)</h4>
       <table class="region-table" id="rb-fields-table">
         <thead><tr><th>Label</th><th>RAM addr</th><th>編碼</th><th>當前值(live)</th><th>新值</th><th>動作</th></tr></thead>
         <tbody id="rb-fields-tbody"><tr><td colspan="6" class="muted">(掃 anchor 後一鍵加入)</td></tr></tbody>
       </table>
       <div class="toolbar" style="margin-top: 8px;">
         <label style="color: var(--phosphor-dim);">RAM polling:</label>
-        <button id="rb-poll-toggle" type="button">▶ 啟動 polling(2 秒)</button>
+        <button id="rb-poll-toggle" type="button">▶ 啟動即時更新(SSE/polling)</button>
         <button id="rb-export-btn" class="ghost" type="button">匯出 JSON</button>
         <button id="rb-import-btn" class="ghost" type="button">匯入 JSON</button>
         <button id="rb-clear-btn" class="ghost" type="button" style="color: var(--amber);">清空</button>
@@ -1647,6 +1647,7 @@ let rbBase = `http://127.0.0.1:${RB_PORT_DEFAULT}`;
 let rbConnected = false;
 let rbStatusInfo = null;
 let rbPollTimer = null;
+let rbSSE = null;            // #5: EventSource(優先,real-time);失敗 fallback polling
 const RB_POLL_INTERVAL_MS = 2000;
 
 async function rbProbe() {
@@ -1775,6 +1776,9 @@ function rbLoadFields() {
 }
 
 function rbSaveFields(fields) {
+  // #5 Codex r1 YELLOW 2:欄位變動(增刪/匯入/清空)時停 SSE,避免 server 端舊
+  // watch-list 的值依「同序」套到新 row(stale positional stream)。玩家重按啟動即重建 watch-list。
+  if (rbSSE) rbStopPoll();
   try { localStorage.setItem(RB_STORAGE_KEY, JSON.stringify(fields)); }
   catch (e) { alert('儲存失敗:' + e.message); }
 }
@@ -1904,19 +1908,69 @@ async function rbPollOnce() {
   }
 }
 
+// #5: SSE 收到的 fields[] 跟 watch-list 同序 → 解碼更新 rb-live-${i}
+function rbApplySSE(payload) {
+  if (!payload || !payload.ok || !Array.isArray(payload.fields)) return;
+  const fields = rbLoadFields();
+  for (let i = 0; i < fields.length && i < payload.fields.length; i++) {
+    const enc = CF_ENCODINGS[fields[i].encoding];
+    const hex = payload.fields[i] && payload.fields[i].hex;
+    const cell = $(`rb-live-${i}`);
+    if (!cell || !enc) continue;
+    if (!hex) { cell.textContent = 'ERR'; cell.style.color = 'var(--amber)'; continue; }
+    const bytes = new Uint8Array(enc.size);
+    for (let k = 0; k < enc.size; k++) bytes[k] = parseInt(hex.substr(k * 2, 2), 16);
+    cell.textContent = String(enc.read(bytes, 0));
+    cell.style.color = 'var(--phosphor)';
+  }
+}
+
 function rbStartPoll() {
+  if (rbPollTimer || rbSSE) return;
+  const fields = rbLoadFields();
+  // #5: 先試 SSE real-time push(Python bridge 支援);失敗 fallback 2 秒 polling
+  if (typeof EventSource === 'function' && fields.length > 0) {
+    const watch = fields.map(f => {
+      const enc = CF_ENCODINGS[f.encoding];
+      return `0x${f.addr.toString(16)}:${enc ? enc.size : 4}`;
+    }).join(',');
+    try {
+      rbSSE = new EventSource(`${rbBase}/events?watch=${encodeURIComponent(watch)}&interval=0.5`);
+      rbSSE.onmessage = (e) => {
+        try { rbApplySSE(JSON.parse(e.data)); } catch (_) {}
+      };
+      rbSSE.onopen = () => {
+        $('rb-poll-toggle').textContent = '■ 停止即時更新';
+        $('rb-poll-status').textContent = `▶ SSE 即時推送(0.5 秒,${new Date().toLocaleTimeString()} 連線)`;
+        $('rb-poll-status').style.color = 'var(--phosphor)';
+      };
+      rbSSE.onerror = () => {
+        // SSE 失敗(PowerShell bridge 不支援 / 連線斷)→ 關掉改 fallback polling
+        if (rbSSE) { rbSSE.close(); rbSSE = null; }
+        if (!rbPollTimer) rbStartPollFallback();
+      };
+      return;
+    } catch (_) {
+      rbSSE = null;  // EventSource 建構失敗 → fallback
+    }
+  }
+  rbStartPollFallback();
+}
+
+function rbStartPollFallback() {
   if (rbPollTimer) return;
   rbPollTimer = setInterval(rbPollOnce, RB_POLL_INTERVAL_MS);
   rbPollOnce();
   $('rb-poll-toggle').textContent = '■ 停止 polling';
-  $('rb-poll-status').textContent = `▶ polling 每 ${RB_POLL_INTERVAL_MS/1000} 秒(${new Date().toLocaleTimeString()} 開始)`;
+  $('rb-poll-status').textContent = `▶ polling 每 ${RB_POLL_INTERVAL_MS/1000} 秒(SSE 不可用 fallback,${new Date().toLocaleTimeString()} 開始)`;
   $('rb-poll-status').style.color = 'var(--phosphor)';
 }
 
 function rbStopPoll() {
+  if (rbSSE) { rbSSE.close(); rbSSE = null; }
   if (rbPollTimer) { clearInterval(rbPollTimer); rbPollTimer = null; }
-  $('rb-poll-toggle').textContent = '▶ 啟動 polling(2 秒)';
-  $('rb-poll-status').textContent = '⏸ polling 停止';
+  $('rb-poll-toggle').textContent = '▶ 啟動即時更新';
+  $('rb-poll-status').textContent = '⏸ 即時更新停止';
   $('rb-poll-status').style.color = 'var(--phosphor-dim)';
 }
 
@@ -3564,7 +3618,8 @@ $('ms8-diff-run').addEventListener('click', ms8DiffRun);
     $('rb-scan-btn').addEventListener('click', rbScan);
     $('rb-scan-value').addEventListener('keypress', e => { if (e.key === 'Enter') rbScan(); });
     $('rb-poll-toggle').addEventListener('click', () => {
-      if (rbPollTimer) rbStopPoll(); else rbStartPoll();
+      // #5 Codex r1 YELLOW 1:SSE 模式下 rbPollTimer===null,須一併檢查 rbSSE 才停得了
+      if (rbPollTimer || rbSSE) rbStopPoll(); else rbStartPoll();
     });
     $('rb-export-btn').addEventListener('click', () => {
       const blob = new Blob([JSON.stringify(rbLoadFields(), null, 2)], { type: 'application/json' });
