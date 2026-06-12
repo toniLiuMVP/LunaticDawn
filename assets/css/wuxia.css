@@ -538,6 +538,45 @@ body.guide-page .raw-text {
   line-height: 1.6;
 }
 
+/* ---- 快速入口導覽(老玩家一眼直達:玩 / 攻略 / 修改器 / 資料庫)---- */
+.quick-access {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: stretch;
+  margin: 0 0 28px;
+}
+.quick-access a { border-bottom: none; text-decoration: none; }
+.quick-access .qa-primary {
+  background: var(--accent);
+  color: var(--bg-header);
+  font-weight: bold;
+  font-size: 17px;
+  padding: 13px 24px;
+  display: inline-flex;
+  align-items: center;
+}
+.quick-access .qa-primary:hover { background: #b8860b; color: #fff8e8; }
+.quick-access .qa-link {
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-size: 15px;
+  padding: 12px 18px;
+  display: inline-flex;
+  align-items: center;
+}
+.quick-access .qa-link:hover { background: rgba(184, 134, 11, 0.1); color: #b8860b; }
+
+/* ---- 收合區塊(版權聲明 / 子頁 ABOUT 預設收起,點 summary 才展開)---- */
+details.qa-collapse > summary {
+  cursor: pointer;
+  font-weight: bold;
+  color: var(--accent);
+  padding: 2px 0;
+}
+details.qa-collapse > summary:hover { color: #b8860b; }
+details.qa-collapse[open] > summary { margin-bottom: 8px; }
+
 /* ---- Responsive ---- */
 @media (max-width: 640px) {
   body { font-size: 16px; }
