@@ -421,12 +421,28 @@ tbody tr:hover { background: rgba(0,255,65,0.05); }
 ::-webkit-scrollbar-thumb { background: var(--phosphor-fade); border: 1px solid var(--phosphor-dim); }
 ::-webkit-scrollbar-thumb:hover { background: var(--phosphor-dim); }
 
+/* 手機直拿提示(只在窄螢幕顯示;桌機 / 橫擺自動隱藏) */
+.landscape-hint {
+  display: none;
+  font-size: 14px;
+  color: var(--amber);
+  background: rgba(255, 176, 0, 0.08);
+  border-left: 3px solid var(--amber);
+  padding: 8px 12px;
+  margin: 0 0 14px;
+  line-height: 1.6;
+}
+
 /* ---- 響應式 ---- */
 @media (max-width: 640px) {
   body { font-size: 18px; }
   h1.pixel { font-size: 16px; }
   h2 { font-size: 14px; }
   .raw-text { font-size: 15px; padding: 12px; }
+  /* 固定寬 pre 表格:手機直拿改水平捲動(不折行 → 不跑版)。
+     只針對 pre.raw-text,不影響 table.raw-text 等響應式表格 */
+  pre.raw-text { white-space: pre; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .landscape-hint { display: block; }
   .card-grid { grid-template-columns: 1fr; }
 }
 

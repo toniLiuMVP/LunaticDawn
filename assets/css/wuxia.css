@@ -526,12 +526,28 @@ body.guide-page .raw-text {
   margin-right: calc(-50vw + 50%);
 }
 
+/* 手機直拿提示(只在窄螢幕顯示;桌機 / 橫擺自動隱藏) */
+.landscape-hint {
+  display: none;
+  font-size: 13px;
+  color: var(--accent);
+  background: rgba(184, 134, 11, 0.08);
+  border-left: 3px solid var(--accent);
+  padding: 8px 12px;
+  margin: 0 0 14px;
+  line-height: 1.6;
+}
+
 /* ---- Responsive ---- */
 @media (max-width: 640px) {
   body { font-size: 16px; }
   h1, h1.pixel { font-size: 22px; letter-spacing: 3px; }
   h2 { font-size: 18px; }
   .raw-text { font-size: 13px; padding: 14px; }
+  /* 固定寬 pre 表格:手機直拿改水平捲動(不折行 → 不跑版)。
+     只針對 pre.raw-text,不影響 table.raw-text 等響應式表格 */
+  pre.raw-text { white-space: pre; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .landscape-hint { display: block; }
   .card-grid { grid-template-columns: 1fr; }
   .header-inner { flex-direction: column; align-items: flex-start; }
   .header-right { text-align: left; }
