@@ -456,7 +456,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
   top: 0;
 }
 
-/* prefers-reduced-motion — 關閉 blink / CRT 掃描線 / vignette / 過渡動畫
+/* 跨頁過場(漸進增強):同源導覽兩端都 opt-in 即觸發 cross-fade。
+   不支援的瀏覽器(Firefox MPA 等)自動退回即時導覽,零破壞。 */
+@view-transition { navigation: auto; }
+
+/* prefers-reduced-motion — 關閉 blink / CRT 掃描線 / vignette / 過渡動畫 / 跨頁過場
    尊重使用者「減少動態效果」系統設定(前庭功能障礙 / 暈動症 / etc) */
 @media (prefers-reduced-motion: reduce) {
   body::before,
@@ -470,5 +474,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
     animation-duration: 0.001s !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001s !important;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }
