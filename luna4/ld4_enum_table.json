@@ -2,7 +2,7 @@
   "meta": {
     "source": "LD4.exe",
     "extracted_date": "2026-05-18",
-    "extracted_wave": "W67 (擴充 v1.2 W62 base)",
+    "version": "1.2",
     "segments_scanned": [
       {
         "start": "0x20c800",
@@ -17,17 +17,17 @@
       {
         "start": "0x206400",
         "end": "0x2068a4",
-        "description": "W67 — 遊戲 UI action enum(行動/模式/裝備/合成/委託/購買/...)110+ 字串"
+        "description": "遊戲 UI action enum(行動/模式/裝備/合成/委託/購買/...)110+ 字串"
       },
       {
         "start": "0x20f520",
         "end": "0x20f8b0",
-        "description": "W67 — 委託相關 enum(NPC 類型/地點類型/傷害屬性系/對話時點)~35 字串"
+        "description": "委託相關 enum(NPC 類型/地點類型/傷害屬性系/對話時點)~35 字串"
       },
       {
         "start": "0x229200",
         "end": "0x229700",
-        "description": "W67 — 怪物技能 + 屬性魔法 enum(龍之寶玉/雷射鎗/拜德拉克本體雷射/混沌神審判/...)~90 字串"
+        "description": "怪物技能 + 屬性魔法 enum(龍之寶玉/雷射鎗/拜德拉克本體雷射/混沌神審判/...)~90 字串"
       }
     ],
     "total_entries": 367,

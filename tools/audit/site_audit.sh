@@ -52,8 +52,8 @@ NUM_FILES=$(echo "$PUB_FILES" | wc -l | tr -d ' ')
 # A1. Internal wave/round/PENDING jargon (BLOCKER)
 # 也包含 W## (W08 / W14 / W56 等) - 內部 wave 編號縮寫
 print_section "[A1] Internal development jargon (BLOCKER)"
-HITS=$(echo "$PUB_FILES" | xargs -I{} grep -nE "第[一二三四五六七八九十百零壹貳參肆伍陸柒捌玖拾佰0-9]+波|第\s*[0-9]+\s*波|wave\s*[0-9]+|Wave\s*[0-9]+|round-[0-9]+|Round[ _]?[0-9]+|\bW[0-9][0-9]\b|波次|PENDING|⏳[^：）)]*規劃|scope[- ]?校正|carry[- ]?over|toni\s+(戳穿|挑戰|個人|指示)|逆向工程依賴|反組譯依賴|未完成事項" {} 2>/dev/null \
-  | grep -vE "(台灣第三波|第三波文化|第三波代理|第三波伺服器|第三波修改|第三波網頁|第三波發行|第三波官方|第三波的俠客遊|第三波繁中|第三波中文|第三波\s*/|第三波(?!波)|0\.[0-9]+s|height=\"[0-9]+|width=\"[0-9]+)")
+HITS=$(echo "$PUB_FILES" | xargs -I{} grep -nE "第[一二三四五六七八九十百零壹貳參肆伍陸柒捌玖拾佰0-9]+波|第\s*[0-9]+\s*波|第[一二三四五六七八九十百零0-9][一二三四五六七八九十百零0-9　 ／/、]*[／/][一二三四五六七八九十百零0-9　 ／/、]*波|wave\s*[0-9]+|Wave\s*[0-9]+|round-[0-9]+|Round[ _]?[0-9]+|\b[wW][0-9][0-9]+\b|波次|PENDING|⏳[^：）)]*規劃|scope[- ]?校正|carry[- ]?over|toni\s+(戳穿|挑戰|個人|指示)|逆向工程依賴|反組譯依賴|未完成事項" {} 2>/dev/null \
+  | grep -vE "(台灣第三波|第三波文化|第三波代理|第三波伺服器|第三波修改|第三波網頁|第三波發行|第三波官方|第三波的俠客遊|第三波繁中|第三波中文|第三波\s*/|第三波([^波]|$)|0\.[0-9]+s|height=\"[0-9]+|width=\"[0-9]+)")
 if [ -z "$HITS" ]; then
   print_pass "No internal dev jargon"
 else
@@ -62,10 +62,10 @@ else
 fi
 
 # A2. Personal dev paths (BLOCKER) — /Volumes/Work/, NAS paths
-# /Users/toni/ is OK as a Mac path EXAMPLE in docs (every Mac user has /Users/USERNAME).
-# Real leaks: /Volumes/Work/LD/ (toni's actual dev location), NAS smb paths, "Mac Mini M4"
+# Public path EXAMPLES should use a generic placeholder (/Users/player/), NOT toni's
+# actual macOS username. Real leaks: /Volumes/Work/LD/, NAS smb paths, "Mac Mini M4".
 print_section "[A2] Personal dev paths / NAS leakage (BLOCKER)"
-HITS=$(echo "$PUB_FILES" | xargs -I{} grep -nE "/Volumes/(Work|918|Mac Mini M4|Scratch|PLEXTOR|Toni-NAS)/|smb://(toni|toniLiu|Mac)|toniLiuMVP\._smb|918%20%E8%B3%87" {} 2>/dev/null)
+HITS=$(echo "$PUB_FILES" | xargs -I{} grep -nE "/Volumes/(Work|918|Mac Mini M4|Scratch|PLEXTOR|Toni-NAS)/|/Users/toni/|smb://(toni|toniLiu|Mac)|toniLiuMVP\._smb|918%20%E8%B3%87" {} 2>/dev/null)
 if [ -z "$HITS" ]; then
   print_pass "No personal dev paths leaked"
 else
@@ -106,7 +106,7 @@ fi
 # A6. Low-level RE jargon (WARN)
 # Whitelisted: "MFC CArchive" — standard Windows API name, legitimate technical context
 print_section "[A6] Low-level RE jargon (WARN — review case-by-case)"
-HITS=$(echo "$PUB_FILES" | xargs -I{} grep -nE "fcn\.[0-9a-f]+|filter-branch|self[- ]?correct|內化教訓|cross[- ]?project|RedTime\b|\bJYQXZ\b|\bSWDA\b|MVP_Baseball|\bALLRM\b|跨專案[^著]|廣場留言|專案廣場" {} 2>/dev/null)
+HITS=$(echo "$PUB_FILES" | xargs -I{} grep -nE "fcn\.[0-9a-f]+|filter-branch|self[- ]?correct|內化教訓|cross[- ]?project|RedTime\b|\bJYQXZ\b|\bSWDA\b|MVP_Baseball|\bAnzai\b|\bALLRM\b|跨專案[^著]|廣場留言|專案廣場" {} 2>/dev/null)
 if [ -z "$HITS" ]; then
   print_pass "No low-level RE jargon"
 else

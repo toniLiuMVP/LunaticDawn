@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CHRITEM.SAV 物品欄查看器 · 俠客遊 II</title>
-<meta name="description" content="俠客遊 II 玩家物品欄查看器，支援 CHRITEM.SAV (122880 bytes，160 角色 × 16 物品 slots)。2026結構逆向。純前端解析。">
+<meta name="description" content="俠客遊 II 玩家物品欄查看器，支援 CHRITEM.SAV (122880 bytes，160 角色 × 16 物品 slots)。2026 年結構逆向。純前端解析。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="CHRITEM.SAV 物品欄查看器 · 俠客遊 II">
 <meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/luna2/chritem-viewer.html">
-<meta property="og:description" content="俠客遊 II 玩家物品欄查看器，支援 CHRITEM.SAV (122880 bytes，160 角色 × 16 物品 slots)。2026結構逆向。純前端解析。">
+<meta property="og:description" content="俠客遊 II 玩家物品欄查看器，支援 CHRITEM.SAV (122880 bytes，160 角色 × 16 物品 slots)。2026 年結構逆向。純前端解析。">
 <meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
 <link rel="stylesheet" href="../assets/css/fonts-retro.css">
@@ -222,8 +222,17 @@
 </style>
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 <link rel="canonical" href="https://toniliumvp.github.io/LunaticDawn/luna2/chritem-viewer.html">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CHRITEM.SAV 物品欄查看器 · 俠客遊 II">
+<meta name="twitter:description" content="俠客遊 II 玩家物品欄查看器，支援 CHRITEM.SAV (122880 bytes，160 角色 × 16 物品 slots)。2026 年結構逆向。純前端解析。">
+<meta name="twitter:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"CHRITEM.SAV 物品欄查看器","description":"俠客遊 II 玩家物品欄查看器，支援 CHRITEM.SAV (122880 bytes，160 角色 × 16 物品 slots)。2026 年結構逆向。純前端解析。","url":"https://toniliumvp.github.io/LunaticDawn/luna2/chritem-viewer.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 II"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"吟遊詩人的傳說","item":"https://toniliumvp.github.io/LunaticDawn/"},{"@type":"ListItem","position":2,"name":"俠客遊 II","item":"https://toniliumvp.github.io/LunaticDawn/luna2/"},{"@type":"ListItem","position":3,"name":"CHRITEM.SAV 物品欄查看器"}]}</script>
+<!-- seo -->
 </head>
 <body>
+<a class="skip-link" href="#main-content">跳到主要內容</a>
 <div class="wrap">
   <header class="site-header">
     <div class="header-inner">
@@ -236,7 +245,7 @@
     </div>
   </header>
 
-<main>
+<main id="main-content">
 
 
   <div class="intro">
@@ -251,7 +260,7 @@
     <br>3️⃣ 確認 OK 後再覆蓋 USER0
     <br>
     <br><br>
-    <strong>結構（2026-05-02 2026逆向）</strong>：160 角色 × 16 物品 slots × 48 bytes/slot。
+    <strong>結構（2026 逆向）</strong>：160 角色 × 16 物品 slots × 48 bytes/slot。
     每 slot：byte 0-3 = item_id（對應 ITEMNAME.ENC 的 1-456 物品）；byte 4-7 = value2（推測為價格）；
     byte 8-47 = 強化值 + 屬性 modifier + 額外資料。
     <br><br>

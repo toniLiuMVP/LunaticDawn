@@ -46,8 +46,17 @@
 </style>
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 <link rel="canonical" href="https://toniliumvp.github.io/LunaticDawn/luna4/savedata-viewer.html">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="俠客遊 IV 存檔檢視器">
+<meta name="twitter:description" content="俠客遊 IV LDTSV0.dat 存檔檢視器 — 純前端、跨平台、拖放即看。">
+<meta name="twitter:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"俠客遊 IV 存檔修改器 v1.6","description":"俠客遊 IV LDTSV0.dat 存檔檢視器 — 純前端、跨平台、拖放即看。","url":"https://toniliumvp.github.io/LunaticDawn/luna4/savedata-viewer.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 IV"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"吟遊詩人的傳說","item":"https://toniliumvp.github.io/LunaticDawn/"},{"@type":"ListItem","position":2,"name":"俠客遊 IV","item":"https://toniliumvp.github.io/LunaticDawn/luna4/"},{"@type":"ListItem","position":3,"name":"俠客遊 IV 存檔修改器 v1.6"}]}</script>
+<!-- seo -->
 </head>
 <body>
+<a class="skip-link" href="#main-content">跳到主要內容</a>
 <div class="wrap">
   <header class="site-header">
     <div class="header-inner">
@@ -62,7 +71,7 @@
     </div>
   </header>
 
-<main>
+<main id="main-content">
 
   <div class="intro">
     <strong>俠客遊 IV 存檔檢視器</strong>（v0.1）— 跨平台 / 純前端 / 不上傳 / 免安裝。
@@ -173,7 +182,7 @@
           <tr><td colspan="4" class="muted">(載入存檔後填入)</td></tr>
         </tbody>
       </table>
-      <p class="hint">⚠ 這些候選都是「值 in 合理範圍」,**未 confirm 對應到哪個 field**。請對照你遊戲內看到的 HP/MP/level/年齡/exp 等具體數值,告知 toni / Anzai 哪個 offset 對哪個 field。</p>
+      <p class="hint">⚠ 這些候選都是「值 in 合理範圍」,**未 confirm 對應到哪個 field**。請對照你遊戲內看到的 HP/MP/level/年齡/exp 等具體數值,記錄哪個 offset 對應哪個 field。</p>
     </div>
 
     <div class="viewer-panel">
@@ -202,7 +211,7 @@
 
     <div class="viewer-panel">
       <h3>★ NOT u16 LE 反向搜尋(v0.3)</h3>
-      <p class="hint">你在遊戲內看到某個 u16 值(HP/MP/exp/錢/年齡等)? 輸入此值,viewer 全檔掃 NOT(value) 對應的 byte sequence — 若全檔唯一(< 5 hits)= cryptographic-level confirm offset(學自 Anzai r10 突破)。</p>
+      <p class="hint">你在遊戲內看到某個 u16 值(HP/MP/exp/錢/年齡等)? 輸入此值,viewer 全檔掃 NOT(value) 對應的 byte sequence — 若全檔唯一(< 5 hits),可作為確認 offset 的強訊號。</p>
       <div class="toolbar">
         <label style="color: var(--phosphor-dim);">遊戲內看到的值:</label>
         <input id="not-search-input" type="number" min="0" max="65535" placeholder="例 716">
@@ -292,7 +301,7 @@
         <p class="hint" id="wiz-summary" style="margin-top: 8px;"></p>
       </div>
       <div class="note-warn" style="margin-top: 10px;">
-        💡 <strong>建議使用流程</strong>:① 遊戲內記下一個獨特數值(例:金錢 7,331 — 越獨特越好)② 存檔 ③ 上傳 → 輸入 7331 → 一鍵掃 ④ 看 ★ unique hit 那行按「加進欄位」(預填好 offset / encoding / 你給 label) ⑤ 之後拖任何存檔都會自動解碼這個 field。內化 Anzai r10 PowerShell hex-grep + W55 savescan bulk SOP — 完全純前端、無 Windows / 無 PowerShell 依賴。
+        💡 <strong>建議使用流程</strong>:① 遊戲內記下一個獨特數值(例:金錢 7,331 — 越獨特越好)② 存檔 ③ 上傳 → 輸入 7331 → 一鍵掃 ④ 看 ★ unique hit 那行按「加進欄位」(預填好 offset / encoding / 你給 label) ⑤ 之後拖任何存檔都會自動解碼這個 field。完全純前端、免安裝、跨平台。
       </div>
     </div>
 
@@ -351,7 +360,7 @@
     </div>
 
     <div class="viewer-panel" id="enum-lookup-panel" style="border: 1px solid var(--phosphor-fade);">
-      <h3>★★ LD4 enum 即時查(v1.2 — W61 LD4.exe binary 提取的事實 lookup)</h3>
+      <h3>★★ LD4 enum 即時查(LD4.exe binary 提取的事實 lookup)</h3>
       <p class="hint">
         LD4.exe 內建 <strong>103 個 enum 字串</strong>(怪物 / 種族 / 屬性 / 狀態 / 性格 / 戰鬥狀態 / 稱號 8 大類別)
         — LD4 真實 SAV/RAM 內 categorical 欄位通常以 byte/word ID 儲存。
@@ -577,7 +586,7 @@ function parseHeader() {
   }
 
   // v0.2: money field @ 0x00C8BE — NOT u16 LE encoded (1990s anti-edit obfuscation)
-  // confirmed via Anzai PowerShell hex-grep unique (1 hit in 113KB) + 716↔666 diff (W53)
+  // confirmed via memory hex-grep unique (1 hit in 113KB) + 716↔666 diff
   if (buf.length >= 0x00c8c0) {
     const raw = dv.getUint16(0x00c8be, true);     // little-endian u16
     const money = (~raw) & 0xffff;                // bitwise NOT decode
@@ -844,7 +853,7 @@ function populatePlayerFields() {
     td3.textContent = c.cat;
     const td4 = document.createElement('td');
     if (c.off === center) {
-      td4.textContent = '✓ confirmed 金錢欄位(W53 hex-grep unique + diff)';
+      td4.textContent = '✓ confirmed 金錢欄位(hex-grep unique + diff)';
       td4.style.color = 'var(--phosphor)';
     } else {
       td4.textContent = '未 confirm — 等 ground truth';
@@ -1255,7 +1264,7 @@ $('cf-clear-btn').addEventListener('click', () => {
 cfRenderTable();
 
 // ===== v0.6: 智慧 anchor 精靈 (bulk-encoding-search in browser) =====
-// 內化 _local/dev_notes/wave53_savescan.py bulk mode + Anzai r10 PowerShell SOP
+// bulk multi-encoding 搜尋:全檔對給定值試多種編碼,找 unique hit
 
 function wizBuildEncodings(val) {
   // 對輸入 value 產出所有可能編碼的 needle bytes。
@@ -1476,7 +1485,7 @@ $('wiz-run').addEventListener('click', wizRun);
 $('wiz-value').addEventListener('keypress', (e) => { if (e.key === 'Enter') wizRun(); });
 
 // ===== v0.7: File System Access API — 直接讀寫原檔 + auto-reload polling =====
-// 解 toni W56 提問:「重遊戲中讀入的功能是否完美製作完成?」
+// 半即時「重遊戲中讀入」:File System Access API + 自動 polling
 // 答:純前端 sandbox 物理上做不到 RPM,但 FSA API + 2 秒 polling 達成「遊戲存檔後自動跟上 + 直接覆蓋」等效懶人 workflow
 
 let fsaFileHandle = null;       // FileSystemFileHandle
@@ -1639,7 +1648,7 @@ $('btn-reset').addEventListener('click', () => {
 
 // ===== v0.8: Live RAM Bridge — fetch http://127.0.0.1:8765/{status,read,write,scan} =====
 // 配 LD4_EZ/tools/live_bridge/ld4_bridge.ps1 (Win) 或 ld4_bridge.py (Linux/Mac)
-// 解 toni W57 戳穿:「20 年前的東西你會寫不出來?」— 用 native helper bridge 重現神之眼 RPM/WPM 能力
+// native helper bridge:重現記憶體即時讀寫(RPM/WPM)能力
 
 const RB_PORT_DEFAULT = 8765;
 const RB_STORAGE_KEY = 'ld4_ram_fields_v1';
@@ -1776,7 +1785,7 @@ function rbLoadFields() {
 }
 
 function rbSaveFields(fields) {
-  // #5 Codex r1 YELLOW 2:欄位變動(增刪/匯入/清空)時停 SSE,避免 server 端舊
+  // 欄位變動(增刪/匯入/清空)時停 SSE,避免 server 端舊
   // watch-list 的值依「同序」套到新 row(stale positional stream)。玩家重按啟動即重建 watch-list。
   if (rbSSE) rbStopPoll();
   try { localStorage.setItem(RB_STORAGE_KEY, JSON.stringify(fields)); }
@@ -3618,7 +3627,7 @@ $('ms8-diff-run').addEventListener('click', ms8DiffRun);
     $('rb-scan-btn').addEventListener('click', rbScan);
     $('rb-scan-value').addEventListener('keypress', e => { if (e.key === 'Enter') rbScan(); });
     $('rb-poll-toggle').addEventListener('click', () => {
-      // #5 Codex r1 YELLOW 1:SSE 模式下 rbPollTimer===null,須一併檢查 rbSSE 才停得了
+      // SSE 模式下 rbPollTimer===null,須一併檢查 rbSSE 才停得了
       if (rbPollTimer || rbSSE) rbStopPoll(); else rbStartPoll();
     });
     $('rb-export-btn').addEventListener('click', () => {

@@ -70,15 +70,25 @@
 </style>
 <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
 <link rel="canonical" href="https://toniliumvp.github.io/LunaticDawn/luna2/guides/monsters-guide.html">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="俠客遊 II 怪物攻略整合篇 · 吟遊詩人的傳說">
+<meta name="twitter:description" content="俠客遊 II 怪物攻略整合：128 隻怪物分類（人類組 / 動物 / 龍蛇 / 巨人 / 不死生物 / 妖精 / 龍 / 昆蟲 / 魔王）+ 弱點屬性對照 + boss 群數據（魔王阿迦魯瑪 Lv 50）+ 必殺技匹配。基於 MONSTER.DAT 13 欄位完整逆向 + 攻略書 PART 5 ch3 cross-validate。">
+<meta name="twitter:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
+<meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","datePublished":"2026-05-02","dateModified":"2026-05-13","headline":"俠客遊 II 怪物攻略整合篇","description":"俠客遊 II 怪物攻略整合：128 隻怪物分類（人類組 / 動物 / 龍蛇 / 巨人 / 不死生物 / 妖精 / 龍 / 昆蟲 / 魔王）+ 弱點屬性對照 + boss 群數據（魔王阿迦魯瑪 Lv 50）+ 必殺技匹配。基於 MONSTER.DAT 13 欄位完整逆向 + 攻略書 PART 5 ch3 cross-validate。","url":"https://toniliumvp.github.io/LunaticDawn/luna2/guides/monsters-guide.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"publisher":{"@type":"Organization","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 II"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"吟遊詩人的傳說","item":"https://toniliumvp.github.io/LunaticDawn/"},{"@type":"ListItem","position":2,"name":"俠客遊 II","item":"https://toniliumvp.github.io/LunaticDawn/luna2/"},{"@type":"ListItem","position":3,"name":"攻略","item":"https://toniliumvp.github.io/LunaticDawn/luna2/guides/"},{"@type":"ListItem","position":4,"name":"俠客遊 II 怪物攻略整合篇"}]}</script>
+<!-- seo -->
 </head>
 <body class="guide-page">
+<a class="skip-link" href="#main-content">跳到主要內容</a>
 <div class="wrap">
 
 <header class="site-header">
   <div class="header-inner">
     <div>
       <h1 class="pixel">俠客遊 II 怪物攻略整合篇</h1>
-      <div class="header-sub">LUNATIC DAWN II · 128 怪物分類 + boss 群打法 · toni 2026整理</div>
+      <div class="header-sub">LUNATIC DAWN II · 128 怪物分類 + boss 群打法 · toni · 2026 整理</div>
     </div>
     <div class="header-sub header-right">
       <div><a href="../../">◀ 回主站</a></div>
@@ -87,14 +97,14 @@
   </div>
 </header>
 
-<main>
+<main id="main-content">
 
 <article>
 
 <h2>📜 怪物系統概要</h2>
 
 <p>俠客遊 II 共有 <strong>128 隻怪物</strong>（id 0-127）存於 <code>P/MONSTER.DAT</code>，每記錄 104 bytes 含 13 個欄位（HP / MP / STM / Lv / ATK / 經驗 / 金錢 / 掉寶 ×2 / 防砍刺敲 等）。
-本攻略基於第八/十三/十四波 binary 完整逆向 + 攻略書 PART 5 ch3「怪物資料大全」cross-validate。</p>
+本攻略基於 binary 完整逆向 + 攻略書 PART 5 ch3「怪物資料大全」cross-validate。</p>
 
 <h2>🐺 怪物分類（按等級階段）</h2>
 
@@ -155,7 +165,7 @@
 
 <h2>👹 boss 群數據（Lv 50 神話 boss）</h2>
 
-<p>攻略書 PART 5 ch3 列出最終 boss 群（id 122-127），LD 第八/十三波 binary 逆向**完美對照**（boss 6/6 全 match）：</p>
+<p>攻略書 PART 5 ch3 列出最終 boss 群（id 122-127），LD binary 逆向**完美對照**（boss 6/6 全 match）：</p>
 
 <table class="boss-table">
 <tr>
@@ -288,9 +298,11 @@
 </main>
 
 <footer class="site-footer">
-  <p>本攻略基於 MONSTER.DAT 13 欄位完整逆向（第八/十三/十四波）+ 攻略書 PART 5 ch3 cross-validate（boss 6/6 完美對齊）+ LUNA2.EXE 7 種弱點字串提取（2026）整理。</p>
+  <p>本攻略基於 MONSTER.DAT 13 欄位完整逆向 + 攻略書 PART 5 ch3 cross-validate（boss 6/6 完美對齊）+ LUNA2.EXE 7 種弱點字串提取（2026）整理。</p>
   <p>具體怪物名 / 屬性是 binary 解出的事實；boss 群典故來自神話文獻。</p>
-  <p>整理：toni 2026 / 2026 · <a href="../../">回主站</a></p>
+  <p>整理：toni · 2026 · <a href="../../">回主站</a></p>
+
+  <p class="footer-updated">本頁最後更新：<time datetime="2026-05-13">2026-05-13</time></p>
 </footer>
 
 </div>

@@ -1,4 +1,4 @@
-/* LD4 修改器 Service Worker v1.0 (W60 2026-05-18)
+/* LD4 修改器 Service Worker v1.0 (2026-05-18)
  *
  * 策略:
  *   - HTML(導航):network-first → 失敗 fallback cache(保留自動更新 + 離線可用)
@@ -6,7 +6,7 @@
  *   - 不快取:bridge HTTP API(/status /read /write /scan)+ 跨域資源
  */
 
-const CACHE_VERSION = 'ld4-modifier-v1.0-w60';
+const CACHE_VERSION = 'ld4-modifier-v1.0-20260518';
 const CORE = [
   './savedata-viewer.html',
   './manifest.json',

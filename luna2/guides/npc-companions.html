@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>俠客遊 II 同行 NPC 招募流程 · 吟遊詩人的傳說</title>
-<meta name="description" content="俠客遊 II 同行 NPC 招募流程：660 NPC 字典 + 攻略書 PART 5 ch1 NPC 大全（150-170 重要 NPC）+ KOBUN.SAV 小弟系統 + OYABUN.SAV 親分系統。基於第十七 / 十八 / 二十二波 NPC 結構整理 + 2026 SAV 逆向。">
+<meta name="description" content="俠客遊 II 同行 NPC 招募流程：660 NPC 字典 + 攻略書 PART 5 ch1 NPC 大全（150-170 重要 NPC）+ KOBUN.SAV 小弟系統 + OYABUN.SAV 親分系統。基於 NPC 字典、KOBUN.SAV / OYABUN.SAV 結構與 2026 SAV 解析整理。">
 <link rel="stylesheet" href="../../assets/css/fonts-wuxia.css">
 <link rel="stylesheet" href="../../assets/css/wuxia.css">
 <style>
@@ -77,15 +77,25 @@
 </style>
 <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
 <link rel="canonical" href="https://toniliumvp.github.io/LunaticDawn/luna2/guides/npc-companions.html">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="俠客遊 II 同行 NPC 招募流程 · 吟遊詩人的傳說">
+<meta name="twitter:description" content="俠客遊 II 同行 NPC 招募流程：660 NPC 字典 + 攻略書 PART 5 ch1 NPC 大全（150-170 重要 NPC）+ KOBUN.SAV 小弟系統 + OYABUN.SAV 親分系統。基於 NPC 字典、KOBUN.SAV / OYABUN.SAV 結構與 2026 SAV 解析整理。">
+<meta name="twitter:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
+<meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","datePublished":"2026-05-02","dateModified":"2026-05-13","headline":"俠客遊 II 同行 NPC 招募流程","description":"俠客遊 II 同行 NPC 招募流程：660 NPC 字典 + 攻略書 PART 5 ch1 NPC 大全（150-170 重要 NPC）+ KOBUN.SAV 小弟系統 + OYABUN.SAV 親分系統。基於 NPC 字典、KOBUN.SAV / OYABUN.SAV 結構與 2026 SAV 解析整理。","url":"https://toniliumvp.github.io/LunaticDawn/luna2/guides/npc-companions.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"publisher":{"@type":"Organization","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 II"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"吟遊詩人的傳說","item":"https://toniliumvp.github.io/LunaticDawn/"},{"@type":"ListItem","position":2,"name":"俠客遊 II","item":"https://toniliumvp.github.io/LunaticDawn/luna2/"},{"@type":"ListItem","position":3,"name":"攻略","item":"https://toniliumvp.github.io/LunaticDawn/luna2/guides/"},{"@type":"ListItem","position":4,"name":"俠客遊 II 同行 NPC 招募流程"}]}</script>
+<!-- seo -->
 </head>
 <body class="guide-page">
+<a class="skip-link" href="#main-content">跳到主要內容</a>
 <div class="wrap">
 
 <header class="site-header">
   <div class="header-inner">
     <div>
       <h1 class="pixel">同行 NPC 招募流程</h1>
-      <div class="header-sub">LUNATIC DAWN II · 660 字典 + 150-170 重要 NPC + 子分/親分 · toni 2026整理</div>
+      <div class="header-sub">LUNATIC DAWN II · 660 字典 + 150-170 重要 NPC + 子分/親分 · toni · 2026 整理</div>
     </div>
     <div class="header-sub header-right">
       <div><a href="../../">◀ 回主站</a></div>
@@ -94,7 +104,7 @@
   </div>
 </header>
 
-<main>
+<main id="main-content">
 
 <article>
 
@@ -221,7 +231,7 @@ NPC 系統分三層：</p>
   <div class="step-content">
     <h4>玩家成為親分（老大）</h4>
     <p>當隊伍人數達到一定，玩家本身會記錄到 <code>USER0/OYABUN.SAV</code>（258 bytes）。
-    2026結構初步釐清：byte 0-7 = 玩家親分編號 / 隊伍人數；byte 8+ = 屬性概要（u16 sequence 971/7/12/10/30 等）。</p>
+    2026 年結構初步釐清：byte 0-7 = 玩家親分編號 / 隊伍人數；byte 8+ = 屬性概要（u16 sequence 971/7/12/10/30 等）。</p>
   </div>
 </div>
 
@@ -334,7 +344,9 @@ NPC 系統分三層：</p>
 <footer class="site-footer">
   <p>本攻略基於 4 個 ENC 字典（CALLNAME / MCNAME0 / MCNAME1 / FCNAME）660 字串完整解密 + 攻略書 PART 5 ch1 NPC 大全結構 + 2026 KOBUN/OYABUN/HIST SAV 初步逆向整理。</p>
   <p>NPC 字典名稱是 binary 解密事實；隊伍系統 binary 結構研究中。</p>
-  <p>整理：toni 2026 / 2026 · <a href="../../">回主站</a></p>
+  <p>整理：toni · 2026 · <a href="../../">回主站</a></p>
+
+  <p class="footer-updated">本頁最後更新：<time datetime="2026-05-13">2026-05-13</time></p>
 </footer>
 
 </div>
