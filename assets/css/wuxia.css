@@ -7,6 +7,40 @@
    1996 年的 DOS RPG 用 2026 年的水墨書卷呈現
    ============================================================ */
 
+/* ---- a11y (移植 retro.css 的無障礙規則到水墨頁) ---- */
+
+/* :focus-visible — 鍵盤導航看得到 focus(古銅金 outline，宣紙底高對比) */
+a:focus-visible, button:focus-visible, input:focus-visible,
+select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid var(--seal);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(196, 30, 58, 0.18);
+}
+
+/* skip link — 鍵盤 Tab 第一下出現「跳到主要內容」(各頁 <main id="main-content">) */
+.skip-link {
+  position: absolute;
+  top: -48px;
+  left: 0;
+  background: var(--seal);
+  color: var(--bg);
+  padding: 8px 16px;
+  z-index: 10001;
+  text-decoration: none;
+  font-weight: bold;
+}
+.skip-link:focus { top: 0; }
+
+/* 尊重「減少動態效果」系統設定(前庭功能障礙 / 暈動症) */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001s !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 :root {
   --bg:          #f5f0e8;     /* 宣紙米白 */
   --bg-panel:    #ebe5d8;     /* 淡牛皮紙 */
@@ -457,6 +491,8 @@ tbody tr:hover { background: rgba(139, 105, 20, 0.06); }
 }
 .site-footer a { color: var(--accent); border-bottom: none; }
 .site-footer a:hover { color: #b8860b; }
+.footer-updated { font-size: 0.85em; opacity: 0.6; margin-top: 8px; }
+.footer-updated time { font-variant-numeric: tabular-nums; }
 .site-footer .footer-big {
   font-family: 'Noto Serif TC', serif;
   font-size: 18px;

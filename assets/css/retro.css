@@ -405,6 +405,8 @@ tbody tr:hover { background: rgba(0,255,65,0.05); }
 }
 
 .site-footer a { font-size: 18px; }
+.footer-updated { font-size: 14px; opacity: 0.6; margin-top: 8px; }
+.footer-updated time { font-variant-numeric: tabular-nums; }
 
 .site-footer .footer-big {
   font-family: 'Press Start 2P', monospace;
@@ -428,7 +430,7 @@ tbody tr:hover { background: rgba(0,255,65,0.05); }
   .card-grid { grid-template-columns: 1fr; }
 }
 
-/* ---- a11y (2026-05-17 Codex review B4 採納) ---- */
+/* ---- a11y ---- */
 
 /* :focus-visible — 鍵盤導航看得到 focus */
 a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
