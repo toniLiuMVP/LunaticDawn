@@ -32,12 +32,21 @@ select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
 .skip-link:focus { top: 0; }
 
 /* 尊重「減少動態效果」系統設定(前庭功能障礙 / 暈動症) */
+/* 跨頁過場(漸進增強):同源導覽兩端都 opt-in 即觸發 cross-fade。
+   不支援的瀏覽器自動退回即時導覽,零破壞。 */
+@view-transition { navigation: auto; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001s !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001s !important;
     scroll-behavior: auto !important;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }
 
