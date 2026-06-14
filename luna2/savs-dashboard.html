@@ -187,7 +187,7 @@
       <div class="size">size: 256 bytes</div>
       <div class="structure">
         <strong>內容</strong>：玩家存檔表頭概要<br>
-        <strong>byte 0-2</strong>：00 47 09（u16 = 18176, 1801 — 可能是日期 / 等級）<br>
+        <strong>byte 0-2</strong>：00 47 09（u16 = 18176, 1801，可能是日期 / 等級）<br>
         <strong>byte 5-12</strong>：Big5 中文字串（玩家姓名）<br>
         <strong>byte 13-17</strong>：u32 = 87 + u16 = 48（等級 / age？）<br>
         <strong>byte 18+</strong>：0xFF padding
@@ -198,7 +198,7 @@
       <h3>KOBUN.SAV <span class="status status-partial">結構釐清</span></h3>
       <div class="size">size: 542 bytes（不整除任何因子）</div>
       <div class="structure">
-        <strong>內容</strong>：子分（小弟）資料 — 玩家招募 NPC 後加入此檔<br>
+        <strong>內容</strong>：子分（小弟）資料，玩家招募 NPC 後加入此檔<br>
         <strong>byte 0-13</strong>：u16 序列 0/0/1/13/13/16/32（小弟編號 + 屬性 + 等級）<br>
         <strong>非零比例</strong>：68.3%<br>
         <strong>對應</strong>：<a href="guides/npc-companions.html">同行 NPC 招募流程</a>
@@ -209,7 +209,7 @@
       <h3>OYABUN.SAV <span class="status status-partial">結構釐清</span></h3>
       <div class="size">size: 258 bytes（不整除任何因子）</div>
       <div class="structure">
-        <strong>內容</strong>：親分（老大）資料 — 玩家當頭目時的隊伍狀態<br>
+        <strong>內容</strong>：親分（老大）資料，玩家當頭目時的隊伍狀態<br>
         <strong>byte 0-7</strong>：u32 = 1, 2（玩家親分編號 + 隊伍人數）<br>
         <strong>byte 12-25</strong>：u16 序列 971/7/12/10/30/7/10/3（屬性 / 等級概要）<br>
         <strong>非零比例</strong>：60.9%
@@ -231,7 +231,7 @@
       <h3>SCENDATA.SAV <span class="status status-partial">結構釐清</span></h3>
       <div class="size">size: 6,144 bytes (6 KB)</div>
       <div class="structure">
-        <strong>內容</strong>：場景資料 — 玩家進入過的場景紀錄<br>
+        <strong>內容</strong>：場景資料，玩家進入過的場景紀錄<br>
         <strong>非零比例</strong>：11.7%（多場景未訪問）<br>
         <strong>byte 0-7</strong>：01 0c 00 06 ff ff 05 ff（u16 = 3073, 1536, 65535, 65285）<br>
         <strong>byte 8-15</strong>：49 00 ff ff 68 42 00 00（u16 = 73, 65535, 17000, 0）<br>
@@ -243,7 +243,7 @@
       <h3>TOWNDATA.SAV <span class="status status-partial">結構釐清</span></h3>
       <div class="size">size: 8,192 bytes (8 KB)</div>
       <div class="structure">
-        <strong>內容</strong>：城鎮資料 — 玩家在每城鎮的記錄<br>
+        <strong>內容</strong>：城鎮資料，玩家在每城鎮的記錄<br>
         <strong>非零比例</strong>：77.4%（多城已訪問）<br>
         <strong>byte 0-7</strong>：01 00 bc da bc 77（u16 = 1, 55996, 30652）<br>
         <strong>因子</strong>：16/32/64/128/256/512 bytes/entry
@@ -254,7 +254,7 @@
       <h3>TOWNITEM.SAV <span class="status status-todo">待逆向</span></h3>
       <div class="size">size: 92,160 bytes (90 KB)</div>
       <div class="structure">
-        <strong>內容</strong>：城鎮物品 — 玩家在城鎮 store 的物品堆積<br>
+        <strong>內容</strong>：城鎮物品，玩家在城鎮 store 的物品堆積<br>
         <strong>因子</strong>：可能 96 × 960 bytes 或 192 × 480 bytes
       </div>
     </div>
@@ -263,7 +263,7 @@
       <h3>VDD.SAV <span class="status status-todo">待逆向</span></h3>
       <div class="size">size: 204,800 bytes (200 KB)</div>
       <div class="structure">
-        <strong>內容</strong>：影像資料 — 推測為玩家 sprite cache / VDD pages<br>
+        <strong>內容</strong>：影像資料，推測為玩家 sprite cache / VDD pages<br>
         <strong>注意</strong>：VDD 可能跟 BCHRKP runtime 填入相關（2026發現 BCHRKP 全 0 是 template）
       </div>
     </div>
@@ -272,7 +272,7 @@
       <h3>VDDKEY.SAV <span class="status status-todo">待逆向</span></h3>
       <div class="size">size: 204,800 bytes (200 KB)</div>
       <div class="structure">
-        <strong>內容</strong>：影像 key — VDD.SAV 的索引 / decryption key<br>
+        <strong>內容</strong>：影像 key，VDD.SAV 的索引 / decryption key<br>
         <strong>關係</strong>：跟 VDD.SAV 同 size，疑似 paired 結構
       </div>
     </div>
@@ -299,7 +299,7 @@
   </div>
 
   <div id="hex-viewer" style="display: none;">
-    <h3 id="hex-title">— 待選擇檔案 —</h3>
+    <h3 id="hex-title">，待選擇檔案，</h3>
     <div id="hex-output"></div>
   </div>
 
@@ -336,7 +336,7 @@ async function handleFile(file) {
     return;
   }
   const buf = await file.arrayBuffer();
-  $('hex-title').textContent = `${file.name} (${buf.byteLength.toLocaleString()} bytes — first 256 bytes)`;
+  $('hex-title').textContent = `${file.name} (${buf.byteLength.toLocaleString()} bytes，first 256 bytes)`;
   $('hex-output').textContent = formatHex(buf, 256);
   $('hex-viewer').style.display = 'block';
 }

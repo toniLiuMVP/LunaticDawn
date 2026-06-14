@@ -2,7 +2,7 @@
 # Public site comprehensive audit — runs all 9 audits before commit.
 #
 # Triple-jurisdiction copyright check:
-#   - 台灣著作權法 §10-2 (事實/數據不受保護)
+#   - 台灣著作權法 §10-1 (思想/表達二分法,事實/數據不受保護;§10-2 不存在,勿用)
 #   - 日本著作権法 §2 創作性 + §12-2 資料庫
 #   - 美國 17 USC §102(b) facts not protected, Feist v. Rural (1991), Sega v. Accolade (1992)
 #
@@ -126,7 +126,7 @@ else
 fi
 
 # A8. Triple-jurisdiction copyright check
-print_section "[A8] Copyright (TW §10-2 + JP §2/§12-2 + US §102b/Feist/Sega)"
+print_section "[A8] Copyright (TW §10-1 + JP §2/§12-2 + US §102b/Feist/Sega)"
 
 # 8.1: Forbidden v2.0 phrasing (BLOCKER)
 HITS=$(echo "$PUB_FILES" | xargs -I{} grep -nE "攻略文件版權屬於原作者，本站僅|事實在二進制裡|逆向解析的完整資料庫" {} 2>/dev/null)
@@ -160,6 +160,15 @@ if [ "$DISCLAIMER_OK" -gt 0 ]; then
   print_pass "8.4 Copyright disclaimer present in $DISCLAIMER_OK file(s)"
 else
   print_warn "8.4 No copyright disclaimer detected"
+fi
+
+# 8.5: Non-existent TW copyright article (BLOCKER) — §10-2 does not exist; idea-expression is §10-1
+HITS=$(echo "$PUB_FILES" | xargs -I{} grep -nE "§10-2|第 ?10-2 條|10 條之 2" {} 2>/dev/null | head -5)
+if [ -z "$HITS" ]; then
+  print_pass "8.5 No non-existent TW article §10-2 (correct is §10-1)"
+else
+  echo "$HITS" | head -5
+  print_fail "8.5 Wrong TW citation §10-2 (does not exist — use §10-1 idea-expression)"
 fi
 
 # A9. Draft / WIP markers (WARN)

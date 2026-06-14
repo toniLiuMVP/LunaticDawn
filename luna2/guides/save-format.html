@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>存檔格式解析 · 俠客遊 II · 吟遊詩人的傳說</title>
-<meta name="description" content="聶荊璇（殘楓網）2006 年發表的 v4.1 版完整存檔格式文件。涵蓋 13 個 .SAV 檔案的byte-level 結構——包括 LUNACHAR.SAV（角色）、CHRITEM.SAV（物品）、OYABUN.SAV（老大）、SCENDATA.SAV（場景）、SHOPITEM.SAV（商店）、">
+<meta name="description" content="聶荊璇（殘楓網）2006 年發表的 v4.1 版完整存檔格式文件。涵蓋 13 個 .SAV 檔案的byte-level 結構，包括 LUNACHAR.SAV（角色）、CHRITEM.SAV（物品）、OYABUN.SAV（老大）、SCENDATA.SAV（場景）、SHOPITEM.SAV（商店）、">
 <link rel="stylesheet" href="../../assets/css/fonts-wuxia.css">
 <link rel="stylesheet" href="../../assets/css/wuxia.css">
 <meta property="og:type" content="website">
 <meta property="og:title" content="存檔格式解析 · 俠客遊 II · 吟遊詩人的傳說">
-<meta property="og:description" content="聶荊璇（殘楓網）2006 年發表的 v4.1 版完整存檔格式文件。涵蓋 13 個 .SAV 檔案的byte-level 結構——包括 LUNACHAR.SAV（角色）、CHRITEM.SAV（物品）、OYABUN.SAV（老大）、SCENDATA.SAV（場景）、SHOPITEM.SAV（商店）、">
+<meta property="og:description" content="聶荊璇（殘楓網）2006 年發表的 v4.1 版完整存檔格式文件。涵蓋 13 個 .SAV 檔案的byte-level 結構，包括 LUNACHAR.SAV（角色）、CHRITEM.SAV（物品）、OYABUN.SAV（老大）、SCENDATA.SAV（場景）、SHOPITEM.SAV（商店）、">
 <meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/luna2/guides/save-format.html">
 <meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
@@ -19,9 +19,9 @@
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="存檔格式解析 · 俠客遊 II · 吟遊詩人的傳說">
-<meta name="twitter:description" content="聶荊璇（殘楓網）2006 年發表的 v4.1 版完整存檔格式文件。涵蓋 13 個 .SAV 檔案的byte-level 結構——包括 LUNACHAR.SAV（角色）、CHRITEM.SAV（物品）、OYABUN.SAV（老大）、SCENDATA.SAV（場景）、SHOPITEM.SAV（商店）、">
+<meta name="twitter:description" content="聶荊璇（殘楓網）2006 年發表的 v4.1 版完整存檔格式文件。涵蓋 13 個 .SAV 檔案的byte-level 結構，包括 LUNACHAR.SAV（角色）、CHRITEM.SAV（物品）、OYABUN.SAV（老大）、SCENDATA.SAV（場景）、SHOPITEM.SAV（商店）、">
 <meta name="twitter:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","datePublished":"2026-04-10","dateModified":"2026-05-13","headline":"存檔格式解析","description":"聶荊璇（殘楓網）2006 年發表的 v4.1 版完整存檔格式文件。涵蓋 13 個 .SAV 檔案的byte-level 結構——包括 LUNACHAR.SAV（角色）、CHRITEM.SAV（物品）、OYABUN.SAV（老大）、SCENDATA.SAV（場景）、SHOPITEM.SAV（商店）、","url":"https://toniliumvp.github.io/LunaticDawn/luna2/guides/save-format.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"publisher":{"@type":"Organization","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"image":"https://toniliumvp.github.io/LunaticDawn/assets/og-image.png","about":{"@type":"VideoGame","name":"俠客遊 II"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","datePublished":"2026-04-10","dateModified":"2026-05-13","headline":"存檔格式解析","description":"聶荊璇（殘楓網）2006 年發表的 v4.1 版完整存檔格式文件。涵蓋 13 個 .SAV 檔案的byte-level 結構，包括 LUNACHAR.SAV（角色）、CHRITEM.SAV（物品）、OYABUN.SAV（老大）、SCENDATA.SAV（場景）、SHOPITEM.SAV（商店）、","url":"https://toniliumvp.github.io/LunaticDawn/luna2/guides/save-format.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"publisher":{"@type":"Organization","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"image":"https://toniliumvp.github.io/LunaticDawn/assets/og-image.png","about":{"@type":"VideoGame","name":"俠客遊 II"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"吟遊詩人的傳說","item":"https://toniliumvp.github.io/LunaticDawn/"},{"@type":"ListItem","position":2,"name":"俠客遊 II","item":"https://toniliumvp.github.io/LunaticDawn/luna2/"},{"@type":"ListItem","position":3,"name":"攻略","item":"https://toniliumvp.github.io/LunaticDawn/luna2/guides/"},{"@type":"ListItem","position":4,"name":"存檔格式解析"}]}</script>
 <!-- seo -->
 </head>
@@ -53,7 +53,7 @@
 
 <section class="panel">
   <h2 class="panel-title">[ SAVE FORMAT · BY 聶荊璇 ]</h2>
-  <p>聶荊璇（殘楓網）2006 年發表的 v4.1 版完整存檔格式文件。涵蓋 13 個 .SAV 檔案的byte-level 結構——包括 LUNACHAR.SAV（角色）、CHRITEM.SAV（物品）、OYABUN.SAV（老大）、SCENDATA.SAV（場景）、SHOPITEM.SAV（商店）、TOWNDATA.SAV / TOWNITEM.SAV（城鎮）、DUNGDATA.SAV（地牢）、KOBUN.SAV（小弟）、LUNAHEAD.SAV、VDD.SAV / VDDKEY.SAV、HIST.SAV。本站存檔修改器的 byte offset 表即以此文件為主要參考。</p>
+  <p>聶荊璇（殘楓網）2006 年發表的 v4.1 版完整存檔格式文件。涵蓋 13 個 .SAV 檔案的byte-level 結構，包括 LUNACHAR.SAV（角色）、CHRITEM.SAV（物品）、OYABUN.SAV（老大）、SCENDATA.SAV（場景）、SHOPITEM.SAV（商店）、TOWNDATA.SAV / TOWNITEM.SAV（城鎮）、DUNGDATA.SAV（地牢）、KOBUN.SAV（小弟）、LUNAHEAD.SAV、VDD.SAV / VDDKEY.SAV、HIST.SAV。本站存檔修改器的 byte offset 表即以此文件為主要參考。</p>
   <p class="muted">原作者：聶荊璇（殘楓網） · 整理：2004-2008 GameBase / 巴哈姆特社群 · 重建：toni 2026</p>
 </section>
 

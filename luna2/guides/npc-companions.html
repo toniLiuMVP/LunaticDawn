@@ -114,12 +114,12 @@
 NPC 系統分三層：</p>
 
 <ol>
-<li><strong>NPC 字典</strong>（660 個獨特字串）— 遊戲生成 NPC 名字的字典池
+<li><strong>NPC 字典</strong>（660 個獨特字串），遊戲生成 NPC 名字的字典池
    <ul><li>CALLNAME 別號 180 + MCNAME0 男名 192 + MCNAME1 姓 192 + FCNAME 女名 96</li>
    <li>男性全名組合空間 36,864 種；含別號約 6.6M 種</li></ul></li>
-<li><strong>重要 NPC 數值表</strong>（攻略書 PART 5 ch1，150-170 個）— 含 8 屬性 + 15 技能熟練度
+<li><strong>重要 NPC 數值表</strong>（攻略書 PART 5 ch1，150-170 個），含 8 屬性 + 15 技能熟練度
    <ul><li>對應存檔修改器 byte 0x36-0x86 結構</li></ul></li>
-<li><strong>玩家親分 / 子分系統</strong>（KOBUN.SAV / OYABUN.SAV）— 玩家當「老大」帶「小弟」
+<li><strong>玩家親分 / 子分系統</strong>（KOBUN.SAV / OYABUN.SAV），玩家當「老大」帶「小弟」
    <ul><li>2026 binary 逆向初步釐清結構</li></ul></li>
 </ol>
 
@@ -222,7 +222,7 @@ NPC 系統分三層：</p>
   <div class="step-content">
     <h4>建立子分（小弟）關係</h4>
     <p>NPC 同意後加入隊伍，記錄到 <code>USER0/KOBUN.SAV</code>（542 bytes）。
-    2026 binary 結構釐清：含小弟 ID + 各種數值（u16 LE 多欄位 — 13/16/32 等可能是「忠誠度 / 等級 / 屬性」）。</p>
+    2026 binary 結構釐清：含小弟 ID + 各種數值（u16 LE 多欄位，13/16/32 等可能是「忠誠度 / 等級 / 屬性」）。</p>
   </div>
 </div>
 
@@ -265,7 +265,7 @@ NPC 系統分三層：</p>
 <thead><tr><th>盜賊能力</th><th>替代方案</th><th>差異</th></tr></thead>
 <tbody>
 <tr><td><strong>解除地下城門鎖</strong></td><td>萬能鑰匙（耗材，每支用一次就掉）</td><td>盜賊可重複使用，省鑰匙費</td></tr>
-<tr><td><strong>解除寶箱機關</strong></td><td>無替代</td><td>盜賊獨有 — 沒盜賊則跳過寶箱</td></tr>
+<tr><td><strong>解除寶箱機關</strong></td><td>無替代</td><td>盜賊獨有，沒盜賊則跳過寶箱</td></tr>
 <tr><td><strong>偷取 NPC 物品</strong></td><td>無替代</td><td>盜賊獨有特殊技能</td></tr>
 <tr><td><strong>地下城特殊機關陷阱</strong></td><td>需熟練度高的角色 + 神秘智者 NPC</td><td>盜賊解除效率最高</td></tr>
 </tbody>
@@ -273,7 +273,7 @@ NPC 系統分三層：</p>
 
 <p>💡 <strong>說明書原文要點</strong>：「若是隊伍裡有精通盜賊技能的人，那麼就算是沒有萬能鑰匙也沒什麼關係的」+「招募擁有優秀盜賊技能的夥伴，待遇從優」（說明書 p085 印頁 P78）。</p>
 
-<p>⚠️ <strong>另類解法</strong>：地下城內若門上鎖，<strong>物理系魔法也可以打開鎖</strong>（說明書 p140 印頁 P132）— 不必依賴鑰匙 / 盜賊。但盜賊解寶箱仍然不可替代。</p>
+<p>⚠️ <strong>另類解法</strong>：地下城內若門上鎖，<strong>物理系魔法也可以打開鎖</strong>（說明書 p140 印頁 P132），不必依賴鑰匙 / 盜賊。但盜賊解寶箱仍然不可替代。</p>
 
 <h2>🎯 招募策略建議</h2>
 
@@ -321,9 +321,9 @@ NPC 系統分三層：</p>
 <p>對應<a href="weapon-formulas-paths.html">三條玩家路線</a>：</p>
 
 <ul>
-<li><strong>英雄之路</strong> — 招募「戰士」「武術高手」「神聖魔法高手」「勇敢女神」「神之化身」</li>
-<li><strong>邪惡之路</strong> — 招募「黑暗系列」「殺人高手」「死神」「破滅之徒」</li>
-<li><strong>金錢之路</strong> — 招募「商人」「吟遊詩人」「賞金獵人」「賢者」</li>
+<li><strong>英雄之路</strong>，招募「戰士」「武術高手」「神聖魔法高手」「勇敢女神」「神之化身」</li>
+<li><strong>邪惡之路</strong>，招募「黑暗系列」「殺人高手」「死神」「破滅之徒」</li>
+<li><strong>金錢之路</strong>，招募「商人」「吟遊詩人」「賞金獵人」「賢者」</li>
 </ul>
 
 <h2>🔗 相關資料庫 / 攻略</h2>

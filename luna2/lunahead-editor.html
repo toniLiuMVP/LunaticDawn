@@ -151,7 +151,7 @@
     <br><br>
     <strong>結構（2026-05-02 2026 binary 逆向）</strong>：byte 0-17 = 玩家資料（含 Big5 姓名）+ byte 18+ 全 0xFF padding。
     <br>
-    <strong>byte 5-10</strong>：Big5 玩家姓名（3 個中文字，6 bytes）— USER0 預設「未具名」。
+    <strong>byte 5-10</strong>：Big5 玩家姓名（3 個中文字，6 bytes），USER0 預設「未具名」。
     <strong>byte 14-15 / 16-17</strong>：兩個 u16 LE = 48（推測為 age / 起始屬性）。
     <br><br>
     所有解析在瀏覽器本地完成，不上傳任何資料。
@@ -193,7 +193,7 @@
       <div class="field-row">
         <label for="edit-name-preset">預設姓名（快速套用）：</label>
         <select id="edit-name-preset" style="font-family: 'VT323', monospace; font-size: 14px;">
-          <option value="">— 選預設 —</option>
+          <option value="">，選預設，</option>
           <optgroup label="官方 / 中性">
             <option value="a5bca8e3a657">未具名（USER0 default）</option>
             <option value="abc8a448 0000">客人</option>
