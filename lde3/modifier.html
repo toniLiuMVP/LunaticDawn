@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>第三之書瀏覽器版修改器 v0.2 · 吟遊詩人的傳說</title>
-<meta name="description" content="第三之書瀏覽器版修改器 v0.2 — lde3s.le3 hex 編輯 + Big5 字串搜尋 + 區段熱圖 + 跨版本 diff。純前端，無上傳。">
+<meta name="description" content="第三之書瀏覽器版修改器 v0.2，lde3s.le3 hex 編輯 + Big5 字串搜尋 + 區段熱圖 + 跨版本 diff。純前端，無上傳。">
 <link rel="stylesheet" href="../assets/css/fonts-retro.css">
 <link rel="stylesheet" href="../assets/css/retro.css">
 <meta property="og:type" content="website">
@@ -65,7 +65,7 @@
 
 
   <div class="intro">
-    <strong>第三之書瀏覽器版修改器</strong>（v0.2）— 跨平台 / 純前端 / 無上傳。
+    <strong>第三之書瀏覽器版修改器</strong>（v0.2），跨平台 / 純前端 / 無上傳。
     <br><br>
     <strong>支援檔案</strong>：<code>lde3s.le3</code>（主存檔，985,542 bytes）位於<code>遊戲資料夾/usr/</code>。
     <br>
@@ -88,8 +88,8 @@
     <br><br>
     <strong>2026 結構分區發現</strong>（4 個玩家存檔 byte diff 取得）：
     <ul style="margin: 8px 0 0 20px; line-height: 1.7;">
-      <li><strong>0x00-0x6B (108 bytes)</strong>：固定 header — magic <code>le3\\0</code> + ASCII 版權字串 + version u32=0x3d</li>
-      <li><strong>0x6C-0x18F (約 256 bytes)</strong>：半固定區 — 玩家可變只 24 bytes：
+      <li><strong>0x00-0x6B (108 bytes)</strong>：固定 header，magic <code>le3\\0</code> + ASCII 版權字串 + version u32=0x3d</li>
+      <li><strong>0x6C-0x18F (約 256 bytes)</strong>：半固定區，玩家可變只 24 bytes：
         <ul style="margin: 4px 0 0 20px; font-size: 13px;">
           <li><code>0x72-0x7E</code>: 13 bytes 玩家識別 / 屬性</li>
           <li><code>0x88-0x8E</code>: 7 bytes 玩家屬性</li>
@@ -109,7 +109,7 @@
       <li><strong>記下對照表</strong>：例如「0x72-0x73 = 等級」「0xA6 = 性別」</li>
       <li><strong>未來直接 offset-based 修改</strong>：知道 offset 後就能用本工具的 hex editor 直接改值，不用再進遊戲</li>
     </ol>
-    <p style="margin: 8px 0 0; color: var(--phosphor-dim); font-size: 13px;">⚠️ 0x190+ 動態流區段不適用 offset-based 修改（每次 save 整體重排）— 那邊只能用本工具的「Big5 字串搜尋 + diff」找特定字串再改。</p>
+    <p style="margin: 8px 0 0; color: var(--phosphor-dim); font-size: 13px;">⚠️ 0x190+ 動態流區段不適用 offset-based 修改（每次 save 整體重排），那邊只能用本工具的「Big5 字串搜尋 + diff」找特定字串再改。</p>
 
     <em>所有解析在瀏覽器本地完成，不上傳任何資料。</em>
   </div>
@@ -143,10 +143,10 @@
       <h3>Header 結構（byte 0-127）</h3>
       <table class="region-table">
         <tr><th>Offset</th><th>Size</th><th>Content</th></tr>
-        <tr><td class="num">0x00</td><td class="num">4</td><td><code>"le3\0"</code> — magic byte</td></tr>
+        <tr><td class="num">0x00</td><td class="num">4</td><td><code>"le3\0"</code>，magic byte</td></tr>
         <tr><td class="num">0x04</td><td class="num">28</td><td><code>"LUNATIC DAWN - The 3rd Book -"</code> + null padding</td></tr>
         <tr><td class="num">0x20</td><td class="num">32</td><td><code>"Copyright (C) ARTDINK Corp. 2000"</code> + nulls</td></tr>
-        <tr><td class="num">0x54+</td><td class="num">~985KB</td><td>Binary game data（玩家 / 角色 / 物品 / 地圖 / NPC / 任務）— 結構待逆向</td></tr>
+        <tr><td class="num">0x54+</td><td class="num">~985KB</td><td>Binary game data（玩家 / 角色 / 物品 / 地圖 / NPC / 任務），結構待逆向</td></tr>
       </table>
     </div>
 
@@ -262,7 +262,7 @@ async function handleFile(file) {
     const MIN_SIZE = 100 * 1024;       // 100 KB minimum
     const MAX_SIZE = 2 * 1024 * 1024;  // 2 MB maximum
     if (file.size < MIN_SIZE || file.size > MAX_SIZE) {
-      throw new Error(`檔案大小異常 (${file.size.toLocaleString()} bytes) — lde3s.le3 預期 ~985,542 bytes，允許範圍 ${MIN_SIZE / 1024} KB ~ ${MAX_SIZE / 1024 / 1024} MB`);
+      throw new Error(`檔案大小異常 (${file.size.toLocaleString()} bytes)，lde3s.le3 預期 ~985,542 bytes，允許範圍 ${MIN_SIZE / 1024} KB ~ ${MAX_SIZE / 1024 / 1024} MB`);
     }
     const buffer = await file.arrayBuffer();
     workBuffer = new Uint8Array(buffer);
@@ -337,7 +337,7 @@ $('btn-big5-search').addEventListener('click', () => {
   const out = $('big5-search-results');
 
   // Big5 encode using small lookup hack: try fetch big5-encoder-table.json from luna2/
-  // 實作: 直接用 byte pattern matching — 把 query 用 TextEncoder + 假設 Big5 高區間轉 bytes
+  // 實作: 直接用 byte pattern matching，把 query 用 TextEncoder + 假設 Big5 高區間轉 bytes
   // 簡易做法: 用 Big5 encoded lookup if available, else fall back to raw byte sequence search
   encodeBig5ForSearch(q).then(qBytes => {
     if (!qBytes || qBytes.length === 0) {

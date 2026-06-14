@@ -1,4 +1,4 @@
-// list-page.js — 通用列表頁邏輯
+// list-page.js，通用列表頁邏輯
 // 用法: <script>window.LIST_CONFIG = {...}</script><script src="list-page.js"></script>
 // CONFIG: { dataKey, columns, searchField, getRowFields, detailFn, totalCount }
 
@@ -23,7 +23,7 @@
   let allRows = [];
   let openDetail = null;
 
-  function num(n) { return n === 65535 || n === 255 ? '—' : String(n); }
+  function num(n) { return n === 65535 || n === 255 ? '，' : String(n); }
   window.num = num; window.el = el;
 
   function renderTable(rows) {

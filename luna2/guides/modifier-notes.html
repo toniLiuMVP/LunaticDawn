@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>修改筆記 · 俠客遊 II · 吟遊詩人的傳說</title>
-<meta name="description" content="本文件包含兩組獨立的修改筆記：1996.07.30 伊達政宗 &amp; Silver Angel——LUNA2.EXE 密碼破解、能力值 / 法術 / 家系 / 弱點的 byte layout、武器修改的 FPE 技巧。">
+<meta name="description" content="本文件包含兩組獨立的修改筆記：1996.07.30 伊達政宗 &amp; Silver Angel，LUNA2.EXE 密碼破解、能力值 / 法術 / 家系 / 弱點的 byte layout、武器修改的 FPE 技巧。">
 <link rel="stylesheet" href="../../assets/css/fonts-wuxia.css">
 <link rel="stylesheet" href="../../assets/css/wuxia.css">
 <meta property="og:type" content="website">
 <meta property="og:title" content="修改筆記 · 俠客遊 II · 吟遊詩人的傳說">
-<meta property="og:description" content="本文件包含兩組獨立的修改筆記：1996.07.30 伊達政宗 &amp; Silver Angel——LUNA2.EXE 密碼破解、能力值 / 法術 / 家系 / 弱點的 byte layout、武器修改的 FPE 技巧。">
+<meta property="og:description" content="本文件包含兩組獨立的修改筆記：1996.07.30 伊達政宗 &amp; Silver Angel，LUNA2.EXE 密碼破解、能力值 / 法術 / 家系 / 弱點的 byte layout、武器修改的 FPE 技巧。">
 <meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/luna2/guides/modifier-notes.html">
 <meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
@@ -19,9 +19,9 @@
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="修改筆記 · 俠客遊 II · 吟遊詩人的傳說">
-<meta name="twitter:description" content="本文件包含兩組獨立的修改筆記：1996.07.30 伊達政宗 &amp; Silver Angel——LUNA2.EXE 密碼破解、能力值 / 法術 / 家系 / 弱點的 byte layout、武器修改的 FPE 技巧。">
+<meta name="twitter:description" content="本文件包含兩組獨立的修改筆記：1996.07.30 伊達政宗 &amp; Silver Angel，LUNA2.EXE 密碼破解、能力值 / 法術 / 家系 / 弱點的 byte layout、武器修改的 FPE 技巧。">
 <meta name="twitter:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","datePublished":"2026-04-10","dateModified":"2026-05-13","headline":"修改筆記","description":"本文件包含兩組獨立的修改筆記：1996.07.30 伊達政宗 & Silver Angel——LUNA2.EXE 密碼破解、能力值 / 法術 / 家系 / 弱點的 byte layout、武器修改的 FPE 技巧。","url":"https://toniliumvp.github.io/LunaticDawn/luna2/guides/modifier-notes.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"publisher":{"@type":"Organization","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"image":"https://toniliumvp.github.io/LunaticDawn/assets/og-image.png","about":{"@type":"VideoGame","name":"俠客遊 II"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","datePublished":"2026-04-10","dateModified":"2026-05-13","headline":"修改筆記","description":"本文件包含兩組獨立的修改筆記：1996.07.30 伊達政宗 & Silver Angel，LUNA2.EXE 密碼破解、能力值 / 法術 / 家系 / 弱點的 byte layout、武器修改的 FPE 技巧。","url":"https://toniliumvp.github.io/LunaticDawn/luna2/guides/modifier-notes.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"publisher":{"@type":"Organization","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"image":"https://toniliumvp.github.io/LunaticDawn/assets/og-image.png","about":{"@type":"VideoGame","name":"俠客遊 II"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"吟遊詩人的傳說","item":"https://toniliumvp.github.io/LunaticDawn/"},{"@type":"ListItem","position":2,"name":"俠客遊 II","item":"https://toniliumvp.github.io/LunaticDawn/luna2/"},{"@type":"ListItem","position":3,"name":"攻略","item":"https://toniliumvp.github.io/LunaticDawn/luna2/guides/"},{"@type":"ListItem","position":4,"name":"修改筆記"}]}</script>
 <!-- seo -->
 </head>
@@ -53,7 +53,7 @@
 
 <section class="panel">
   <h2 class="panel-title">[ MODIFIER NOTES · 1996 ]</h2>
-  <p>本文件包含兩組獨立的修改筆記：<br><br><strong class="amber">1996.07.30 伊達政宗 &amp; Silver Angel</strong>——LUNA2.EXE 密碼破解、能力值 / 法術 / 家系 / 弱點的 byte layout、武器修改的 FPE 技巧。<br><br><strong class="amber">李憲忠 (An-Liang Lo)</strong>——精確到 byte 的 offset 對照表：Pos16 年齡、Pos20-22 金錢、Pos42-47 HP/MP/STM 上限、Pos54-61 8 項能力、Pos120-134 15 項技能、Pos136-145 5 系法術 bitfield。<br><br>這兩份文件是本站<a href="../save-editor.html">存檔修改器</a>的核心規格來源。</p>
+  <p>本文件包含兩組獨立的修改筆記：<br><br><strong class="amber">1996.07.30 伊達政宗 &amp; Silver Angel</strong>，LUNA2.EXE 密碼破解、能力值 / 法術 / 家系 / 弱點的 byte layout、武器修改的 FPE 技巧。<br><br><strong class="amber">李憲忠 (An-Liang Lo)</strong>，精確到 byte 的 offset 對照表：Pos16 年齡、Pos20-22 金錢、Pos42-47 HP/MP/STM 上限、Pos54-61 8 項能力、Pos120-134 15 項技能、Pos136-145 5 系法術 bitfield。<br><br>這兩份文件是本站<a href="../save-editor.html">存檔修改器</a>的核心規格來源。</p>
   <p class="muted">原作者：伊達政宗、Silver Angel、李憲忠 · 整理：2004-2008 GameBase / 巴哈姆特社群 · 重建：toni 2026</p>
 </section>
 

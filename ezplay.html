@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>立即遊玩 EzPlay · 解壓覆蓋即玩 · 吟遊詩人的傳說</title>
+<meta name="description" content="俠客遊系列 EzPlay 補丁包：自備正版遊戲本體，解壓覆蓋到遊戲根目錄後執行一個檔案，即可在現代 Windows / Mac 順利遊玩。前途道標 (Win) / 俠客遊 IV (Win+Mac) / 第三之書 (Win+Mac)。">
+<link rel="stylesheet" href="assets/css/fonts-wuxia.css">
+<link rel="stylesheet" href="assets/css/wuxia.css">
+<meta property="og:type" content="website">
+<meta property="og:title" content="立即遊玩 EzPlay · 解壓覆蓋即玩">
+<meta property="og:description" content="俠客遊系列補丁包：自備正版，解壓覆蓋後執行一個檔案即可遊玩。前途道標 / 俠客遊 IV / 第三之書。">
+<meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/ezplay.html">
+<meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
+<meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="canonical" href="https://toniliumvp.github.io/LunaticDawn/ezplay.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="立即遊玩 EzPlay · 解壓覆蓋即玩">
+<meta name="twitter:description" content="俠客遊系列補丁包：自備正版，解壓覆蓋後執行一個檔案即可遊玩。">
+<meta name="twitter:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"立即遊玩 EzPlay · 解壓覆蓋即玩","description":"俠客遊系列 EzPlay 補丁包使用教學：自備正版遊戲本體，解壓覆蓋到遊戲根目錄後執行一個檔案即可遊玩。","url":"https://toniliumvp.github.io/LunaticDawn/ezplay.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"吟遊詩人的傳說","item":"https://toniliumvp.github.io/LunaticDawn/"},{"@type":"ListItem","position":2,"name":"立即遊玩 EzPlay"}]}</script>
+<!-- seo -->
+<style>
+.ez-card { border: 1px solid var(--accent); padding: 0; margin: 20px 0; }
+.ez-head { background: var(--bg-header); color: #f0e6d2; padding: 14px 18px; display: flex; flex-wrap: wrap; gap: 10px; align-items: baseline; justify-content: space-between; }
+.ez-head .ez-name { font-size: 19px; font-weight: bold; color: var(--accent); }
+.ez-head .ez-plat { font-size: 13px; }
+.ez-body { padding: 16px 18px; }
+.ez-body h3 { font-size: 15px; color: var(--accent); margin: 14px 0 6px; border-bottom: 1px dotted var(--border); padding-bottom: 4px; }
+.ez-body h3:first-child { margin-top: 0; }
+.plat-ok { color: #2e7d32; font-weight: bold; }
+.plat-no { color: #b23b3b; font-weight: bold; }
+.dl-btn { display: inline-block; background: var(--accent); color: var(--bg-header); font-weight: bold; padding: 9px 18px; margin: 6px 0; border-bottom: none; }
+.dl-btn:hover { background: #b8860b; color: #fff8e8; }
+.dl-pending { display: inline-block; background: var(--bg-panel); color: var(--text-muted); padding: 9px 18px; border: 1px dashed var(--border); font-size: 14px; }
+.steps { counter-reset: step; list-style: none; padding-left: 0; }
+.steps > li { counter-increment: step; margin: 10px 0; padding-left: 38px; position: relative; line-height: 1.7; }
+.steps > li::before { content: counter(step); position: absolute; left: 0; top: 0; width: 26px; height: 26px; background: var(--accent); color: var(--bg-header); border-radius: 50%; text-align: center; line-height: 26px; font-weight: bold; }
+.diff-table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 14px; }
+.diff-table th, .diff-table td { border: 1px solid var(--border); padding: 7px 10px; text-align: left; vertical-align: top; }
+.diff-table th { background: var(--bg-panel); color: var(--accent); white-space: nowrap; }
+.warnbox { border-left: 3px solid #b23b3b; background: rgba(178,59,59,0.07); padding: 10px 14px; margin: 10px 0; font-size: 14px; line-height: 1.7; }
+.okbox { border-left: 3px solid #2e7d32; background: rgba(46,125,50,0.07); padding: 10px 14px; margin: 10px 0; font-size: 14px; line-height: 1.7; }
+code.f { background: var(--bg-panel); padding: 1px 6px; border-radius: 3px; font-family: monospace; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">跳到主要內容</a>
+<div class="wrap">
+
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <h1 class="pixel">立即遊玩 EzPlay</h1>
+      <div class="header-sub">解壓覆蓋到遊戲本體 · 執行一個檔案即可遊玩</div>
+    </div>
+    <div class="header-sub header-right">
+      <div><a href="./">◀ 回主站</a></div>
+    </div>
+  </div>
+</header>
+
+<main id="main-content">
+<div class="breadcrumb">
+  <a href="./">吟遊詩人的傳說</a> / <span class="dim">立即遊玩 EzPlay</span>
+</div>
+
+<section class="panel">
+  <h2 class="panel-title">[ 這是什麼 ]</h2>
+  <p>
+    <strong>EzPlay 補丁包</strong>專門解決「老遊戲在現代電腦跑不動」的各種問題，讓你用自己手上的正版遊戲，在現代 Windows / Mac 順利遊玩。
+  </p>
+  <p>
+    它<strong>不含遊戲本體</strong>，你要先有自己的<strong>正版遊戲</strong>（Steam 版或當年的原版光碟 / 磁碟片）。
+    把 EzPlay 解壓後<strong>覆蓋到遊戲本體根目錄</strong>，再<strong>執行裡面那一個啟動檔</strong>，所有問題一次解決。
+  </p>
+  <div class="warnbox">
+    ⚖ <strong>正版聲明</strong>：EzPlay 只包含「讓遊戲能在現代系統執行」的修正補丁，不散布任何遊戲本體 / 美術 / 劇情 / 音樂。
+    請先透過 <a href="https://store.steampowered.com/app/338070/_/" target="_blank" rel="noopener">Steam 俠客遊系列</a> 或你手上的正版光碟取得遊戲本體，支持原作 Artdink。
+  </div>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 通用 3 步驟 ]</h2>
+  <ol class="steps">
+    <li><strong>準備遊戲本體</strong>：把你的正版遊戲安裝好（Steam 安裝目錄，或原版光碟安裝後的資料夾）。</li>
+    <li><strong>解壓覆蓋</strong>：把對應的 EzPlay <code class="f">.7z</code> 解壓，把裡面所有檔案<strong>複製貼到遊戲本體的根目錄</strong>（也就是遊戲主程式 <code class="f">.exe</code> 所在的資料夾），遇到「是否覆蓋」選<strong>全部覆蓋</strong>。</li>
+    <li><strong>執行那一個啟動檔</strong>：雙擊對應你系統的啟動檔（Windows 雙擊 <code class="f">.bat</code> / Mac 雙擊 <code class="f">.command</code>），即可開始遊玩。</li>
+  </ol>
+  <div class="warnbox">
+    ⚠ <strong>請執行啟動檔，不是遊戲主程式</strong>：Mac 一定要用 <code class="f">.command</code> 啟動檔（它會呼叫 Wine 並處理首次執行）；Windows 雙擊 <code class="f">.bat</code> 啟動檔最保險（會自動切到正確目錄）。
+  </div>
+  <p class="muted" style="font-size:13px;">※ Mac 首次執行若被系統擋下，先雙擊 <code class="f">_Mac首次執行_先點我.command</code> 一次（解除 Gatekeeper 隔離），之後就正常。Mac 需先安裝 Wine。</p>
+
+  <h3 style="font-size:15px;color:var(--accent);margin:20px 0 6px;border-bottom:1px dotted var(--border);padding-bottom:4px;">啟動檔幫你做了什麼？為什麼要用它？</h3>
+  <p>老遊戲不是雙擊主程式就能在現代系統跑，啟動檔幫你把執行環境準備好（透明、可檢視，純文字檔可以自己打開看）：</p>
+  <ul style="line-height:1.85;">
+    <li><strong>Mac</strong>：① 自動找到你電腦裡的 <strong>Wine</strong>（老 Windows 遊戲要靠 Wine 才能在 Mac 上執行，啟動檔會依序找 Homebrew Wine / Wine Crossover / CrossOver）→ ② 解除 macOS 對下載檔的<strong>安全隔離</strong>（Gatekeeper，否則 <code class="f">.command</code> 會被系統擋住點不開）→ ③ 切換到遊戲所在資料夾 → ④ 用 Wine 啟動遊戲。</li>
+    <li><strong>Windows</strong>：先<strong>切換到遊戲所在資料夾</strong>再啟動主程式，這樣遊戲才找得到同資料夾的必要元件（直接雙擊主程式有時工作目錄不對，會出問題）。</li>
+  </ul>
+  <p class="muted" style="font-size:13px;">啟動檔是純文字檔，你可以用記事本／文字編輯器打開檢視它做了哪些事，完全透明。</p>
+</section>
+
+<!-- ==================== LD95 前途道標 ==================== -->
+<section class="panel" id="ld95">
+  <div class="ez-card">
+    <div class="ez-head">
+      <span class="ez-name">前途道標（Passage of the Book, 1999）</span>
+      <span class="ez-plat"><span class="plat-ok">✓ Windows</span> ・ <span class="plat-no">✗ Mac（見下方說明）</span></span>
+    </div>
+    <div class="ez-body">
+      <h3>補丁內容</h3>
+      <p>主程式 + 字體放大元件（<code class="f">Ld95.exe</code> + <code class="f">LDWMM.dll</code> + <code class="f">ld95.ini</code>）+ 一個 Windows 啟動檔。</p>
+      <p>✓ <strong>保護玩家所持有的正版光碟</strong>。</p>
+      <h3>下載</h3>
+      <p><a class="dl-btn" href="https://drive.google.com/file/d/1ed0yh3f8obfGw-oJTbUIZyFs9m72nXJ1/view" target="_blank" rel="noopener">📦 下載 LD95_EzPlay.7z（Google Drive · 525 KB）</a></p>
+      <h3>遇到的困難與排除</h3>
+      <table class="diff-table">
+        <tr><th>困難</th><th>排除方法</th></tr>
+        <tr><td>Win10/11 下遊戲文字太小看不清</td><td>內附 <code class="f">LDWMM.dll</code> 把主畫面字體放大（Windows 原生有效）</td></tr>
+      </table>
+      <div class="warnbox">
+        <strong>為什麼 Mac 版放棄？</strong>誠實說：前途道標在 Mac 用 Wine 跑時，主畫面文字會<strong>重疊在一起、無法辨別</strong>。
+        這是 1999 年的點陣字搭配 Wine 的字元定位／間距計算問題，我們試過多種方法（字體替換 / DPI 縮放 / 攔截字型呼叫）都無法解決
+，Windows 能用的放大元件在 Mac 的 Wine 64 位元模式載不進去。與其假裝解決，老實標示：<strong>前途道標只出 Windows 版</strong>。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== LD4 俠客遊 IV ==================== -->
+<section class="panel" id="ld4">
+  <div class="ez-card">
+    <div class="ez-head">
+      <span class="ez-name">俠客遊 IV（Lunatic Dawn IV, 2001）</span>
+      <span class="ez-plat"><span class="plat-ok">✓ Windows</span> ・ <span class="plat-ok">✓ Mac</span></span>
+    </div>
+    <div class="ez-body">
+      <h3>補丁內容</h3>
+      <p>主程式（<code class="f">LD4.exe</code> + <code class="f">LDWMM.dll</code> + <code class="f">ld4.ini</code>）+ Windows / Mac 兩個啟動檔。</p>
+      <p>✓ <strong>保護玩家所持有的正版光碟</strong>。</p>
+      <p>✓ <strong>解決官方登入伺服器 2001 年後已關閉的問題</strong>。</p>
+      <h3>下載</h3>
+      <p><a class="dl-btn" href="https://drive.google.com/file/d/1-AAAn6RGGCVLlDfjNOZqM0hwTgPGv7DN/view" target="_blank" rel="noopener">📦 下載 LD4_EzPlay.7z（Google Drive · 779 KB）</a></p>
+      <div class="okbox"><strong>Windows + Mac 都正常遊玩。</strong>（原版背景音樂在 CD 音軌，本版沒有背景音樂，詳見下方排除經驗。）</div>
+      <h3>💡 排除經驗（這款最曲折，值得記錄）</h3>
+      <div class="warnbox" style="border-left-color:var(--accent);background:rgba(184,134,11,0.06);">
+        <p style="margin:0 0 8px;"><strong>難題：遊戲進得去，但一點「工具列視窗」就閃退。真兇竟是「想把視窗放大」的嘗試。</strong></p>
+        <p style="margin:0 0 8px;">俠客遊 IV 是 2001 年的多子視窗程式（工具列、地圖、角色狀態各是獨立小視窗）。我們一度想把視窗放大（老遊戲在大螢幕顯得很小），做法是加一個元件去攔截系統的「視窗繪圖」指令，結果它把子視窗的繪圖座標搞亂了，<strong>一點工具列就崩潰</strong>。</p>
+        <p style="margin:0 0 8px;"><strong>解法</strong>：把「放大視窗」的攔截全部移除，只留遊戲本身必要的最小元件，工具列就恢復正常、不再閃退。想要大視窗請改用 <strong>Windows 內建顯示縮放</strong>（設定 → 系統 → 顯示器 → 縮放），讓系統去放大，不要在程式裡硬攔截。</p>
+        <p style="margin:0;"><strong>順帶取捨</strong>：原版的背景音樂原本在 CD 音軌，沒有光碟就沒有音樂；曾試過用 mp3 自動播放補回，但有相容問題（Mac 尤其無解），最終取捨為<strong>無背景音樂、換取 100% 穩定不閃退</strong>。<strong>教訓</strong>：對老程式注入元件時，能不碰的（視窗 / 繪圖 / DPI 縮放）就別碰，越精簡越穩。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== LDE3 第三之書 ==================== -->
+<section class="panel" id="lde3">
+  <div class="ez-card">
+    <div class="ez-head">
+      <span class="ez-name">第三之書（The Third Book, 2002）</span>
+      <span class="ez-plat"><span class="plat-ok">✓ Windows</span> ・ <span class="plat-ok">✓ Mac</span></span>
+    </div>
+    <div class="ez-body">
+      <h3>補丁內容</h3>
+      <p>繁體中文正式版主程式（<code class="f">Lde3.exe</code> + <code class="f">lde3.ini</code>）+ Windows / Mac 兩個啟動檔。</p>
+      <p>✓ <strong>保護玩家所持有的正版光碟</strong>。</p>
+      <h3>下載</h3>
+      <p><a class="dl-btn" href="https://drive.google.com/file/d/1veFLth0dTmAjc8S-BCWKS42XMTwgYzEW/view" target="_blank" rel="noopener">📦 下載 LDE3_EzPlay.7z（Google Drive · 713 KB）</a></p>
+      <div class="okbox"><strong>Windows + Mac 都正常遊玩。</strong></div>
+      <h3>🌟 額外解鎖:ME 版特典</h3>
+      <div class="okbox" style="border-left-color:var(--accent);background:rgba(184,134,11,0.06);">
+        <p style="margin:0 0 8px;">第三之書當年另有一個收錄開發者額外功能的「<strong>ME 版</strong>」。本 EzPlay 啟動後會一併<strong>啟用 ME 版特典</strong>，讓繁體中文版玩家也能用到這些原本只有 ME 版才有的功能:</p>
+        <ul style="margin:0 0 8px;line-height:1.85;">
+          <li>✅ <strong>人名編輯器</strong>:設定 → 稱號變更 / 外觀變更</li>
+          <li>✅ <strong>城鎮名編輯器</strong>:設定 → 城鎮名變更</li>
+          <li>✅ <strong>ME 版專有道具</strong>:寶箱 / 合成會出現 ME 限定道具</li>
+          <li>✅ <strong>寺院神器卡片製造器</strong>:卡片夾 → 卡片製造 → 國王試煉物</li>
+        </ul>
+        <p class="muted" style="margin:0;font-size:13px;">※ ME 版另有委託編輯器 / 角色繼承 / 遊戲內專有壁紙，但這三項繁體中文版當年未隨片附上對應檔案，故無法在繁中版啟用。</p>
+      </div>
+      <h3>💡 排除經驗</h3>
+      <div class="warnbox" style="border-left-color:var(--accent);background:rgba(184,134,11,0.06);">
+        <p style="margin:0 0 8px;">老實說，第三之書是這三款裡<strong>最順手的一款</strong> 😄。它是 2002 年的 <strong>Windows 原生</strong>遊戲（系列裡唯一不是 DOS 的一作），在現代 Windows 上幾乎是放進去就能玩，沒有前兩作那些字體、視窗、音樂的老毛病。</p>
+        <p style="margin:0;"><strong>主要工夫在 Mac：</strong>第三之書當年只發行 Windows 版，Mac 沒有原生版本，得靠 Wine 才能執行。我們把這件事交給啟動檔自動處理（找 Wine、解除安全隔離、設好執行環境，流程見上方「啟動檔幫你做了什麼？」），讓 Mac 玩家也能一鍵遊玩。所以這款的「困難」不在遊戲本身，而在<strong>怎麼讓老 Windows 遊戲在 Mac 上順順地跑起來</strong>，這正是 EzPlay 啟動檔幫你解決的事。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 法律依據 ==================== -->
+<section class="panel" id="legal-basis">
+  <h2 class="panel-title">[ 法律依據與風險說明 ]</h2>
+  <p>EzPlay 建立在一個前提:<strong>你擁有自己的正版遊戲</strong>，EzPlay 只是讓那份正版能在 2026 年的電腦上跑起來的「相容性補丁」。在台灣、日本、美國三邊著作權法，這個做法都有<strong>可主張的法律依據</strong>(同時也有需要誠實面對的風險，見下方說明)。</p>
+  <p>站得住腳的核心理由:</p>
+  <ul style="line-height:1.85;">
+    <li>✅ <strong>玩家自備正版</strong>:你調整的是自己合法擁有的遊戲副本，供自己在自己的電腦上使用。</li>
+    <li>✅ <strong>只散布相容性補丁</strong>:EzPlay 不含遊戲本體 / 美術 / 劇情 / 音樂，只含「讓老遊戲在現代系統執行」的功能性修正。</li>
+    <li>✅ <strong>非商業、絕版作品</strong>:0 廣告 / 0 付費，對象限 1996-2002 已絕版、無現售版本的作品，屬文化保存而非消費替代。</li>
+  </ul>
+
+  <table class="diff-table">
+    <tr><th>司法管轄</th><th>法律依據</th></tr>
+    <tr>
+      <td>🇹🇼<br>台灣</td>
+      <td>
+        <strong>著作權法 §65</strong>:合理使用(非商業 / 文化保存 / 絕版作品)<br>
+        <strong>§10-1</strong>:著作權僅保護表達，不及於思想 / 系統 / 操作方法 / 發現(相容性協定、純功能性修正屬之)<br>
+        <strong>§80-2 第 3 項第 8 款</strong>:為達成相容性之還原工程例外
+      </td>
+    </tr>
+    <tr>
+      <td>🇯🇵<br>日本</td>
+      <td>
+        <strong>著作権法 §47-3</strong>:程式副本所有人，得在自己電腦執行所必要之限度內，自行複製 / 改作(相容性修改、備份)<br>
+        <strong>§2 第 1 項第 1 號 / §12-2</strong>:事實與純功能性內容非創作性表現
+      </td>
+    </tr>
+    <tr>
+      <td>🇺🇸<br>美國</td>
+      <td>
+        <strong>17 USC §107</strong>:合理使用(轉化性、非商業、對絕版作品無市場損害)<br>
+        <strong>§102(b)</strong>:思想 / 方法 / 系統不受著作權保護<br>
+        <strong>§1201(f)</strong>:為達成程式互通性之還原工程例外<br>
+        <strong>Sega v. Accolade (1992)</strong>:為互通性之反組譯構成合理使用<br>
+        <strong>Feist v. Rural Telephone (1991)</strong>:事實本身非著作物
+      </td>
+    </tr>
+  </table>
+
+  <div class="warnbox">
+    ⚖ <strong>誠實說明</strong>:本站立場為<strong>非商業的文化保存(fan preservation)</strong>，與 <a href="https://archive.org" target="_blank" rel="noopener">Internet Archive</a> 等國際 abandonware 慣例一致。下載即表示你自承下游使用責任(備份 / 自用 / 不對外散布)。完整的合規哲學、散布範圍、反規避條款風險說明、主動下架承諾與著作權異議流程，見 <a href="legal/dmca.html#fan-preservation">著作權異議處理 §8 Fan Preservation 特別說明</a>。
+  </div>
+  <p class="muted" style="font-size:13px;">若 ARTDINK 或代理商日後對任一作品主張權利、或在 Steam / 其他平台推出新版，本站 72 小時內主動配合下架對應補丁。著作權人快速通道見 <a href="legal/dmca.html">DMCA 頁</a>。</p>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <p>EzPlay 補丁包只含執行修正，不含遊戲本體。請自備正版遊戲，支持原作 Artdink。</p>
+  <p><a href="./">回主站</a></p>
+</footer>
+
+</div>
+</body>
+</html>

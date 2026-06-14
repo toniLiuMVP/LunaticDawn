@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>俠客遊系列 二進位研究筆記 · 吟遊詩人的傳說</title>
-<meta name="description" content="俠客遊系列 4 作（LUNA2 / LD3 / LD4 / Lde3）的二進位逆向工程研究筆記整合 — 加密策略、共通設計 DNA、檔案結構、跨年代演進">
+<meta name="description" content="俠客遊系列 4 作（LUNA2 / LD3 / LD4 / Lde3）的二進位逆向工程研究筆記整合，加密策略、共通設計 DNA、檔案結構、跨年代演進">
 <link rel="stylesheet" href="assets/css/fonts-wuxia.css">
 <link rel="stylesheet" href="assets/css/wuxia.css">
 <meta property="og:type" content="article">
@@ -144,12 +144,12 @@ h3 { color: var(--amber); margin-top: 20px; }
   <h2>[ 3. 系列共通設計 DNA ]</h2>
 
   <div class="section-block">
-    <p>從 LD3 (2000) 起，俠客遊系列確立了核心設計 — LD4 跟第三之書都繼承這套 DNA：</p>
+    <p>從 LD3 (2000) 起，俠客遊系列確立了核心設計，LD4 跟第三之書都繼承這套 DNA：</p>
 
-    <h3>3.1 共通最終魔王 — 安哥摩爾（Angra Mainyu，波斯邪神）</h3>
+    <h3>3.1 共通最終魔王，安哥摩爾（Angra Mainyu，波斯邪神）</h3>
     <ul style="line-height: 1.9;">
       <li><strong>LUNA2 (1996)</strong>：「魔王安哥爾莫亞」內嵌譯名 / 「魔王阿迦魯瑪」資料表譯名（雙譯名差異反映開發過程翻譯不統一）</li>
-      <li><strong>LD3 (2000)</strong>：「安哥摩爾」（× 4 變體）— 從 MonsterPara.BIN 提取確認</li>
+      <li><strong>LD3 (2000)</strong>：「安哥摩爾」（× 4 變體），從 MonsterPara.BIN 提取確認</li>
       <li><strong>第三之書 (2002)</strong>：作為「魔王」概念延續</li>
     </ul>
 
@@ -164,7 +164,7 @@ h3 { color: var(--amber); margin-top: 20px; }
     </ul>
 
     <h3>3.4 4-tier sub-id 系統</h3>
-    <p>LD3 怪物名出現 4 次重複（撒旦 × 4 / 天馬 × 4 / 九尾狐 × 4 等）— 暗示有「弱 / 中 / 強 / 王」4 級難度變體。這設計後來在第三之書也延續。</p>
+    <p>LD3 怪物名出現 4 次重複（撒旦 × 4 / 天馬 × 4 / 九尾狐 × 4 等），暗示有「弱 / 中 / 強 / 王」4 級難度變體。這設計後來在第三之書也延續。</p>
 
     <h3>3.5 隨機世界生成器</h3>
     <p>LD3 確立了「隨機名字 pool + runtime 組合」設計（mt_*.BIN 共 1183 個 unique 字串）。LD4 沿用並擴充為 1200 字串 + Web/Models HTML 模板。每次新遊戲產生獨一無二的世界內容。</p>
@@ -182,13 +182,13 @@ h3 { color: var(--amber); margin-top: 20px; }
       <li>提斯卡托 (ENC) vs 帖斯卡特利波加 (EXE)</li>
       <li>魔王阿迦魯瑪 (ENC) vs 魔王安哥爾莫亞 (EXE)</li>
     </ul>
-    <p>反映**開發過程翻譯不統一** — 戰鬥畫面、NPC 對話、劇情敘述用不同來源的譯名。</p>
+    <p>反映**開發過程翻譯不統一**，戰鬥畫面、NPC 對話、劇情敘述用不同來源的譯名。</p>
 
     <h3>4.2 LD4 Web/Models 模板日文助詞殘留</h3>
-    <p>placeholder 留有日文助詞「の / ライセンス / アイテム / ハンドル」未翻譯（cp950 顯示為「ソ / ヲьиュЧヱ / ヤユЪу / г⑦Эю」）— 譯者沒翻完整。</p>
+    <p>placeholder 留有日文助詞「の / ライセンス / アイテム / ハンドル」未翻譯（cp950 顯示為「ソ / ヲьиュЧヱ / ヤユЪу / г⑦Эю」），譯者沒翻完整。</p>
 
     <h3>4.3 MONSTER.DAT byte[8-15] 日文原文殘留</h3>
-    <p>俠客遊 II MONSTER.DAT 含「中文名 + 日文原名（Shift-JIS）」雙欄位，只有 18 boss 級怪物有日文原文（一般人類組全 0）— 證明 boss 命名是「日文先寫 → 翻譯後填入」流程。</p>
+    <p>俠客遊 II MONSTER.DAT 含「中文名 + 日文原名（Shift-JIS）」雙欄位，只有 18 boss 級怪物有日文原文（一般人類組全 0），證明 boss 命名是「日文先寫 → 翻譯後填入」流程。</p>
   </div>
 
   <h2>[ 5. 圖像格式分類 ]</h2>
@@ -220,9 +220,9 @@ h3 { color: var(--amber); margin-top: 20px; }
       </thead>
       <tbody>
         <tr><td><strong>LUNA2 (1996)</strong></td><td>無網路（DOS 時代）</td></tr>
-        <tr><td><strong>LD3 (2000)</strong></td><td><strong>次元之門連線系統</strong>（從 LD3.exe .rsrc 確認）— 開放狀態 / 限制性開放 / 確認性開放 / LAN 內自動檢索 / 第三波伺服器 / 接受上限人數</td></tr>
-        <tr><td><strong>LD4 (2001)</strong></td><td>沿用次元之門 + <strong>新增 Web/Models 4 主題 HTML 模板</strong> — 玩家世界檔上傳到伺服器後生成 HTML 頁面（含 IP / 訪問者履歷）讓其他玩家點 IP 連入</td></tr>
-        <tr><td><strong>第三之書 (2002)</strong></td><td>**世界分享下載**（不是即時對戰，是上傳 / 下載世界檔機制）— CoCard.dll 含完整 TCP/IP 通訊邏輯</td></tr>
+        <tr><td><strong>LD3 (2000)</strong></td><td><strong>次元之門連線系統</strong>（從 LD3.exe .rsrc 確認），開放狀態 / 限制性開放 / 確認性開放 / LAN 內自動檢索 / 第三波伺服器 / 接受上限人數</td></tr>
+        <tr><td><strong>LD4 (2001)</strong></td><td>沿用次元之門 + <strong>新增 Web/Models 4 主題 HTML 模板</strong>，玩家世界檔上傳到伺服器後生成 HTML 頁面（含 IP / 訪問者履歷）讓其他玩家點 IP 連入</td></tr>
+        <tr><td><strong>第三之書 (2002)</strong></td><td>**世界分享下載**（不是即時對戰，是上傳 / 下載世界檔機制），CoCard.dll 含完整 TCP/IP 通訊邏輯</td></tr>
       </tbody>
     </table>
 
@@ -271,7 +271,7 @@ h3 { color: var(--amber); margin-top: 20px; }
     <h4>1. 跨 30 年雙 codebase 同 game design</h4>
     <ul style="line-height: 1.9;">
       <li>1996 DOS 版（LUNA2.EXE）與 2024 Steam 版（LD2.exe）為<strong>兩條獨立 codebase</strong>，分別針對 DOS 16-bit real mode + 32-bit Windows PE32 撰寫</li>
-      <li>但<strong>game design 完全保留</strong> — SAV 檔結構（30720 bytes = 160 角色 × 192 bytes / record）、必殺技 8 技內部名稱、boss 怪物 ID 序列（122-127）在兩版 binary 內<strong>跨 30 年完美對齊</strong></li>
+      <li>但<strong>game design 完全保留</strong>，SAV 檔結構（30720 bytes = 160 角色 × 192 bytes / record）、必殺技 8 技內部名稱、boss 怪物 ID 序列（122-127）在兩版 binary 內<strong>跨 30 年完美對齊</strong></li>
       <li>本站 LD 存檔修改器（<a href="luna2/save-editor.html">save-editor.html</a>）對 Steam 日文版同樣可用（僅需切換姓名 decoder 從 Big5 → SJIS）</li>
     </ul>
 
@@ -309,9 +309,9 @@ h3 { color: var(--amber); margin-top: 20px; }
 
     <h3>失效方法（從多輪嘗試學到）</h3>
     <ol style="line-height: 1.9;">
-      <li>對 .text section 做 cp950 解碼 — 大量 false positive（random bytes 像中文）</li>
-      <li>用 LZSS 標準變體解 LD4 / Lde3 加密 — 算法不對</li>
-      <li>對 16-bit DOS EXE 用 r2 自動 xref — DOS reloc 處理有限</li>
+      <li>對 .text section 做 cp950 解碼，大量 false positive（random bytes 像中文）</li>
+      <li>用 LZSS 標準變體解 LD4 / Lde3 加密，算法不對</li>
+      <li>對 16-bit DOS EXE 用 r2 自動 xref，DOS reloc 處理有限</li>
     </ol>
   </div>
 
@@ -325,15 +325,15 @@ h3 { color: var(--amber); margin-top: 20px; }
         <tr><th>EXE</th><th>r2 函式數</th><th>關鍵 imports</th></tr>
       </thead>
       <tbody>
-        <tr><td><strong>LUNA2.EXE</strong></td><td>737</td><td>DOS INT 21h（DOS API 中斷向量）— 無網路</td></tr>
+        <tr><td><strong>LUNA2.EXE</strong></td><td>737</td><td>DOS INT 21h（DOS API 中斷向量），無網路</td></tr>
         <tr><td><strong>LD3.exe</strong></td><td>114（r2 自動分析受限，可能 packed 或特殊 PE 結構）</td><td>未確認（受限於分析深度）</td></tr>
-        <tr><td><strong>LD4.exe</strong></td><td><strong>6637</strong></td><td>MFC + <code class="code-inline">CInternetConnection</code> / <code class="code-inline">CInternetSession</code> / <code class="code-inline">CInternetFile</code> — 用 MFC Internet class 處理 HTTP</td></tr>
-        <tr><td><strong>Lde3.exe</strong></td><td><strong>6113</strong></td><td>MFC CArchive 序列化 + MFC Internet class — dat decoder 函式定位完成（256-symbol Huffman tree builder）</td></tr>
+        <tr><td><strong>LD4.exe</strong></td><td><strong>6637</strong></td><td>MFC + <code class="code-inline">CInternetConnection</code> / <code class="code-inline">CInternetSession</code> / <code class="code-inline">CInternetFile</code>，用 MFC Internet class 處理 HTTP</td></tr>
+        <tr><td><strong>Lde3.exe</strong></td><td><strong>6113</strong></td><td>MFC CArchive 序列化 + MFC Internet class，dat decoder 函式定位完成（256-symbol Huffman tree builder）</td></tr>
       </tbody>
     </table>
 
     <h3>9.1 LD4 加密 cipher init 反組譯嘗試</h3>
-    <p>用 r2 自動 xref 找 ITEM_GUARD / ITEM_NORMAL / ITEM_WEAPON / MonsterPara 的 file open 函式 — 失敗。原因：</p>
+    <p>用 r2 自動 xref 找 ITEM_GUARD / ITEM_NORMAL / ITEM_WEAPON / MonsterPara 的 file open 函式，失敗。原因：</p>
     <ul style="line-height: 1.9;">
       <li>r2 對 PE32 reloc / IAT 自動處理有限</li>
       <li>UTF-16LE 字串透過 LoadStringW 動態讀取（用 resource ID 而非 byte address push）</li>
@@ -363,7 +363,7 @@ h3 { color: var(--amber); margin-top: 20px; }
           <td><strong>The Cutting Room Floor</strong><br><a href="https://tcrf.net/" target="_blank" rel="noopener">tcrf.net</a></td>
           <td>2010 至今（16+ 年）</td>
           <td>用 hex editor / debugger 研究遊戲未使用內容、文字、結構，公開研究成果</td>
-          <td>長期合法運作。首次法律通知 2023 年才收到（且是商標而非著作權，發送方非主流遊戲廠商）— 詳見下方 § 10.5</td>
+          <td>長期合法運作。首次法律通知 2023 年才收到（且是商標而非著作權，發送方非主流遊戲廠商），詳見下方 § 10.5</td>
         </tr>
         <tr>
           <td><strong>ROMhacking.net</strong><br><a href="https://www.romhacking.net/" target="_blank" rel="noopener">romhacking.net</a></td>
@@ -393,7 +393,7 @@ h3 { color: var(--amber); margin-top: 20px; }
       <li>✅ <strong>不發布</strong>美術原作（sprite / portrait）</li>
       <li>✅ <strong>來源合法</strong>：toni 持有正版遊戲<strong>實體磁碟片 / 光碟</strong>（1996-2002 年陸續購買原版，俠客遊 II 1996 為磁碟片，未來之書 1998 中文版及之後 III / IV / 第三之書都為光碟片）+ 2024 年俠客遊系列 Steam 版發行後再次購買支持</li>
       <li>✅ <strong>公開內容限事實層</strong>：名稱 / 結構觀察 / 數值對照（依日本著作權法第 2 條僅創作性表現受保護，事實名稱不在保護範圍）</li>
-      <li>✅ <strong>引用三邊著作權法</strong>：🇹🇼 著作權法 §10-2 + 🇯🇵 著作権法 §2 第 1 項 第 1 號 + §12-2（資料庫保護創意性編排）+ 🇺🇸 17 USC §102(b) + Feist v. Rural Telephone (1991) + Sega v. Accolade (1992)</li>
+      <li>✅ <strong>引用三邊著作權法</strong>：🇹🇼 著作權法 §10-1 + 🇯🇵 著作権法 §2 第 1 項 第 1 號 + §12-2（資料庫保護創意性編排）+ 🇺🇸 17 USC §102(b) + Feist v. Rural Telephone (1991) + Sega v. Accolade (1992)</li>
     </ul>
 
     <h3>本站額外的合規措施</h3>
@@ -407,7 +407,7 @@ h3 { color: var(--amber); margin-top: 20px; }
     <h3>§ 10.5 TCRF 2023 事件案例研究（業界 case study）</h3>
     <p style="font-size: 13px; color: var(--phosphor-fade); margin-bottom: 12px;">（先看下方 § 10.6 三地下載現況，再回來看 TCRF 事件對照）</p>
 
-    <p>TCRF（The Cutting Room Floor）自 2010 年起 13+ 年運作完全沒收過法律通知，直到 2023 年 4 月才收到第一個 — 而且情況比預期樂觀：</p>
+    <p>TCRF（The Cutting Room Floor）自 2010 年起 13+ 年運作完全沒收過法律通知，直到 2023 年 4 月才收到第一個，而且情況比預期樂觀：</p>
 
     <table class="timeline">
       <thead>
@@ -417,7 +417,7 @@ h3 { color: var(--amber); margin-top: 20px; }
         <tr><td><strong>發送日</strong></td><td>2023 年 4 月 25 日</td></tr>
         <tr><td><strong>發送方</strong></td><td>LexisNexis（代表 <strong>Playtika Santa Monica LLC</strong>，Bingo Blitz 手機博弈遊戲開發商）</td></tr>
         <tr><td><strong>對象</strong></td><td>TCRF 上的 BINGO Blitz (Adobe Flash) 遊戲研究頁</td></tr>
-        <tr><td><strong>主張類型</strong></td><td><strong>商標侵權</strong>（不是著作權！）— claim TCRF 用了 Playtika 的註冊商標 + logo，未經授權，可能誤導訪客以為 Playtika 贊助 TCRF</td></tr>
+        <tr><td><strong>主張類型</strong></td><td><strong>商標侵權</strong>（不是著作權！），claim TCRF 用了 Playtika 的註冊商標 + logo，未經授權，可能誤導訪客以為 Playtika 贊助 TCRF</td></tr>
         <tr><td><strong>要求</strong></td><td>5 個營業日內回覆 + 移除所有「侵權內容」</td></tr>
         <tr><td><strong>TCRF 反應</strong></td><td><strong>沒有移除頁面</strong>，引用 fair use 反駁。社群討論建議「加版權聲明區塊明確說明 TCRF 跟 Playtika 無關」</td></tr>
         <tr><td><strong>後續</strong></td><td>該頁至今仍存在（<a href="https://tcrf.net/BINGO_Blitz_(Adobe_Flash)" target="_blank" rel="noopener">tcrf.net/BINGO_Blitz_(Adobe_Flash)</a>），Playtika 沒進一步法律行動</td></tr>
@@ -427,19 +427,19 @@ h3 { color: var(--amber); margin-top: 20px; }
     <h4>TCRF 事件的 4 個重要意義（給類似網站的啟示）</h4>
 
     <ol style="line-height: 1.9;">
-      <li><strong>大廠不告學術研究站</strong>：TCRF 13 年沒收 notice 證明 Nintendo / Sony / Square Enix / Artdink 等大廠對「研究未使用內容 + 公開事實層」的做法**默許**。法律通知反而來自 mobile 博弈小廠（Playtika）— 顯示主流遊戲業界對逆向研究的容忍度很高。</li>
+      <li><strong>大廠不告學術研究站</strong>：TCRF 13 年沒收 notice 證明 Nintendo / Sony / Square Enix / Artdink 等大廠對「研究未使用內容 + 公開事實層」的做法**默許**。法律通知反而來自 mobile 博弈小廠（Playtika），顯示主流遊戲業界對逆向研究的容忍度很高。</li>
       <li><strong>fair use 防禦有效</strong>：TCRF 收到 notice 後沒慌張刪內容，引用 fair use 反駁就足夠。美國 17 USC §107 fair use 對「research / commentary / non-commercial」用途保護力強。</li>
-      <li><strong>商標 vs 著作權差異重要</strong>：Playtika 用的是「商標侵權」（trademark），不是「著作權侵權」（copyright）— 兩者法律標準不同。商標主張「混淆」（誤導訪客以為廠商贊助），著作權主張「複製」。研究網站用 fair use + 加 disclaimer 可以同時防兩者。</li>
+      <li><strong>商標 vs 著作權差異重要</strong>：Playtika 用的是「商標侵權」（trademark），不是「著作權侵權」（copyright），兩者法律標準不同。商標主張「混淆」（誤導訪客以為廠商贊助），著作權主張「複製」。研究網站用 fair use + 加 disclaimer 可以同時防兩者。</li>
       <li><strong>Streisand 效應</strong>：Playtika 發 notice 後反而讓更多人知道 TCRF 在研究他們的遊戲，是公關 own goal。大廠通常不會用 cease-and-desist 對學術研究站，因為負面公關大於可能利益。</li>
     </ol>
 
     <h4>對本站的具體啟示</h4>
     <ul style="line-height: 1.9;">
       <li>✅ <strong>本站早就符合 TCRF 的合規模式</strong>：研究事實層 + 不發 ROM/EXE/sprite + 公開 disclaimer</li>
-      <li>✅ <strong>主動加 disclaimer</strong>：本站主站 + series-research § 10 已明確聲明「Artdink 持有著作權，本站非贊助也非授權」— 預防商標 confusion claim</li>
-      <li>✅ <strong>fair use 立場明確</strong>：學術研究 + 數位文化保存 + 非商業用途 = 美國 17 USC §107 + 日本著作権法 §2 + 台灣著作權法 §10-2 三邊保障</li>
-      <li>✅ <strong>商業地位</strong>：Artdink 是俠客遊系列開發商，但跟本站無利益衝突 — 本站反而導流給<a href="https://store.steampowered.com/app/338070/_/" target="_blank" rel="noopener">Steam 俠客遊 I/II/III 合輯</a>或<a href="https://store.steampowered.com/app/335420/_/" target="_blank" rel="noopener">前途道標</a>支持原作</li>
-      <li>⚠️ <strong>主動防範措施</strong>：若本站未來收到類似 notice，標準回應是「(1) 引用 fair use (2) 加更明確的 disclaimer (3) 不主動移除任何事實層內容」— 不必恐慌移除</li>
+      <li>✅ <strong>主動加 disclaimer</strong>：本站主站 + series-research § 10 已明確聲明「Artdink 持有著作權，本站非贊助也非授權」，預防商標 confusion claim</li>
+      <li>✅ <strong>fair use 立場明確</strong>：學術研究 + 數位文化保存 + 非商業用途 = 美國 17 USC §107 + 日本著作権法 §2 + 台灣著作權法 §10-1 三邊可主張的法律依據</li>
+      <li>✅ <strong>商業地位</strong>：Artdink 是俠客遊系列開發商，但跟本站無利益衝突，本站反而導流給<a href="https://store.steampowered.com/app/338070/_/" target="_blank" rel="noopener">Steam 俠客遊 I/II/III 合輯</a>或<a href="https://store.steampowered.com/app/335420/_/" target="_blank" rel="noopener">前途道標</a>支持原作</li>
+      <li>⚠️ <strong>主動防範措施</strong>：若本站未來收到類似 notice，標準回應是「(1) 引用 fair use (2) 加更明確的 disclaimer (3) 不主動移除任何事實層內容」，不必恐慌移除</li>
     </ul>
 
     <h3>§ 10.6 三地下載現況觀察（2026-05 web 調查）</h3>
@@ -477,7 +477,7 @@ h3 { color: var(--amber); margin-top: 20px; }
             ❌ 部分站點瀏覽器 online 直接玩 DOS<br>
             ❌ 手游版盜版散布
           </td>
-          <td><strong>盜版氾濫無管制</strong> — 完全無視著作權。本站<strong>不公告</strong>具體站名 / 網址以避免變相宣傳。</td>
+          <td><strong>盜版氾濫無管制</strong>，完全無視著作權。本站<strong>不公告</strong>具體站名 / 網址以避免變相宣傳。</td>
         </tr>
       </tbody>
     </table>
@@ -487,11 +487,11 @@ h3 { color: var(--amber); margin-top: 20px; }
     <ul style="line-height: 1.9;">
       <li><strong>本站的目標用戶是台灣老玩家</strong>：日本玩家有 ARTDINK 官方管道，中國玩家有大量盜版，**只有台灣玩家陷入「正版已絕版、無官方數位管道」的困境**。本站不是要取代正版，是補位「Artdink 在台灣未授權數位發行、第三波代理消失後」的繁中版文化保存空白。</li>
       <li><strong>本站不引導下載</strong>：本站<strong>沒有</strong>提供 EXE / ROM / 完整遊戲檔下載連結。給的是研究資料（事實層）+ 啟動器（玩家自行安裝後可用）+ 攻略文章。玩家若需遊戲本體，本站推薦：(1) Steam 商店購買（部分作品）：<a href="https://store.steampowered.com/app/338070/_/" target="_blank" rel="noopener">俠客遊 I/II/III 合輯</a>或<a href="https://store.steampowered.com/app/335420/_/" target="_blank" rel="noopener">前途道標</a>(2) 自行尋找正版實體磁碟片 / 光碟（拍賣或二手市場）</li>
-      <li><strong>跟中國盜版站完全不同</strong>：中國部分站點直接提供 ROM 下載 + online 直接玩 — 這是侵權行為（本站不公告具體站名 / 網址以避免變相宣傳）。本站做的是「研究 + 攻略 + 啟動器配置」— 完全不同性質，符合 TCRF / ROMhacking.net 的合規 norm。</li>
-      <li><strong>跟日本 ARTDINK eSHOP 互補</strong>：日本玩家想玩經典版用 eSHOP，中文圈玩家想理解 1996 繁中版的歷史細節用本站 — 兩者目標族群不重疊。</li>
+      <li><strong>跟中國盜版站完全不同</strong>：中國部分站點直接提供 ROM 下載 + online 直接玩，這是侵權行為（本站不公告具體站名 / 網址以避免變相宣傳）。本站做的是「研究 + 攻略 + 啟動器配置」，完全不同性質，符合 TCRF / ROMhacking.net 的合規 norm。</li>
+      <li><strong>跟日本 ARTDINK eSHOP 互補</strong>：日本玩家想玩經典版用 eSHOP，中文圈玩家想理解 1996 繁中版的歷史細節用本站，兩者目標族群不重疊。</li>
     </ul>
 
-    <p class="muted" style="font-size: 13px; margin-top: 12px;">→ 本站的角色不是「另一個盜版資源站」，而是「<strong>台灣繁中版的文化保存研究平台</strong>」。研究的是 1996 第三波文化代理繁中版的譯名、結構、跨年代設計演進 — 這些資訊在日本 ARTDINK eSHOP 跟中國盜版站都找不到。</p>
+    <p class="muted" style="font-size: 13px; margin-top: 12px;">→ 本站的角色不是「另一個盜版資源站」，而是「<strong>台灣繁中版的文化保存研究平台</strong>」。研究的是 1996 第三波文化代理繁中版的譯名、結構、跨年代設計演進，這些資訊在日本 ARTDINK eSHOP 跟中國盜版站都找不到。</p>
   </div>
 
   <h2>[ 11. 致謝 + 來源 ]</h2>

@@ -9,7 +9,7 @@
 
 /* ---- a11y (移植 retro.css 的無障礙規則到水墨頁) ---- */
 
-/* :focus-visible — 鍵盤導航看得到 focus(古銅金 outline，宣紙底高對比) */
+/* :focus-visible，鍵盤導航看得到 focus(古銅金 outline，宣紙底高對比) */
 a:focus-visible, button:focus-visible, input:focus-visible,
 select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
   outline: 2px solid var(--seal);
@@ -17,7 +17,7 @@ select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
   box-shadow: 0 0 0 4px rgba(196, 30, 58, 0.18);
 }
 
-/* skip link — 鍵盤 Tab 第一下出現「跳到主要內容」(各頁 <main id="main-content">) */
+/* skip link，鍵盤 Tab 第一下出現「跳到主要內容」(各頁 <main id="main-content">) */
 .skip-link {
   position: absolute;
   top: -48px;
@@ -304,7 +304,7 @@ li { margin-bottom: 4px; }
 .prose ul li { margin-bottom: 6px; }
 
 /* ============================================================
-   原文保留區 — TXT 攻略文件的核心呈現
+   原文保留區，TXT 攻略文件的核心呈現
    ★ 自動縮放：JS 偵測內容寬度，縮小字型直到不溢出
    ★ CJK 等寬字型 stack：全形字元 = 2 × 半形字元
    ============================================================ */

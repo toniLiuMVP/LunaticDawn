@@ -148,9 +148,9 @@
 
   <div class="intro">
     俠客遊 II 玩家「世界狀態」3 個 SAV 整合查看器：<br>
-    <strong>HIST.SAV</strong>（16384 bytes）— 玩家事件歷史紀錄 / 任務 log<br>
-    <strong>SCENDATA.SAV</strong>（6144 bytes）— 場景訪問紀錄（玩家進過哪些場景）<br>
-    <strong>TOWNDATA.SAV</strong>（8192 bytes）— 城鎮狀態資料（玩家在每城鎮的記錄）
+    <strong>HIST.SAV</strong>（16384 bytes），玩家事件歷史紀錄 / 任務 log<br>
+    <strong>SCENDATA.SAV</strong>（6144 bytes），場景訪問紀錄（玩家進過哪些場景）<br>
+    <strong>TOWNDATA.SAV</strong>（8192 bytes），城鎮狀態資料（玩家在每城鎮的記錄）
     <br><br>
     <strong>結構（2026-05-03 2026）</strong>：3 個 SAV 都是「玩家活動累積資料」，前段為實際資料 + 後段 0xFF padding。
     本工具是 <strong>read-only viewer</strong>（不編輯，避免 byte 結構未驗證風險）+ heat-map 視覺化非零分佈。
@@ -262,7 +262,7 @@ function render(buffer) {
   content.replaceChildren();
 
   content.appendChild(el('h3', {style: 'color: var(--amber);'},
-    `${cfg.name}.SAV — ${cfg.desc}`));
+    `${cfg.name}.SAV，${cfg.desc}`));
 
   // Stats grid
   const statsGrid = el('div', {class: 'stats-grid'});
@@ -306,7 +306,7 @@ async function handleFile(file) {
     const cfg = TAB_CONFIG[activeTab];
     // OOM guard：避免讀入超大檔（超過 1 MB 一律拒絕）
     if (file.size > 1024 * 1024) {
-      throw new Error(`檔案太大（${file.size.toLocaleString()} bytes）— 預期 SAV 大小 ${cfg.size} bytes。`);
+      throw new Error(`檔案太大（${file.size.toLocaleString()} bytes），預期 SAV 大小 ${cfg.size} bytes。`);
     }
     if (file.size !== cfg.size) {
       throw new Error(`${cfg.name}.SAV 預期 ${cfg.size} bytes，實際 ${file.size} bytes。`);

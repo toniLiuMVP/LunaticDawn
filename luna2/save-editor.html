@@ -560,7 +560,7 @@ footer .footer-note { margin-top: 8px; color: var(--phosphor-fade); }
 <div id="bottom-bar">
   <div id="status" aria-live="polite">準備就緒</div>
   <select id="batch-select" class="btn" style="font-family: 'VT323', monospace;">
-    <option value="">— 批次操作（當前角色）—</option>
+    <option value="">，批次操作（當前角色），</option>
     <option value="attrs-cap">全 8 屬性 → 各自上限</option>
     <option value="attrs-100">全 8 屬性 → 100（含上限）</option>
     <option value="skills-100">全 15 技能 → 100</option>
@@ -632,7 +632,7 @@ const OFFSETS = {
   spellH:    0x8C,
   spellD:    0x8E,
   spellS:    0x90,
-  martial:   0x92,  // u16 LE — 武技（聶荊璇 v4.1：技能絕招）
+  martial:   0x92,  // u16 LE，武技（聶荊璇 v4.1：技能絕招）
 };
 
 const CAPS = {
@@ -1264,7 +1264,7 @@ function initActionButtons() {
     document.getElementById('status').textContent = `✓ 已套用：${document.getElementById('batch-select').selectedOptions[0].textContent}（角色 #${idx}）`;
   });
 
-  // v0.5 角色 JSON 匯出 — 把當前角色 192 bytes 轉成 base64 + metadata
+  // v0.5 角色 JSON 匯出，把當前角色 192 bytes 轉成 base64 + metadata
   document.getElementById('btn-export-char').addEventListener('click', () => {
     if (state.activeIdx == null) { alert('請先選擇角色'); return; }
     const idx = state.activeIdx;
@@ -1308,7 +1308,7 @@ function initActionButtons() {
     document.getElementById('status').textContent = `✓ 已匯出角色 #${idx} (${nameStr})`;
   });
 
-  // v0.5 角色 JSON 匯入 — 解析 + 寫入當前 slot
+  // v0.5 角色 JSON 匯入，解析 + 寫入當前 slot
   document.getElementById('btn-import-char').addEventListener('click', () => {
     if (state.activeIdx == null) { alert('請先選擇要匯入到哪個角色 slot'); return; }
     document.getElementById('char-import-input').click();

@@ -121,8 +121,8 @@
 
   <div class="intro">
     俠客遊 II 隊伍系統的兩個 SAV 檔：<br>
-    <strong>KOBUN.SAV</strong>（542 bytes）— 子分（小弟）資料：玩家招募的同行 NPC。<br>
-    <strong>OYABUN.SAV</strong>（258 bytes）— 親分（老大）資料：玩家當頭目時的隊伍狀態。
+    <strong>KOBUN.SAV</strong>（542 bytes），子分（小弟）資料：玩家招募的同行 NPC。<br>
+    <strong>OYABUN.SAV</strong>（258 bytes），親分（老大）資料：玩家當頭目時的隊伍狀態。
     <br><br>
     <strong>結構（2026-05-03 2026 binary 結構釐清）</strong>：
     跟 <code>P/KOBUN.MST</code> + <code>P/OYABUN.MST</code> template 對比，玩家活動後寫入特定 fields。
@@ -226,7 +226,7 @@ function renderKobun(buffer) {
   const content = $('content');
   content.replaceChildren();
 
-  content.appendChild(el('h3', {style: 'color: var(--amber);'}, `KOBUN.SAV — ${buffer.byteLength} bytes`));
+  content.appendChild(el('h3', {style: 'color: var(--amber);'}, `KOBUN.SAV，${buffer.byteLength} bytes`));
 
   const tbl = el('table', {class: 'field-table'});
   tbl.appendChild(el('tr', null,
@@ -264,7 +264,7 @@ function renderOyabun(buffer) {
   const content = $('content');
   content.replaceChildren();
 
-  content.appendChild(el('h3', {style: 'color: var(--amber);'}, `OYABUN.SAV — ${buffer.byteLength} bytes`));
+  content.appendChild(el('h3', {style: 'color: var(--amber);'}, `OYABUN.SAV，${buffer.byteLength} bytes`));
 
   const tbl = el('table', {class: 'field-table'});
   tbl.appendChild(el('tr', null,

@@ -266,15 +266,15 @@
     <br><br>
     <strong>byte 8-47 結構性分類（推測）</strong>：
     <br>
-    ▸ <strong>byte 8-15（modifier ID 區）</strong>：8 bytes — 多為 0xFF 表「無 modifier」；含值時是「裝備類型 + 強化等級 + 屬性」組合（範例 <code>02 1a 5d 70 01 ff 02 00</code>）
+    ▸ <strong>byte 8-15（modifier ID 區）</strong>：8 bytes，多為 0xFF 表「無 modifier」；含值時是「裝備類型 + 強化等級 + 屬性」組合（範例 <code>02 1a 5d 70 01 ff 02 00</code>）
     <br>
-    ▸ <strong>byte 16-23（屬性數值區）</strong>：8 bytes — 推測對應「7 系魔法上限」+ STM 加成（範例 <code>0d 12 0f 14 0e 10 ff ff</code>）
+    ▸ <strong>byte 16-23（屬性數值區）</strong>：8 bytes，推測對應「7 系魔法上限」+ STM 加成（範例 <code>0d 12 0f 14 0e 10 ff ff</code>）
     <br>
-    ▸ <strong>byte 24-27（marker 區）</strong>：4 bytes — 多為 <code>00 00 ff ff</code> 或屬性類別標記
+    ▸ <strong>byte 24-27（marker 區）</strong>：4 bytes，多為 <code>00 00 ff ff</code> 或屬性類別標記
     <br>
-    ▸ <strong>byte 28-35（屬性 modifier 區）</strong>：8 bytes — 玩家屬性加成值（力/智/靈/敏/直/魅/體/精，範例 <code>0a 04 0a 00 00 00 00 ff</code>）
+    ▸ <strong>byte 28-35（屬性 modifier 區）</strong>：8 bytes，玩家屬性加成值（力/智/靈/敏/直/魅/體/精，範例 <code>0a 04 0a 00 00 00 00 ff</code>）
     <br>
-    ▸ <strong>byte 36-47（padding 區）</strong>：12 bytes 全 0 — 跨 10 USER 樣本 25,600 entries 統計確認 byte 37-47 純 padding (byte 17/19 也是)
+    ▸ <strong>byte 36-47（padding 區）</strong>：12 bytes 全 0，跨 10 USER 樣本 25,600 entries 統計確認 byte 37-47 純 padding (byte 17/19 也是)
     <br><br>
     <strong>2026 統計分析發現</strong>：
     <br>
