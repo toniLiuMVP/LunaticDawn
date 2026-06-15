@@ -249,10 +249,9 @@ fi
 # U+FFFD = decode-failure artifact. Catches the Big5/EUDC/encoding bugs fixed in
 # W110 (item names, recipe bullets, BBS guide chars, Big5 @-delimiter truncation).
 # 發現新破字 pattern → 加進此條形成永久防線(LD 規則)。
-# 白名單:ld4_godseye_def.json(日文神之眼 def,混合編碼,待另案重新抽取)。
+# 全站零容忍(W110:godseye 混合編碼 cp932/cp950 per-line decode 已修,無白名單)。
 print_section "[A14] Mojibake / U+FFFD replacement char (BLOCKER)"
-A14_WL="luna4/database/ld4_godseye_def.json"
-A14_HITS=$(echo "$PUB_FILES" | grep -v "^${A14_WL}$" | python3 -c "
+A14_HITS=$(echo "$PUB_FILES" | python3 -c "
 import sys
 for f in sys.stdin.read().split():
     try:
@@ -260,7 +259,7 @@ for f in sys.stdin.read().split():
     except Exception: pass
 " 2>/dev/null || true)
 if [ -z "$A14_HITS" ]; then
-  print_pass "No U+FFFD mojibake in public files (godseye_def whitelisted — 待另案)"
+  print_pass "No U+FFFD mojibake in any public file"
 else
   echo "$A14_HITS" | head -10
   COUNT=$(echo "$A14_HITS" | grep -c .)
