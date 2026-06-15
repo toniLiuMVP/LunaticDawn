@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-_build_readme.py — 自動產生 README.md，反映網站最新狀態
+_build_readme.py · 自動產生 README.md，反映網站最新狀態
 每次 GO 發布前自動執行，確保 README 與實際頁面同步。
 
 用法：python3 _build_readme.py
@@ -129,7 +129,7 @@ def build_readme() -> str:
     lines.append("")
     lines.append("> 俠客遊 (Lunatic Dawn) 是由日本 [Artdink](https://www.artdink.com/) 製作、台灣第三波/美商藝電代理的開放世界 RPG。")
     lines.append(">")
-    lines.append("> 由 toni（@toniLiuMVP）維護 — 接續 2000 年 GameBase 遊戲基地與巴哈姆特俠客遊討論板的時代遺產")
+    lines.append("> 由 toni（@toniLiuMVP）維護 · 接續 2000 年 GameBase 遊戲基地與巴哈姆特俠客遊討論板的時代遺產")
     lines.append("")
 
     lines.append("🎮 **請先至 Steam 購買正版 [俠客遊 I/II/III 合輯](https://store.steampowered.com/app/338070/_/) 或 [前途道標](https://store.steampowered.com/app/335420/_/) 支持原作**")
@@ -163,30 +163,32 @@ def build_readme() -> str:
     # 工具與資源
     lines.append("## 🛠 工具與資源")
     lines.append("")
+    if check_exists("ezplay.html"):
+        lines.append("- **[EzPlay 下載即玩](./ezplay.html)** · 前途道標 / 俠客遊 IV / 第三之書 三款相容性補丁（自備正版，解壓覆蓋執行一個檔即玩 · 跨平台 · 含三邊法律依據 + SHA-256 校驗碼 + 第三之書 ME 版特典）")
     if has_save_editor:
-        lines.append("- **[俠客遊 II 存檔修改器](./luna2/save-editor.html)** — 瀏覽器版，純 HTML+JS，拖入 LUNACHAR.SAV 即改，160 個角色槽")
+        lines.append("- **[俠客遊 II 存檔修改器](./luna2/save-editor.html)** · 瀏覽器版，純 HTML+JS，拖入 LUNACHAR.SAV 即改，160 個角色槽")
     if n_guides > 0:
-        lines.append(f"- **[俠客遊 II 完整攻略](./luna2/guides/)** — 整合社群前輩心血（{n_guides} 篇）")
+        lines.append(f"- **[俠客遊 II 完整攻略](./luna2/guides/)** · 整合社群前輩心血（{n_guides} 篇）")
     if has_ez:
-        lines.append("- **[懶人包（Luna2_EZ）](./luna2/ez/)** — 內建 DOSBox Staging，解壓即玩，支援 Mac / Windows / Linux")
+        lines.append("- **[懶人包（Luna2_EZ）](./luna2/ez/)** · 內建 DOSBox Staging，解壓即玩，支援 Mac / Windows / Linux")
     if has_launcher:
-        lines.append("- **[自己裝啟動器](./luna2/launcher/)** — 搭配 DOSBox-X + GM MIDI 高音質音樂")
+        lines.append("- **[自己裝啟動器](./luna2/launcher/)** · 搭配 DOSBox-X + GM MIDI 高音質音樂")
     if has_book:
-        lines.append("- **[未來之書專區](./book/)** — 1998 · 隱藏角色完整指南 + 新手上手 + 密技 + 攻略集下載")
+        lines.append("- **[未來之書專區](./book/)** · 1998 · 隱藏角色完整指南 + 新手上手 + 密技 + 攻略集下載")
     if has_passage:
-        lines.append("- **[前途道標攻略](./passage/)** — 1999 年 BBS 時代原創攻略（小蜜蜂 / 小傑 / Ertai）")
+        lines.append("- **[前途道標攻略](./passage/)** · 1999 年 BBS 時代原創攻略（小蜜蜂 / 小傑 / Ertai）")
     if has_lde3:
-        lines.append("- **[第三之書專區](./lde3/)** — 2002 年 Book 三部曲第三作 · 18 個歷史檔案 + 下載 + 工具")
+        lines.append("- **[第三之書專區](./lde3/)** · 2002 年 Book 三部曲第三作 · 18 個歷史檔案 + 下載 + 工具")
     if has_luna3:
-        lines.append("- **[俠客遊 III 子站](./luna3/)** — 俠客遊 III (2000) · 密技整理 + 官方更新檔下載")
+        lines.append("- **[俠客遊 III 子站](./luna3/)** · 俠客遊 III (2000) · 密技整理 + 官方更新檔下載")
     if has_luna4:
-        lines.append("- **[俠客遊 IV 子站](./luna4/)** — 俠客遊 IV (2001) · 連線方法 / 鞠躬練功法 / 輔助工具下載")
+        lines.append("- **[俠客遊 IV 子站](./luna4/)** · 俠客遊 IV (2001) · 連線方法 / 鞠躬練功法 / 輔助工具下載")
     if has_steam:
-        lines.append("- **[Steam 購買指南](./steam/)** — Steam 版購買說明")
+        lines.append("- **[Steam 購買指南](./steam/)** · Steam 版購買說明")
     if has_general:
-        lines.append("- **[通用資訊](./general/)** — 編碼 FAQ、社群連結")
+        lines.append("- **[通用資訊](./general/)** · 編碼 FAQ、社群連結")
     if check_exists("luna2/database/index.html"):
-        lines.append("- **[俠客遊 II 資料庫](./luna2/database/)** — DOS 二進制檔案格式逆向研究與數值欄位資料")
+        lines.append("- **[俠客遊 II 資料庫](./luna2/database/)** · DOS 二進制檔案格式逆向研究與數值欄位資料")
     lines.append("")
 
     # 兩種遊玩方式
@@ -216,7 +218,7 @@ def build_readme() -> str:
     lines.append("")
     lines.append("### 站長傳承")
     lines.append("")
-    lines.append("**「吟遊詩人的傳說 · 俠客遊小站」** 由 1999 年 BBS 時代的兩位創站站長 **小傑**(LemiyaJay)與 **小蜜蜂**(Yellowbee)創立。**21 世紀初(2000 年代初期)**，toni 從小傑與小蜜蜂手上接手俠客遊小站，持續維護至今 — 後續歷經 Google Pages（2009）→ Google Sites（2010 年代）→ GitHub Pages（2026）三次平台遷移，但站名與精神不變，延續這份俠客遊系列的數位文化傳承。")
+    lines.append("**「吟遊詩人的傳說 · 俠客遊小站」** 由 1999 年 BBS 時代的兩位創站站長 **小傑**(LemiyaJay)與 **小蜜蜂**(Yellowbee)創立。**21 世紀初(2000 年代初期)**，toni 從小傑與小蜜蜂手上接手俠客遊小站，持續維護至今 · 後續歷經 Google Pages（2009）→ Google Sites（2010 年代）→ GitHub Pages（2026）三次平台遷移，但站名與精神不變，延續這份俠客遊系列的數位文化傳承。")
     lines.append("")
     lines.append("> 感謝小傑與小蜜蜂兩位創站站長，沒有他們 1999 年的 BBS 時代起點，就沒有 27 年後本站的存在。")
     lines.append("")
@@ -249,24 +251,24 @@ def build_readme() -> str:
     lines.append("| 第三之書工具開發（2011 跨海寄送） | daggerain |")
     lines.append("| 前途道標角色複製人物存檔包 | Cody |")
     lines.append("")
-    lines.append("### 跨海玩家回報（17-19 年前的真實問題佐證 — 本站 2026 字體修復補丁誕生的緣由）")
+    lines.append("### 跨海玩家回報（17-19 年前的真實問題佐證 · 本站 2026 字體修復補丁誕生的緣由）")
     lines.append("")
-    lines.append("- **tyler_yeung** — 2007 前途道標 XP 字型問題（19 年前最早佐證）")
-    lines.append("- **cu54102003** — 2008 XP 字型問題再回報")
-    lines.append("- **towaicheung** — 2009 前途道標 XP 字體重疊（17 年前佐證）")
-    lines.append("- **Tedk** — 2009 Google Pages 時代協助驗證")
-    lines.append("- **linxr_wind** — 2009 第三之書管理員需求回報")
-    lines.append("- **timchio** — 2011 俠客遊 IV 重溫詢問")
-    lines.append("- **Kelvin Yau** — 2013 第三之書 Win7 相容性早期測試")
-    lines.append("- **QQ508091419** — 2020 俠客遊 IV 神之眼路徑詢問")
-    lines.append("- **DavidChien / nec81616 / tigerzhou100800 / line841a** — 2020-2021 Google 防毒誤判回報")
-    lines.append("- **qq888999123** — 2021「密碼壓縮繞防毒」解法提議")
-    lines.append("- **a0961168526** — 2022 阿米卓古 / 第三之書 me 版詢問")
-    lines.append("- **raymond0206** — 2022 Win10 亂碼問題")
-    lines.append("- **jill90131** — 2023 第三之書入坑詢問（toni TeamViewer 遠端協助）")
-    lines.append("- **KO** — 2023-2024 跨年度多次回報 + 乙太劍研究實測")
-    lines.append("- **kyleul** — 2007 PTT XP 字型問題 + 2023 PTT 深度心得")
-    lines.append("- **ak5511ak5511** — 2024 Steam 購買前途道標 + 中文化詢問")
+    lines.append("- **tyler_yeung** · 2007 前途道標 XP 字型問題（19 年前最早佐證）")
+    lines.append("- **cu54102003** · 2008 XP 字型問題再回報")
+    lines.append("- **towaicheung** · 2009 前途道標 XP 字體重疊（17 年前佐證）")
+    lines.append("- **Tedk** · 2009 Google Pages 時代協助驗證")
+    lines.append("- **linxr_wind** · 2009 第三之書管理員需求回報")
+    lines.append("- **timchio** · 2011 俠客遊 IV 重溫詢問")
+    lines.append("- **Kelvin Yau** · 2013 第三之書 Win7 相容性早期測試")
+    lines.append("- **QQ508091419** · 2020 俠客遊 IV 神之眼路徑詢問")
+    lines.append("- **DavidChien / nec81616 / tigerzhou100800 / line841a** · 2020-2021 Google 防毒誤判回報")
+    lines.append("- **qq888999123** · 2021「密碼壓縮繞防毒」解法提議")
+    lines.append("- **a0961168526** · 2022 阿米卓古 / 第三之書 me 版詢問")
+    lines.append("- **raymond0206** · 2022 Win10 亂碼問題")
+    lines.append("- **jill90131** · 2023 第三之書入坑詢問（toni TeamViewer 遠端協助）")
+    lines.append("- **KO** · 2023-2024 跨年度多次回報 + 乙太劍研究實測")
+    lines.append("- **kyleul** · 2007 PTT XP 字型問題 + 2023 PTT 深度心得")
+    lines.append("- **ak5511ak5511** · 2024 Steam 購買前途道標 + 中文化詢問")
     lines.append("")
     lines.append("※ 若有遺漏的貢獻者，或希望調整 / 撤除自己名字，請寄信 [luntic.dawn@gmail.com](mailto:luntic.dawn@gmail.com) 通知 toni。")
     lines.append("")
