@@ -101,6 +101,14 @@ code.f { background: var(--bg-panel); padding: 1px 6px; border-radius: 3px; font
     <li><strong>Windows</strong>：先<strong>切換到遊戲所在資料夾</strong>再啟動主程式，這樣遊戲才找得到同資料夾的必要元件（直接雙擊主程式有時工作目錄不對，會出問題）。</li>
   </ul>
   <p class="muted" style="font-size:13px;">啟動檔是純文字檔，你可以用記事本／文字編輯器打開檢視它做了哪些事，完全透明。</p>
+
+  <h3 style="font-size:15px;color:var(--accent);margin:20px 0 6px;border-bottom:1px dotted var(--border);padding-bottom:4px;">🔒 下載安全與驗證</h3>
+  <ul style="line-height:1.85;">
+    <li><strong>核對 SHA-256</strong>:下載後可比對各包下方列出的 SHA-256，確認檔案沒被竄改或損毀。
+      <br>Windows:<code class="f">certutil -hashfile 檔名.7z SHA256</code>　Mac / Linux:<code class="f">shasum -a 256 檔名.7z</code></li>
+    <li><strong>包內的 <code class="f">.dll</code> 是補丁的一部分</strong>(字體 / 相容性 proxy)，不是病毒。修改過的老遊戲補丁偶爾會被防毒軟體誤報，屬正常現象。</li>
+    <li><strong>Mac 用 Wine 執行</strong>:雖使用獨立 WINEPREFIX，程式仍可讀取你的家目錄(Wine 不是完整沙箱)。請只從本站連結下載本包。</li>
+  </ul>
 </section>
 
 <!-- ==================== LD95 前途道標 ==================== -->
@@ -116,6 +124,7 @@ code.f { background: var(--bg-panel); padding: 1px 6px; border-radius: 3px; font
       <p>✓ <strong>保護玩家所持有的正版光碟</strong>。</p>
       <h3>下載</h3>
       <p><a class="dl-btn" href="https://drive.google.com/file/d/1ed0yh3f8obfGw-oJTbUIZyFs9m72nXJ1/view" target="_blank" rel="noopener">📦 下載 LD95_EzPlay.7z（Google Drive · 525 KB）</a></p>
+      <p class="muted" style="font-size:12px;word-break:break-all;margin-top:4px;">🔒 SHA-256: <code class="f">3a8ede293421bbbd1c832077c9d0cd694dfba4525fd9e60cf2441333b6dfca50</code></p>
       <h3>遇到的困難與排除</h3>
       <table class="diff-table">
         <tr><th>困難</th><th>排除方法</th></tr>
@@ -143,7 +152,8 @@ code.f { background: var(--bg-panel); padding: 1px 6px; border-radius: 3px; font
       <p>✓ <strong>保護玩家所持有的正版光碟</strong>。</p>
       <p>✓ <strong>解決官方登入伺服器 2001 年後已關閉的問題</strong>。</p>
       <h3>下載</h3>
-      <p><a class="dl-btn" href="https://drive.google.com/file/d/1-AAAn6RGGCVLlDfjNOZqM0hwTgPGv7DN/view" target="_blank" rel="noopener">📦 下載 LD4_EzPlay.7z（Google Drive · 779 KB）</a></p>
+      <p><a class="dl-btn" href="https://drive.google.com/file/d/1-AAAn6RGGCVLlDfjNOZqM0hwTgPGv7DN/view" target="_blank" rel="noopener">📦 下載 LD4_EzPlay.7z（Google Drive · 780 KB）</a></p>
+      <p class="muted" style="font-size:12px;word-break:break-all;margin-top:4px;">🔒 SHA-256: <code class="f">7c67d5b947bb1b08a53bf61de9265b57d3849c7a52dfec55ebca78ca1a9105f8</code></p>
       <div class="okbox"><strong>Windows + Mac 都正常遊玩。</strong>（原版背景音樂在 CD 音軌，本版沒有背景音樂，詳見下方排除經驗。）</div>
       <h3>💡 排除經驗（這款最曲折，值得記錄）</h3>
       <div class="warnbox" style="border-left-color:var(--accent);background:rgba(184,134,11,0.06);">
@@ -169,6 +179,7 @@ code.f { background: var(--bg-panel); padding: 1px 6px; border-radius: 3px; font
       <p>✓ <strong>保護玩家所持有的正版光碟</strong>。</p>
       <h3>下載</h3>
       <p><a class="dl-btn" href="https://drive.google.com/file/d/1veFLth0dTmAjc8S-BCWKS42XMTwgYzEW/view" target="_blank" rel="noopener">📦 下載 LDE3_EzPlay.7z（Google Drive · 713 KB）</a></p>
+      <p class="muted" style="font-size:12px;word-break:break-all;margin-top:4px;">🔒 SHA-256: <code class="f">f714faa3057ef0180e373e19d94abd0caedcb15749df4797be4dfe69f64c9a3a</code></p>
       <div class="okbox"><strong>Windows + Mac 都正常遊玩。</strong></div>
       <h3>🌟 額外解鎖:ME 版特典</h3>
       <div class="okbox" style="border-left-color:var(--accent);background:rgba(184,134,11,0.06);">
