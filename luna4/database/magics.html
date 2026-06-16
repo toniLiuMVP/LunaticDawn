@@ -20,6 +20,9 @@
 .spell-meta { color: var(--phosphor); font-size: 14px; margin: 4px 0; font-family: 'VT323', monospace; white-space: pre; }
 .spell-desc { color: var(--phosphor-fade); font-size: 14px; line-height: 1.6; margin: 6px 0; white-space: pre-wrap; }
 .link-card { background: var(--bg-input); padding: 10px; margin: 8px 0; font-family: 'VT323', monospace; color: var(--phosphor-fade); font-size: 14px; }
+.zh-cat { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.6; margin: 18px 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--phosphor-fade); }
+.zh-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
+.zh-chip { background: var(--bg-panel); border: 1px solid var(--phosphor-fade); padding: 8px 10px; font-family: 'VT323', monospace; font-size: 16px; color: var(--phosphor); }
 </style>
 <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
 <link rel="canonical" href="https://toniliumvp.github.io/LunaticDawn/luna4/database/magics.html">
@@ -47,9 +50,11 @@
 
   <main id="main-content">
     <div class="notice">
-      <strong>LD4 魔法 / 特殊攻擊資料庫</strong>（<span id="m-count">66</span> 個魔法 / <span id="n-count">5</span> NPC 任務 / 4 連結）
+      <strong>LD4 魔法 / 特殊攻擊資料庫</strong>（<span id="m-count">66</span> 個魔法 / <span id="z-count">89</span> 遊戲繁中名 / <span id="n-count">5</span> NPC 任務 / 4 連結）
       <br>
       <strong>來源</strong>：神之眼 1.1（2001）<code>ld4navi.def</code>，Shift-JIS 日文官方資料，源自 ARTDINK 攻略。
+      <br>
+      <strong>「遊戲繁中名」tab</strong>：89 個遊戲內<strong>繁體中文</strong>魔法 / 特殊攻擊名稱（玩家戰鬥時可見的事實層資料），從 <code>LD4.exe</code> 直接提取。跟上方日文資料是<strong>兩個獨立來源</strong> — 日文 def 含屬性 / MP / 威力等數值，繁中名是遊戲本身的稱呼。
       <br>
       <strong>跨平台</strong>：神之眼 ld4navi.exe 是 Windows + Delphi 5 runtime memory hook 工具，2001 年的記憶體 address 對 NoCD 修補版已失效。本頁直接 parse <code>.def</code> 純文字，<strong>0 EXE 依賴 + 跨 Mac/Win/手機</strong>。
       <br>
@@ -58,6 +63,7 @@
 
     <div class="tabs">
       <button class="tab-btn active" data-tab="magics">魔法 / 必殺技</button>
+      <button class="tab-btn" data-tab="zhnames">遊戲繁中名</button>
       <button class="tab-btn" data-tab="quests">NPC 任務</button>
       <button class="tab-btn" data-tab="links">官方連結</button>
     </div>
@@ -74,6 +80,7 @@
 
 <script>
 let DATA = null;
+let ZHDATA = null;
 let curTab = 'magics';
 
 async function load() {
@@ -82,6 +89,13 @@ async function load() {
     DATA = await r.json();
     if (DATA.lists[0]) document.getElementById('m-count').textContent = DATA.lists[0].items.length;
     if (DATA.lists[1]) document.getElementById('n-count').textContent = DATA.lists[1].items.length;
+    try {
+      const rz = await fetch('ld4_magic_zh.json');
+      ZHDATA = await rz.json();
+      if (ZHDATA && ZHDATA.count) document.getElementById('z-count').textContent = ZHDATA.count;
+    } catch (ez) {
+      console.error("[load] zh names failed:", ez);
+    }
     render();
   } catch (e) {
     console.error("[load] failed:", e);
@@ -124,6 +138,9 @@ function render() {
 
   let matched = 0;
 
+  // Guard: 主資料 fetch 回來前 DATA 為 null(使用者搶在載入前點 tab / 搜尋)
+  if (!DATA) { document.getElementById('match-count').textContent = ''; return; }
+
   if (curTab === 'magics' && DATA.lists[0]) {
     for (const it of DATA.lists[0].items) {
       if (filter) {
@@ -142,6 +159,25 @@ function render() {
       matched++;
       root.appendChild(makeSpellCard(it));
     }
+  } else if (curTab === 'zhnames' && ZHDATA) {
+    for (const cat of ZHDATA.categories) {
+      const hits = filter ? cat.items.filter(n => n.toLowerCase().includes(filter)) : cat.items;
+      if (!hits.length) continue;
+      const h = document.createElement('div');
+      h.className = 'zh-cat';
+      h.textContent = cat.name + '（' + hits.length + '）';
+      root.appendChild(h);
+      const grid = document.createElement('div');
+      grid.className = 'zh-grid';
+      for (const n of hits) {
+        const chip = document.createElement('div');
+        chip.className = 'zh-chip';
+        chip.textContent = n;
+        grid.appendChild(chip);
+        matched++;
+      }
+      root.appendChild(grid);
+    }
   } else if (curTab === 'links') {
     for (const link of DATA.links) {
       if (filter && !link.toLowerCase().includes(filter)) continue;
@@ -157,6 +193,7 @@ function render() {
     filter ? '符合：' + matched : '共 ' + matched + ' 筆';
 }
 
+document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
 document.getElementById('search').addEventListener('input', render);
 load();
 </script>
