@@ -6,11 +6,11 @@
  *   - 不快取:bridge HTTP API(/status /read /write /scan)+ 跨域資源
  */
 
-const CACHE_VERSION = 'ld4-modifier-v1.0-20260518';
+const CACHE_VERSION = 'ld4-modifier-v1.1-20260711';
 const CORE = [
   './savedata-viewer.html',
   './manifest.json',
-  './big5-encoder-table.json'
+  './ld4_enum_table.json'
 ];
 
 self.addEventListener('install', (evt) => {

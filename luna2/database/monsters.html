@@ -30,7 +30,6 @@
 .items-table .lvl { color: var(--amber); }
 .items-table .atk { color: #ffaa00; }
 .detail-row td { padding: 16px; background: rgba(0, 255, 65, 0.04); }
-.detail-row .desc { font-size: 16px; color: var(--phosphor); margin-bottom: 12px; line-height: 1.6; padding: 8px; border-left: 3px solid var(--amber); background: rgba(255, 176, 0, 0.05); }
 .detail-row .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px 16px; margin-bottom: 12px; }
 .detail-row .grid > div { border-left: 2px solid var(--phosphor-dim); padding-left: 8px; font-size: 14px; }
 .detail-row .grid b { color: var(--phosphor-dim); font-size: 11px; font-family: 'Press Start 2P', monospace; display: block; }
@@ -93,21 +92,6 @@ window.LIST_CONFIG = {
     },
   ],
   detailFn: async (dtd, m) => {
-    // 載入 MONS_R 描述（每怪物 2 records）
-    if (!window._monsR) {
-      try {
-        const r = await fetch('enc_decrypted.json');
-        if (r.ok) {
-          const enc = await r.json();
-          window._monsR = enc['MONS_R.ENC'] || [];
-        } else { window._monsR = []; }
-      } catch (e) { window._monsR = []; }
-    }
-    const desc = window._monsR[m.id * 2];
-    if (desc && desc.name && desc.name.trim()) {
-      dtd.appendChild(window.el('div', { class: 'desc' }, '「' + desc.name + '」'));
-    }
-
     // 詳細數值 grid
     const grid = window.el('div', { class: 'grid' });
     const fields = [

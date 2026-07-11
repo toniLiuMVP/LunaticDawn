@@ -65,7 +65,7 @@ def build_readme() -> str:
     today = datetime.now().strftime("%Y-%m-%d")
 
     # 統計
-    total_html = len(list(ROOT.rglob("*.html")))
+    total_html = len([p for p in ROOT.rglob("*.html") if "_local" not in p.parts])
     guide_list = list_guides()
     n_guides = len(guide_list)
 

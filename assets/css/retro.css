@@ -197,42 +197,6 @@ li { margin-bottom: 4px; }
 .prose p { font-size: 19px; line-height: 1.55; }
 .prose ul li { margin-bottom: 6px; }
 
-/* ---- 檔案下載清單 ---- */
-.file-list {
-  list-style: none;
-  margin-left: 0;
-}
-
-.file-list li {
-  border-bottom: 1px dashed var(--phosphor-fade);
-  padding: 8px 0;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 12px;
-  align-items: baseline;
-}
-
-.file-list li:last-child { border-bottom: none; }
-
-.file-list .fname {
-  font-family: 'Courier New', monospace;
-  color: var(--amber);
-  word-break: break-all;
-}
-
-.file-list .fsize {
-  font-size: 14px;
-  color: var(--phosphor-fade);
-  white-space: nowrap;
-}
-
-.file-list .fdesc {
-  grid-column: 1 / -1;
-  font-size: 16px;
-  color: var(--phosphor-dim);
-  padding-left: 16px;
-}
-
 /* ---- 表格 ---- */
 table {
   border-collapse: collapse;
@@ -449,7 +413,7 @@ tbody tr:hover { background: rgba(0,255,65,0.05); }
 /* ---- a11y ---- */
 
 /* :focus-visible，鍵盤導航看得到 focus */
-a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
   outline: 2px solid var(--amber);
   outline-offset: 2px;
   box-shadow: 0 0 0 4px rgba(255, 176, 0, 0.2);

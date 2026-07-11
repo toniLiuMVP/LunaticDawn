@@ -190,8 +190,8 @@ h1.pixel::after  { content: none; }
   color: #a89878;
   font-family: 'Noto Serif TC', serif;
 }
-.header-sub a { color: var(--accent); border-bottom: none; }
-.header-sub a:hover { color: #b8860b; }
+.header-sub a { color: #b8860b; border-bottom: none; }
+.header-sub a:hover { color: #c9a227; }
 .header-right { text-align: right; }
 
 /* ---- Breadcrumb ---- */
@@ -441,35 +441,6 @@ tbody tr:hover { background: rgba(139, 105, 20, 0.06); }
   border: none;
 }
 
-/* ---- File List ---- */
-.file-list { list-style: none; margin-left: 0; }
-.file-list li {
-  border-bottom: 1px dotted var(--border);
-  padding: 10px 0;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 12px;
-  align-items: baseline;
-}
-.file-list li:last-child { border-bottom: none; }
-.file-list .fname {
-  font-family: 'Noto Sans Mono', 'Courier New', monospace;
-  font-size: 15px;
-  color: var(--heading);
-  word-break: break-all;
-}
-.file-list .fsize {
-  font-size: 13px;
-  color: var(--text-muted);
-  white-space: nowrap;
-}
-.file-list .fdesc {
-  grid-column: 1 / -1;
-  font-size: 15px;
-  color: var(--text-dim);
-  padding-left: 16px;
-}
-
 /* ---- Utility Classes ---- */
 .dim    { color: var(--text-dim); }
 .muted  { color: var(--text-muted); font-size: 15px; }
@@ -498,8 +469,8 @@ tbody tr:hover { background: rgba(139, 105, 20, 0.06); }
   margin-top: 48px;
   border-top: 3px double var(--accent);
 }
-.site-footer a { color: var(--accent); border-bottom: none; }
-.site-footer a:hover { color: #b8860b; }
+.site-footer a { color: #b8860b; border-bottom: none; }
+.site-footer a:hover { color: #c9a227; }
 .footer-updated { font-size: 0.85em; opacity: 0.6; margin-top: 8px; }
 .footer-updated time { font-variant-numeric: tabular-nums; }
 .site-footer .footer-big {
@@ -548,7 +519,7 @@ body.guide-page .raw-text {
 }
 .quick-access a { border-bottom: none; text-decoration: none; }
 .quick-access .qa-primary {
-  background: var(--accent);
+  background: #b8860b;
   color: var(--bg-header);
   font-weight: bold;
   font-size: 17px;
@@ -556,7 +527,7 @@ body.guide-page .raw-text {
   display: inline-flex;
   align-items: center;
 }
-.quick-access .qa-primary:hover { background: #b8860b; color: #fff8e8; }
+.quick-access .qa-primary:hover { background: #c9a227; color: var(--bg-header); }
 .quick-access .qa-link {
   border: 1px solid var(--accent);
   color: var(--accent);
