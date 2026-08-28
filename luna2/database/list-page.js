@@ -47,7 +47,13 @@
       tbody.appendChild(tr);
     }
     table.appendChild(tbody);
-    content.appendChild(table);
+    // Wrap in a horizontal scroll container: body{overflow-x:hidden} in retro.css
+    // propagates to the viewport, so a table wider than the screen has its right-hand
+    // columns clipped AND unscrollable on mobile (measured 375px: 金錢/掉寶 sat at
+    // x=375/420 with maxScrollLeft=0). Same pattern as npcs.html .table-scroll.
+    const scroller = el('div', { class: 'table-scroll' });
+    scroller.appendChild(table);
+    content.appendChild(scroller);
     $('count').textContent = `${rows.length} / ${CFG.totalCount}`;
   }
 

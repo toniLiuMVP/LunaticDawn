@@ -163,7 +163,7 @@
       <option value="">全部</option>
     </select>
 
-    <label><input type="checkbox" id="hide-placeholders" checked> 隱藏 placeholder</label>
+    <label><input type="checkbox" id="hide-placeholders" aria-label="隱藏未命名的佔位項目" checked> 隱藏 placeholder</label>
 
     <span class="count" id="count">，/ 456</span>
   </div>
@@ -232,7 +232,11 @@ function renderTable(items) {
     tbody.appendChild(tr);
   }
   table.appendChild(tbody);
-  content.appendChild(table);
+  // Horizontal scroll container — see list-page.js: body{overflow-x:hidden} makes an
+  // over-wide table's right-hand columns unreachable on mobile, not merely overflowing.
+  const scroller = el('div', { class: 'table-scroll' });
+  scroller.appendChild(table);
+  content.appendChild(scroller);
   $('count').textContent = `${items.length} / 456`;
 }
 

@@ -48,13 +48,14 @@
 <section class="panel">
   <h2 class="panel-title">[ 開局與設定 ]</h2>
 
-  <h3 style="color: var(--amber);">第一步：DOSBox 環境設定</h3>
-  <p>未來之書是 1998 年 DOS / Win95 時代作品，現代作業系統需用 DOSBox 模擬。建議參考<a href="../luna2/launcher/">俠客遊 II 啟動器頁面</a>的 DOSBox-X 配置，原理通用：</p>
+  <h3 style="color: var(--amber);">第一步：執行環境</h3>
+  <p>未來之書是 <strong>Windows 時代的作品</strong>，主程式 <code>LDE.EXE</code> 是 Windows 執行檔，<strong>不是 DOS 遊戲，DOSBox 不適用</strong>（俠客遊 II 才是 DOS，那一套 DOSBox-X 配置不能套到這裡）。在現代 Windows 上要跑，方向是相容性設定而不是 DOS 模擬：</p>
   <ul>
-    <li>設定 cycles = fixed 50000（Pentium 100 等效）</li>
-    <li>掛載遊戲目錄為 C:\</li>
-    <li>音效配置：SoundBlaster 16 + GM MIDI</li>
+    <li>以<strong>相容模式</strong>執行 <code>LDE.EXE</code>（右鍵 → 內容 → 相容性），或放進 Windows XP 虛擬機</li>
+    <li>Mac / Linux 玩家走 <strong>Wine</strong>，不是 DOSBox</li>
+    <li>中文顯示亂碼是另一個獨立問題，社群的 <code>LDE.EXE</code> 十六進位修法收錄在<a href="../general/encoding-faq.html">編碼與亂碼 FAQ</a></li>
   </ul>
+  <p class="muted">※ 這裡不給逐步教學，是因為 toni 手上沒有在現代 Windows 完整驗證過的流程。與其給一份沒驗過的步驟，先老實標明「DOSBox 不適用、方向在相容性設定」。</p>
 
   <h3 style="color: var(--amber);">第二步：角色設定</h3>
   <p>遊戲開始時要設定角色：</p>

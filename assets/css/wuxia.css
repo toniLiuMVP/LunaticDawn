@@ -576,3 +576,7 @@ details.qa-collapse[open] > summary { margin-bottom: 8px; }
   white-space: nowrap;
   border: 0;
 }
+
+/* Horizontal scroll container for wide data tables (mirrors retro.css).
+   Keeps an over-wide table from pushing the page into horizontal scroll on mobile. */
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; }

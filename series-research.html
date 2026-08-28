@@ -50,11 +50,11 @@ h3 { color: var(--amber); margin-top: 20px; }
   </header>
 
   <main id="main-content">
-  <p class="muted">本頁是 2026 年對俠客遊系列 4 作（LUNA2 / LD3 / LD4 / 第三之書）二進位逆向工程的整合筆記，文檔系列共通設計 DNA、加密策略演進、檔案格式跨年代變化。資料來源全為 <strong>toni 持有的正版遊戲實體磁碟片 / 光碟</strong>拷貝（toni 在 1996-2002 年購買原版實體磁碟片 / 光碟，2024 年俠客遊系列 Steam 版發行後再次購買），分析方法為 binary hex diff、known plaintext attack、跨檔比對。</p>
+  <p class="muted">本頁是 2026 年對俠客遊系列 4 作（LUNA2 / LD3 / LD4 / 第三之書）二進位逆向工程的整合筆記，文檔系列共通設計 DNA、加密策略演進、檔案格式跨年代變化。資料來源全為 <strong>toni 持有的正版遊戲實體磁碟片 / 光碟</strong>拷貝（toni 在 1996-2002 年購買原版實體磁碟片 / 光碟，俠客遊系列 Steam 版（2015 年上架）發行後再次購買），分析方法為 binary hex diff、known plaintext attack、跨檔比對。</p>
 
   <h2>[ 1. 系列時序 + 二進位格式 ]</h2>
 
-  <table class="timeline">
+  <div class="table-scroll"><table class="timeline">
     <thead>
       <tr>
         <th style="width: 12%;">作品</th>
@@ -99,14 +99,14 @@ h3 { color: var(--amber); margin-top: 20px; }
         <td>卡片戰鬥 / 4 陣營（光闇混沌秩序）/ 全 .dat Huffman 加密</td>
       </tr>
     </tbody>
-  </table>
+  </table></div>
 
   <h2>[ 2. Artdink 加密策略演進 ]</h2>
 
   <div class="section-block">
     <p>從 1996 到 2002 共 6 年的設計變遷，加密策略**逐步加強**：</p>
 
-    <table class="timeline">
+    <div class="table-scroll"><table class="timeline">
       <thead>
         <tr>
           <th>作品</th>
@@ -136,7 +136,7 @@ h3 { color: var(--amber); margin-top: 20px; }
           <td>❌ <strong>未破解</strong>（LZSS 8 變體全失敗，需反組譯 Lde3.exe 找 cipher init）</td>
         </tr>
       </tbody>
-    </table>
+    </table></div>
 
     <p><strong>密碼學評論</strong>：Artdink 加密設計不是專業密碼學，是「擋業餘玩家修改」程度。LD4 用 zero padding 作為 known plaintext 立刻洩漏 24 byte keystream，是新手錯誤。</p>
   </div>
@@ -194,7 +194,7 @@ h3 { color: var(--amber); margin-top: 20px; }
   <h2>[ 5. 圖像格式分類 ]</h2>
 
   <div class="section-block">
-    <table class="timeline">
+    <div class="table-scroll"><table class="timeline">
       <thead>
         <tr><th>格式</th><th>使用作品</th><th>內容</th></tr>
       </thead>
@@ -208,13 +208,13 @@ h3 { color: var(--amber); margin-top: 20px; }
         <tr><td><strong>BIN</strong></td><td>LD3 / LD4</td><td>遊戲資料（magic <code class="code-inline">\\0LD3</code> / <code class="code-inline">\\0LD4</code>）</td></tr>
         <tr><td><strong>.dat</strong></td><td>第三之書</td><td>遊戲資料 (Huffman 壓縮 + 加密，含 HF magic)</td></tr>
       </tbody>
-    </table>
+    </table></div>
   </div>
 
   <h2>[ 6. 網路功能演進 ]</h2>
 
   <div class="section-block">
-    <table class="timeline">
+    <div class="table-scroll"><table class="timeline">
       <thead>
         <tr><th>作品</th><th>網路功能</th></tr>
       </thead>
@@ -224,7 +224,7 @@ h3 { color: var(--amber); margin-top: 20px; }
         <tr><td><strong>LD4 (2001)</strong></td><td>沿用次元之門 + <strong>新增 Web/Models 4 主題 HTML 模板</strong>，玩家世界檔上傳到伺服器後生成 HTML 頁面（含 IP / 訪問者履歷）讓其他玩家點 IP 連入</td></tr>
         <tr><td><strong>第三之書 (2002)</strong></td><td>**世界分享下載**（不是即時對戰，是上傳 / 下載世界檔機制），CoCard.dll 含完整 TCP/IP 通訊邏輯</td></tr>
       </tbody>
-    </table>
+    </table></div>
 
     <p><strong>歷史事實</strong>：第三波官方伺服器於 2007 年前後關閉。LD4 以 IP 直連方式仍可在 LAN 內運作（現代玩家可用）。</p>
   </div>
@@ -266,11 +266,11 @@ h3 { color: var(--amber); margin-top: 20px; }
   <h3 style="margin-top: 2em;">▌ 2026 Steam ARTDINK reissue 觀察（抽象描述）</h3>
 
   <div class="section-block">
-    <p>2024 年 ARTDINK 在 Steam 重新發行<a href="https://store.steampowered.com/app/338070/_/" target="_blank" rel="noopener">俠客遊 I / II / III 合輯</a>與<a href="https://store.steampowered.com/app/335420/_/" target="_blank" rel="noopener">前途道標</a>。本站逆向研究進行時順帶觀察到 Steam 復刻版的高層次架構特徵：</p>
+    <p>2015 年 ARTDINK 開發、KOMODO 在 Steam 發行<a href="https://store.steampowered.com/app/338070/_/" target="_blank" rel="noopener">俠客遊 I / II / III 合輯</a>與<a href="https://store.steampowered.com/app/335420/_/" target="_blank" rel="noopener">前途道標</a>。本站逆向研究進行時順帶觀察到 Steam 復刻版的高層次架構特徵：</p>
 
     <h4>1. 跨 30 年雙 codebase 同 game design</h4>
     <ul style="line-height: 1.9;">
-      <li>1996 DOS 版（LUNA2.EXE）與 2024 Steam 版（LD2.exe）為<strong>兩條獨立 codebase</strong>，分別針對 DOS 16-bit real mode + 32-bit Windows PE32 撰寫</li>
+      <li>1996 DOS 版（LUNA2.EXE）與 2015 Steam 版（LD2.exe）為<strong>兩條獨立 codebase</strong>，分別針對 DOS 16-bit real mode + 32-bit Windows PE32 撰寫</li>
       <li>但<strong>game design 完全保留</strong>，SAV 檔結構（30720 bytes = 160 角色 × 192 bytes / record）、必殺技 8 技內部名稱、boss 怪物 ID 序列（122-127）在兩版 binary 內<strong>跨 30 年完美對齊</strong></li>
       <li>本站 LD 存檔修改器（<a href="luna2/save-editor.html">save-editor.html</a>）對 Steam 日文版同樣可用（僅需切換姓名 decoder 從 Big5 → SJIS）</li>
     </ul>
@@ -283,7 +283,7 @@ h3 { color: var(--amber); margin-top: 20px; }
     </ul>
 
     <h4>3. 對「數位文化保存 vs 商業 reissue 並存」的觀察</h4>
-    <p>俠客遊系列 1996-2002 由台灣第三波 / 美商藝電代理繁中發行 → 2000-2010 巴哈姆特 / GameBase 社群整理攻略 + 修改器 → 2024 ARTDINK 自家 Steam 復刻日文版 → 2026 LD 站延續舊 BBS 時代精神做數位保存。<strong>三條時間線並行</strong>：</p>
+    <p>俠客遊系列 1996-2002 由台灣第三波 / 美商藝電代理繁中發行 → 2000-2010 巴哈姆特 / GameBase 社群整理攻略 + 修改器 → 2015 ARTDINK 開發、KOMODO 發行的 Steam 復刻日文版 → 2026 LD 站延續舊 BBS 時代精神做數位保存。<strong>三條時間線並行</strong>：</p>
     <ul style="line-height: 1.9;">
       <li>🇯🇵 ARTDINK Steam 商業 reissue（日文，提供合法購買管道）</li>
       <li>🇹🇼 LD 數位文化保存（繁中，玩家可見事實層 + 攻略 + 修改器）</li>
@@ -291,7 +291,7 @@ h3 { color: var(--amber); margin-top: 20px; }
     </ul>
     <p>三者<strong>互相支持不衝突</strong>：LD 站 footer 主動導流 Steam 正版購買，Steam 玩家可用 LD 工具 / 攻略增加中文化體驗，社群歷史經 LD 數位化保存。</p>
 
-    <p class="muted" style="font-size: 13px;">※ 本節為高層次觀察，不包含具體 binary 結構細節、加密算法、UI 腳本格式等。對 reverse engineering 同類專案研究者，本站提供的事實層研究範圍止於 1996-2002 第三波繁中版（玩家持有正版實體磁碟片 / 光碟拷貝），不延伸到 2024 Steam reissue 內部結構。</p>
+    <p class="muted" style="font-size: 13px;">※ 本節為高層次觀察，不包含具體 binary 結構細節、加密算法、UI 腳本格式等。對 reverse engineering 同類專案研究者，本站提供的事實層研究範圍止於 1996-2002 第三波繁中版（玩家持有正版實體磁碟片 / 光碟拷貝），不延伸到 2015 Steam reissue 內部結構。</p>
   </div>
 
   <h2>[ 8. 研究方法論 ]</h2>
@@ -320,7 +320,7 @@ h3 { color: var(--amber); margin-top: 20px; }
   <div class="section-block">
     <p>用 radare2 (r2) 對 4 個 EXE 做反組譯統計：</p>
 
-    <table class="timeline">
+    <div class="table-scroll"><table class="timeline">
       <thead>
         <tr><th>EXE</th><th>r2 函式數</th><th>關鍵 imports</th></tr>
       </thead>
@@ -330,7 +330,7 @@ h3 { color: var(--amber); margin-top: 20px; }
         <tr><td><strong>LD4.exe</strong></td><td><strong>6637</strong></td><td>MFC + <code class="code-inline">CInternetConnection</code> / <code class="code-inline">CInternetSession</code> / <code class="code-inline">CInternetFile</code>，用 MFC Internet class 處理 HTTP</td></tr>
         <tr><td><strong>Lde3.exe</strong></td><td><strong>6113</strong></td><td>MFC CArchive 序列化 + MFC Internet class，dat decoder 函式定位完成（256-symbol Huffman tree builder）</td></tr>
       </tbody>
-    </table>
+    </table></div>
 
     <h3>9.1 LD4 加密 cipher init 反組譯嘗試</h3>
     <p>用 r2 自動 xref 找 ITEM_GUARD / ITEM_NORMAL / ITEM_WEAPON / MonsterPara 的 file open 函式，失敗。原因：</p>
@@ -354,7 +354,7 @@ h3 { color: var(--amber); margin-top: 20px; }
   <div class="section-block">
     <p>本站做的事在國際同類社群是常見實踐：</p>
 
-    <table class="timeline">
+    <div class="table-scroll"><table class="timeline">
       <thead>
         <tr><th>網站</th><th>運作年份</th><th>做法</th><th>法律地位</th></tr>
       </thead>
@@ -384,14 +384,14 @@ h3 { color: var(--amber); margin-top: 20px; }
           <td>俠客遊系列原始攻略大量出自此處</td>
         </tr>
       </tbody>
-    </table>
+    </table></div>
 
     <h3>本站符合業界 norm</h3>
     <ul style="line-height: 1.9;">
       <li>✅ <strong>不發布</strong>原版 EXE / ROM / 圖像 / 音效</li>
       <li>✅ <strong>不發布</strong>遊戲對白 narrative / 劇情</li>
       <li>✅ <strong>不發布</strong>美術原作（sprite / portrait）</li>
-      <li>✅ <strong>來源合法</strong>：toni 持有正版遊戲<strong>實體磁碟片 / 光碟</strong>（1996-2002 年陸續購買原版，俠客遊 II 1996 為磁碟片，未來之書 1998 中文版及之後 III / IV / 第三之書都為光碟片）+ 2024 年俠客遊系列 Steam 版發行後再次購買支持</li>
+      <li>✅ <strong>來源合法</strong>：toni 持有正版遊戲<strong>實體磁碟片 / 光碟</strong>（1996-2002 年陸續購買原版，俠客遊 II 1996 為磁碟片，未來之書 1998 中文版及之後 III / IV / 第三之書都為光碟片）+ 俠客遊系列 Steam 版（2015 年上架）發行後再次購買支持</li>
       <li>✅ <strong>公開內容限事實層</strong>：名稱 / 結構觀察 / 數值對照（依日本著作權法第 2 條僅創作性表現受保護，事實名稱不在保護範圍）</li>
       <li>✅ <strong>引用三邊著作權法</strong>：🇹🇼 著作權法 §10-1 + 🇯🇵 著作権法 §2 第 1 項 第 1 號 + §12-2（資料庫保護創意性編排）+ 🇺🇸 17 USC §102(b) + Feist v. Rural Telephone (1991) + Sega v. Accolade (1992)</li>
     </ul>
@@ -409,7 +409,7 @@ h3 { color: var(--amber); margin-top: 20px; }
 
     <p>TCRF（The Cutting Room Floor）自 2010 年起 13+ 年運作完全沒收過法律通知，直到 2023 年 4 月才收到第一個，而且情況比預期樂觀：</p>
 
-    <table class="timeline">
+    <div class="table-scroll"><table class="timeline">
       <thead>
         <tr><th>項目</th><th>內容</th></tr>
       </thead>
@@ -422,7 +422,7 @@ h3 { color: var(--amber); margin-top: 20px; }
         <tr><td><strong>TCRF 反應</strong></td><td><strong>沒有移除頁面</strong>，引用 fair use 反駁。社群討論建議「加版權聲明區塊明確說明 TCRF 跟 Playtika 無關」</td></tr>
         <tr><td><strong>後續</strong></td><td>該頁至今仍存在（<a href="https://tcrf.net/BINGO_Blitz_(Adobe_Flash)" target="_blank" rel="noopener">tcrf.net/BINGO_Blitz_(Adobe_Flash)</a>），Playtika 沒進一步法律行動</td></tr>
       </tbody>
-    </table>
+    </table></div>
 
     <h4>TCRF 事件的 4 個重要意義（給類似網站的啟示）</h4>
 
@@ -446,7 +446,7 @@ h3 { color: var(--amber); margin-top: 20px; }
 
     <p>俠客遊系列在 🇯🇵 日本、🇹🇼 台灣、🇨🇳 中國的下載/遊玩管道現況差異很大，這影響本站的文化保存價值定位：</p>
 
-    <table class="timeline">
+    <div class="table-scroll"><table class="timeline">
       <thead>
         <tr><th>地區</th><th>主要管道</th><th>性質</th></tr>
       </thead>
@@ -480,7 +480,7 @@ h3 { color: var(--amber); margin-top: 20px; }
           <td><strong>盜版氾濫無管制</strong>，完全無視著作權。本站<strong>不公告</strong>具體站名 / 網址以避免變相宣傳。</td>
         </tr>
       </tbody>
-    </table>
+    </table></div>
 
     <h4>對本站文化保存定位的意義</h4>
 

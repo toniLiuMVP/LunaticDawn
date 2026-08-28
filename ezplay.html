@@ -88,12 +88,12 @@ code.f { background: var(--bg-panel); padding: 1px 6px; border-radius: 3px; font
   <ol class="steps">
     <li><strong>準備遊戲本體</strong>：把你的正版遊戲安裝好（Steam 安裝目錄，或原版光碟安裝後的資料夾）。</li>
     <li><strong>解壓覆蓋</strong>：把對應的 EzPlay <code class="f">.7z</code> 解壓，把裡面所有檔案<strong>複製貼到遊戲本體的根目錄</strong>（也就是遊戲主程式 <code class="f">.exe</code> 所在的資料夾），遇到「是否覆蓋」選<strong>全部覆蓋</strong>。</li>
-    <li><strong>執行那一個啟動檔</strong>：雙擊對應你系統的啟動檔（Windows 雙擊 <code class="f">.bat</code> / Mac 雙擊 <code class="f">.command</code>），即可開始遊玩。</li>
+    <li><strong>執行那一個啟動檔</strong>：雙擊對應你系統的啟動檔（Windows 雙擊 <code class="f">★Windows玩家點我.bat</code> / Mac 雙擊 <code class="f">★Mac玩家點我.command</code>），即可開始遊玩。</li>
   </ol>
   <div class="warnbox">
     ⚠ <strong>請執行啟動檔，不是遊戲主程式</strong>：Mac 一定要用 <code class="f">.command</code> 啟動檔（它會呼叫 Wine 並處理首次執行）；Windows 雙擊 <code class="f">.bat</code> 啟動檔最保險（會自動切到正確目錄）。
   </div>
-  <p class="muted" style="font-size:13px;">※ Mac 首次執行若被系統擋下，先雙擊 <code class="f">_Mac首次執行_先點我.command</code> 一次（解除 Gatekeeper 隔離），之後就正常。Mac 需先安裝 Wine。</p>
+  <p class="muted" style="font-size:13px;">※ Mac 首次執行若被系統擋下，先雙擊 <code class="f">_Mac第一次先點我.command</code> 一次（解除 Gatekeeper 隔離），之後就正常。Mac 需先安裝 Wine。（前途道標 LD95_EzPlay 只含 Windows 啟動檔）</p>
 
   <h3 style="font-size:15px;color:var(--accent);margin:20px 0 6px;border-bottom:1px dotted var(--border);padding-bottom:4px;">啟動檔幫你做了什麼？為什麼要用它？</h3>
   <p>老遊戲不是雙擊主程式就能在現代系統跑，啟動檔幫你把執行環境準備好（透明、可檢視，純文字檔可以自己打開看）：</p>
@@ -195,7 +195,7 @@ code.f { background: var(--bg-panel); padding: 1px 6px; border-radius: 3px; font
       </div>
       <h3>💡 排除經驗</h3>
       <div class="warnbox" style="border-left-color:var(--accent);background:rgba(184,134,11,0.06);">
-        <p style="margin:0 0 8px;">老實說，第三之書是這三款裡<strong>最順手的一款</strong> 😄。它是 2002 年的 <strong>Windows 原生</strong>遊戲（系列裡唯一不是 DOS 的一作），在現代 Windows 上幾乎是放進去就能玩，沒有前兩作那些字體、視窗、音樂的老毛病。</p>
+        <p style="margin:0 0 8px;">老實說，第三之書是這三款裡<strong>最順手的一款</strong> 😄。它是 2002 年的 <strong>Windows 原生</strong>遊戲，在現代 Windows 上幾乎是放進去就能玩，沒有前兩作那些字體、視窗、音樂的老毛病。</p>
         <p style="margin:0;"><strong>主要工夫在 Mac：</strong>第三之書當年只發行 Windows 版，Mac 沒有原生版本，得靠 Wine 才能執行。我們把這件事交給啟動檔自動處理（找 Wine、解除安全隔離、設好執行環境，流程見上方「啟動檔幫你做了什麼？」），讓 Mac 玩家也能一鍵遊玩。所以這款的「困難」不在遊戲本身，而在<strong>怎麼讓老 Windows 遊戲在 Mac 上順順地跑起來</strong>，這正是 EzPlay 啟動檔幫你解決的事。</p>
       </div>
     </div>

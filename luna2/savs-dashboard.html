@@ -295,9 +295,10 @@
   <div id="drop-zone">
     <p>拖放 SAV 檔到此處查看前 256 bytes</p>
     <p style="font-size: 12px; color: var(--phosphor-dim);">或 <span style="color: var(--amber); cursor: pointer; text-decoration: underline;" id="click-select">點擊選擇</span></p>
-    <input type="file" id="file-input" accept=".SAV,.sav" style="display: none;">
+    <input type="file" id="file-input" aria-label="選擇存檔檔案" accept=".SAV,.sav" style="display: none;">
   </div>
 
+  <p class="hint muted">※ 所有解析在你的瀏覽器本地完成，不會上傳任何檔案。</p>
   <div id="hex-viewer" style="display: none;">
     <h3 id="hex-title">，待選擇檔案，</h3>
     <div id="hex-output"></div>

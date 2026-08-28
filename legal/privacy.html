@@ -21,7 +21,7 @@
 <meta name="twitter:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"隱私政策","description":"無 cookies、無 analytics、無第三方追蹤、無使用者帳號。純靜態 GitHub Pages。","url":"https://toniliumvp.github.io/LunaticDawn/legal/privacy.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"}}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"吟遊詩人的傳說","item":"https://toniliumvp.github.io/LunaticDawn/"},{"@type":"ListItem","position":2,"name":"法律與隱私","item":"https://toniliumvp.github.io/LunaticDawn/legal/"},{"@type":"ListItem","position":3,"name":"隱私政策"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"吟遊詩人的傳說","item":"https://toniliumvp.github.io/LunaticDawn/"},{"@type":"ListItem","position":2,"name":"隱私政策"}]}</script>
 <!-- seo -->
 </head>
 <body>
@@ -56,6 +56,7 @@
     <li>❌ 無使用者帳號 / 註冊 / 登入</li>
     <li>❌ 無評論系統 / 不收集表單資料</li>
     <li>❌ 無廣告 / 無聯盟行銷 tracking</li>
+    <li>⚠️ <strong>唯一的例外</strong>：俠客遊 IV 存檔修改器會用瀏覽器的 <code>localStorage</code> 記住你自己設定的欄位與套餐（詳見下方「本機儲存」一節）。這些資料<strong>只存在你自己的瀏覽器裡</strong>，不會傳給任何人，也不是 cookie。</li>
   </ul>
   <p>本站為 toni 維護的<strong>非營利數位文化保存專案</strong>,純靜態 HTML+CSS+JS 託管於 GitHub Pages。</p>
 </section>
@@ -64,6 +65,24 @@
   <h2 class="panel-title">[ 1. 本站運作模式 ]</h2>
   <p>「吟遊詩人的傳說 · 俠客遊」(https://toniliumvp.github.io/LunaticDawn/)是 100% 靜態網站,所有頁面為預先產生的 HTML 檔案,**沒有任何伺服器端程式碼**(無 PHP / Node / Python 後端)。</p>
   <p>瀏覽本站時,你的瀏覽器只跟 <strong>GitHub Pages CDN</strong>(GitHub 提供的靜態檔案 host)通訊,**本站沒有自己的伺服器**。</p>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 1.5 本機儲存（localStorage） ]</h2>
+  <p>本站不使用 cookie，但<strong>俠客遊 IV 存檔修改器</strong>（<code>luna4/savedata-viewer.html</code>）會用瀏覽器內建的 <code>localStorage</code> 保存三項<strong>你自己建立的設定</strong>，讓你下次打開不用重設：</p>
+  <ul>
+    <li><code>ld4_custom_fields_v1</code> — 你自己新增的存檔欄位（位址 / 編碼 / 名稱）</li>
+    <li><code>ld4_ram_fields_v1</code> — 即時記憶體模式的欄位清單</li>
+    <li><code>ld4_presets_v1</code> — 你自己儲存的數值套餐</li>
+  </ul>
+  <p>這三項的性質：</p>
+  <ul>
+    <li><strong>只存在你這台裝置的這個瀏覽器裡</strong>，不會上傳、不會同步，toni 看不到也拿不到</li>
+    <li>內容是你自己輸入的數字與名稱，不含任何個人身分資料</li>
+    <li>屬於「功能性儲存」（functional storage），是你主動使用該功能所必需，不需同意橫幅</li>
+    <li>隨時可清除：用瀏覽器的「清除網站資料」，或在修改器頁面上刪除你建立的欄位與套餐</li>
+  </ul>
+  <p class="muted" style="font-size: 13px;">本站其他所有頁面都不寫入任何本機儲存。</p>
 </section>
 
 <section class="panel">

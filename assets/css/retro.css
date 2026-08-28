@@ -461,3 +461,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     animation: none !important;
   }
 }
+
+/* Horizontal scroll container for wide data tables.
+   body{overflow-x:hidden} above stops the viewport itself from scrolling, so a wide
+   table must carry its own scroller or its right-hand columns become unreachable. */
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; }

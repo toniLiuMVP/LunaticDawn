@@ -118,7 +118,7 @@
     <h2 class="pixel">▶ 拖放 lde3s.le3 到這裡</h2>
     <p>或 <span style="color: var(--amber); cursor: pointer; text-decoration: underline;" id="click-select">點擊選擇檔案</span></p>
     <p style="color: var(--phosphor-dim); font-size: 13px;">[ 檔案位置：遊戲資料夾/usr/lde3s.le3 ]</p>
-    <input type="file" id="file-input" accept=".le3" style="display: none;">
+    <input type="file" id="file-input" aria-label="選擇第三之書存檔檔案" accept=".le3" style="display: none;">
   </div>
 
   <div id="editor" style="display: none;">
@@ -173,7 +173,7 @@
       <h3>★ 跨版本 diff（v0.2）</h3>
       <p class="hint">上傳 lde3s.bak（上一次存檔）對比當前 lde3s.le3 → 列出所有 byte 變化位置。可推測「兩次存檔間玩家做了什麼」對應哪些 SAV offset。</p>
       <div class="field-row">
-        <input type="file" id="diff-file-input" accept=".le3,.bak,.bk2">
+        <input type="file" id="diff-file-input" aria-label="選擇要對比的第二個存檔檔案" accept=".le3,.bak,.bk2">
         <button id="btn-diff" type="button">執行 diff</button>
         <span id="diff-status" class="hint" style="margin-left: 8px;"></span>
       </div>
@@ -188,7 +188,7 @@
     <div class="editor-panel">
       <h3>Hex 編輯器（完整檔案）</h3>
       <p class="hint">每 byte 兩字元（hex），空白分隔（每 16 bytes 一行）。修改後按下「套用 + 下載」。</p>
-      <textarea class="hex-editor" id="hex-editor" placeholder="拖入檔案後此處顯示完整 hex"></textarea>
+      <textarea class="hex-editor" id="hex-editor" aria-label="十六進位編輯區" placeholder="拖入檔案後此處顯示完整 hex"></textarea>
     </div>
 
     <div id="download-bar">
@@ -214,6 +214,10 @@
 </div>
 
 <script>
+
+// Size bounds for lde3s.le3, shared by every read path (drop, and the diff comparison).
+const MIN_SIZE = 100 * 1024;       // 100 KB minimum
+const MAX_SIZE = 2 * 1024 * 1024;  // 2 MB maximum
 const $ = id => document.getElementById(id);
 let workBuffer = null;
 let originalFileName = '';
@@ -259,8 +263,7 @@ function showError(msg) {
 async function handleFile(file) {
   try {
     // B-SEC-002 FileReader size guard
-    const MIN_SIZE = 100 * 1024;       // 100 KB minimum
-    const MAX_SIZE = 2 * 1024 * 1024;  // 2 MB maximum
+    // MIN_SIZE / MAX_SIZE hoisted to module scope so every read path can use them.
     if (file.size < MIN_SIZE || file.size > MAX_SIZE) {
       throw new Error(`檔案大小異常 (${file.size.toLocaleString()} bytes)，lde3s.le3 預期 ~985,542 bytes，允許範圍 ${MIN_SIZE / 1024} KB ~ ${MAX_SIZE / 1024 / 1024} MB`);
     }
@@ -466,7 +469,15 @@ $('btn-diff').addEventListener('click', async () => {
   status.style.color = 'var(--phosphor-dim)';
 
   try {
-    const otherBuf = new Uint8Array(await fileInput.files[0].arrayBuffer());
+    const otherFile = fileInput.files[0];
+    // Same bounds the main drop path enforces — the diff path read the file unchecked.
+    if (!otherFile || otherFile.size < MIN_SIZE || otherFile.size > MAX_SIZE) {
+      status.textContent = '✗ 對比檔大小異常（' + (otherFile ? otherFile.size.toLocaleString() : '?') +
+        ' bytes），應在 ' + MIN_SIZE.toLocaleString() + ' ~ ' + MAX_SIZE.toLocaleString() + ' bytes 之間。';
+      status.style.color = 'var(--amber)';
+      return;
+    }
+    const otherBuf = new Uint8Array(await otherFile.arrayBuffer());
     const other = otherBuf;
     const main = workBuffer;
     const common = Math.min(main.length, other.length);

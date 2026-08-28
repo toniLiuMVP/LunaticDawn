@@ -138,7 +138,29 @@ else
 fi
 
 # 8.2: Long literal quotes (>300 char single-string in HTML body)
-HITS=$(echo "$PUB_FILES" | grep -E "\.html$" | xargs -I{} grep -nE '("[^"]{300,}")' {} 2>/dev/null | head -3)
+HITS=$(echo "$PUB_FILES" | grep -E "\.html$" | python3 -c "
+import sys, re
+# 300+ char direct quotation = text inside real quotation markup.
+# NOT a raw \\\" ... \\\" span: in HTML those are attribute delimiters, so the old
+# pattern measured markup distance, not quoted text (and BSD grep capped {300,} anyway).
+PATS = [re.compile(r'\u300c[^\u300d]{300,}\u300d', re.S),
+        re.compile(r'\u300e[^\u300f]{300,}\u300f', re.S),
+        ]
+# NOTE: deliberately NOT measuring whole <blockquote> containers — one blockquote may
+# legitimately hold several short attributed quotes plus commentary. The fair-use risk
+# is a single continuous verbatim passage, which the quote-mark spans above capture.
+TAG = re.compile(r'<[^>]+>')
+for line in sys.stdin:
+    f = line.strip()
+    if not f: continue
+    try: t = open(f, encoding='utf-8', errors='replace').read()
+    except OSError: continue
+    for pat in PATS:
+        for m in pat.finditer(t):
+            if len(TAG.sub('', m.group(0)).strip()) >= 300:
+                print(f'{f}: {len(TAG.sub(chr(32), m.group(0)))} chars quoted')
+                break
+" | head -3)
 if [ -z "$HITS" ]; then
   print_pass "8.2 No 300+ char literal quotes (fair use safe)"
 else
@@ -146,7 +168,7 @@ else
 fi
 
 # 8.3: Copyrighted scan / book page in public area
-HITS=$(git ls-files | grep -iE "(攻略集|說明書|攻略書).*\.(pdf|png|jpg)|scan.*\.(pdf|png|jpg)|.+book.+page.*\.(pdf|png|jpg)" | grep -v "_local/")
+HITS=$(git -c core.quotePath=false ls-files | grep -iE "(攻略集|說明書|攻略書).*\.(pdf|png|jpg)|scan.*\.(pdf|png|jpg)|.+book.+page.*\.(pdf|png|jpg)" | grep -v "_local/")
 if [ -z "$HITS" ]; then
   print_pass "8.3 No copyrighted scans in public files"
 else
