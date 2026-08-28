@@ -6,6 +6,10 @@
   --phosphor:     #00ff41;
   --phosphor-dim: #00aa2b;
   --phosphor-fade:#007a1f;
+  /* Text-only dim green. --phosphor-fade stays as-is for CRT borders and glows;
+     this variable is used solely where the colour carries readable text, which
+     needs WCAG AA 4.5:1 that #007a1f (3.80 on black) does not reach. */
+  --phosphor-text-dim:#009229;
   --amber:        #ffb000;
   --danger:       #ff3030;
   --bg:           #000;
@@ -237,7 +241,7 @@ tbody tr:hover { background: rgba(0,255,65,0.05); }
 .raw-text::before {
   content: "── 原文 ──────────────────────";
   display: block;
-  color: var(--phosphor-fade);
+  color: var(--phosphor-text-dim);
   font-size: 14px;
   margin-bottom: 12px;
   padding-bottom: 8px;
@@ -286,7 +290,7 @@ tbody tr:hover { background: rgba(0,255,65,0.05); }
 
 .card .card-meta {
   font-size: 14px;
-  color: var(--phosphor-fade);
+  color: var(--phosphor-text-dim);
   margin-top: 8px;
   font-family: 'Courier New', monospace;
   display: block;
@@ -304,7 +308,7 @@ tbody tr:hover { background: rgba(0,255,65,0.05); }
   box-shadow: none;
 }
 
-.card.wip .card-title { color: var(--phosphor-fade); }
+.card.wip .card-title { color: var(--phosphor-text-dim); }
 
 /* ---- card-multi: div card with independently clickable links ---- */
 .card-multi { display: block; }
@@ -340,7 +344,7 @@ tbody tr:hover { background: rgba(0,255,65,0.05); }
 /* ---- 強調文字 ---- */
 .amber  { color: var(--amber); }
 .dim    { color: var(--phosphor-dim); }
-.muted  { color: var(--phosphor-fade); }
+.muted  { color: var(--phosphor-text-dim); }
 .warn   { color: var(--amber); }
 .danger { color: var(--danger); }
 
@@ -365,7 +369,7 @@ tbody tr:hover { background: rgba(0,255,65,0.05); }
   border-top: 1px dashed var(--phosphor-fade);
   text-align: center;
   font-size: 17px;
-  color: var(--phosphor-fade);
+  color: var(--phosphor-text-dim);
 }
 
 .site-footer a { font-size: 18px; }

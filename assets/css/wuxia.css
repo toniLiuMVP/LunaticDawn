@@ -58,7 +58,11 @@ select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
 
   --text:        #2c2420;     /* 墨黑 */
   --text-dim:    #5a4e44;     /* 淡墨 */
-  --text-muted:  #8a7e72;     /* 更淡 */
+  --text-muted:  #8a7e72;     /* 更淡（裝飾用，如捲軸）*/
+  /* Text-only muted ink. #8a7e72 is 3.49 on the page ground and 3.15 on panels,
+     under the WCAG AA 4.5:1 needed for body-size text. Decorative uses keep
+     --text-muted; anything carrying readable text uses this. */
+  --text-muted-ink: #6e645b;
   --text-on-dark:#e8e0d0;     /* 暗底亮字 */
 
   --heading:     #8b1a1a;     /* 朱砂紅 */
@@ -204,7 +208,7 @@ h1.pixel::after  { content: none; }
   background: rgba(139, 105, 20, 0.04);
 }
 .breadcrumb a { color: var(--link); }
-.breadcrumb .dim { color: var(--text-muted); }
+.breadcrumb .dim { color: var(--text-muted-ink); }
 
 /* ---- Panel ---- */
 .panel {
@@ -334,7 +338,7 @@ li { margin-bottom: 4px; }
 .raw-text::before {
   content: "── 原文 ──";
   display: block;
-  color: var(--text-muted);
+  color: var(--text-muted-ink);
   font-size: 12px;
   margin-bottom: 14px;
   padding-bottom: 8px;
@@ -405,7 +409,7 @@ tbody tr:hover { background: rgba(139, 105, 20, 0.06); }
 }
 
 .card .card-meta {
-  color: var(--text-muted);
+  color: var(--text-muted-ink);
   margin-top: 10px;
   font-size: 13px;
   font-family: 'Noto Sans Mono', 'Courier New', monospace;
@@ -418,7 +422,7 @@ tbody tr:hover { background: rgba(139, 105, 20, 0.06); }
   cursor: not-allowed;
 }
 .card.wip:hover { border-color: var(--border); box-shadow: none; }
-.card.wip .card-title { color: var(--text-muted); }
+.card.wip .card-title { color: var(--text-muted-ink); }
 
 /* ---- Badge ---- */
 .badge {
@@ -443,7 +447,7 @@ tbody tr:hover { background: rgba(139, 105, 20, 0.06); }
 
 /* ---- Utility Classes ---- */
 .dim    { color: var(--text-dim); }
-.muted  { color: var(--text-muted); font-size: 15px; }
+.muted  { color: var(--text-muted-ink); font-size: 15px; }
 .amber  { color: var(--accent); font-weight: 700; }
 .warn   { color: var(--accent); }
 .danger { color: var(--danger); }
