@@ -131,6 +131,10 @@ function buildRangeTabs() {
 }
 
 function render() {
+  // 資料還在 fetch 時使用者就可能在搜尋框打字（監聽器在頂層綁定）。
+  // 此時直接往下走會在 null 上呼叫 filter/sort，而且內容區已先被清空，
+  // 使用者看到的是一片空白。尚未載入完成就什麼都不做。
+  if (!allItems) return;
   const content = document.getElementById('content');
   while (content.firstChild) content.removeChild(content.firstChild);
 
