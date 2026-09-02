@@ -694,6 +694,29 @@ function buildHeatmap() {
     '每格 ≈ ' + blockSize.toLocaleString() + ' bytes。亮 = 高 entropy（物件圖密集區）、暗 = 低 entropy（header / padding / sparse）。點一格看 hex。';
 }
 
+// 更新檔案資訊列(檔名 / 大小 / magic)。原本這段只寫在 handleFile 裡,
+// 其他載入路徑(FSA 連檔、槽位切換、自動重讀、Undo、套用套餐)都呼叫一個
+// 不存在的 renderInfo(),於是不是直接 ReferenceError 就是被 typeof 防護吃掉。
+function renderInfo() {
+  if (!buf) return false;
+  let magicStr = '';
+  for (let i = 0; i < 16 && i < buf.length; i++) magicStr += asciiByte(buf[i]);
+  const magicOk = magicStr === MAGIC;
+  $('info-name').textContent = fileName;
+  $('info-size').textContent = buf.length.toLocaleString() + ' bytes (' +
+    (buf.length / 1024).toFixed(1) + ' KB)';
+  const mi = $('info-magic');
+  if (magicOk) {
+    mi.textContent = '✓ 俠客遊 IV 存檔（magic: "' + magicStr + '"）';
+    mi.style.color = 'var(--phosphor)';
+  } else {
+    mi.textContent = '✗ Magic 不符（讀到 "' + magicStr +
+      '"，預期 "' + MAGIC + '"），可能不是 LDTSV*.dat，下方解析僅供參考';
+    mi.style.color = 'var(--danger)';
+  }
+  return magicOk;
+}
+
 function handleFile(file) {
   try {
     const MIN_SIZE = LD_MIN_SIZE;
@@ -708,23 +731,7 @@ function handleFile(file) {
       fileName = file.name;
       hexPage = 0;
 
-      // magic check
-      let magicStr = '';
-      for (let i = 0; i < 16 && i < buf.length; i++) magicStr += asciiByte(buf[i]);
-      const magicOk = magicStr === MAGIC;
-
-      $('info-name').textContent = fileName;
-      $('info-size').textContent = buf.length.toLocaleString() + ' bytes (' +
-        (buf.length / 1024).toFixed(1) + ' KB)';
-      const mi = $('info-magic');
-      if (magicOk) {
-        mi.textContent = '✓ 俠客遊 IV 存檔（magic: "' + magicStr + '"）';
-        mi.style.color = 'var(--phosphor)';
-      } else {
-        mi.textContent = '✗ Magic 不符（讀到 "' + magicStr +
-          '"，預期 "' + MAGIC + '"），可能不是 LDTSV*.dat，下方解析僅供參考';
-        mi.style.color = 'var(--danger)';
-      }
+      const magicOk = renderInfo();
 
       parseHeader();
       renderHexPage();
@@ -1589,7 +1596,7 @@ async function handleFsaFile(file) {
   $('viewer').style.display = 'block';
   // 觸發既有 render(以下抄 handleFile 流程)
   renderInfo();
-  renderHeader();
+  parseHeader();
   populatePlayerFields();
   renderHexPage();
   // 隱藏其他結果區
@@ -2174,7 +2181,7 @@ function ms8SetActive(idx) {
   $('viewer').style.display = 'block';
   $('btn-fsa-save').style.display = 'inline-block';
   renderInfo();
-  renderHeader();
+  parseHeader();
   populatePlayerFields();
   renderHexPage();
   $('not-search-results').style.display = 'none';
@@ -2209,7 +2216,7 @@ async function ms8RefreshAll() {
       if (slot.idx === ms8ActiveIdx) {
         buf = slot.buf; dv = slot.dv; fsaLastMtime = slot.mtime; fsaLastSize = slot.size;
         renderInfo();
-        renderHeader();
+        parseHeader();
         populatePlayerFields();
         renderHexPage();
       }
@@ -2304,8 +2311,8 @@ function doUndo() {
   modified = e.wasModified;
   $('modified-indicator').style.display = modified ? 'inline' : 'none';
   // Re-render
-  if (typeof renderInfo === 'function') renderInfo();
-  if (typeof renderHeader === 'function') renderHeader();
+  renderInfo();
+  parseHeader();
   if (typeof populatePlayerFields === 'function') populatePlayerFields();
   if (typeof renderHexPage === 'function') renderHexPage();
   if (typeof cfRenderTable === 'function') cfRenderTable();
@@ -2326,8 +2333,8 @@ function doRedo() {
   }
   modified = e.wasModified;
   $('modified-indicator').style.display = modified ? 'inline' : 'none';
-  if (typeof renderInfo === 'function') renderInfo();
-  if (typeof renderHeader === 'function') renderHeader();
+  renderInfo();
+  parseHeader();
   if (typeof populatePlayerFields === 'function') populatePlayerFields();
   if (typeof renderHexPage === 'function') renderHexPage();
   if (typeof cfRenderTable === 'function') cfRenderTable();
@@ -2464,7 +2471,7 @@ function presetApply() {
   }
   if (applied > 0) {
     markModified();
-    if (typeof renderHeader === 'function') renderHeader();
+    parseHeader();
     if (typeof renderHexPage === 'function') renderHexPage();
     if (typeof cfRenderTable === 'function') cfRenderTable();
     $('preset-status').textContent = `✓ 套用 ${applied}/${p.fields.length} 欄位`;
@@ -2652,8 +2659,8 @@ doUndo = async function() {
     try { cfSave(e.cfState); }
     finally { __cfSaveSkipUndo = false; }
   }
-  if (typeof renderInfo === 'function') renderInfo();
-  if (typeof renderHeader === 'function') renderHeader();
+  renderInfo();
+  parseHeader();
   if (typeof populatePlayerFields === 'function') populatePlayerFields();
   if (typeof renderHexPage === 'function') renderHexPage();
   if (typeof cfRenderTable === 'function') cfRenderTable();
@@ -2717,8 +2724,8 @@ doRedo = async function() {
     try { cfSave(e.cfState); }
     finally { __cfSaveSkipUndo = false; }
   }
-  if (typeof renderInfo === 'function') renderInfo();
-  if (typeof renderHeader === 'function') renderHeader();
+  renderInfo();
+  parseHeader();
   if (typeof populatePlayerFields === 'function') populatePlayerFields();
   if (typeof renderHexPage === 'function') renderHexPage();
   if (typeof cfRenderTable === 'function') cfRenderTable();

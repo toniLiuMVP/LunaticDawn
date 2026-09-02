@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Public site comprehensive audit — runs all 9 audits before commit.
+# Public site comprehensive audit — runs all 14 checks before commit.
 #
 # Triple-jurisdiction copyright check:
 #   - 台灣著作權法 §10-1 (思想/表達二分法,事實/數據不受保護;§10-2 不存在,勿用)
@@ -49,7 +49,7 @@ print_fail() { echo "  ✗ $1"; BLOCKERS=$((BLOCKERS+1)); }
 # tools/audit/ is excluded on purpose: this script carries the search patterns
 # themselves and the self-test carries deliberate violations as bait, so
 # scanning them would make the audit fail against its own rulebook.
-PUB_FILES=$(git ls-files \
+PUB_FILES=$(git -c core.quotePath=false ls-files \
   | grep -E "\.(html|js|json|xml|css|md|txt|svg|py|sh|command|bat|yml|conf)$|^LICENSE$" \
   | grep -v "^_local/" \
   | grep -v "^tools/audit/" 2>/dev/null \
@@ -290,13 +290,23 @@ fi
 # 發現新破字 pattern → 加進此條形成永久防線(LD 規則)。
 # 全站零容忍(W110:godseye 混合編碼 cp932/cp950 per-line decode 已修,無白名單)。
 print_section "[A14] Mojibake / U+FFFD replacement char (BLOCKER)"
-A14_HITS=$(echo "$PUB_FILES" | python3 -c "
-import sys
-for f in sys.stdin.read().split():
+A14_HITS=$(printf '%s\n' "$PUB_FILES" | python3 -c "
+import sys, os
+# 按行切:檔名可能含空白,用 split() 會把一個檔名切成兩個不存在的路徑。
+# 讀取失敗不可吞掉,否則「讀不到」與「沒有破字」輸出一模一樣。
+for f in sys.stdin.read().splitlines():
+    f = f.strip()
+    if not f: continue
+    if not os.path.isfile(f):
+        print(f + '  [UNREADABLE: not found]'); continue
     try:
-        if '�' in open(f, encoding='utf-8').read(): print(f)
-    except Exception: pass
-" 2>/dev/null || true)
+        with open(f, encoding='utf-8') as fh:
+            if '\ufffd' in fh.read(): print(f)
+    except UnicodeDecodeError:
+        print(f + '  [UNREADABLE: not valid UTF-8]')
+    except OSError as e:
+        print(f + '  [UNREADABLE: ' + e.__class__.__name__ + ']')
+" || true)
 if [ -z "$A14_HITS" ]; then
   print_pass "No U+FFFD mojibake in any public file"
 else

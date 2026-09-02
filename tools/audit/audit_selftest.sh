@@ -83,11 +83,11 @@ plant canary_a1.html "Internal dev jargon" "A1 internal jargon" <<'EOF'
 <p>第三十波 PENDING scope 校正 milestone</p>
 EOF
 
-plant canary_a2.html "Personal dev paths" "A2 personal paths" <<'EOF'
+plant canary_a2.html "Personal dev paths leaked" "A2 personal paths" <<'EOF'
 <p>/Volumes/Work/LD/ 與 smb://toniLiuMVP</p>
 EOF
 
-plant canary_a3.html "credentials" "A3 credentials" <<'EOF'
+plant canary_a3.html "Possible credentials detected" "A3 credentials" <<'EOF'
 <p>api_key = "abcdefghij0123456789abcdef"</p>
 EOF
 
@@ -99,7 +99,7 @@ plant canary_a5.html "toni capitalization" "A5 toni casing" <<'EOF'
 <p>Toni 大神</p>
 EOF
 
-plant canary_a6.html "Low-level RE" "A6 RE jargon" <<'EOF'
+plant canary_a6.html "Low-level RE references" "A6 RE jargon" <<'EOF'
 <p>fcn.00535ed0 filter-branch</p>
 EOF
 
@@ -145,7 +145,7 @@ plant canary_a9.html "Draft markers" "A9 draft markers" <<'EOF'
 <p>TBD FIXME 施工中</p>
 EOF
 
-plant canary_a10.html "Pirate / infringement" "A10 pirate sites" <<'EOF'
+plant canary_a10.html "Pirate / infringement site URLs or names found" "A10 pirate sites" <<'EOF'
 <p>wanyx dosgameol</p>
 EOF
 
@@ -157,7 +157,7 @@ plant canary_a12_viewer.html "Missing file.size" "A12 file.size guard" <<'EOF'
 <script>const r=new FileReader();r.readAsArrayBuffer(f);</script>
 EOF
 
-plant canary_a13.html "inline event handler" "A13 inline handlers" <<'EOF'
+plant canary_a13.html "prefer addEventListener" "A13 inline handlers" <<'EOF'
 <button onclick="alert(1)">x</button>
 EOF
 
@@ -165,7 +165,7 @@ printf '<p>\xef\xbf\xbd</p>\n' > canary_a14.html
 git add -f canary_a14.html 2>/dev/null
 CANARIES+=("canary_a14.html")
 OUT=$(bash $AUDIT 2>&1)
-if echo "$OUT" | grep -q "U+FFFD mojibake"; then
+if echo "$OUT" | grep -q "Found U+FFFD mojibake in"; then
   echo "  ✓ A14 mojibake — fires"; PASS=$((PASS+1))
 else
   echo "  ✗ A14 mojibake — DEAD CHECK"; FAIL=$((FAIL+1))
