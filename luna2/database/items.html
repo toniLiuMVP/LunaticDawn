@@ -292,12 +292,6 @@ function toggleDetail(tr, item, tbody) {
   capsTable.appendChild(ctrv);
   dtd.appendChild(capsTable);
 
-  // raw hex
-  const rawDiv = el('div', { style: 'margin-top: 12px; font-size: 11px; color: var(--phosphor-fade); font-family: monospace; word-break: break-all;' },
-    el('b', { style: 'font-size: 10px;' }, 'raw hex'),
-    item._raw
-  );
-  dtd.appendChild(rawDiv);
 
   dtr.appendChild(dtd);
   dtr._owner = tr;

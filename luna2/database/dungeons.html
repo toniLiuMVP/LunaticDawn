@@ -63,19 +63,13 @@
 window.LIST_CONFIG = {
   dataKey: 'dungeons',
   totalCount: 40,
-  columns: ['ID', '迷宮名稱', '前 32 bytes 預覽'],
+  columns: ['ID', '迷宮名稱'],
   searchField: (d) => d.name,
   getRowFields: (d) => [
     { value: '0x' + d.id.toString(16).toUpperCase().padStart(2, '0'), class: 'num' },
     { value: d.name || '，' },
-    { value: d._raw_first_64.slice(0, 32) + '...', class: 'num' },
   ],
   detailFn: (dtd, d) => {
-    dtd.appendChild(window.el('div', { class: 'raw' },
-      window.el('b', { style: 'color: var(--phosphor-dim); font-family: \"Press Start 2P\", monospace; font-size: 10px;' }, 'raw hex'),
-      window.el('br'),
-      d._raw_first_64
-    ));
     dtd.appendChild(window.el('div', { style: 'margin-top: 12px; color: var(--phosphor-dim); font-size: 14px;' },
       '註：每筆 768 bytes 完整資料含地圖、遭遇怪物、寶箱等。完整結構逆向中。'));
   },
