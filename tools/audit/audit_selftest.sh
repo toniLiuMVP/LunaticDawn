@@ -165,7 +165,7 @@ printf '<p>\xef\xbf\xbd</p>\n' > canary_a14.html
 git add -f canary_a14.html 2>/dev/null
 CANARIES+=("canary_a14.html")
 OUT=$(bash $AUDIT 2>&1)
-if echo "$OUT" | grep -q "Found U+FFFD mojibake in"; then
+if echo "$OUT" | grep -q "Found mojibake in"; then
   echo "  ✓ A14 mojibake — fires"; PASS=$((PASS+1))
 else
   echo "  ✗ A14 mojibake — DEAD CHECK"; FAIL=$((FAIL+1))

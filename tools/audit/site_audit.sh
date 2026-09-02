@@ -289,30 +289,42 @@ fi
 # W110 (item names, recipe bullets, BBS guide chars, Big5 @-delimiter truncation).
 # 發現新破字 pattern → 加進此條形成永久防線(LD 規則)。
 # 全站零容忍(W110:godseye 混合編碼 cp932/cp950 per-line decode 已修,無白名單)。
-print_section "[A14] Mojibake / U+FFFD replacement char (BLOCKER)"
+print_section "[A14] Mojibake: replacement / private-use / control chars (BLOCKER)"
 A14_HITS=$(printf '%s\n' "$PUB_FILES" | python3 -c "
-import sys, os
-# 按行切:檔名可能含空白,用 split() 會把一個檔名切成兩個不存在的路徑。
-# 讀取失敗不可吞掉,否則「讀不到」與「沒有破字」輸出一模一樣。
+import sys, os, re
+# 這個站的資料是從 Big5 與 cp932 老檔抽出來的，破字不只 U+FFFD 一種型態。
+# 私用區字元來自 Big5 造字區誤映（框線會變成空白方塊），控制字元來自截斷，
+# 兩者全站目前都是 0，所以可以零白名單直接擋。
+# 西里爾與希臘字母另外處理：站上有兩處是刻意展示 cp950 誤映的例子，
+# 同一行有說明文字時放行，沒說明的才算破字。
+PUA = re.compile(r'[\ue000-\uf8ff]')
+CTRL = re.compile(r'[\x00-\x08\x0b\x0c\x0e-\x1f]')
+CYRGRK = re.compile(r'[\u0400-\u04ff\u0370-\u03ff]')
+EXPLAIN = re.compile(r'cp950|Big5|big5|顯示為|誤映|亂碼|未翻譯|編碼')
 for f in sys.stdin.read().splitlines():
     f = f.strip()
     if not f: continue
     if not os.path.isfile(f):
         print(f + '  [UNREADABLE: not found]'); continue
     try:
-        with open(f, encoding='utf-8') as fh:
-            if '\ufffd' in fh.read(): print(f)
+        with open(f, encoding='utf-8') as fh: data = fh.read()
     except UnicodeDecodeError:
-        print(f + '  [UNREADABLE: not valid UTF-8]')
+        print(f + '  [UNREADABLE: not valid UTF-8]'); continue
     except OSError as e:
-        print(f + '  [UNREADABLE: ' + e.__class__.__name__ + ']')
+        print(f + '  [UNREADABLE: ' + e.__class__.__name__ + ']'); continue
+    if '\ufffd' in data: print(f + '  [U+FFFD replacement char]')
+    if PUA.search(data): print(f + '  [private use area char]')
+    if CTRL.search(data): print(f + '  [control char]')
+    for n, line in enumerate(data.split('\n'), 1):
+        if CYRGRK.search(line) and not EXPLAIN.search(line):
+            print(f + ':' + str(n) + '  [cyrillic/greek amid CJK]')
 " || true)
 if [ -z "$A14_HITS" ]; then
-  print_pass "No U+FFFD mojibake in any public file"
+  print_pass "No mojibake in any public file"
 else
   echo "$A14_HITS" | head -10
   COUNT=$(echo "$A14_HITS" | grep -c .)
-  print_fail "Found U+FFFD mojibake in $COUNT file(s) — decode failure, must fix"
+  print_fail "Found mojibake in $COUNT place(s) — decode failure, must fix"
 fi
 
 # A15. SEO/a11y anchors that page regeneration silently drops (BLOCKER)
@@ -335,6 +347,46 @@ else
   echo "$A15_MISSING" | head -10
   COUNT=$(echo "$A15_MISSING" | grep -c .)
   print_fail "$COUNT page(s) missing SEO/a11y anchors — did a rebuild skip the post-processing chain?"
+fi
+
+# A16. sitemap lastmod must not predate the file's last commit (BLOCKER)
+# Search engines only trust lastmod when it is consistently right; once a large
+# share of it is wrong they ignore the whole signal. Dates drift because the
+# sitemap is maintained by hand while the pages keep changing.
+print_section "[A16] sitemap lastmod freshness (BLOCKER)"
+A16_STALE=$(python3 - <<'PYEOF'
+import re, subprocess
+BASE = 'https://toniliumvp.github.io/LunaticDawn/'
+try:
+    sm = open('sitemap.xml', encoding='utf-8').read()
+except OSError:
+    print('sitemap.xml unreadable'); raise SystemExit
+# 一次取出所有檔案的最後提交日，避免每個 URL 都跑一次 git
+last = {}
+log = subprocess.run(['git', '-c', 'core.quotePath=false', 'log', '--date=short',
+                      '--format=%ad', '--name-only'], capture_output=True, text=True).stdout
+cur = None
+for line in log.split('\n'):
+    line = line.strip()
+    if re.fullmatch(r'\d{4}-\d{2}-\d{2}', line):
+        cur = line
+    elif line and cur:
+        last.setdefault(line, cur)
+for loc, lm in re.findall(r'<loc>([^<]+)</loc>\s*<lastmod>([^<]+)</lastmod>', sm):
+    rel = loc[len(BASE):] if loc.startswith(BASE) else ''
+    if not rel or rel.endswith('/'):
+        rel = (rel or '') + 'index.html'
+    d = last.get(rel)
+    if d and lm < d:
+        print(f'  {rel}: sitemap={lm} last commit={d}')
+PYEOF
+)
+if [ -z "$A16_STALE" ]; then
+  print_pass "Every sitemap entry is at least as new as its file"
+else
+  echo "$A16_STALE" | head -10
+  COUNT=$(echo "$A16_STALE" | grep -c .)
+  print_fail "$COUNT sitemap entry(ies) older than the file they point at"
 fi
 
 # Summary
