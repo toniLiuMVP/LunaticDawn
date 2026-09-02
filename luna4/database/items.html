@@ -179,6 +179,8 @@ function render() {
     filter ? '符合：' + matched : '共 ' + matched + ' 筆';
 }
 
+// 分頁按鈕先前只定義了 switchTab() 卻沒有接上 click，兩個分頁實際打不開。
+document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
 document.getElementById('search').addEventListener('input', render);
 load();
 </script>
