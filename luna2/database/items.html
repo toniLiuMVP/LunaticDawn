@@ -232,7 +232,7 @@ function renderTable(items) {
     tbody.appendChild(tr);
   }
   table.appendChild(tbody);
-  // Horizontal scroll container — see list-page.js: body{overflow-x:hidden} makes an
+  // Horizontal scroll container，see list-page.js: body{overflow-x:hidden} makes an
   // over-wide table's right-hand columns unreachable on mobile, not merely overflowing.
   const scroller = el('div', { class: 'table-scroll' });
   scroller.appendChild(table);

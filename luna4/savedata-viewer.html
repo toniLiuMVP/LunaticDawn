@@ -1044,7 +1044,7 @@ const CF_STORAGE_KEY = 'ld4_custom_fields_v1';
 // Look up an encoding by key WITHOUT walking the prototype chain. A plain
 // CF_ENCODINGS[key] truthiness test also accepts 'constructor' / 'toString' /
 // '__proto__' (all inherited and truthy), which then flow on as an encoding whose
-// .size is undefined — bounds maths turns into NaN and the write path throws
+// .size is undefined，bounds maths turns into NaN and the write path throws
 // mid-apply. Not a security hole (nothing is written to the object, and the page is
 // DOM-only), just a hand-edited-JSON import blowing up halfway.
 function cfEnc(key) {

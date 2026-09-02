@@ -470,7 +470,7 @@ $('btn-diff').addEventListener('click', async () => {
 
   try {
     const otherFile = fileInput.files[0];
-    // Same bounds the main drop path enforces — the diff path read the file unchecked.
+    // Same bounds the main drop path enforces，the diff path read the file unchecked.
     if (!otherFile || otherFile.size < MIN_SIZE || otherFile.size > MAX_SIZE) {
       status.textContent = '✗ 對比檔大小異常（' + (otherFile ? otherFile.size.toLocaleString() : '?') +
         ' bytes），應在 ' + MIN_SIZE.toLocaleString() + ' ~ ' + MAX_SIZE.toLocaleString() + ' bytes 之間。';

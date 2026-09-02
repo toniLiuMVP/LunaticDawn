@@ -315,6 +315,27 @@ else
   print_fail "Found U+FFFD mojibake in $COUNT file(s) — decode failure, must fix"
 fi
 
+# A15. SEO/a11y anchors that page regeneration silently drops (BLOCKER)
+# Rebuilding a guide page rewrites the whole file, and the canonical link,
+# structured data and skip link are injected afterwards — so a rebuild without
+# the post-processing chain leaves pages that look fine but lost all of it.
+print_section "[A15] Canonical / structured data / skip link (BLOCKER)"
+A15_MISSING=$(printf '%s\n' "$PUB_FILES" | grep -E "\.html$" | while read -r f; do
+  [ -f "$f" ] || continue
+  miss=""
+  grep -q 'rel="canonical"' "$f" || miss="$miss canonical"
+  grep -q 'application/ld+json' "$f" || miss="$miss json-ld"
+  grep -q 'class="skip-link"' "$f" || miss="$miss skip-link"
+  [ -n "$miss" ] && echo "  $f —$miss"
+done)
+if [ -z "$A15_MISSING" ]; then
+  print_pass "Every page carries canonical, structured data and a skip link"
+else
+  echo "$A15_MISSING" | head -10
+  COUNT=$(echo "$A15_MISSING" | grep -c .)
+  print_fail "$COUNT page(s) missing SEO/a11y anchors — did a rebuild skip the post-processing chain?"
+fi
+
 # Summary
 echo ""
 echo "════════════════════════════════════════════════════════════"
