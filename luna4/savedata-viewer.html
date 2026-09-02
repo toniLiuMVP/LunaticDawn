@@ -185,7 +185,7 @@
           <tr><td colspan="4" class="muted">(載入存檔後填入)</td></tr>
         </tbody>
       </table>
-      <p class="hint">⚠ 這些候選都是「值 in 合理範圍」,**未 confirm 對應到哪個 field**。請對照你遊戲內看到的 HP/MP/level/年齡/exp 等具體數值,記錄哪個 offset 對應哪個 field。</p>
+      <p class="hint">⚠ 這些候選都是「值 in 合理範圍」,<strong>未 confirm 對應到哪個 field</strong>。請對照你遊戲內看到的 HP/MP/level/年齡/exp 等具體數值,記錄哪個 offset 對應哪個 field。</p>
     </div>
 
     <div class="viewer-panel">
@@ -972,7 +972,7 @@ $('not-u8-search-btn').addEventListener('click', () => {
   while (out.firstChild) out.removeChild(out.firstChild);
   const lines = [];
   lines.push(`值 = ${v}  NOT u8 = 0x${notV.toString(16).padStart(2,'0')}`);
-  lines.push(`全檔 hit: ${hits.length} 處，u8 範圍小通常 false positive 多,**需多值 cross-correlate** 才能 anchor`);
+  lines.push(`全檔 hit: ${hits.length} 處，u8 範圍小通常 false positive 多,需多值 cross-correlate 才能 anchor`);
   lines.push('');
   // 對 player struct ±256 範圍特別標
   for (const off of hits.slice(0, 50)) {
@@ -3472,11 +3472,11 @@ async function wizCrossCorrelate() {
     const s2 = document.createElement('strong');
     s2.style.color = 'var(--phosphor)';
     s2.textContent = String(fullWindows.length) + ' 個 共同 window';
-    const s3 = document.createTextNode('(每個 ' + WINDOW + '-byte 範圍內 ' + inputResults.length + ' 個 inputs 都有 hit)。**最少 window 數的位置最可能是 player struct 起點**。v1.6 加 pair-wise stride 分析:同 distance 多次出現 = 該 2 inputs 在固定 byte offset 存放。');
+    const s3 = document.createTextNode('(每個 ' + WINDOW + '-byte 範圍內 ' + inputResults.length + ' 個 inputs 都有 hit)。最少 window 數的位置最可能是 player struct 起點。v1.6 加 pair-wise stride 分析:同 distance 多次出現 = 該 2 inputs 在固定 byte offset 存放。');
     sum.appendChild(s1); sum.appendChild(s2); sum.appendChild(s3);
     sum.style.color = 'var(--phosphor)';
   } else {
-    const s = document.createTextNode('⚠ 沒找到包含所有 ' + inputResults.length + ' 個 inputs 的 ' + WINDOW + '-byte window。可能原因:(1) inputs 散佈太遠(不在同一 player struct) (2) 部分 input encoding 沒抓到 → 試換 unique 值 (3) 把 window 改大(v1.6 可選 512/1024)。**仍可看 pair-wise stride 分析找局部 hint**。');
+    const s = document.createTextNode('⚠ 沒找到包含所有 ' + inputResults.length + ' 個 inputs 的 ' + WINDOW + '-byte window。可能原因:(1) inputs 散佈太遠(不在同一 player struct) (2) 部分 input encoding 沒抓到 → 試換 unique 值 (3) 把 window 改大(v1.6 可選 512/1024)。仍可看 pair-wise stride 分析找局部 hint。');
     sum.appendChild(s);
     sum.style.color = 'var(--amber)';
   }

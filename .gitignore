@@ -22,6 +22,7 @@ sync.sh
 
 # Project docs (kept local)
 *.md
+!README.md
 
 # Backup / archive
 Backup/

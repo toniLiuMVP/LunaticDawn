@@ -218,7 +218,7 @@ def build_readme() -> str:
     lines.append("")
     lines.append("### 站長傳承")
     lines.append("")
-    lines.append("**「吟遊詩人的傳說 · 俠客遊小站」** 由 1999 年 BBS 時代的兩位創站站長 **小傑**(LemiyaJay)與 **小蜜蜂**(Yellowbee)創立。**21 世紀初(2000 年代初期)**，toni 從小傑與小蜜蜂手上接手俠客遊小站，持續維護至今 · 後續歷經 Google Pages（2009）→ Google Sites（2010 年代）→ GitHub Pages（2026）三次平台遷移，但站名與精神不變，延續這份俠客遊系列的數位文化傳承。")
+    lines.append("**「吟遊詩人的傳說 · 俠客遊小站」** 由 1999 年 BBS 時代的兩位創站站長 **小傑**(LemiyaJay)與 **小蜜蜂**(Yellowbee)創立。**21 世紀初(2000 年代初期)**，toni 從小傑與小蜜蜂手上接手俠客遊小站，持續維護至今 · 後續歷經 Google Page Creator（2007 建站）→ Google Sites（2009 隨 Page Creator 結束自動轉移）→ GitHub Pages（2026）三次平台遷移，但站名與精神不變，延續這份俠客遊系列的數位文化傳承。")
     lines.append("")
     lines.append("> 感謝小傑與小蜜蜂兩位創站站長，沒有他們 1999 年的 BBS 時代起點，就沒有 27 年後本站的存在。")
     lines.append("")

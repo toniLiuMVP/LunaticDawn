@@ -1,21 +1,32 @@
 #!/usr/bin/env python3
-"""cross_validate_monsters.py — PDF ↔ MONSTER.DAT 自動化驗證
+"""cross_validate_monsters.py — 對照印刷攻略資料與 MONSTER.DAT
 
-第二十波（2026-05-02）建立：把第十三波手動抽樣 9 隻怪物的 cross-check 自動化，
-跑完整 128 隻 + 跟 PDF 已知 boss 樣本對照。
+把手動抽樣的怪物數值比對自動化:逐筆核對已知樣本,並掃過全部 128 筆
+找出超出合理範圍的異常值。
 
 Usage:
     python3 cross_validate_monsters.py
 
-Output: 控制台報告 + 生成 _local/monster_cross_validate_report.json
+環境變數(可選,預設依本檔位置推算):
+    LD_GAME_DIR   遊戲資料夾(內含 P/MONSTER.DAT)
+    LD_TOOLS_DIR  解密輸出資料夾(內含 all_enc_decrypted.json)
+    LD_LOCAL_DIR  報告輸出資料夾
+
+Output: 控制台報告 + 一份 JSON 報告
 """
 import os, struct, json
 from pathlib import Path
 
-GAME = "/Volumes/Work/LD/俠客遊2"
-LOCAL = "/Volumes/Work/LD/LunaticDawn/_local"
+# 依本檔位置推算專案結構,不寫死任何個人路徑。
+_HERE = Path(__file__).resolve().parent      # <site>/tools/extract
+_SITE = _HERE.parent.parent                  # <site>
+_PROJECT = _SITE.parent                      # 專案根目錄
 
-# Field offsets (verified by parse_mst.py wave 8/14)
+GAME = Path(os.environ.get("LD_GAME_DIR", _PROJECT / "俠客遊2"))
+TOOLS = Path(os.environ.get("LD_TOOLS_DIR", _PROJECT / "工具" / "extract"))
+LOCAL = Path(os.environ.get("LD_LOCAL_DIR", _SITE / "_local"))
+
+# Field offsets (verified against the record parser)
 def u16(rec, off):
     return struct.unpack('<H', rec[off:off+2])[0]
 
@@ -26,9 +37,9 @@ OFFSETS = {
     'atk': 0x3E, 'def_slash': 0x40, 'def_thrust': 0x42, 'def_blunt': 0x44,
 }
 
-# PDF ground truth samples (累積各波手動抽樣)
+# 印刷攻略的已知樣本(人工核對後累積)
 PDF_SAMPLES = [
-    # (id, name, lv, hp, atk) — wave 13/16/17/18 累積
+    # (id, name, lv, hp, atk)
     (3, '戰士', 3, 60, 50),
     (8, '騎士', 5, 80, 75),
     (9, '武士', 4, 70, 70),
@@ -47,7 +58,7 @@ def main():
     n_records = len(data) // record_size
     assert n_records == 128, f'Expected 128 monsters, got {n_records}'
 
-    with open(f'/Volumes/Work/LD/工具/extract/all_enc_decrypted.json') as f:
+    with open(TOOLS / 'all_enc_decrypted.json', encoding='utf-8') as f:
         enc = json.load(f)
     monster_names = {r['id']: r['name'] for r in enc['MONSNAME.ENC']['records']}
 

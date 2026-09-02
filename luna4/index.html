@@ -185,7 +185,7 @@
     <li><strong>驗證</strong>：解出 byte 0-3 = <code>00 4c 44 34</code> = <code>\\0LD4</code>，前 24 bytes 完全對應 ✓</li>
     <li><strong>限制</strong>：byte 24+ 不是 cyclic XOR，cipher 切到 stream / state-based 算法。完整破解需要反組譯 LD4.exe 找 cipher init function。</li>
   </ul>
-  <p class="muted" style="font-size: 13px;">→ 這是「**已加密但不安全**」的設計：用 zero padding 作為 known plaintext 立刻洩漏前 24 bytes XOR keystream。Artdink 顯然不是專業 cryptographer。</p>
+  <p class="muted" style="font-size: 13px;">→ 這是「<strong>已加密但不安全</strong>」的設計：用 zero padding 作為 known plaintext 立刻洩漏前 24 bytes XOR keystream。Artdink 顯然不是專業 cryptographer。</p>
 
   <h3 style="color: var(--amber);">★ Artdink 加密策略演進（2026 跨檔對照發現）</h3>
   <p>從 LUNA2 (1996) 到第三之書 (2002)，Artdink 對遊戲資料的加密策略逐步加強：</p>

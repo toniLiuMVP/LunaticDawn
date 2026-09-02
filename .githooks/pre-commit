@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Run the public-site audit before allowing a commit.
+#
+# Catches internal notes, leaked local paths and forbidden phrasing before they
+# reach git history, so the published site never has to be checked by hand.
+#
+# Fails loud on purpose: a missing audit script aborts the commit rather than
+# passing silently, and the script is invoked through `bash` so a lost execute
+# bit cannot quietly disable the check.
+#
+# Bypass (use sparingly): git commit --no-verify
+
+REPO_ROOT=$(git rev-parse --show-toplevel)
+AUDIT_SCRIPT="$REPO_ROOT/tools/audit/site_audit.sh"
+
+if [ ! -f "$AUDIT_SCRIPT" ]; then
+  echo "✗ pre-commit: audit script not found at $AUDIT_SCRIPT"
+  echo "  Refusing to commit unaudited. (Bypass: git commit --no-verify)"
+  exit 1
+fi
+
+echo "▸ Running public site audit (pre-commit) ..."
+if ! bash "$AUDIT_SCRIPT"; then
+  echo ""
+  echo "✗ pre-commit: audit failed. Fix the blockers above before committing."
+  echo "  (To bypass after manual review: git commit --no-verify)"
+  exit 1
+fi
+echo "✓ Audit passed, proceeding with commit"
+exit 0

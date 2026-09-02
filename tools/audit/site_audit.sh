@@ -41,13 +41,30 @@ print_warn() { echo "  ⚠ $1"; WARNINGS=$((WARNINGS+1)); }
 print_fail() { echo "  ✗ $1"; BLOCKERS=$((BLOCKERS+1)); }
 
 # Use git ls-files — ONLY files tracked by git reach the public site
-# Filter to text-content files only (skip binaries like PNG/woff2/SAV)
+# Filter to text-content files only (skip binaries like PNG/woff2/SAV).
+#
+# Scripts and config are included: anything tracked here is visible to anyone
+# browsing the repository, so scripts leak paths and notes just as pages do.
+#
+# tools/audit/ is excluded on purpose: this script carries the search patterns
+# themselves and the self-test carries deliberate violations as bait, so
+# scanning them would make the audit fail against its own rulebook.
 PUB_FILES=$(git ls-files \
-  | grep -E "\.(html|js|json|xml|css|md|txt|svg)$" \
-  | grep -v "^_local/" 2>/dev/null \
+  | grep -E "\.(html|js|json|xml|css|md|txt|svg|py|sh|command|bat|yml|conf)$|^LICENSE$" \
+  | grep -v "^_local/" \
+  | grep -v "^tools/audit/" 2>/dev/null \
   || true)
 
-NUM_FILES=$(echo "$PUB_FILES" | wc -l | tr -d ' ')
+# An empty file list means the audit is looking at the wrong place — a git
+# repo with nothing tracked, or a wrong working directory. Report that instead
+# of counting the empty string as one file and declaring the site clean.
+if [ -z "$PUB_FILES" ]; then
+  echo "✗ Audit found no files to scan. Wrong directory, or nothing tracked here?"
+  echo "  (Expected to run from the site root, with git tracking the public files.)"
+  exit 1
+fi
+
+NUM_FILES=$(printf '%s\n' "$PUB_FILES" | wc -l | tr -d ' ')
 
 # A1. Internal wave/round/PENDING jargon (BLOCKER)
 # 也包含 W## (W08 / W14 / W56 等) - 內部 wave 編號縮寫
