@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
-# Run the public-site audit before allowing a commit.
+# Run the public-site audit against what is actually being committed.
 #
-# Catches internal notes, leaked local paths and forbidden phrasing before they
-# reach git history, so the published site never has to be checked by hand.
+# git commits the index, not the working tree, and the two drift apart during
+# ordinary work: editing a file after staging it, staging only some hunks with
+# git add -p, or a stash followed by a pop. Auditing the working tree would
+# then approve content that is not the content going in.
+#
+# So: export the index to a scratch directory and audit that. Running the audit
+# by hand still checks the working tree, which is what you want while editing.
 #
 # Fails loud on purpose: a missing audit script aborts the commit rather than
 # passing silently, and the script is invoked through `bash` so a lost execute
@@ -19,8 +24,19 @@ if [ ! -f "$AUDIT_SCRIPT" ]; then
   exit 1
 fi
 
-echo "▸ Running public site audit (pre-commit) ..."
-if ! bash "$AUDIT_SCRIPT"; then
+STAGED_COPY=$(mktemp -d) || { echo "✗ pre-commit: cannot create scratch dir"; exit 1; }
+cleanup() { rm -rf "$STAGED_COPY"; }
+trap cleanup EXIT
+
+if ! git checkout-index -a --prefix="$STAGED_COPY/"; then
+  echo "✗ pre-commit: could not export the index for auditing"
+  exit 1
+fi
+
+echo "▸ Running public site audit on the staged content ..."
+if ! LD_AUDIT_ROOT="$STAGED_COPY" \
+     LD_AUDIT_FILES="$(git -c core.quotePath=false ls-files)" \
+     bash "$AUDIT_SCRIPT"; then
   echo ""
   echo "✗ pre-commit: audit failed. Fix the blockers above before committing."
   echo "  (To bypass after manual review: git commit --no-verify)"

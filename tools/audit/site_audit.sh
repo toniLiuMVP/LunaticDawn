@@ -18,8 +18,12 @@
 
 set -uo pipefail
 
-cd "$(dirname "$0")/../.."  # walk to LunaticDawn root
-ROOT=$(pwd)
+# 預設掃工作區（手動執行時想看的是「我正在編輯的東西」）。
+# pre-commit 會設 LD_AUDIT_ROOT 指向索引內容的副本，因為真正要進版本庫的是索引，
+# 而 git add 之後再編輯、只暫存部分變更、stash 之後 pop，都會讓兩者不同。
+GIT_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+ROOT="${LD_AUDIT_ROOT:-$GIT_ROOT}"
+cd "$ROOT"
 
 # Strict mode: warns become blockers
 STRICT=0
@@ -49,7 +53,12 @@ print_fail() { echo "  ✗ $1"; BLOCKERS=$((BLOCKERS+1)); }
 # tools/audit/ is excluded on purpose: this script carries the search patterns
 # themselves and the self-test carries deliberate violations as bait, so
 # scanning them would make the audit fail against its own rulebook.
-PUB_FILES=$(git -c core.quotePath=false ls-files \
+if [ -n "${LD_AUDIT_FILES:-}" ]; then
+  ALL_TRACKED="$LD_AUDIT_FILES"
+else
+  ALL_TRACKED=$(git -c core.quotePath=false ls-files)
+fi
+PUB_FILES=$(printf '%s\n' "$ALL_TRACKED" \
   | grep -E "\.(html|js|json|xml|css|md|txt|svg|py|sh|command|bat|yml|conf)$|^LICENSE$" \
   | grep -v "^_local/" \
   | grep -v "^tools/audit/" 2>/dev/null \
@@ -354,8 +363,8 @@ fi
 # share of it is wrong they ignore the whole signal. Dates drift because the
 # sitemap is maintained by hand while the pages keep changing.
 print_section "[A16] sitemap lastmod freshness (BLOCKER)"
-A16_STALE=$(python3 - <<'PYEOF'
-import re, subprocess
+A16_STALE=$(LD_AUDIT_GIT_ROOT="$GIT_ROOT" python3 - <<'PYEOF'
+import os, re, subprocess
 BASE = 'https://toniliumvp.github.io/LunaticDawn/'
 try:
     sm = open('sitemap.xml', encoding='utf-8').read()
@@ -363,8 +372,15 @@ except OSError:
     print('sitemap.xml unreadable'); raise SystemExit
 # 一次取出所有檔案的最後提交日，避免每個 URL 都跑一次 git
 last = {}
-log = subprocess.run(['git', '-c', 'core.quotePath=false', 'log', '--date=short',
-                      '--format=%ad', '--name-only'], capture_output=True, text=True).stdout
+# 歷史一定要跟真實 repo 拿：掃索引副本時 cwd 沒有 .git，
+# 查不到日期就沒有比對對象，整條規則會變成永遠通過。
+git_root = os.environ.get('LD_AUDIT_GIT_ROOT') or '.'
+log = subprocess.run(['git', '-C', git_root, '-c', 'core.quotePath=false', 'log',
+                      '--date=short', '--format=%ad', '--name-only'],
+                     capture_output=True, text=True).stdout
+if not log.strip():
+    print('  cannot read git history - refusing to report this check as passed')
+    raise SystemExit(1)
 cur = None
 for line in log.split('\n'):
     line = line.strip()
