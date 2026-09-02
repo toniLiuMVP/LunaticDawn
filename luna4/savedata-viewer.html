@@ -475,6 +475,7 @@
 </div>
 
 <script>
+"use strict";
 
 // Shared file-size guard. The drag-drop path checked this, but the FSA "一鍵連檔",
 // the 8-slot picker and the 3-second refresh all called arrayBuffer() directly, so
@@ -488,7 +489,6 @@ function ldSizeError(file) {
   return '檔案大小異常 (' + (file ? file.size.toLocaleString() : '?') +
     ' bytes)。LDTSV*.dat 應在 ' + LD_MIN_SIZE + ' bytes ~ 8 MB 之間。';
 }
-"use strict";
 const $ = id => document.getElementById(id);
 let buf = null;            // Uint8Array of the loaded file
 let dv = null;             // DataView
