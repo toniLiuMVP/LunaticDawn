@@ -1,0 +1,45 @@
+MIT License
+
+Copyright (c) 2026 toni
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-------------------------------------------------------------------------------
+SCOPE
+
+The MIT terms above cover only the code written for this site:
+
+  - the HTML, CSS and JavaScript of the pages in this repository
+  - the browser-based save viewers, editors and data browsers
+  - the build, audit and helper scripts
+
+They do NOT cover:
+
+  - Files under files/ — community tools and patches from 1998-2008, each the
+    work of its original author. They are preserved here for historical access
+    with attribution; their authors retain all rights.
+  - Guide text contributed by community authors, credited on the pages that
+    carry it. Reuse should credit the original author.
+  - Any material belonging to the games themselves — artwork, music, story
+    text, manuals or guidebooks. None of that is published here, and no rights
+    to it are granted by this licence.
+
+Factual data (item and monster names, numeric values, file-format observations)
+is not copyrightable and may be reused freely; crediting the source is
+appreciated. See legal/terms.html for the full breakdown.
