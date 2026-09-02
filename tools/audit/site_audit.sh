@@ -322,6 +322,7 @@ fi
 print_section "[A15] Canonical / structured data / skip link (BLOCKER)"
 A15_MISSING=$(printf '%s\n' "$PUB_FILES" | grep -E "\.html$" | while read -r f; do
   [ -f "$f" ] || continue
+  [[ "$(basename "$f")" == canary_* ]] && continue   # 自測暫時檔，不是要發佈的頁面
   miss=""
   grep -q 'rel="canonical"' "$f" || miss="$miss canonical"
   grep -q 'application/ld+json' "$f" || miss="$miss json-ld"
