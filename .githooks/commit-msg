@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+# Check the commit message itself. The pre-commit hook checks the files going
+# in; nothing checked the message until now.
+#
+# GitHub renders the full message -- subject AND body -- on the commit page and
+# through the anonymous API. The project rule is that every visitor-visible
+# surface reads as an ordinary English commit.
+#
+# The check that was supposed to cover this ran `git log --oneline -20`:
+# --oneline shows no body, and -20 sees only the last twenty commits. An
+# earlier history rewrite mapped subjects only, so bodies went through
+# untouched and nothing noticed for a year.
+#
+# Written in python rather than grep on purpose: BSD grep caps regex repetition
+# at 255 and rejects some patterns outright, and a rejected pattern with stderr
+# redirected looks exactly like a clean result.
+#
+# Bypass (use sparingly): git commit --no-verify
+
+MSG_FILE="$1"
+[ -f "$MSG_FILE" ] || { echo "✗ commit-msg: message file not found"; exit 1; }
+
+python3 - "$MSG_FILE" <<'PY'
+import re, sys
+
+raw = open(sys.argv[1], encoding='utf-8', errors='replace').read()
+# Drop comment lines and the diff that `git commit --verbose` appends.
+body = []
+for line in raw.splitlines():
+    if line.startswith('#'):
+        continue
+    if line.startswith('diff --git '):
+        break
+    body.append(line)
+text = '\n'.join(body).strip()
+
+if not text:
+    sys.exit(0)  # empty message: git aborts on its own
+
+RULES = [
+    ('CJK characters', re.compile(r'[一-鿿぀-ヿ]')),
+    ('wave / round shorthand', re.compile(r'第[一二三四五六七八九十百零0-9]{1,4}波|波次|wave\s*\d|round-?\d|\bW\d{2,3}\b', re.I)),
+    ('internal planning terms', re.compile(r'\bPENDING\b|\bP[0-3]\b|scope 校正|milestone|carry-over', re.I)),
+    ('maintainer name', re.compile(r'\btoni\b', re.I)),
+    ('AI attribution trailer', re.compile(r'co-authored-by:\s*claude', re.I)),
+]
+
+hits = []
+for lineno, line in enumerate(text.splitlines(), 1):
+    for name, pat in RULES:
+        m = pat.search(line)
+        if m:
+            hits.append((lineno, name, m.group(0), line.strip()[:88]))
+
+if not hits:
+    print('  ✓ commit-msg: message is generic')
+    sys.exit(0)
+
+print('✗ commit-msg: the message would be visible to anyone browsing the repo.')
+print('  GitHub shows subject and body together, and the API serves both')
+print('  without authentication.')
+print()
+for lineno, name, term, line in hits:
+    print(f'  line {lineno}  [{name}: {term!r}]')
+    print(f'    {line}')
+print()
+print('  Rewrite it as an ordinary English commit describing what changed.')
+print('  Bypass if you are certain: git commit --no-verify')
+sys.exit(1)
+PY

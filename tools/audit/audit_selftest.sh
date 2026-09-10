@@ -172,6 +172,32 @@ else
 fi
 git rm -f --cached canary_a14.html -q 2>/dev/null; rm -f canary_a14.html; CANARIES=()
 
+# A17 is not file-based: it reads git history and a baseline list, so the canary
+# is a baseline entry rather than a planted file. Dropping one known commit from
+# the baseline must turn the audit red; restoring it must turn it green again.
+BL=tools/audit/history-baseline.txt
+if [ ! -f "$BL" ]; then
+  echo "  ✗ A17 history layer — baseline file missing"; FAIL=$((FAIL+1))
+else
+  BL_BAK=$(mktemp)
+  cp "$BL" "$BL_BAK"
+  VICTIM=$(grep -v '^#' "$BL" | head -1 | awk '{print $1}')
+  if [ -z "$VICTIM" ]; then
+    echo "  ⚠ A17 history layer — baseline is empty, so no canary can be planted."
+    echo "     That means history is clean; verify by inspection instead."
+  else
+    grep -v "^$VICTIM" "$BL_BAK" > "$BL"
+    OUT=$(bash $AUDIT 2>&1)
+    cp "$BL_BAK" "$BL"
+    if echo "$OUT" | grep -q "history-layer leak"; then
+      echo "  ✓ A17 history layer — fires"; PASS=$((PASS+1))
+    else
+      echo "  ✗ A17 history layer — DEAD CHECK"; FAIL=$((FAIL+1))
+    fi
+  fi
+  rm -f "$BL_BAK"
+fi
+
 echo ""
 echo "  live rules: $PASS   dead checks: $FAIL"
 if [ "$FAIL" -gt 0 ]; then
@@ -183,4 +209,8 @@ echo ""
 echo "  Note: 8.4 (disclaimer present) is an inverted check — it warns on ABSENCE,"
 echo "  so it is not canary-testable by planting a violation. It currently passes"
 echo "  because disclaimers exist; verify by inspection if it ever goes green-on-empty."
+echo ""
+echo "  Note: A17's canary is a baseline entry. If history is ever rewritten clean,"
+echo "  the baseline empties and A17 becomes untestable by planting — the same"
+echo "  shape as 8.4. Say so out loud rather than counting it as a pass."
 exit 0

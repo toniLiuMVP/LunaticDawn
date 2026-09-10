@@ -1,0 +1,96 @@
+# Commits whose message is not generic English, known and accepted.
+# A17.2 blocks any commit not on this list, so new leaks cannot be added
+# silently while the old debt stays visible as a countable number.
+# Rewriting history to clean these would empty this file.
+# format: <sha> <kinds> <subject excerpt>
+7a183d4758491a2e29eb1703430b47a5031b8a04 wave audit(W49): three-expert comprehensive fixes — A + B + C all
+2b5b40783ca6e9bb1c50eb16dfa2445688d69df8 cjk chore(gitignore): generic version
+6fcd3856cde44841fcd3f33a557d7fdff01c1ada cjk chore(gitignore): rewrite to generic style
+fc0eae217461a6458d696769db7669cda8eb62be cjk,name chore: cleanup repo + README-only policy
+064569e38925c39ff350927c0cf0c5d95b9116ca cjk,name chore: exclude internal docs from publish
+94a25481019b153d23c68b91a1bb7d7a928dfb29 cjk,name docs(credits): remove Chinese names + add site lineage histo
+a463f077e72adb2726da8487a0cf1f88f251f034 cjk,planning,wave docs(guides): add 1996 protection codes notice
+13607b349e04b3af8b1f746255001c86a4172b15 cjk,planning,wave docs(guides): add 6 combat commands definitions
+3f3b338f0710968d339992c90851e88ea1119f5c cjk,planning,wave docs(guides): add combat map UI section
+ae654119619fbabbc617ddddca119f06176034f7 cjk,planning,wave docs(guides): expand Dunjin nation cities
+7004d623cc2eccad6b5ad4bcdf4a906b69117389 cjk,planning,wave docs(guides): expand Fukukio nation cities
+306ff2b8522cebe43efbe6cbfe1983c3004ff383 cjk,planning,wave docs(guides): expand Gizar treasures + Puhal cities
+0418bd1edc5898be843027945afb2cdd5b17dbbe cjk,planning,wave docs(guides): expand Hijie nation cities
+9349ac4df1a834a1e082fa535ea30173c287ae63 cjk,planning,wave docs(guides): expand Manipakka nation cities
+0b58e802e3cc47fc2e8b509f283d8fc0131328a9 cjk,planning,wave docs(guides): expand Puhal nation cities
+69cc224886d2b9a09617b8d430aa2462ed307989 cjk,planning,wave docs(guides): expand stats training and races section
+cce861fae4e0e5714a532ece98c6f674be6b986e cjk,name docs(research): add abstract description of 2024 Steam ARTDI
+5460bc859427bbacc4d72423ef3ac7f783086e6e cjk docs(steam): localized purchase guide
+43355a18e4d3c77d4e6466a327add7a4f3c4f525 cjk docs: README update with Google Drive link
+2df0436661b9cc167274f54bdeec9056e8a5514f cjk,name docs: add Steam links and contact info
+79470e061276f5345d1284db0f15aeef733a3eb8 cjk docs: add format reference + raw hex placeholders
+892c8a51eeaa2f138ce9eb126a6b62df220beb31 cjk,wave docs: clarify floppy/CD per title + add tri-region availabil
+45d11ef569c0e6723af5ebdea5215990a877625d cjk,name,wave docs: enhance copyright compliance + clarify legal-source ph
+ae432cf220eba372a807f95559f491935a4dba59 cjk docs: improve old-site redirect + sitemap
+0e1c5d4141031d75c64d2cd265e59d4cda179ad7 cjk docs: rebuild README
+c688e57761154c5dd57da7a372c1c7db28999342 cjk docs: revamp homepage with timeline
+e8dc4e9fa18addaffd4c1160959a517ee0a4e531 cjk,name,wave feat(content): add reference materials
+07b9891907abd52f960785dedebd5e161f4b163f cjk feat(database): DD9 LZ + PAC FTEDAT progress
+48e38ad5a9abe1295045a0e40886b0e5bb139010 cjk feat(database): MGCDATA + HISSATSU + UI improvements
+3493fee3d30dd8e6c0186a1847e10dc0bf3dcd8f cjk,wave feat(database): NPC dictionary + DDT header fix
+e62b9fa928de746a105de6853162653fffb13165 cjk feat(database): add DDT mode 2 sprite decoder
+3433a06f389bcb7a79708efff71cad0bbb8bf377 cjk feat(database): add DDT mode 4/6/16 sprite decoder
+de8fc62f976382efc3c594c98c945672ab8ed4f4 cjk feat(database): add MONSTER stats + redirects + gitignore
+7e1a45903e2304e17bd1aae38bdbbd48a2b9613c cjk feat(database): add STM field + macOS quarantine cleanup
+6ee6985271cbfe11b47d173c8e7c97afcad45d41 cjk feat(database): add binary-derived data subsite
+d0f9656f12aafea231903fc63d2d202daee5c20b cjk feat(database): extract hissatsu names from binary
+bb3457543348802e66b69e93f70088fd89dfb268 cjk,planning feat(database): sister formats + cross-validation
+e50bbfca656f663c66f8cf2077980d6f682599f7 cjk,name,planning feat(guides): complete integrated guides set + savs dashboar
+3d91f0f3997eec00150b69d17131f9fe24951a3a name feat(homepage,ez): highlight EZ package upgrade + verificati
+0f98ded1c4c4cc2b2582ae35c63e89db19d720d9 cjk feat(launcher): macOS quarantine ice-breaker + setup guide
+1c9090d3dc62012b979a38c59cf71ca32e514bc2 wave feat(lde3): document save file structure regions for modifie
+7c7f07011003c60bc17c6e90fa7fdf593e9b1d99 wave feat(lde3): modifier v0.2 with Big5 search + heatmap + versi
+979b82e9eea6d957b3d5206c6ca73df6cb1a10a7 wave feat(lde3/database): document 11 patch .dat files discovery
+905dfa8315b3d5c4614994a77da710150cb06baa wave feat(luna2): deep dive findings - jp boss names, MGCDATA, DD
+eae498f086828d87475d36a9cacb0c45a448a9f2 ai feat(luna4): add cross-platform database — items / monsters 
+55b428ee764a2fca86a224b22a930cedce2c0b03 wave feat(luna4): ld4_enum_table.json W67 expansion 103→367 entri
+017c779fd916b6bacd3adad684efbf45e6a51abb name,wave feat(luna4): save-editor v0.7 File System Access API auto-re
+7d51625d365f8e3110b168c2848a7b662c124a01 name,wave feat(luna4): save-editor v0.8 Live RAM Bridge — surpasses 20
+ab266c3a057a256c912e6e5457a8fbc15f969717 wave feat(luna4): save-editor v1.3 — enum encoding types in custo
+23ad1f885175f31610ccb33f05b86859a88762bd cjk feat(luna4): save-editor v1.5 — cross-correlate + enum_u16le
+0525270fad7354b2419abe9de1301f995919a657 cjk feat(luna4): save-editor v1.6 — adjustable window + pair-wis
+3bbbc012fed5a8d30fe8d584fcedf036f0c95125 cjk feat(passage): add TC modifier and Steam manual TC summary
+2a53365493249c429187a5f8f8a1dce0df6e770e cjk feat(save-editor): add hissatsu field
+4703458f3f6dde365005d41aa6a07c51a2f135fc ai feat(viewer): SSE real-time RAM push + expand old-site redir
+32eeefe4f654932a49453fac39e010fee6b4e7b4 cjk,planning feat(viewers): add KOBUN/OYABUN/HIST/SCEN/TOWN viewers + bac
+7825b435c242e518ede99e64be5f7a9e89735b16 cjk,planning feat(viewers): add lunahead editor + non-data SAV documented
+bbb39e6bf1825362257410d8b59a67291903e3dc cjk,name,planning,wave feat(viewers): chritem byte advanced display + lunahead big5
+d0f7aea381353bd1dcb7f2ba79989fcfca4a62df cjk feat: SEO foundation + security hardening
+505b3d38cb1cc1c9e18ee793e62fec1e7e31153f cjk feat: add portable bundle page + English launcher names
+e8d6cf0d9976158ec3e453f8400498658a647163 cjk,planning feat: complete planned tasks batch + hissatsu mapping
+5ab667be039dd89bfe0772b79312f1701d0ca54f cjk,planning feat: multiple viewer additions
+b25463e918f0ef6ee0c39f1b942395b595b7a3d7 cjk,name,planning feat: site improvements after scope review
+74007012f3fc7653df6e89909e04f53b52c3b818 cjk feat: site quality pass + auto README + og:image
+a5c0dd18487750c404e726044be0540a748b6cc8 wave fix(book/guides): apply raw-text class + CJKMono + fit scrip
+0c3f6500ed7eccfeb15332a05a1a9c839f0bb50b name fix(css): .panel-title margin:0 — real fix for title/content
+64c77441c4b63e64f9310aa2d680bf09708281de cjk fix(database): correct dungeon count + palette decoder
+92e1b7e1037954d9214caa1227a3b7bf80bb5b6b name fix(ez): remove illogical "email toni for verification code"
+6dc0a7c4776f095f613a1e1f92cdcf0448181c4f cjk,name fix(ez,homepage): identify real crash cause — EMS Init Error
+e994cf4a1b96c72d95d9d02a0aa3ec4b321a622a cjk fix(font): CJK monospace alignment
+3cdfe1efe2d8b447ccf6f7149663a62106eb61a2 cjk fix(guides): auto-scale text to avoid horizontal scroll
+403d0efb80b71f075324cbce68fe94da18f3b8e9 cjk fix(guides): scrollbar always visible
+0fa992700eab163d98cfcb907a02f77a0b2abf32 name fix(homepage,ez): correct crash warning — it's audio-related
+599edf61ccaaa360130638ce72c5b6895e503dc7 cjk fix(launcher): adjust DOSBox cycles + magnetic disk note
+68388d21375fde35538e9e80f6b43212c51bf779 cjk fix(launcher): final DOSBox cycles tuning
+c61f62d81aa470a68ec44e2ad3c7e56f410d3702 cjk fix(lde3): polish nav symmetry as Book trilogy peer works
+83da07cf7a9e5559aed3d25db88b3ea9978602f2 cjk,name,wave fix(legal,index): CSS pairing fix + audit follow-ups #4-6
+2f9a2e0ed550c53a2dc654fe9d481da019f83fcc cjk,name fix(luna2): correct media format — Lunatic Dawn II was flopp
+9baa3bfcf17ed07e1f6b8daec9120fa4ec519d02 cjk fix(steam): correct Steam app IDs for Passage of the Book an
+06ed8374a75c587b6e40d84270ea42ceabac03cf cjk,wave fix: address audit findings + image optimization
+ee061520a4f5a05ea5c659dd10fb31730974751e cjk fix: address deeper review findings
+acd533e2eaa606b4c04f7b464804755f3feb4b7a cjk fix: address review findings
+7b6113ce8c1638077e9dd2846cd860df0440ab97 cjk fix: change DOSBox memsize from 16 to 4 across all configs
+a82073250cf70536efeddf1b39a70acb89a0a488 cjk fix: clean up public phrasing
+96be5118dd628a350b7f7fa5a69d9770ae30a2e9 planning fix: guard database pages during load, correct counts, widen
+0f1146edd971aebe23cdd757a390b0a4a1ac3f1d cjk,name fix: remove internal references from public pages
+801ee928963d942e7fc4899b72c78e3789098ec8 cjk fix: revert non-public material
+eb438d11c2ccaf4705fcd932cc7311a4383a6b2b cjk fix: revert timeline page
+e31aae6995569f9e1ac8b1f6679d7ef538d5aea7 cjk perf(fonts): remove dead and non-CJK chunks (12MB to 5.7MB)
+cb74ab5bd92b1b0c5bf4dd33b36cd6d546d7637f cjk perf: localize fonts + OG tags + bundle link
+3ba584e0b9b88e5743c382547c166c268191b408 cjk,name refactor: separate local and public versions
+f0fbd1927b426cc969e9b96e5bf06bfc338d7f1c cjk style: wuxia ink theme + guide alignment

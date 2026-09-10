@@ -405,6 +405,103 @@ else
   print_fail "$COUNT sitemap entry(ies) older than the file they point at"
 fi
 
+# A17. History layer: the other 16 checks all read `git ls-files`, which is the
+# HEAD tree. Anything that was ever committed stays reachable through the API
+# by SHA even after it is removed from HEAD, so a check that only reads HEAD
+# reports clean on a repo that is still serving the thing it was meant to catch.
+#
+# A17.1 looks at paths that ever existed. A17.2 looks at commit messages, which
+# GitHub renders in full -- subject and body -- to anonymous visitors. The old
+# check for that ran `git log --oneline -20`: no bodies, last twenty only.
+print_section "[A17] History layer: paths and commit messages (BLOCKER)"
+A17_OUT=$(LD_AUDIT_GIT_ROOT="$GIT_ROOT" python3 - <<'PYEOF'
+import os, re, subprocess, sys
+
+root = os.environ.get('LD_AUDIT_GIT_ROOT') or '.'
+
+def git(*args):
+    return subprocess.run(['git', '-C', root, '-c', 'core.quotePath=false', *args],
+                          capture_output=True, text=True).stdout
+
+# A17.1 -- paths that ever existed anywhere in history.
+objs = git('rev-list', '--objects', '--all')
+if not objs.strip():
+    print('  cannot read git history - refusing to report this check as passed')
+    sys.exit(1)
+
+PATH_PATTERNS = [
+    ('copyrighted scan', re.compile(r'pdf-pages|書掃|攻略集.*\.(png|jpe?g)$|scan.*page', re.I)),
+    ('credential file',  re.compile(r'(^|/)\.env$|\.pem$|\.key$|credentials|secrets', re.I)),
+]
+path_hits = []
+for line in objs.splitlines():
+    parts = line.split(' ', 1)
+    if len(parts) < 2:
+        continue
+    sha, path = parts
+    for name, pat in PATH_PATTERNS:
+        if pat.search(path):
+            path_hits.append(f'  A17.1 {name}: {path} (blob {sha[:10]})')
+
+# A17.2 -- commit messages across all of history.
+MSG_RULES = [
+    ('cjk',      re.compile(r'[一-鿿぀-ヿ]')),
+    ('wave',     re.compile(r'第[一二三四五六七八九十百零0-9]{1,4}波|波次|wave\s*\d|round-?\d|\bW\d{2,3}\b', re.I)),
+    ('planning', re.compile(r'\bPENDING\b|\bP[0-3]\b|scope 校正|milestone|carry-over', re.I)),
+    ('name',     re.compile(r'\btoni\b', re.I)),
+    ('ai',       re.compile(r'co-authored-by:\s*claude', re.I)),
+]
+
+baseline = set()
+bl_path = os.path.join(root, 'tools', 'audit', 'history-baseline.txt')
+if os.path.exists(bl_path):
+    for line in open(bl_path, encoding='utf-8'):
+        line = line.strip()
+        if line and not line.startswith('#'):
+            baseline.add(line.split()[0])
+
+log = git('log', '--all', '--format=%H%x09%s%x1f%b%x1e')
+if not log.strip():
+    print('  cannot read commit messages - refusing to report this check as passed')
+    sys.exit(1)
+
+known, new = 0, []
+for rec in log.split('\x1e'):
+    rec = rec.strip()
+    if not rec:
+        continue
+    head, _, body = rec.partition('\x1f')
+    sha, _, subj = head.partition('\t')
+    text = subj + '\n' + body
+    kinds = sorted({n for n, p in MSG_RULES if p.search(text)})
+    if not kinds:
+        continue
+    if sha in baseline:
+        known += 1
+    else:
+        new.append(f'  A17.2 non-generic message [{",".join(kinds)}]: {sha[:10]} {subj[:64]}')
+
+for h in path_hits:
+    print(h)
+for h in new:
+    print(h)
+if known:
+    print(f'  NOTE {known} older commit(s) carry non-generic messages, listed in '
+          f'tools/audit/history-baseline.txt. They are reachable by SHA through '
+          f'the API; rewriting history would empty that file.')
+PYEOF
+)
+A17_HITS=$(echo "$A17_OUT" | grep -c '^  A17\.' || true)
+A17_NOTE=$(echo "$A17_OUT" | grep '^  NOTE' || true)
+if [ "$A17_HITS" -eq 0 ]; then
+  print_pass "No new history-layer leakage"
+  [ -n "$A17_NOTE" ] && echo "$A17_NOTE"
+else
+  echo "$A17_OUT" | grep '^  A17\.' | head -12
+  print_fail "$A17_HITS history-layer leak(s) not on the accepted baseline"
+  [ -n "$A17_NOTE" ] && echo "$A17_NOTE"
+fi
+
 # Summary
 echo ""
 echo "════════════════════════════════════════════════════════════"
