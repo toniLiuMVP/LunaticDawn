@@ -491,7 +491,9 @@ for line in objs.splitlines():
 MSG_RULES = [
     ('cjk',      re.compile(r'[一-鿿぀-ヿ]')),
     ('wave',     re.compile(r'第[一二三四五六七八九十百零0-9]{1,4}波|波次|wave\s*\d|round-?\d|\bW\d{2,3}\b', re.I)),
-    ('planning', re.compile(r'\bPENDING\b|\bP[0-3]\b|scope 校正|milestone|carry-over', re.I)),
+    # 與 commit-msg hook 同一份定義。不含 milestone / carry-over:
+    # 那是正常英文詞,擋了會誤殺技術說明,而誤報會訓練人忽略輸出。
+    ('planning', re.compile(r'\bPENDING\b|\bP[0-3]\b', re.I)),
     ('name',     re.compile(r'\btoni\b', re.I)),
     ('ai',       re.compile(r'co-authored-by:\s*claude', re.I)),
 ]
