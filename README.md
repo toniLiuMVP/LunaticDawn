@@ -26,9 +26,9 @@
 |------|------|----------|
 | 俠客遊 II (Lunatic Dawn II) | 1996 | ✅ 攻略 19 篇 + 存檔修改器 + 啟動器 + 懶人包 |
 | 未來之書 (Lunatic Dawn: The Book of Futures) | 1998 | ✅ 獨立子站 + 隱藏角色 + 攻略 |
-| 俠客遊 III (Lunatic Dawn III) | 2000 | ✅ 密技 + 下載（2 頁） |
+| 俠客遊 III (Lunatic Dawn III) | 2000 | ✅ 密技 + 下載（3 頁） |
 | 前途道標 (Lunatic Dawn: Passage of The Book) | 1999 | ✅ 完整攻略（7 頁） |
-| 俠客遊 IV (Lunatic Dawn IV) | 2001 | ✅ 密技（4 頁） |
+| 俠客遊 IV (Lunatic Dawn IV) | 2001 | ✅ 密技（8 頁） |
 | 第三之書 (Lunatic Dawn: The Third Book) | 2002 | ✅ Book 三部曲第三作 · 下載 + 工具 + 18 個歷史檔案 |
 
 ## 🛠 工具與資源
@@ -143,7 +143,7 @@
 - 總頁數：**127** 個 HTML
 - 攻略數：**19** 篇
 - 基礎建設：sitemap.xml · 404.html · Open Graph 標籤 · 本地化字型（零外部依賴） · Google Search Console 已驗證
-- 最後更新：2026-09-03
+- 最後更新：2026-09-11
 
 ## 📜 授權
 

@@ -186,15 +186,19 @@ for line in sys.stdin:
             if len(TAG.sub('', m.group(0)).strip()) >= 300:
                 print(f'{f}: {len(TAG.sub(chr(32), m.group(0)))} chars quoted')
                 break
-" | head -3)
-if [ -z "$HITS" ]; then
+" 2>&1)
+A82_RC=$?
+if [ "$A82_RC" -ne 0 ]; then
+  printf '%s\n' "$HITS" | tail -4 | sed 's/^/    /'
+  print_fail "8.2 check could not run (exit $A82_RC) - not reporting it as passed"
+elif [ -z "$HITS" ]; then
   print_pass "8.2 No 300+ char literal quotes (fair use safe)"
 else
   print_warn "8.2 Long literal quotes (review for fair use)"
 fi
 
 # 8.3: Copyrighted scan / book page in public area
-HITS=$(git -c core.quotePath=false ls-files | grep -iE "(攻略集|說明書|攻略書).*\.(pdf|png|jpg)|scan.*\.(pdf|png|jpg)|.+book.+page.*\.(pdf|png|jpg)" | grep -v "_local/")
+HITS=$(printf '%s\n' "$ALL_TRACKED" | grep -iE "(攻略集|說明書|攻略書).*\.(pdf|png|jpg)|scan.*\.(pdf|png|jpg)|.+book.+page.*\.(pdf|png|jpg)" | grep -v "_local/")
 if [ -z "$HITS" ]; then
   print_pass "8.3 No copyrighted scans in public files"
 else
@@ -327,8 +331,12 @@ for f in sys.stdin.read().splitlines():
     for n, line in enumerate(data.split('\n'), 1):
         if CYRGRK.search(line) and not EXPLAIN.search(line):
             print(f + ':' + str(n) + '  [cyrillic/greek amid CJK]')
-" || true)
-if [ -z "$A14_HITS" ]; then
+" 2>&1)
+A14_RC=$?
+if [ "$A14_RC" -ne 0 ]; then
+  printf '%s\n' "$A14_HITS" | tail -4 | sed 's/^/    /'
+  print_fail "A14 check could not run (exit $A14_RC) - not reporting it as passed"
+elif [ -z "$A14_HITS" ]; then
   print_pass "No mojibake in any public file"
 else
   echo "$A14_HITS" | head -10
@@ -343,7 +351,11 @@ fi
 print_section "[A15] Canonical / structured data / skip link (BLOCKER)"
 A15_MISSING=$(printf '%s\n' "$PUB_FILES" | grep -E "\.html$" | while read -r f; do
   [ -f "$f" ] || continue
-  [[ "$(basename "$f")" == canary_* ]] && continue   # 自測暫時檔，不是要發佈的頁面
+  # 自測的餌檔要排除，但豁免只在自測時生效：以檔名為條件的永久豁免，
+  # 對任何真的叫 canary_* 的發佈頁面同樣有效，那是一條以命名繞過 BLOCKER 的路。
+  if [ -n "${LD_AUDIT_SELFTEST:-}" ]; then
+    [[ "$(basename "$f")" == canary_* ]] && continue
+  fi
   miss=""
   grep -q 'rel="canonical"' "$f" || miss="$miss canonical"
   grep -q 'application/ld+json' "$f" || miss="$miss json-ld"
@@ -363,7 +375,7 @@ fi
 # share of it is wrong they ignore the whole signal. Dates drift because the
 # sitemap is maintained by hand while the pages keep changing.
 print_section "[A16] sitemap lastmod freshness (BLOCKER)"
-A16_STALE=$(LD_AUDIT_GIT_ROOT="$GIT_ROOT" python3 - <<'PYEOF'
+A16_STALE=$(LD_AUDIT_GIT_ROOT="$GIT_ROOT" python3 - 2>&1 <<'PYEOF'
 import os, re, subprocess
 BASE = 'https://toniliumvp.github.io/LunaticDawn/'
 try:
@@ -397,7 +409,11 @@ for loc, lm in re.findall(r'<loc>([^<]+)</loc>\s*<lastmod>([^<]+)</lastmod>', sm
         print(f'  {rel}: sitemap={lm} last commit={d}')
 PYEOF
 )
-if [ -z "$A16_STALE" ]; then
+A16_RC=$?
+if [ "$A16_RC" -ne 0 ]; then
+  printf '%s\n' "$A16_STALE" | tail -4 | sed 's/^/    /'
+  print_fail "A16 check could not run (exit $A16_RC) - not reporting it as passed"
+elif [ -z "$A16_STALE" ]; then
   print_pass "Every sitemap entry is at least as new as its file"
 else
   echo "$A16_STALE" | head -10
@@ -414,7 +430,7 @@ fi
 # GitHub renders in full -- subject and body -- to anonymous visitors. The old
 # check for that ran `git log --oneline -20`: no bodies, last twenty only.
 print_section "[A17] History layer: paths and commit messages (BLOCKER)"
-A17_OUT=$(LD_AUDIT_GIT_ROOT="$GIT_ROOT" python3 - <<'PYEOF'
+A17_OUT=$(LD_AUDIT_GIT_ROOT="$GIT_ROOT" python3 - 2>&1 <<'PYEOF'
 import os, re, subprocess, sys
 
 root = os.environ.get('LD_AUDIT_GIT_ROOT') or '.'
@@ -491,9 +507,13 @@ if known:
           f'the API; rewriting history would empty that file.')
 PYEOF
 )
+A17_RC=$?
 A17_HITS=$(echo "$A17_OUT" | grep -c '^  A17\.' || true)
 A17_NOTE=$(echo "$A17_OUT" | grep '^  NOTE' || true)
-if [ "$A17_HITS" -eq 0 ]; then
+if [ "$A17_RC" -ne 0 ]; then
+  printf '%s\n' "$A17_OUT" | tail -4 | sed 's/^/    /'
+  print_fail "A17 check could not run (exit $A17_RC) - not reporting it as passed"
+elif [ "$A17_HITS" -eq 0 ]; then
   print_pass "No new history-layer leakage"
   [ -n "$A17_NOTE" ] && echo "$A17_NOTE"
 else

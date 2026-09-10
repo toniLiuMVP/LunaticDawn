@@ -19,6 +19,21 @@ set -uo pipefail
 cd "$(dirname "$0")/../.."
 
 AUDIT=./tools/audit/site_audit.sh
+AUDIT_BAK=./tools/audit/.site_audit.sh.selftest-bak
+
+# The crash canaries below edit site_audit.sh in place. trap covers EXIT/INT/TERM
+# but not SIGKILL, so a hard kill would leave a broken audit behind -- and a
+# broken audit prints green. Repair it on the way in rather than trusting the
+# way out.
+if [ -f "$AUDIT_BAK" ]; then
+  echo "  ⚠ found a leftover audit backup from an interrupted run — restoring it"
+  cp "$AUDIT_BAK" "$AUDIT"
+  rm -f "$AUDIT_BAK"
+fi
+
+# A15 exempts files named canary_* only while this is set, so the bait below does
+# not trip it while real pages stay covered.
+export LD_AUDIT_SELFTEST=1
 CANARIES=()
 PASS=0
 FAIL=0
@@ -172,6 +187,70 @@ else
 fi
 git rm -f --cached canary_a14.html -q 2>/dev/null; rm -f canary_a14.html; CANARIES=()
 
+# A15 bait cannot be named canary_* (that is exactly what A15 skips in self-test
+# mode), so it gets its own prefix.
+printf '<html><body><p>page with no canonical, no structured data, no skip link</p></body></html>\n' > probe_a15.html
+git add -f probe_a15.html 2>/dev/null
+OUT=$(bash $AUDIT 2>&1)
+git rm -f --cached probe_a15.html -q 2>/dev/null; rm -f probe_a15.html
+if echo "$OUT" | grep -q "probe_a15.html"; then
+  echo "  ✓ A15 canonical/structured-data/skip-link — fires"; PASS=$((PASS+1))
+else
+  echo "  ✗ A15 canonical/structured-data/skip-link — DEAD CHECK"; FAIL=$((FAIL+1))
+fi
+
+# A16 bait: claim in the sitemap that a page is older than its last commit.
+SM=sitemap.xml
+if [ -f "$SM" ]; then
+  SM_BAK=$(mktemp)
+  cp "$SM" "$SM_BAK"
+  python3 - <<'PYBAIT'
+import re
+s = open('sitemap.xml', encoding='utf-8').read()
+s = re.sub(r'<lastmod>[^<]+</lastmod>', '<lastmod>2000-01-01</lastmod>', s, count=1)
+open('sitemap.xml', 'w', encoding='utf-8').write(s)
+PYBAIT
+  OUT=$(bash $AUDIT 2>&1)
+  cp "$SM_BAK" "$SM"; rm -f "$SM_BAK"
+  if echo "$OUT" | grep -q "older than the file"; then
+    echo "  ✓ A16 sitemap freshness — fires"; PASS=$((PASS+1))
+  else
+    echo "  ✗ A16 sitemap freshness — DEAD CHECK"; FAIL=$((FAIL+1))
+  fi
+else
+  echo "  ✗ A16 sitemap freshness — sitemap.xml missing"; FAIL=$((FAIL+1))
+fi
+
+# Crash canaries. Every python-backed rule assigns `VAR=$(python3 ...)`, which
+# collects stdout only -- a traceback goes to stderr, so VAR comes back empty and
+# empty reads exactly like "found nothing". That mistake has been made twice in
+# this repo, so each of those rules is now tested for it directly: break the
+# interpreter and require the audit to go red.
+cp "$AUDIT" "$AUDIT_BAK"
+for spec in "8.2|PATS = [re.compile(" "A14|PUA = re.compile(" "A16|BASE = 'https://toniliumvp.github.io/LunaticDawn/'" "A17|PATH_PATTERNS = ["; do
+  lbl="${spec%%|*}"; anchor="${spec#*|}"
+  cp "$AUDIT_BAK" "$AUDIT"
+  python3 - "$anchor" <<'PYCRASH'
+import sys
+p = 'tools/audit/site_audit.sh'
+s = open(p, encoding='utf-8').read()
+a = sys.argv[1]
+if s.count(a) != 1:
+    raise SystemExit(2)
+open(p, 'w', encoding='utf-8').write(s.replace(a, 'deliberate crash canary\n' + a, 1))
+PYCRASH
+  if [ $? -eq 2 ]; then
+    echo "  ⚠ $lbl crash canary — anchor not unique, skipped"; continue
+  fi
+  OUT=$(bash $AUDIT 2>&1); RC=$?
+  if [ "$RC" -ne 0 ] && echo "$OUT" | grep -q "could not run"; then
+    echo "  ✓ $lbl goes red when its interpreter crashes"; PASS=$((PASS+1))
+  else
+    echo "  ✗ $lbl still prints green when its interpreter crashes — FALSE GREEN"; FAIL=$((FAIL+1))
+  fi
+done
+cp "$AUDIT_BAK" "$AUDIT"; rm -f "$AUDIT_BAK"
+
 # A17 is not file-based: it reads git history and a baseline list, so the canary
 # is a baseline entry rather than a planted file. Dropping one known commit from
 # the baseline must turn the audit red; restoring it must turn it green again.
@@ -209,6 +288,10 @@ echo ""
 echo "  Note: 8.4 (disclaimer present) is an inverted check — it warns on ABSENCE,"
 echo "  so it is not canary-testable by planting a violation. It currently passes"
 echo "  because disclaimers exist; verify by inspection if it ever goes green-on-empty."
+echo ""
+echo "  Covered: A1-A14 content bait, A15/A16 bait, A17 baseline bait, and a"
+echo "  crash canary for each of the four python-backed rules. 8.4 is the only"
+echo "  rule with no bait, for the reason above."
 echo ""
 echo "  Note: A17's canary is a baseline entry. If history is ever rewritten clean,"
 echo "  the baseline empties and A17 becomes untestable by planting — the same"

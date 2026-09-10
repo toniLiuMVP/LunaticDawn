@@ -22,7 +22,10 @@ def count_html(subdir: str) -> int:
     d = ROOT / subdir
     if not d.exists():
         return 0
-    return len(list(d.glob("*.html")))
+    # rglob, not glob: the sub-sites keep most of their pages one level down
+    # (guides/, database/), and a non-recursive count reported a fifth of the
+    # real figure for some of them -- hiding exactly the pages a reader wants.
+    return len(list(d.rglob("*.html")))
 
 
 def extract_title(html_path: Path) -> str:
