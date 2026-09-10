@@ -265,7 +265,9 @@ fi
 # A12. file.size pre-check guard (WARN, W49 Security Audit B2)
 # Binary viewer/editor 應該在 FileReader 前驗 file.size,避免 OOM
 print_section "[A12] file.size pre-check in binary viewers (WARN — defensive)"
-VIEWERS=$(echo "$PUB_FILES" | tr ' ' '\n' | grep -E "viewer|editor|modifier|dashboard" | grep "\.html$")
+# $PUB_FILES 已經是換行分隔的,tr 是多餘的 —— 而且有害:含空白的路徑會被切成
+# 兩段不存在的檔名,而找不到檔案是靜默失敗、判定為「沒問題」。
+VIEWERS=$(printf '%s\n' "$PUB_FILES" | grep -E "viewer|editor|modifier|dashboard" | grep "\.html$")
 if [ -z "$VIEWERS" ]; then
   print_pass "No binary viewer files found"
 else
@@ -520,6 +522,69 @@ else
   echo "$A17_OUT" | grep '^  A17\.' | head -12
   print_fail "$A17_HITS history-layer leak(s) not on the accepted baseline"
   [ -n "$A17_NOTE" ] && echo "$A17_NOTE"
+fi
+
+# A18. Unredacted poster addresses in archived BBS text (BLOCKER)
+# The post-processing chain redacts these, but the chain is fail-fast and the
+# redaction step was one of six: any earlier step failing meant the pages were
+# already on disk with the original reverse-DNS hostnames in them, and nothing
+# here would have noticed -- A7 only looks at email addresses.
+# So this rule is deliberately independent of whether that chain ran at all,
+# because someone can also run a generator directly and skip the chain.
+#
+# It matches the source-field shapes rather than bare IPv4: every dotted quad
+# on this site is a version number or localhost, and flagging those would only
+# train people to ignore the output.
+print_section "[A18] Unredacted BBS poster addresses (BLOCKER)"
+# The file list travels in an environment variable, not on stdin: the heredoc
+# already occupies stdin to feed the interpreter its source, so piping the list
+# in as well means the heredoc wins, the loop never runs a single iteration --
+# and the rule prints a tick. The first version of this check was dead that way
+# and only three planted samples revealed it.
+A18_OUT=$(LD_AUDIT_PUB="$PUB_FILES" python3 - 2>&1 <<'PYEOF'
+import sys, os, re
+
+MARK = r'\[?historical IP redacted'
+RULES = [
+    ('unredacted Origin/From',
+     re.compile(r'※\s*Origin:[^\n]{0,120}?◆\s*From:\s*(?!' + MARK + r')[^\s<][^\n<]{0,80}')),
+    ('unredacted 修改 field',
+     re.compile(r'※\s*修改:\s*[0-9/: ]{0,30}\[(?!' + MARK + r')[^\]\n]{1,80}\]')),
+    ('reverse-DNS hostname',
+     re.compile(r'\b\d{1,3}-\d{1,3}-\d{1,3}-\d{1,3}\.[a-z0-9][a-z0-9.-]{2,}', re.I)),
+]
+
+files = os.environ.get('LD_AUDIT_PUB', '')
+if not files.strip():
+    print('  cannot read the file list - refusing to report this check as passed')
+    sys.exit(1)
+
+for f in files.splitlines():
+    f = f.strip()
+    if not f or not f.endswith('.html'):
+        continue
+    if not os.path.isfile(f):
+        continue
+    try:
+        t = open(f, encoding='utf-8', errors='replace').read()
+    except OSError:
+        continue
+    for name, pat in RULES:
+        for m in pat.finditer(t):
+            line = t[:m.start()].count('\n') + 1
+            print(f'  {f}:{line}: {name}: {m.group(0)[:70]}')
+PYEOF
+)
+A18_RC=$?
+if [ "$A18_RC" -ne 0 ]; then
+  printf '%s\n' "$A18_OUT" | tail -4 | sed 's/^/    /'
+  print_fail "A18 check could not run (exit $A18_RC) - not reporting it as passed"
+elif [ -z "$A18_OUT" ]; then
+  print_pass "No unredacted poster addresses in archived BBS text"
+else
+  echo "$A18_OUT" | head -10
+  A18_N=$(echo "$A18_OUT" | grep -c .)
+  print_fail "$A18_N unredacted poster address(es) - the redaction step did not run"
 fi
 
 # Summary

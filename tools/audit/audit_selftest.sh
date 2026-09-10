@@ -221,13 +221,24 @@ else
   echo "  ✗ A16 sitemap freshness — sitemap.xml missing"; FAIL=$((FAIL+1))
 fi
 
+# A18 bait: an unredacted poster address, the shape the redaction step removes.
+printf '%s\n' '<html><body><pre>posted from 211-74-11-134.adsl.dynamic.seed</pre></body></html>' > probe_a18.html
+git add -f probe_a18.html 2>/dev/null
+OUT=$(bash $AUDIT 2>&1)
+git rm -f --cached probe_a18.html -q 2>/dev/null; rm -f probe_a18.html
+if echo "$OUT" | grep -q "unredacted poster address(es)"; then
+  echo "  ✓ A18 unredacted poster addresses — fires"; PASS=$((PASS+1))
+else
+  echo "  ✗ A18 unredacted poster addresses — DEAD CHECK"; FAIL=$((FAIL+1))
+fi
+
 # Crash canaries. Every python-backed rule assigns `VAR=$(python3 ...)`, which
 # collects stdout only -- a traceback goes to stderr, so VAR comes back empty and
 # empty reads exactly like "found nothing". That mistake has been made twice in
 # this repo, so each of those rules is now tested for it directly: break the
 # interpreter and require the audit to go red.
 cp "$AUDIT" "$AUDIT_BAK"
-for spec in "8.2|PATS = [re.compile(" "A14|PUA = re.compile(" "A16|BASE = 'https://toniliumvp.github.io/LunaticDawn/'" "A17|PATH_PATTERNS = ["; do
+for spec in "8.2|PATS = [re.compile(" "A14|PUA = re.compile(" "A16|BASE = 'https://toniliumvp.github.io/LunaticDawn/'" "A17|PATH_PATTERNS = [" "A18|MARK = r'"; do
   lbl="${spec%%|*}"; anchor="${spec#*|}"
   cp "$AUDIT_BAK" "$AUDIT"
   python3 - "$anchor" <<'PYCRASH'
@@ -289,8 +300,8 @@ echo "  Note: 8.4 (disclaimer present) is an inverted check — it warns on ABSE
 echo "  so it is not canary-testable by planting a violation. It currently passes"
 echo "  because disclaimers exist; verify by inspection if it ever goes green-on-empty."
 echo ""
-echo "  Covered: A1-A14 content bait, A15/A16 bait, A17 baseline bait, and a"
-echo "  crash canary for each of the four python-backed rules. 8.4 is the only"
+echo "  Covered: A1-A14 content bait, A15/A16/A18 bait, A17 baseline bait, and a"
+echo "  crash canary for each of the five python-backed rules. 8.4 is the only"
 echo "  rule with no bait, for the reason above."
 echo ""
 echo "  Note: A17's canary is a baseline entry. If history is ever rewritten clean,"
