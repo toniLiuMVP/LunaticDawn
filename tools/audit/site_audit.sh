@@ -395,12 +395,38 @@ log = subprocess.run(['git', '-C', git_root, '-c', 'core.quotePath=false', 'log'
 if not log.strip():
     print('  cannot read git history - refusing to report this check as passed')
     raise SystemExit(1)
+# 跳過只改日期的 commit。寫入 dateModified 這個動作本身會產生一個 commit,
+# 若把它算成「最後修改」,sitemap 就永遠追不上 —— 自我追逐。頁面的
+# dateModified 與 sitemap 都以「最後一次實質內容變更」為準,這裡要用同一個
+# 定義,否則三邊互相矛盾。只看最近 50 個 commit:純日期 commit 一定在近期。
+DATE_ONLY = set()
+recent = subprocess.run(['git', '-C', git_root, 'log', '--format=%H', '-n', '50'],
+                        capture_output=True, text=True).stdout.split()
+for sha in recent:
+    d = subprocess.run(['git', '-C', git_root, 'show', '--format=', '--unified=0', sha],
+                       capture_output=True, text=True).stdout
+    body = [l for l in d.splitlines()
+            if l.startswith(('+', '-')) and not l.startswith(('+++', '---'))]
+    if body and all(('"dateModified"' in l or 'footer-updated' in l
+                     or '<time datetime=' in l or '<lastmod>' in l) for l in body):
+        DATE_ONLY.add(sha)
+
+log = subprocess.run(['git', '-C', git_root, '-c', 'core.quotePath=false', 'log',
+                      '--date=short', '--format=%H %ad', '--name-only'],
+                     capture_output=True, text=True).stdout
+if not log.strip():
+    print('  cannot read git history - refusing to report this check as passed')
+    raise SystemExit(1)
+
 cur = None
+skip = False
 for line in log.split('\n'):
     line = line.strip()
-    if re.fullmatch(r'\d{4}-\d{2}-\d{2}', line):
-        cur = line
-    elif line and cur:
+    m = re.fullmatch(r'([0-9a-f]{40}) (\d{4}-\d{2}-\d{2})', line)
+    if m:
+        skip = m.group(1) in DATE_ONLY
+        cur = m.group(2)
+    elif line and cur and not skip:
         last.setdefault(line, cur)
 for loc, lm in re.findall(r'<loc>([^<]+)</loc>\s*<lastmod>([^<]+)</lastmod>', sm):
     rel = loc[len(BASE):] if loc.startswith(BASE) else ''
