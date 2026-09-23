@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CHRITEM.SAV 物品欄查看器 · 俠客遊 II</title>
-<meta name="description" content="俠客遊 II 玩家物品欄查看器，支援 CHRITEM.SAV (122880 bytes，160 角色 × 16 物品 slots)。2026 年結構逆向。純前端解析。">
+<meta name="description" content="俠客遊 II 玩家物品欄查看與編輯工具，支援 CHRITEM.SAV（122880 bytes，160 個角色，每個角色 16 格物品），檔案只在瀏覽器本地解析，不會上傳。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="CHRITEM.SAV 物品欄查看器 · 俠客遊 II">
 <meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/luna2/chritem-viewer.html">
-<meta property="og:description" content="俠客遊 II 玩家物品欄查看器，支援 CHRITEM.SAV (122880 bytes，160 角色 × 16 物品 slots)。2026 年結構逆向。純前端解析。">
+<meta property="og:description" content="俠客遊 II 玩家物品欄查看與編輯工具，支援 CHRITEM.SAV（122880 bytes，160 個角色，每個角色 16 格物品），檔案只在瀏覽器本地解析，不會上傳。">
 <meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
 <link rel="stylesheet" href="../assets/css/fonts-retro.css">
@@ -205,6 +205,17 @@
 }
 .edit-panel button.primary { background: var(--amber); color: var(--bg); border-color: var(--amber); }
 .edit-panel button.danger { color: var(--danger); border-color: var(--danger); }
+.edit-panel input:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.load-warning,
+.unverified-note {
+  color: var(--danger);
+  border: 1px solid var(--danger);
+  padding: 8px 12px;
+  margin: 8px 0 12px;
+  font-size: 14px;
+  line-height: 1.6;
+}
 
 #download-bar {
   position: sticky;
@@ -225,9 +236,9 @@
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="CHRITEM.SAV 物品欄查看器 · 俠客遊 II">
-<meta name="twitter:description" content="俠客遊 II 玩家物品欄查看器，支援 CHRITEM.SAV (122880 bytes，160 角色 × 16 物品 slots)。2026 年結構逆向。純前端解析。">
+<meta name="twitter:description" content="俠客遊 II 玩家物品欄查看與編輯工具，支援 CHRITEM.SAV（122880 bytes，160 個角色，每個角色 16 格物品），檔案只在瀏覽器本地解析，不會上傳。">
 <meta name="twitter:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"CHRITEM.SAV 物品欄查看器","description":"俠客遊 II 玩家物品欄查看器，支援 CHRITEM.SAV (122880 bytes，160 角色 × 16 物品 slots)。2026 年結構逆向。純前端解析。","url":"https://toniliumvp.github.io/LunaticDawn/luna2/chritem-viewer.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 II"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"CHRITEM.SAV 物品欄查看器","description":"俠客遊 II 玩家物品欄查看與編輯工具，支援 CHRITEM.SAV（122880 bytes，160 個角色，每個角色 16 格物品），檔案只在瀏覽器本地解析，不會上傳。","url":"https://toniliumvp.github.io/LunaticDawn/luna2/chritem-viewer.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 II"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"吟遊詩人的傳說","item":"https://toniliumvp.github.io/LunaticDawn/"},{"@type":"ListItem","position":2,"name":"俠客遊 II","item":"https://toniliumvp.github.io/LunaticDawn/luna2/"},{"@type":"ListItem","position":3,"name":"CHRITEM.SAV 物品欄查看器"}]}</script>
 <!-- seo -->
 </head>
@@ -248,45 +259,59 @@
 <main id="main-content">
 
 
+  <p class="unverified-note" id="unverified-notice" role="note">
+    ⚠️ 新增與換物品的格式取自樣本存檔，尚未在遊戲內實機驗證，使用前務必備份。
+  </p>
+
   <div class="intro">
     俠客遊 II 玩家物品欄存於 <code>USER0/CHRITEM.SAV</code>（122880 bytes）。
-    本工具支援 <strong>查看 + 編輯</strong>（v0.2 2026加入 edit 模式），可解析 160 個角色（玩家 + NPC 同行）的物品欄。
+    本工具支援 <strong>查看與編輯</strong>，可解析 160 個角色（玩家與同行 NPC）的物品欄。
     <br><br>
-    <strong style="color: var(--danger);">⚠️ 修改前務必備份</strong>：本工具的 byte 0-7（item_id + value2）已 binary 逆向確認，
-    但 byte 8-47（modifier / 強化值）<strong>未實機驗證</strong>。修改後若載入遊戲出錯可能損壞角色。
+    <strong style="color: var(--danger);">⚠️ 修改前務必備份</strong>：byte 0-7（item_id 與 value2）的意義已由存檔逆向確認，
+    其餘 byte 的意義只來自樣本存檔的統計，<strong>尚未實機驗證</strong>。修改後若載入遊戲出錯，可能損壞角色資料。
+    <br>
+    ▸ <strong>改價格（value2）</strong>：任何物品都可以，只寫入 byte 4-7，其餘不動。
+    <br>
+    ▸ <strong>新增物品</strong>：只能加在該角色的第一個空格，而且前面的格位都有物品。
+    樣本存檔中 160 個角色的物品全部從 slot 0 起連續排放，空格後面沒有物品。
+    <br>
+    ▸ <strong>新增或換入的物品只限非裝備品</strong>：整格 48 bytes 以樣本存檔中同一件物品的紀錄為範本寫入，再填上 item_id 與 value2。
+    樣本存檔的 1117 件非裝備品不論放在哪一格，紀錄格式都相同，同一種物品的 48 bytes 完全一樣。
+    樣本只出現過 14 種非裝備品，其他物品沒有範本，暫不支援新增，請改在遊戲內取得。
+    <br>
+    ▸ <strong>更換物品 ID</strong>：只限原本就是非裝備品的格子，而且只能換成另一件有範本的非裝備品。
+    <br>
+    ▸ <strong>裝備類物品</strong>：格式尚未驗證，不支援新增或換入；原本就是裝備的格子只能改價格或刪除。
+    裝備的紀錄記著該件物品目前的攻擊力、防禦力等狀態，與角色的裝備資料相關，直接換成別的物品可能造成不一致。
+    <br>
+    ▸ <strong>刪除</strong>：這一格清成空格，後面的物品不會往前移。刪除中間的物品會留下空格；樣本中沒有這種排列，尚未實機驗證。
+    <br><br>
     <strong>建議流程</strong>：
     <br>1️⃣ 將 <code>USER0/CHRITEM.SAV</code> 先複製為 <code>USER1/CHRITEM.SAV</code>（DOSBox 內可選 USER1 = 存檔 2）
-    <br>2️⃣ 在 USER1 測試修改 + 載入遊戲驗證
-    <br>3️⃣ 確認 OK 後再覆蓋 USER0
-    <br>
+    <br>2️⃣ 在 USER1 測試修改，載入遊戲驗證
+    <br>3️⃣ 確認沒問題後再覆蓋 USER0
     <br><br>
-    <strong>結構（2026 逆向）</strong>：160 角色 × 16 物品 slots × 48 bytes/slot。
-    每 slot：byte 0-3 = item_id（對應 ITEMNAME.ENC 的 1-456 物品）；byte 4-7 = value2（推測為價格）；
-    byte 8-47 = 強化值 + 屬性 modifier + 額外資料。
-    <br><br>
-    <strong>byte 8-47 結構性分類（推測）</strong>：
+    <strong>結構</strong>：160 角色 × 16 格 × 48 bytes/格。以下是樣本存檔 2004 件物品的統計結果：
     <br>
-    ▸ <strong>byte 8-15（modifier ID 區）</strong>：8 bytes，多為 0xFF 表「無 modifier」；含值時是「裝備類型 + 強化等級 + 屬性」組合（範例 <code>02 1a 5d 70 01 ff 02 00</code>）
+    ▸ <strong>byte 0-3</strong>：item_id（對應 ITEMNAME.ENC 的 0-455 物品，id 0 = 寬劍）
     <br>
-    ▸ <strong>byte 16-23（屬性數值區）</strong>：8 bytes，推測對應「7 系魔法上限」+ STM 加成（範例 <code>0d 12 0f 14 0e 10 ff ff</code>）
+    ▸ <strong>byte 4-7</strong>：value2，樣本中全部等於該物品的價格
     <br>
-    ▸ <strong>byte 24-27（marker 區）</strong>：4 bytes，多為 <code>00 00 ff ff</code> 或屬性類別標記
+    ▸ <strong>byte 8-15</strong>：物品種類的固定資料。同一種物品在樣本各格完全相同，不隨件改變；非裝備品一律是 8 個 <code>ff</code>
     <br>
-    ▸ <strong>byte 28-35（屬性 modifier 區）</strong>：8 bytes，玩家屬性加成值（力/智/靈/敏/直/魅/體/精，範例 <code>0a 04 0a 00 00 00 00 ff</code>）
+    ▸ <strong>byte 16-19</strong>：攻擊力的目前值與上限（各 2 bytes）。裝備的上限等於資料庫的攻擊力上限，目前值隨件不同
     <br>
-    ▸ <strong>byte 36-47（padding 區）</strong>：12 bytes 全 0，跨 10 USER 樣本 25,600 entries 統計確認 byte 37-47 純 padding (byte 17/19 也是)
-    <br><br>
-    <strong>2026 統計分析發現</strong>：
+    ▸ <strong>byte 20-25</strong>：砍、刺、敲三種防禦力的目前值與上限（各 1 byte）。裝備的上限等於資料庫數值，目前值隨件不同
     <br>
-    ▸ byte 8 = main modifier type ID (8 種：0xff = 無 modifier / 其他 7 種類型)
+    ▸ <strong>byte 26-27</strong>：用途未明。非裝備品一律是 <code>ff ff</code>，裝備常見其他數值
     <br>
-    ▸ byte 9 / byte 16 = 高 diversity 數值欄位（推測為強化等級 / 耐久度 / 多餘屬性 strength）
+    ▸ <strong>byte 28-36</strong>：同一種物品固定。裝備的這 9 bytes 等於資料庫的魔法類型、魔法數值與 7 系魔法上限
     <br>
-    ▸ byte 26 = secondary modifier type (8 種)
+    ▸ <strong>byte 37-47</strong>：樣本中全部是 0
     <br>
-    ▸ byte 28-35 = 8 個屬性 modifier values（對應 8 屬性 力/智/靈/敏/直/魅/體/精）
-    <br><br>
-    <em>※ 個別 modifier ID 的精確效果對照仍需在 DOSBox 內實機驗證（sample 角色 + 變動單一 byte 觀察）。本 viewer 提供 read 模式（v0.1）+ edit 模式（v0.2）。</em>
+    非裝備品（物品資料的類別為「非裝備品」）在樣本中共 1117 件，分布在 slot 0 與 slot 3 到 15，不論在哪一格都是同一種形式：
+    byte 8-15 全為 <code>ff</code>、byte 16-17 等於 byte 18-19、byte 20-25 全為 0、byte 26-27 為 <code>ff ff</code>。
+    格位標籤依物品本身的類別標示「非裝備品」或「裝備」，與放在第幾格無關。
     <br><br>
     <strong>使用方式</strong>：拖放或選擇 <code>USER0/CHRITEM.SAV</code> 檔案 → 左側選角色 → 右側看物品欄。
     所有解析在瀏覽器本地完成，不上傳任何資料。
@@ -313,17 +338,149 @@ const $ = id => document.getElementById(id);
 let chritemData = null;
 let originalBuffer = null;
 let itemNames = null;
+let itemPrices = {};
+let itemCategory = {};      // item ID → game_data.json 的 equip_pos（「非裝備品」或裝備部位）
+let gameDataOk = false;     // game_data.json（名稱、價格、類別）是否成功載入
+let itemTemplates = null;   // Map：item ID → 完整 48 bytes 範本；載入失敗或與物品類別不符時為 null
 let activeChar = 0;
 let editMode = false;
 let editingSlot = null;
 let changesCount = 0;
+
+// 物品 id 是 0 起點（game_data.json 為 0-455，id 0 = 寬劍）：
+// 樣本檔 2004 格的 value2 以 0 起點對照全部等於該物品價格，以 1 起點對照是 0/2004。
+const ITEM_ID_MIN = 0;
+const ITEM_ID_MAX = 455;
+const VALUE2_MAX = 99999999; // 遠低於 u32 上限 0xFFFFFFFF，寫入不會繞回
+const SLOTS_PER_CHAR = 16;
+
+// 0-455 裡有 79 個 ID 不是物品：game_data.json 裡名稱是「離開」、價格 65535，
+// 是商店清單最後那個取消按鈕的佔位。寫進物品欄只會得到一件不存在的東西，所以儲存時拒絕。
+// 載入 game_data.json 後會依名稱與價格再認一次；這份清單是讀檔失敗時的後備，兩者取聯集。
+const LEAVE_PLACEHOLDER_FALLBACK = [
+  2, 8, 22, 23, 24, 26, 27, 39, 78, 80, 81, 83, 84, 89, 91, 92, 94, 95, 98, 99,
+  100, 103, 108, 115, 157, 162, 171, 173, 174, 175, 176, 179, 184, 191, 230, 236, 238, 240, 241, 244,
+  247, 249, 250, 251, 252, 255, 260, 266, 267, 269, 306, 308, 309, 312, 314, 317, 319, 320, 323, 326,
+  327, 328, 336, 340, 345, 381, 382, 384, 385, 387, 388, 390, 393, 395, 396, 399, 412, 414, 419
+];
+let leavePlaceholderIds = new Set(LEAVE_PLACEHOLDER_FALLBACK);
+const LEAVE_PLACEHOLDER_MSG = '這個 ID 是商店的『離開』選項，不是物品';
+function isLeavePlaceholder(id) { return leavePlaceholderIds.has(id); }
+
+const NO_TEMPLATE_MSG = '這個物品沒有可參考的完整格式，為避免存檔損壞暫不支援新增，可改用遊戲內取得';
+const PRICE_MISSING_MSG = '價格資料未載入，請手動輸入';
+const UNVERIFIED_MSG = '新增與換物品的格式取自樣本存檔，尚未在遊戲內實機驗證，使用前務必備份';
+const EQUIP_ITEM_MSG = '裝備類物品的格式尚未驗證，為避免存檔損壞暫不支援新增或換入';
+const EQUIP_SLOT_MSG = '這一格的物品是裝備類，只能改價格或刪除';
+const UNKNOWN_SLOT_MSG = '查不到這件物品的類別，只能改價格或刪除';
+const HOLE_MSG = '刪除後這一格之後的物品位置不變，中間會留下空格；樣本中沒有這種排列，尚未實機驗證';
+
+// 物品類別取自 game_data.json 的 equip_pos：「非裝備品」以外的值（單手、雙手、身體、頭部、手臂、腿腳、手指）都是裝備。
+// 查不到類別的 ID 既不算裝備也不算非裝備品，不能新增、換入或換出。
+const NON_EQUIP = '非裝備品';
+function isNonEquipmentId(id) {
+  return Object.prototype.hasOwnProperty.call(itemCategory, id) && itemCategory[id] === NON_EQUIP;
+}
+function isEquipmentId(id) {
+  return Object.prototype.hasOwnProperty.call(itemCategory, id) && itemCategory[id] !== NON_EQUIP;
+}
+function categoryLabel(id) {
+  if (isNonEquipmentId(id)) return '非裝備品';
+  if (isEquipmentId(id)) return `裝備（${itemCategory[id]}）`;
+  return '類別不明';
+}
+
+// 非狀態形式：樣本存檔中每一件非裝備品都是這個形式，不論放在哪一格。
+// byte 8-15 全為 FF、byte 16-17 等於 byte 18-19、byte 20-25 全為 0、byte 26-27 為 FF FF。
+function isPlainForm(bytes) {
+  for (let i = 8; i < 16; i++) if (bytes[i] !== 0xff) return false;
+  if (bytes[16] !== bytes[18] || bytes[17] !== bytes[19]) return false;
+  for (let i = 20; i < 26; i++) if (bytes[i] !== 0) return false;
+  return bytes[26] === 0xff && bytes[27] === 0xff;
+}
+
+// 樣本存檔中每個角色的物品都從 slot 0 起連續排放，空格後面沒有物品。
+// 新增只允許在第一個空格，而且前面的格位都有物品。
+function firstEmptySlot(char) {
+  const items = chritemData[char];
+  for (let s = 0; s < items.length; s++) if (items[s].empty) return s;
+  return -1;
+}
+function canAddAt(char, slot) {
+  const items = chritemData[char];
+  if (!items || !Number.isInteger(slot) || slot < 0 || slot >= items.length || !items[slot].empty) return false;
+  for (let s = 0; s < slot; s++) if (items[s].empty) return false;
+  return true;
+}
+function notFirstEmptyMsg(char) {
+  return `新增只能加在這個角色的第一個空格（slot ${firstEmptySlot(char)}），前面的格位必須都有物品。` +
+    '樣本存檔中每個角色的物品都從 slot 0 起連續排放，空格後面沒有物品';
+}
+
+// 新增物品與更換物品 ID 需要三份資料都在：價格（自動帶入 value2）、物品類別、完整 48 bytes 範本。
+// 任一份載入失敗就停用這兩個操作；修改既有物品的 value2 與刪除不受影響。
+function canAddOrChangeId() { return gameDataOk && itemTemplates !== null; }
+function addDisabledMsg() {
+  const what = !gameDataOk && itemTemplates === null ? '物品資料與完整格式範本'
+    : !gameDataOk ? '物品資料（名稱、價格與類別）' : '物品完整格式範本';
+  return `${what}載入失敗，新增物品與更換物品 ID 暫時停用，仍可修改既有物品的 value2 或刪除物品`;
+}
+
+// 新增或更換物品 ID 的規則，儲存鈕與寫入函式共用同一份判斷。
+// 位置：空格必須是該角色的第一個空格；有物品的格子，裡面的物品必須是非裝備品。
+// 目標：必須是有範本的非裝備品，裝備類一律拒絕。
+// 允許時回傳 null，否則回傳拒絕原因。
+function writeRuleError(char, slot, newId) {
+  if (!canAddOrChangeId()) return addDisabledMsg();
+  const items = chritemData && chritemData[char];
+  if (!items || !Number.isInteger(slot) || slot < 0 || slot >= items.length) return '格位不存在';
+  const cur = items[slot];
+  if (cur.empty) {
+    if (!canAddAt(char, slot)) return notFirstEmptyMsg(char);
+  } else if (!isNonEquipmentId(cur.itemId)) {
+    return isEquipmentId(cur.itemId) ? EQUIP_SLOT_MSG : UNKNOWN_SLOT_MSG;
+  }
+  if (!Number.isInteger(newId) || newId < ITEM_ID_MIN || newId > ITEM_ID_MAX) {
+    return `item ID 必須是 ${ITEM_ID_MIN}-${ITEM_ID_MAX} 的整數`;
+  }
+  if (isLeavePlaceholder(newId)) return LEAVE_PLACEHOLDER_MSG;
+  if (isEquipmentId(newId)) return EQUIP_ITEM_MSG;
+  if (!isNonEquipmentId(newId) || !itemTemplates.has(newId)) return NO_TEMPLATE_MSG;
+  return null;
+}
+
+// 空格新增時預設的 item ID：有範本且不是「離開」佔位的最小 ID。
+function defaultNewItemId() {
+  if (itemTemplates) {
+    const ids = [...itemTemplates.keys()].filter(id => !isLeavePlaceholder(id)).sort((a, b) => a - b);
+    if (ids.length > 0) return ids[0];
+  }
+  return ITEM_ID_MIN;
+}
+
+// 查不到價格回傳 null，由呼叫端要求手動輸入，不拿其他物品的值代替。
+function priceOf(id) {
+  return Number.isInteger(id) && Object.prototype.hasOwnProperty.call(itemPrices, id) &&
+    Number.isInteger(itemPrices[id]) ? itemPrices[id] : null;
+}
+
+// 解析整數欄位：空白、小數、超出範圍都回傳 null，由呼叫端拒絕寫入。
+// 用 Number() 而不是 parseInt()，避免 1e7 被讀成 1、3.9 被截成 3。
+function parseIntField(str, min, max) {
+  const s = String(str).trim();
+  if (s === '') return null;
+  const v = Number(s);
+  if (!Number.isInteger(v) || v < min || v > max) return null;
+  return v;
+}
 
 function el(tag, attrs, ...children) {
   const e = document.createElement(tag);
   if (attrs) {
     for (const [k, v] of Object.entries(attrs)) {
       if (k === 'class') e.className = v;
-      else if (k === 'on') for (const [evt, fn] of Object.entries(v)) e.addEventListener(evt, fn);
+      // 檢視模式會傳 on: null，Object.entries(null) 會丟例外讓整頁只剩錯誤訊息
+      else if (k === 'on') { if (v) for (const [evt, fn] of Object.entries(v)) e.addEventListener(evt, fn); }
       else if (k === 'data') for (const [dk, dv] of Object.entries(v)) e.dataset[dk] = dv;
       else e.setAttribute(k, v);
     }
@@ -335,66 +492,127 @@ function el(tag, attrs, ...children) {
   return e;
 }
 
+// 解析單一 slot：載入時逐格呼叫，寫入後也用它重新整理該格，
+// 讓新增到空格的物品同樣帶齊 typeHex 等欄位（否則重繪時會丟例外）。
+function parseSlot(buffer, cid, slot) {
+  const view = new DataView(buffer);
+  const entryOff = cid * 768 + slot * 48;
+  const itemId = view.getUint32(entryOff, true);
+  const value2 = view.getUint32(entryOff + 4, true);
+  // empty slot detection
+  if (itemId === 0xFFFFFFFF || (itemId === 0 && value2 === 0)) {
+    return {slot, empty: true};
+  }
+  const hexOf = (start, len) => Array.from(new Uint8Array(buffer, entryOff + start, len))
+    .map(b => b.toString(16).padStart(2, '0')).join(' ');
+  return {
+    slot,
+    empty: false,
+    itemId,
+    value2,
+    typeHex: hexOf(8, 8),      // byte 8-15：物品種類的固定資料
+    atkHex: hexOf(16, 4),      // byte 16-19：攻擊力目前值與上限
+    defHex: hexOf(20, 6),      // byte 20-25：砍、刺、敲防禦力目前值與上限
+    b26Hex: hexOf(26, 2),      // byte 26-27：用途未明
+    magicHex: hexOf(28, 9),    // byte 28-36：魔法類型、魔法數值、7 系魔法上限
+    tailHex: hexOf(37, 11)     // byte 37-47
+  };
+}
+
 function parseChritem(buffer) {
   if (buffer.byteLength !== 122880) {
     throw new Error(`預期 122880 bytes，實際 ${buffer.byteLength}。檔案可能不是 CHRITEM.SAV。`);
   }
-  const view = new DataView(buffer);
   const chars = [];
   for (let cid = 0; cid < 160; cid++) {
     const items = [];
-    for (let slot = 0; slot < 16; slot++) {
-      const entryOff = cid * 768 + slot * 48;
-      const itemId = view.getUint32(entryOff, true);
-      const value2 = view.getUint32(entryOff + 4, true);
-      // empty slot detection
-      if (itemId === 0xFFFFFFFF || (itemId === 0 && value2 === 0)) {
-        items.push({slot, empty: true});
-      } else {
-        const toHex = (arr) => Array.from(arr).map(b => b.toString(16).padStart(2, '0')).join(' ');
-        const modifiers = new Uint8Array(buffer, entryOff + 8, 8);
-        const propValues = new Uint8Array(buffer, entryOff + 16, 8);
-        const marker = new Uint8Array(buffer, entryOff + 24, 4);
-        const modValues = new Uint8Array(buffer, entryOff + 28, 8);
-        const padding = new Uint8Array(buffer, entryOff + 36, 12);
-        items.push({
-          slot,
-          empty: false,
-          itemId,
-          value2,
-          modifiersHex: toHex(modifiers),
-          propValuesHex: toHex(propValues),
-          markerHex: toHex(marker),
-          modValuesHex: toHex(modValues),
-          paddingHex: toHex(padding),
-          modifiersAllZero: Array.from(modifiers).every(b => b === 0xff)
-        });
-      }
+    for (let slot = 0; slot < SLOTS_PER_CHAR; slot++) {
+      items.push(parseSlot(buffer, cid, slot));
     }
     chars.push(items);
   }
   return chars;
 }
 
+// 從 game_data.json 取物品名稱、價格與類別（新增或改 ID 時 value2 預設帶入該物品價格）。
+// 回傳的 ok 為 false 代表沒拿到可用的價格或類別，此時停用新增與更換物品 ID。
 async function loadItemNames() {
-  // Use existing npc_dictionary.json structure or fetch ITEMNAME from same source
-  // For simplicity, embed a small sample (the rest can be loaded from public game_data.json items)
   try {
     const r = await fetch('database/game_data.json');
     if (r.ok) {
       const data = await r.json();
-      const map = {};
-      for (const item of data.items || []) {
+      const names = {};
+      const prices = {};
+      const categories = {};
+      const leaveIds = [];
+      const items = Array.isArray(data.items) ? data.items : [];
+      for (const item of items) {
         if (item.id != null && item.name) {
-          map[item.id] = item.name;
+          names[item.id] = item.name;
+        }
+        if (item.id != null && Number.isInteger(item.price)) {
+          prices[item.id] = item.price;
+        }
+        if (Number.isInteger(item.id) && typeof item.equip_pos === 'string' && item.equip_pos !== '') {
+          categories[item.id] = item.equip_pos;
+        }
+        if (Number.isInteger(item.id) && item.name === '離開' && item.price === 65535) {
+          leaveIds.push(item.id);
         }
       }
-      return map;
+      return {ok: Object.keys(prices).length > 0 && Object.keys(categories).length > 0, names, prices, categories, leaveIds};
     }
   } catch (e) {
     console.warn('Failed to load item names:', e);
   }
-  return {};
+  return {ok: false, names: {}, prices: {}, categories: {}, leaveIds: []};
+}
+
+// 讀取完整 48 bytes 範本（由樣本存檔中的非裝備品統計而來）。
+// 格式：{"source": ..., "rule": "non-equipment-contiguous", "count": N, "templates": {"<item ID>": "<96 個 hex 字元>"}}。
+// 以下任一情況整份視為載入失敗回傳 null，不採用部分資料：
+// rule 不是 non-equipment-contiguous、帶有 slot_range 欄位、鍵不是標準十進位整數（不接受 01、+1 這類寫法）、
+// 範本內的 item ID 與所屬的鍵不同、範本不是非狀態形式、或筆數與 count 不一致。
+// 範本的 ID 是否真的是非裝備品，要等 game_data.json 載入後由 templatesMatchCategory 再確認。
+const TEMPLATE_RULE = 'non-equipment-contiguous';
+async function loadTemplates() {
+  try {
+    const r = await fetch('database/chritem_templates.json');
+    if (!r.ok) return null;
+    const data = await r.json();
+    if (!data || typeof data !== 'object' || Array.isArray(data)) return null;
+    if (data.rule !== TEMPLATE_RULE) return null;
+    if (Object.prototype.hasOwnProperty.call(data, 'slot_range')) return null;
+    const tpl = data.templates;
+    if (!tpl || typeof tpl !== 'object' || Array.isArray(tpl)) return null;
+    if (!Number.isInteger(data.count) || data.count <= 0) return null;
+    const entries = Object.entries(tpl);
+    if (entries.length !== data.count) return null;
+    const map = new Map();
+    for (const [key, hex] of entries) {
+      if (!/^(0|[1-9]\d*)$/.test(key) || typeof hex !== 'string' || !/^[0-9a-f]{96}$/i.test(hex)) return null;
+      const id = Number(key);
+      if (id < ITEM_ID_MIN || id > ITEM_ID_MAX) return null;
+      const bytes = new Uint8Array(48);
+      for (let i = 0; i < 48; i++) bytes[i] = parseInt(hex.slice(i * 2, i * 2 + 2), 16);
+      if (new DataView(bytes.buffer).getUint32(0, true) !== id) return null;
+      if (!isPlainForm(bytes)) return null;
+      map.set(id, bytes);
+    }
+    if (map.size !== data.count) return null;
+    return map;
+  } catch (e) {
+    console.warn('Failed to load item templates:', e);
+    return null;
+  }
+}
+
+// 範本的每個 ID 都必須是物品資料中的非裝備品，且不是「離開」佔位；有任何一筆不符就整份不採用。
+function templatesMatchCategory(map) {
+  for (const id of map.keys()) {
+    if (!isNonEquipmentId(id) || isLeavePlaceholder(id)) return false;
+  }
+  return true;
 }
 
 function renderCharList() {
@@ -442,11 +660,21 @@ function renderItems() {
     }, '編輯')
   ));
 
+  if (editMode) {
+    panel.appendChild(el('div', {class: 'unverified-note', role: 'note'},
+      `⚠️ ${UNVERIFIED_MSG}。新增只能加在這個角色的第一個空格；新增與換入只限有範本的非裝備品；` +
+      '裝備類物品只能改價格或刪除。'));
+  }
+  if (editMode && !canAddOrChangeId()) {
+    panel.appendChild(el('div', {class: 'load-warning', role: 'status'}, `${addDisabledMsg()}。`));
+  }
+
   // edit panel (if a slot is being edited)
   if (editingSlot && editingSlot.char === activeChar) {
     panel.appendChild(renderEditPanel());
   }
 
+  const firstEmpty = firstEmptySlot(activeChar);
   const grid = el('div', {class: 'items-grid'});
   for (const item of items) {
     const slotClass = 'item-slot' + (item.empty ? ' empty' : '') + (editMode ? ' editable' : '');
@@ -456,28 +684,36 @@ function renderItems() {
     }} : null;
 
     if (item.empty) {
+      let emptyHint = '';
+      if (editMode) {
+        if (!canAddOrChangeId()) emptyHint = '（新增已停用）';
+        else if (canAddAt(activeChar, item.slot)) emptyHint = ' ▸ 點擊新增';
+        else emptyHint = `（只能從第一個空格 slot ${firstEmpty} 新增）`;
+      }
       grid.appendChild(el('div', {class: slotClass, on: handlers},
-        el('div', {class: 'slot-num'}, `slot ${item.slot}`),
-        el('div', {class: 'item-name'}, '(空)' + (editMode ? ' ▸ 點擊新增' : ''))
+        el('div', {class: 'slot-num'}, `slot ${item.slot} · 空格`),
+        el('div', {class: 'item-name'}, '(空)' + emptyHint)
       ));
     } else {
-      const name = itemNames[item.itemId] || `(unknown id ${item.itemId})`;
+      const name = (itemNames[item.itemId] || `(unknown id ${item.itemId})`) +
+        (isLeavePlaceholder(item.itemId) ? '（商店選單的佔位，不是物品）' : '');
       const tile = el('div', {class: slotClass, on: handlers},
-        el('div', {class: 'slot-num'}, `slot ${item.slot}`),
+        el('div', {class: 'slot-num'}, `slot ${item.slot} · ${categoryLabel(item.itemId)}`),
         el('div', {class: 'item-name'}, name + (editMode ? ' ▸' : '')),
         el('div', {class: 'item-id'}, `id #${item.itemId}`),
-        el('div', {class: 'item-value'}, `value2: ${item.value2}`),
-        el('div', {class: 'item-value'}, item.modifiersAllZero ? 'mod: (無)' : `mod: ${item.modifiersHex.replace(/ /g,'')}`)
+        el('div', {class: 'item-value'}, `value2: ${item.value2}`)
       );
       // 進階 byte 8-47 結構（摺疊）
       const adv = el('details', {class: 'slot-adv', style: 'margin-top: 6px; font-size: 11px;'});
       const sum = el('summary', {style: 'cursor: pointer; color: var(--phosphor-dim);'}, '▸ 進階 byte 8-47');
       adv.appendChild(sum);
       const advBody = el('div', {style: 'margin-top: 6px; font-family: monospace; line-height: 1.6; color: var(--phosphor);'});
-      advBody.appendChild(el('div', null, `b8-15  modifier ID: ${item.modifiersHex}`));
-      advBody.appendChild(el('div', null, `b16-23 屬性數值區: ${item.propValuesHex}`));
-      advBody.appendChild(el('div', null, `b24-27 marker:     ${item.markerHex}`));
-      advBody.appendChild(el('div', null, `b28-35 屬性 mod:   ${item.modValuesHex}`));
+      advBody.appendChild(el('div', null, `b8-15  種類資料:   ${item.typeHex}`));
+      advBody.appendChild(el('div', null, `b16-19 攻擊 目前/上限: ${item.atkHex}`));
+      advBody.appendChild(el('div', null, `b20-25 防禦 目前/上限: ${item.defHex}`));
+      advBody.appendChild(el('div', null, `b26-27 用途未明:   ${item.b26Hex}`));
+      advBody.appendChild(el('div', null, `b28-36 魔法資料:   ${item.magicHex}`));
+      advBody.appendChild(el('div', null, `b37-47:            ${item.tailHex}`));
       adv.appendChild(advBody);
       adv.addEventListener('click', (e) => e.stopPropagation()); // 防止 click 觸發 edit
       tile.appendChild(adv);
@@ -503,96 +739,240 @@ function renderEditPanel() {
   const isEmpty = item.empty;
 
   const panel = el('div', {class: 'edit-panel'});
-  panel.appendChild(el('h4', null, `編輯 角色 #${String(char).padStart(3, '0')} slot ${slot}` + (isEmpty ? '（新增）' : '')));
+  panel.appendChild(el('h4', null, `編輯 角色 #${String(char).padStart(3, '0')} slot ${slot} · ` +
+    (isEmpty ? '空格（新增）' : categoryLabel(item.itemId))));
 
-  // Item ID input
-  const idInput = el('input', {type: 'number', min: '1', max: '456',
-    value: isEmpty ? '1' : String(item.itemId), id: 'edit-id'});
-  const searchResult = el('div', {class: 'item-search-result', id: 'edit-search-result'});
+  const closePanel = () => { editingSlot = null; renderAll(); };
 
-  function updateSearch() {
-    const v = parseInt(idInput.value, 10);
-    if (v >= 1 && v <= 456) {
-      const name = itemNames[v] || '(無名稱)';
-      searchResult.textContent = `→ ${name}`;
-    } else {
-      searchResult.textContent = '(無效 ID，範圍 1-456)';
+  // 空格不能新增時（資料不齊，或不是第一個空格），面板只說明原因。
+  if (isEmpty) {
+    let reason = null;
+    if (!canAddOrChangeId()) reason = '這一格目前無法新增物品，原因見上方說明。';
+    else if (!canAddAt(char, slot)) reason = `${notFirstEmptyMsg(char)}。`;
+    if (reason !== null) {
+      panel.appendChild(el('div', {class: 'item-search-result', id: 'edit-slot-note', role: 'status'}, reason));
+      panel.appendChild(el('div', {class: 'actions'}, el('button', {on: {click: closePanel}}, '取消')));
+      return panel;
     }
   }
-  idInput.addEventListener('input', updateSearch);
-  setTimeout(updateSearch, 0);
+
+  // item ID 欄可改的條件：範本與物品資料齊全，而且這一格是第一個空格或放著非裝備品。
+  // 其他情況一律鎖定，只能改同一件物品的 value2；強行改 ID 後儲存會提示這段原因並還原欄位。
+  const idEditable = canAddOrChangeId() && (isEmpty || isNonEquipmentId(item.itemId));
+  function lockedReason() {
+    if (!canAddOrChangeId()) return addDisabledMsg();
+    return isEquipmentId(item.itemId) ? EQUIP_SLOT_MSG : UNKNOWN_SLOT_MSG;
+  }
+
+  // 開啟面板當下的快照（0-455；新增時預設為有範本的最小 ID，value2 帶入該物品價格）。
+  // 輸入過程只改畫面上的欄位，檔案內容要等按下儲存且驗證通過才寫入；
+  // 驗證失敗時兩個欄位都回到這組快照。
+  const snapId = isEmpty ? defaultNewItemId() : item.itemId;
+  const snapValue2 = isEmpty ? priceOf(snapId) : item.value2;
+  const idInput = el('input', {type: 'number', min: String(ITEM_ID_MIN), max: String(ITEM_ID_MAX), step: '1',
+    value: String(snapId), id: 'edit-id'});
+  const value2Input = el('input', {type: 'number', min: '0', max: String(VALUE2_MAX), step: '1',
+    value: '', id: 'edit-value2'});
+  const searchResult = el('div', {class: 'item-search-result', id: 'edit-search-result'});
+  const value2Hint = el('div', {class: 'item-search-result', id: 'edit-value2-hint', role: 'status'});
+  let value2Touched = false; // 使用者手動改過 value2 就不再自動帶入價格
+
+  if (!idEditable) idInput.disabled = true;
+
+  // 自動帶入的 value2 只看「目前的 ID」，不受逐鍵輸入時經過的中間值影響：
+  // 回到快照的 ID、ID 暫時不合法或是「離開」佔位時顯示快照值，其他合法 ID 顯示該物品價格。
+  // 換成別的物品卻查不到價格時回傳 null，欄位清空要求手動輸入，不沿用舊物品的值。
+  function autoValue2(id) {
+    if (id === null || id === snapId || isLeavePlaceholder(id)) return snapValue2;
+    return priceOf(id);
+  }
+
+  function showValue2(v) {
+    value2Input.value = v === null ? '' : String(v);
+    value2Hint.textContent = v === null ? PRICE_MISSING_MSG : '';
+  }
+
+  function restoreSnapshot() {
+    idInput.value = String(snapId);
+    showValue2(snapValue2);
+    value2Touched = false;
+    updateSearch();
+  }
+
+  function updateSearch() {
+    const v = parseIntField(idInput.value, ITEM_ID_MIN, ITEM_ID_MAX);
+    if (v !== null && isLeavePlaceholder(v)) {
+      searchResult.textContent = `(${LEAVE_PLACEHOLDER_MSG}，無法儲存)`;
+    } else if (v !== null) {
+      const name = itemNames[v] || '(無名稱)';
+      const price = priceOf(v);
+      let text = `→ ${name}` + (price !== null ? `（價格 ${price}）` : '');
+      if (isEmpty || v !== snapId) {
+        if (isEquipmentId(v)) {
+          text += `（${EQUIP_ITEM_MSG}）`;
+        } else if (!(isNonEquipmentId(v) && itemTemplates && itemTemplates.has(v))) {
+          text += `（沒有可參考的完整格式，無法${isEmpty ? '新增' : '換成這件物品'}）`;
+        }
+      }
+      searchResult.textContent = text;
+    } else {
+      searchResult.textContent = `(無效 ID，範圍 ${ITEM_ID_MIN}-${ITEM_ID_MAX} 的整數)`;
+    }
+  }
+  idInput.addEventListener('input', () => {
+    updateSearch();
+    if (!value2Touched) showValue2(autoValue2(parseIntField(idInput.value, ITEM_ID_MIN, ITEM_ID_MAX)));
+  });
+  value2Input.addEventListener('input', () => { value2Touched = true; value2Hint.textContent = ''; });
+  showValue2(snapValue2);
+  updateSearch();
 
   panel.appendChild(el('div', {class: 'row'},
     el('label', {for: 'edit-id'}, 'item ID:'),
     idInput
   ));
   panel.appendChild(searchResult);
+  if (!idEditable) {
+    panel.appendChild(el('div', {class: 'item-search-result', id: 'edit-lock-note', role: 'status'}, `${lockedReason()}。`));
+  } else {
+    panel.appendChild(el('div', {class: 'item-search-result'}, `${UNVERIFIED_MSG}。`));
+  }
 
   panel.appendChild(el('div', {class: 'row'},
     el('label', {for: 'edit-value2'}, 'value2:'),
-    el('input', {type: 'number', min: '0', max: '99999999',
-      value: isEmpty ? '0' : String(item.value2), id: 'edit-value2'})
+    value2Input
   ));
+  panel.appendChild(value2Hint);
 
   // Actions
   const actions = el('div', {class: 'actions'});
   actions.appendChild(el('button', {class: 'primary', on: {click: () => {
-    const newId = parseInt($('edit-id').value, 10);
-    const newValue2 = parseInt($('edit-value2').value, 10);
-    if (newId < 1 || newId > 456 || isNaN(newId)) {
-      alert('item ID 必須在 1-456 範圍內'); return;
+    const typedId = parseIntField(idInput.value, ITEM_ID_MIN, ITEM_ID_MAX);
+    // ID 欄鎖定時只能改同一件物品的 value2：欄位內容與這一格目前的 ID 不同就拒絕並還原，不寫入任何 byte
+    if (!idEditable && typedId !== snapId) {
+      alert(`${lockedReason()}。\n\n` +
+        'item ID 與 value2 都已還原成開啟編輯時的值，檔案沒有任何變動。');
+      restoreSnapshot();
+      return;
     }
-    if (newValue2 < 0 || isNaN(newValue2)) {
-      alert('value2 必須 ≥ 0'); return;
+    // 不合法就拒絕寫入並把欄位還原，不做靜默繞回或截斷
+    const newId = typedId;
+    if (newId === null) {
+      alert(`item ID 必須是 ${ITEM_ID_MIN}-${ITEM_ID_MAX} 的整數（空白、小數都不接受）。\n\n` +
+        'item ID 與 value2 都已還原成開啟編輯時的值，檔案沒有任何變動。');
+      restoreSnapshot();
+      return;
     }
-    saveSlot(char, slot, newId, newValue2);
-    editingSlot = null;
-    renderAll();
+    if (isLeavePlaceholder(newId)) {
+      alert(`${LEAVE_PLACEHOLDER_MSG}。\n\n` +
+        'item ID 與 value2 都已還原成開啟編輯時的值，檔案沒有任何變動。');
+      restoreSnapshot();
+      return;
+    }
+
+    // 新增或換成別的物品：位置與目標物品要符合 writeRuleError 的規則，整格 48 bytes 換成該物品的範本。
+    const changesId = isEmpty || newId !== snapId;
+    if (changesId) {
+      const err = writeRuleError(char, slot, newId);
+      if (err !== null) {
+        alert(`${err}。\n\n檔案沒有任何變動。`);
+        return;
+      }
+    }
+
+    const price = changesId ? priceOf(newId) : null;
+    const newValue2 = parseIntField(value2Input.value, 0, VALUE2_MAX);
+    if (newValue2 === null) {
+      alert((changesId && price === null ? `${PRICE_MISSING_MSG}。` : '') +
+        `value2 必須是 0-${VALUE2_MAX} 的整數（空白、小數都不接受）。檔案沒有任何變動。`);
+      showValue2(autoValue2(newId));
+      value2Touched = false;
+      return;
+    }
+    if (newId === 0 && newValue2 === 0) {
+      // id 0 加 value2 0 就是空格的格式，寫入後物品會直接消失
+      alert('item ID 0 搭配 value2 0 會被讀成空格。value2 請填入物品價格。');
+      return;
+    }
+
+    if (changesId) {
+      // 樣本存檔裡每件物品的 value2 都等於它的價格；手動輸入的值要再確認一次
+      const name = itemNames[newId] || `id ${newId}`;
+      if (price === null) {
+        if (!confirm(`查不到「${name}」的價格資料，value2 會寫入你手動輸入的 ${newValue2}。\n\n確定要寫入嗎？`)) return;
+      } else if (newValue2 !== price) {
+        if (!confirm(`你輸入的 value2 是 ${newValue2}，與「${name}」的價格 ${price} 不同。\n` +
+          '樣本存檔中每件物品的 value2 都等於它的價格。\n\n' +
+          `確定要寫入 ${newValue2} 嗎？`)) return;
+      }
+      if (!writeItemRecord(char, slot, newId, newValue2)) {
+        alert('寫入規則檢查沒有通過，檔案沒有任何變動。');
+        return;
+      }
+    } else if (newValue2 !== item.value2) {
+      writeValue2(char, slot, newValue2);
+    }
+    closePanel();
   }}}, '✓ 儲存'));
 
   if (!isEmpty) {
     actions.appendChild(el('button', {class: 'danger', on: {click: () => {
-      if (confirm(`確定要刪除 slot ${slot} 的物品？`)) {
+      const delName = itemNames[item.itemId] || `id ${item.itemId}`;
+      const hasLater = chritemData[char].some(i => i.slot > slot && !i.empty);
+      const parts = [`確定要刪除 slot ${slot} 的物品「${delName}」？`];
+      if (!isNonEquipmentId(item.itemId)) {
+        parts.push('請先在遊戲內卸下裝備：如果這件物品正裝備在角色身上，刪除後角色資料仍會指向這一格。');
+      }
+      parts.push('刪除會把這一格的 48 bytes 全部清成 0（與遊戲本身的空格格式相同）。');
+      if (hasLater) parts.push(`${HOLE_MSG}。請先在備份存檔上測試。`);
+      if (confirm(parts.join('\n\n'))) {
         clearSlot(char, slot);
-        editingSlot = null;
-        renderAll();
+        closePanel();
       }
     }}}, '✗ 刪除'));
   }
-  actions.appendChild(el('button', {on: {click: () => {
-    editingSlot = null;
-    renderAll();
-  }}}, '取消'));
+  actions.appendChild(el('button', {on: {click: closePanel}}, '取消'));
 
   panel.appendChild(actions);
   return panel;
 }
 
-function saveSlot(char, slot, itemId, value2) {
-  // Update both originalBuffer and chritemData
-  const view = new DataView(originalBuffer);
+// 新增物品或更換物品 ID：整格 48 bytes 換成該物品的範本，再寫入 item ID（byte 0-3）與 value2（byte 4-7）。
+// 範本取自樣本存檔中同一件非裝備品的紀錄，避免留下舊物品或空格殘留的 byte 8-47。
+// 位置或目標物品不符合 writeRuleError 的規則、或 value2 不合法時不寫入並回傳 false。
+// 寫入後重新解析這一格，畫面顯示的就是檔案裡實際的內容。
+function writeItemRecord(char, slot, itemId, value2) {
+  if (writeRuleError(char, slot, itemId) !== null) return false;
+  if (!Number.isInteger(value2) || value2 < 0 || value2 > VALUE2_MAX) return false;
+  const template = itemTemplates.get(itemId);
+  if (!(template instanceof Uint8Array) || template.length !== 48) return false;
   const off = char * 768 + slot * 48;
+  new Uint8Array(originalBuffer, off, 48).set(template);
+  const view = new DataView(originalBuffer);
   view.setUint32(off, itemId, true);
   view.setUint32(off + 4, value2, true);
+  chritemData[char][slot] = parseSlot(originalBuffer, char, slot);
+  changesCount++;
+  updateDownloadBar();
+  return true;
+}
 
-  const item = chritemData[char][slot];
-  item.empty = false;
-  item.itemId = itemId;
-  item.value2 = value2;
-  // modifiers/extra preserved from original (or zero if was empty)
-
+// 同一件物品只改 value2：只寫 byte 4-7，這一格其餘 44 bytes 不動。
+function writeValue2(char, slot, value2) {
+  const off = char * 768 + slot * 48;
+  new DataView(originalBuffer).setUint32(off + 4, value2, true);
+  chritemData[char][slot] = parseSlot(originalBuffer, char, slot);
   changesCount++;
   updateDownloadBar();
 }
 
 function clearSlot(char, slot) {
-  const view = new DataView(originalBuffer);
   const off = char * 768 + slot * 48;
-  // mark as empty: 0xFFFFFFFF item_id
-  view.setUint32(off, 0xFFFFFFFF, true);
-  view.setUint32(off + 4, 0xFFFFFFFF, true);
+  // 整格 48 bytes 清成 0x00：遊戲本身的空格就是這個格式（樣本檔 556 個空格全部如此）。
+  // 不把後面的物品往前搬：角色資料可能以 slot 編號引用裝備，搬動會讓引用錯位。
+  new Uint8Array(originalBuffer, off, 48).fill(0);
 
-  chritemData[char][slot] = {slot, empty: true};
+  chritemData[char][slot] = parseSlot(originalBuffer, char, slot);
   changesCount++;
   updateDownloadBar();
 }
@@ -636,7 +1016,14 @@ async function handleFile(file) {
     // Make a mutable copy for edits
     originalBuffer = buffer.slice(0);
     chritemData = parseChritem(originalBuffer);
-    itemNames = await loadItemNames();
+    const [loaded, templates] = await Promise.all([loadItemNames(), loadTemplates()]);
+    itemNames = loaded.names;
+    itemPrices = loaded.prices;
+    itemCategory = loaded.categories;
+    gameDataOk = loaded.ok;
+    leavePlaceholderIds = new Set([...LEAVE_PLACEHOLDER_FALLBACK, ...loaded.leaveIds]);
+    // 物品資料載入成功時才能確認範本的 ID 都是非裝備品；確認不過就整份不採用。
+    itemTemplates = templates && gameDataOk && !templatesMatchCategory(templates) ? null : templates;
     changesCount = 0;
     editMode = false;
     editingSlot = null;

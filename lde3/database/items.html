@@ -100,7 +100,7 @@ function buildRangeTabs() {
   while (tabs.firstChild) tabs.removeChild(tabs.firstChild);
 
   const ranges = [
-    { key: 'all', label: '全部 (215)', test: () => true },
+    { key: 'all', label: '全部', test: () => true },
     { key: '0-49', label: 'ID 0-49', test: it => it.id < 50 },
     { key: '50-99', label: 'ID 50-99', test: it => it.id >= 50 && it.id < 100 },
     { key: '100-149', label: 'ID 100-149', test: it => it.id >= 100 && it.id < 150 },

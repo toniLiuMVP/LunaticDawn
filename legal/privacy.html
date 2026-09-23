@@ -56,7 +56,7 @@
     <li>❌ 無使用者帳號 / 註冊 / 登入</li>
     <li>❌ 無評論系統 / 不收集表單資料</li>
     <li>❌ 無廣告 / 無聯盟行銷 tracking</li>
-    <li>⚠️ <strong>唯一的例外</strong>：俠客遊 IV 存檔修改器會用瀏覽器的 <code>localStorage</code> 記住你自己設定的欄位與套餐（詳見下方「本機儲存」一節）。這些資料<strong>只存在你自己的瀏覽器裡</strong>，不會傳給任何人，也不是 cookie。</li>
+    <li>⚠️ <strong>例外只有俠客遊 IV 存檔修改器</strong>(詳見下方 1.5):(1) 用瀏覽器的 <code>localStorage</code> 記住你自己設定的欄位與套餐;(2) 離線快取修改器頁面;(3) 你按下「連線 Live Bridge」時才連到你自己電腦上的 bridge 程式。這些資料<strong>只存在你自己的電腦上</strong>，不會傳給任何人，也不是 cookie。</li>
   </ul>
   <p>本站為 toni 維護的<strong>非營利數位文化保存專案</strong>,純靜態 HTML+CSS+JS 託管於 GitHub Pages。</p>
 </section>
@@ -64,11 +64,11 @@
 <section class="panel">
   <h2 class="panel-title">[ 1. 本站運作模式 ]</h2>
   <p>「吟遊詩人的傳說 · 俠客遊」(https://toniliumvp.github.io/LunaticDawn/)是 100% 靜態網站,所有頁面為預先產生的 HTML 檔案,<strong>沒有任何伺服器端程式碼</strong>(無 PHP / Node / Python 後端)。</p>
-  <p>瀏覽本站時,你的瀏覽器只跟 <strong>GitHub Pages CDN</strong>(GitHub 提供的靜態檔案 host)通訊,<strong>本站沒有自己的伺服器</strong>。</p>
+  <p>瀏覽本站時,你的瀏覽器只跟 <strong>GitHub Pages CDN</strong>(GitHub 提供的靜態檔案 host)通訊,<strong>本站沒有自己的伺服器</strong>。你主動點擊 Steam、Google Drive、GitHub、論壇等外部連結後,瀏覽器會與該外部服務通訊(見第 4 節);在俠客遊 IV 存檔修改器按下「連線 Live Bridge」時,則會連到你自己電腦上的 bridge 程式(見 1.5)。</p>
 </section>
 
 <section class="panel">
-  <h2 class="panel-title">[ 1.5 本機儲存（localStorage） ]</h2>
+  <h2 class="panel-title">[ 1.5 本機儲存、離線快取與本機連線 ]</h2>
   <p>本站不使用 cookie，但<strong>俠客遊 IV 存檔修改器</strong>（<code>luna4/savedata-viewer.html</code>）會用瀏覽器內建的 <code>localStorage</code> 保存三項<strong>你自己建立的設定</strong>，讓你下次打開不用重設：</p>
   <ul>
     <li><code>ld4_custom_fields_v1</code>，你自己新增的存檔欄位（位址 / 編碼 / 名稱）</li>
@@ -82,15 +82,17 @@
     <li>屬於「功能性儲存」（functional storage），是你主動使用該功能所必需，不需同意橫幅</li>
     <li>隨時可清除：用瀏覽器的「清除網站資料」，或在修改器頁面上刪除你建立的欄位與套餐</li>
   </ul>
-  <p class="muted" style="font-size: 13px;">本站其他所有頁面都不寫入任何本機儲存。</p>
+  <p><strong>離線快取</strong>:開啟這個修改器時,它會安裝 Service Worker,預先快取修改器頁、manifest 與列舉資料表;之後也會快取 <code>luna4/</code> 頁面所要求的同源網頁與靜態資源(包括共用的樣式與字型),讓你離線也能打開。快取只存在你的瀏覽器,可用「清除網站資料」移除。</p>
+  <p><strong>本機連線</strong>:修改器的 Live Bridge 是進階功能,只有在你按下「連線 Live Bridge」時,瀏覽器才會連到 <code>127.0.0.1:8765</code>,也就是你自己電腦上另外執行的 bridge 程式,不會連到任何外部伺服器。新版 Chrome 與 Edge 會先詢問你是否允許。</p>
+  <p class="muted" style="font-size: 13px;">本站其他所有頁面都不寫入任何本機儲存,也不安裝 Service Worker。</p>
 </section>
 
 <section class="panel">
   <h2 class="panel-title">[ 2. 你訪問本站時會發生什麼 ]</h2>
   <p><strong>GitHub Pages 端</strong>(GitHub 平台,非本站可控):</p>
   <ul style="line-height: 1.9;">
-    <li>GitHub 為了反 DDoS / 服務維護,可能會記錄你的 IP 位址跟訪問時間到 GitHub 伺服器 log(這是 GitHub 全平台政策,跟本站無關)</li>
-    <li>詳見 <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub 平台隱私政策</a></li>
+    <li>GitHub 會為了安全目的記錄並保存訪客的 IP 位址(不論訪客是否登入 GitHub;這是 GitHub Pages 的平台做法,不是本站可以關閉的設定)</li>
+    <li>詳見 <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages#data-collection" target="_blank" rel="noopener">GitHub Pages 文件的資料收集段落</a>與 <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub 平台隱私政策</a></li>
   </ul>
   <p><strong>你的瀏覽器端</strong>:</p>
   <ul style="line-height: 1.9;">
@@ -107,7 +109,7 @@
     <li>toni 親自收讀,用於回覆你的問題</li>
     <li>不會分享給第三方</li>
     <li>不會用於行銷</li>
-    <li>不會在公開頁面揭露你的 email / 真名(本站致謝段只用網路 handle 不公開真名，詳見 <a href="../">主站致謝段</a>「跨海玩家回報」部分的處理方式)</li>
+    <li>不會在公開頁面揭露你的完整 email 與真名。<a href="../">主站致謝段</a>「跨海玩家回報」以網路代號稱呼來信玩家,部分代號取自來信信箱的帳號名稱;若你不希望以這種方式被列出,請寄信告知,toni 會撤除或改成泛稱</li>
   </ul>
   <p>若你希望 toni 不要保留或刪除你寄過的信件,請寄信告知 toni 會配合。</p>
 </section>
@@ -122,7 +124,7 @@
     <li><strong>巴哈姆特 / PTT / 第三方論壇</strong>(歷史紀錄連結)</li>
   </ul>
   <p>點擊外部連結後,你的瀏覽器跟對方網站直接通訊,<strong>本站不會記錄你點了什麼</strong>。你跳到的網站有他們自己的隱私政策,請自行閱讀。</p>
-  <p>本站所有外部連結均加 <code>rel="noopener"</code> 防止跳轉頁面取得 window.opener 引用(資安最佳實踐)。</p>
+  <p>本站以新分頁開啟的外部連結均加 <code>rel="noopener"</code>,防止新分頁取得 window.opener 引用(資安最佳實踐)。</p>
 </section>
 
 <section class="panel">
@@ -153,7 +155,7 @@
     <li>🇺🇸 COPPA(兒童線上隱私保護法)，對美國兒童訪客的合規</li>
     <li>🇯🇵 個人情報保護法，對日本訪客的友善義務</li>
   </ul>
-  <p class="muted" style="font-size: 13px;">本站不收集任何個人資料的設計從根本上滿足上述法規,無需額外的「同意 cookie」「資料處理同意書」等繁瑣機制。</p>
+  <p class="muted" style="font-size: 13px;">本站網站程式不收集訪客個人資料、不使用 cookie,所以沒有 cookie 同意視窗。你寄來的信件與致謝段的處理方式見第 3 節;想查詢、更正或刪除與你有關的內容,請寄信給 toni。</p>
 </section>
 
 <footer style="margin-top: 24px; padding-top: 12px; border-top: 1px dashed var(--phosphor-fade); text-align: center; font-size: 14px;">
@@ -162,7 +164,7 @@
     <a href="terms.html">▸ 使用條款</a> ·
     <a href="dmca.html">▸ DMCA 著作權異議</a>
   </p>
-  <p class="muted" style="font-size: 13px; margin-top: 8px;">最後更新:2026-05-13 · 維護:toni · 本站程式碼 MIT License</p>
+  <p class="muted" style="font-size: 13px; margin-top: 8px;">最後更新:2026-09-24 · 維護:toni · 本站程式碼 MIT License</p>
 </footer>
 
 </main>

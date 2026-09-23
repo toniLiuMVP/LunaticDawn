@@ -328,6 +328,8 @@ function renderFlat(key) {
 }
 
 function render() {
+  // 資料還沒到就先不動畫面；searchTerm 已記下，載入完成時會照它篩選
+  if (!data) return;
   if (activeTab === 'callname') renderCallname();
   else renderFlat(activeTab);
 }

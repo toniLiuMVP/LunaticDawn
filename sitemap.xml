@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- 主站 -->
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/</loc><lastmod>2026-09-23</lastmod><priority>1.0</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/ezplay.html</loc><lastmod>2026-08-28</lastmod><priority>0.9</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/</loc><lastmod>2026-09-24</lastmod><priority>1.0</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/ezplay.html</loc><lastmod>2026-09-24</lastmod><priority>0.9</priority></url>
 
   <!-- 俠客遊 II -->
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/</loc><lastmod>2026-09-11</lastmod><priority>0.9</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/save-editor.html</loc><lastmod>2026-08-28</lastmod><priority>0.9</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/chritem-viewer.html</loc><lastmod>2026-08-28</lastmod><priority>0.8</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/save-editor.html</loc><lastmod>2026-09-24</lastmod><priority>0.9</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/chritem-viewer.html</loc><lastmod>2026-09-24</lastmod><priority>0.8</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/shopitem-viewer.html</loc><lastmod>2026-08-28</lastmod><priority>0.8</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/savs-dashboard.html</loc><lastmod>2026-08-28</lastmod><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/lunahead-editor.html</loc><lastmod>2026-08-28</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/savs-dashboard.html</loc><lastmod>2026-09-24</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/lunahead-editor.html</loc><lastmod>2026-09-24</lastmod><priority>0.7</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/kobun-oyabun-viewer.html</loc><lastmod>2026-08-28</lastmod><priority>0.7</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/world-state-viewer.html</loc><lastmod>2026-08-28</lastmod><priority>0.7</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/guides/</loc><lastmod>2026-08-28</lastmod><priority>0.8</priority></url>
@@ -44,7 +44,7 @@
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/database/magics.html</loc><lastmod>2026-09-03</lastmod><priority>0.7</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/database/hissatsu.html</loc><lastmod>2026-09-03</lastmod><priority>0.7</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/database/dungeons.html</loc><lastmod>2026-09-03</lastmod><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/database/npcs.html</loc><lastmod>2026-07-11</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna2/database/npcs.html</loc><lastmod>2026-09-24</lastmod><priority>0.7</priority></url>
 
   <!-- 舊 Google Sites 搬遷導流頁 -->
   <url><loc>https://toniliumvp.github.io/LunaticDawn/from-old-site.html</loc><lastmod>2026-09-11</lastmod><priority>0.5</priority></url>
@@ -55,11 +55,11 @@
   <url><loc>https://toniliumvp.github.io/LunaticDawn/passage/intermediate.html</loc><lastmod>2026-06-15</lastmod><priority>0.6</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/passage/advanced.html</loc><lastmod>2026-06-15</lastmod><priority>0.6</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/passage/treasure-hunter.html</loc><lastmod>2026-06-15</lastmod><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/passage/win10-font-fix.html</loc><lastmod>2026-08-28</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/passage/win10-font-fix.html</loc><lastmod>2026-09-24</lastmod><priority>0.7</priority></url>
 
   <!-- 第三之書 (2002) — Book 三部曲第三作，獨立子站 -->
   <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/</loc><lastmod>2026-09-03</lastmod><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/modifier.html</loc><lastmod>2026-09-03</lastmod><priority>0.8</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/modifier.html</loc><lastmod>2026-09-24</lastmod><priority>0.8</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/</loc><lastmod>2026-08-28</lastmod><priority>0.7</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/getting-started.html</loc><lastmod>2026-08-28</lastmod><priority>0.6</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/install-faq.html</loc><lastmod>2026-06-12</lastmod><priority>0.6</priority></url>
@@ -71,8 +71,8 @@
   <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/quest-system.html</loc><lastmod>2026-08-28</lastmod><priority>0.6</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/modifier-tutorial.html</loc><lastmod>2026-08-28</lastmod><priority>0.6</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/guides/ii-vs-iii-systems.html</loc><lastmod>2026-06-15</lastmod><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/database/</loc><lastmod>2026-08-28</lastmod><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/database/items.html</loc><lastmod>2026-09-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/database/</loc><lastmod>2026-09-24</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/database/items.html</loc><lastmod>2026-09-24</lastmod><priority>0.7</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/database/monsters.html</loc><lastmod>2026-09-03</lastmod><priority>0.7</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/database/cards.html</loc><lastmod>2026-09-03</lastmod><priority>0.7</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/lde3/database/game-systems.html</loc><lastmod>2026-09-03</lastmod><priority>0.7</priority></url>
@@ -116,19 +116,19 @@
 
   <!-- 俠客遊 III 密技 -->
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna3/</loc><lastmod>2026-08-28</lastmod><priority>0.7</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna3/database/</loc><lastmod>2026-08-28</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna3/database/</loc><lastmod>2026-09-24</lastmod><priority>0.7</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna3/cheats.html</loc><lastmod>2026-06-15</lastmod><priority>0.5</priority></url>
 
   <!-- 俠客遊 IV -->
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/</loc><lastmod>2026-09-03</lastmod><priority>0.6</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/database/</loc><lastmod>2026-09-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/database/</loc><lastmod>2026-09-24</lastmod><priority>0.7</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/database/items.html</loc><lastmod>2026-09-03</lastmod><priority>0.6</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/database/monsters.html</loc><lastmod>2026-09-03</lastmod><priority>0.6</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/database/magics.html</loc><lastmod>2026-09-03</lastmod><priority>0.6</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/series-research.html</loc><lastmod>2026-09-03</lastmod><priority>0.8</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/exp-farming.html</loc><lastmod>2026-06-15</lastmod><priority>0.5</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/multiplayer.html</loc><lastmod>2026-06-15</lastmod><priority>0.5</priority></url>
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/savedata-viewer.html</loc><lastmod>2026-09-11</lastmod><priority>1.0</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/savedata-viewer.html</loc><lastmod>2026-09-24</lastmod><priority>1.0</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/ld4_enum_table.json</loc><lastmod>2026-06-12</lastmod><priority>0.3</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/luna4/database/ld4_magic_zh.json</loc><lastmod>2026-06-16</lastmod><priority>0.3</priority></url>
 
@@ -142,7 +142,7 @@
   <url><loc>https://toniliumvp.github.io/LunaticDawn/general/community.html</loc><lastmod>2026-08-28</lastmod><priority>0.5</priority></url>
 
   <!-- 歷史檔案庫（46 個社群歷史下載檔索引）-->
-  <url><loc>https://toniliumvp.github.io/LunaticDawn/files/</loc><lastmod>2026-09-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://toniliumvp.github.io/LunaticDawn/files/</loc><lastmod>2026-09-24</lastmod><priority>0.6</priority></url>
   <url><loc>https://toniliumvp.github.io/LunaticDawn/files/lde3/</loc><lastmod>2026-08-28</lastmod><priority>0.5</priority></url>
   <url>
     <loc>https://toniliumvp.github.io/LunaticDawn/passage/manual-tc.html</loc>
@@ -152,19 +152,19 @@
   </url>
   <url>
     <loc>https://toniliumvp.github.io/LunaticDawn/legal/privacy.html</loc>
-    <lastmod>2026-09-03</lastmod>
+    <lastmod>2026-09-24</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://toniliumvp.github.io/LunaticDawn/legal/terms.html</loc>
-    <lastmod>2026-09-03</lastmod>
+    <lastmod>2026-09-24</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://toniliumvp.github.io/LunaticDawn/legal/dmca.html</loc>
-    <lastmod>2026-09-03</lastmod>
+    <lastmod>2026-09-24</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>

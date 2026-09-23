@@ -224,9 +224,15 @@
       <div id="not-search-results" class="hex-viewer" style="display: none; max-height: 200px;"></div>
     </div>
 
-    <div class="viewer-panel" id="ram-bridge-panel" style="border: 2px solid var(--phosphor); display: none;">
-      <h3 style="color: var(--phosphor);">★★★★ 即時記憶體模式(v0.8，bridge connected,超越 2000 神之眼)</h3>
-      <p class="hint">偵測到 <code>http://127.0.0.1:<span id="rb-port">8765</span>/</code> LD4 Live Bridge 在跑 → 直接讀寫 LD4.exe 正在跑的記憶體(不用存檔)。等效神之眼但跨平台 + 零安裝 + 0 admin。</p>
+    <div class="viewer-panel" id="ram-bridge-panel" style="border: 2px solid var(--phosphor);">
+      <h3 style="color: var(--phosphor);">★★★★ 即時記憶體模式(v0.8，Live RAM Bridge)</h3>
+      <p class="hint">進階功能，需要在本機另外執行 bridge 程式。<strong>bridge 程式目前還沒有開放下載</strong>，完成實機測試後會放上，屆時這裡會附上下載方式與說明。按下「連線 Live Bridge」才會嘗試連到你自己電腦上的 <code>http://127.0.0.1:8765/</code>；沒按就不會發出任何本機連線。</p>
+      <div class="toolbar">
+        <button id="rb-connect-btn" type="button">🔗 連線 Live Bridge</button>
+        <span class="hint" id="rb-connect-status" aria-live="polite" style="margin:0;"></span>
+      </div>
+      <div id="rb-connected-controls" style="display: none;">
+      <p class="hint">已連到 <code>http://127.0.0.1:<span id="rb-port">8765</span>/</code> LD4 Live Bridge → 讀取 LD4.exe 正在跑的記憶體(不用存檔)；Windows 版另外可以直接寫入，Linux 版只能讀取與掃描。零安裝、不需系統管理員權限。</p>
       <div id="rb-status-box" aria-live="polite" class="hex-viewer" style="max-height: 80px; margin-bottom: 8px;"></div>
 
       <h4 style="color: var(--phosphor); margin-top: 12px;">▸ Step 1:掃 RAM anchor(找你看到的數值在 LD4 process 哪)</h4>
@@ -258,7 +264,8 @@
 
       <div class="note-warn" style="margin-top: 12px;">
         ⚠ <strong>ASLR 提醒</strong>:每次重啟 LD4,玩家結構在 RAM 不同位置，每個遊戲 session 開頭都要重新掃 anchor。這是 Cheat Engine 也有的限制。<br>
-        ⚠ <strong>Bridge 是 native process</strong>:啟動指令見 <code>LD4_EZ/tools/live_bridge/README.txt</code>(Windows 雙擊 <code>Start_Bridge_Windows.bat</code> / Mac/Linux 跑 <code>Start_Bridge_Mac_Linux.command</code>)
+        ⚠ <strong>Bridge 是 native process</strong>:啟動指令見 <code>LD4_EZ/tools/live_bridge/README.txt</code>(Windows 雙擊 <code>Start_Bridge_Windows.bat</code> / Linux 執行 <code>Start_Bridge_Mac_Linux.command</code>，只能讀取與掃描；macOS 目前無法使用)
+      </div>
       </div>
     </div>
 
@@ -278,7 +285,7 @@
         <span class="hint" id="wiz-enum-status" style="margin:0;"></span>
       </div>
       <div class="toolbar" style="margin-top: 8px; align-items: flex-start;">
-        <label style="color: var(--phosphor-dim); padding-top: 6px;">★★ 多字串 cross-correlate(v1.5):</label>
+        <label style="color: var(--phosphor-dim); padding-top: 6px;">★★ 多字串 cross-correlate(v1.5，實驗性):</label>
         <textarea id="wiz-xc-text" aria-label="cross-correlate 多字串輸入（每行一個）" rows="3" cols="32" placeholder="每行一個 enum 字串 / 數值,例:&#10;正常&#10;熱血漢&#10;7" style="background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-dim); font-family: 'VT323', monospace; font-size: 13px; padding: 4px 8px;"></textarea>
         <div style="display: flex; flex-direction: column; gap: 4px;">
           <label style="color: var(--phosphor-dim); font-size: 12px;">window 大小(v1.6):
@@ -337,7 +344,7 @@
         <button id="cf-clear-btn" class="ghost" type="button" style="color: var(--amber);">清空</button>
       </div>
       <div class="note-warn" style="margin-top: 10px;">
-        ⚠ 自訂欄位的「新值」會在你按 <strong>下載修改後存檔</strong> 時統一寫入 buffer。建議:每次 confirm 新欄位後立刻匯出 JSON 備份,避免清快取丟失。
+        ⚠ 每列按 <strong>「套用」</strong> 才會把「新值」寫進存檔內容；下載或直接覆蓋只會輸出已套用的內容，輸入框裡還沒按套用的數字不會被寫進去。建議:每次 confirm 新欄位後立刻匯出 JSON 備份,避免清快取丟失。
       </div>
     </div>
 
@@ -345,7 +352,7 @@
       <h3>★ Undo / Redo + Batch Preset(v1.0)</h3>
       <p class="hint">
         <strong>Undo / Redo</strong>:每次「套用」金錢編輯 / 自訂欄位 / preset 都會 snapshot buf,可一鍵復原 / 重做(最近 50 步)。鍵盤捷徑:<code>Ctrl/Cmd+Z</code> = undo,<code>Ctrl/Cmd+Shift+Z</code> = redo。<br>
-        <strong>Batch Preset</strong>:把目前所有自訂欄位的「新值」存成一個 preset,之後一鍵套用整套(localStorage 持久化)。內建「重置金錢」「神級套餐」等。
+        <strong>Batch Preset</strong>:把目前所有自訂欄位「目前存檔裡的值」存成一個 preset,之後一鍵套用整套(localStorage 持久化)。內建幾組金錢套餐(新手 / 中期 / 上限 / 歸零)。套用時會逐欄檢查 offset 與數值範圍，不合法的欄位會略過並顯示實際套用數。
       </p>
       <div class="toolbar">
         <button id="btn-undo" type="button" disabled>↶ Undo(<span id="undo-count">0</span>)</button>
@@ -444,6 +451,7 @@
       <button id="btn-fsa-save" type="button" style="background: var(--phosphor); color: var(--bg); border: 1px solid var(--phosphor); padding: 6px 14px; font-family: 'VT323', monospace; font-size: 15px; cursor: pointer; display: none;">★ 💾 直接覆蓋原檔(v0.7)</button>
       <button id="btn-download" type="button" style="background: var(--amber); color: var(--bg); border: 1px solid var(--amber); padding: 6px 14px; font-family: 'VT323', monospace; font-size: 15px; cursor: pointer;">💾 下載修改後存檔</button>
       <button id="btn-reset" class="ghost" type="button">↺ 重新載入另一個檔案</button>
+      <span class="hint" id="download-hint" style="margin:0; flex-basis: 100%;">下載的檔名與你載入的原檔相同。覆蓋回遊戲存檔資料夾(Usr/)時，檔名必須是 <code>LDTSVn.dat</code>(n 是存檔槽號)；瀏覽器若自動加上「(1)」之類的字，請改回原檔名，覆蓋前先備份原檔。</span>
     </div>
 
   </div>
@@ -694,9 +702,8 @@ function buildHeatmap() {
     '每格 ≈ ' + blockSize.toLocaleString() + ' bytes。亮 = 高 entropy（物件圖密集區）、暗 = 低 entropy（header / padding / sparse）。點一格看 hex。';
 }
 
-// 更新檔案資訊列(檔名 / 大小 / magic)。原本這段只寫在 handleFile 裡,
-// 其他載入路徑(FSA 連檔、槽位切換、自動重讀、Undo、套用套餐)都呼叫一個
-// 不存在的 renderInfo(),於是不是直接 ReferenceError 就是被 typeof 防護吃掉。
+// 更新檔案資訊列(檔名 / 大小 / magic)。所有載入路徑共用這一支：
+// 拖放載入、FSA 連檔、槽位切換、自動重讀、Undo、套用套餐。
 function renderInfo() {
   if (!buf) return false;
   let magicStr = '';
@@ -717,6 +724,23 @@ function renderInfo() {
   return magicOk;
 }
 
+// 改用拖放 / 點選 / 另一個一鍵連檔載入別的檔之前呼叫：斷開單檔連線，
+// 8 槽模式則退出作用中的格位(各槽的 buffer 與未存修改都保留，點卡片可以切回來)。
+// 否則「直接覆蓋原檔」會把新載入的內容寫進先前連著的那個檔。
+function fsaDetachCurrent() {
+  if (ms8ActiveIdx >= 0) {
+    const s = ms8Slots.find(x => x.idx === ms8ActiveIdx);
+    if (s && s.buf === buf) s.modified = modified;
+    ms8ActiveIdx = -1;
+    ms8RenderGrid();
+  }
+  fsaStopPoll();
+  fsaFileHandle = null;
+  fsaBaseMtime = null;
+  fsaBaseSize = null;
+  $('btn-fsa-save').style.display = 'none';
+}
+
 function handleFile(file) {
   try {
     const MIN_SIZE = LD_MIN_SIZE;
@@ -726,6 +750,7 @@ function handleFile(file) {
         ' bytes)。LDTSV*.dat 應在 ' + MIN_SIZE + ' bytes ~ 8 MB 之間。');
     }
     file.arrayBuffer().then(ab => {
+      fsaDetachCurrent();
       buf = new Uint8Array(ab);
       dv = new DataView(ab);
       fileName = file.name;
@@ -738,6 +763,7 @@ function handleFile(file) {
       populatePlayerFields();        // v0.3，自動填 player struct 候選表
       modified = false;
       $('modified-indicator').style.display = 'none';
+      pruneHistory();                // 換了 buffer:舊檔的 undo 紀錄不能套到新檔
       $('not-search-results').style.display = 'none';
       $('not-search-status').textContent = '';
       $('not-u8-search-results').style.display = 'none';   // v0.4
@@ -800,8 +826,25 @@ $('hex-jump-btn').addEventListener('click', () => {
 
 // ===== v0.3: edit + apply + download =====
 let modified = false;
+// 8 槽模式下「已修改」要同時記在作用中的槽位上：ms8RefreshAll 的
+// 「有未存修改就不重讀」判斷讀的是 slot.modified,只寫全域 modified 它看不到,
+// 遊戲一存檔就會把玩家還沒寫回的修改靜默蓋掉。
+function syncActiveSlotModified() {
+  if (ms8ActiveIdx < 0) return;
+  const slot = ms8Slots[ms8ActiveIdx];
+  if (!slot || slot.buf !== buf) return;
+  if (slot.modified !== modified) {
+    slot.modified = modified;
+    ms8RenderGrid();
+  }
+}
+// 每次編輯都加 1。自動重讀在 await 讀檔期間若這個數字變了，代表玩家剛好在改，
+// 這次就不重讀，避免把剛做的修改整份蓋掉。
+let editGen = 0;
 function markModified() {
+  editGen++;
   modified = true;
+  syncActiveSlotModified();
   $('modified-indicator').style.display = 'inline';
   $('status').textContent = '已有未下載的修改';
   $('status').style.color = 'var(--amber)';
@@ -815,11 +858,16 @@ $('money-apply').addEventListener('click', () => {
     alert('這個檔案太短（' + buf.length + ' bytes），沒有金錢欄位（需要至少 ' + 0x00c8c0 + ' bytes）。請確認選到的是 LDTSV*.dat。');
     return;
   }
-  const v = parseInt($('money-edit').value, 10);
-  if (isNaN(v) || v < 0 || v > 65535) {
-    alert('金錢值需在 0-65535 範圍內(u16 LE)');
+  // Number + isInteger instead of parseInt: parseInt('1e7') is 1 and parseInt('3.9') is 3,
+  // both of which would be written silently. An empty box is refused rather than read as 0.
+  const moneyStr = String($('money-edit').value).trim();
+  const v = Number(moneyStr);
+  if (moneyStr === '' || !Number.isInteger(v) || v < 0 || v > 65535) {
+    alert('金錢值需為 0-65535 的整數(u16 LE)');
     return;
   }
+  // undo 紀錄在驗證通過之後才建立：輸入不合法時不留紀錄，也不會清掉 redo
+  pushUndo('改金錢');
   // write NOT(v) as u16 LE at 0x00c8be
   const notV = (~v) & 0xffff;
   buf[0x00c8be] = notV & 0xff;
@@ -839,14 +887,15 @@ $('btn-download').addEventListener('click', () => {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  // 加 timestamp 避免覆蓋原檔
-  const ts = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
-  a.download = fileName.replace(/\.dat$/i, '') + '_modified_' + ts + '.dat';
+  // 用原檔名下載：遊戲只認 LDTSVn.dat,檔名多了其他字遊戲就讀不到
+  const dlName = fileName || 'LDTSV0.dat';
+  a.download = dlName;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
-  $('status').textContent = '✓ 已下載修改版，覆蓋遊戲 usr/ 前請備份原檔';
+  $('status').textContent = '✓ 已下載 ' + dlName + '。覆蓋回遊戲存檔資料夾時檔名必須是 LDTSVn.dat(這個檔是 ' + dlName +
+    ')，瀏覽器若自動改名請改回來，覆蓋前請先備份原檔';
   $('status').style.color = 'var(--phosphor)';
 });
 
@@ -1033,6 +1082,21 @@ $('not-search-btn').addEventListener('click', () => {
 
 $('btn-reset').addEventListener('click', () => {
   buf = null; dv = null; fileName = ''; hexPage = 0;
+  // 多槽模式也一起收掉：否則 3 秒輪詢會在重置後把作用中槽位的 buffer 塞回 buf,
+  // 蓋掉之後拖進來的另一個檔案
+  ms8StopPoll();
+  ms8DirHandle = null;
+  ms8Slots = [];
+  ms8ActiveIdx = -1;
+  ms8DiffMode = false;
+  ms8DiffSet.clear();
+  $('ms8-diff-mode').textContent = '☐ 進入跨槽 diff 模式(v1.0)';
+  $('ms8-diff-run').style.display = 'none';
+  $('ms8-diff-output').style.display = 'none';
+  $('multi-slot-panel').style.display = 'none';
+  modified = false;
+  $('modified-indicator').style.display = 'none';
+  pruneHistory();
   $('drop-zone').style.display = 'block';
   $('viewer').style.display = 'none';
   $('file-input').value = '';
@@ -1091,17 +1155,61 @@ const CF_ENCODINGS = {
   }
 };
 
+// enum 編碼(enum_* / enum_u16le_*)要等 ld4_enum_table.json 載入後才註冊進 CF_ENCODINGS。
+// 這個狀態放在最前面宣告，因為頁面一開始就會 render 自訂欄位表。
+// idle / loading / loaded / failed
+let ld4EnumLoadState = 'idle';
+
+// 結構檢查只看形狀，不看編碼認不認得：enum 表還沒載入(或載入失敗)時，
+// enum 欄位照樣保留，之後的新增 / 刪除 / 匯入存回去也不會把它們弄丟。
+// 認不認得編碼在使用的地方(表格、套用、hex 提示)才判斷。
+function cfFieldShapeOk(f) {
+  return !!f && typeof f === 'object' && typeof f.label === 'string' &&
+    typeof f.encoding === 'string' && Number.isInteger(f.offset) && f.offset >= 0;
+}
+
+function cfUnknownEncText(key) {
+  if (typeof key === 'string' && key.indexOf('enum_') === 0 && ld4EnumLoadState !== 'loaded') {
+    return ld4EnumLoadState === 'failed' ? '編碼表未載入(重新整理頁面可重試)' : '編碼表載入中';
+  }
+  return '不認得的編碼(' + String(key) + ')';
+}
+
+// 匯入時判斷編碼能不能收。認得的一律收;enum_* 只有在編碼表還沒載入時才先保留
+// (載入後才知道這個類別存不存在)。編碼表已經載入卻仍不認得的 enum_*,
+// 代表檔案裡寫的類別根本不存在，直接拒絕，不讓它以「載入中」的樣子一直留著。
+function cfImportEncState(key) {
+  if (cfEnc(key)) return 'ok';
+  if (typeof key === 'string' && /^enum_[A-Za-z0-9_]+$/.test(key) && ld4EnumLoadState !== 'loaded') {
+    return 'pending';
+  }
+  return 'rejected';
+}
+
+// 匯入前先確保編碼表有機會載入(先前載入失敗的話會再試一次)，
+// 讓判斷盡量落在「已載入」的嚴格情況。
+async function cfEnsureEnumForImport() {
+  if (ld4EnumLoadState === 'loaded') return;
+  try { await loadEnumTable(); } catch (e) { /* 載不到就維持暫時保留 */ }
+}
+
 function cfLoad() {
   try {
     const raw = localStorage.getItem(CF_STORAGE_KEY);
     if (!raw) return [];
     const arr = JSON.parse(raw);
     if (!Array.isArray(arr)) return [];
-    return arr.filter(f => f && typeof f.offset === 'number' && cfEnc(f.encoding) && typeof f.label === 'string');
+    return arr.filter(cfFieldShapeOk);
   } catch (e) { return []; }
 }
 
 function cfSave(fields) {
+  // 只接受陣列：undo 紀錄若少了 cfState,傳進來的是 undefined,
+  // JSON.stringify(undefined) 存成字串 "undefined" 會把整個欄位庫清空。
+  if (!Array.isArray(fields)) {
+    console.warn('[cf] cfSave 拒絕非陣列資料', fields);
+    return;
+  }
   try {
     localStorage.setItem(CF_STORAGE_KEY, JSON.stringify(fields));
   } catch (e) {
@@ -1141,13 +1249,18 @@ function cfRenderTable() {
 
     // Encoding
     const td3 = document.createElement('td');
-    td3.textContent = enc.label;
+    td3.textContent = enc ? enc.label : cfUnknownEncText(f.encoding);
+    if (!enc) td3.style.color = 'var(--amber)';
     tr.appendChild(td3);
 
     // Current value
     const td4 = document.createElement('td');
     td4.className = 'num';
-    if (buf && f.offset + enc.size <= buf.length) {
+    if (!enc) {
+      // 編碼還不能用：保留這筆紀錄，只是暫時不能顯示 / 套用
+      td4.textContent = '(暫不可用)';
+      td4.style.color = 'var(--phosphor-dim)';
+    } else if (buf && f.offset + enc.size <= buf.length) {
       try { td4.textContent = enc.read(buf, f.offset); }
       catch (e) { td4.textContent = 'ERR'; td4.style.color = 'var(--amber)'; }
     } else if (!buf) {
@@ -1163,8 +1276,12 @@ function cfRenderTable() {
     const td5 = document.createElement('td');
     const inp = document.createElement('input');
     inp.type = 'number';
-    inp.min = enc.min;
-    inp.max = enc.max;
+    if (enc) {
+      inp.min = enc.min;
+      inp.max = enc.max;
+    } else {
+      inp.disabled = true;
+    }
     inp.placeholder = '新值';
     inp.style.width = '90px';
     inp.dataset.fieldIdx = idx;
@@ -1177,6 +1294,7 @@ function cfRenderTable() {
     applyBtn.textContent = '套用';
     applyBtn.type = 'button';
     applyBtn.style.marginRight = '4px';
+    if (!enc) applyBtn.disabled = true;
     applyBtn.addEventListener('click', () => cfApply(idx, inp.value));
     td6.appendChild(applyBtn);
     const delBtn = document.createElement('button');
@@ -1193,24 +1311,33 @@ function cfRenderTable() {
 }
 
 function cfApply(idx, valStr) {
-  if (!buf) { alert('請先載入存檔'); return; }
+  if (!buf) { alert('請先載入存檔'); return false; }
   const fields = cfLoad();
   const f = fields[idx];
-  if (!f) return;
+  if (!f) return false;
   const enc = cfEnc(f.encoding);
-  const v = parseInt(valStr, 10);
-  if (isNaN(v) || v < enc.min || v > enc.max) {
-    alert(`值需在 ${enc.min}-${enc.max} 範圍(${enc.label})`);
-    return;
+  if (!enc) {
+    alert(`「${f.label}」的編碼目前不能用:${cfUnknownEncText(f.encoding)}`);
+    return false;
+  }
+  // Number + isInteger:parseInt 會把 1e7 讀成 1、3.9 讀成 3,空字串也要拒絕
+  const str = String(valStr).trim();
+  const v = Number(str);
+  if (str === '' || !Number.isInteger(v) || v < enc.min || v > enc.max) {
+    alert(`值需為 ${enc.min}-${enc.max} 的整數(${enc.label})`);
+    return false;
   }
   if (f.offset + enc.size > buf.length) {
     alert('offset 超出檔案範圍');
-    return;
+    return false;
   }
+  // undo 在驗證通過後、寫入前建立：輸入不合法時不留紀錄
+  pushUndo(`改 ${f.label}`);
   enc.write(buf, f.offset, v);
   markModified();
   renderHexPage();
   cfRenderTable();  // refresh current value display
+  return true;
 }
 
 function cfDelete(idx) {
@@ -1228,8 +1355,10 @@ $('cf-add-btn').addEventListener('click', () => {
   const encoding = $('cf-encoding').value;
   if (!label) { alert('需要欄位名稱'); return; }
   if (!offsetStr) { alert('需要 offset (hex,如 c8be)'); return; }
-  const offset = parseInt(offsetStr, 16);
-  if (isNaN(offset) || offset < 0) { alert('offset 必須是合法 hex'); return; }
+  // 嚴格 hex:parseInt('12g', 16) 會靜默讀成 0x12
+  if (!/^(0x)?[0-9a-f]+$/i.test(offsetStr)) { alert('offset 必須是合法 hex(如 c8be)'); return; }
+  const offset = parseInt(offsetStr.replace(/^0x/i, ''), 16);
+  if (!Number.isInteger(offset) || offset < 0) { alert('offset 必須是合法 hex'); return; }
   if (!cfEnc(encoding)) { alert('不認得的編碼'); return; }
   const fields = cfLoad();
   if (fields.some(f => f.offset === offset && f.encoding === encoding)) {
@@ -1266,24 +1395,33 @@ $('cf-import-btn').addEventListener('click', () => {
     const file = e.target.files && e.target.files[0];
     if (!file) return;
     const r = new FileReader();
-    r.onload = (ev) => {
+    r.onload = async (ev) => {
       try {
         const arr = JSON.parse(ev.target.result);
         if (!Array.isArray(arr)) throw new Error('不是 JSON 陣列');
-        const valid = arr.filter(f => f && typeof f.offset === 'number' && cfEnc(f.encoding) && typeof f.label === 'string');
-        if (valid.length === 0) { alert('沒有合法欄位可匯入'); return; }
+        await cfEnsureEnumForImport();
+        // offset 必須是非負整數(負數會寫壞第 0 個位元組的 magic);編碼要認得。
+        // enum_* 只有在編碼表還沒載入時才先保留，已載入仍不認得的一律拒絕
+        const valid = arr.filter(f => cfFieldShapeOk(f) && cfImportEncState(f.encoding) !== 'rejected')
+          .map(f => ({ label: f.label, offset: f.offset, encoding: f.encoding }));
+        const rejected = arr.length - valid.length;
+        const pendingCount = valid.filter(f => cfImportEncState(f.encoding) === 'pending').length;
+        if (valid.length === 0) { alert(`沒有合法欄位可匯入(${rejected} 筆格式不合法，已略過)`); return; }
         const existing = cfLoad();
-        // merge: 同 offset + encoding 跳過
+        // merge: 同 offset + encoding 跳過(已存在的、同一個檔案裡前面出現過的都算)
         const key = f => f.offset + '|' + f.encoding;
         const existingKeys = new Set(existing.map(key));
         let added = 0;
         for (const f of valid) {
-          if (!existingKeys.has(key(f))) { existing.push(f); added++; }
+          const k = key(f);
+          if (!existingKeys.has(k)) { existing.push(f); existingKeys.add(k); added++; }
         }
         existing.sort((a, b) => a.offset - b.offset);
         cfSave(existing);
         cfRenderTable();
-        alert(`已匯入 ${added} 個新欄位(${valid.length - added} 個重複跳過)`);
+        alert(`已匯入 ${added} 個新欄位(${valid.length - added} 個重複跳過` +
+          (rejected > 0 ? `,${rejected} 筆未匯入:offset 須為非負整數、編碼須認得` : '') + ')' +
+          (pendingCount > 0 ? `。其中 ${pendingCount} 筆 enum 編碼要等編碼表載入後才能使用` : ''));
       } catch (err) {
         alert('JSON parse 失敗:' + err.message);
       }
@@ -1530,6 +1668,16 @@ $('wiz-value').addEventListener('keypress', (e) => { if (e.key === 'Enter') wizR
 let fsaFileHandle = null;       // FileSystemFileHandle
 let fsaLastMtime = 0;            // 上次 mtime (避免 polling overwrite 自己剛存的)
 let fsaLastSize = 0;
+// 目前 buffer 是根據磁碟上哪一版載入(或最後一次寫出)的。玩家選「保留修改、不重讀」時
+// fsaLastMtime 會更新(避免一直詢問)，這兩個不會，覆蓋前用它們判斷磁碟是否有較新版本。
+let fsaBaseMtime = null;
+let fsaBaseSize = null;
+let fsaPollFailures = 0;
+let fsaSaving = false;
+// 每次按下覆蓋就加 1。重讀在 await 期間若遇到存檔(不論存完沒有)，這一輪就放棄，
+// 交給下一輪重新判斷：否則畫面可能換成磁碟上的另一版，覆蓋寫出的卻是按下時的快照。
+let saveGen = 0;
+let fsaPollBusy = false;   // 上一輪還在讀檔(或確認框還開著)時，不再疊一輪
 let fsaPollTimer = null;
 const FSA_POLL_INTERVAL_MS = 2000;
 const FSA_SUPPORTED = typeof window.showOpenFilePicker === 'function';
@@ -1555,7 +1703,6 @@ async function fsaPick() {
       multiple: false
     };
     const [handle] = await window.showOpenFilePicker(opts);
-    fsaFileHandle = handle;
     // 申請 readwrite 權限(只要一次,後續 polling 不會再彈)
     const perm = await handle.queryPermission({ mode: 'readwrite' });
     if (perm !== 'granted') {
@@ -1564,11 +1711,25 @@ async function fsaPick() {
         alert('未授權讀寫權限，改用唯讀模式(無法直接覆蓋,要按下載)');
       }
     }
-    // 讀入
+    // 讀入。載入失敗(例如大小異常)就不建立連線，先前的狀態保持不變
     const file = await handle.getFile();
-    fsaLastMtime = file.lastModified;
-    fsaLastSize = file.size;
-    await handleFsaFile(file);
+    if (!ldSizeOk(file)) {
+      alert(ldSizeError(file));
+      $('status').textContent = '✗ 一鍵連檔失敗:' + (file.name || 'unnamed') + ' 檔案大小異常，沒有連線';
+      $('status').style.color = 'var(--danger)';
+      return;
+    }
+    fsaDetachCurrent();
+    const loaded = await handleFsaFile(file);
+    if (!loaded) {
+      $('status').textContent = '✗ 一鍵連檔失敗:' + (file.name || 'unnamed');
+      $('status').style.color = 'var(--danger)';
+      return;
+    }
+    fsaFileHandle = handle;
+    fsaLastMtime = fsaBaseMtime = file.lastModified;
+    fsaLastSize = fsaBaseSize = file.size;
+    fsaPollFailures = 0;
     // 啟動 polling
     fsaStartPoll();
     $('fsa-indicator').style.display = 'inline';
@@ -1582,16 +1743,19 @@ async function fsaPick() {
   }
 }
 
-async function handleFsaFile(file) {
+async function handleFsaFile(file, stillOk) {
   // 共用既有 handleFile 邏輯
-  if (!ldSizeOk(file)) { alert(ldSizeError(file)); return; }
+  if (!ldSizeOk(file)) { alert(ldSizeError(file)); return false; }
   const ab = await file.arrayBuffer();
+  // 自動重讀：讀檔期間玩家若又做了修改，這次就不換掉 buffer
+  if (stillOk && !stillOk()) return false;
   buf = new Uint8Array(ab);
   dv = new DataView(ab);
   fileName = file.name || 'LDTSV0.dat';
   hexPage = 0;
   modified = false;
   $('modified-indicator').style.display = 'none';
+  pruneHistory();   // 重讀(含遊戲存檔後自動重讀)換了 buffer,舊 undo 紀錄一律作廢
   $('drop-zone').style.display = 'none';
   $('viewer').style.display = 'block';
   // 觸發既有 render(以下抄 handleFile 流程)
@@ -1604,6 +1768,7 @@ async function handleFsaFile(file) {
   $('not-u8-search-results').style.display = 'none';
   $('diff-output').style.display = 'none';
   $('wiz-results').style.display = 'none';
+  return true;
 }
 
 function fsaStartPoll() {
@@ -1618,57 +1783,165 @@ function fsaStopPoll() {
 
 async function fsaPollOnce() {
   if (!fsaFileHandle) { fsaStopPoll(); return; }
+  if (fsaSaving || fsaPollBusy) return;   // 自己正在寫檔、或上一輪還沒結束
+  fsaPollBusy = true;
+  const handle = fsaFileHandle;
+  const sg = saveGen;
   try {
-    const file = await fsaFileHandle.getFile();
-    if (file.lastModified === fsaLastMtime && file.size === fsaLastSize) return;
+    const file = await handle.getFile();
+    if (handle !== fsaFileHandle) return;   // 讀檔期間換了檔
+    if (fsaSaving || saveGen !== sg) return; // 讀檔期間按了覆蓋：這一輪不處理
+    if (file.lastModified === fsaLastMtime && file.size === fsaLastSize) { fsaPollFailures = 0; return; }
+    if (!ldSizeOk(file)) {
+      fsaPollFailures = 0;
+      // 遊戲可能正在寫檔：不重讀、不跳 alert(背景輪詢不該卡住頁面)，等下一個版本
+      fsaLastMtime = file.lastModified;
+      fsaLastSize = file.size;
+      markHistoryDirty(buf);
+      $('status').textContent = '⚠ 磁碟上的新版本大小異常(遊戲可能正在寫檔)，暫不重讀';
+      $('status').style.color = 'var(--amber)';
+      return;
+    }
     // 檔案外部變動了(可能遊戲剛存檔)
     if (modified) {
       // 使用者有 pending 修改，警告
       const ok = confirm('⚠ 偵測到原檔被外部變動(遊戲剛存檔?)\n\n你有未存的修改。是否捨棄修改、重讀新檔?\n\n- 確定 = 捨棄你的修改,讀新檔\n- 取消 = 保留你的修改,不重讀(直到你按「直接覆蓋原檔」或重新拖放才會再 sync)');
       if (!ok) {
-        // 更新 mtime/size 避免每 2 秒問一次
+        // 更新 mtime/size 避免每 2 秒問一次；base 不動，覆蓋前還會再確認一次
+        fsaPollFailures = 0;
         fsaLastMtime = file.lastModified;
         fsaLastSize = file.size;
+        markHistoryDirty(buf);
         return;
       }
     }
+    // 「這一版已經看過」的記號只在確定處理完之後才記：讀檔中途失敗時，下一輪會重試同一版
+    const gen = editGen, bufBefore = buf;
+    const applied = await handleFsaFile(file, () => editGen === gen && buf === bufBefore && handle === fsaFileHandle && !fsaSaving && saveGen === sg);
+    if (handle !== fsaFileHandle) return;   // 讀檔期間換了檔：這一輪的結果不屬於目前的檔，什麼都不記
+    if (!applied && (fsaSaving || saveGen !== sg)) return;   // 重讀與覆蓋重疊：不換畫面，下一輪重新檢查
+    fsaPollFailures = 0;
     fsaLastMtime = file.lastModified;
     fsaLastSize = file.size;
-    await handleFsaFile(file);
+    if (!applied) {
+      if (buf === bufBefore) markHistoryDirty(buf);
+      $('status').textContent = '⚠ 偵測到原檔被外部變動，但重讀期間你又做了修改，這次沒有重讀(已保留你的修改)';
+      $('status').style.color = 'var(--amber)';
+      return;
+    }
+    fsaBaseMtime = file.lastModified;
+    fsaBaseSize = file.size;
     const statusEl = $('status');
     statusEl.textContent = '✓ 自動重讀(' + new Date().toLocaleTimeString() + '): ' + (file.name || 'unnamed') + ' (' + file.size + ' bytes)';
     statusEl.style.color = 'var(--phosphor)';
   } catch (e) {
+    // 遊戲正在寫檔時讀檔可能暫時失敗：連續失敗 3 次才停止，並在狀態列說明
     console.error('FSA poll error:', e);
-    fsaStopPoll();
+    fsaPollFailures++;
+    if (fsaPollFailures >= 3) {
+      fsaStopPoll();
+      $('status').textContent = '⚠ 自動跟隨已停止(連續讀檔失敗)。畫面內容可能不是磁碟上的最新版本，請重新按「一鍵連檔」。';
+      $('status').style.color = 'var(--amber)';
+    }
+  } finally {
+    fsaPollBusy = false;
   }
 }
 
 async function fsaSave() {
-  if (!fsaFileHandle || !buf) { alert('沒有 FSA file handle，請先按「一鍵連檔」'); return; }
+  if (fsaSaving) return;
+  // 一開始就鎖定要寫的檔與內容：寫檔期間玩家切槽或繼續編輯，都不會改變這一次寫出去的東西。
+  // 編輯是直接改 buffer 的內容，所以要複製一份位元組，只記參照不夠。
+  const handle = fsaFileHandle, bufRef = buf;
+  if (!handle || !bufRef) { alert('沒有 FSA file handle，請先按「一鍵連檔」'); return; }
+  const bytes = new Uint8Array(bufRef);
+  const slot = ms8Slots.find(s => s.handle === handle && s.buf === bufRef) || null;
+  // 快照對應的磁碟基準也在按下時鎖定
+  const baseM = slot ? slot.baseMtime : fsaBaseMtime;
+  const baseS = slot ? slot.baseSize : fsaBaseSize;
+  fsaSaving = true;
+  saveGen++;
+  $('btn-fsa-save').disabled = true;
   try {
-    const perm = await fsaFileHandle.queryPermission({ mode: 'readwrite' });
+    const perm = await handle.queryPermission({ mode: 'readwrite' });
     if (perm !== 'granted') {
-      const req = await fsaFileHandle.requestPermission({ mode: 'readwrite' });
+      const req = await handle.requestPermission({ mode: 'readwrite' });
       if (req !== 'granted') {
         alert('未授權讀寫權限，改用下載 fallback');
         return;
       }
     }
-    const writable = await fsaFileHandle.createWritable();
-    await writable.write(buf);
+    // 寫入前確認磁碟上不是比這份 buffer 更新的版本(遊戲可能剛存過檔)
+    const current = await handle.getFile();
+    if (baseM !== null && baseM !== undefined && (current.lastModified !== baseM || current.size !== baseS)) {
+      const go = confirm('⚠ 磁碟上的 ' + (current.name || '存檔') + ' 比你載入時更新(遊戲剛存檔?)。\n\n確定要用畫面上的版本蓋掉它嗎?\n\n- 確定 = 用你的版本覆蓋(遊戲剛存的進度會消失)\n- 取消 = 不覆蓋');
+      if (!go) {
+        $('status').textContent = '已取消覆蓋，磁碟上的檔案沒有變動';
+        $('status').style.color = 'var(--amber)';
+        return;
+      }
+    }
+    // 所有 await 與確認框之後，確認快照的來源沒有被重讀換掉
+    const replaced = slot ? slot.buf !== bufRef : (handle === fsaFileHandle && buf !== bufRef);
+    if (replaced) {
+      $('status').textContent = '畫面已重新讀取磁碟上的新版本，這次覆蓋已取消；請確認內容後再按一次';
+      $('status').style.color = 'var(--amber)';
+      return;
+    }
+    const writable = await handle.createWritable();
+    await writable.write(bytes);
     await writable.close();
-    // 更新 mtime 避免 polling 把我們剛寫的當成「外部變動」彈確認框
-    const file = await fsaFileHandle.getFile();
-    fsaLastMtime = file.lastModified;
-    fsaLastSize = file.size;
-    modified = false;
-    $('modified-indicator').style.display = 'none';
-    $('status').textContent = '✓ 已直接覆蓋原檔(' + new Date().toLocaleTimeString() + ')，切回遊戲讀檔即可';
-    $('status').style.color = 'var(--phosphor)';
+    // 讀回比對：遊戲可能剛好在寫完的瞬間又存檔。內容一致才把這一版當成新的基準，
+    // 不一致就保留舊的基準，輪詢會發現變動，下一次覆蓋也會先確認
+    const file = await handle.getFile();
+    let written = false;
+    try {
+      const back = new Uint8Array(await file.arrayBuffer());
+      written = back.length === bytes.length && back.every((v, i) => v === bytes[i]);
+    } catch (e) { written = false; }
+    if (written) {
+      // 更新 mtime / base,輪詢才不會把自己剛寫的檔當成外部變動
+      if (slot) {
+        slot.mtime = slot.baseMtime = file.lastModified;
+        slot.size = slot.baseSize = file.size;
+        slot.invalidSize = false;   // 讀回逐位元組相同，磁碟上已是正常的存檔
+      }
+      if (handle === fsaFileHandle) {
+        fsaLastMtime = file.lastModified;
+        fsaLastSize = file.size;
+        if (!slot) { fsaBaseMtime = file.lastModified; fsaBaseSize = file.size; }
+      }
+    }
+    markHistoryDirty(bufRef);
+    if (!written) {
+      $('status').textContent = '⚠ 已寫入，但讀回的內容與寫出的不同(遊戲可能剛好又存檔)。磁碟上現在可能是遊戲的版本，請確認後再決定是否覆蓋';
+      $('status').style.color = 'var(--amber)';
+      if (slot) ms8RenderGrid();
+      return;
+    }
+    // 寫檔期間玩家可能又編輯或按了 Undo/Redo(都是直接改 buffer 的內容)：
+    // 直接比較目前的 buffer 與剛寫出去的內容，相同才算「沒有未存修改」
+    const sameAsDisk = bufRef.length === bytes.length && bufRef.every((v, i) => v === bytes[i]);
+    if (slot) slot.modified = !sameAsDisk;
+    if (buf === bufRef) {
+      modified = !sameAsDisk;
+      $('modified-indicator').style.display = modified ? 'inline' : 'none';
+      syncActiveSlotModified();
+    }
+    if (slot) ms8RenderGrid();
+    if (sameAsDisk) {
+      $('status').textContent = '✓ 已直接覆蓋原檔(' + new Date().toLocaleTimeString() + ')，切回遊戲讀檔即可';
+      $('status').style.color = 'var(--phosphor)';
+    } else {
+      $('status').textContent = '✓ 已覆蓋原檔(' + new Date().toLocaleTimeString() + ')；寫檔期間畫面內容又有變動，那些變動還沒寫入';
+      $('status').style.color = 'var(--amber)';
+    }
   } catch (e) {
     console.error(e);
     alert('直接覆蓋失敗:' + (e && e.message || e) + '\n建議改用「下載修改後存檔」+ 手動 copy');
+  } finally {
+    fsaSaving = false;
+    $('btn-fsa-save').disabled = false;
   }
 }
 
@@ -1687,7 +1960,7 @@ $('btn-reset').addEventListener('click', () => {
 });
 
 // ===== v0.8: Live RAM Bridge，fetch http://127.0.0.1:8765/{status,read,write,scan} =====
-// 配 LD4_EZ/tools/live_bridge/ld4_bridge.ps1 (Win) 或 ld4_bridge.py (Linux/Mac)
+// 配 LD4_EZ/tools/live_bridge/ld4_bridge.ps1 (Windows) 或 ld4_bridge.py (Windows / Linux)
 // native helper bridge:重現記憶體即時讀寫(RPM/WPM)能力
 
 const RB_PORT_DEFAULT = 8765;
@@ -1696,24 +1969,152 @@ let rbBase = `http://127.0.0.1:${RB_PORT_DEFAULT}`;
 let rbConnected = false;
 let rbStatusInfo = null;
 let rbPollTimer = null;
-let rbSSE = null;            // #5: EventSource(優先,real-time);失敗 fallback polling
+let rbSSE = null;            // EventSource(優先，即時推送);建立失敗或斷線時改用輪詢
 const RB_POLL_INTERVAL_MS = 2000;
+// ASLR:LD4 每次啟動記憶體位址都不同。即時欄位記下掃描當時的行程身分 token
+// (bridge 給的 process_token:pid 加上行程建立時間，pid 被重用也分得出來)。
+// token 對不上、或 LD4 關過(pid 曾歸 0)之後，一律停用讀寫、要求重新掃 anchor。
+// 寫入時 token 也會送給 bridge,由 bridge 在實際要寫的行程上再核對一次，不符回 409、不寫入。
+let rbLastPid = 0;
+let rbLastToken = '';
+let rbRestartPending = false;
+let rbSSEIdx = [];           // SSE payload.fields[k] 對應 rbLoadFields() 的第 rbSSEIdx[k] 筆
+let rbSSEPid = 0;
+let rbSSEToken = '';
+const RB_TOKEN_RE = /^[1-9][0-9]{0,9}-[0-9]{1,20}$/;
 
-async function rbProbe() {
+function rbIsToken(t) {
+  return typeof t === 'string' && RB_TOKEN_RE.test(t);
+}
+
+// bridge 目前回報的 LD4 行程身分;沒在跑、或 bridge 沒有提供時回傳空字串
+function rbCurrentToken() {
+  return (rbStatusInfo && rbIsToken(rbStatusInfo.process_token)) ? rbStatusInfo.process_token : '';
+}
+
+// macOS 的 bridge 沒有找出遊戲行程的功能：開遊戲也讀不到，所有提示都不要引導玩家去開遊戲
+const RB_MSG_MAC_UNSUPPORTED = 'macOS 目前無法使用 bridge(尚未實作找出遊戲行程的功能)';
+function rbPlatformUnsupported() {
+  return !!(rbStatusInfo && rbStatusInfo.platform === 'Darwin');
+}
+
+function rbFieldUsable(f) {
+  const cur = rbCurrentToken();
+  return !!(f && rbConnected && !rbRestartPending && cur && f.token === cur);
+}
+
+// 已停用的行程身分 token(bridge 回 409,或偵測到 LD4 重新啟動)。
+// 停用之後才到達的讀取結果一律捨棄，也不再替這些 token 建立 RAM 復原紀錄。
+const rbRetiredTokens = new Set();
+
+function rbTokenRetired(token) {
+  return rbRetiredTokens.has(token);
+}
+
+// bridge 在 /status、/scan 或串流中回報的 token 代表那個行程此刻仍在執行，解除它的停用。
+// 暫時性的 409(例如 bridge 一時查不到行程)會停用仍然有效的 token,重新掃描後要能恢復。
+function rbTokenConfirmedAlive(token) {
+  if (rbIsToken(token)) rbRetiredTokens.delete(token);
+}
+
+// 這個 token 是否屬於目前正在執行、而且沒有被停用的 LD4 行程。RAM 復原紀錄只替這種 token 建立。
+function rbTokenLive(token) {
+  return !rbRestartPending && rbIsToken(token) && rbCurrentToken() === token && !rbTokenRetired(token);
+}
+
+// bridge 回 409:這個 token 的行程已經不是現在的 LD4(遊戲關掉或重新啟動過)。
+// 同一個 token 的即時欄位全部停用，這個行程的 RAM 復原紀錄也一併移除(位址不會再對)。
+// 停用後已經沒有可讀的欄位時，一併停止即時更新。statusMsg 是顯示在狀態列的說明。
+function rbMarkTokenStale(token, statusMsg) {
+  if (rbIsToken(token)) rbRetiredTokens.add(token);
+  const fields = rbLoadFields();
+  let changed = false;
+  for (const f of fields) if (f.token === token) { f.token = null; changed = true; }
+  if (changed) rbSaveFields(fields);
+  if (typeof pruneRamHistory === 'function') pruneRamHistory(token);
+  // 停止即時更新會改寫狀態列，所以放在設定說明之前
+  if ((rbPollTimer || rbSSE) && !fields.some(f => rbFieldUsable(f))) rbStopPoll();
+  rbRenderFields();
+  $('rb-poll-status').textContent = statusMsg || RB_STATUS_STALE_NO_WRITE;
+  $('rb-poll-status').style.color = 'var(--amber)';
+}
+
+// 409 的說明文字。寫入的 409 分兩種：
+// 寫入前核對行程身分就不符，bridge 什麼都沒寫;
+// 回應沒有說明「沒有寫入」時(例如較舊版本的 bridge 在寫入之後才發現身分不符)，
+// 無法確定寫入是否生效，一律當成可能已寫入處理。
+const RB_MSG_RESTART_UNSURE = '遊戲在寫入當下重新啟動，無法確定這次寫入是否生效，請重新掃描後確認數值';
+const RB_STATUS_STALE_NO_WRITE = '⚠ 遊戲已重新啟動，請重新掃描(舊位址的即時欄位已停用，bridge 沒有寫入任何東西)';
+const RB_STATUS_STALE_UNSURE = '⚠ ' + RB_MSG_RESTART_UNSURE + '(舊位址的即時欄位已停用)';
+const RB_STATUS_STALE_READ = '⚠ 遊戲已重新啟動，請重新掃描(舊位址的即時欄位已停用)';
+
+// 讀出 409 回應的 JSON;沒有內容或不是 JSON 時回傳 null
+async function rbConflictBody(r) {
+  try { return await r.json(); } catch (e) { return null; }
+}
+
+// 寫入的 409 能不能確定「什麼都沒寫」:reason 是 process_changed 而且不是寫入後才發現的那種。
+// 回應缺少這些資訊時無法確定，一律當成可能已寫入，請玩家重新掃描後確認數值。
+function rbConflictNoWrite(j) {
+  if (!j || j.reason !== 'process_changed') return false;
+  return !(typeof j.error === 'string' && /may not have reached/i.test(j.error));
+}
+
+// 最近一次 rbProbe 讀得到的 HTTP 狀態碼(0 = 沒有讀到回應，例如連線失敗或被 CORS 擋下)
+let rbLastProbeStatus = 0;
+// 最近一次 rbProbe 是不是等到逾時才放棄(不是被拒絕或連線失敗)
+let rbLastProbeTimedOut = false;
+
+// 背景偵測(每 5 秒、寫入前確認)用短逾時;玩家按「連線」時用長逾時。
+// 正式網站上 Chrome 142 起第一次連 127.0.0.1 會跳出本機網路權限詢問，
+// 詢問期間請求會暫停，等玩家回答後才送出，1 秒逾時會在玩家按允許之前就放棄。
+const RB_PROBE_TIMEOUT_MS = 1000;
+const RB_CONNECT_TIMEOUT_MS = 30000;
+
+async function rbProbe(timeoutMs) {
   // 偵測 bridge 是否在跑(預設 port 8765)
+  const waitMs = (Number.isInteger(timeoutMs) && timeoutMs > 0) ? timeoutMs : RB_PROBE_TIMEOUT_MS;
+  rbLastProbeStatus = 0;
+  rbLastProbeTimedOut = false;
+  const ctl = new AbortController();
+  const tm = setTimeout(() => ctl.abort(), waitMs);
   try {
-    const ctl = new AbortController();
-    const tm = setTimeout(() => ctl.abort(), 1000);
     const r = await fetch(`${rbBase}/status`, { signal: ctl.signal });
-    clearTimeout(tm);
-    if (!r.ok) return false;
+    rbLastProbeStatus = r.status;
+    if (!r.ok) { rbConnected = false; return false; }
     const j = await r.json();
     rbStatusInfo = j;
     rbConnected = true;
+    rbTokenConfirmedAlive(j.process_token);
     return true;
   } catch (e) {
+    rbLastProbeTimedOut = ctl.signal.aborted;
     rbConnected = false;
     return false;
+  } finally {
+    clearTimeout(tm);
+  }
+}
+
+// 連線失敗時分辨「bridge 沒在跑」與「bridge 在跑但拒絕這個網頁的來源」。
+// bridge 拒絕來源時回 403 且不帶 Access-Control-Allow-Origin,瀏覽器的一般 fetch
+// 讀不到這個 403,只會丟出跟連線失敗一樣的錯誤。所以再送一次 no-cors 請求：
+// 有伺服器回應(不論狀態碼)時會拿到不透明回應，沒有人在聽這個埠時才會失敗。
+// 只在偵測失敗時才多送這一次：玩家按下連線失敗時，以及每 5 秒的偵測失敗時
+// (用來分辨「bridge 關了」與「bridge 開始拒絕這個來源」，後者不該顯示成失聯)。
+async function rbDiagnoseFailure(httpStatus, timeoutMs) {
+  if (httpStatus === 403) return 'forbidden';
+  if (httpStatus !== 0) return 'bad-status';
+  const waitMs = (Number.isInteger(timeoutMs) && timeoutMs > 0) ? timeoutMs : RB_PROBE_TIMEOUT_MS;
+  const ctl = new AbortController();
+  const tm = setTimeout(() => ctl.abort(), waitMs);
+  try {
+    await fetch(`${rbBase}/status`, { mode: 'no-cors', cache: 'no-store', signal: ctl.signal });
+    return 'forbidden';
+  } catch (e) {
+    return 'unreachable';
+  } finally {
+    clearTimeout(tm);
   }
 }
 
@@ -1728,24 +2129,66 @@ function rbRenderStatusBox() {
   const lines = [
     `bridge_version: ${rbStatusInfo.bridge_version || '?'}`,
     `platform: ${rbStatusInfo.platform || 'Windows (PS)'}`,
-    `process: ${rbStatusInfo.process_name || 'LD4'}  /  pid: ${rbStatusInfo.pid || 0}  /  running: ${rbStatusInfo.running ? '✓ yes' : '✗ no'}`,
-    rbStatusInfo.running ? '✓ LD4 正在跑，可以開始掃 anchor' : '⚠ LD4 沒在跑，請先啟動遊戲'
+    `process: ${rbStatusInfo.process_name || 'LD4'}  /  pid: ${rbStatusInfo.pid || 0}  /  running: ${rbStatusInfo.running ? '✓ yes' : '✗ no'}`
   ];
+  if (rbStatusInfo.platform === 'Darwin') {
+    // macOS 的 bridge 沒有找出遊戲行程的功能：開遊戲也讀不到，不要引導玩家去開遊戲
+    lines.push('⚠ ' + RB_MSG_MAC_UNSUPPORTED);
+  } else {
+    lines.push(rbStatusInfo.running ? '✓ LD4 正在跑，可以開始掃 anchor' : '⚠ LD4 沒在跑，請先啟動遊戲');
+    if (rbStatusInfo.write_supported === false) lines.push('這個平台的 bridge 只提供讀取與掃描，不能寫入');
+  }
   box.textContent = lines.join('\n');
   box.style.color = rbStatusInfo.running ? 'var(--phosphor)' : 'var(--amber)';
 }
 
 async function rbScan() {
   if (!rbConnected) { alert('Bridge 未連，請先啟動 ld4_bridge.ps1/.py'); return; }
+  if (rbPlatformUnsupported()) {
+    $('rb-scan-status').textContent = '⚠ ' + RB_MSG_MAC_UNSUPPORTED;
+    $('rb-scan-status').style.color = 'var(--amber)';
+    return;
+  }
   const v = parseInt($('rb-scan-value').value, 10);
   if (isNaN(v) || v < 0) { alert('請輸入合法非負整數'); return; }
   $('rb-scan-status').textContent = '⏳ 掃描中(整個 LD4 RAM,可能 10-30 秒)...';
   $('rb-scan-status').style.color = 'var(--amber)';
+  // 新的掃描開始時收起上一次的結果：舊結果的位址可能屬於已結束的行程
+  $('rb-scan-results').style.display = 'none';
+  const oldRows = $('rb-scan-tbody');
+  while (oldRows.firstChild) oldRows.removeChild(oldRows.firstChild);
   try {
     const r = await fetch(`${rbBase}/scan?value=${v}`);
+    if (r.status === 409) {
+      $('rb-scan-status').textContent = '✗ 掃描期間遊戲已重新啟動，請重新掃描';
+      $('rb-scan-status').style.color = 'var(--amber)';
+      return;
+    }
     const j = await r.json();
     if (!j.ok) {
       $('rb-scan-status').textContent = '✗ ' + (j.error || 'scan failed');
+      $('rb-scan-status').style.color = 'var(--amber)';
+      return;
+    }
+    // 掃到的位址只對掃描時的那個行程有效，加進即時欄位時一起記下這個身分
+    const scanToken = rbIsToken(j.process_token) ? j.process_token : '';
+    rbTokenConfirmedAlive(scanToken);
+    if (!scanToken) {
+      $('rb-scan-status').textContent = '✗ 這個 bridge 沒有回傳遊戲行程身分，無法確認位址屬於哪一次執行的遊戲。請更新 ld4_bridge 後再掃描';
+      $('rb-scan-status').style.color = 'var(--amber)';
+      return;
+    }
+    // 掃描可能要十幾秒，期間遊戲可能重開過：重新確認一次，畫面上的狀態要跟掃描結果屬於同一個行程
+    const stillUp = await rbProbe();
+    rbRenderStatusBox();
+    rbRenderFields();
+    if (!stillUp) {
+      $('rb-scan-status').textContent = '✗ 掃描完成後連不到 bridge,請確認 bridge 仍在執行後重新掃描';
+      $('rb-scan-status').style.color = 'var(--amber)';
+      return;
+    }
+    if (rbCurrentToken() !== scanToken) {
+      $('rb-scan-status').textContent = '✗ 掃描期間遊戲已重新啟動，請重新掃描';
       $('rb-scan-status').style.color = 'var(--amber)';
       return;
     }
@@ -1782,7 +2225,7 @@ async function rbScan() {
         btn.textContent = '＋ 加進即時欄位';
         btn.style.fontSize = '13px';
         const addr = parseInt(r.hits[0], 16);
-        btn.addEventListener('click', () => rbAddField(addr, r.key, v));
+        btn.addEventListener('click', () => rbAddField(addr, r.key, v, scanToken));
         td4.appendChild(btn);
       } else if (n >= 2 && n <= 5 && r.key && cfEnc(r.key)) {
         const btn = document.createElement('button');
@@ -1792,7 +2235,7 @@ async function rbScan() {
         btn.style.fontSize = '13px';
         const addr = parseInt(r.hits[0], 16);
         btn.addEventListener('click', () => {
-          if (confirm(`此編碼有 ${n} hits 不是 unique anchor。仍要加進即時欄位嗎?`)) rbAddField(addr, r.key, v);
+          if (confirm(`此編碼有 ${n} hits 不是 unique anchor。仍要加進即時欄位嗎?`)) rbAddField(addr, r.key, v, scanToken);
         });
         td4.appendChild(btn);
       } else {
@@ -1820,7 +2263,7 @@ function rbLoadFields() {
     if (!raw) return [];
     const arr = JSON.parse(raw);
     if (!Array.isArray(arr)) return [];
-    return arr.filter(f => f && typeof f.addr === 'number' && cfEnc(f.encoding) && typeof f.label === 'string');
+    return arr.filter(f => f && Number.isInteger(f.addr) && f.addr >= 0 && cfEnc(f.encoding) && typeof f.label === 'string');
   } catch (e) { return []; }
 }
 
@@ -1832,16 +2275,24 @@ function rbSaveFields(fields) {
   catch (e) { alert('儲存失敗:' + e.message); }
 }
 
-function rbAddField(addr, encKey, val) {
+function rbAddField(addr, encKey, val, token) {
   const enc = cfEnc(encKey);
   if (!enc) { alert('未知編碼'); return; }
+  if (!Number.isInteger(addr) || addr < 0) { alert('RAM 位置不合法'); return; }
+  if (!rbIsToken(token)) { alert('這筆掃描結果沒有記下遊戲行程身分，請重新掃描'); return; }
+  if (rbPlatformUnsupported()) { alert(RB_MSG_MAC_UNSUPPORTED + '。'); return; }
+  if (rbRestartPending || !rbStatusInfo || !(rbStatusInfo.pid > 0)) {
+    alert('LD4 目前沒有在執行(或剛重新啟動)，請先啟動遊戲再掃描 anchor'); return;
+  }
+  const cur = rbCurrentToken();
+  if (cur && cur !== token) { alert('遊戲已重新啟動，這次掃描到的位址已失效，請重新掃描'); return; }
   const label = prompt(`要給這個即時欄位什麼名稱?(例:金錢 / HP)\n\n編碼:${enc.label}\nRAM 位置:0x${addr.toString(16)}\n當前值:${val}`, '');
   if (label === null) return;
   const fields = rbLoadFields();
-  if (fields.some(f => f.addr === addr && f.encoding === encKey)) {
+  if (fields.some(f => f.addr === addr && f.encoding === encKey && f.token === token)) {
     alert('此 addr + encoding 已存在即時欄位表'); return;
   }
-  fields.push({ label: label.trim() || `RAM@0x${addr.toString(16)}`, addr, encoding: encKey });
+  fields.push({ label: label.trim() || `RAM@0x${addr.toString(16)}`, addr, encoding: encKey, token });
   fields.sort((a, b) => a.addr - b.addr);
   rbSaveFields(fields);
   rbRenderFields();
@@ -1867,17 +2318,25 @@ function rbRenderFields() {
     const td1 = document.createElement('td'); td1.textContent = f.label; tr.appendChild(td1);
     const td2 = document.createElement('td'); td2.className = 'num'; td2.textContent = '0x' + f.addr.toString(16); tr.appendChild(td2);
     const td3 = document.createElement('td'); td3.textContent = enc.label; tr.appendChild(td3);
+    const usable = rbFieldUsable(f);
     const td4 = document.createElement('td'); td4.className = 'num';
-    td4.id = `rb-live-${i}`; td4.textContent = '...';
+    td4.id = `rb-live-${i}`; td4.textContent = usable ? '...' : (rbConnected ? '失效(需重掃)' : '(未連線)');
+    if (!usable) td4.style.color = 'var(--amber)';
     tr.appendChild(td4);
     const td5 = document.createElement('td');
     const inp = document.createElement('input'); inp.type = 'number'; inp.min = enc.min; inp.max = enc.max;
     inp.placeholder = '新值'; inp.style.width = '90px'; inp.id = `rb-edit-${i}`;
+    if (!usable) inp.disabled = true;
     td5.appendChild(inp); tr.appendChild(td5);
     const td6 = document.createElement('td');
     const applyBtn = document.createElement('button'); applyBtn.type = 'button'; applyBtn.textContent = '即時寫入';
     applyBtn.style.fontSize = '13px';
-    applyBtn.addEventListener('click', () => rbWriteField(i, inp.value));
+    if (!usable) {
+      applyBtn.disabled = true;
+      applyBtn.title = '這個欄位屬於已結束的 LD4 行程(遊戲重新啟動過，或建立於舊版、沒有記下行程身分)，位址已失效，只能刪除後重新掃描';
+    }
+    // 傳入畫面上這一列的欄位本身(不是索引)：等待期間清單變動也不會寫到別的欄位
+    applyBtn.addEventListener('click', () => rbWriteField(f, inp.value));
     td6.appendChild(applyBtn);
     const delBtn = document.createElement('button'); delBtn.type = 'button'; delBtn.textContent = '✕';
     delBtn.className = 'ghost'; delBtn.title = '刪除';
@@ -1891,14 +2350,44 @@ function rbRenderFields() {
   }
 }
 
-async function rbReadField(i) {
+// rbReadField 的回傳值：讀到的數值;讀不到回傳 null;
+// bridge 回 409(欄位的行程身分已不是目前的 LD4)時回傳 RB_READ_STALE,這時欄位已停用、表格已重畫。
+// 回應到達時欄位已經停用(token 已停用，例如較晚送出的另一次讀取先回了 409;或 LD4 已關閉、
+// 重新啟動、bridge 失聯)，同樣回傳 RB_READ_STALE,讀到的數值不採用。
+const RB_READ_STALE = Symbol('rb-read-stale');
+
+// 即時欄位的身分：位址 + 編碼 + 行程身分。跨 await 一律用這份快照找欄位，
+// 不用陣列索引(等待期間欄位可能被刪除或重新匯入，同一個索引會變成別的欄位)。
+function rbSameField(a, b) {
+  return !!a && !!b && a.addr === b.addr && a.encoding === b.encoding && a.token === b.token;
+}
+// 目前清單裡還找得到這個欄位就回傳它的索引，找不到回傳 -1
+function rbFieldIndex(snap) {
   const fields = rbLoadFields();
-  const f = fields[i];
+  for (let k = 0; k < fields.length; k++) if (rbSameField(fields[k], snap)) return k;
+  return -1;
+}
+// 參數可以是索引(呼叫當下立刻換成快照)或欄位快照
+function rbFieldSnapshot(ref) {
+  const f = (typeof ref === 'number') ? rbLoadFields()[ref] : ref;
+  return f ? Object.assign({}, f) : null;
+}
+
+async function rbReadField(ref) {
+  const f = rbFieldSnapshot(ref);
   if (!f) return null;
+  if (!rbFieldUsable(f)) return null;   // 位址屬於別的(已結束的)行程，不讀
   const enc = cfEnc(f.encoding);
+  const token = f.token;
   try {
-    const r = await fetch(`${rbBase}/read?addr=0x${f.addr.toString(16)}&size=${enc.size}`);
+    // token 讓 bridge 在實際讀取的行程上核對身分：遊戲重開過就回 409,不會讀到別的行程
+    const r = await fetch(`${rbBase}/read?addr=0x${f.addr.toString(16)}&size=${enc.size}&token=${encodeURIComponent(token)}`);
+    if (r.status === 409) {
+      if (!rbTokenRetired(token)) rbMarkTokenStale(token, RB_STATUS_STALE_READ);
+      return RB_READ_STALE;
+    }
     const j = await r.json();
+    if (rbTokenRetired(token) || !rbFieldUsable(f)) return RB_READ_STALE;
     if (!j.ok) return null;
     // hex → bytes → 用 enc.read
     const bytes = new Uint8Array(enc.size);
@@ -1909,47 +2398,88 @@ async function rbReadField(i) {
   }
 }
 
-async function rbWriteField(i, valStr) {
-  if (!rbConnected) { alert('Bridge 未連'); return; }
-  const fields = rbLoadFields();
-  const f = fields[i];
-  if (!f) return;
-  const enc = cfEnc(f.encoding);
-  const v = parseInt(valStr, 10);
-  if (isNaN(v) || v < enc.min || v > enc.max) {
-    alert(`值需在 ${enc.min}-${enc.max} 範圍(${enc.label})`); return;
+// 回傳 { ok: true, value, token } 表示 /write 成功;其他情況回傳 null
+async function rbWriteField(ref, valStr) {
+  if (!rbConnected) { alert('Bridge 未連'); return null; }
+  const f = rbFieldSnapshot(ref);
+  if (!f) return null;
+  if (rbStatusInfo && rbStatusInfo.write_supported === false) {
+    alert('這個平台的 bridge 目前只提供讀取與掃描，不支援寫入(Windows 版才能寫入)。');
+    return null;
   }
+  const enc = cfEnc(f.encoding);
+  if (!enc) return null;
+  const str = String(valStr).trim();
+  const v = Number(str);
+  if (str === '' || !Number.isInteger(v) || v < enc.min || v > enc.max) {
+    alert(`值需為 ${enc.min}-${enc.max} 的整數(${enc.label})`); return null;
+  }
+  // 寫入前再確認一次：bridge 還在、LD4 沒有重開過(重開後舊位址會寫到別的東西上)
+  await rbProbe();
+  if (rbFieldIndex(f) < 0) {
+    alert('這個即時欄位在寫入前被刪除或變更了，這次沒有寫入。');
+    rbRenderFields();
+    return null;
+  }
+  if (!rbFieldUsable(f)) {
+    alert('這個即時欄位已失效：LD4 已關閉或重新啟動過，記憶體位址不同了。請重新掃描 anchor 後再加入。');
+    rbRenderFields();
+    return null;
+  }
+  const token = f.token;
   const bytes = new Uint8Array(enc.size);
   enc.write(bytes, 0, v);
   const hex = Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
   try {
-    const r = await fetch(`${rbBase}/write?addr=0x${f.addr.toString(16)}`, {
+    // token 讓 bridge 在實際寫入的那個行程上核對身分：遊戲在這之間重開過就回 409,不會寫進新行程
+    const r = await fetch(`${rbBase}/write?addr=0x${f.addr.toString(16)}&token=${encodeURIComponent(token)}`, {
       method: 'POST',
       body: hex,
       headers: { 'Content-Type': 'text/plain' }
     });
+    if (r.status === 409) {
+      if (rbConflictNoWrite(await rbConflictBody(r))) {
+        rbMarkTokenStale(token, RB_STATUS_STALE_NO_WRITE);
+        alert('遊戲已重新啟動，請重新掃描。\n\n這個即時欄位的記憶體位址屬於已結束的 LD4 行程，bridge 已拒絕寫入(遊戲記憶體沒有被改動)，欄位已停用。');
+      } else {
+        rbMarkTokenStale(token, RB_STATUS_STALE_UNSURE);
+        alert(RB_MSG_RESTART_UNSURE + '。\n\n這個即時欄位的記憶體位址屬於已結束的 LD4 行程，欄位已停用。');
+      }
+      return null;
+    }
     const j = await r.json();
     if (j.ok) {
       $('rb-poll-status').textContent = `✓ 已即時寫入「${f.label}」= ${v} @ 0x${f.addr.toString(16)} (${new Date().toLocaleTimeString()})`;
       $('rb-poll-status').style.color = 'var(--phosphor)';
-      // 立刻 refresh live 值
-      const live = await rbReadField(i);
-      const cell = $(`rb-live-${i}`);
-      if (cell) cell.textContent = live === null ? 'ERR' : String(live);
+      // 立刻 refresh live 值(讀取回 409 時欄位已停用，表格已重畫)
+      const live = await rbReadField(f);
+      const idx = rbFieldIndex(f);
+      const cell = idx >= 0 ? $(`rb-live-${idx}`) : null;
+      if (cell && live !== RB_READ_STALE) cell.textContent = live === null ? 'ERR' : String(live);
+      return { ok: true, value: v, token, field: f };
     } else {
       alert('WriteProcessMemory 失敗:' + (j.error || '?'));
     }
   } catch (e) {
     alert('Bridge 通訊失敗:' + e.message);
   }
+  return null;
 }
 
 async function rbPollOnce() {
   if (!rbConnected) return;
   const fields = rbLoadFields();
   for (let i = 0; i < fields.length; i++) {
-    const v = await rbReadField(i);
-    const cell = $(`rb-live-${i}`);
+    if (!rbFieldUsable(fields[i])) {
+      const staleCell = $(`rb-live-${i}`);
+      if (staleCell) { staleCell.textContent = '失效(需重掃)'; staleCell.style.color = 'var(--amber)'; }
+      continue;
+    }
+    const snap = Object.assign({}, fields[i]);
+    const v = await rbReadField(snap);
+    if (v === RB_READ_STALE) return;   // 欄位已停用、表格已重畫，這一輪不再讀其他欄位
+    const idx = rbFieldIndex(snap);
+    const cell = idx >= 0 ? $(`rb-live-${idx}`) : null;
     if (cell) {
       if (v === null) { cell.textContent = 'ERR'; cell.style.color = 'var(--amber)'; }
       else { cell.textContent = String(v); cell.style.color = 'var(--phosphor)'; }
@@ -1957,13 +2487,23 @@ async function rbPollOnce() {
   }
 }
 
-// #5: SSE 收到的 fields[] 跟 watch-list 同序 → 解碼更新 rb-live-${i}
+// SSE 收到的 fields[] 跟 watch-list 同序 → 解碼更新 rb-live-${i}
 function rbApplySSE(payload) {
   if (!payload || !payload.ok || !Array.isArray(payload.fields)) return;
+  if (rbTokenRetired(rbSSEToken)) return;   // 串流的行程身分已停用，之後到達的數值不採用
+  const tok = rbIsToken(payload.process_token) ? payload.process_token : '';
+  if ((tok && tok !== rbSSEToken) || (!tok && Number.isInteger(payload.pid) && payload.pid !== rbSSEPid)) {
+    // 串流途中 LD4 換了行程：舊位址讀到的是別的東西，停串流並重新偵測
+    rbStopPoll();
+    rbProbe().then(() => { rbRenderStatusBox(); rbRenderFields(); });
+    return;
+  }
   const fields = rbLoadFields();
-  for (let i = 0; i < fields.length && i < payload.fields.length; i++) {
+  for (let k = 0; k < payload.fields.length && k < rbSSEIdx.length; k++) {
+    const i = rbSSEIdx[k];
+    if (!fields[i]) continue;
     const enc = cfEnc(fields[i].encoding);
-    const hex = payload.fields[i] && payload.fields[i].hex;
+    const hex = payload.fields[k] && payload.fields[k].hex;
     const cell = $(`rb-live-${i}`);
     if (!cell || !enc) continue;
     if (!hex) { cell.textContent = 'ERR'; cell.style.color = 'var(--amber)'; continue; }
@@ -1976,15 +2516,32 @@ function rbApplySSE(payload) {
 
 function rbStartPoll() {
   if (rbPollTimer || rbSSE) return;
+  if (!rbConnected) { alert('Bridge 未連'); return; }
+  if (rbPlatformUnsupported()) { alert(RB_MSG_MAC_UNSUPPORTED + '。'); return; }
+  if (rbRestartPending || !rbStatusInfo || !(rbStatusInfo.pid > 0)) {
+    alert('LD4 目前沒有在執行(或剛關閉)，即時讀寫已停用。請先啟動遊戲，再重新掃描 anchor。');
+    return;
+  }
   const fields = rbLoadFields();
-  // #5: 先試 SSE real-time push(Python bridge 支援);失敗 fallback 2 秒 polling
-  if (typeof EventSource === 'function' && fields.length > 0) {
-    const watch = fields.map(f => {
+  // 只監看屬於目前 LD4 行程的欄位;失效的欄位不讀
+  const usableIdx = [];
+  fields.forEach((f, i) => { if (rbFieldUsable(f)) usableIdx.push(i); });
+  if (fields.length > 0 && usableIdx.length === 0) {
+    alert('目前的即時欄位都已失效(LD4 重新啟動過，記憶體位址不同了)。請重新掃描 anchor 後再加入。');
+    return;
+  }
+  // 先試 SSE 即時推送(Python bridge 支援);失敗時改用每 2 秒輪詢
+  if (typeof EventSource === 'function' && usableIdx.length > 0) {
+    const watch = usableIdx.map(i => {
+      const f = fields[i];
       const enc = cfEnc(f.encoding);
       return `0x${f.addr.toString(16)}:${enc ? enc.size : 4}`;
     }).join(',');
+    rbSSEIdx = usableIdx;
+    rbSSEPid = rbStatusInfo.pid;
+    rbSSEToken = rbCurrentToken();
     try {
-      rbSSE = new EventSource(`${rbBase}/events?watch=${encodeURIComponent(watch)}&interval=0.5`);
+      rbSSE = new EventSource(`${rbBase}/events?watch=${encodeURIComponent(watch)}&interval=0.5&token=${encodeURIComponent(rbSSEToken)}`);
       rbSSE.onmessage = (e) => {
         try { rbApplySSE(JSON.parse(e.data)); } catch (_) {}
       };
@@ -2050,19 +2607,28 @@ async function ms8Pick() {
         return;
       }
     }
+    fsaDetachCurrent();
     ms8Slots = [];
     for (let i = 0; i < 8; i++) {
       const slot = { idx: i, handle: null, buf: null, dv: null, mtime: 0, size: 0, modified: false, name: `LDTSV${i}.dat`, file: null };
       try {
         const fh = await ms8DirHandle.getFileHandle(`LDTSV${i}.dat`);
         const f = await fh.getFile();
-        if (!ldSizeOk(f)) { continue; }   // skip an implausible slot file rather than loading it
-        const ab = await f.arrayBuffer();
         slot.handle = fh;
+        if (!ldSizeOk(f)) {
+          // 大小不合理的檔不載入，但照樣佔住第 i 格：ms8Slots[i] 必須永遠對應 LDTSVi.dat，
+          // 否則後面每一格都會錯開，改動會寫進別的存檔
+          slot.invalidSize = true;
+          slot.mtime = f.lastModified;
+          slot.size = f.size;
+          ms8Slots.push(slot);
+          continue;
+        }
+        const ab = await f.arrayBuffer();
         slot.buf = new Uint8Array(ab);
         slot.dv = new DataView(ab);
-        slot.mtime = f.lastModified;
-        slot.size = f.size;
+        slot.mtime = slot.baseMtime = f.lastModified;
+        slot.size = slot.baseSize = f.size;
         slot.file = f;
       } catch (e) {
         // 該 slot 不存在，留空
@@ -2074,6 +2640,7 @@ async function ms8Pick() {
     ms8RenderGrid();
     const firstIdx = ms8Slots.findIndex(s => s.buf !== null);
     if (firstIdx >= 0) ms8SetActive(firstIdx);
+    pruneHistory();   // 槽位 buffer 全部重建，之前的 undo 紀錄都不屬於它們
     if (typeof fsaStopPoll === 'function') fsaStopPoll();
     $('fsa-indicator').style.display = 'none';
     ms8StartPoll();
@@ -2141,6 +2708,12 @@ function ms8RenderGrid() {
       mtEl.className = 'ms8-card-mtime';
       mtEl.textContent = ms8FormatMtime(slot.mtime) + (slot.modified ? '  ⚠ 已修改' : '');
       card.appendChild(mtEl);
+      if (!slot.invalidSize && (slot.mtime !== slot.baseMtime || slot.size !== slot.baseSize)) {
+        const newerEl = document.createElement('div');
+        newerEl.className = 'ms8-card-mtime';
+        newerEl.textContent = '⚠ 磁碟上有較新版本(未重讀)';
+        card.appendChild(newerEl);
+      }
 
       card.addEventListener('click', () => ms8SetActive(slot.idx));
       card.setAttribute('role', 'button');
@@ -2153,19 +2726,37 @@ function ms8RenderGrid() {
     } else {
       const emptyEl = document.createElement('div');
       emptyEl.className = 'ms8-card-mtime';
-      emptyEl.textContent = '(空槽 / 不存在)';
+      emptyEl.textContent = slot.invalidSize ? `⚠ 檔案大小異常（${slot.size.toLocaleString()} bytes），未載入` : '(空槽 / 不存在)';
       card.appendChild(emptyEl);
+    }
+    if (slot.buf && slot.invalidSize) {
+      const warnEl = document.createElement('div');
+      warnEl.className = 'ms8-card-mtime';
+      warnEl.textContent = '⚠ 磁碟上的新版本大小異常，未重讀';
+      card.appendChild(warnEl);
     }
     grid.appendChild(card);
   }
 }
 
 function ms8SetActive(idx) {
-  const slot = ms8Slots[idx];
+  const slot = ms8Slots.find(s => s.idx === idx);
   if (!slot || !slot.buf) return;
-  // 切換前先把 active slot 的 modified state 存回 slot
-  if (ms8ActiveIdx >= 0 && ms8Slots[ms8ActiveIdx]) {
-    ms8Slots[ms8ActiveIdx].modified = modified;
+  if (fsaSaving) {
+    $('status').textContent = '存檔寫入中，完成後再切換';
+    $('status').style.color = 'var(--amber)';
+    return;
+  }
+  // 畫面上是 8 槽以外的檔(拖放或一鍵連檔載入的)而且有未存修改：切換會丟掉它
+  const curIsSlot = ms8Slots.some(s => s.buf === buf);
+  if (buf && !curIsSlot && modified &&
+      !confirm('目前載入的檔案有未存的修改，切換到存檔槽之後這些修改會消失。確定要切換嗎?')) return;
+  // 8 槽模式有自己的輪詢；單檔輪詢一律停掉，避免兩個輪詢追同一個檔
+  fsaStopPoll();
+  // 切換前先把作用中槽位的 modified 存回去(只在畫面上確實是那一槽時)
+  if (ms8ActiveIdx >= 0) {
+    const prev = ms8Slots.find(s => s.idx === ms8ActiveIdx);
+    if (prev && prev.buf === buf) prev.modified = modified;
   }
   ms8ActiveIdx = idx;
   buf = slot.buf;
@@ -2176,6 +2767,7 @@ function ms8SetActive(idx) {
   fsaLastSize = slot.size;
   modified = slot.modified;
   hexPage = 0;
+  if (!curIsSlot) pruneHistory();   // 離開的是 8 槽以外的檔：它的 undo 紀錄已經沒有對應的 buffer
   $('modified-indicator').style.display = modified ? 'inline' : 'none';
   $('drop-zone').style.display = 'none';
   $('viewer').style.display = 'block';
@@ -2193,39 +2785,93 @@ function ms8SetActive(idx) {
   $('status').style.color = 'var(--phosphor)';
 }
 
+let ms8Refreshing = false;   // 避免上一輪還在讀檔(或 confirm 還開著)時又疊一輪
 async function ms8RefreshAll() {
+  if (ms8Refreshing || fsaSaving) return;
+  ms8Refreshing = true;
   let changed = 0;
-  for (const slot of ms8Slots) {
-    if (!slot.handle) continue;
-    try {
-      const f = await slot.handle.getFile();
-      if (f.lastModified === slot.mtime && f.size === slot.size) continue;
-      if (slot.modified) {
-        slot.mtime = f.lastModified;
-        slot.size = f.size;
-        continue;
+  const keptDirty = [];
+  const sizeBad = [];
+  try {
+    for (const slot of ms8Slots) {
+      if (!slot.handle) continue;
+      const sg = saveGen;
+      try {
+        const f = await slot.handle.getFile();
+        if (fsaSaving || saveGen !== sg) break;   // 讀檔期間按了覆蓋：這一輪到此為止，下一輪重新檢查
+        if (f.lastModified === slot.mtime && f.size === slot.size) continue;
+        // 大小異常(遊戲可能正在寫檔)先處理：不跳確認框、不動玩家的修改，等下一個版本
+        if (!ldSizeOk(f)) {
+          slot.mtime = f.lastModified; slot.size = f.size; slot.invalidSize = true;
+          if (slot.buf) markHistoryDirty(slot.buf);
+          sizeBad.push(slot.idx);
+          continue;
+        }
+        // 作用中的槽位以全域 modified 為準(markModified 也會同步寫進 slot.modified)
+        const isActive = (slot.idx === ms8ActiveIdx && slot.buf === buf);
+        const isDirty = isActive ? modified : slot.modified;
+        if (isDirty) {
+          let discard = false;
+          if (isActive) {
+            discard = confirm(`⚠ 偵測到槽 [${slot.idx}] LDTSV${slot.idx}.dat 被外部變動(遊戲剛存檔?)\n\n你有還沒寫回的修改。是否捨棄修改、重讀新檔?\n\n- 確定 = 捨棄你的修改，讀新檔\n- 取消 = 保留你的修改，不重讀(之後按「直接覆蓋原檔」會用你的版本蓋掉遊戲剛存的檔)`);
+          }
+          if (!discard) {
+            slot.mtime = f.lastModified;
+            slot.size = f.size;
+            slot.invalidSize = false;   // 磁碟上是正常大小的新版本
+            markHistoryDirty(slot.buf);
+            keptDirty.push(slot.idx);
+            continue;
+          }
+        }
+        const gen = editGen;
+        const bufBefore = slot.buf;
+        const ab = await f.arrayBuffer();
+        if (fsaSaving || saveGen !== sg) break;
+        // 讀檔期間玩家可能切到這一槽、甚至已經開始改：重新判斷一次
+        const activeNow = bufBefore !== null && slot.idx === ms8ActiveIdx && buf === bufBefore;
+        if ((activeNow && editGen !== gen) || (!activeNow && slot.modified)) {
+          slot.mtime = f.lastModified;
+          slot.size = f.size;
+          slot.invalidSize = false;
+          if (slot.buf) markHistoryDirty(slot.buf);
+          keptDirty.push(slot.idx);
+          continue;
+        }
+        slot.invalidSize = false;
+        slot.buf = new Uint8Array(ab);
+        slot.dv = new DataView(ab);
+        slot.mtime = slot.baseMtime = f.lastModified;
+        slot.size = slot.baseSize = f.size;
+        slot.file = f;
+        slot.modified = false;
+        changed++;
+        if (activeNow) {
+          buf = slot.buf; dv = slot.dv; fsaLastMtime = slot.mtime; fsaLastSize = slot.size;
+          modified = false;
+          $('modified-indicator').style.display = 'none';
+          renderInfo();
+          parseHeader();
+          populatePlayerFields();
+          renderHexPage();
+        }
+      } catch (e) { /* slot 消失 */ }
+    }
+    if (changed > 0) pruneHistory();   // 重讀過的槽位換了 buffer,它的舊 undo 紀錄作廢
+    ms8RenderGrid();
+    if (changed > 0 || keptDirty.length > 0 || sizeBad.length > 0) {
+      let msg = changed > 0 ? `✓ ${changed} 槽 refresh(${new Date().toLocaleTimeString()})` : '';
+      if (keptDirty.length > 0) {
+        msg += (msg ? ';' : '') + `⚠ 槽 [${keptDirty.join(', ')}] 磁碟上有新版本，但你有未寫回的修改，已保留你的修改(未重讀)`;
       }
-      if (!ldSizeOk(f)) { slot.mtime = f.lastModified; slot.size = f.size; continue; }
-      const ab = await f.arrayBuffer();
-      slot.buf = new Uint8Array(ab);
-      slot.dv = new DataView(ab);
-      slot.mtime = f.lastModified;
-      slot.size = f.size;
-      slot.file = f;
-      changed++;
-      if (slot.idx === ms8ActiveIdx) {
-        buf = slot.buf; dv = slot.dv; fsaLastMtime = slot.mtime; fsaLastSize = slot.size;
-        renderInfo();
-        parseHeader();
-        populatePlayerFields();
-        renderHexPage();
+      if (sizeBad.length > 0) {
+        msg += (msg ? ';' : '') + `⚠ 槽 [${sizeBad.join(', ')}] 磁碟上的新版本大小異常(遊戲可能正在寫檔)，暫不重讀`;
       }
-    } catch (e) { /* slot 消失 */ }
-  }
-  ms8RenderGrid();
-  if (changed > 0) {
-    $('ms8-poll-status').textContent = `✓ ${changed} 槽 refresh(${new Date().toLocaleTimeString()})`;
-    $('ms8-poll-status').style.color = 'var(--phosphor)';
+      $('ms8-poll-status').textContent = msg;
+      $('ms8-poll-status').style.color = (keptDirty.length > 0 || sizeBad.length > 0) ? 'var(--amber)' : 'var(--phosphor)';
+    }
+  } finally {
+    ms8Refreshing = false;
   }
 }
 
@@ -2257,6 +2903,7 @@ function ms8Exit() {
   $('viewer').style.display = 'none';
   $('drop-zone').style.display = 'block';
   $('btn-fsa-save').style.display = 'none';
+  pruneHistory();
   $('status').textContent = '已離開多槽模式';
   $('status').style.color = 'var(--phosphor-dim)';
 }
@@ -2270,7 +2917,7 @@ if (MS8_SUPPORTED) {
   $('ms8-exit').addEventListener('click', ms8Exit);
 }
 
-// ===== v1.0 #1: PWA Service Worker register =====
+// ===== v1.0:PWA Service Worker 註冊 =====
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js', { scope: './' }).then(reg => {
@@ -2283,7 +2930,7 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-// ===== v1.0 #2: Undo / Redo stack =====
+// ===== v1.0:Undo / Redo stack =====
 const UNDO_MAX = 50;
 const undoStack = [];
 const redoStack = [];
@@ -2358,8 +3005,10 @@ function renderUndoUI() {
   }
 }
 
-$('btn-undo').addEventListener('click', doUndo);
-$('btn-redo').addEventListener('click', doRedo);
+// 用箭頭函式每次依名稱呼叫：doUndo / doRedo 在下方會重新指定成支援 RAM 與 cfState 的版本，
+// 直接傳函式參考會綁在這裡較早的定義上(RAM undo 會拋錯、cfState 會被寫成 "undefined")
+$('btn-undo').addEventListener('click', () => doUndo());
+$('btn-redo').addEventListener('click', () => doRedo());
 document.addEventListener('keydown', (e) => {
   // Ctrl/Cmd+Z = undo / Ctrl/Cmd+Shift+Z = redo
   const isUndoCombo = (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z' && !e.shiftKey;
@@ -2371,46 +3020,16 @@ document.addEventListener('keydown', (e) => {
   else if (isRedoCombo) { e.preventDefault(); doRedo(); }
 });
 
-// Hook 既有 editor:money-apply / cfApply / wizAddToFields 完之後不直接套用,但因 v1.0 改動最小,
-// 我們在 money-apply 跟 cfApply handler 進入點 wrap pushUndo
-//，用 monkey-patch 既有 handler 太複雜。改成 pushUndo 在 apply 函數內部呼叫(下面 hook)。
-//
-// 已知限制(v1.0):
-// - undo 只還原 buf bytes,不還原 localStorage 自訂欄位 add/delete
-// - undo 對 RAM bridge write 不適用(遊戲 process 狀態無法 snapshot)
+// 金錢編輯與自訂欄位「套用」的 undo 紀錄，在各自的 handler 內、驗證通過之後才建立，
+// 輸入不合法時不留紀錄。自訂欄位新增 / 刪除與 RAM 即時寫入的 undo 在下方「Undo 涵蓋」段處理。
+// FSA 直接覆蓋原檔是寫到磁碟、不改 buffer,不留 undo 紀錄。
 
-// Hook money-apply
-(function hookMoneyApply() {
-  const btn = $('money-apply');
-  if (!btn) return;
-  const orig = btn.onclick;
-  // 改用 listener 攔截
-  // 先移除既有 click listener 不可能(addEventListener 加的)，改在原 listener 前 capture phase 加 pushUndo
-  btn.addEventListener('click', () => {
-    if (buf) pushUndo('改金錢');
-  }, true);
-})();
-
-// Hook cf apply(自訂欄位「套用」按鈕)，cf 是動態 render,要在 cfApply 函數呼叫前 hook
-// 用 wrap cfApply 函數方式(若存在)
-if (typeof cfApply === 'function') {
-  const origCfApply = cfApply;
-  cfApply = function(idx, valStr) {
-    const fields = cfLoad();
-    const f = fields[idx];
-    pushUndo(f ? `改 ${f.label}` : '改欄位');
-    return origCfApply.apply(this, arguments);
-  };
-}
-
-// Hook FSA save undo:寫入後 push 一個 marker (不會還原檔案但給歷史脈絡)
-// 不 hook，FSA save 是「寫到磁碟」非 buf 變動,沒可還原內容
-
-// ===== v1.0 #3: Batch Preset =====
+// ===== v1.0:Batch Preset =====
 const PRESET_KEY = 'ld4_presets_v1';
 const BUILTIN_PRESETS = [
   { name: '【內建】金錢 50,000(新手友善)', fields: [{ encoding: 'not_u16le', offset: 0x00c8be, value: 50000 }], builtin: true },
-  { name: '【內建】金錢 500,000(中期)', fields: [{ encoding: 'not_u16le', offset: 0x00c8be, value: 500000 > 65535 ? 65535 : 500000 }], builtin: true },
+  // 金錢是 u16,最大 65,535;每筆套餐的數值都要落在這個範圍內
+  { name: '【內建】金錢 30,000(中期)', fields: [{ encoding: 'not_u16le', offset: 0x00c8be, value: 30000 }], builtin: true },
   { name: '【內建】金錢 65,535(u16 上限)', fields: [{ encoding: 'not_u16le', offset: 0x00c8be, value: 65535 }], builtin: true },
   { name: '【內建】金錢歸零(重新挑戰)', fields: [{ encoding: 'not_u16le', offset: 0x00c8be, value: 0 }], builtin: true }
 ];
@@ -2420,8 +3039,21 @@ function presetLoad() {
     const raw = localStorage.getItem(PRESET_KEY);
     const arr = raw ? JSON.parse(raw) : [];
     if (!Array.isArray(arr)) return [];
-    return arr.filter(p => p && p.name && Array.isArray(p.fields));
+    return arr.filter(p => p && typeof p.name === 'string' && p.name && Array.isArray(p.fields));
   } catch (e) { return []; }
+}
+
+// 套餐欄位逐一檢查;回傳空字串表示可寫入，否則回傳略過原因。
+// offset / value 都必須已經是整數(不先轉型):字串 '0x300' 做 offset + size 會變字串相加，
+// 負數 offset 寫入會被 typed array 靜默忽略卻仍算「已套用」,超出範圍的值會被截斷(u8 999 → 231)。
+function presetFieldProblem(f, bufLen) {
+  if (!f || typeof f !== 'object') return '格式錯誤';
+  const enc = cfEnc(f.encoding);
+  if (!enc) return '編碼不認得或尚未載入';
+  if (!Number.isInteger(f.offset) || f.offset < 0) return 'offset 不是非負整數';
+  if (typeof bufLen === 'number' && f.offset + enc.size > bufLen) return 'offset 超出檔案範圍';
+  if (!Number.isInteger(f.value) || f.value < enc.min || f.value > enc.max) return '數值超出編碼範圍';
+  return '';
 }
 
 function presetSave(arr) {
@@ -2460,26 +3092,28 @@ function presetApply() {
   if (!buf) { alert('請先載入存檔'); return; }
   const p = presetGetSelected();
   if (!p) { alert('沒選 preset'); return; }
-  let applied = 0;
-  pushUndo(`套用 preset 「${p.name}」`);
+  // 先全部驗證，再決定要不要寫：不合法的欄位不寫，也不算進「已套用」
+  const ok = [];
+  const skipped = [];
   for (const f of p.fields) {
-    const enc = cfEnc(f.encoding);
-    if (!enc) continue;
-    if (f.offset + enc.size > buf.length) continue;
-    enc.write(buf, f.offset, f.value);
-    applied++;
+    const why = presetFieldProblem(f, buf.length);
+    if (why) skipped.push(why); else ok.push(f);
   }
-  if (applied > 0) {
-    markModified();
-    parseHeader();
-    if (typeof renderHexPage === 'function') renderHexPage();
-    if (typeof cfRenderTable === 'function') cfRenderTable();
-    $('preset-status').textContent = `✓ 套用 ${applied}/${p.fields.length} 欄位`;
-    $('preset-status').style.color = 'var(--phosphor)';
-  } else {
-    $('preset-status').textContent = '✗ 0 欄位套用(可能 offset 超出範圍)';
+  const skipNote = skipped.length > 0
+    ? `,略過 ${skipped.length} 個(${Array.from(new Set(skipped)).join('、')})` : '';
+  if (ok.length === 0) {
+    $('preset-status').textContent = `✗ 0/${p.fields.length} 欄位套用` + skipNote;
     $('preset-status').style.color = 'var(--amber)';
+    return;
   }
+  pushUndo(`套用 preset 「${p.name}」`);
+  for (const f of ok) cfEnc(f.encoding).write(buf, f.offset, f.value);
+  markModified();
+  parseHeader();
+  if (typeof renderHexPage === 'function') renderHexPage();
+  if (typeof cfRenderTable === 'function') cfRenderTable();
+  $('preset-status').textContent = `✓ 套用 ${ok.length}/${p.fields.length} 欄位` + skipNote;
+  $('preset-status').style.color = skipped.length > 0 ? 'var(--amber)' : 'var(--phosphor)';
 }
 
 function presetSaveNew() {
@@ -2532,14 +3166,15 @@ $('preset-delete').addEventListener('click', presetDeleteSelected);
 presetRenderSelect();
 renderUndoUI();
 
-// ===== v1.1 #1: Undo 擴充，自訂欄位 add/delete + RAM bridge write =====
-// Strategy: pushUndo 升級成 snapshot { buf + cfState + ... },RAM 用 type 區分
+// ===== v1.1:Undo 涵蓋自訂欄位新增 / 刪除與 RAM bridge 寫入 =====
+// 每筆存檔紀錄是 { buf 快照 + cfState } 的 snapshot;RAM 寫入的紀錄以 type: 'ram' 區分
 
-// 1a) Wrap cfSave 自動 push 一個 undo(任何 cf 變動)，用 skip flag 避免 doUndo 內部 restore 也 push
+// 自訂欄位有任何變動(cfSave)都先留一筆 undo;doUndo 內部還原 cfState 時用 skip flag 避免再留一筆
 let __cfSaveSkipUndo = false;
 if (typeof cfSave === 'function') {
   const origCfSave = cfSave;
   cfSave = function(fields) {
+    if (!Array.isArray(fields)) return origCfSave.apply(this, arguments);   // 由 cfSave 本身拒絕，不留 undo
     if (!__cfSaveSkipUndo && buf) {
       pushUndo('自訂欄位變動');
     }
@@ -2549,7 +3184,7 @@ if (typeof cfSave === 'function') {
   if (typeof cfRenderTable === 'function') cfRenderTable();
 }
 
-// 1b) Augment pushUndo 順便 snapshot cfState，wrap 原 pushUndo
+// 存檔的 undo 紀錄同時保存 cfState,還原時兩者一起回到當時的狀態
 const __origPushUndo = pushUndo;
 pushUndo = function(label) {
   if (!buf) return;
@@ -2558,6 +3193,10 @@ pushUndo = function(label) {
     ts: Date.now(),
     type: 'sav',
     label,
+    // 記下這筆紀錄屬於哪一個 buffer:換檔 / 換槽 / 自動重讀之後 buf 會換成別的物件，
+    // 還原前比對 bufRef === buf,避免把 A 檔的快照整份寫進 B 檔
+    bufRef: buf,
+    fileName,
     before: new Uint8Array(buf),
     wasModified: modified,
     cfState: (typeof cfLoad === 'function') ? cfLoad() : null
@@ -2567,94 +3206,167 @@ pushUndo = function(label) {
   renderUndoUI();
 };
 
-// 1c) Push undo for RAM write
-function pushUndoRam(addr, encoding, beforeValue, afterValue, label) {
+// 某個 buffer 與磁碟內容不再一致時呼叫(剛寫出去、或玩家選了保留修改不重讀)：
+// 回到它任何一筆歷史狀態，都跟磁碟不同，所以一律標成「有未存修改」。
+function markHistoryDirty(bufRef) {
+  for (const st of [undoStack, redoStack]) {
+    for (const e of st) if (e.type !== 'ram' && e.bufRef === bufRef) e.wasModified = true;
+  }
+}
+
+// 移除已無法對應任何現存 buffer 的存檔紀錄(單檔重讀後舊 buffer 就不存在了)。
+// 8 槽模式下其他槽的 buffer 仍在，那些紀錄保留，切回該槽即可 undo。
+function pruneHistory() {
+  const live = new Set();
+  if (buf) live.add(buf);
+  for (const s of ms8Slots) if (s && s.buf) live.add(s.buf);
+  for (const st of [undoStack, redoStack]) {
+    const kept = st.filter(e => e.type === 'ram' || live.has(e.bufRef));
+    st.length = 0;
+    for (const e of kept) st.push(e);
+  }
+  renderUndoUI();
+}
+
+// LD4 重開後 RAM 紀錄的位址失效：指定 token 時只移除那個行程的紀錄，沒指定就全部移除
+function pruneRamHistory(token) {
+  for (const st of [undoStack, redoStack]) {
+    const kept = st.filter(e => e.type !== 'ram' || (token !== undefined && e.token !== token));
+    st.length = 0;
+    for (const e of kept) st.push(e);
+  }
+  renderUndoUI();
+}
+
+// RAM 寫入成功後建立復原紀錄，保存寫入時的行程身分 token(復原時用它確認還是同一個行程)
+function pushUndoRam(addr, encoding, beforeValue, afterValue, label, token) {
   undoStack.push({
     ts: Date.now(),
     type: 'ram',
-    label, addr, encoding, beforeValue, afterValue
+    label, addr, encoding, beforeValue, afterValue, token
   });
   if (undoStack.length > UNDO_MAX) undoStack.shift();
   redoStack.length = 0;
   renderUndoUI();
 }
 
-// 1d) Wrap rbWriteField:先讀 RAM 當前值 → push undo entry → 才真寫
+// 即時寫入前先讀出 RAM 當前值，/write 成功之後才建立 undo 紀錄;
+// 寫入失敗(包含 bridge 回 409)不會留下紀錄。/write 成功後、建立紀錄前，欄位的 token
+// 若已被停用(寫入後的讀取或其他讀取回了 409、或偵測到 LD4 重新啟動)，同樣不建立紀錄
 if (typeof rbWriteField === 'function') {
   const origRbWriteField = rbWriteField;
-  rbWriteField = async function(i, valStr) {
-    const fields = (typeof rbLoadFields === 'function') ? rbLoadFields() : [];
-    const f = fields[i];
-    if (f && typeof rbConnected !== 'undefined' && rbConnected) {
-      try {
-        const beforeVal = await rbReadField(i);
-        const newVal = parseInt(valStr, 10);
-        if (beforeVal !== null && !isNaN(newVal) && beforeVal !== newVal) {
-          pushUndoRam(f.addr, f.encoding, beforeVal, newVal, `RAM 改 ${f.label}`);
-        }
-      } catch (e) { /* ignore，write 仍會跑 */ }
+  rbWriteField = async function(ref, valStr) {
+    // 按下的當下就鎖定欄位身分；之後的讀取、寫入、Undo 都用這一份
+    const f = rbFieldSnapshot(ref);
+    let beforeVal = null;
+    const vs = String(valStr).trim();
+    if (f && rbFieldUsable(f) && vs !== '' && Number.isInteger(Number(vs))) {   // 輸入明顯不合法就不必先讀
+      try { beforeVal = await rbReadField(f); } catch (e) { beforeVal = null; }
+      // 讀取回 409 時欄位已停用;接下來的寫入流程會發現欄位失效並說明，不會寫入
+      if (beforeVal === RB_READ_STALE) beforeVal = null;
     }
-    return origRbWriteField.apply(this, arguments);
+    if (!f) return null;
+    const res = await origRbWriteField.call(this, f, valStr);
+    if (res && res.ok && f && beforeVal !== null && beforeVal !== res.value && rbTokenLive(res.token)) {
+      pushUndoRam(f.addr, f.encoding, beforeVal, res.value, `RAM 改 ${f.label}`, res.token);
+    }
+    return res;
   };
 }
 
-// 1e) Replace doUndo + doRedo for type dispatch + cfState restore
+// RAM undo / redo 共用：寫入前重新確認 bridge 與行程身分，身分不同(LD4 重開過)就拒絕;
+// 寫入時同樣帶 token,bridge 核對不符回 409 時不會寫入
+async function rbUndoWrite(e, value) {
+  const enc = cfEnc(e.encoding);
+  if (!enc) return { ok: false, error: '編碼不認得', stale: false };
+  if (!rbIsToken(e.token)) return { ok: false, error: '這筆紀錄沒有記下遊戲行程身分，無法確認位址仍然有效', stale: true };
+  await rbProbe();
+  if (!rbConnected) return { ok: false, error: 'Bridge 未連', stale: false };
+  if (rbRestartPending || rbCurrentToken() !== e.token) {
+    return { ok: false, error: 'LD4 已關閉或重新啟動過，這筆紀錄的記憶體位址已失效', stale: true };
+  }
+  const bytes = new Uint8Array(enc.size);
+  enc.write(bytes, 0, value);
+  const hex = Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
+  try {
+    const r = await fetch(`${rbBase}/write?addr=0x${e.addr.toString(16)}&token=${encodeURIComponent(e.token)}`, {
+      method: 'POST', body: hex, headers: { 'Content-Type': 'text/plain' }
+    });
+    if (r.status === 409) {
+      if (rbConflictNoWrite(await rbConflictBody(r))) {
+        rbMarkTokenStale(e.token, RB_STATUS_STALE_NO_WRITE);
+        return { ok: false, error: '遊戲已重新啟動，請重新掃描(bridge 已拒絕寫入，遊戲記憶體沒有被改動)', stale: true };
+      }
+      rbMarkTokenStale(e.token, RB_STATUS_STALE_UNSURE);
+      return { ok: false, error: RB_MSG_RESTART_UNSURE, stale: true };
+    }
+    const j = await r.json();
+    return j.ok ? { ok: true } : { ok: false, error: j.error || '?', stale: false };
+  } catch (err) {
+    return { ok: false, error: 'Bridge 通訊失敗:' + err.message, stale: false };
+  }
+}
+
+// 存檔 undo / redo 共用的 buffer 歸屬檢查
+function undoBufMismatch(e) {
+  if (e.bufRef === buf) return false;
+  alert(`這一步屬於「${e.fileName || '另一個檔案'}」，不是目前顯示的「${fileName || '(未載入)'}」。\n` +
+    '為了避免把別的存檔內容寫進這個檔案，已拒絕還原。請先切回該檔案(8 槽模式點回那一槽)再操作。');
+  $('status').textContent = '✗ 已拒絕:這一步 undo / redo 不屬於目前的檔案';
+  $('status').style.color = 'var(--amber)';
+  return true;
+}
+let undoBusy = false;   // RAM undo 要等 bridge 回應，連按時避免兩次操作同一筆
+
+// undo / redo 依紀錄 type 分流:RAM 紀錄經 bridge 寫回，存檔紀錄還原 buffer 與 cfState
 const __origDoUndo = doUndo;
 doUndo = async function() {
-  if (undoStack.length === 0) return;
+  if (undoBusy || undoStack.length === 0) return;
   const e = undoStack[undoStack.length - 1];
   if (e.type === 'ram') {
-    // RAM undo，write beforeValue back via bridge
-    if (typeof rbConnected === 'undefined' || !rbConnected) {
-      alert('Bridge 未連，無法 undo RAM 改動');
-      return;
-    }
-    const enc = cfEnc(e.encoding);
-    if (!enc) return;
-    undoStack.pop();
-    const bytes = new Uint8Array(enc.size);
-    enc.write(bytes, 0, e.beforeValue);
-    const hex = Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
+    undoBusy = true;
     try {
-      const r = await fetch(`${rbBase}/write?addr=0x${e.addr.toString(16)}`, {
-        method: 'POST', body: hex, headers: { 'Content-Type': 'text/plain' }
-      });
-      const j = await r.json();
-      if (j.ok) {
-        redoStack.push({ type: 'ram', label: e.label, addr: e.addr, encoding: e.encoding, beforeValue: e.afterValue, afterValue: e.beforeValue });
+      // RAM undo:經 bridge 寫回 beforeValue(寫入前重新確認行程身分)
+      undoStack.pop();
+      const res = await rbUndoWrite(e, e.beforeValue);
+      if (res.ok) {
+        if (rbTokenLive(e.token)) redoStack.push({ type: 'ram', label: e.label, addr: e.addr, encoding: e.encoding, beforeValue: e.afterValue, afterValue: e.beforeValue, token: e.token });
         $('status').textContent = `↶ RAM Undo:${e.label}(${e.afterValue} → ${e.beforeValue})`;
         $('status').style.color = 'var(--phosphor)';
         if (typeof rbPollOnce === 'function') rbPollOnce();
+      } else if (res.stale) {
+        // 位址已失效的紀錄不放回去(永遠不可能再對)
+        alert('RAM undo 已取消:' + res.error + '。這筆紀錄已從歷史移除。');
       } else {
-        alert('RAM undo 失敗:' + (j.error || '?'));
+        alert('RAM undo 失敗:' + res.error);
         undoStack.push(e);
       }
-    } catch (err) {
-      alert('Bridge 通訊失敗:' + err.message);
-      undoStack.push(e);
+    } finally {
+      undoBusy = false;
+      renderUndoUI();
     }
-    renderUndoUI();
     return;
   }
   // SAV undo
   if (!buf) return;
+  if (undoBufMismatch(e)) return;
   undoStack.pop();
   redoStack.push({
     ts: Date.now(),
     type: 'sav',
     label: e.label,
+    bufRef: buf,
+    fileName,
     before: new Uint8Array(buf),
     wasModified: modified,
     cfState: (typeof cfLoad === 'function') ? cfLoad() : null
   });
-  if (e.before.length === buf.length) buf.set(e.before);
-  else {
-    buf = new Uint8Array(e.before);
-    dv = new DataView(buf.buffer);
-  }
+  buf.set(e.before);   // bufRef === buf,長度必然相同，原地還原(保留 dv binding)
+  editGen++;
   modified = e.wasModified;
+  syncActiveSlotModified();
   $('modified-indicator').style.display = modified ? 'inline' : 'none';
-  if (e.cfState !== null && typeof cfSave === 'function') {
+  if (Array.isArray(e.cfState) && typeof cfSave === 'function') {
     __cfSaveSkipUndo = true;
     try { cfSave(e.cfState); }
     finally { __cfSaveSkipUndo = false; }
@@ -2671,55 +3383,51 @@ doUndo = async function() {
 
 const __origDoRedo = doRedo;
 doRedo = async function() {
-  if (redoStack.length === 0) return;
+  if (undoBusy || redoStack.length === 0) return;
   const e = redoStack[redoStack.length - 1];
   if (e.type === 'ram') {
-    if (typeof rbConnected === 'undefined' || !rbConnected) {
-      alert('Bridge 未連，無法 redo RAM 改動');
-      return;
-    }
-    const enc = cfEnc(e.encoding);
-    if (!enc) return;
-    redoStack.pop();
-    const bytes = new Uint8Array(enc.size);
-    enc.write(bytes, 0, e.beforeValue);  // redo: 寫 redo entry 的 beforeValue (即原 undo 的 afterValue)
-    const hex = Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
+    undoBusy = true;
     try {
-      const r = await fetch(`${rbBase}/write?addr=0x${e.addr.toString(16)}`, {
-        method: 'POST', body: hex, headers: { 'Content-Type': 'text/plain' }
-      });
-      const j = await r.json();
-      if (j.ok) {
-        undoStack.push({ type: 'ram', label: e.label, addr: e.addr, encoding: e.encoding, beforeValue: e.afterValue, afterValue: e.beforeValue });
+      redoStack.pop();
+      // redo: 寫 redo entry 的 beforeValue (即原 undo 的 afterValue)
+      const res = await rbUndoWrite(e, e.beforeValue);
+      if (res.ok) {
+        if (rbTokenLive(e.token)) undoStack.push({ type: 'ram', label: e.label, addr: e.addr, encoding: e.encoding, beforeValue: e.afterValue, afterValue: e.beforeValue, token: e.token });
         $('status').textContent = `↷ RAM Redo:${e.label}`;
         $('status').style.color = 'var(--phosphor)';
         if (typeof rbPollOnce === 'function') rbPollOnce();
+      } else if (res.stale) {
+        alert('RAM redo 已取消:' + res.error + '。這筆紀錄已從歷史移除。');
       } else {
+        alert('RAM redo 失敗:' + res.error);
         redoStack.push(e);
       }
-    } catch (err) { redoStack.push(e); }
-    renderUndoUI();
+    } finally {
+      undoBusy = false;
+      renderUndoUI();
+    }
     return;
   }
   // SAV redo
   if (!buf) return;
+  if (undoBufMismatch(e)) return;
   redoStack.pop();
   undoStack.push({
     ts: Date.now(),
     type: 'sav',
     label: e.label,
+    bufRef: buf,
+    fileName,
     before: new Uint8Array(buf),
     wasModified: modified,
     cfState: (typeof cfLoad === 'function') ? cfLoad() : null
   });
-  if (e.before.length === buf.length) buf.set(e.before);
-  else {
-    buf = new Uint8Array(e.before);
-    dv = new DataView(buf.buffer);
-  }
+  buf.set(e.before);
+  editGen++;
   modified = e.wasModified;
+  syncActiveSlotModified();
   $('modified-indicator').style.display = modified ? 'inline' : 'none';
-  if (e.cfState !== null && typeof cfSave === 'function') {
+  if (Array.isArray(e.cfState) && typeof cfSave === 'function') {
     __cfSaveSkipUndo = true;
     try { cfSave(e.cfState); }
     finally { __cfSaveSkipUndo = false; }
@@ -2734,12 +3442,10 @@ doRedo = async function() {
   $('status').style.color = 'var(--phosphor)';
 };
 
-// 鍵盤 handler 已 register 用 doUndo / doRedo 識別字，改成 await 版本
-// 既有 handler 是 ((e) => { if (...) { e.preventDefault(); doUndo(); } })，它呼叫的 doUndo
-// 是全域 var,monkey-patch 後新 doUndo 是 async function 但 fire-and-forget 沒問題
-// (不 await 不會錯)
+// 鍵盤 handler 依名稱呼叫 doUndo / doRedo,執行時拿到的就是上面的 async 版本;
+// handler 不等待結果，操作進行中再按一次會被 undoBusy 擋下。
 
-// ===== v1.1 #2: Preset import/export JSON =====
+// ===== v1.1:Preset import/export JSON =====
 function presetExport() {
   const userPresets = presetLoad();
   if (userPresets.length === 0) {
@@ -2761,26 +3467,50 @@ function presetImport() {
     const file = e.target.files && e.target.files[0];
     if (!file) return;
     const r = new FileReader();
-    r.onload = ev => {
+    r.onload = async ev => {
       try {
         const arr = JSON.parse(ev.target.result);
         if (!Array.isArray(arr)) throw new Error('not array');
-        const valid = arr.filter(p => p && typeof p.name === 'string' && Array.isArray(p.fields));
+        await cfEnsureEnumForImport();
+        // 逐欄驗證：offset / value 必須是整數且在範圍內(沒有 buffer 可比，檔案長度等套用時再檢查)。
+        // enum_* 只有在編碼表還沒載入時才先保留、套用時再判斷;已載入仍不認得的，
+        // 交給 presetFieldProblem 判為不合法，計入略過的欄位數。
+        const fieldOk = f => {
+          if (!f || typeof f !== 'object') return false;
+          if (cfImportEncState(f.encoding) === 'pending') {
+            return Number.isInteger(f.offset) && f.offset >= 0 && Number.isInteger(f.value) && f.value >= 0;
+          }
+          return presetFieldProblem(f) === '';
+        };
+        const valid = arr.filter(p => p && typeof p.name === 'string' && p.name && Array.isArray(p.fields));
         if (valid.length === 0) { alert('沒有合法 preset 可匯入'); return; }
         const existing = presetLoad();
         const existingNames = new Set(existing.map(p => p.name));
         let added = 0;
+        let droppedFields = 0;
+        let emptyPresets = 0;
         for (const p of valid) {
-          if (existingNames.has(p.name)) {
+          const fields = p.fields.filter(fieldOk).map(f => {
+            const out = { encoding: f.encoding, offset: f.offset, value: f.value };
+            if (typeof f.label === 'string') out.label = f.label;
+            return out;
+          });
+          droppedFields += p.fields.length - fields.length;
+          if (fields.length === 0) { emptyPresets++; continue; }
+          let name = p.name;
+          if (existingNames.has(name)) {
             // 自動 rename 加 (imported)
-            p.name = p.name + ' (imported)';
+            name = name + ' (imported)';
           }
-          existing.push(p);
+          existingNames.add(name);
+          existing.push({ name, fields, ts: Date.now() });
           added++;
         }
         presetSave(existing);
         presetRenderSelect();
-        alert(`✓ 匯入 ${added} 個 preset`);
+        alert(`✓ 匯入 ${added} 個 preset` +
+          (droppedFields > 0 ? `,略過 ${droppedFields} 個不合法欄位(編碼須認得、offset / 數值須為範圍內的整數)` : '') +
+          (emptyPresets > 0 ? `,${emptyPresets} 個 preset 沒有任何合法欄位未匯入` : ''));
       } catch (err) { alert('JSON parse 失敗:' + err.message); }
     };
     r.readAsText(file);
@@ -2788,7 +3518,7 @@ function presetImport() {
   inp.click();
 }
 
-// ===== v1.1 #3: Preset rename =====
+// ===== v1.1:Preset rename =====
 function presetRename() {
   const sel = $('preset-select');
   const idx = parseInt(sel.value, 10);
@@ -2816,18 +3546,40 @@ function presetRename() {
 
 // ===== v1.2: LD4 enum 即時查 (lookup ld4_enum_table.json) =====
 let ld4EnumTable = null;  // { meta, categories: { catName: [{addr, len, text, enum_id}] } }
+let ld4EnumTablePending = null;   // 進行中的載入(同時呼叫的人共用，不重複 fetch)
 
+// 載入失敗不快取：回傳 false,下一次呼叫會重新抓。
+// 載入成功時立刻把 enum 編碼註冊進 CF_ENCODINGS,並重畫自訂欄位表，
+// 讓先前顯示「編碼表載入中」的欄位恢復可用。
 async function loadEnumTable() {
-  if (ld4EnumTable !== null) return ld4EnumTable;
-  try {
-    const r = await fetch('./ld4_enum_table.json');
-    if (!r.ok) throw new Error('fetch fail');
-    ld4EnumTable = await r.json();
+  if (ld4EnumTable) return ld4EnumTable;
+  if (ld4EnumTablePending) return ld4EnumTablePending;
+  ld4EnumLoadState = 'loading';
+  ld4EnumTablePending = (async () => {
+    try {
+      const r = await fetch('./ld4_enum_table.json');
+      if (!r.ok) throw new Error('fetch fail');
+      const t = await r.json();
+      if (!t || typeof t.categories !== 'object' || t.categories === null) throw new Error('bad table');
+      ld4EnumTable = t;
+    } catch (e) {
+      ld4EnumTable = null;
+      ld4EnumLoadState = 'failed';
+      if (typeof cfRenderTable === 'function') cfRenderTable();
+      return false;
+    } finally {
+      ld4EnumTablePending = null;
+    }
+    try {
+      await augmentCfEncodingsWithEnum();
+      await augmentCfEncodingsWithEnumU16();
+    } catch (e) { console.warn('[enum] 編碼註冊失敗', e); }
+    ld4EnumLoadState = 'loaded';
+    if (typeof cfRenderTable === 'function') cfRenderTable();
+    enumInit();   // 第一次載入失敗、之後重試成功時，補上類別選單
     return ld4EnumTable;
-  } catch (e) {
-    ld4EnumTable = false;  // 標記載入失敗
-    return false;
-  }
+  })();
+  return ld4EnumTablePending;
 }
 
 function enumRenderResults() {
@@ -2865,13 +3617,17 @@ function enumRenderResults() {
   $('enum-status').style.color = 'var(--phosphor)';
 }
 
+let enumInitDone = false;
 async function enumInit() {
+  if (enumInitDone) return;
   const tbl = await loadEnumTable();
+  if (enumInitDone) return;   // 等待期間另一個呼叫已完成初始化
   if (!tbl) {
-    $('enum-status').textContent = '⚠ ld4_enum_table.json 未載入(離線模式或檔案不存在)';
+    $('enum-status').textContent = '⚠ ld4_enum_table.json 未載入(離線模式或檔案不存在)，使用 enum 相關功能時會再試一次';
     $('enum-status').style.color = 'var(--amber)';
     return;
   }
+  enumInitDone = true;
   const sel = $('enum-cat-select');
   // 已有「(全類別)」option,加各 category
   const cats = Object.keys(tbl.categories);
@@ -2974,16 +3730,13 @@ async function augmentCfEncodingsWithEnum() {
   };
 })();
 
-// 補:讓 v0.6 智慧 anchor 精靈的「+ 加進自訂欄位」也能選 enum encoding
-// (這需要 wizAddToFields 不只 hardcode CF_ENCODINGS[key] check,而是允許 enum_* keys)
-// 既有 wizAddToFields 用 if (...enc.isEnum)... 即可,但 wizard 不會 propose enum encoding
-// (wizard 跑 u8 / NOT u8 / NOT u16 LE 等 byte-encoding scan,enum 通常從 byte 0-N 範圍推測)
-// → 不改 wizard,使用者要 enum 編碼可從 cf-add 手動選
+// 智慧 anchor 精靈只跑 u8 / NOT u8 / NOT u16 LE 這類位元組編碼，不會提出 enum 編碼
+// (enum 通常要從 byte 0-N 的範圍推測);要用 enum 編碼的欄位，從自訂欄位的新增表單手動選。
 
 // 觸發 enum 整合(在 enumInit 完成後，enumInit 已 await loadEnumTable)
 setTimeout(augmentCfEncodingsWithEnum, 100);
 
-// ===== v1.4 #1: hex viewer auto-hint，本頁 confirmed fields list =====
+// ===== v1.4:hex viewer auto-hint，本頁 confirmed fields list =====
 // 在 renderHexPage 後顯示該 page 範圍內 cf field offset 列表 + decoded value
 function renderHexPageFieldHints() {
   const wrap = document.getElementById('hex-page-fields');
@@ -3051,7 +3804,7 @@ if (typeof renderHexPage === 'function') {
   };
 }
 
-// ===== v1.4 #2: Wizard enum mode，輸入 enum 字串 → 反查 enum_id → bulk-scan =====
+// ===== v1.4:Wizard enum mode，輸入 enum 字串 → 反查 enum_id → bulk-scan =====
 async function wizEnumRun() {
   if (!buf) { alert('請先載入存檔'); return; }
   const text = $('wiz-enum-text').value.trim();
@@ -3167,9 +3920,9 @@ async function wizEnumRun() {
 $('wiz-enum-run').addEventListener('click', wizEnumRun);
 $('wiz-enum-text').addEventListener('keypress', (e) => { if (e.key === 'Enter') wizEnumRun(); });
 
-// ===== v1.5 #1: enum_u16le variant，對應 LD4 SAV 內可能用 u16 LE 存的 enum =====
-// 解 v1.4 已知限制 #2:enum encoding size=1 only,實際 SAV 可能 u16 對齊
-// 升級 augmentCfEncodingsWithEnum 多加 enum_u16le_<cat> spec
+// ===== v1.5:enum_u16le variant，對應 LD4 SAV 內可能用 u16 LE 存的 enum =====
+// enum 除了 1 byte 版本，SAV 也可能以 u16 對齊存放：
+// 每個類別另外註冊一個 enum_u16le_<cat> 編碼
 async function augmentCfEncodingsWithEnumU16() {
   const tbl = await loadEnumTable();
   if (!tbl) return;
@@ -3213,7 +3966,7 @@ async function augmentCfEncodingsWithEnumU16() {
 }
 setTimeout(augmentCfEncodingsWithEnumU16, 200);
 
-// ===== v1.5 #2: Wizard multi-string cross-correlate =====
+// ===== v1.5:Wizard multi-string cross-correlate =====
 // 輸入 N 個字串/數值 → 對每個跑 bulk-scan(enum 反查 or plain int 編碼)→
 // 找「相對位置一致」的 hits:對每個輸入的 hits,看它們是否在固定 stride 出現
 // 簡化版:每行 input 跑得到 hit set,輸出每個 input 的 unique hits + 列「同 stride 的 hits」
@@ -3231,6 +3984,7 @@ async function wizCrossCorrelate() {
   const inputResults = [];
   for (const line of lines) {
     const hits = new Set();
+    const uniqueHits = new Set();   // 某個編碼在全檔只命中 1 次的位置(★ unique)
     const meta = { input: line, encodings_tried: [] };
     // 嘗試純整數
     const asNum = parseInt(line, 10);
@@ -3248,6 +4002,7 @@ async function wizCrossCorrelate() {
       for (const c of cands) {
         const h = wizFindAll(buf, c.bytes);
         h.forEach(off => hits.add(off));
+        if (h.length === 1) uniqueHits.add(h[0]);
         meta.encodings_tried.push(c.lbl + ': ' + h.length);
       }
     }
@@ -3277,11 +4032,13 @@ async function wizCrossCorrelate() {
       for (const c of cands) {
         const h = wizFindAll(buf, c.bytes);
         h.forEach(off => hits.add(off));
+        if (h.length === 1) uniqueHits.add(h[0]);
         meta.encodings_tried.push(c.lbl + ': ' + h.length);
       }
     }
     meta.total_hits = hits.size;
     meta.hits = Array.from(hits).sort((a, b) => a - b);
+    meta.uniqueHits = Array.from(uniqueHits).sort((a, b) => a - b);
     inputResults.push(meta);
   }
 
@@ -3295,28 +4052,36 @@ async function wizCrossCorrelate() {
   // v1.6: WINDOW 從 dropdown 讀(預設 256)
   const windowSel = document.getElementById('wiz-xc-window');
   const WINDOW = windowSel ? parseInt(windowSel.value, 10) || 256 : 256;
+  // 區塊一律是 [base, base + WINDOW),以半個 WINDOW 為步距互相重疊，跨界的命中也不會漏。
+  // 命中只計入完整包含它的區塊，所以區塊與明細列的比對範圍一致，都是一個 WINDOW。
+  const STEP = Math.max(1, Math.floor(WINDOW / 2));
   const windowCounts = new Map();  // window_base → Set of input indices that hit it
+  const windowUnique = new Map();  // window_base → Set of input indices 在此區塊有 ★ unique 命中
+  const addTo = (map, w, i) => { if (!map.has(w)) map.set(w, new Set()); map.get(w).add(i); };
   for (let i = 0; i < inputResults.length; i++) {
     const ir = inputResults[i];
+    const uniq = new Set(ir.uniqueHits);
     for (const off of ir.hits) {
-      const base = off - (off % WINDOW);
-      // also check window before (跨界 hit)
-      for (const w of [base, base - WINDOW]) {
-        if (w < 0) continue;
-        if (!windowCounts.has(w)) windowCounts.set(w, new Set());
-        windowCounts.get(w).add(i);
+      const b0 = off - (off % STEP);
+      for (const w of [b0, b0 - STEP]) {
+        if (w < 0 || off < w || off >= w + WINDOW) continue;
+        addTo(windowCounts, w, i);
+        if (uniq.has(off)) addTo(windowUnique, w, i);
       }
     }
   }
 
-  // 找包含「所有 input」的 windows
+  // 候選區塊：每個輸入都有命中，而且至少一個輸入在這裡是 ★ unique 命中。
+  // 只看「每個輸入都有命中」在真實存檔上幾乎每個區塊都成立(單一位元組的編碼到處都是)，沒有鑑別力。
   const fullWindows = [];
+  let allHitNoUnique = 0;
   for (const [base, idxSet] of windowCounts.entries()) {
-    if (idxSet.size === inputResults.length) {
-      fullWindows.push(base);
-    }
+    if (idxSet.size !== inputResults.length) continue;
+    if (windowUnique.has(base)) fullWindows.push(base);
+    else allHitNoUnique++;
   }
-  fullWindows.sort();
+  fullWindows.sort((a, b) => a - b);   // 數字排序(不帶比較函式的 sort() 是字串比較)
+  const anyUnique = inputResults.some(ir => ir.uniqueHits.length > 0);
 
   // 渲染結果
   const tbody = $('wiz-tbody');
@@ -3351,7 +4116,8 @@ async function wizCrossCorrelate() {
   tdSep.style.color = 'var(--amber)';
   tdSep.style.borderTop = '1px solid var(--amber)';
   tdSep.style.paddingTop = '6px';
-  tdSep.textContent = '★★ cross-correlate 結果:' + fullWindows.length + ' 個 256-byte window 包含全部 ' + inputResults.length + ' 個 inputs';
+  tdSep.textContent = '★★ cross-correlate 結果(實驗性):' + fullWindows.length + ' 個 ' + WINDOW + '-byte 區塊包含全部 ' + inputResults.length +
+    ' 個 inputs 且有 ★ unique 命中' + (allHitNoUnique > 0 ? '(另有 ' + allHitNoUnique + ' 個區塊只是每個輸入都有命中、沒有 unique 命中，命中太多沒有鑑別力，已排除)' : '');
   trSep.appendChild(tdSep);
   tbody.appendChild(trSep);
 
@@ -3373,9 +4139,10 @@ async function wizCrossCorrelate() {
     // list each input's hits within this window
     const detailParts = [];
     for (let i = 0; i < inputResults.length; i++) {
+      const uniq = new Set(inputResults[i].uniqueHits);
       const inWin = inputResults[i].hits.filter(h => h >= wbase && h < wbase + WINDOW);
       if (inWin.length > 0) {
-        detailParts.push('#' + (i + 1) + '@' + inWin.map(h => '0x' + h.toString(16)).join(','));
+        detailParts.push('#' + (i + 1) + '@' + inWin.map(h => '0x' + h.toString(16) + (uniq.has(h) ? '★' : '')).join(','));
       }
     }
     td3.textContent = detailParts.join(' | ');
@@ -3475,20 +4242,24 @@ async function wizCrossCorrelate() {
   const sum = $('wiz-summary');
   while (sum.firstChild) sum.removeChild(sum.firstChild);
   if (fullWindows.length > 0) {
-    const s1 = document.createTextNode('✓ cross-correlate 找到 ');
+    const s1 = document.createTextNode('✓ cross-correlate(實驗性)找到 ');
     const s2 = document.createElement('strong');
     s2.style.color = 'var(--phosphor)';
-    s2.textContent = String(fullWindows.length) + ' 個 共同 window';
-    const s3 = document.createTextNode('(每個 ' + WINDOW + '-byte 範圍內 ' + inputResults.length + ' 個 inputs 都有 hit)。最少 window 數的位置最可能是 player struct 起點。v1.6 加 pair-wise stride 分析:同 distance 多次出現 = 該 2 inputs 在固定 byte offset 存放。');
+    s2.textContent = String(fullWindows.length) + ' 個 候選區塊';
+    const s3 = document.createTextNode('(每個 ' + WINDOW + '-byte 範圍內 ' + inputResults.length + ' 個 inputs 都有 hit,且至少一個是 ★ unique 命中，明細中以 ★ 標示)。候選只是線索，請用跨檔 diff 或改值後重掃確認。v1.6 加 pair-wise stride 分析:同 distance 多次出現 = 該 2 inputs 在固定 byte offset 存放。');
     sum.appendChild(s1); sum.appendChild(s2); sum.appendChild(s3);
     sum.style.color = 'var(--phosphor)';
+  } else if (!anyUnique) {
+    const s = document.createTextNode('⚠ 沒有任何一個輸入在任何編碼下是 ★ unique 命中(每個都命中很多處)，區塊比對沒有鑑別力，所以不列候選。請改用更獨特的數值(例:金錢 7,331 這種不常見的數)，或先用上方智慧 anchor 精靈找出 unique anchor。');
+    sum.appendChild(s);
+    sum.style.color = 'var(--amber)';
   } else {
-    const s = document.createTextNode('⚠ 沒找到包含所有 ' + inputResults.length + ' 個 inputs 的 ' + WINDOW + '-byte window。可能原因:(1) inputs 散佈太遠(不在同一 player struct) (2) 部分 input encoding 沒抓到 → 試換 unique 值 (3) 把 window 改大(v1.6 可選 512/1024)。仍可看 pair-wise stride 分析找局部 hint。');
+    const s = document.createTextNode('⚠ 沒找到包含所有 ' + inputResults.length + ' 個 inputs 且有 ★ unique 命中的 ' + WINDOW + '-byte 區塊。可能原因:(1) inputs 散佈太遠(不在同一 player struct) (2) 部分 input encoding 沒抓到 → 試換 unique 值 (3) 把 window 改大(v1.6 可選 512/1024)。仍可看 pair-wise stride 分析找局部 hint。');
     sum.appendChild(s);
     sum.style.color = 'var(--amber)';
   }
   $('wiz-results').style.display = 'block';
-  $('wiz-xc-status').textContent = '✓ ' + inputResults.length + ' inputs / ' + fullWindows.length + ' 共同 windows (' + WINDOW + 'B)';
+  $('wiz-xc-status').textContent = '✓ ' + inputResults.length + ' inputs / ' + fullWindows.length + ' 候選區塊 (' + WINDOW + 'B)';
   $('wiz-xc-status').style.color = fullWindows.length > 0 ? 'var(--phosphor)' : 'var(--amber)';
 }
 
@@ -3525,37 +4296,71 @@ $('wiz-xc-run').addEventListener('click', wizCrossCorrelate);
   deleteBtn.parentNode.insertBefore(importBtn, deleteBtn);
 })();
 
-// ===== v1.0 #4: ASLR auto-recovery for RAM bridge =====
-// 已在 rbProbe / setInterval 內加 pid 變化偵測，下面 inject 邏輯到既有 rbProbe wrapper
-let rbLastPid = 0;
+// ===== v1.0:ASLR 重新啟動偵測(RAM bridge)=====
+// 每次 rbProbe 比對 bridge 回報的 pid 與行程身分 token:
+// pid 或 token 改變 → 視為重新啟動，停用舊欄位、要求重掃;
+// pid 歸 0(關遊戲)→ 設 rbRestartPending 並停用 RAM 讀寫，下一個正 pid 一律視為重啟
+// (就算 pid 數字剛好跟之前一樣，也可能是不同的行程)。
+function rbHandleRestart(oldPid, cur) {
+  rbStopPoll();
+  pruneRamHistory();   // RAM undo 紀錄的位址也一起失效
+  const fields = rbLoadFields();
+  // 舊行程的 token 全部停用：還在路上的讀取結果與寫入都不再採用、不再建立 RAM 復原紀錄。
+  // 目前這個行程的 token 不列入，之後重新掃描加入的欄位要用它
+  const curTok = rbCurrentToken();
+  for (const f of fields) if (rbIsToken(f.token) && f.token !== curTok) rbRetiredTokens.add(f.token);
+  const hadFields = fields.length > 0;
+  if (hadFields) {
+    // 先全部標成失效(停用讀寫)，再問要不要清掉
+    for (const f of fields) f.token = null;
+    rbSaveFields(fields);
+    const yn = confirm(`⚠ ASLR 偵測:LD4 重新啟動過(pid ${oldPid || '?'} → ${cur})\n\n記憶體位址每次啟動都不同，${fields.length} 個即時欄位已停用。現在清空它們嗎?\n\n確定 = 清空(建議，之後重新掃描 anchor)\n取消 = 保留但維持停用(只能刪除，不能讀寫)`);
+    if (yn) rbSaveFields([]);
+  }
+  rbRenderFields();
+  if (hadFields) {
+    $('rb-poll-status').textContent = `⚠ LD4 重新啟動過(pid ${oldPid || '?'} → ${cur})，舊的即時欄位已停用，請重新掃描 anchor`;
+    $('rb-poll-status').style.color = 'var(--amber)';
+  } else {
+    $('rb-poll-status').textContent = `✓ 偵測到 LD4(pid ${cur})，可以開始掃描 anchor`;
+    $('rb-poll-status').style.color = 'var(--phosphor)';
+  }
+}
+
 const origRbProbe = (typeof rbProbe === 'function') ? rbProbe : null;
 if (origRbProbe) {
   rbProbe = async function() {
     const ok = await origRbProbe.apply(this, arguments);
-    if (ok && rbStatusInfo && rbStatusInfo.pid > 0) {
-      const cur = rbStatusInfo.pid;
-      if (rbLastPid !== 0 && rbLastPid !== cur) {
-        // ASLR detect，process restart
-        const fields = (typeof rbLoadFields === 'function') ? rbLoadFields() : [];
-        if (fields.length > 0) {
-          if (typeof rbStopPoll === 'function') rbStopPoll();
-          const yn = confirm(`⚠ ASLR 偵測:LD4 重啟了(pid 從 ${rbLastPid} 變 ${cur})\n\n所有 RAM offset 都失效。清空 ${fields.length} 個即時欄位?\n\n確定 = 清空(建議,需重新 scan anchor)\n取消 = 保留(讀出的值會是垃圾)`);
-          if (yn && typeof rbSaveFields === 'function') {
-            rbSaveFields([]);
-            if (typeof rbRenderFields === 'function') rbRenderFields();
-          }
-        }
+    if (!ok || !rbStatusInfo) return ok;
+    const cur = Number(rbStatusInfo.pid) || 0;
+    const curTok = rbCurrentToken();
+    if (cur > 0) {
+      const tokChanged = !!(rbLastToken && curTok && rbLastToken !== curTok);
+      if (rbRestartPending || (rbLastPid !== 0 && rbLastPid !== cur) || tokChanged) {
+        const oldPid = rbLastPid;
+        rbRestartPending = false;
+        rbLastPid = cur;
+        rbLastToken = curTok;
+        rbHandleRestart(oldPid, cur);
+      } else {
+        rbLastPid = cur;
+        if (curTok) rbLastToken = curTok;
       }
-      rbLastPid = cur;
-    } else if (ok && rbStatusInfo && rbStatusInfo.pid === 0) {
-      // LD4 沒在跑了(關了)，不清欄位(玩家可能重開遊戲)
-      rbLastPid = 0;
+    } else if (!rbRestartPending) {
+      // LD4 關了：停用 RAM 讀寫，等下一個 pid 出現時要求重掃
+      rbRestartPending = true;
+      rbStopPoll();
+      rbRenderFields();
+      $('rb-poll-status').textContent = rbPlatformUnsupported()
+        ? '⚠ ' + RB_MSG_MAC_UNSUPPORTED
+        : '⚠ LD4 已關閉，即時讀寫已停用;重新啟動遊戲後請重新掃描 anchor';
+      $('rb-poll-status').style.color = 'var(--amber)';
     }
     return ok;
   };
 }
 
-// ===== v1.0 #5: 跨槽 diff(grid 2-select)=====
+// ===== v1.0:跨槽 diff(grid 2-select)=====
 let ms8DiffMode = false;
 const ms8DiffSet = new Set();
 
@@ -3665,74 +4470,198 @@ function ms8DiffRun() {
 $('ms8-diff-mode').addEventListener('click', ms8ToggleDiffMode);
 $('ms8-diff-run').addEventListener('click', ms8DiffRun);
 
-// Init:probe bridge,有就顯示 panel
-(async () => {
-  const ok = await rbProbe();
-  if (ok) {
-    $('ram-bridge-panel').style.display = 'block';
+// Init(本機網路存取):開頁不會自動連 127.0.0.1。
+// 一載入頁面就探測 bridge 的話，Chrome 142 起會對每位訪客跳出本機網路權限框。
+// 由玩家按「連線 Live Bridge」才探測，所以先開頁面、之後才啟動 bridge 也連得上;
+// 連上後才顯示其餘控制，並開始每 5 秒重新偵測。
+let rbUiWired = false;
+let rbStatusTimer = null;
+let rbWasUp = false;   // 只在連線狀態改變時重畫欄位表，避免每 5 秒清掉玩家正在輸入的新值
+
+function rbWireConnectedUi() {
+  if (rbUiWired) return;
+  rbUiWired = true;
+  $('rb-scan-btn').addEventListener('click', rbScan);
+  $('rb-scan-value').addEventListener('keypress', e => { if (e.key === 'Enter') rbScan(); });
+  $('rb-poll-toggle').addEventListener('click', () => {
+    // SSE 模式下 rbPollTimer===null,須一併檢查 rbSSE 才停得了
+    if (rbPollTimer || rbSSE) rbStopPoll(); else rbStartPoll();
+  });
+  $('rb-export-btn').addEventListener('click', () => {
+    const blob = new Blob([JSON.stringify(rbLoadFields(), null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'ld4_ram_fields_' + new Date().toISOString().slice(0,10) + '.json';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+  $('rb-import-btn').addEventListener('click', () => {
+    const inp = document.createElement('input'); inp.type = 'file'; inp.accept = '.json';
+    inp.addEventListener('change', e => {
+      const file = e.target.files && e.target.files[0]; if (!file) return;
+      const r = new FileReader();
+      r.onload = ev => {
+        try {
+          const arr = JSON.parse(ev.target.result);
+          if (!Array.isArray(arr)) throw new Error('not array');
+          // addr 必須是非負整數、編碼要認得、要有名稱;行程身分 token 格式正確才保留，
+          // 沒有 token 或 token 跟目前 LD4 不同的欄位會以「失效」狀態匯入(不能讀寫)
+          const valid = arr.filter(f => f && Number.isInteger(f.addr) && f.addr >= 0 &&
+              cfEnc(f.encoding) && typeof f.label === 'string')
+            .map(f => ({ label: f.label, addr: f.addr, encoding: f.encoding,
+              token: rbIsToken(f.token) ? f.token : null }));
+          const rejected = arr.length - valid.length;
+          const existing = rbLoadFields();
+          const key = f => f.addr + '|' + f.encoding + '|' + f.token;
+          const existingKeys = new Set(existing.map(key));
+          const addedList = [];
+          for (const f of valid) {
+            const k = key(f);
+            if (!existingKeys.has(k)) { existing.push(f); existingKeys.add(k); addedList.push(f); }
+          }
+          const added = addedList.length;
+          const dup = valid.length - added;
+          existing.sort((a, b) => a.addr - b.addr);
+          rbSaveFields(existing);
+          rbRenderFields();
+          const staleNew = addedList.filter(f => !rbFieldUsable(f)).length;
+          alert(`匯入 ${added} 個新即時欄位(${dup} 個重複跳過)` +
+            (rejected > 0 ? `,${rejected} 筆格式不合法已略過(addr 須為非負整數、編碼須認得)` : '') +
+            (staleNew > 0 ? `。其中 ${staleNew} 個不屬於目前執行中的 LD4,會以失效狀態保留，不能讀寫` : ''));
+        } catch (err) { alert('JSON parse 失敗:' + err.message); }
+      };
+      r.readAsText(file);
+    });
+    inp.click();
+  });
+  $('rb-clear-btn').addEventListener('click', () => {
+    if (!confirm('清空所有即時欄位?')) return;
+    rbSaveFields([]); rbRenderFields();
+  });
+}
+
+const RB_FORBIDDEN_MSG = '✗ bridge 有在執行，但拒絕了這個網頁來源。請從 https://toniliumvp.github.io/LunaticDawn/ 開啟修改器';
+let rbConnecting = false;   // 玩家按連線、正在等待回應時為 true,5 秒偵測在這段期間不動作
+let rbConnectGen = 0;       // 每按一次連線加 1,讓還在路上的 5 秒偵測結果作廢
+let rbTickBusy = false;
+let rbForbiddenStreak = 0;   // 背景偵測要連續兩次判定為拒絕才停止，避免 bridge 忙碌時被誤判
+
+function rbStopStatusTimer() {
+  if (rbStatusTimer) { clearInterval(rbStatusTimer); rbStatusTimer = null; }
+}
+
+// bridge 拒絕這個網頁來源：停掉 5 秒偵測與即時讀取，保留拒絕訊息。
+// 這不是暫時斷線，自動重試也不會好，要玩家換網址開啟後再按一次連線。
+function rbEnterForbidden() {
+  rbStopStatusTimer();
+  rbStopPoll();
+  rbConnected = false;
+  rbStatusInfo = null;
+  rbRenderStatusBox();
+  if (rbWasUp) rbRenderFields();
+  rbWasUp = false;
+  $('rb-poll-status').textContent = '⚠ bridge 拒絕了這個網頁來源，即時讀寫已停止';
+  $('rb-poll-status').style.color = 'var(--amber)';
+  const st = $('rb-connect-status');
+  st.textContent = RB_FORBIDDEN_MSG;
+  st.style.color = 'var(--amber)';
+  $('rb-connect-btn').disabled = false;
+}
+
+// 每 5 秒更新 bridge status box,只在玩家按過連線且成功之後才開始。
+// 背景偵測維持短逾時，不會替玩家等權限詢問。
+async function rbStatusTick() {
+  if (rbConnecting || rbTickBusy) return;
+  rbTickBusy = true;
+  const gen = rbConnectGen;
+  const stale = () => gen !== rbConnectGen || rbConnecting || !rbStatusTimer;
+  try {
+    const ok = await rbProbe();
+    if (stale()) return;
+    if (!ok) {
+      // 逾時代表 bridge 忙碌（例如正在掃描記憶體），不是拒絕來源：當成暫時失聯，不做來源診斷
+      const timedOut = rbLastProbeTimedOut;
+      const why = timedOut ? 'timeout' : await rbDiagnoseFailure(rbLastProbeStatus);
+      if (stale()) return;
+      if (why === 'forbidden') {
+        rbForbiddenStreak++;
+        if (rbForbiddenStreak >= 2) { rbForbiddenStreak = 0; rbEnterForbidden(); return; }
+      } else {
+        rbForbiddenStreak = 0;
+      }
+      rbStopPoll();
+      rbConnected = false;
+      rbStatusInfo = null;
+      rbRenderStatusBox();
+      if (rbWasUp) rbRenderFields();
+      rbWasUp = false;
+      $('rb-poll-status').textContent = '⚠ Bridge 失聯，確認 ld4_bridge.ps1/.py 仍在跑';
+      $('rb-poll-status').style.color = 'var(--amber)';
+      $('rb-connect-status').textContent = '⚠ Bridge 失聯(' + new Date().toLocaleTimeString() + ')，恢復後會自動重新連上';
+      $('rb-connect-status').style.color = 'var(--amber)';
+    } else {
+      rbForbiddenStreak = 0;
+      rbRenderStatusBox();
+      if (!rbWasUp) {
+        rbRenderFields();   // 斷線後恢復：欄位重新變成可用(行程身分沒變的話)
+        $('rb-poll-status').textContent = '✓ Bridge 已恢復連線';
+        $('rb-poll-status').style.color = 'var(--phosphor)';
+      }
+      rbWasUp = true;
+      $('rb-connect-status').textContent = '✓ 已連線(' + new Date().toLocaleTimeString() + ')';
+      $('rb-connect-status').style.color = 'var(--phosphor)';
+    }
+  } finally {
+    rbTickBusy = false;
+  }
+}
+
+async function rbConnectClick() {
+  const btn = $('rb-connect-btn');
+  const st = $('rb-connect-status');
+  if (rbConnecting) return;
+  rbConnecting = true;
+  rbConnectGen++;
+  rbForbiddenStreak = 0;
+  btn.disabled = true;
+  st.textContent = '⏳ 連線中(只連你自己電腦上的 127.0.0.1:8765)。若瀏覽器詢問是否允許存取本機網路，請按允許';
+  st.style.color = 'var(--phosphor-dim)';
+  try {
+    const ok = await rbProbe(RB_CONNECT_TIMEOUT_MS);
+    const httpStatus = rbLastProbeStatus;
+    const timedOut = rbLastProbeTimedOut;
+    if (!ok) {
+      const why = timedOut ? 'timeout' : await rbDiagnoseFailure(httpStatus, RB_CONNECT_TIMEOUT_MS);
+      btn.disabled = false;
+      if (why === 'forbidden') { rbEnterForbidden(); return; }
+      if (why === 'timeout') {
+        st.textContent = `✗ 等了 ${RB_CONNECT_TIMEOUT_MS / 1000} 秒沒有回應。若瀏覽器有詢問是否允許存取本機網路，請按允許後再按一次;` +
+          '否則請確認 bridge 程式已在本機執行。';
+      } else {
+        st.textContent = '✗ 連不到 bridge(127.0.0.1:8765)' +
+          (why === 'bad-status' ? `,回應不正確(HTTP ${httpStatus})` : '') +
+          '。請確認 bridge 程式已在本機執行，再按一次。若剛才拒絕了瀏覽器的本機網路存取詢問，' +
+          '要先到網址列左側的網站設定改成允許。';
+      }
+      st.style.color = 'var(--amber)';
+      return;
+    }
+    btn.disabled = false;
+    st.textContent = '✓ 已連線(' + new Date().toLocaleTimeString() + ')';
+    st.style.color = 'var(--phosphor)';
+    btn.textContent = '🔗 重新偵測';
+    $('rb-connected-controls').style.display = 'block';
+    rbWireConnectedUi();
     rbRenderStatusBox();
     rbRenderFields();
-    // 註冊事件
-    $('rb-scan-btn').addEventListener('click', rbScan);
-    $('rb-scan-value').addEventListener('keypress', e => { if (e.key === 'Enter') rbScan(); });
-    $('rb-poll-toggle').addEventListener('click', () => {
-      // SSE 模式下 rbPollTimer===null,須一併檢查 rbSSE 才停得了
-      if (rbPollTimer || rbSSE) rbStopPoll(); else rbStartPoll();
-    });
-    $('rb-export-btn').addEventListener('click', () => {
-      const blob = new Blob([JSON.stringify(rbLoadFields(), null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = 'ld4_ram_fields_' + new Date().toISOString().slice(0,10) + '.json';
-      document.body.appendChild(a); a.click(); document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    });
-    $('rb-import-btn').addEventListener('click', () => {
-      const inp = document.createElement('input'); inp.type = 'file'; inp.accept = '.json';
-      inp.addEventListener('change', e => {
-        const file = e.target.files && e.target.files[0]; if (!file) return;
-        const r = new FileReader();
-        r.onload = ev => {
-          try {
-            const arr = JSON.parse(ev.target.result);
-            if (!Array.isArray(arr)) throw new Error('not array');
-            const valid = arr.filter(f => f && typeof f.addr === 'number' && cfEnc(f.encoding));
-            const existing = rbLoadFields();
-            const key = f => f.addr + '|' + f.encoding;
-            const existingKeys = new Set(existing.map(key));
-            let added = 0;
-            for (const f of valid) if (!existingKeys.has(key(f))) { existing.push(f); added++; }
-            existing.sort((a, b) => a.addr - b.addr);
-            rbSaveFields(existing);
-            rbRenderFields();
-            alert(`匯入 ${added} 個新即時欄位`);
-          } catch (err) { alert('JSON parse 失敗:' + err.message); }
-        };
-        r.readAsText(file);
-      });
-      inp.click();
-    });
-    $('rb-clear-btn').addEventListener('click', () => {
-      if (!confirm('清空所有即時欄位?')) return;
-      rbSaveFields([]); rbRenderFields();
-    });
-    // 定期更新 bridge status box(每 5 秒)
-    setInterval(async () => {
-      const ok = await rbProbe();
-      if (!ok) {
-        rbStopPoll();
-        rbConnected = false;
-        rbStatusInfo = null;
-        rbRenderStatusBox();
-        $('rb-poll-status').textContent = '⚠ Bridge 失聯，確認 ld4_bridge.ps1/.py 仍在跑';
-        $('rb-poll-status').style.color = 'var(--amber)';
-      } else {
-        rbRenderStatusBox();
-      }
-    }, 5000);
+    rbWasUp = true;
+    if (!rbStatusTimer) rbStatusTimer = setInterval(rbStatusTick, 5000);
+  } finally {
+    rbConnecting = false;
+    btn.disabled = false;
   }
-  // 沒 bridge 就靜默不顯示 panel(避免干擾 Safari 用戶)
-})();
+}
+$('rb-connect-btn').addEventListener('click', rbConnectClick);
 </script>
 </body>
 </html>

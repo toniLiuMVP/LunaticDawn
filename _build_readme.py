@@ -167,7 +167,7 @@ def build_readme() -> str:
     lines.append("## 🛠 工具與資源")
     lines.append("")
     if check_exists("ezplay.html"):
-        lines.append("- **[EzPlay 下載即玩](./ezplay.html)** · 前途道標 / 俠客遊 IV / 第三之書 三款相容性補丁（自備正版，解壓覆蓋執行一個檔即玩 · 跨平台 · 含三邊法律依據 + SHA-256 校驗碼 + 第三之書 ME 版特典）")
+        lines.append("- **[EzPlay 下載即玩](./ezplay.html)** · 前途道標 / 俠客遊 IV / 第三之書 三款補丁包（自備正版，解壓覆蓋執行一個檔即玩 · 跨平台 · 含三邊可主張依據與風險說明 + SHA-256 校驗碼 + 第三之書 ME 版特典）")
     if has_save_editor:
         lines.append("- **[俠客遊 II 存檔修改器](./luna2/save-editor.html)** · 瀏覽器版，純 HTML+JS，拖入 LUNACHAR.SAV 即改，160 個角色槽")
     if n_guides > 0:
@@ -262,11 +262,11 @@ def build_readme() -> str:
     lines.append("- **Tedk** · 2009 Google Pages 時代協助驗證")
     lines.append("- **linxr_wind** · 2009 第三之書管理員需求回報")
     lines.append("- **timchio** · 2011 俠客遊 IV 重溫詢問")
-    lines.append("- **Kelvin Yau** · 2013 第三之書 Win7 相容性早期測試")
-    lines.append("- **QQ508091419** · 2020 俠客遊 IV 神之眼路徑詢問")
+    lines.append("- **一位玩家** · 2013 第三之書 Win7 相容性早期測試")
+    lines.append("- **一位對岸玩家** · 2020 俠客遊 IV 神之眼路徑詢問")
     lines.append("- **DavidChien / nec81616 / tigerzhou100800 / line841a** · 2020-2021 Google 防毒誤判回報")
-    lines.append("- **qq888999123** · 2021「密碼壓縮繞防毒」解法提議")
-    lines.append("- **a0961168526** · 2022 阿米卓古 / 第三之書 me 版詢問")
+    lines.append("- **一位對岸玩家** · 2021「密碼壓縮繞防毒」解法提議")
+    lines.append("- **一位玩家** · 2022 阿米卓古 / 第三之書 me 版詢問")
     lines.append("- **raymond0206** · 2022 Win10 亂碼問題")
     lines.append("- **jill90131** · 2023 第三之書入坑詢問（toni TeamViewer 遠端協助）")
     lines.append("- **KO** · 2023-2024 跨年度多次回報 + 乙太劍研究實測")
@@ -296,9 +296,9 @@ def build_readme() -> str:
     # 授權
     lines.append("## 📜 授權")
     lines.append("")
-    lines.append("本站程式碼為 MIT。本站基於數位文化保存目的整理，遊戲本體著作權屬於 [Artdink](https://www.artdink.com/)。站上技術文件為獨立逆向研究成果；公開內容僅限事實層（玩家可見名稱 / 結構觀察 / 數值對照），原版美術 / 劇情對白 / 配樂等創作性表現僅作為研究者個人參考保留，不在本站公開展示。請至 Steam 購買正版 [俠客遊 I/II/III 合輯](https://store.steampowered.com/app/338070/_/) 或 [前途道標](https://store.steampowered.com/app/335420/_/) 支持原作 ARTDINK（俠客遊 IV / 未來之書 / 第三之書 Steam 未上架）。若您是攻略原作者並希望授權變更或撤除，請至 [GitHub Issues](https://github.com/toniLiuMVP/LunaticDawn/issues) 聯繫。")
+    lines.append("本站程式碼為 MIT。本站基於數位文化保存目的整理，遊戲本體著作權屬於 [Artdink](https://www.artdink.com/)。站上技術文件為獨立逆向研究成果；公開內容僅限事實層（玩家可見名稱 / 結構觀察 / 數值對照），原版美術 / 劇情對白 / 配樂等創作性表現僅作為研究者個人參考保留，不在本站公開展示；例外是 [著作權頁 §8.1](./legal/dmca.html#fan-preservation) 所列的修改版主程式，其主程式內嵌的圖像（多為按鈕與工具列，俠客遊 IV 另含標題圖、網頁範本預覽圖與少量角色圖）與遊戲內文字（含對白；前途道標的主程式含整套遊戲文字）會隨主程式一起散布。請至 Steam 購買正版 [俠客遊 I/II/III 合輯](https://store.steampowered.com/app/338070/_/) 或 [前途道標](https://store.steampowered.com/app/335420/_/) 支持原作 ARTDINK（俠客遊 IV / 未來之書 / 第三之書 Steam 未上架）。若您是攻略原作者並希望授權變更或撤除，請至 [GitHub Issues](https://github.com/toniLiuMVP/LunaticDawn/issues) 聯繫。")
     lines.append("")
-    lines.append("**三邊著作權法依據**：🇹🇼 著作權法 §10-1（事實 / 數據不受保護）+ 🇯🇵 著作権法 §2（創作性要件）+ §12-2（資料庫）+ 🇺🇸 17 USC §102(b) + Feist v. Rural Telephone (1991) + Sega v. Accolade (1992)。完整法律分析見 [系列研究筆記 § 10 國際同類網站對照](./series-research.html)。")
+    lines.append("**三邊著作權法依據**：🇹🇼 著作權法 §10-1（保護不及於思想、程序、製程、系統、操作方法、概念、原理、發現）+ 🇯🇵 著作権法 §2（創作性要件）+ §12-2（資料庫）+ 🇺🇸 17 USC §102(b) + Feist v. Rural Telephone (1991) + Sega v. Accolade (1992)。完整法律分析見 [系列研究筆記 § 10 國際同類網站對照](./series-research.html)。")
     lines.append("")
     lines.append("---")
     lines.append("")

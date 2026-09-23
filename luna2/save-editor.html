@@ -299,7 +299,8 @@ h1.pixel::after  { content: "_"; animation: blink 1s steps(1) infinite; }
 }
 
 .field input[readonly] { opacity: 0.7; }
-.field input.capped { border-color: var(--amber); color: var(--amber); }
+.field input.capped,
+.skill-row input.capped { border-color: var(--amber); color: var(--amber); }
 
 .field .field-meta {
   font-size: 13px;
@@ -953,6 +954,80 @@ function renderEditor() {
   c.appendChild(martial.group);
 }
 
+// ---- 數值欄位解析（只收整數；空白與非整數都不寫入）----
+// 回傳 null = 空白（先不寫，離開欄位時改回原值）；NaN = 非整數或負數（拒絕）；其餘為整數
+function parseFieldInt(str) {
+  const s = String(str).trim();
+  if (s === '') return null;
+  const v = Number(s);
+  if (!Number.isInteger(v) || v < 0) return NaN;
+  return v;
+}
+
+// 欄位顯示改成指定的值，短暫以琥珀色標示
+function restoreFieldInput(input, value) {
+  input.value = value;
+  input.classList.add('capped');
+  setTimeout(() => input.classList.remove('capped'), 800);
+}
+
+// 數值欄位的編輯期間紀錄。
+// 逐鍵輸入時，前面合法的字元會先寫進存檔（例如打 3.9 時，打到 3 就已寫入 3），
+// 所以拒絕或留白時不能只看存檔目前的值，要改回聚焦前的值。
+// 聚焦時記下：存檔裡的原值、已修改旗標、狀態列文字；離開欄位時結束紀錄。
+function bindFieldSession(input, getValue, setValue, afterRestore) {
+  let session = null;
+  const begin = () => {
+    if (session) return;
+    const s = document.getElementById('status');
+    session = {
+      value: getValue(),
+      dirty: state.dirty,
+      statusClass: s.className,
+      statusText: s.textContent,
+    };
+  };
+  input.addEventListener('focus', begin);
+  // change 會在 blur 之前觸發，所以留白時的還原仍拿得到這筆紀錄。
+  // 切換視窗或分頁時，瀏覽器也會對欄位送出 change 與 blur，但焦點其實還留在欄位上
+  // （document.activeElement 仍是它），回來時又會再送一次 focus。
+  // 這時若結束紀錄，回來後就會把輸入到一半的值當成原值，所以只在焦點真的離開欄位時結束。
+  input.addEventListener('blur', () => {
+    if (document.activeElement === input) return;
+    session = null;
+  });
+
+  // 把存檔、欄位、已修改旗標、狀態列一起改回聚焦前的樣子
+  const restore = () => {
+    begin();
+    const orig = session.value;
+    if (getValue() !== orig) setValue(orig);
+    // 這段期間只有這個欄位寫過存檔，值寫回去後存檔就跟聚焦前一樣，旗標也跟著還原
+    state.dirty = session.dirty;
+    const s = document.getElementById('status');
+    s.className = session.statusClass;
+    s.textContent = session.statusText;
+    restoreFieldInput(input, orig);
+    if (afterRestore) afterRestore(orig);
+    renderHexView();
+  };
+
+  return {
+    begin,
+    // 拒絕輸入：改回原值，並用瀏覽器原生提示說明原因（下一次輸入或離開欄位時清除）
+    reject(msg) {
+      restore();
+      input.setCustomValidity(msg);
+      input.reportValidity();
+      input.addEventListener('blur', () => input.setCustomValidity(''), { once: true });
+    },
+    // 離開欄位時仍是空白：不提示，直接改回原值
+    restoreIfBlank() {
+      if (parseFieldInt(input.value) === null) restore();
+    },
+  };
+}
+
 // ---- 欄位組件 ----
 function addNameField(parent, idx) {
   const input = el('input', {
@@ -985,10 +1060,17 @@ function addNumberField(parent, idx, label, off, type, cap, hint) {
     value: read(idx, off),
   });
 
+  const session = bindFieldSession(input, () => read(idx, off), (v) => write(idx, off, v));
+
   input.addEventListener('input', () => {
-    let v = parseInt(input.value, 10);
-    if (isNaN(v)) v = 0;
-    if (v < 0) v = 0;
+    session.begin();  // 保險：沒有經過聚焦就收到輸入時，以寫入前的存檔值為原值
+    input.setCustomValidity('');
+    let v = parseFieldInt(input.value);
+    if (v === null) return;  // 空白不寫入，離開欄位時改回原值
+    if (Number.isNaN(v)) {
+      session.reject('只接受 0 ~ ' + cap + ' 的整數，已改回原本的值');
+      return;
+    }
     if (v > cap) {
       v = cap;
       input.value = v;
@@ -998,6 +1080,7 @@ function addNumberField(parent, idx, label, off, type, cap, hint) {
     write(idx, off, v);
     renderHexView();
   });
+  input.addEventListener('change', () => session.restoreIfBlank());
 
   const labelEl = el('label', { text: label });
   if (hint) {
@@ -1057,15 +1140,28 @@ function addSkillRow(parent, idx, name, off) {
   };
   refresh();
 
+  const session = bindFieldSession(
+    input,
+    () => readU8(idx, off),
+    (v) => writeU8(idx, off, v),
+    (v) => { bar.style.width = v + '%'; }
+  );
+
   input.addEventListener('input', () => {
-    let v = parseInt(input.value, 10);
-    if (isNaN(v)) v = 0;
-    if (v < 0) v = 0;
+    session.begin();  // 保險：沒有經過聚焦就收到輸入時，以寫入前的存檔值為原值
+    input.setCustomValidity('');
+    let v = parseFieldInt(input.value);
+    if (v === null) return;  // 空白不寫入，離開欄位時改回原值
+    if (Number.isNaN(v)) {
+      session.reject('只接受 0 ~ ' + CAPS.skill + ' 的整數，已改回原本的值');
+      return;
+    }
     if (v > CAPS.skill) { v = CAPS.skill; input.value = v; }
     writeU8(idx, off, v);
     bar.style.width = v + '%';
     renderHexView();
   });
+  input.addEventListener('change', () => session.restoreIfBlank());
 
   const row = el('div', {
     className: 'skill-row',
@@ -1186,6 +1282,21 @@ function renderHexView() {
 // ============================================================
 // 下載 / 重置
 // ============================================================
+// 批次 / 匯出 / 匯入共用：確認已載入存檔、目前 slot 完整落在檔案內；requireAlive 時也要求是在生角色
+function currentSlotOrAlert(requireAlive) {
+  if (!state.buffer) { alert('請先載入 LUNACHAR.SAV'); return null; }
+  const idx = state.currentIdx;
+  if (!Number.isInteger(idx) || idx < 0 || charBase(idx) + CHAR_SIZE > state.buffer.length) {
+    alert('目前的 slot (#' + idx + ') 超出檔案範圍，無法操作');
+    return null;
+  }
+  if (requireAlive && !isAlive(idx)) {
+    alert('此 slot (#' + idx + ') 為空，請先從左側選擇在生角色');
+    return null;
+  }
+  return idx;
+}
+
 function initActionButtons() {
   document.getElementById('btn-download').addEventListener('click', () => {
     const blob = new Blob([state.buffer], { type: 'application/octet-stream' });
@@ -1207,10 +1318,11 @@ function initActionButtons() {
   document.getElementById('btn-batch-apply').addEventListener('click', () => {
     const op = document.getElementById('batch-select').value;
     if (!op) { alert('請先選擇批次操作'); return; }
-    if (state.activeIdx == null) { alert('請先選擇角色'); return; }
-    if (!confirm(`套用「${document.getElementById('batch-select').selectedOptions[0].textContent}」到當前角色？`)) return;
+    const idx = currentSlotOrAlert(true);
+    if (idx === null) return;
+    const opName = document.getElementById('batch-select').selectedOptions[0].textContent;
+    if (!confirm(`套用「${opName}」到當前角色（#${idx}）？`)) return;
 
-    const idx = state.activeIdx;
     const apply = {
       'attrs-cap': () => {
         // 屬性 → 各自上限
@@ -1231,22 +1343,22 @@ function initActionButtons() {
         }
       },
       'spells-all': () => {
-        const dv = view();
+        const d = dv();
         for (const s of SPELL_SCHOOLS) {
-          dv.setUint16(charBase(idx) + s.offset, s.fullMask, true);
+          d.setUint16(charBase(idx) + s.offset, s.fullMask, true);
         }
       },
       'hp-mp-stm-cap': () => {
-        const dv = view();
-        dv.setUint16(charBase(idx) + OFFSETS.maxHP, CAPS.maxHP, true);
-        dv.setUint16(charBase(idx) + OFFSETS.maxMP, CAPS.maxMP, true);
-        dv.setUint16(charBase(idx) + OFFSETS.maxSTM, CAPS.maxSTM, true);
-        dv.setUint16(charBase(idx) + OFFSETS.curHP, CAPS.curHP, true);
-        dv.setUint16(charBase(idx) + OFFSETS.curMP, CAPS.curMP, true);
-        dv.setUint16(charBase(idx) + OFFSETS.curSTM, CAPS.curSTM, true);
+        const d = dv();
+        d.setUint16(charBase(idx) + OFFSETS.maxHP, CAPS.maxHP, true);
+        d.setUint16(charBase(idx) + OFFSETS.maxMP, CAPS.maxMP, true);
+        d.setUint16(charBase(idx) + OFFSETS.maxSTM, CAPS.maxSTM, true);
+        d.setUint16(charBase(idx) + OFFSETS.curHP, CAPS.curHP, true);
+        d.setUint16(charBase(idx) + OFFSETS.curMP, CAPS.curMP, true);
+        d.setUint16(charBase(idx) + OFFSETS.curSTM, CAPS.curSTM, true);
       },
       'martial-max': () => {
-        view().setUint16(charBase(idx) + OFFSETS.martial, 0xFFFF, true);
+        dv().setUint16(charBase(idx) + OFFSETS.martial, 0xFFFF, true);
       },
       'god-mode': () => {
         apply['attrs-100']();
@@ -1256,18 +1368,33 @@ function initActionButtons() {
         apply['martial-max']();
       },
     };
-    apply[op]();
-    state.dirty = true;
-    renderEditor();
-    renderHexView();
-    renderCharList();
-    document.getElementById('status').textContent = `✓ 已套用：${document.getElementById('batch-select').selectedOptions[0].textContent}（角色 #${idx}）`;
+    if (!Object.prototype.hasOwnProperty.call(apply, op)) { alert('不認得的批次操作：' + op); return; }
+
+    // 先備份這個角色的 192 bytes：任何一步失敗就整筆還原，不留下只寫一半的角色
+    const base = charBase(idx);
+    const snapshot = state.buffer.slice(base, base + CHAR_SIZE);
+    let applied = false;
+    try {
+      apply[op]();
+      applied = true;
+    } catch (e) {
+      state.buffer.set(snapshot, base);
+      alert('批次操作失敗，此角色已還原成套用前的內容：' + e.message);
+    } finally {
+      if (applied) markDirty();
+      renderEditor();
+      renderHexView();
+      renderCharList();
+    }
+    if (applied) {
+      document.getElementById('status').textContent = `✓ 已套用：${opName}（角色 #${idx}，尚未下載）`;
+    }
   });
 
   // v0.5 角色 JSON 匯出，把當前角色 192 bytes 轉成 base64 + metadata
   document.getElementById('btn-export-char').addEventListener('click', () => {
-    if (state.activeIdx == null) { alert('請先選擇角色'); return; }
-    const idx = state.activeIdx;
+    const idx = currentSlotOrAlert(true);
+    if (idx === null) return;
     const base = charBase(idx);
     const charBytes = state.buffer.slice(base, base + CHAR_SIZE);
 
@@ -1310,19 +1437,16 @@ function initActionButtons() {
 
   // v0.5 角色 JSON 匯入，解析 + 寫入當前 slot
   document.getElementById('btn-import-char').addEventListener('click', () => {
-    if (state.activeIdx == null) { alert('請先選擇要匯入到哪個角色 slot'); return; }
+    if (currentSlotOrAlert(false) === null) return;
     document.getElementById('char-import-input').click();
   });
 
   document.getElementById('char-import-input').addEventListener('change', async (ev) => {
     const file = ev.target.files[0];
-      if (!file) return;
-      if (file.size > 61440) {
-        alert(`檔案太大 (${file.size} bytes)。LUNACHAR.SAV 預期 30720 bytes (160 角色 × 192 bytes)。`);
-        return;
-      }
     if (!file) return;
     try {
+      // 大小檢查放在 try 內，讓 finally 清掉選擇，下次選同一個檔仍會觸發
+      if (file.size > 61440) throw new Error(`檔案太大 (${file.size} bytes)，不像是本工具匯出的角色 JSON`);
       const text = await file.text();
       const data = JSON.parse(text);
       if (data._format_version !== 1) throw new Error('JSON 版本不符（需要 _format_version: 1）');
@@ -1333,18 +1457,19 @@ function initActionButtons() {
       const bin = atob(data.char_data_base64);
       if (bin.length !== CHAR_SIZE) throw new Error(`解碼後 size 錯誤（${bin.length} ≠ ${CHAR_SIZE}）`);
 
-      if (!confirm(`匯入角色 "${data.char_name_big5}" → slot #${state.activeIdx}？\n\n當前 slot 資料將被覆蓋（可用「重新載入原檔」還原）`)) return;
+      const idx = currentSlotOrAlert(false);
+      if (idx === null) return;
+      if (!confirm(`匯入角色 "${data.char_name_big5}" → slot #${idx}？\n\n當前 slot 資料將被覆蓋（可用「重新載入原檔」還原）`)) return;
 
-      const idx = state.activeIdx;
       const base = charBase(idx);
       for (let i = 0; i < CHAR_SIZE; i++) {
         state.buffer[base + i] = bin.charCodeAt(i);
       }
-      state.dirty = true;
+      markDirty();
       renderEditor();
       renderHexView();
       renderCharList();
-      document.getElementById('status').textContent = `✓ 已匯入角色 "${data.char_name_big5}" → slot #${idx}`;
+      document.getElementById('status').textContent = `✓ 已匯入角色 "${data.char_name_big5}" → slot #${idx}，尚未下載`;
     } catch (e) {
       alert(`匯入失敗：${e.message}`);
     } finally {

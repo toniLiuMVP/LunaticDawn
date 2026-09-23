@@ -111,10 +111,13 @@ let allData = null;
 async function load() {
   const r = await fetch('strings.json');
   allData = await r.json();
-  render();
+  // 資料到之前搜尋框可能已經有字，載入完成就照那段文字篩選
+  render(document.getElementById('search').value.trim());
 }
 
 function render(filter) {
+  // 資料還沒到就先不動畫面，避免打字時丟例外並把內容清空
+  if (!allData) return;
   const content = document.getElementById('content');
   while (content.firstChild) content.removeChild(content.firstChild);
 

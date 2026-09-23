@@ -187,7 +187,7 @@
 
     <div class="editor-panel">
       <h3>Hex 編輯器（完整檔案）</h3>
-      <p class="hint">每 byte 兩字元（hex），空白分隔（每 16 bytes 一行）。修改後按下「套用 + 下載」。</p>
+      <p class="hint">每行開頭的「00001230:」是這一行在檔案裡的起始位移，後面接 16 個 byte，每個 byte 寫成兩位 hex，以空白分隔。請只改 byte 的值。按下「套用編輯 + 下載」時，工具實際核對的是：每行的行首位移必須與所在行號相符（第 n 行固定是 (n-1)×16）、每行 byte 數與格式正確、總行數正確，任何一行不符就整筆拒絕並指出行號。因此刪除、插入或搬動整行時，只要行首位移沒跟著改，位移就會對不上而被擋下；但若連行首位移一起改成新位置的正確值，搬動無法被偵測，會被當成改值。同一行內把 byte 互換位置也無法和改值區分，同樣照改值處理。</p>
       <textarea class="hex-editor" id="hex-editor" aria-label="十六進位編輯區" placeholder="拖入檔案後此處顯示完整 hex"></textarea>
     </div>
 
@@ -240,13 +240,22 @@ function formatHex(buf, max) {
   return lines.join('\n');
 }
 
+// 編輯區每行格式：「00001230: 00 11 22 … ff」。行首的 8 位 hex 加冒號是這一行
+// 在檔案裡的起始位移，解析時會逐行核對它是否與行號相符。整行被刪除、插入或搬動而
+// 位移沒一起改時會被擋下；位移也改成新位置的正確值時，搬動無法和改值區分。
+const OFFSET_DIGITS = 8;
+
+function formatOffsetPrefix(n) {
+  return n.toString(16).padStart(OFFSET_DIGITS, '0') + ':';
+}
+
 function formatHexEdit(buf) {
   const view = new Uint8Array(buf);
   const lines = [];
   for (let i = 0; i < view.length; i += 16) {
     const row = Array.from(view.slice(i, i + 16))
       .map(b => b.toString(16).padStart(2, '0')).join(' ');
-    lines.push(row);
+    lines.push(formatOffsetPrefix(i) + ' ' + row);
   }
   return lines.join('\n');
 }
@@ -262,8 +271,8 @@ function showError(msg) {
 
 async function handleFile(file) {
   try {
-    // B-SEC-002 FileReader size guard
-    // MIN_SIZE / MAX_SIZE hoisted to module scope so every read path can use them.
+    // 讀檔前先檢查大小，避免把異常大的檔案整個讀進記憶體。
+    // MIN_SIZE / MAX_SIZE 定義在最上層，所有讀檔路徑共用同一組上下限。
     if (file.size < MIN_SIZE || file.size > MAX_SIZE) {
       throw new Error(`檔案大小異常 (${file.size.toLocaleString()} bytes)，lde3s.le3 預期 ~985,542 bytes，允許範圍 ${MIN_SIZE / 1024} KB ~ ${MAX_SIZE / 1024 / 1024} MB`);
     }
@@ -300,16 +309,131 @@ async function handleFile(file) {
   }
 }
 
+// 逐行解析 hex 編輯區。第 n 行（從 0 算）必須以行首位移 n*16 開頭（8 位 hex 加冒號），
+// 後面接剛好 16 個兩位 hex（最後一行依檔長），以空白分隔。
+// 只驗每行 byte 數與總行數時，「刪掉一整行、在別處補一整行」會整筆通過，
+// 兩處之間的資料全部錯位；加上行首位移後，被搬動的行只要位移沒一起改，就對不上而被擋下。
+// 若連位移也改成新位置的正確值，這種搬動無法偵測，會被當成改值。
+// 任何一行不符就整筆拒絕。
+const HEX_TOKEN = /^[0-9a-fA-F]{2}$/;
+const LINE_PREFIX = new RegExp('^([0-9a-fA-F]{' + OFFSET_DIGITS + '}):(.*)$');
+const MAX_REPORTED_ERRORS = 5;
+
+function hexOffset(n) {
+  return '0x' + n.toString(16).padStart(8, '0');
+}
+
+// 行首位移對不上時，推測是哪一種改動，讓錯誤訊息比較好找原因
+function offsetMismatchHint(actualStart, lineStart) {
+  const diff = actualStart - lineStart;
+  if (diff % 16 !== 0) return '（行首位移被改過）';
+  const n = diff / 16;
+  if (n > 0) return `（這一行之前少了 ${n} 行，或行首位移被改過）`;
+  return `（這一行之前多了 ${-n} 行或有重複的行，或行首位移被改過）`;
+}
+
+function parseHexEditor(text, expectedLen) {
+  const lines = text.split(/\r\n|\r|\n/);
+  // 結尾的空白行不帶資料、不影響位移（例如多按了 Enter），略過即可
+  while (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  const expectedLines = Math.ceil(expectedLen / 16);
+  const buf = new Uint8Array(expectedLen);
+  const errors = [];
+  let errorCount = 0;
+  const addError = (line, msg) => {
+    errorCount++;
+    if (errors.length < MAX_REPORTED_ERRORS) errors.push({ line, msg });
+  };
+
+  const checkedLines = Math.min(lines.length, expectedLines);
+  for (let li = 0; li < checkedLines; li++) {
+    const lineStart = li * 16;
+    const wantPrefix = formatOffsetPrefix(lineStart);
+    const expectedCount = (li === expectedLines - 1) ? expectedLen - lineStart : 16;
+    const trimmed = lines[li].trim();
+
+    const m = LINE_PREFIX.exec(trimmed);
+    if (!m) {
+      if (trimmed === '') {
+        addError(li + 1, `空白行，缺少行首位移「${wantPrefix}」`);
+      } else {
+        const head = trimmed.length > 16 ? trimmed.slice(0, 16) + '…' : trimmed;
+        addError(li + 1, `缺少行首位移或格式不對，應以「${wantPrefix}」開頭（8 位 hex 加冒號），實際開頭為「${head}」`);
+      }
+      continue;
+    }
+    const actualStart = parseInt(m[1], 16);
+    if (actualStart !== lineStart) {
+      addError(li + 1, `行首位移為「${m[1]}:」，此行應為「${wantPrefix}」${offsetMismatchHint(actualStart, lineStart)}`);
+      continue;
+    }
+
+    const body = m[2].trim();
+    const tokens = body === '' ? [] : body.split(/\s+/);
+    const badIdx = tokens.findIndex(t => !HEX_TOKEN.test(t));
+    if (badIdx >= 0) {
+      const t = tokens[badIdx];
+      const shown = t.length > 12 ? t.slice(0, 12) + '…' : t;
+      addError(li + 1, `第 ${badIdx + 1} 個 byte「${shown}」不是兩位 hex`);
+      continue;
+    }
+    if (tokens.length !== expectedCount) {
+      addError(li + 1, `有 ${tokens.length} 個 byte，應為 ${expectedCount} 個`);
+      continue;
+    }
+    for (let j = 0; j < expectedCount; j++) {
+      buf[lineStart + j] = parseInt(tokens[j], 16);
+    }
+  }
+  if (lines.length > expectedLines) {
+    addError(expectedLines + 1, `多出 ${lines.length - expectedLines} 行，檔案只有 ${expectedLines} 行（可能有一行被拆成兩行，或多貼了資料）`);
+  } else if (lines.length < expectedLines) {
+    addError(lines.length + 1, `行數不足，應有 ${expectedLines} 行，實際 ${lines.length} 行（可能有一行被刪除，或兩行被合併）`);
+  }
+  return { buf, errors, errorCount, expectedLines };
+}
+
+// 把游標移到出錯那一行並捲動過去（6 萬多行時光看行號很難找）
+function selectEditorLine(lineNo) {
+  const ta = $('hex-editor');
+  const text = ta.value;
+  let start = 0;
+  for (let i = 1; i < lineNo; i++) {
+    const nl = text.indexOf('\n', start);
+    if (nl < 0) { start = text.length; break; }
+    start = nl + 1;
+  }
+  let end = text.indexOf('\n', start);
+  if (end < 0) end = text.length;
+  ta.focus();
+  ta.setSelectionRange(start, end);
+  const totalLines = text.split('\n').length;
+  const lineHeight = ta.scrollHeight / Math.max(1, totalLines);
+  ta.scrollTop = Math.max(0, (lineNo - 1) * lineHeight - ta.clientHeight / 2);
+}
+
 $('btn-apply-download').addEventListener('click', () => {
   if (!workBuffer) { alert('請先載入檔案'); return; }
-  const raw = $('hex-editor').value.replace(/[^0-9a-fA-F]/g, '');
-  if (raw.length !== workBuffer.length * 2) {
-    alert('hex 字元數錯誤：應為 ' + (workBuffer.length * 2) + '（= ' + workBuffer.length + ' bytes × 2），實際 ' + raw.length);
+  const { buf: newBuf, errors, errorCount, expectedLines } = parseHexEditor($('hex-editor').value, workBuffer.length);
+  if (errorCount > 0) {
+    const detail = errors.map(e => {
+      const where = e.line <= expectedLines ? `（offset ${hexOffset((e.line - 1) * 16)}）` : '';
+      return `第 ${e.line} 行${where}：${e.msg}`;
+    });
+    if (errorCount > errors.length) detail.push(`…其餘 ${errorCount - errors.length} 處未列出`);
+    alert(
+      `hex 格式有誤，共 ${errorCount} 處，整筆未套用、未下載：\n\n` +
+      detail.join('\n') +
+      `\n\n每行格式為「行首位移: 16 個兩位 hex」，例如「${formatOffsetPrefix(16)} 00 11 22 …」。第 n 行的位移固定是 (n-1)×16，byte 之間以空白分隔；最後一行 ${workBuffer.length - (expectedLines - 1) * 16} 個 byte，共 ${expectedLines} 行。`
+    );
+    $('status').textContent = `✗ 第 ${errors[0].line} 行格式有誤，未下載`;
+    selectEditorLine(errors[0].line);
     return;
   }
-  const newBuf = new Uint8Array(workBuffer.length);
+  let changed = 0;
   for (let i = 0; i < newBuf.length; i++) {
-    newBuf[i] = parseInt(raw.substr(i * 2, 2), 16);
+    if (newBuf[i] !== workBuffer[i]) changed++;
   }
   const blob = new Blob([newBuf], {type: 'application/octet-stream'});
   const url = URL.createObjectURL(blob);
@@ -318,7 +442,7 @@ $('btn-apply-download').addEventListener('click', () => {
   a.download = originalFileName || 'lde3s.le3';
   a.click();
   URL.revokeObjectURL(url);
-  $('status').textContent = '✓ 已下載 ' + originalFileName + '（檢查無誤後覆蓋 usr/）';
+  $('status').textContent = '✓ 已下載 ' + originalFileName + '（相對載入的原檔改動 ' + changed.toLocaleString() + ' bytes，檢查無誤後覆蓋 usr/）';
 });
 
 $('btn-reset').addEventListener('click', () => {

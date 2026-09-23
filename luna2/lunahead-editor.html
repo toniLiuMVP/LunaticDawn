@@ -425,23 +425,40 @@ function loadHeader() {
   renderHexPreview();
 }
 
+// 監聽器讀的是全域 workBuffer,換檔後不需要重新綁；重複綁定會讓每個欄位的處理跑兩次
+let listenersBound = false;
 function setupListeners() {
+  if (listenersBound) return;
+  listenersBound = true;
   // For numeric fields - direct write
   const intFields = [
-    {id: 'edit-byte1', off: 1, kind: 'u8'},
-    {id: 'edit-byte2', off: 2, kind: 'u8'},
-    {id: 'edit-byte3', off: 3, kind: 'u8'},
-    {id: 'edit-byte4', off: 4, kind: 'u8'},
-    {id: 'edit-u16-14', off: 14, kind: 'u16'},
-    {id: 'edit-u16-16', off: 16, kind: 'u16'},
+    {id: 'edit-byte1', off: 1, kind: 'u8', label: 'byte 1 (u8)'},
+    {id: 'edit-byte2', off: 2, kind: 'u8', label: 'byte 2 (u8)'},
+    {id: 'edit-byte3', off: 3, kind: 'u8', label: 'byte 3 (u8)'},
+    {id: 'edit-byte4', off: 4, kind: 'u8', label: 'byte 4 (u8)'},
+    {id: 'edit-u16-14', off: 14, kind: 'u16', label: 'byte 14-15 (u16 LE)'},
+    {id: 'edit-u16-16', off: 16, kind: 'u16', label: 'byte 16-17 (u16 LE)'},
   ];
 
   for (const f of intFields) {
     $(f.id).addEventListener('change', () => {
-      const v = parseInt($(f.id).value, 10);
       const view = new DataView(workBuffer);
+      const max = f.kind === 'u8' ? 0xFF : 0xFFFF;
+      const cur = f.kind === 'u8' ? view.getUint8(f.off) : view.getUint16(f.off, true);
+      // 範圍檢查：setUint8/setUint16 對超界值會靜默繞回（300→44、-1→255），
+      // 空字串 Number('') 會變 0，都必須在寫入前擋下，並把欄位還原成存檔目前的值
+      const raw = $(f.id).value.trim();
+      const v = Number(raw);
+      if (raw === '' || !Number.isInteger(v) || v < 0 || v > max) {
+        alert(`${f.label} 只接受 0 到 ${max} 的整數，未寫入，已還原為目前的值 ${cur}。`);
+        $(f.id).value = cur;
+        return;
+      }
+      // 值沒變就不算變動（也避免重複綁定的監聽器把還原後的值再記一次）
+      if (v === cur) { $(f.id).value = cur; return; }
       if (f.kind === 'u8') view.setUint8(f.off, v);
       else view.setUint16(f.off, v, true);
+      $(f.id).value = v;
       changesCount++;
       updateDownloadBar();
       renderHexPreview();
@@ -466,24 +483,62 @@ function setupListeners() {
     $('edit-name-preset').value = ''; // reset dropdown
   });
 
+  // 檢查姓名欄的位元組是不是完整的 Big5。回傳 null 代表通過，否則回傳原因。
+  // 規則：00 之後只能再接 00（結尾補零）；前導位元組 81-FE 後面必須接
+  // 40-7E 或 A1-FE 的尾位元組；單一位元組只接受可列印的 ASCII（20-7E）。
+  function checkBig5NameBytes(bytes) {
+    for (let i = 0; i < bytes.length; i++) {
+      const b = bytes[i];
+      if (b === 0x00) {
+        for (let j = i + 1; j < bytes.length; j++) {
+          if (bytes[j] !== 0x00) return '第 ' + (i + 1) + ' 個位元組是 00（姓名結尾），後面不能再有其他內容';
+        }
+        return null;
+      }
+      if (b >= 0x81 && b <= 0xFE) {
+        const t = bytes[i + 1];
+        if (t === undefined) return '最後一個位元組 ' + b.toString(16).toUpperCase() + ' 是中文字的前半，缺少後半';
+        if (!((t >= 0x40 && t <= 0x7E) || (t >= 0xA1 && t <= 0xFE))) {
+          return '第 ' + (i + 2) + ' 個位元組 ' + t.toString(16).toUpperCase().padStart(2, '0') + ' 不是合法的中文字後半';
+        }
+        i++;
+        continue;
+      }
+      if (b < 0x20 || b > 0x7E) return '第 ' + (i + 1) + ' 個位元組 ' + b.toString(16).toUpperCase().padStart(2, '0') + ' 不是可用的字元';
+    }
+    return null;
+  }
+
   // Name byte 5-10 (hex 直接編輯)
   $('edit-name-hex').addEventListener('change', () => {
     const raw = $('edit-name-hex').value.replace(/\s+/g, '').toLowerCase();
-    if (!/^[0-9a-f]{0,12}$/.test(raw)) {
-      alert('hex 格式錯誤：只能 0-9 a-f，最多 12 字元（6 bytes）');
+    if (!/^([0-9a-f]{2}){0,6}$/.test(raw)) {
+      alert('hex 格式錯誤：只能 0-9 a-f，必須兩個字元一組，最多 6 bytes（12 個字元）');
+      loadHeader();
+      return;
+    }
+    const bytes = [];
+    for (let i = 0; i < raw.length; i += 2) bytes.push(parseInt(raw.substr(i, 2), 16));
+    const bad = checkBig5NameBytes(bytes);
+    if (bad) {
+      alert('姓名內容不是完整的 Big5：' + bad + '\n\n這筆修改沒有套用。');
+      loadHeader();
+      return;
+    }
+    if (bytes.every(b => b === 0x00) && !confirm('這樣會把姓名清空（6 bytes 全部寫成 00）。確定要清空嗎？')) {
       loadHeader();
       return;
     }
     const view = new Uint8Array(workBuffer);
     for (let i = 0; i < 6; i++) {
-      view[5 + i] = i * 2 < raw.length ? parseInt(raw.substr(i * 2, 2), 16) : 0x00;
+      view[5 + i] = i < bytes.length ? bytes[i] : 0x00;
     }
     changesCount++;
     loadHeader();
     updateDownloadBar();
   });
 
-  // B2: 自訂姓名 → Big5 hex 即時轉換
+  // 自訂姓名 → Big5 hex 即時轉換
   $('btn-encode-name').addEventListener('click', async () => {
     const input = $('edit-name-input').value.trim();
     const status = $('encode-status');
