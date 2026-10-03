@@ -70,10 +70,12 @@
   background: rgba(0, 255, 65, 0.06);
 }
 .items-table tbody tr.deleted {
-  color: var(--phosphor-fade);
+  color: var(--phosphor-text-dim);
   font-style: italic;
 }
 .items-table .num { text-align: right; font-family: 'Courier New', monospace; }
+/* 第一欄的展開按鈕：外觀跟一般文字一樣 */
+.items-table .btn-reset { background: none; border: 0; padding: 0; margin: 0; font: inherit; color: inherit; text-align: inherit; cursor: pointer; }
 .items-table .price { color: var(--amber); }
 .items-table .pos-單手 { color: #66ff66; }
 .items-table .pos-雙手 { color: #66ffff; }
@@ -147,11 +149,11 @@
 
 
   <div style="background: rgba(255, 176, 0, 0.06); border-left: 3px solid var(--amber); padding: 8px 12px; margin: 12px 0; font-size: 12px;">
-    ⚖️ <strong>公開政策 v2.0</strong>：物品 456 筆完整數值（價格 / 命中 / 攻速 / 攻擊力 / 防禦 / 體格 / 7 系魔法上限）+ 名稱 = 玩家進商店可見的「事實」，依三邊著作權法（🇹🇼 著作權法 §10-1 + 🇯🇵 著作権法 §2 + §12-2 + 🇺🇸 17 USC §102(b) + Feist v. Rural (1991)）不受保護。完整公開。
+    ⚖️ <strong>公開政策 v2.0</strong>：物品 456 筆的數值（價格 / 命中 / 攻速 / 攻擊力 / 防禦 / 體格 / 7 系魔法上限）是玩家進商店、看裝備時可見的事實；物品名稱屬單字或短詞，一般認為不具或僅有極有限的著作權保護（個案判斷）。法律依據（台灣著作權法 §10-1、日本著作権法 §2 與 §12-2、美國 17 USC §102(b) 與 Feist 案等）見<a href="index.html">資料庫首頁</a>的公開政策。完整公開。
   </div>
   <div class="toolbar">
     <label for="search">搜尋名稱:</label>
-    <input id="search" type="search" placeholder="例：火炎神劍、戒指" autofocus>
+    <input id="search" type="search" placeholder="例：火炎神劍、戒指">
 
     <label for="filter-pos">位置:</label>
     <select id="filter-pos">
@@ -165,11 +167,10 @@
 
     <label><input type="checkbox" id="hide-placeholders" aria-label="隱藏未命名的佔位項目" checked> 隱藏 placeholder</label>
 
-    <span class="count" id="count">，/ 456</span>
+    <span class="count" id="count">載入中 / 456</span>
   </div>
 
   <div id="content"><div class="loading">載入 game_data.json...</div></div>
-</div>
 
 <script>
 // DOM-only 渲染
@@ -196,11 +197,20 @@ function el(tag, attrs, ...children) {
   return e;
 }
 
-function num(n) { return n === 65535 || n === 255 ? '，' : String(n); }
+function num(n) { return n === 65535 || n === 255 ? '無' : String(n); }
+// 價格是 4 bytes 的整數；商店「離開」選項在檔案裡是 0xFFFFFFFF，不是價格
+function priceText(n) { return n === 0xFFFFFFFF ? '無' : String(n); }
+
+// 展開按鈕的 aria-expanded 跟著詳細列同步
+function setExpanded(row, on) {
+  const btn = row && row.querySelector('button[aria-expanded]');
+  if (btn) btn.setAttribute('aria-expanded', on ? 'true' : 'false');
+}
 
 function renderTable(items) {
   const content = $('content');
   content.replaceChildren();
+  openDetail = null; // 舊的詳細列已隨表格移除
 
   const table = el('table', { class: 'items-table' });
   const thead = el('thead');
@@ -218,16 +228,19 @@ function renderTable(items) {
       data: { id: it.id },
       on: { click: () => toggleDetail(tr, it, tbody) }
     });
-    tr.appendChild(el('td', { class: 'num' }, '0x' + it.id.toString(16).toUpperCase().padStart(4, '0')));
+    const idText = '0x' + it.id.toString(16).toUpperCase().padStart(4, '0');
+    // 用按鈕讓鍵盤也能展開；click 冒泡到 tr，由 tr 的 handler 處理
+    tr.appendChild(el('td', { class: 'num' },
+      el('button', { type: 'button', class: 'btn-reset', 'aria-expanded': 'false', 'aria-label': idText + ' ' + it.name }, idText)));
     tr.appendChild(el('td', null, it.name));
     tr.appendChild(el('td', { class: 'pos-' + it.equip_pos }, it.equip_pos));
-    tr.appendChild(el('td', { class: 'num price' }, num(it.price)));
+    tr.appendChild(el('td', { class: 'num price' }, priceText(it.price)));
     tr.appendChild(el('td', { class: 'num' }, num(it.body_limit)));
     tr.appendChild(el('td', { class: 'num' }, num(it.hit)));
     tr.appendChild(el('td', { class: 'num' }, num(it.speed)));
     tr.appendChild(el('td', { class: 'num' }, num(it.range)));
     tr.appendChild(el('td', null, it.atk_type));
-    tr.appendChild(el('td', { class: 'num' }, it.atk === 0 && it.atk_max === 0 ? '，' : `${num(it.atk)}-${num(it.atk_max)}`));
+    tr.appendChild(el('td', { class: 'num' }, it.atk === 0 && it.atk_max === 0 ? '無' : `${num(it.atk)}-${num(it.atk_max)}`));
     tr.appendChild(el('td', null, it.effect));
     tbody.appendChild(tr);
   }
@@ -244,6 +257,7 @@ function toggleDetail(tr, item, tbody) {
   // 關掉之前的
   if (openDetail) {
     openDetail.remove();
+    setExpanded(openDetail._owner, false);
     if (openDetail._owner === tr) {
       openDetail = null;
       return;
@@ -259,9 +273,7 @@ function toggleDetail(tr, item, tbody) {
     ['防砍', `${num(item.def_slash)} (max ${num(item.def_slash_max)})`],
     ['防刺', `${num(item.def_pierce)} (max ${num(item.def_pierce_max)})`],
     ['防敲', `${num(item.def_blunt)} (max ${num(item.def_blunt_max)})`],
-    ['術型', item.magic_type],
-    ['術值', num(item.magic_value)],
-    ['型式', item.is_equipment ? '裝備品' : '消耗品'],
+    ['附加魔法', (item.magic_type == null || item.magic_type === '無') ? '無' : item.magic_type + ' ' + item.magic_value],
   ];
   for (const [label, value] of fields) {
     const div = el('div', null,
@@ -286,7 +298,7 @@ function toggleDetail(tr, item, tbody) {
   for (const [label, key] of labels) {
     ctrh.appendChild(el('td', null, label));
     const v = item.caps[key];
-    ctrv.appendChild(el('td', { class: 'num' }, v === 0 ? '，' : String(v)));
+    ctrv.appendChild(el('td', { class: 'num' }, num(v)));
   }
   capsTable.appendChild(ctrh);
   capsTable.appendChild(ctrv);
@@ -297,6 +309,7 @@ function toggleDetail(tr, item, tbody) {
   dtr._owner = tr;
   tr.parentNode.insertBefore(dtr, tr.nextSibling);
   openDetail = dtr;
+  setExpanded(tr, true);
 }
 
 function applyFilters() {
@@ -317,6 +330,10 @@ function applyFilters() {
 }
 
 async function init() {
+  // 只在有滑鼠的桌機自動聚焦搜尋框，手機一開頁不跳出鍵盤
+  if (window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    $('search').focus();
+  }
   try {
     const r = await fetch('game_data.json');
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
@@ -343,12 +360,14 @@ async function init() {
     $('content').replaceChildren(
       el('div', { class: 'error' }, '載入失敗: ' + e.message + '，請確認 game_data.json 存在於同目錄')
     );
+    $('count').textContent = '載入失敗';
   }
 }
 
 init();
 </script>
 </main>
+</div>
 
 </body>
 </html>

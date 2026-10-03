@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>怪物資料庫 · 俠客遊 II · 128 筆</title>
-<meta name="description" content="俠客遊 II 怪物資料庫，128 隻怪物完整數值（HP / MP / 等級 / 攻擊 / 防禦 / 弱點 / 經驗 / 掉寶），從 MONSTER.DAT 逆向。">
+<meta name="description" content="俠客遊 II 怪物資料庫，128 隻怪物的主要數值（HP / MP / STM / 等級 / 攻擊 / 防禦 / 經驗 / 金錢），從 MONSTER.DAT 逆向，另有數個欄位尚未解讀。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="怪物資料庫 · 俠客遊 II · 128 筆">
-<meta property="og:description" content="俠客遊 II 怪物資料庫，128 隻怪物完整數值（HP / MP / 等級 / 攻擊 / 防禦 / 弱點 / 經驗 / 掉寶），從 MONSTER.DAT 逆向。">
+<meta property="og:description" content="俠客遊 II 怪物資料庫，128 隻怪物的主要數值（HP / MP / STM / 等級 / 攻擊 / 防禦 / 經驗 / 金錢），從 MONSTER.DAT 逆向，另有數個欄位尚未解讀。">
 <meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/luna2/database/monsters.html">
 <meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
@@ -33,16 +33,18 @@
 .detail-row .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px 16px; margin-bottom: 12px; }
 .detail-row .grid > div { border-left: 2px solid var(--phosphor-dim); padding-left: 8px; font-size: 14px; }
 .detail-row .grid b { color: var(--phosphor-dim); font-size: 11px; font-family: 'Press Start 2P', monospace; display: block; }
-.detail-row .raw { font-size: 11px; color: var(--phosphor-fade); font-family: monospace; word-break: break-all; }
+.detail-row .raw { font-size: 11px; color: var(--phosphor-text-dim); font-family: monospace; word-break: break-all; }
+/* 第一欄的展開按鈕：外觀跟一般文字一樣 */
+.items-table .btn-reset { background: none; border: 0; padding: 0; margin: 0; font: inherit; color: inherit; text-align: inherit; cursor: pointer; }
 </style>
 <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
 <link rel="canonical" href="https://toniliumvp.github.io/LunaticDawn/luna2/database/monsters.html">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="怪物資料庫 · 俠客遊 II · 128 筆">
-<meta name="twitter:description" content="俠客遊 II 怪物資料庫，128 隻怪物完整數值（HP / MP / 等級 / 攻擊 / 防禦 / 弱點 / 經驗 / 掉寶），從 MONSTER.DAT 逆向。">
+<meta name="twitter:description" content="俠客遊 II 怪物資料庫，128 隻怪物的主要數值（HP / MP / STM / 等級 / 攻擊 / 防禦 / 經驗 / 金錢），從 MONSTER.DAT 逆向，另有數個欄位尚未解讀。">
 <meta name="twitter:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"怪物資料庫","description":"俠客遊 II 怪物資料庫，128 隻怪物完整數值（HP / MP / 等級 / 攻擊 / 防禦 / 弱點 / 經驗 / 掉寶），從 MONSTER.DAT 逆向。","url":"https://toniliumvp.github.io/LunaticDawn/luna2/database/monsters.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 II"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"怪物資料庫","description":"俠客遊 II 怪物資料庫，128 隻怪物的主要數值（HP / MP / STM / 等級 / 攻擊 / 防禦 / 經驗 / 金錢），從 MONSTER.DAT 逆向，另有數個欄位尚未解讀。","url":"https://toniliumvp.github.io/LunaticDawn/luna2/database/monsters.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 II"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"吟遊詩人的傳說","item":"https://toniliumvp.github.io/LunaticDawn/"},{"@type":"ListItem","position":2,"name":"俠客遊 II","item":"https://toniliumvp.github.io/LunaticDawn/luna2/"},{"@type":"ListItem","position":3,"name":"資料庫","item":"https://toniliumvp.github.io/LunaticDawn/luna2/database/"},{"@type":"ListItem","position":4,"name":"怪物資料庫"}]}</script>
 <!-- seo -->
 </head>
@@ -60,43 +62,38 @@
 
   <div class="toolbar">
     <label for="search">搜尋:</label>
-    <input id="search" type="search" placeholder="例：強盜、龍、魔術師" autofocus>
-    <span class="count" id="count">，/ 128</span>
+    <input id="search" type="search" placeholder="例：強盜、龍、魔術師">
+    <span class="count" id="count">載入中 / 128</span>
   </div>
   <div style="background: rgba(255, 176, 0, 0.06); border-left: 3px solid var(--amber); padding: 8px 12px; margin: 12px 0; font-size: 12px;">
-    ⚖️ <strong>公開政策 v2.0</strong>：怪物完整數值（HP/ATK/弱點/必殺技）= 玩家戰鬥可見的「事實」，依三邊著作權法（🇹🇼 著作權法 §10-1 + 🇯🇵 著作権法 §2 + §12-2 + 🇺🇸 17 USC §102(b) + Feist v. Rural (1991)）不受版權保護。完整 128 筆全公開。
+    ⚖️ <strong>公開政策 v2.0</strong>：怪物數值（HP / ATK / 防禦 / 經驗 / 金錢）是玩家戰鬥時可見的事實；怪物名稱屬單字或短詞，一般認為不具或僅有極有限的著作權保護（個案判斷）。法律依據（台灣著作權法 §10-1、日本著作権法 §2 與 §12-2、美國 17 USC §102(b) 與 Feist 案等）見<a href="index.html">資料庫首頁</a>的公開政策。完整 128 筆全公開。
+    <br>※ 攻略筆記只陳述 MP 數值，不代表這隻怪物會使用魔法；會不會用魔法請以攻略書「怪物資料大全」（P118 至 P123）的「魔法」欄為準。
   </div>
   <div id="content"><div style="padding: 40px; text-align: center; color: var(--phosphor-dim);">載入中...</div></div>
-</div>
 
 <script>
 window.LIST_CONFIG = {
   dataKey: 'monsters',
   totalCount: 128,
-  columns: ['ID', '怪物名稱', 'HP', 'MP', 'STM', 'Lv', 'ATK', 'EXP', '金錢', '掉寶'],
+  columns: ['ID', '怪物名稱', 'HP', 'MP', 'STM', 'Lv', 'ATK', 'EXP', '金錢'],
   searchField: (m) => (m.name || '') + (m.name_inline || ''),
   getRowFields: (m) => [
     { value: '0x' + m.id.toString(16).toUpperCase().padStart(2, '0'), class: 'num' },
     { value: m.name || m.name_inline },
-    { value: m.hp + ' / ' + m.hp_max, class: 'num hp' },
-    { value: m.mp || '，', class: 'num mp' },
-    { value: m.stm ?? '，', class: 'num' },
+    { value: m.hp, class: 'num hp' },
+    { value: m.mp || '無', class: 'num mp' },
+    { value: m.stm ?? '無', class: 'num' },
     { value: m.level, class: 'num lvl' },
     { value: m.atk, class: 'num atk' },
     { value: m.exp, class: 'num' },
     { value: m.money, class: 'num' },
-    {
-      value: (m.drop_1 !== null && m.drop_1 !== undefined ? '#' + m.drop_1 : '，')
-           + (m.drop_2 !== null && m.drop_2 !== undefined ? ' ,#' + m.drop_2 : ''),
-      class: 'num'
-    },
   ],
   detailFn: async (dtd, m) => {
     // 詳細數值 grid
     const grid = window.el('div', { class: 'grid' });
     const fields = [
-      ['HP（顯示）', m.hp],
-      ['HP_max（戰鬥）', m.hp_max],
+      ['HP', m.hp],
+      ['0x2C 未解讀欄位', m.unk_2c],
       ['MP', m.mp || '無'],
       ['STM（體力）', m.stm ?? '無'],
       ['等級', m.level],
@@ -106,9 +103,9 @@ window.LIST_CONFIG = {
       ['防敲', m.def_blunt],
       ['經驗值', m.exp],
       ['金錢', m.money],
-      ['魔法種類', m.magic_count],
-      ['掉寶 1 ID', m.drop_1 ?? '無'],
-      ['掉寶 2 ID', m.drop_2 ?? '無'],
+      ['0x1C（推定為魔法數，未確認）', m.magic_count],
+      ['0x26 未解讀欄位（有號）', m.unk_26],
+      ['0x2E 未解讀欄位（有號）', m.unk_2e],
       ['sub-id', m.sub_id],
       ['inline 名', m.name_inline],
     ];
@@ -126,6 +123,7 @@ window.LIST_CONFIG = {
 </script>
 <script src="list-page.js"></script>
 </main>
+</div>
 
 </body>
 </html>

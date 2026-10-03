@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>KOBUN / OYABUN 子分・親分查看器 · 俠客遊 II</title>
-<meta name="description" content="俠客遊 II 子分（小弟）/ 親分（老大）系統查看器。KOBUN.SAV (542 bytes) + OYABUN.SAV (258 bytes)。2026 binary 結構釐清。read-only。">
+<meta name="description" content="俠客遊 II 子分（小弟）/ 親分（老大）系統查看器。KOBUN.SAV (542 bytes) + OYABUN.SAV (258 bytes)。2026 binary 結構釐清。含 hex 直編模式（修改前請先備份）。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="KOBUN / OYABUN 子分・親分查看器 · 俠客遊 II">
 <meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/luna2/kobun-oyabun-viewer.html">
-<meta property="og:description" content="俠客遊 II 子分（小弟）/ 親分（老大）系統查看器。KOBUN.SAV (542 bytes) + OYABUN.SAV (258 bytes)。2026 binary 結構釐清。read-only。">
+<meta property="og:description" content="俠客遊 II 子分（小弟）/ 親分（老大）系統查看器。KOBUN.SAV (542 bytes) + OYABUN.SAV (258 bytes)。2026 binary 結構釐清。含 hex 直編模式（修改前請先備份）。">
 <meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
 <link rel="stylesheet" href="../assets/css/fonts-retro.css">
@@ -94,9 +94,9 @@
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="KOBUN / OYABUN 子分・親分查看器 · 俠客遊 II">
-<meta name="twitter:description" content="俠客遊 II 子分（小弟）/ 親分（老大）系統查看器。KOBUN.SAV (542 bytes) + OYABUN.SAV (258 bytes)。2026 binary 結構釐清。read-only。">
+<meta name="twitter:description" content="俠客遊 II 子分（小弟）/ 親分（老大）系統查看器。KOBUN.SAV (542 bytes) + OYABUN.SAV (258 bytes)。2026 binary 結構釐清。含 hex 直編模式（修改前請先備份）。">
 <meta name="twitter:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"KOBUN / OYABUN 子分・親分查看器","description":"俠客遊 II 子分（小弟）/ 親分（老大）系統查看器。KOBUN.SAV (542 bytes) + OYABUN.SAV (258 bytes)。2026 binary 結構釐清。read-only。","url":"https://toniliumvp.github.io/LunaticDawn/luna2/kobun-oyabun-viewer.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 II"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"KOBUN / OYABUN 子分・親分查看器","description":"俠客遊 II 子分（小弟）/ 親分（老大）系統查看器。KOBUN.SAV (542 bytes) + OYABUN.SAV (258 bytes)。2026 binary 結構釐清。含 hex 直編模式（修改前請先備份）。","url":"https://toniliumvp.github.io/LunaticDawn/luna2/kobun-oyabun-viewer.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 II"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"吟遊詩人的傳說","item":"https://toniliumvp.github.io/LunaticDawn/"},{"@type":"ListItem","position":2,"name":"俠客遊 II","item":"https://toniliumvp.github.io/LunaticDawn/luna2/"},{"@type":"ListItem","position":3,"name":"KOBUN / OYABUN 子分・親分查看器"}]}</script>
 <!-- seo -->
 </head>
@@ -109,7 +109,9 @@
       <nav>
         <a href="savs-dashboard.html">← SAV 總覽</a>
         ·
-        <a href="save-editor.html">屬性修改器</a>
+        <a href="save-editor.html">存檔修改器</a>
+        ·
+        <a href="./">▸ 俠客遊 II 專區</a>
         ·
         <a href="../">回主站</a>
       </nav>
@@ -124,7 +126,7 @@
     <strong>KOBUN.SAV</strong>（542 bytes），子分（小弟）資料：玩家招募的同行 NPC。<br>
     <strong>OYABUN.SAV</strong>（258 bytes），親分（老大）資料：玩家當頭目時的隊伍狀態。
     <br><br>
-    <strong>結構（2026-05-03 2026 binary 結構釐清）</strong>：
+    <strong>結構（2026 年整理）</strong>：
     跟 <code>P/KOBUN.MST</code> + <code>P/OYABUN.MST</code> template 對比，玩家活動後寫入特定 fields。
     <br><br>
     <strong style="color: var(--danger, #c00);">⚠️ 修改前務必備份</strong>：byte field 個別意義未經實機驗證，本工具提供 hex 直編模式給有經驗的玩家。請務必先把 USER0 → USER1 備份，在 USER1 測試確認遊戲讀取正常後再覆蓋 USER0。
@@ -133,19 +135,18 @@
   </div>
 
   <div class="tabs" id="tabs">
-    <button class="tab active" data-target="kobun">▸ KOBUN（子分）</button>
-    <button class="tab" data-target="oyabun">▸ OYABUN（親分）</button>
+    <button type="button" class="tab active" data-target="kobun" aria-pressed="true">▸ KOBUN（子分）</button>
+    <button type="button" class="tab" data-target="oyabun" aria-pressed="false">▸ OYABUN（親分）</button>
   </div>
 
   <div id="drop-zone">
     <h3 class="pixel" id="drop-title">▶ 拖放 KOBUN.SAV 到這裡</h3>
-    <p>或 <span style="color: var(--amber); cursor: pointer; text-decoration: underline;" id="click-select">點擊選擇</span></p>
+    <p>或 <button type="button" id="click-select" class="link-button">點擊選擇</button></p>
     <input type="file" id="file-input" aria-label="選擇 KOBUN / OYABUN 存檔" accept=".SAV,.sav" style="display: none;">
   </div>
 
   <p class="hint muted">※ 所有解析在你的瀏覽器本地完成，不會上傳任何檔案。</p>
   <div id="content"></div>
-</div>
 
 <script>
 const $ = id => document.getElementById(id);
@@ -309,11 +310,16 @@ let originalFileName = '';
 function renderEditTools(buffer, name) {
   const wrapper = el('div', {style: 'margin-top: 20px; padding: 12px; border: 1px solid var(--phosphor-fade); border-radius: 4px;'});
   wrapper.appendChild(el('h4', {style: 'color: var(--amber);'}, '★ hex 直編模式（v0.2 進階）'));
-  wrapper.appendChild(el('p', {class: 'muted', style: 'font-size: 13px;'},
+  wrapper.appendChild(el('p', {class: 'muted', id: 'hex-editor-help', style: 'font-size: 13px;'},
     '修改下方 hex（每 byte 2 字元，空白分隔），按下「套用 + 下載」匯出修改後 SAV。⚠️ 修改後務必先在 USER1 測試！'));
 
+  // 可見標籤：讀螢幕軟體聚焦輸入框時會唸出這段名稱，說明文字另外用 aria-describedby 連結
+  wrapper.appendChild(el('label', {for: 'hex-editor', style: 'display: block; margin: 8px 0 4px; color: var(--phosphor-dim); font-size: 13px;'},
+    `${name} 的 hex 內容（每列 16 bytes）`));
   const ta = el('textarea', {
     id: 'hex-editor',
+    'aria-describedby': 'hex-editor-help',
+    spellcheck: 'false',
     style: 'width: 100%; min-height: 200px; font-family: monospace; font-size: 12px; background: var(--bg); color: var(--phosphor); border: 1px solid var(--phosphor-fade); padding: 8px;'
   });
   // Format: 16 bytes per row
@@ -381,7 +387,10 @@ async function handleFile(file) {
 for (const tab of $$('.tab')) {
   tab.addEventListener('click', () => {
     activeTab = tab.dataset.target;
-    for (const t of $$('.tab')) t.classList.toggle('active', t === tab);
+    for (const t of $$('.tab')) {
+      t.classList.toggle('active', t === tab);
+      t.setAttribute('aria-pressed', String(t === tab));
+    }
     $('drop-title').textContent = `▶ 拖放 ${activeTab.toUpperCase()}.SAV 到這裡`;
     $('drop-zone').style.display = 'block';
     $('content').replaceChildren();
@@ -404,8 +413,9 @@ dz.addEventListener('click', ev => {
   if (ev.target.id === 'drop-zone') $('file-input').click();
 });
 </script>
-<p class="muted" style="font-size: 12px; margin-top: 8px;">⚖️ 本工具為逆向工程相容性研究成果(Sega v. Accolade 1992 fair use 美國判例)。玩家修改自己持有的正版遊戲存檔合法。請務必備份原始存檔。</p>
+<p class="muted" style="font-size: 12px; margin-top: 8px;">⚖️ 修改自己持有的存檔屬個人使用，本站工具以相容性研究為目的。請務必備份原始存檔。</p>
 </main>
+</div>
 
 </body>
 </html>

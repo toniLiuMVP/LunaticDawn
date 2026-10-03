@@ -10,21 +10,30 @@
 #    3. 之後雙擊這個檔案就會自動啟動遊戲
 #
 #  需要 DOSBox-X：
-#    brew install --cask dosbox-x-app
-#    或從 https://dosbox-x.com/ 下載 .dmg 安裝
+#    到 https://github.com/joncampbell123/dosbox-x/releases 下載 macOS 版 .zip，
+#    解壓後把 dosbox-x.app 拖到「應用程式」
 # ============================================================
 
 # 切換到腳本自身所在的目錄（不管使用者從哪裡呼叫都對）
 cd "$(dirname "$0")" || exit 1
 GAME_DIR="$(pwd)"
 
-# ── 自我清除 quarantine（macOS 26+ 雙擊修復）──
-# 真因：rsync from SMB 自動繼承 com.apple.quarantine attribute → Gatekeeper 靜默拒絕
-# 詳見：~/.claude/MACOS_DOTCOMMAND_FIX.md
+# ── 清除隔離屬性 ──
+# 從網路下載的檔案會被 macOS 加上 com.apple.quarantine 隔離屬性，雙擊時可能被擋下；
+# 這裡順手清除遊戲資料夾內所有檔案的隔離屬性，之後就能直接雙擊。
 xattr -dr com.apple.quarantine "$GAME_DIR" 2>/dev/null || true
 
-# DOSBox-X 的預設安裝位置
-DOSBOX="/Applications/dosbox-x.app/Contents/MacOS/dosbox-x"
+# 依序尋找 DOSBox-X：「應用程式」、個人帳號的「應用程式」，
+# 最後找 PATH（給用 Homebrew 的 dosbox-x 套件安裝的人）
+DOSBOX_APP1="/Applications/dosbox-x.app/Contents/MacOS/dosbox-x"
+DOSBOX_APP2="$HOME/Applications/dosbox-x.app/Contents/MacOS/dosbox-x"
+DOSBOX=""
+for try in "$DOSBOX_APP1" "$DOSBOX_APP2"; do
+    if [ -x "$try" ]; then DOSBOX="$try"; break; fi
+done
+if [ -z "$DOSBOX" ]; then
+    DOSBOX="$(command -v dosbox-x 2>/dev/null)"
+fi
 
 echo "============================================================"
 echo "  吟遊詩人的傳說 · 俠客遊 II 啟動器"
@@ -33,13 +42,15 @@ echo "============================================================"
 echo
 
 # 檢查 DOSBox-X
-if [ ! -x "$DOSBOX" ]; then
+if [ -z "$DOSBOX" ] || [ ! -x "$DOSBOX" ]; then
     echo "✗ 找不到 DOSBox-X"
-    echo "  預期位置：$DOSBOX"
+    echo "  預期位置：$DOSBOX_APP1"
+    echo "        或：$DOSBOX_APP2"
     echo
     echo "  請先安裝 DOSBox-X："
-    echo "    brew install --cask dosbox-x-app"
-    echo "  或到 https://dosbox-x.com/ 下載 .dmg 手動安裝"
+    echo "    到 https://github.com/joncampbell123/dosbox-x/releases 下載 macOS 版 .zip，"
+    echo "    解壓後把 dosbox-x.app 拖到「應用程式」，再在終端機執行："
+    echo "    xattr -dr com.apple.quarantine /Applications/dosbox-x.app"
     echo
     read -rp "按 Enter 關閉此視窗..."
     exit 1

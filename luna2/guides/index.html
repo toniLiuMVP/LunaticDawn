@@ -54,7 +54,7 @@
     <summary>關於這 9 篇攻略的出處與整理說明（點開）</summary>
   <p>
     以下 9 篇攻略是 <span class="amber">2004-2008 年</span> GameBase 遊戲基地俠客遊系列討論板、
-    巴哈姆特俠客遊系列討論板社群前輩整理的心血結晶。
+    巴哈姆特俠客遊系列討論板社群前輩整理的心血結晶（其中修改筆記收錄 1996 年的原作）。
   </p>
   <p>
     內容包括主攻略、物品代碼、城鎮資料、存檔格式逆向工程、修改筆記、結婚條件、
@@ -102,8 +102,8 @@
     <a class="card" href="modifier-notes.html">
       <span class="card-title">▸ 修改筆記</span>
       <span class="card-desc">
-        1996 年伊達政宗、Silver Angel 修改器筆記，
-        以及李憲忠的精確 byte offset 對照表。
+        1996 年伊達政宗、Silver Angel 修改器筆記，An-Liang Lo 的 LUNACHAR.SAV byte offset 對照表，
+        以及李憲忠的 CHRITEM.SAV 物品資料說明（每個物品 48 bytes）與隱藏寶物代號。
       </span>
       <span class="card-meta">~9 KB</span>
     </a>
@@ -160,26 +160,26 @@
   <h2 class="panel-title">[ kyleul 2023 深度攻略 · 新收錄 ]</h2>
   <p>2023-02-23 kyleul 於 PTT Old-Games 發表的深度攻略，經作者授權收錄至本站：</p>
   <div class="card-grid">
-    <a class="card" href="kyleul-deep-guide.html" style="border-color: var(--phosphor);">
+    <a class="card" href="kyleul-deep-guide.html" style="border-color: currentColor;">
       <span class="card-title">▸ kyleul 的 Luna2 深度攻略彙整 ★ 2023</span>
       <span class="card-desc">10 大段深度攻略：開局人物 / 麗妃阿姨包養法極限賺錢 / 大地圖移動實測（草地 vs 山地差 5 倍 XDD）/ 傷害計算公式 / 附魔重要性研究 / 實用魔法 + 必殺技 / 遊戲小技巧（雙持武器 / 縮短攻擊間隔）。kyleul (凱布洛) 經 16 年間斷重溫後的深度心得。</span>
       <span class="card-meta">作者：kyleul · 2023-02 PTT Old-Games · 經作者授權</span>
     </a>
   </div>
-  <p class="muted" style="font-size: 13px; margin-top: 10px;">※ 其他社群歷史攻略（青衫主攻略 / ocrice 能力表 / 聶荊璇 存檔解析 / germun 結婚條件 / 青杉 DOS FAQ 等 9 篇）見上方 [ GUIDES ] 目錄各自獨立頁。</p>
+  <p class="muted" style="font-size: 13px; margin-top: 10px;">※ 其他社群歷史攻略（青衫主攻略 / ocrice 能力表 / 聶荊璇 存檔解析 / germun 結婚條件 / 青衫 DOS FAQ 等 9 篇）見上方 [ GUIDES ] 目錄各自獨立頁。</p>
 </section>
 
 <section class="panel">
   <h2 class="panel-title">[ 2026 INTEGRATION GUIDES · toni 整理 ]</h2>
-  <p>以下 9 篇是 2026 年 toni 基於 LUNA2.EXE 字串提取 + MGCDATA / HISSATSU / ITEMDATA 完整逆向 + 攻略書結構整理的<strong>整合性攻略</strong>。
+  <p>以下 9 篇是 2026 年 toni 基於 LUNA2.EXE 字串提取 + MGCDATA / HISSATSU / ITEMDATA 等遊戲檔逆向（部分欄位尚未解讀）+ 攻略書結構整理的<strong>整合性攻略</strong>。
   跟上面 2004-2008 社群整理是兩種不同來源（一個是社群作者口述、一個是 binary 逆向 + 結構性事實）。</p>
   <div class="card-grid">
 
     <a class="card" href="geography-6-nations.html">
       <span class="card-title">▸ 6 國地理速查</span>
       <span class="card-desc">
-        6 國（神聖吉札 / 敦津 / 樸哈爾 / 日傑 / 馬尼卡帕 / 芙庫基歐）+ 城鎮 +
-        10 種設施 + 驛馬車路線結構速查。基於 1996 攻略書 PART 2 整理。
+        6 國（神聖吉札 / 敦津 / 穆哈爾 / 日倭 / 馬尼卡帕 / 芙庫基歐）32 座城鎮 + 80 處地下城與特殊地點 +
+        特產品、通行證、港口航線、各城訓練所項目速查。城鎮名以遊戲主程式為準，設施依 1996 攻略書 PART 2 整理。
       </span>
       <span class="card-meta">2026</span>
     </a>
@@ -187,8 +187,8 @@
     <a class="card" href="hissatsu-guide.html">
       <span class="card-title">▸ 必殺技使用指南</span>
       <span class="card-desc">
-        8 大武器類必殺技（拔刀波斬流 / 暴棍撲術 / 真槍貫術 / 爆矢眼弓法 等）×
-        主形 / 變體 + STM 消耗 + power 比率。基於 LUNA2.EXE + HISSATSU.MST 32 records 完整逆向。
+        8 個武器類別碼（秘劍真空切 / 衝擊斬波斧 / 雙流星棍 / 破魔貫槍 等，類別對應為推定）×
+        各兩招 + 推定 STM 消耗 + power 比率 + 16 隻怪物的專屬必殺技。基於 HISSATSU.MST 與 MGCNAME.ENC 逆向（部分欄位尚未解讀）。
       </span>
       <span class="card-meta">2026</span>
     </a>
@@ -196,8 +196,8 @@
     <a class="card" href="magic-5-systems.html">
       <span class="card-title">▸ 5 系魔法施展指南</span>
       <span class="card-desc">
-        物理 / 元素 / 神聖 / 暗黑 / 精靈 5 系魔法 46 法術 + 4 召喚獸（伊弗利朵 / 琴恩 / 克拉肯 / 貝希摩斯）。
-        基於 MGCDATA.MST 80 records 完整逆向 + 魔法附冊。
+        物理 / 元素 / 神聖 / 暗黑 / 精靈 5 系魔法 54 法術 + 4 召喚獸（伊弗利朵 / 琴恩 / 克拉肯 / 貝希摩斯）。
+        法術名稱與數值取自 MGCNAME.ENC / MGCDATA.MST 逆向，效果依攻略書魔法附冊整理成功能摘要。
       </span>
       <span class="card-meta">2026</span>
     </a>
@@ -205,16 +205,16 @@
     <a class="card" href="monsters-guide.html">
       <span class="card-title">▸ 怪物攻略整合篇</span>
       <span class="card-desc">
-        128 隻怪物分類（人類組 / 動物 / 龍蛇 / 巨人 / 不死 / 妖精 / 龍 / 魔王）+ boss 群數據（魔王阿迦魯瑪 / 提斯卡托 Lv 50）+ 7 種弱點對照 + 必殺技匹配。
-        基於 MONSTER.DAT 13 欄位完整逆向 + 攻略書 PART 5 ch3 cross-validate（boss 6/6 完美對齊）。
+        128 隻怪物依等級分 5 段 + 終局 boss 群數據（Lv 50）+ 龍類 5 隻 + 恐懼症與怪物分類 + 必殺技對照。
+        數值取自 MONSTER.DAT 主要欄位逆向，並與攻略書 PART 5 ch3 對照（龍類 5 隻與 4 隻終局 boss 一致；魔王阿迦魯瑪與提斯卡托兩列在攻略書上數值對調，以遊戲檔為準）。
       </span>
-      <span class="card-meta">2026 · MONSTER + 弱點 + boss 整合</span>
+      <span class="card-meta">2026 · MONSTER + 恐懼症 + boss 整合</span>
     </a>
 
     <a class="card" href="weapon-formulas-paths.html">
       <span class="card-title">▸ 武器系統 + 玩家成長路徑</span>
       <span class="card-desc">
-        6 大武器類別 vs 屬性對應公式（劍 / 斧 / 槍 / 棍棒 / 弓 / 投擲）+ 6 國地理深度版（11 城鎮設施分類）+ 三條玩家路線（英雄 / 邪惡 / 金錢）+ 11 件神器級武器。
+        6 大武器技能與基礎能力的對應算式（劍 / 斧 / 棍棒 / 槍 / 弓 / 投擲）+ 6 國 32 座城鎮的設施與交通 + 三條玩家路線（英雄 / 邪惡 / 金錢）+ 六國隱藏秘寶 30 件。
         基於 PART 1 + PART 2 + PART 4 整合。
       </span>
       <span class="card-meta">2026</span>
@@ -223,7 +223,7 @@
     <a class="card" href="getting-started.html">
       <span class="card-title">▸ 新手上手指南</span>
       <span class="card-desc">
-        8 屬性配點 + 8 種出身（貴族 / 農家 / 戰士 / 武士 / 騎士 / 魔術師 / 祭司 / 盜賊）+ 第一週玩法 5 步驟 + 5 大新手地雷 + 9 篇整合性攻略導覽。
+        8 屬性配點 + 8 種出身（貴族 / 農家 / 一般 / 學者 / 傭兵 / 僧侶 / 盜賊 / 孤兒）+ 新手起步 5 步驟 + 5 大新手地雷 + 9 篇整合性攻略導覽。
         新手必讀的入口攻略。
       </span>
       <span class="card-meta">2026</span>
@@ -232,8 +232,8 @@
     <a class="card" href="combat-strategy.html">
       <span class="card-title">▸ 戰鬥策略整合篇</span>
       <span class="card-desc">
-        7 種攻擊方式（普砍刺敲飲散跨）vs 怪物 3 軸防禦 + 玩家 / 怪物 binary offset 對照 + 戰鬥流程 6 步驟 + 戰術配對表 + 4 個 boss 詳細打法。
-        基於 LUNACHAR / MONSTER / HISSATSU / MGCDATA 完整逆向整合。
+        3 種攻擊方式（砍 / 刺 / 敲）vs 怪物 3 軸防禦 + 玩家 / 怪物 binary offset 對照 + 戰鬥流程 6 步驟 + 怪物分類與對策 + 恐懼症額外點數 + 4 組 boss 打法。
+        基於 LUNACHAR / MONSTER / HISSATSU / MGCDATA 逆向與攻略書整理，戰術部分為玩法參考。
       </span>
       <span class="card-meta">2026</span>
     </a>
@@ -241,7 +241,7 @@
     <a class="card" href="npc-companions.html">
       <span class="card-title">▸ 同行 NPC 招募流程</span>
       <span class="card-desc">
-        660 NPC 字典 + 攻略書 PART 5 ch1 NPC 大全（150-170 重要 NPC）+ KOBUN.SAV 子分系統 + OYABUN.SAV 親分系統 + 招募 7 步驟 + 三條路線 NPC 配置。
+        660 NPC 字典 + 攻略書 PART 5 ch1 NPC 大全（約 150 名重要 NPC）+ KOBUN.SAV 子分系統 + OYABUN.SAV 親分系統 + 招募 7 步驟 + 三條路線 NPC 配置。
         基於 4 個 ENC 字典完整解密 + 2026 SAV 結構釐清。
       </span>
       <span class="card-meta">2026</span>
@@ -250,8 +250,8 @@
     <a class="card" href="quest-system.html">
       <span class="card-title">▸ 任務系統與冒險指南</span>
       <span class="card-desc">
-        5 大任務類型（送貨 / 送信 / 護衛 / 救援 / 暗殺）+ 訓練術法 ROI 分析 + Save/Load 心法 + 危險區冒險須知 + 13 SAV 結構總覽 + 三條路線任務分布。
-        基於 PART 3 + PART 4 + 2026 SAV 整合。
+        15 種任務類型（取自遊戲主程式）+ 評價與通緝 + 訓練費用與天數 + Save/Load 心法 + 危險區冒險須知 + 13 SAV 結構總覽 + 三條路線任務分布。
+        基於 LUNA2.EXE + PART 3 + PART 4 + 2026 SAV 整合。
       </span>
       <span class="card-meta">2026</span>
     </a>
@@ -292,7 +292,7 @@
 
 
 <section class="panel">
-  <p class="muted" style="font-size: 13px;">⚖️ <strong>合規說明</strong>:本站收錄之 2000-2010 年 BBS / 巴哈姆特 / GameBase 社群攻略均註明原作者(青衫 / 小蜜蜂 / 小傑 / Ertai / 聶荊璇 / germun / kyleul 等)。攻略內容為玩家對遊戲事實之整理與心得分享,依各國著作權法(🇹🇼 §10-1 / 🇯🇵 §2 / 🇺🇸 §102(b) + Feist 1991)不屬創作性表現受保護範圍;短引用部分(< 300 字)依 fair use 原則。若原作者希望調整 attribution 或撤除,請見 <a href="../../legal/dmca.html">著作權異議處理</a>。</p>
+  <p class="muted" style="font-size: 13px;">⚖️ <strong>合規說明</strong>：本站收錄的社群攻略（2004-2008 年 GameBase / 巴哈姆特整理的文章，以及 2023 年 PTT 的 kyleul 心得）均註明原作者（青衫 / 聶荊璇 / germun / ocrice / kyleul 等），文章著作權屬各原作者，本站以保存與標示出處的方式收錄，kyleul 的心得並經作者授權。文章中的遊戲數值與規則屬事實或操作方法（見 🇹🇼 著作權法 §10-1、🇺🇸 17 USC §102(b) 與 Feist 案）；遊戲內的名稱屬單字或短詞，一般認為不具或僅有極有限的著作權保護（個案判斷）。若原作者希望調整署名或撤除，請見 <a href="../../legal/dmca.html">著作權異議處理</a>。</p>
 </section>
 </main>
 

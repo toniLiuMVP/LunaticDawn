@@ -28,7 +28,7 @@
 
 .sav-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
   gap: 16px;
   margin: 20px 0;
 }
@@ -55,7 +55,7 @@
 }
 .status-done { background: rgba(0, 255, 65, 0.15); color: var(--phosphor); border: 1px solid var(--phosphor); }
 .status-partial { background: rgba(255, 176, 0, 0.15); color: var(--amber); border: 1px solid var(--amber); }
-.status-todo { background: rgba(160, 160, 160, 0.15); color: var(--phosphor-fade); border: 1px solid var(--phosphor-fade); }
+.status-todo { background: rgba(160, 160, 160, 0.15); color: var(--phosphor-dim); border: 1px solid var(--phosphor-fade); }
 
 .sav-card .structure {
   font-size: 12px;
@@ -122,11 +122,13 @@
     <div class="header-inner">
       <h1 class="pixel">USERN 存檔結構總覽</h1>
       <nav>
-        <a href="save-editor.html">屬性修改器</a>
+        <a href="save-editor.html">存檔修改器</a>
         ·
         <a href="chritem-viewer.html">物品欄編輯</a>
         ·
         <a href="shopitem-viewer.html">商店查看</a>
+        ·
+        <a href="./">▸ 俠客遊 II 專區</a>
         ·
         <a href="../">回主站</a>
       </nav>
@@ -138,25 +140,25 @@
 
   <div class="intro">
     俠客遊 II 玩家存檔在 <code>USERN/</code>（N=0~9，10 個 slots），每 slot 含 <strong>13 個 SAV 檔</strong>共約 740 KB。
-    本頁總覽全 13 SAV 結構研究進度（截至 2026-05-02 2026）+ drag-drop hex viewer。
+    本頁總覽全 13 SAV 結構研究進度（2026 年整理）+ drag-drop hex viewer。
     <br><br>
-    <strong>已可編輯</strong>：LUNACHAR.SAV（屬性修改器）+ CHRITEM.SAV（物品欄編輯器 v0.2）。<br>
-    <strong>已可查看</strong>：SHOPITEM.SAV（商店查看器）。<br>
-    <strong>結構釐清</strong>：LUNAHEAD / KOBUN / OYABUN / HIST / SCENDATA / TOWNDATA（2026 binary survey）。<br>
+    <strong>已可編輯</strong>：LUNACHAR.SAV（存檔修改器 v0.5）+ CHRITEM.SAV（物品欄編輯器 v0.2）+ LUNAHEAD.SAV（玩家表頭編輯器 v0.1）。<br>
+    <strong>hex 直編</strong>：KOBUN.SAV / OYABUN.SAV（子分・親分查看器 v0.2 的進階模式）。<br>
+    <strong>已可查看</strong>：SHOPITEM.SAV（商店查看器）+ HIST / SCENDATA / TOWNDATA（世界狀態查看器，唯讀）。<br>
     <strong>待逆向</strong>：TOWNITEM（92 KB） / VDD / VDDKEY（各 200 KB） / DUNGDATA（map data）。
   </div>
 
   <div class="sav-grid">
 
     <div class="sav-card">
-      <h3>LUNACHAR.SAV <span class="status status-done">編輯 v0.2</span></h3>
+      <h3>LUNACHAR.SAV <span class="status status-done">編輯 v0.5</span></h3>
       <div class="size">size: 30,720 bytes (30 KB)</div>
       <div class="structure">
         <strong>結構</strong>：160 角色 × 192 bytes/角色<br>
         <strong>內容</strong>：玩家 + 159 NPC 角色完整資料（8 屬性 + 15 技能熟練度 + 5 系魔法 + 武技 + HP/MP/STM）<br>
         <strong>逆向時期</strong>：2026 早期（2026-04）+ 多次 cross-validate 確認 offsets
       </div>
-      <a class="tool-link" href="save-editor.html">▸ 開啟屬性修改器 →</a>
+      <a class="tool-link" href="save-editor.html">▸ 開啟存檔修改器 →</a>
     </div>
 
     <div class="sav-card">
@@ -176,26 +178,27 @@
       <div class="structure">
         <strong>結構</strong>：16 shops × 768 bytes/shop<br>
         <strong>內容</strong>：每 shop u32 header + u16 LE item IDs 序列直到 0xFFFF<br>
-        <strong>城鎮對應</strong>：6 國 11 城店家（神聖吉札 0-2 / 樸哈爾 4 / 日傑 7-8 / 馬尼卡帕 10-11 / 芙庫基歐 12-13 / 終局 15）<br>
+        <strong>城鎮對應</strong>：6 國 11 城店家（神聖吉札 0-2 / 穆哈爾 4 / 日倭 7-8 / 馬尼卡帕 10-11 / 芙庫基歐 12-13 / 終局 15）<br>
         <strong>逆向時期</strong>：2026
       </div>
       <a class="tool-link" href="shopitem-viewer.html">▸ 開啟商店查看器 →</a>
     </div>
 
     <div class="sav-card">
-      <h3>LUNAHEAD.SAV <span class="status status-partial">結構釐清</span></h3>
+      <h3>LUNAHEAD.SAV <span class="status status-done">編輯 v0.1</span></h3>
       <div class="size">size: 256 bytes</div>
       <div class="structure">
-        <strong>內容</strong>：玩家存檔表頭概要<br>
-        <strong>byte 0-2</strong>：00 47 09（u16 = 18176, 1801，可能是日期 / 等級）<br>
-        <strong>byte 5-12</strong>：Big5 中文字串（玩家姓名）<br>
-        <strong>byte 13-17</strong>：u32 = 87 + u16 = 48（等級 / age？）<br>
+        <strong>內容</strong>：讀檔畫面顯示的時間與主角姓名（依<a href="guides/save-format.html">聶荊璇的存檔解析</a>）<br>
+        <strong>byte 0-4</strong>：推定是時間記錄，各位元組的對應尚未確認（樣本值 0 / 71 / 9 / 7 / 12）<br>
+        <strong>byte 5-17</strong>：玩家姓名欄（Big5，推定 13 bytes）；樣本的「未具名」佔 byte 5-10，與 LUNACHAR.SAV 主角姓名欄的 13 bytes 完全相同<br>
+        <strong>byte 14 / 16</strong>：樣本是 0x30（ASCII「0」），落在姓名欄的剩餘空間，推定不是數值欄位<br>
         <strong>byte 18+</strong>：0xFF padding
       </div>
+      <a class="tool-link" href="lunahead-editor.html">▸ 開啟玩家表頭編輯器 →</a>
     </div>
 
     <div class="sav-card">
-      <h3>KOBUN.SAV <span class="status status-partial">結構釐清</span></h3>
+      <h3>KOBUN.SAV <span class="status status-partial">hex 直編 v0.2</span></h3>
       <div class="size">size: 542 bytes（不整除任何因子）</div>
       <div class="structure">
         <strong>內容</strong>：子分（小弟）資料，玩家招募 NPC 後加入此檔<br>
@@ -203,10 +206,11 @@
         <strong>非零比例</strong>：68.3%<br>
         <strong>對應</strong>：<a href="guides/npc-companions.html">同行 NPC 招募流程</a>
       </div>
+      <a class="tool-link" href="kobun-oyabun-viewer.html">▸ 開啟子分・親分查看器 →</a>
     </div>
 
     <div class="sav-card">
-      <h3>OYABUN.SAV <span class="status status-partial">結構釐清</span></h3>
+      <h3>OYABUN.SAV <span class="status status-partial">hex 直編 v0.2</span></h3>
       <div class="size">size: 258 bytes（不整除任何因子）</div>
       <div class="structure">
         <strong>內容</strong>：親分（老大）資料，玩家當頭目時的隊伍狀態<br>
@@ -214,6 +218,7 @@
         <strong>byte 12-25</strong>：u16 序列 971/7/12/10/30/7/10/3（屬性 / 等級概要）<br>
         <strong>非零比例</strong>：60.9%
       </div>
+      <a class="tool-link" href="kobun-oyabun-viewer.html">▸ 開啟子分・親分查看器 →</a>
     </div>
 
     <div class="sav-card">
@@ -225,6 +230,7 @@
         <strong>byte 8+</strong>：大量 0xFF padding<br>
         <strong>結構</strong>：可能是「玩家事件紀錄表」每事件 N bytes
       </div>
+      <a class="tool-link" href="world-state-viewer.html">▸ 開啟世界狀態查看器（唯讀）→</a>
     </div>
 
     <div class="sav-card">
@@ -237,6 +243,7 @@
         <strong>byte 8-15</strong>：49 00 ff ff 68 42 00 00（u16 = 73, 65535, 17000, 0）<br>
         <strong>因子</strong>：16/32/48/64/96/128 bytes/entry
       </div>
+      <a class="tool-link" href="world-state-viewer.html">▸ 開啟世界狀態查看器（唯讀）→</a>
     </div>
 
     <div class="sav-card">
@@ -248,6 +255,7 @@
         <strong>byte 0-7</strong>：01 00 bc da bc 77（u16 = 1, 55996, 30652）<br>
         <strong>因子</strong>：16/32/64/128/256/512 bytes/entry
       </div>
+      <a class="tool-link" href="world-state-viewer.html">▸ 開啟世界狀態查看器（唯讀）→</a>
     </div>
 
     <div class="sav-card">
@@ -294,17 +302,16 @@
 
   <div id="drop-zone">
     <p>拖放 SAV 檔到此處查看前 256 bytes</p>
-    <p style="font-size: 12px; color: var(--phosphor-dim);">或 <span style="color: var(--amber); cursor: pointer; text-decoration: underline;" id="click-select">點擊選擇</span></p>
+    <p style="font-size: 12px; color: var(--phosphor-dim);">或 <button type="button" id="click-select" class="link-button">點擊選擇</button></p>
     <input type="file" id="file-input" aria-label="選擇存檔檔案" accept=".SAV,.sav" style="display: none;">
   </div>
 
   <p class="hint muted">※ 所有解析在你的瀏覽器本地完成，不會上傳任何檔案。</p>
   <div id="hex-viewer" style="display: none;">
-    <h3 id="hex-title">，待選擇檔案，</h3>
+    <h3 id="hex-title">（尚未選擇檔案）</h3>
     <div id="hex-output"></div>
   </div>
 
-</div>
 
 <script>
 const $ = id => document.getElementById(id);
@@ -358,8 +365,9 @@ dz.addEventListener('click', ev => {
   if (ev.target.id === 'drop-zone') $('file-input').click();
 });
 </script>
-<p class="muted" style="font-size: 12px; margin-top: 8px;">⚖️ 本工具為逆向工程相容性研究成果(Sega v. Accolade 1992 fair use 美國判例)。玩家修改自己持有的正版遊戲存檔合法。請務必備份原始存檔。</p>
+<p class="muted" style="font-size: 12px; margin-top: 8px;">⚖️ 修改自己持有的存檔屬個人使用，本站工具以相容性研究為目的。請務必備份原始存檔。</p>
 </main>
+</div>
 
 </body>
 </html>

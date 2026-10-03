@@ -12,7 +12,7 @@
   },
   "callname": {
     "label": "NPC 別號 / 職業稱號",
-    "description": "遊戲生成 NPC 時用的「稱號」字典。前 96 個按 6 個國家分組（每國 16 種），96 後為通用稱號（職業 / 性格 / 描述）。",
+    "description": "遊戲生成 NPC 時用的「稱號」字典。前 96 個位置按 6 個國家分組（每國 16 個位置，使用其中 13 個），國家順序與遊戲主程式的國名表相同；96 之後為通用稱號（職業 / 性格 / 描述）。",
     "source_enc": "CALLNAME.ENC",
     "total": 180,
     "groups": [
@@ -75,7 +75,7 @@
         "id_range": "0-15"
       },
       {
-        "country": "樸哈爾帝國",
+        "country": "穆哈爾帝國",
         "items": [
           {
             "id": 16,
@@ -133,7 +133,7 @@
         "id_range": "16-31"
       },
       {
-        "country": "日傑",
+        "country": "敦津",
         "items": [
           {
             "id": 32,
@@ -191,7 +191,7 @@
         "id_range": "32-47"
       },
       {
-        "country": "馬尼卡帕王國",
+        "country": "日倭",
         "items": [
           {
             "id": 48,
@@ -249,7 +249,7 @@
         "id_range": "48-63"
       },
       {
-        "country": "芙庫基歐",
+        "country": "馬尼卡帕王國",
         "items": [
           {
             "id": 64,
@@ -307,7 +307,7 @@
         "id_range": "64-79"
       },
       {
-        "country": "敦津",
+        "country": "芙庫基歐",
         "items": [
           {
             "id": 80,
@@ -1558,7 +1558,7 @@
   },
   "mcname1": {
     "label": "中名 / 姓 / 後名",
-    "description": "遊戲 NPC 名字字典（後段）— 跟 MCNAME0 組合成完整名字。",
+    "description": "遊戲 NPC 名字字典（後段），跟 MCNAME0 組合成完整名字。",
     "source_enc": "MCNAME1.ENC",
     "total": 192,
     "items": [

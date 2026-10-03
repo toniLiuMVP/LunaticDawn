@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>迷宮資料庫 · 俠客遊 II · 40 筆</title>
-<meta name="description" content="俠客遊 II 迷宮資料庫，40 個迷宮 / 地下城名稱，從 DUNGNAME.ENC 解密整理。">
+<title>迷宮資料庫 · 俠客遊 II · 80 筆</title>
+<meta name="description" content="俠客遊 II 迷宮資料庫，80 筆迷宮 / 地下城名稱，從 DUNGNAME.ENC 逐筆解密整理。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="迷宮資料庫 · 俠客遊 II · 40 筆">
-<meta property="og:description" content="俠客遊 II 迷宮資料庫，40 個迷宮 / 地下城名稱，從 DUNGNAME.ENC 解密整理。">
+<meta property="og:title" content="迷宮資料庫 · 俠客遊 II · 80 筆">
+<meta property="og:description" content="俠客遊 II 迷宮資料庫，80 筆迷宮 / 地下城名稱，從 DUNGNAME.ENC 逐筆解密整理。">
 <meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/luna2/database/dungeons.html">
 <meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
@@ -26,16 +26,18 @@
 .items-table tbody tr:hover { background: rgba(0, 255, 65, 0.06); }
 .items-table .num { text-align: right; font-family: 'Courier New', monospace; }
 .detail-row td { padding: 16px; background: rgba(0, 255, 65, 0.04); }
-.detail-row .raw { font-size: 11px; color: var(--phosphor-fade); font-family: monospace; word-break: break-all; }
+.detail-row .raw { font-size: 11px; color: var(--phosphor-text-dim); font-family: monospace; word-break: break-all; }
+/* 第一欄的展開按鈕：外觀跟一般文字一樣 */
+.items-table .btn-reset { background: none; border: 0; padding: 0; margin: 0; font: inherit; color: inherit; text-align: inherit; cursor: pointer; }
 </style>
 <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
 <link rel="canonical" href="https://toniliumvp.github.io/LunaticDawn/luna2/database/dungeons.html">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="迷宮資料庫 · 俠客遊 II · 40 筆">
-<meta name="twitter:description" content="俠客遊 II 迷宮資料庫，40 個迷宮 / 地下城名稱，從 DUNGNAME.ENC 解密整理。">
+<meta name="twitter:title" content="迷宮資料庫 · 俠客遊 II · 80 筆">
+<meta name="twitter:description" content="俠客遊 II 迷宮資料庫，80 筆迷宮 / 地下城名稱，從 DUNGNAME.ENC 逐筆解密整理。">
 <meta name="twitter:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"迷宮資料庫","description":"俠客遊 II 迷宮資料庫，40 個迷宮 / 地下城名稱，從 DUNGNAME.ENC 解密整理。","url":"https://toniliumvp.github.io/LunaticDawn/luna2/database/dungeons.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 II"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"迷宮資料庫","description":"俠客遊 II 迷宮資料庫，80 筆迷宮 / 地下城名稱，從 DUNGNAME.ENC 逐筆解密整理。","url":"https://toniliumvp.github.io/LunaticDawn/luna2/database/dungeons.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 II"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"吟遊詩人的傳說","item":"https://toniliumvp.github.io/LunaticDawn/"},{"@type":"ListItem","position":2,"name":"俠客遊 II","item":"https://toniliumvp.github.io/LunaticDawn/luna2/"},{"@type":"ListItem","position":3,"name":"資料庫","item":"https://toniliumvp.github.io/LunaticDawn/luna2/database/"},{"@type":"ListItem","position":4,"name":"迷宮資料庫"}]}</script>
 <!-- seo -->
 </head>
@@ -44,7 +46,7 @@
 <div class="wrap">
   <header class="site-header">
     <div class="header-inner">
-      <h1 class="pixel">迷宮資料庫 · 40 筆</h1>
+      <h1 class="pixel">迷宮資料庫 · 80 筆</h1>
       <nav><a href="index.html">← 資料庫首頁</a> · <a href="../../index.html">回主站</a></nav>
     </div>
   </header>
@@ -53,30 +55,30 @@
 
   <div class="toolbar">
     <label for="search">搜尋:</label>
-    <input id="search" type="search" placeholder="例：地下、夢幻、刑場" autofocus>
-    <span class="count" id="count">，/ 40</span>
+    <input id="search" type="search" placeholder="例：地下、夢幻、刑場">
+    <span class="count" id="count">載入中 / 80</span>
   </div>
   <div id="content"><div style="padding: 40px; text-align: center; color: var(--phosphor-dim);">載入中...</div></div>
-</div>
 
 <script>
 window.LIST_CONFIG = {
   dataKey: 'dungeons',
-  totalCount: 40,
+  totalCount: 80,
   columns: ['ID', '迷宮名稱'],
   searchField: (d) => d.name,
   getRowFields: (d) => [
     { value: '0x' + d.id.toString(16).toUpperCase().padStart(2, '0'), class: 'num' },
-    { value: d.name || '，' },
+    { value: d.name || '無' },
   ],
   detailFn: (dtd, d) => {
     dtd.appendChild(window.el('div', { style: 'margin-top: 12px; color: var(--phosphor-dim); font-size: 14px;' },
-      '註：每筆 768 bytes 完整資料含地圖、遭遇怪物、寶箱等。完整結構逆向中。'));
+      '註：本頁只收錄迷宮名稱。DUNGNAME.ENC 共 80 筆記錄，每筆都是一個名稱，ID 就是檔案裡的記錄序號（0x00 至 0x4F）；鍾乳洞、地下神殿、地下墓地三個名稱各出現兩次。遊戲資料檔 P/DUNGDATA.MST 共 30,720 bytes、內容全部是 0；存檔資料夾 USER0 至 USER9 各有一份同樣大小的 DUNGDATA.SAV，10 份內容完全相同。兩個檔案的結構都尚未解讀。'));
   },
 };
 </script>
 <script src="list-page.js"></script>
 </main>
+</div>
 
 </body>
 </html>

@@ -39,7 +39,7 @@
 }
 .tab:hover { color: var(--phosphor); }
 .tab .count {
-  color: var(--phosphor-fade);
+  color: var(--phosphor-dim);
   font-size: 14px;
   margin-left: 4px;
 }
@@ -103,7 +103,7 @@
   background: var(--bg-input);
 }
 .npc-cell .id {
-  color: var(--phosphor-fade);
+  color: var(--phosphor-dim);
   font-family: 'Courier New', monospace;
   font-size: 12px;
   min-width: 28px;
@@ -123,7 +123,7 @@
   border-bottom: 1px dotted var(--phosphor-dim);
 }
 .country-section .id-range {
-  color: var(--phosphor-fade);
+  color: var(--phosphor-text-dim);
   font-size: 12px;
   margin-left: 8px;
 }
@@ -134,7 +134,7 @@
 .combo-info {
   text-align: center;
   margin: 16px 0;
-  color: var(--phosphor-fade);
+  color: var(--phosphor-text-dim);
   font-size: 14px;
 }
 .combo-info strong { color: var(--phosphor); }
@@ -172,66 +172,23 @@
     遊戲開始時從 4 個 ENC 字典抽選，所以每場遊戲的 NPC 都不一樣，
     但都來自同一組固定字典（共 <strong>660 個獨特字串</strong>）。
     <br><br>
-    這些字典在遊戲檔 <code>P/CALLNAME.ENC</code>、<code>P/MCNAME0.ENC</code>、
-    <code>P/MCNAME1.ENC</code>、<code>P/FCNAME.ENC</code>，
+    這些字典在遊戲檔 <code>O/CALLNAME.ENC</code>、<code>O/MCNAME0.ENC</code>、
+    <code>O/MCNAME1.ENC</code>、<code>O/FCNAME.ENC</code>，
     用 4-byte XOR key <code>9A BC DE 00</code> 循環加密。
     <br><br>
     <strong>說明</strong>：男性 NPC = 別號 + MCNAME0（首名）+ MCNAME1（姓 / 中名）；
     女性 NPC = 別號 + FCNAME（單獨完整名字）。
-    別號分為「6 國職業稱號」（每國 16 種：武器店主、訓練所教練、舞者...）+
+    別號分為「6 國職業稱號」（每國 16 個位置，使用其中 13 個：武器店主、訓練所教練、舞者...）+
     「通用稱號」（屠龍者、修行僧、火爆男子漢、黑暗帝王 等性格 / 描述）。
+    6 國的排列順序與遊戲主程式 LUNA2.EXE 的國名表相同：神聖吉札帝國、穆哈爾帝國、敦津、日倭、馬尼卡帕王國、芙庫基歐；
+    各國的統治者稱號也跟攻略書 P94 的 NPC 初設出現地一致（皇帝在江都、高官在紫波羅、大酋長在葉斯塔利貝拉、女王在帕爾魯吉）。
     <br><br>
     <strong>★ 進階：跟攻略書 NPC 大全的關係</strong>：
-    1996 年攻略書 PART 5 第一章「NPC 資料大全」收錄約 <strong>150-170 個重要 NPC</strong>
-    （含 8 大屬性 + 15 技能熟練度 + 利益生存區等詳細數值）。本字典 660 筆是遊戲在 runtime
-    生成 NPC 時所用的<em>名字字典</em>，跟攻略書的詳細屬性表是<strong>兩個獨立資料來源</strong>
-，攻略書收錄玩家會遇到的「具體實例化 NPC」，本字典是「字串池」。
-    兩者沒有 1:1 對應，因為玩家每次新遊戲遇到的 NPC 名字都是隨機組合。
-  </div>
-
-  <div class="intro" style="margin-top: 20px; border-color: var(--amber);">
-    <strong>📊 NPC 屬性表結構（攻略書 PART 5 ch1 p101-p110）</strong>：
-    <br><br>
-    每個 NPC 在攻略書中含以下欄位：
-    <ul style="margin-top: 8px; line-height: 1.7;">
-      <li><strong>名單頁</strong>（奇數頁）：別號 / 人名 / 種族 / 性別 / 年齡 X/Y / 技能類型 / 利益生存區 / 三圍 1 / 三圍 2</li>
-      <li><strong>數值頁</strong>（偶數頁）：8 大屬性 X/Y（力量/智慧/靈巧/敏捷/直覺/魅力/體格/精神）+ 15 技能熟練度（劍/槍/棍/斧/弓/投/格鬥/盜賊/野營/迴避/物理/元素/神聖/暗黑/精靈）</li>
-    </ul>
-
-    <strong>三向交叉驗證</strong>：攻略書 1996 年印刷數據 ↔ 存檔修改器 LUNACHAR.SAV byte offsets ↔ LUNA2.EXE 字串提取，三方完美對齊（8 屬性 / 15 技能 / 5 系魔法 / NPC 名稱）。
-    <br><br>
-    <strong>⚖️ 公開政策（依三邊著作權法：🇹🇼 著作權法 §10-1 + 🇯🇵 著作権法 §2 + §12-2 + 🇺🇸 17 USC §102(b) + Feist v. Rural (1991)）</strong>：
-    NPC 數值表屬於<em>事實 / 數表</em>（玩家招募時遊戲內可看到），不受著作權保護。本站基於文化保存目的不抄錄完整 150 筆原表，但結構性事實已完整逆向，鼓勵玩家透過 Steam 購買正版攻略書 PDF 取得完整數據。
-    <br><br>
-    <strong>樣本展示</strong>（15 筆代表性 NPC，從攻略書 p101 / p103 提取，涵蓋戰士 / 魔法 / 僧侶 / 混合職業）：
-    <div class="table-scroll" style="overflow-x:auto; -webkit-overflow-scrolling:touch;">
-    <table class="info-table" style="margin-top: 10px; font-size: 12px; min-width: 480px;">
-      <thead><tr><th>別號</th><th>人名</th><th>種族</th><th>性別</th><th>年齡 X/Y</th><th>職業類型</th><th>利益生存區</th></tr></thead>
-      <tbody>
-        <tr><td>龍士</td><td>華魏多多</td><td>人類</td><td>男</td><td>37/38</td><td>戰士</td><td>歐德雷恩</td></tr>
-        <tr><td>暗</td><td>左</td><td>人類</td><td>男</td><td>28/32</td><td>戰士+魔法</td><td>無</td></tr>
-        <tr><td>貴族</td><td>安</td><td>人類</td><td>男</td><td>36/40</td><td>戰士+魔法</td><td>無</td></tr>
-        <tr><td>廣士</td><td>古黑紀安皇</td><td>人類</td><td>男</td><td>33/44</td><td>戰士+戰士</td><td>無</td></tr>
-        <tr><td>騎士</td><td>露多魯多</td><td>人類</td><td>男</td><td>17/18</td><td>戰士</td><td>無</td></tr>
-        <tr><td>鏵士</td><td>雷之斯坦</td><td>人類</td><td>男</td><td>21/28</td><td>戰士</td><td>賴歐普凱</td></tr>
-        <tr><td>詡之高士</td><td>古雪雲茲</td><td>人類</td><td>男</td><td>19/22</td><td>戰士</td><td>葉斯塔利貝拉</td></tr>
-        <tr><td>落塌十士</td><td>古不長基</td><td>人類</td><td>男</td><td>24/29</td><td>戰士</td><td>武凍雷</td></tr>
-        <tr><td>戶</td><td>同志多金生</td><td>人類</td><td>男</td><td>76/85</td><td>魔法</td><td>高利亞</td></tr>
-        <tr><td>高校徒安生</td><td>帆任比尼</td><td>人類</td><td>女</td><td>19/24</td><td>戰士</td><td>雷凱凱</td></tr>
-        <tr><td>戶</td><td>同志多金生</td><td>人類</td><td>男</td><td>76/85</td><td>魔法</td><td>高利亞</td></tr>
-        <tr><td>黑緻</td><td>紳希穆</td><td>人類</td><td>男</td><td>37/61</td><td>戰士</td><td>雜壓</td></tr>
-        <tr><td>富吉佳</td><td>倪夢迪布</td><td>人類</td><td>女</td><td>50/53</td><td>戰士</td><td>凱普林布特林</td></tr>
-        <tr><td>占士肯</td><td>唉</td><td>人類</td><td>男</td><td>31/85</td><td>魔法+魔法</td><td>家威皇</td></tr>
-        <tr><td>高皇宛肯</td><td>邦覽豆</td><td>人類</td><td>男</td><td>26/85</td><td>魔法+僧侶</td><td>江都</td></tr>
-      </tbody>
-    </table>
-    </div>
-    <p style="font-size: 12px; color: var(--phosphor-dim); margin-top: 4px;">
-      ※ 有趣觀察：「戶 / 同志多金生」是 76 歲老魔法師（魔法力 90/95 但力量僅 16/14），顯示遊戲設計年齡 vs 屬性反差；占士肯 / 高皇宛肯展示「混合職業」NPC（魔法+魔法 / 魔法+僧侶 雙職業）。
-    </p>
-    <p style="font-size: 12px; color: var(--phosphor-dim); margin-top: 8px;">
-      ※ 完整 150-170 筆 NPC 屬性表 + 數值頁請查 1996 年攻略書 PART 5 ch1（黃政恭・邵偉倫合著，第三波文化事業）。
-    </p>
+    1996 年攻略書 PART 5 第一章「NPC 資料大全」收錄約 <strong>150 名重要 NPC</strong> 的屬性表
+    （別號、人名、種族、性別、年齡、職業類型、初設出現地與各項能力值），這張表屬於攻略書的資料庫編排，本站不轉載，
+    完整數據請參考攻略書原書（黃政恭、邵偉倫合著，第三波文化事業出版）。
+    本字典 660 筆是遊戲生成 NPC 名字時所用的<em>名字字典</em>，跟攻略書的屬性表是<strong>兩個獨立資料來源</strong>：
+    攻略書收錄的是個別的 NPC，本字典是「字串池」，兩者沒有一對一的對應。
   </div>
 
   <div class="combo-info" id="combo-info"></div>
@@ -240,12 +197,11 @@
 
   <div class="toolbar">
     <label for="search">搜尋:</label>
-    <input id="search" type="search" placeholder="輸入名字片段，例：龍 / 帝 / 商人 / 王" autofocus>
-    <span class="count" id="count">無</span>
+    <input id="search" type="search" placeholder="輸入名字片段，例：龍 / 帝 / 商人 / 王">
+    <span class="count" id="count">載入中</span>
   </div>
 
   <div id="content"><div class="loading">載入 npc_dictionary.json...</div></div>
-</div>
 
 <script>
 const $ = (id) => document.getElementById(id);
@@ -345,11 +301,16 @@ function setupTabs() {
 
   for (const cfg of tabsConfig) {
     const tab = el('button', {
+      type: 'button',
       class: 'tab' + (cfg.key === activeTab ? ' active' : ''),
-      data: {key: cfg.key},
+      'aria-pressed': String(cfg.key === activeTab),
       on: {click: () => {
         activeTab = cfg.key;
-        for (const t of tabs.children) t.classList.toggle('active', t.dataset.key === activeTab);
+        for (const t of tabs.children) {
+          const on = t.dataset.key === activeTab;
+          t.classList.toggle('active', on);
+          t.setAttribute('aria-pressed', String(on));
+        }
         render();
       }}
     },
@@ -383,6 +344,7 @@ async function load() {
     render();
   } catch (e) {
     $('content').replaceChildren(el('div', {class: 'error'}, '載入失敗：' + e.message));
+    $('count').textContent = '載入失敗';
   }
 }
 
@@ -390,10 +352,15 @@ $('search').addEventListener('input', (ev) => {
   searchTerm = ev.target.value;
   render();
 });
+// 只在有滑鼠的桌機自動聚焦搜尋框，手機一開頁不跳出鍵盤
+if (window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  $('search').focus();
+}
 
 load();
 </script>
 </main>
+</div>
 
 </body>
 </html>

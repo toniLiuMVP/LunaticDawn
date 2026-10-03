@@ -14,6 +14,9 @@
   --phosphor:     #00ff41;
   --phosphor-dim: #00aa2b;
   --phosphor-fade:#005c17;
+  /* 文字專用的暗綠：黑底 5.14、面板底 4.91，達 WCAG AA。
+     --phosphor-fade 只留給邊框、背景與光暈（選中的角色列與法術格拿它當底色，改亮會讓上面的字對比不足）。 */
+  --phosphor-text-dim:#009229;
   --amber:        #ffb000;
   --danger:       #ff3030;
   --bg:           #000;
@@ -96,7 +99,8 @@ h1.pixel {
 }
 
 h1.pixel::before { content: "> "; color: var(--phosphor-dim); }
-h1.pixel::after  { content: "_"; animation: blink 1s steps(1) infinite; }
+/* 游標閃 3 次後停在可見狀態 */
+h1.pixel::after  { content: "_"; animation: blink 1s steps(1) 3; }
 @keyframes blink { 50% { opacity: 0; } }
 
 .header-sub { font-size: 18px; color: var(--phosphor-dim); }
@@ -139,8 +143,10 @@ h1.pixel::after  { content: "_"; animation: blink 1s steps(1) infinite; }
 }
 
 #drop-zone p { color: var(--phosphor-dim); margin: 6px 0; font-size: 18px; }
-#drop-zone .click-text { color: var(--amber); text-decoration: underline; }
-#drop-zone .hint { margin-top: 24px; font-size: 16px; color: var(--phosphor-fade); }
+#drop-zone .click-text { background: none; border: 0; padding: 0; font: inherit; color: var(--amber); text-decoration: underline; cursor: pointer; }
+#drop-zone .click-text:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+#drop-zone .hint { margin-top: 24px; font-size: 16px; color: var(--phosphor-text-dim); }
+#drop-zone .hint.warn { color: var(--amber); }
 #drop-zone .hint-top { margin-top: 16px; }
 #file-input { display: none; }
 
@@ -224,7 +230,25 @@ h1.pixel::after  { content: "_"; animation: blink 1s steps(1) infinite; }
   text-shadow: 0 0 6px var(--phosphor);
 }
 
-#char-list li.empty { color: var(--phosphor-fade); font-style: italic; }
+#char-list li.empty { color: var(--phosphor-text-dim); font-style: italic; }
+/* 滑過時底色變淡綠，text-dim 在上面只剩 4.33，改用 phosphor-dim（5.71）。
+   這條要寫在 .empty.active 前面，選中的列維持白字 */
+#char-list li.empty:hover { color: var(--phosphor-dim); }
+#char-list li.empty.active { color: #fff; }
+#char-list li > button {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+#char-list li > button:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
 #char-list .char-idx { color: var(--phosphor-dim); font-size: 14px; margin-right: 8px; }
 #char-list li.active .char-idx { color: var(--amber); }
 #char-list .char-name { flex: 1; }
@@ -253,7 +277,7 @@ h1.pixel::after  { content: "_"; animation: blink 1s steps(1) infinite; }
 .empty-editor {
   padding: 40px;
   text-align: center;
-  color: var(--phosphor-fade);
+  color: var(--phosphor-text-dim);
   font-size: 18px;
 }
 
@@ -274,7 +298,7 @@ h1.pixel::after  { content: "_"; animation: blink 1s steps(1) infinite; }
 
 .field label .cap {
   font-size: 13px;
-  color: var(--phosphor-fade);
+  color: var(--phosphor-text-dim);
   margin-left: 4px;
 }
 
@@ -304,7 +328,7 @@ h1.pixel::after  { content: "_"; animation: blink 1s steps(1) infinite; }
 
 .field .field-meta {
   font-size: 13px;
-  color: var(--phosphor-fade);
+  color: var(--phosphor-text-dim);
   margin-top: 2px;
   font-family: 'Courier New', monospace;
 }
@@ -353,7 +377,7 @@ h1.pixel::after  { content: "_"; animation: blink 1s steps(1) infinite; }
   align-items: center;
 }
 
-.spell-school-title .count { color: var(--phosphor-fade); font-size: 14px; margin-left: 6px; }
+.spell-school-title .count { color: var(--phosphor-text-dim); font-size: 14px; margin-left: 6px; }
 
 .spell-school-title button {
   background: transparent;
@@ -379,9 +403,10 @@ h1.pixel::after  { content: "_"; animation: blink 1s steps(1) infinite; }
   aspect-ratio: 1;
   border: 1px solid var(--phosphor-fade);
   background: var(--bg-input);
-  color: var(--phosphor-fade);
+  color: var(--phosphor-dim);
   font-family: 'Courier New', monospace;
   font-size: 13px;
+  padding: 0;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -395,6 +420,8 @@ h1.pixel::after  { content: "_"; animation: blink 1s steps(1) infinite; }
   text-shadow: 0 0 4px var(--phosphor);
 }
 
+.spell-bit:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+
 #hex-view-panel {
   max-height: calc(100vh - 200px);
   overflow-y: auto;
@@ -404,9 +431,9 @@ h1.pixel::after  { content: "_"; animation: blink 1s steps(1) infinite; }
 #hex-view { font-size: 15px; line-height: 1.4; }
 
 .hex-row { display: flex; gap: 12px; white-space: pre; }
-.hex-addr { color: var(--phosphor-fade); }
+.hex-addr { color: var(--phosphor-text-dim); }
 .hex-bytes { color: var(--phosphor-dim); letter-spacing: 1px; }
-.hex-ascii { color: var(--phosphor-fade); font-style: italic; }
+.hex-ascii { color: var(--phosphor-text-dim); font-style: italic; }
 .hex-byte { padding: 0 1px; }
 .hex-byte.dirty { color: var(--amber); font-weight: bold; }
 
@@ -462,7 +489,7 @@ footer {
   border-top: 1px dashed var(--phosphor-fade);
   text-align: center;
   font-size: 17px;
-  color: var(--phosphor-fade);
+  color: var(--phosphor-text-dim);
 }
 
 footer a { color: var(--amber); font-size: 18px; }
@@ -474,14 +501,40 @@ footer .footer-big {
   color: var(--phosphor-dim);
 }
 
-footer .footer-note { margin-top: 8px; color: var(--phosphor-fade); }
+footer .footer-note { margin-top: 8px; color: var(--phosphor-text-dim); }
 .warn { color: var(--amber); }
-.muted { color: var(--phosphor-fade); }
+.muted { color: var(--phosphor-text-dim); }
 
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: var(--bg-panel); }
 ::-webkit-scrollbar-thumb { background: var(--phosphor-fade); border: 1px solid var(--phosphor-dim); }
 ::-webkit-scrollbar-thumb:hover { background: var(--phosphor-dim); }
+
+/* 跳到主要內容：平常藏在畫面外，鍵盤聚焦時出現（與 retro.css 相同） */
+.skip-link { position: absolute; top: -40px; left: 0; background: var(--amber); color: var(--bg); padding: 8px 16px; z-index: 10001; text-decoration: none; font-family: 'VT323', monospace; font-size: 16px; }
+.skip-link:focus { top: 0; }
+
+/* 只給螢幕閱讀器的文字（與 wuxia.css 相同） */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+/* 手機：三欄改成單欄，角色清單縮短，標題字畫縮小才放得進畫面。
+   這一段一定要放在所有基本規則之後：#char-list-panel 與這裡的選擇器特異度相同，
+   寫在前面的話後面那條 max-height 會把 40vh 蓋掉。 */
+@media (max-width: 640px) {
+  #app.loaded { grid-template-columns: minmax(0, 1fr); }
+  #char-list-panel { max-height: 40vh; }
+  #drop-zone .ascii-art { font-size: 9px; }
+  /* 批次操作選單的寬度由最長的選項決定（320px 寬時會比畫面寬），限制在列內 */
+  #batch-select { max-width: 100%; min-width: 0; }
+}
+
+/* 列印：拿掉 CRT 效果，改成白紙黑字 */
+@media print {
+  *, *::before, *::after { color: #000 !important; background-color: transparent !important; background-image: none !important; text-shadow: none !important; box-shadow: none !important; }
+  body::before, body::after { display: none !important; }
+  a { text-decoration: underline; border-bottom: none; }
+  header, .panel, .card, table, th, td { border-color: #000 !important; }
+}
 </style>
 <meta property="og:type" content="website">
 <meta property="og:title" content="俠客遊 II 存檔修改器 · 吟遊詩人的傳說">
@@ -512,6 +565,7 @@ footer .footer-note { margin-top: 8px; color: var(--phosphor-fade); }
     </div>
     <div class="header-sub header-right">
       <div><a href="../">◀ 回吟遊詩人的傳說-俠客遊小站</a></div>
+      <div><a href="./">▸ 俠客遊 II 專區</a></div>
       <div>維護者：<a href="mailto:luntic.dawn@gmail.com">toni</a> · 2026</div>
     </div>
   </div>
@@ -527,9 +581,10 @@ footer .footer-note { margin-top: 8px; color: var(--phosphor-fade); }
 ║  █▄▄▄█   █▄▄█   █ █  █▄▄▄█   █▄▄▄█  █▄▄█ ║
 ╚══════════════════════════════════════════╝</div>
   <h2>拖放 LUNACHAR.SAV 到這裡</h2>
-  <p>或 <span class="click-text">點擊選擇檔案</span></p>
+  <p>或 <button type="button" class="click-text">點擊選擇檔案</button></p>
   <p class="hint hint-top">[ 檔案通常在 LUNA2/USER0 ~ USER9/LUNACHAR.SAV ]</p>
   <p class="hint warn">※ 注意：USER0 = 遊戲內「存檔 1」，USER9 = 「存檔 10」（資料夾編號比遊戲顯示少 1）</p>
+  <p class="hint"><strong style="color: var(--danger);">⚠️ 修改前務必備份</strong>：先把整個存檔資料夾（例如 USER0）複製一份，在副本上測試並進遊戲確認沒問題，再覆蓋原檔。懶人包的存檔在 <code>Luna2_EZ/game/USER0</code> ~ <code>USER9</code>。</p>
   <p class="hint muted" id="file-hint">※ 所有解析在你的瀏覽器本地完成，不會上傳任何檔案。</p>
   <label for="file-input" class="sr-only">選擇 LUNACHAR.SAV 存檔</label>
 <input type="file" id="file-input" accept=".sav,.SAV" aria-describedby="file-hint">
@@ -540,10 +595,11 @@ footer .footer-note { margin-top: 8px; color: var(--phosphor-fade); }
   <aside class="panel" id="char-list-panel">
     <h2 class="panel-title">[ CHARACTERS ]</h2>
     <div class="char-filter" role="group" aria-label="角色篩選">
-      <button data-filter="alive" class="active">僅在生</button>
-      <button data-filter="all">全部 160</button>
+      <button type="button" data-filter="alive" class="active" aria-pressed="true">僅在生</button>
+      <button type="button" data-filter="all" aria-pressed="false">全部 160</button>
     </div>
-    <ul id="char-list" aria-label="角色列表"></ul>
+    <p id="char-list-help" class="sr-only">用上下方向鍵切換角色，Home 跳到第一位，End 跳到最後一位。</p>
+    <ul id="char-list" aria-label="角色列表" aria-describedby="char-list-help"></ul>
   </aside>
 
   <section class="panel" id="editor-panel" role="region" aria-label="角色編輯器">
@@ -561,7 +617,7 @@ footer .footer-note { margin-top: 8px; color: var(--phosphor-fade); }
 <div id="bottom-bar">
   <div id="status" aria-live="polite">準備就緒</div>
   <select id="batch-select" aria-label="批次操作項目" class="btn" style="font-family: 'VT323', monospace;">
-    <option value="">，批次操作（當前角色），</option>
+    <option value="">▾ 批次操作（當前角色）</option>
     <option value="attrs-cap">全 8 屬性 → 各自上限</option>
     <option value="attrs-100">全 8 屬性 → 100（含上限）</option>
     <option value="skills-100">全 15 技能 → 100</option>
@@ -579,7 +635,7 @@ footer .footer-note { margin-top: 8px; color: var(--phosphor-fade); }
 </div>
 
 <!-- ============ FOOTER ============ -->
-<p class="muted" style="font-size: 12px; margin-top: 8px;">⚖️ 本工具為逆向工程相容性研究成果(Sega v. Accolade 1992 fair use 美國判例)。玩家修改自己持有的正版遊戲存檔合法。請務必備份原始存檔。</p>
+<p class="muted" style="font-size: 12px; margin-top: 8px;">⚖️ 修改自己持有的存檔屬個人使用，本站工具以相容性研究為目的。請務必備份原始存檔。</p>
 </main>
 
 <footer>
@@ -590,7 +646,7 @@ footer .footer-note { margin-top: 8px; color: var(--phosphor-fade); }
   <div class="footer-big">｢ 吟遊詩人的傳說 · 俠客遊 LUNATIC DAWN ｣</div>
   <div>
     致敬 1996 Artdink · 2004-2008 GameBase / 巴哈姆特社群前輩 ·
-    存檔解析 by 聶荊璇、李憲忠、伊達政宗 · Silver Angel · 原版修改器 by Morrowind
+    存檔解析 by 聶荊璇、An-Liang Lo、伊達政宗 · Silver Angel · 原版修改器 by Morrowind
   </div>
   <div class="footer-note">
     本修改器為 <span class="warn">A 模式（嚴格）</span>，所有數值都有官方上限保護。
@@ -603,7 +659,7 @@ footer .footer-note { margin-top: 8px; color: var(--phosphor-fade); }
 /* ============================================================
    俠客遊 II LUNACHAR.SAV 存檔修改器
    純 DOM 實作，零 innerHTML 字串拼接
-   資料來源：李憲忠 / 伊達政宗 / Silver Angel / 聶荊璇 / USER0 hex dump 驗證
+   資料來源：An-Liang Lo / 伊達政宗 / Silver Angel / 聶荊璇 / USER0 hex dump 驗證
    ============================================================ */
 
 // ---- 常數 ----
@@ -674,6 +730,8 @@ function el(tag, options) {
   const e = document.createElement(tag);
   if (options) {
     if (options.className) e.className = options.className;
+    if (options.id) e.id = options.id;
+    if (options.htmlFor) e.htmlFor = options.htmlFor;
     if (options.text != null) e.textContent = String(options.text);
     if (options.type) e.type = options.type;
     if (options.value != null) e.value = options.value;
@@ -818,6 +876,7 @@ async function loadFile(file) {
   renderEditor();
   renderHexView();
   markClean();
+  focusActiveChar();
 }
 
 // ============================================================
@@ -828,22 +887,57 @@ function initCharFilter() {
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       state.filter = btn.dataset.filter;
-      filterBtns.forEach(b => b.classList.toggle('active', b === btn));
+      filterBtns.forEach(b => {
+        b.classList.toggle('active', b === btn);
+        b.setAttribute('aria-pressed', String(b === btn));
+      });
       renderCharList();
     });
   });
 }
 
+// 選取角色：重繪清單、編輯器與 hex 檢視。
+// 清單整個重繪，原本聚焦的按鈕已被換掉；放回新的按鈕，鍵盤使用者才不會掉回頁首。
+function selectChar(idx) {
+  state.currentIdx = idx;
+  renderCharList();
+  renderEditor();
+  renderHexView();
+  focusActiveChar();
+}
+
 function initCharListDelegate() {
-  // 事件委派：只在 <ul> 上放一個 listener，不隨重繪累積
-  document.getElementById('char-list').addEventListener('click', (e) => {
+  const list = document.getElementById('char-list');
+
+  // 事件委派：只在 <ul> 上放 listener，不隨重繪累積
+  list.addEventListener('click', (e) => {
     const li = e.target.closest('li[data-idx]');
     if (!li) return;
-    state.currentIdx = Number(li.dataset.idx);
-    renderCharList();
-    renderEditor();
-    renderHexView();
+    selectChar(Number(li.dataset.idx));
   });
+
+  // 清單是 roving tabindex：Tab 只會停在目前選取的那一列，其餘用方向鍵移動。
+  // 上下鍵、Home、End 會同時移動焦點並選取該角色；Enter 與 Space 仍是按鈕本身的預設行為。
+  list.addEventListener('keydown', (e) => {
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp' && e.key !== 'Home' && e.key !== 'End') return;
+    const btns = Array.from(list.querySelectorAll('li > button'));
+    if (btns.length === 0) return;
+    const here = btns.indexOf(e.target.closest('button'));
+    let next;
+    if (e.key === 'Home') next = 0;
+    else if (e.key === 'End') next = btns.length - 1;
+    else if (here === -1) next = 0;
+    else next = Math.max(0, Math.min(btns.length - 1, here + (e.key === 'ArrowDown' ? 1 : -1)));
+    e.preventDefault();
+    const li = btns[next].closest('li[data-idx]');
+    if (li) selectChar(Number(li.dataset.idx));
+  });
+}
+
+function focusActiveChar() {
+  const btn = document.querySelector('#char-list li.active > button');
+  if (btn) btn.focus();
 }
 
 function renderCharList() {
@@ -860,21 +954,35 @@ function renderCharList() {
     if (!alive) li.classList.add('empty');
     if (i === state.currentIdx) li.classList.add('active');
 
-    li.appendChild(el('span', {
-      className: 'char-idx',
-      text: String(i).padStart(3, '0'),
-    }));
-    li.appendChild(el('span', {
-      className: 'char-name',
-      text: alive ? (readName(i) || '(無名)') : '[空]',
-    }));
-    li.appendChild(el('span', {
-      className: 'char-main-flag',
-      text: isMain(i) ? '★主' : '',
-    }));
+    // 整列包成 button，鍵盤可以 Tab 到並用 Enter / Space 選取；點擊仍由 <ul> 上的委派處理
+    const btn = el('button', {
+      type: 'button',
+      children: [
+        el('span', {
+          className: 'char-idx',
+          text: String(i).padStart(3, '0'),
+        }),
+        el('span', {
+          className: 'char-name',
+          text: alive ? (readName(i) || '(無名)') : '[空]',
+        }),
+        el('span', {
+          className: 'char-main-flag',
+          text: isMain(i) ? '★主' : '',
+        }),
+      ],
+    });
+    btn.setAttribute('aria-pressed', String(i === state.currentIdx));
+    li.appendChild(btn);
 
     list.appendChild(li);
   }
+
+  // roving tabindex：整份清單只有一個 Tab 停駐點，其餘為 -1。
+  // 停駐點是目前選取的那一列；選取的角色不在清單裡（例如篩選成「僅在生」但選到空 slot）就用第一列。
+  const btns = list.querySelectorAll('li > button');
+  const stop = list.querySelector('li.active > button') || btns[0];
+  btns.forEach((b) => { b.tabIndex = (b === stop) ? 0 : -1; });
 }
 
 // ============================================================
@@ -1032,13 +1140,14 @@ function bindFieldSession(input, getValue, setValue, afterRestore) {
 function addNameField(parent, idx) {
   const input = el('input', {
     type: 'text',
+    id: 'fld-name',
     value: readName(idx),
     readOnly: true,
   });
   const field = el('div', {
     className: 'field span-2',
     children: [
-      el('label', { text: '角色名' }),
+      el('label', { text: '角色名', htmlFor: 'fld-name' }),
       input,
       el('div', {
         className: 'field-meta',
@@ -1053,8 +1162,11 @@ function addNumberField(parent, idx, label, off, type, cap, hint) {
   const read  = type === 'u8' ? readU8  : type === 'u16' ? readU16 : readU32;
   const write = type === 'u8' ? writeU8 : type === 'u16' ? writeU16 : writeU32;
 
+  // 欄位 id 以 offset 命名：同一次渲染裡每個欄位的 offset 都不同，id 不會重複
+  const fid = 'fld-' + off.toString(16);
   const input = el('input', {
     type: 'number',
+    id: fid,
     min: 0,
     max: cap,
     value: read(idx, off),
@@ -1082,7 +1194,7 @@ function addNumberField(parent, idx, label, off, type, cap, hint) {
   });
   input.addEventListener('change', () => session.restoreIfBlank());
 
-  const labelEl = el('label', { text: label });
+  const labelEl = el('label', { text: label, htmlFor: fid });
   if (hint) {
     labelEl.appendChild(el('span', { className: 'cap', text: ' (' + hint + ')' }));
   }
@@ -1101,6 +1213,7 @@ function addNumberField(parent, idx, label, off, type, cap, hint) {
 
 function addSelectField(parent, idx, label, off, options) {
   const sel = document.createElement('select');
+  sel.id = 'fld-' + off.toString(16);
   options.forEach((name, i) => {
     sel.appendChild(el('option', { value: i, text: i + '. ' + name }));
   });
@@ -1114,7 +1227,7 @@ function addSelectField(parent, idx, label, off, options) {
   const field = el('div', {
     className: 'field',
     children: [
-      el('label', { text: label }),
+      el('label', { text: label, htmlFor: sel.id }),
       sel,
       el('div', { className: 'field-meta', text: '@ 0x' + hex(off, 2) + ' · u8' }),
     ],
@@ -1132,6 +1245,7 @@ function addSkillRow(parent, idx, name, off) {
     max: CAPS.skill,
     value: readU8(idx, off),
   });
+  input.setAttribute('aria-label', name);
 
   const refresh = () => {
     const v = readU8(idx, off);
@@ -1183,8 +1297,8 @@ function addSpellSchool(parent, idx, school) {
   const countSpan = el('span', { className: 'count' });
   titleLeft.appendChild(countSpan);
 
-  const allBtn  = el('button', { text: '全學會' });
-  const noneBtn = el('button', { text: '全忘記' });
+  const allBtn  = el('button', { type: 'button', text: '全學會' });
+  const noneBtn = el('button', { type: 'button', text: '全忘記' });
 
   const title = el('div', {
     className: 'spell-school-title',
@@ -1197,10 +1311,12 @@ function addSpellSchool(parent, idx, school) {
 
   const cells = [];
   for (let bit = 0; bit < school.count; bit++) {
-    const cell = el('div', {
+    const cell = el('button', {
       className: 'spell-bit',
+      type: 'button',
       text: String(bit + 1),
     });
+    cell.setAttribute('aria-label', school.name + ' 第 ' + (bit + 1) + ' 招');
     cell.addEventListener('click', () => {
       const v = readU16(idx, school.offset);
       writeU16(idx, school.offset, v ^ (1 << bit));
@@ -1217,6 +1333,7 @@ function addSpellSchool(parent, idx, school) {
     for (let bit = 0; bit < school.count; bit++) {
       const on = !!((v >> bit) & 1);
       cells[bit].classList.toggle('on', on);
+      cells[bit].setAttribute('aria-pressed', String(on));
       if (on) count++;
     }
     countSpan.textContent = ' ' + count + '/' + school.count + ' · 0x' + hex(v, 4);

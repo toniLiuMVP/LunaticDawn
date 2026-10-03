@@ -4,10 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>俠客遊 II 資料庫 · 吟遊詩人的傳說</title>
-<meta name="description" content="俠客遊 II 二進制檔案格式逆向研究。技術文件包含 ENC XOR 解密、DDT 4-plane EGA 圖像格式、MST record 結構等。">
+<meta name="description" content="俠客遊 II 資料庫：物品 456 筆、怪物 128 筆、魔法 80 筆、武技 32 筆、迷宮 80 筆、NPC 名字字典 660 筆、系統詞彙 229 筆，另有跨資料庫搜尋。">
 <meta property="og:title" content="俠客遊 II 資料庫">
 <meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/luna2/database/">
-<meta property="og:description" content="俠客遊 II 二進制檔案格式逆向技術研究">
+<meta property="og:description" content="俠客遊 II 資料庫：物品 456 筆、怪物 128 筆、魔法 80 筆、武技 32 筆、迷宮 80 筆、NPC 名字字典 660 筆、系統詞彙 229 筆，另有跨資料庫搜尋。">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
 <link rel="stylesheet" href="../../assets/css/fonts-retro.css">
 <link rel="stylesheet" href="../../assets/css/retro.css">
 <style>
@@ -82,7 +84,7 @@
 }
 .tech {
   font-size: 14px;
-  color: var(--phosphor-fade);
+  color: var(--phosphor-text-dim);
   margin-top: 16px;
   font-family: 'Courier New', monospace;
 }
@@ -110,10 +112,10 @@
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="俠客遊 II 資料庫">
-<meta name="twitter:description" content="俠客遊 II 二進制檔案格式逆向技術研究">
+<meta name="twitter:description" content="俠客遊 II 資料庫：物品 456 筆、怪物 128 筆、魔法 80 筆、武技 32 筆、迷宮 80 筆、NPC 名字字典 660 筆、系統詞彙 229 筆，另有跨資料庫搜尋。">
 <meta name="twitter:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"俠客遊 II 資料庫","description":"俠客遊 II 二進制檔案格式逆向技術研究","url":"https://toniliumvp.github.io/LunaticDawn/luna2/database/","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 II"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"俠客遊 II 資料庫","description":"俠客遊 II 資料庫：物品 456 筆、怪物 128 筆、魔法 80 筆、武技 32 筆、迷宮 80 筆、NPC 名字字典 660 筆、系統詞彙 229 筆，另有跨資料庫搜尋。","url":"https://toniliumvp.github.io/LunaticDawn/luna2/database/","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 II"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"吟遊詩人的傳說","item":"https://toniliumvp.github.io/LunaticDawn/"},{"@type":"ListItem","position":2,"name":"俠客遊 II","item":"https://toniliumvp.github.io/LunaticDawn/luna2/"},{"@type":"ListItem","position":3,"name":"資料庫","item":"https://toniliumvp.github.io/LunaticDawn/luna2/database/"},{"@type":"ListItem","position":4,"name":"俠客遊 II 資料庫"}]}</script>
 <!-- seo -->
 </head>
@@ -123,7 +125,7 @@
   <header class="site-header">
     <div class="header-inner">
       <h1 class="pixel">俠客遊 II 資料庫</h1>
-      <nav><a href="../../index.html">← 回吟遊詩人的傳說 · 俠客遊小站</a></nav>
+      <nav><a href="../../index.html">← 回吟遊詩人的傳說 · 俠客遊小站</a> · <a href="../">▸ 俠客遊 II 專區</a></nav>
     </div>
   </header>
 
@@ -136,22 +138,22 @@
     <p>公開頁面展示「<strong>事實層</strong>」（檔案格式、加密演算法、struct 結構、價格、HP、攻擊力、名稱、規則等可量化資料）。「<strong>創作層</strong>」（美術、劇情文字、攻略書 narrative 段落）不在公開頁面展示。</p>
     <div class="tech" style="background: rgba(255, 176, 0, 0.06); border-left: 3px solid var(--amber); padding: 8px 12px; margin: 12px 0; font-size: 13px;">
       <strong>⚖️ 公開政策 v2.0（2026-05-05 修訂；2026-05-12 三邊法律完整對齊）</strong><br>
-      🇹🇼 著作權法 §9 第 1 項第 3 款（公式 / 數表 / 表格不得為著作權標的）+ §10-1（事實本身、單純為傳達事實之語文著作不受保護）<br>
+      🇹🇼 著作權法 §9 第 1 項第 3 款（標語及通用之符號、名詞、公式、數表、表格等不得為著作權標的）+ §10-1（保護不及於思想、程序、製程、系統、操作方法、概念、原理、發現）<br>
       🇯🇵 著作権法 §2 第 1 項 第 1 號（創作性要件）+ §12-2（資料庫只保護創意性編排，事實 / 單純整理 ≠ 創作）<br>
-      🇺🇸 17 USC §102(b)（事實 / 發現 / 原則 / 過程不受著作權保護）+ Feist v Rural Telephone (1991) + Sega v Accolade (1992)（逆向工程 disassembly = fair use）<br>
-      ✅ 玩家正常玩可見的<strong>數值 / 名稱 / 規則 / 公式</strong>= 事實 = 不受著作權保護 → <strong>公開</strong><br>
+      🇺🇸 17 USC §102(b)（保護不及於構想、程序、過程、系統、操作方法、概念、原理、發現）+ Feist v Rural Telephone (1991) + Sega v Accolade (1992)（為取得互通所需資訊而反組譯，可構成 fair use，個案判斷）<br>
+      ✅ 玩家正常遊玩可見的<strong>數值、規則、公式</strong>屬事實或操作方法；<strong>名稱</strong>屬單字或短詞（美國另見 37 CFR §202.1(a)），一般認為不具或僅有極有限的著作權保護（個案判斷）→ <strong>公開</strong><br>
       ✅ 攻略書編排設計 / 美術 / 劇情 narrative = 創作性表現 → <strong>不公開</strong>（僅本機研究保留）
     </div>
     <div class="tech">
       ▸ ENC 加密：4-byte XOR 演算法（key 為運作時硬編碼常數）<br>
-      ▸ MST/DAT 結構：fixed-record 切片，u16/u8 little-endian struct<br>
+      ▸ MST/DAT 結構：fixed-record 切片，u8 / u16 / u32 little-endian struct（物品價格為 u32）<br>
       ▸ 純前端、純 DOM 渲染、無 innerHTML、無框架
     </div>
   </section>
 
   <section style="margin: 20px 0; border: 2px solid var(--amber); background: var(--bg-panel); padding: 16px 20px;">
     <h2 style="font-size: 16px; color: var(--amber); font-family: 'Press Start 2P', monospace; margin-bottom: 12px;">▸ 全站搜尋</h2>
-    <input id="global-search" aria-label="全站資料庫搜尋" type="search" placeholder="搜尋 1396 筆資料（物品 / 怪物 / 魔法 / 武技 / 迷宮 / NPC 字典）" style="width: 100%; background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-dim); padding: 8px 12px; font-family: 'VT323', monospace; font-size: 18px;">
+    <input id="global-search" aria-label="全站資料庫搜尋" type="search" placeholder="搜尋 1436 筆資料（物品 / 怪物 / 魔法 / 武技 / 迷宮 / NPC 字典）" style="width: 100%; background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-dim); padding: 8px 12px; font-family: 'VT323', monospace; font-size: 18px;">
     <div id="search-results" style="margin-top: 12px;"></div>
   </section>
 
@@ -176,6 +178,9 @@
           return;
         }
       }
+      // 載入索引期間若又輸入了新字，只讓最新那次輸入顯示結果，避免清單重複疊加
+      if (input.value.trim() !== q) return;
+      out.replaceChildren();
       const matches = idx.filter(e => (e.name && e.name.includes(q)) || (e.note && e.note.includes(q))).slice(0, 30);
       if (matches.length === 0) {
         out.textContent = '無匹配結果';
@@ -218,7 +223,7 @@
       <span class="card-status status-full">DATA</span>
       <div class="card-title">物 品</div>
       <div class="card-count">456 筆</div>
-      <div class="card-desc">28 欄位數值（價格、體格、命中、攻速、攻擊力、防禦、屬性上限、特效）。</div>
+      <div class="card-desc">每筆 25 個數值欄位（價格、裝備位置、體格、命中、攻速、射程、特效、攻擊型式、攻擊力、防砍刺敲、附加魔法、七系上限）。</div>
     </a>
 
     <a class="card" href="monsters.html">
@@ -226,7 +231,7 @@
       <span class="card-status status-full">DATA</span>
       <div class="card-title">怪 物</div>
       <div class="card-count">128 筆</div>
-      <div class="card-desc">12 欄位數值（HP / MP / 等級 / 攻擊力 / 防砍刺敲 / 經驗值 / 金錢 / 掉寶）。</div>
+      <div class="card-desc">數值欄位（HP / MP / STM / 等級 / 攻擊力 / 防砍刺敲 / 經驗值 / 金錢）。</div>
     </a>
 
     <a class="card" href="magics.html">
@@ -242,15 +247,15 @@
       <span class="card-status status-partial">DATA</span>
       <div class="card-title">武 技</div>
       <div class="card-count">32 筆</div>
-      <div class="card-desc">HISSATSU.MST record 結構：36 bytes / record，含名稱碼欄位。</div>
+      <div class="card-desc">HISSATSU.MST：32 筆 × 36 bytes，已解讀威力、第一 / 第二招旗標、武器類別碼與怪物 ID；招式名稱取自 MGCNAME.ENC 第 80 至 111 號（8 個武器類別碼各兩招，類別對應為推定；另有 16 招怪物專屬必殺技）。</div>
     </a>
 
     <a class="card" href="dungeons.html">
       <div class="card-icon">▸ DUNGEONS</div>
       <span class="card-status status-partial">DATA</span>
       <div class="card-title">迷 宮</div>
-      <div class="card-count">40 筆</div>
-      <div class="card-desc">DUNGDATA.MST record 結構：40 個迷宮 × 768 bytes。</div>
+      <div class="card-count">80 筆</div>
+      <div class="card-desc">80 筆迷宮名稱（DUNGNAME.ENC 全部記錄）；DUNGDATA.MST 內容全為 0，迷宮資料結構未解讀。</div>
     </a>
 
     <a class="card" href="npcs.html">
@@ -265,7 +270,7 @@
       <div class="card-icon">▸ SYSTEM</div>
       <span class="card-status status-partial">DATA</span>
       <div class="card-title">系統詞彙</div>
-      <div class="card-count">226 筆</div>
+      <div class="card-count">229 筆</div>
       <div class="card-desc">LUNA2.EXE + INSTALL.EXE 內嵌系統字串：8 屬性 / 5 種族 / 11 技能 / 6 boss（雙譯名）/ 1996 安裝介面 / 怪物強度評估等。</div>
     </a>
   </div>
@@ -277,14 +282,14 @@
     </p>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
       <figure style="margin: 0;">
-        <img src="palettes/luna2.png" alt="主 palette 解碼示範" style="width: 100%; image-rendering: pixelated; border: 1px solid var(--phosphor-fade);">
+        <img src="palettes/luna2.png" alt="主 palette 解碼示範" width="256" height="256" loading="lazy" decoding="async" style="width: 100%; height: auto; image-rendering: pixelated; border: 1px solid var(--phosphor-fade);">
         <figcaption style="text-align: center; font-size: 12px; color: var(--phosphor-dim); margin-top: 4px;">PLT 編碼示範（單張代表）</figcaption>
       </figure>
     </div>
   </section>
 
   <div class="footer">
-    <p>本站基於數位文化保存目的整理，遊戲本體著作權屬於 Artdink。站上技術文件為獨立逆向研究成果，遊戲內原版創意內容（圖像、劇情、完整名稱資料）僅作為研究者個人參考保留，不在本站公開展示。</p>
+    <p>本站基於數位文化保存目的整理，遊戲本體著作權屬於 Artdink。站上技術文件為獨立逆向研究成果，遊戲內美術、劇情文字、配樂等創作性內容僅作為研究者個人參考保留，不在本站公開展示。</p>
     <p>請至 Steam 商店購買正版俠客遊系列支持原作。若您是攻略原作者並希望授權變更或撤除，請至 GitHub Issues 聯繫。</p>
     <p style="margin-top: 12px;">
       <a href="../../index.html">回主站</a> ·
@@ -293,8 +298,8 @@
       <a href="../launcher/index.html">啟動器</a>
     </p>
   </div>
-</div>
 </main>
+</div>
 
 </body>
 </html>

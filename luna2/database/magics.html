@@ -27,7 +27,9 @@
 .items-table .num { text-align: right; font-family: 'Courier New', monospace; }
 .items-table .mp { color: var(--amber); }
 .detail-row td { padding: 16px; background: rgba(0, 255, 65, 0.04); }
-.detail-row .raw { font-size: 11px; color: var(--phosphor-fade); font-family: monospace; word-break: break-all; }
+.detail-row .raw { font-size: 11px; color: var(--phosphor-text-dim); font-family: monospace; word-break: break-all; }
+/* 第一欄的展開按鈕：外觀跟一般文字一樣 */
+.items-table .btn-reset { background: none; border: 0; padding: 0; margin: 0; font: inherit; color: inherit; text-align: inherit; cursor: pointer; }
 .error { color: var(--danger); padding: 20px; }
 </style>
 <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
@@ -55,37 +57,37 @@
 
   <div class="toolbar">
     <label for="search">搜尋:</label>
-    <input id="search" type="search" placeholder="例：照明、火、治療" autofocus>
-    <span class="count" id="count">，/ 80</span>
+    <input id="search" type="search" placeholder="例：照明、火、治療">
+    <span class="count" id="count">載入中 / 80</span>
   </div>
   <div style="background: rgba(255, 176, 0, 0.06); border-left: 3px solid var(--amber); padding: 8px 12px; margin: 12px 0; font-size: 12px;">
-    ⚖️ <strong>公開政策 v2.0</strong>：5 系魔法 80 records 含 48 招完整名稱 + 效果 + MP 消耗 = 玩家學到法術可見的「事實」，依日 / 台 / 美三邊著作權法不受保護。完整公開。
+    ⚖️ <strong>公開政策 v2.0</strong>：5 系魔法 80 records（54 招玩家法術與 4 召喚獸）的 MP 消耗、威力等數值是玩家學到法術後可見的事實；法術名稱屬單字或短詞，一般認為不具或僅有極有限的著作權保護（個案判斷）。法律依據見<a href="index.html">資料庫首頁</a>的公開政策。完整公開。
+    <br>※「類型」欄取自 MGCDATA.MST 的 0x17，與實際效果常不一致（例如護盾術、浮遊術、祝福術也標成攻擊），僅供參考。
   </div>
   <div id="content"><div style="padding: 40px; text-align: center; color: var(--phosphor-dim);">載入中...</div></div>
-</div>
 
 <script>
 window.LIST_CONFIG = {
   dataKey: 'magics',
   totalCount: 80,
-  columns: ['ID', '魔法名稱', '系別', 'MP', 'ATK', '類型'],
+  columns: ['ID', '魔法名稱', '系別', 'MP', 'ATK', '類型（推定）'],
   searchField: (m) => (m.name || '') + (m.system || '') + (m.type || ''),
   getRowFields: (m) => [
     { value: '0x' + m.id.toString(16).toUpperCase().padStart(2, '0'), class: 'num' },
-    { value: m.is_empty_slot ? '，' : (m.name || '，'), class: m.is_empty_slot ? 'dim' : '' },
-    { value: m.system || '，' },
-    { value: m.is_empty_slot ? '，' : window.num(m.mp_cost), class: 'num mp' },
-    { value: m.atk ?? '，', class: 'num atk' },
-    { value: m.type || '，' },
+    { value: m.is_empty_slot ? '無' : (m.name || '無'), class: m.is_empty_slot ? 'dim' : '' },
+    { value: m.system || '無' },
+    { value: m.is_empty_slot ? '無' : window.num(m.mp_cost), class: 'num mp' },
+    { value: m.atk ?? '無', class: 'num atk' },
+    { value: m.type || '無' },
   ],
   detailFn: (dtd, m) => {
     const grid = window.el('div', { class: 'grid' });
     const fields = [
       ['系別 (5 系分區)', m.system || '?'],
       ['MP 消耗', m.is_empty_slot ? '空 slot' : m.mp_cost],
-      ['攻擊力 (ATK)', m.atk ?? '無 (治療/偵測)'],
-      ['法術類型', m.type || '?'],
-      ['動畫 ID', m.anim_id ?? '無 (輔助類)'],
+      ['攻擊力 (ATK)', m.atk ?? '無'],
+      ['法術類型（推定，僅供參考）', m.is_empty_slot ? '無' : (m.type || '?')],
+      ['0x08-0x09 值（未解讀）', '0x' + (m.anim_id ?? 0xFF00).toString(16).toUpperCase().padStart(4, '0')],
       ['空 slot', m.is_empty_slot ? '是 (該 slot 未使用)' : '否'],
     ];
     for (const [label, value] of fields) {
@@ -102,6 +104,7 @@ window.LIST_CONFIG = {
 </script>
 <script src="list-page.js"></script>
 </main>
+</div>
 
 </body>
 </html>

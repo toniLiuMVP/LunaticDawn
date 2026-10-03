@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CHRITEM.SAV 物品欄查看器 · 俠客遊 II</title>
+<title>CHRITEM.SAV 物品欄編輯器 · 俠客遊 II</title>
 <meta name="description" content="俠客遊 II 玩家物品欄查看與編輯工具，支援 CHRITEM.SAV（122880 bytes，160 個角色，每個角色 16 格物品），檔案只在瀏覽器本地解析，不會上傳。">
 <meta property="og:type" content="website">
-<meta property="og:title" content="CHRITEM.SAV 物品欄查看器 · 俠客遊 II">
+<meta property="og:title" content="CHRITEM.SAV 物品欄編輯器 · 俠客遊 II">
 <meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/luna2/chritem-viewer.html">
 <meta property="og:description" content="俠客遊 II 玩家物品欄查看與編輯工具，支援 CHRITEM.SAV（122880 bytes，160 個角色，每個角色 16 格物品），檔案只在瀏覽器本地解析，不會上傳。">
 <meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
@@ -65,22 +65,34 @@
   top: 0;
   background: var(--bg-panel);
 }
+/* 角色列是 button：重設按鈕外觀，維持原本的清單樣式（font 要寫在 font-size 前面） */
 .char-row {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 0;
+  border-bottom: 1px dotted var(--phosphor-fade);
+  color: inherit;
+  font: inherit;
+  font-size: 14px;
   padding: 6px 12px;
   cursor: pointer;
-  border-bottom: 1px dotted var(--phosphor-fade);
-  font-size: 14px;
 }
+/* 清單有捲軸會裁掉框外的外框，焦點框改畫在按鈕內側 */
+.char-row:focus-visible { outline-offset: -2px; }
 .char-row:hover { background: rgba(0, 255, 65, 0.06); }
 .char-row.active {
   background: rgba(255, 176, 0, 0.1);
   color: var(--amber);
 }
 .char-row .item-count {
-  color: var(--phosphor-fade);
+  color: var(--phosphor-text-dim);
   font-size: 12px;
   float: right;
 }
+/* 選中的列底色偏琥珀，件數改用琥珀色才看得清楚 */
+.char-row.active .item-count { color: var(--amber); }
 
 .items-panel {
   border: 1px solid var(--phosphor-dim);
@@ -105,7 +117,7 @@
   font-size: 14px;
 }
 .item-slot .slot-num {
-  color: var(--phosphor-fade);
+  color: var(--phosphor-dim);
   font-family: 'Courier New', monospace;
   font-size: 11px;
 }
@@ -115,15 +127,16 @@
 }
 .item-slot .item-id { color: var(--amber); font-family: 'VT323', monospace; }
 .item-slot .item-value {
-  color: var(--phosphor-fade);
+  color: var(--phosphor-dim);
   font-size: 12px;
 }
 .item-slot.empty {
   border-style: dashed;
-  color: var(--phosphor-fade);
+  color: var(--phosphor-dim);
   font-style: italic;
 }
-.item-slot.empty .item-name { color: var(--phosphor-fade); }
+.item-slot.empty .item-name { color: var(--phosphor-dim); }
+.item-slot .slot-edit { display: inline-block; margin-top: 4px; }
 
 .stats {
   margin-top: 16px;
@@ -230,16 +243,32 @@
 }
 #download-bar .changes-count { color: var(--phosphor-dim); }
 #download-bar .changes-count strong { color: var(--amber); }
+
+/* 手機：角色清單與物品欄改成上下排列，物品格改單欄；
+   編輯面板的標籤、輸入框與說明可換行，整頁不會比螢幕寬 */
+@media (max-width: 640px) {
+  .layout { grid-template-columns: minmax(0, 1fr); }
+  .char-list { max-height: 240px; }
+  .items-panel { padding: 12px; }
+  .items-grid { grid-template-columns: minmax(0, 1fr); }
+  .edit-panel { padding: 12px; }
+  .edit-panel .row { flex-wrap: wrap; }
+  .edit-panel label { min-width: 0; flex-basis: 100%; }
+  .edit-panel input { min-width: 0; }
+  .edit-panel .item-search-result { margin-left: 0; }
+  .edit-panel .actions { flex-wrap: wrap; }
+  #download-bar { flex-wrap: wrap; gap: 8px; }
+}
 </style>
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 <link rel="canonical" href="https://toniliumvp.github.io/LunaticDawn/luna2/chritem-viewer.html">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="CHRITEM.SAV 物品欄查看器 · 俠客遊 II">
+<meta name="twitter:title" content="CHRITEM.SAV 物品欄編輯器 · 俠客遊 II">
 <meta name="twitter:description" content="俠客遊 II 玩家物品欄查看與編輯工具，支援 CHRITEM.SAV（122880 bytes，160 個角色，每個角色 16 格物品），檔案只在瀏覽器本地解析，不會上傳。">
 <meta name="twitter:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"CHRITEM.SAV 物品欄查看器","description":"俠客遊 II 玩家物品欄查看與編輯工具，支援 CHRITEM.SAV（122880 bytes，160 個角色，每個角色 16 格物品），檔案只在瀏覽器本地解析，不會上傳。","url":"https://toniliumvp.github.io/LunaticDawn/luna2/chritem-viewer.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 II"}}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"吟遊詩人的傳說","item":"https://toniliumvp.github.io/LunaticDawn/"},{"@type":"ListItem","position":2,"name":"俠客遊 II","item":"https://toniliumvp.github.io/LunaticDawn/luna2/"},{"@type":"ListItem","position":3,"name":"CHRITEM.SAV 物品欄查看器"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"CHRITEM.SAV 物品欄編輯器","description":"俠客遊 II 玩家物品欄查看與編輯工具，支援 CHRITEM.SAV（122880 bytes，160 個角色，每個角色 16 格物品），檔案只在瀏覽器本地解析，不會上傳。","url":"https://toniliumvp.github.io/LunaticDawn/luna2/chritem-viewer.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 II"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"吟遊詩人的傳說","item":"https://toniliumvp.github.io/LunaticDawn/"},{"@type":"ListItem","position":2,"name":"俠客遊 II","item":"https://toniliumvp.github.io/LunaticDawn/luna2/"},{"@type":"ListItem","position":3,"name":"CHRITEM.SAV 物品欄編輯器"}]}</script>
 <!-- seo -->
 </head>
 <body>
@@ -247,9 +276,11 @@
 <div class="wrap">
   <header class="site-header">
     <div class="header-inner">
-      <h1 class="pixel">CHRITEM.SAV 物品欄查看器</h1>
+      <h1 class="pixel">CHRITEM.SAV 物品欄編輯器</h1>
       <nav>
-        <a href="save-editor.html">← 屬性修改器</a>
+        <a href="save-editor.html">← 存檔修改器</a>
+        ·
+        <a href="./">▸ 俠客遊 II 專區</a>
         ·
         <a href="../">回主站</a>
       </nav>
@@ -265,7 +296,7 @@
 
   <div class="intro">
     俠客遊 II 玩家物品欄存於 <code>USER0/CHRITEM.SAV</code>（122880 bytes）。
-    本工具支援 <strong>查看與編輯</strong>，可解析 160 個角色（玩家與同行 NPC）的物品欄。
+    物品欄編輯器 v0.2 支援 <strong>查看與編輯</strong>，可解析 160 個角色（玩家與同行 NPC）的物品欄。
     <br><br>
     <strong style="color: var(--danger);">⚠️ 修改前務必備份</strong>：byte 0-7（item_id 與 value2）的意義已由存檔逆向確認，
     其餘 byte 的意義只來自樣本存檔的統計，<strong>尚未實機驗證</strong>。修改後若載入遊戲出錯，可能損壞角色資料。
@@ -319,7 +350,7 @@
 
   <div id="drop-zone">
     <h2 class="pixel">▶ 拖放 CHRITEM.SAV 到這裡</h2>
-    <p>或 <span style="color: var(--amber); cursor: pointer; text-decoration: underline;" id="click-select">點擊選擇檔案</span></p>
+    <p>或 <button type="button" id="click-select" class="link-button">點擊選擇檔案</button></p>
     <p style="color: var(--phosphor-dim); font-size: 13px;">[ 檔案通常在 LUNA2/USERN/CHRITEM.SAV，N=0~9 ]</p>
     <input type="file" id="file-input" aria-label="選擇 CHRITEM.SAV 物品欄存檔" accept=".SAV,.sav" style="display: none;">
   </div>
@@ -330,7 +361,6 @@
     <span class="changes-count">未保存變動：<strong id="changes-count">0</strong> 處</span>
     <button id="btn-download" class="primary">▼ 下載修改後的 CHRITEM.SAV</button>
   </div>
-</div>
 
 <script>
 const $ = id => document.getElementById(id);
@@ -346,6 +376,9 @@ let activeChar = 0;
 let editMode = false;
 let editingSlot = null;
 let changesCount = 0;
+// 重繪會換掉整個清單與物品欄，原本聚焦的按鈕跟著消失。
+// 觸發重繪的地方先填好「重繪後要聚焦的元素」（依序嘗試的 CSS 選擇器），renderAll 最後把焦點放回去。
+let pendingFocus = null;
 
 // 物品 id 是 0 起點（game_data.json 為 0-455，id 0 = 寬劍）：
 // 樣本檔 2004 格的 value2 以 0 起點對照全部等於該物品價格，以 1 起點對照是 0/2004。
@@ -354,7 +387,7 @@ const ITEM_ID_MAX = 455;
 const VALUE2_MAX = 99999999; // 遠低於 u32 上限 0xFFFFFFFF，寫入不會繞回
 const SLOTS_PER_CHAR = 16;
 
-// 0-455 裡有 79 個 ID 不是物品：game_data.json 裡名稱是「離開」、價格 65535，
+// 0-455 裡有 79 個 ID 不是物品：game_data.json 裡名稱是「離開」、價格 4294967295（0xFFFFFFFF），
 // 是商店清單最後那個取消按鈕的佔位。寫進物品欄只會得到一件不存在的東西，所以儲存時拒絕。
 // 載入 game_data.json 後會依名稱與價格再認一次；這份清單是讀檔失敗時的後備，兩者取聯集。
 const LEAVE_PLACEHOLDER_FALLBACK = [
@@ -368,7 +401,7 @@ const LEAVE_PLACEHOLDER_MSG = '這個 ID 是商店的『離開』選項，不是
 function isLeavePlaceholder(id) { return leavePlaceholderIds.has(id); }
 
 const NO_TEMPLATE_MSG = '這個物品沒有可參考的完整格式，為避免存檔損壞暫不支援新增，可改用遊戲內取得';
-const PRICE_MISSING_MSG = '價格資料未載入，請手動輸入';
+const PRICE_MISSING_MSG = '查不到可用的價格資料，請手動輸入';
 const UNVERIFIED_MSG = '新增與換物品的格式取自樣本存檔，尚未在遊戲內實機驗證，使用前務必備份';
 const EQUIP_ITEM_MSG = '裝備類物品的格式尚未驗證，為避免存檔損壞暫不支援新增或換入';
 const EQUIP_SLOT_MSG = '這一格的物品是裝備類，只能改價格或刪除';
@@ -459,9 +492,11 @@ function defaultNewItemId() {
 }
 
 // 查不到價格回傳 null，由呼叫端要求手動輸入，不拿其他物品的值代替。
+// 價格會直接帶入 value2，超出 0-VALUE2_MAX 的值（例如「離開」佔位的 0xFFFFFFFF）同樣回傳 null，不會被帶進欄位。
 function priceOf(id) {
-  return Number.isInteger(id) && Object.prototype.hasOwnProperty.call(itemPrices, id) &&
-    Number.isInteger(itemPrices[id]) ? itemPrices[id] : null;
+  if (!Number.isInteger(id) || !Object.prototype.hasOwnProperty.call(itemPrices, id)) return null;
+  const p = itemPrices[id];
+  return Number.isInteger(p) && p >= 0 && p <= VALUE2_MAX ? p : null;
 }
 
 // 解析整數欄位：空白、小數、超出範圍都回傳 null，由呼叫端拒絕寫入。
@@ -556,7 +591,7 @@ async function loadItemNames() {
         if (Number.isInteger(item.id) && typeof item.equip_pos === 'string' && item.equip_pos !== '') {
           categories[item.id] = item.equip_pos;
         }
-        if (Number.isInteger(item.id) && item.name === '離開' && item.price === 65535) {
+        if (Number.isInteger(item.id) && item.name === '離開' && item.price === 0xFFFFFFFF) {
           leaveIds.push(item.id);
         }
       }
@@ -615,8 +650,15 @@ function templatesMatchCategory(map) {
   return true;
 }
 
+// 選取角色：重繪後把焦點放回該角色那一列
+function selectChar(cid) {
+  activeChar = cid;
+  pendingFocus = [`.char-row[data-cid="${cid}"]`];
+  renderAll();
+}
+
 function renderCharList() {
-  const list = el('div', {class: 'char-list'});
+  const list = el('div', {class: 'char-list', role: 'group', 'aria-label': '角色列表，用上下方向鍵切換角色'});
   list.appendChild(el('h3', null, '160 角色 (含玩家+NPC)'));
 
   for (let cid = 0; cid < 160; cid++) {
@@ -624,19 +666,39 @@ function renderCharList() {
     const itemCount = items.filter(i => !i.empty).length;
     if (itemCount === 0) continue; // hide empty
 
-    const row = el('div', {
+    const row = el('button', {
+      type: 'button',
       class: 'char-row' + (cid === activeChar ? ' active' : ''),
+      'aria-pressed': String(cid === activeChar),
       data: {cid: cid},
-      on: {click: () => {
-        activeChar = cid;
-        renderAll();
-      }}
+      on: {click: () => selectChar(cid)}
     },
       el('span', null, `角色 #${String(cid).padStart(3, '0')}`),
       el('span', {class: 'item-count'}, `${itemCount} 件`)
     );
     list.appendChild(row);
   }
+
+  // roving tabindex：整份清單只有一個 Tab 停駐點，其餘為 -1。
+  // 停駐點是目前選取的角色；選取的角色不在清單裡（沒有任何物品的角色不列出）就用第一列。
+  const rows = Array.from(list.querySelectorAll('.char-row'));
+  const stop = list.querySelector('.char-row.active') || rows[0];
+  rows.forEach((r) => { r.tabIndex = (r === stop) ? 0 : -1; });
+
+  // 上下鍵、Home、End 同時移動焦點並選取角色；Enter 與 Space 仍是按鈕本身的預設行為
+  list.addEventListener('keydown', (e) => {
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp' && e.key !== 'Home' && e.key !== 'End') return;
+    if (rows.length === 0) return;
+    const here = rows.indexOf(e.target.closest('.char-row'));
+    let next;
+    if (e.key === 'Home') next = 0;
+    else if (e.key === 'End') next = rows.length - 1;
+    else if (here === -1) next = 0;
+    else next = Math.max(0, Math.min(rows.length - 1, here + (e.key === 'ArrowDown' ? 1 : -1)));
+    e.preventDefault();
+    selectChar(Number(rows[next].dataset.cid));
+  });
 
   return list;
 }
@@ -651,12 +713,26 @@ function renderItems() {
   panel.appendChild(el('div', {class: 'mode-toggle'},
     el('span', {style: 'color: var(--phosphor-dim);'}, '模式：'),
     el('button', {
+      type: 'button',
       class: editMode ? '' : 'active',
-      on: {click: () => { editMode = false; editingSlot = null; renderAll(); }}
+      'aria-pressed': String(!editMode),
+      data: {mode: 'view'},
+      on: {click: () => {
+        editMode = false; editingSlot = null;
+        pendingFocus = ['.mode-toggle button[data-mode="view"]'];
+        renderAll();
+      }}
     }, '檢視'),
     el('button', {
+      type: 'button',
       class: editMode ? 'active' : '',
-      on: {click: () => { editMode = true; renderAll(); }}
+      'aria-pressed': String(editMode),
+      data: {mode: 'edit'},
+      on: {click: () => {
+        editMode = true;
+        pendingFocus = ['.mode-toggle button[data-mode="edit"]'];
+        renderAll();
+      }}
     }, '編輯')
   ));
 
@@ -680,8 +756,16 @@ function renderItems() {
     const slotClass = 'item-slot' + (item.empty ? ' empty' : '') + (editMode ? ' editable' : '');
     const handlers = editMode ? {click: () => {
       editingSlot = {char: activeChar, slot: item.slot};
+      // 開啟編輯面板後，焦點移到面板裡第一個能操作的欄位或按鈕
+      pendingFocus = ['.edit-panel input:not([disabled])', '.edit-panel button'];
       renderAll();
     }} : null;
+    // 編輯模式下每一格都有一顆鍵盤可以操作的按鈕。按鈕不掛自己的處理函式，
+    // 點擊會冒泡到格子本身的 click（格子裡有 <details>，所以不能整格包成 button）。
+    const editBtn = editMode
+      ? el('button', {type: 'button', class: 'btn-reset link-button slot-edit', data: {slot: item.slot}},
+          `編輯 slot ${item.slot}`)
+      : null;
 
     if (item.empty) {
       let emptyHint = '';
@@ -692,7 +776,8 @@ function renderItems() {
       }
       grid.appendChild(el('div', {class: slotClass, on: handlers},
         el('div', {class: 'slot-num'}, `slot ${item.slot} · 空格`),
-        el('div', {class: 'item-name'}, '(空)' + emptyHint)
+        el('div', {class: 'item-name'}, '(空)' + emptyHint),
+        editBtn
       ));
     } else {
       const name = (itemNames[item.itemId] || `(unknown id ${item.itemId})`) +
@@ -701,7 +786,8 @@ function renderItems() {
         el('div', {class: 'slot-num'}, `slot ${item.slot} · ${categoryLabel(item.itemId)}`),
         el('div', {class: 'item-name'}, name + (editMode ? ' ▸' : '')),
         el('div', {class: 'item-id'}, `id #${item.itemId}`),
-        el('div', {class: 'item-value'}, `value2: ${item.value2}`)
+        el('div', {class: 'item-value'}, `value2: ${item.value2}`),
+        editBtn
       );
       // 進階 byte 8-47 結構（摺疊）
       const adv = el('details', {class: 'slot-adv', style: 'margin-top: 6px; font-size: 11px;'});
@@ -742,7 +828,12 @@ function renderEditPanel() {
   panel.appendChild(el('h4', null, `編輯 角色 #${String(char).padStart(3, '0')} slot ${slot} · ` +
     (isEmpty ? '空格（新增）' : categoryLabel(item.itemId))));
 
-  const closePanel = () => { editingSlot = null; renderAll(); };
+  // 關閉面板後，焦點回到這一格的「編輯」按鈕
+  const closePanel = () => {
+    editingSlot = null;
+    pendingFocus = [`.slot-edit[data-slot="${slot}"]`];
+    renderAll();
+  };
 
   // 空格不能新增時（資料不齊，或不是第一個空格），面板只說明原因。
   if (isEmpty) {
@@ -994,6 +1085,9 @@ function downloadModified() {
 
 function renderAll() {
   const content = $('content');
+  // 重繪會換掉整個角色清單，捲動位置要帶到新的清單上，否則每按一次方向鍵清單就跳回頂端
+  const oldList = content.querySelector('.char-list');
+  const listScroll = oldList ? oldList.scrollTop : 0;
   content.replaceChildren();
 
   const layout = el('div', {class: 'layout'});
@@ -1001,8 +1095,19 @@ function renderAll() {
   layout.appendChild(renderItems());
 
   content.appendChild(layout);
+  const newList = content.querySelector('.char-list');
+  if (newList) newList.scrollTop = listScroll;
 
   $('drop-zone').style.display = 'none';
+
+  if (pendingFocus) {
+    const selectors = pendingFocus;
+    pendingFocus = null;
+    for (const sel of selectors) {
+      const target = content.querySelector(sel);
+      if (target) { target.focus(); break; }
+    }
+  }
 }
 
 async function handleFile(file) {
@@ -1028,6 +1133,8 @@ async function handleFile(file) {
     editMode = false;
     editingSlot = null;
     updateDownloadBar();
+    // 拖放區隱藏後焦點會掉回頁首，改放到目前選中的角色（沒有就放第一個角色）
+    pendingFocus = ['.char-row.active', '.char-row'];
     renderAll();
   } catch (e) {
     $('content').replaceChildren(el('div', {class: 'error'}, '錯誤：' + e.message));
@@ -1056,8 +1163,9 @@ dz.addEventListener('click', ev => {
   if (ev.target.id === 'drop-zone') $('file-input').click();
 });
 </script>
-<p class="muted" style="font-size: 12px; margin-top: 8px;">⚖️ 本工具為逆向工程相容性研究成果(Sega v. Accolade 1992 fair use 美國判例)。玩家修改自己持有的正版遊戲存檔合法。請務必備份原始存檔。</p>
+<p class="muted" style="font-size: 12px; margin-top: 8px;">⚖️ 修改自己持有的存檔屬個人使用，本站工具以相容性研究為目的。請務必備份原始存檔。</p>
 </main>
+</div>
 
 </body>
 </html>

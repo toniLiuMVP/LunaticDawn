@@ -23,12 +23,19 @@
   let allRows = [];
   let openDetail = null;
 
-  function num(n) { return n === 65535 || n === 255 ? '，' : String(n); }
+  function num(n) { return n === 65535 || n === 255 ? '無' : String(n); }
   window.num = num; window.el = el;
+
+  // 展開按鈕的 aria-expanded 跟著詳細列同步
+  function setExpanded(row, on) {
+    const btn = row && row.querySelector('button[aria-expanded]');
+    if (btn) btn.setAttribute('aria-expanded', on ? 'true' : 'false');
+  }
 
   function renderTable(rows) {
     const content = $('content');
     content.replaceChildren();
+    openDetail = null; // 舊的詳細列已隨表格移除
     const table = el('table', { class: 'items-table' });
     const thead = el('thead'), trh = el('tr');
     CFG.columns.forEach(c => trh.appendChild(el('th', null, c)));
@@ -40,8 +47,15 @@
       const tr = el('tr', {
         on: CFG.detailFn ? { click: () => toggleDetail(tr, row) } : {}
       });
-      fields.forEach(f => {
-        const td = el('td', f.class ? { class: f.class } : null, String(f.value));
+      fields.forEach((f, i) => {
+        const td = el('td', f.class ? { class: f.class } : null);
+        if (i === 0 && CFG.detailFn) {
+          // 第一欄放按鈕讓鍵盤也能展開；click 冒泡到 tr，由 tr 的 handler 處理
+          const label = fields.length > 1 ? String(f.value) + ' ' + String(fields[1].value) : String(f.value);
+          td.appendChild(el('button', { type: 'button', class: 'btn-reset', 'aria-expanded': 'false', 'aria-label': label }, String(f.value)));
+        } else {
+          td.appendChild(document.createTextNode(String(f.value)));
+        }
         tr.appendChild(td);
       });
       tbody.appendChild(tr);
@@ -49,8 +63,8 @@
     table.appendChild(tbody);
     // Wrap in a horizontal scroll container: body{overflow-x:hidden} in retro.css
     // propagates to the viewport, so a table wider than the screen has its right-hand
-    // columns clipped AND unscrollable on mobile (measured 375px: 金錢/掉寶 sat at
-    // x=375/420 with maxScrollLeft=0). Same pattern as npcs.html .table-scroll.
+    // columns clipped AND unscrollable on mobile (measured at 375px: the rightmost
+    // monster columns sat past x=375 with maxScrollLeft=0). Same pattern as npcs.html .table-scroll.
     const scroller = el('div', { class: 'table-scroll' });
     scroller.appendChild(table);
     content.appendChild(scroller);
@@ -60,6 +74,7 @@
   function toggleDetail(tr, row) {
     if (openDetail) {
       const wasOwner = openDetail._owner === tr;
+      setExpanded(openDetail._owner, false);
       openDetail.remove(); openDetail = null;
       if (wasOwner) return;
     }
@@ -80,6 +95,7 @@
     dtr.appendChild(dtd); dtr._owner = tr;
     tr.parentNode.insertBefore(dtr, tr.nextSibling);
     openDetail = dtr;
+    setExpanded(tr, true);
   }
 
   // sanitize：raw hex 不公開，HTML 引用時顯示 placeholder
@@ -98,6 +114,10 @@
   }
 
   async function init() {
+    // 只在有滑鼠的桌機自動聚焦搜尋框，手機一開頁不跳出鍵盤
+    if (window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      $('search').focus();
+    }
     try {
       const r = await fetch('game_data.json');
       if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -107,6 +127,7 @@
       applyFilter();
     } catch (e) {
       $('content').replaceChildren(el('div', { class: 'error' }, '載入失敗: ' + e.message));
+      $('count').textContent = '載入失敗';
     }
   }
 

@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LUNAHEAD.SAV 玩家表頭編輯器 · 俠客遊 II</title>
-<meta name="description" content="俠客遊 II 玩家存檔表頭編輯器。LUNAHEAD.SAV (256 bytes) 含 Big5 玩家姓名 + 等級 + age + 起始屬性。2026 binary 完整逆向。純前端解析。">
+<meta name="description" content="俠客遊 II 玩家存檔表頭編輯器。可編輯 LUNAHEAD.SAV（256 bytes）裡的 Big5 玩家姓名，其餘位元組的用途尚未確認。檔案只在瀏覽器本地解析，不會上傳。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="LUNAHEAD.SAV 玩家表頭編輯器 · 俠客遊 II">
 <meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/luna2/lunahead-editor.html">
-<meta property="og:description" content="俠客遊 II 玩家存檔表頭編輯器。LUNAHEAD.SAV (256 bytes) 含 Big5 玩家姓名 + 等級 + age + 起始屬性。2026 binary 完整逆向。純前端解析。">
+<meta property="og:description" content="俠客遊 II 玩家存檔表頭編輯器。可編輯 LUNAHEAD.SAV（256 bytes）裡的 Big5 玩家姓名，其餘位元組的用途尚未確認。檔案只在瀏覽器本地解析，不會上傳。">
 <meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
 <link rel="stylesheet" href="../assets/css/fonts-retro.css">
@@ -73,7 +73,8 @@
   max-width: 300px;
 }
 .field-row input:focus { outline: none; border-color: var(--amber); }
-.field-row .hint { color: var(--phosphor-fade); font-size: 12px; }
+.field-row .hint { color: var(--phosphor-text-dim); font-size: 12px; }
+.field-row select { font-family: 'VT323', monospace; font-size: 14px; }
 
 .hex-section {
   margin-top: 16px;
@@ -110,15 +111,28 @@
 .changes-count strong { color: var(--amber); }
 
 .error { color: var(--danger); padding: 20px; border: 1px solid var(--danger); margin: 16px 0; }
+
+/* 手機：輸入框字級不低於 16px，iOS 點欄位時才不會自動放大頁面
+   （.field-row select 的特異度比 select 高，要一起列出） */
+@media (max-width: 640px) {
+  input, select, textarea, .field-row select { font-size: 16px; }
+  /* 標籤、輸入框、說明改成可換行：標籤與說明各佔一行，輸入框不超出螢幕 */
+  .editor-panel { padding: 14px; }
+  .field-row { flex-wrap: wrap; gap: 6px 8px; }
+  .field-row label { min-width: 0; flex-basis: 100%; }
+  .field-row input, .field-row select { min-width: 0; max-width: 100%; }
+  .field-row .hint { flex-basis: 100%; margin-left: 0 !important; overflow-wrap: anywhere; }
+  #download-bar { flex-wrap: wrap; gap: 8px; }
+}
 </style>
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 <link rel="canonical" href="https://toniliumvp.github.io/LunaticDawn/luna2/lunahead-editor.html">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="LUNAHEAD.SAV 玩家表頭編輯器 · 俠客遊 II">
-<meta name="twitter:description" content="俠客遊 II 玩家存檔表頭編輯器。LUNAHEAD.SAV (256 bytes) 含 Big5 玩家姓名 + 等級 + age + 起始屬性。2026 binary 完整逆向。純前端解析。">
+<meta name="twitter:description" content="俠客遊 II 玩家存檔表頭編輯器。可編輯 LUNAHEAD.SAV（256 bytes）裡的 Big5 玩家姓名，其餘位元組的用途尚未確認。檔案只在瀏覽器本地解析，不會上傳。">
 <meta name="twitter:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"LUNAHEAD.SAV 玩家表頭編輯器","description":"俠客遊 II 玩家存檔表頭編輯器。LUNAHEAD.SAV (256 bytes) 含 Big5 玩家姓名 + 等級 + age + 起始屬性。2026 binary 完整逆向。純前端解析。","url":"https://toniliumvp.github.io/LunaticDawn/luna2/lunahead-editor.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 II"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"LUNAHEAD.SAV 玩家表頭編輯器","description":"俠客遊 II 玩家存檔表頭編輯器。可編輯 LUNAHEAD.SAV（256 bytes）裡的 Big5 玩家姓名，其餘位元組的用途尚未確認。檔案只在瀏覽器本地解析，不會上傳。","url":"https://toniliumvp.github.io/LunaticDawn/luna2/lunahead-editor.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 II"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"吟遊詩人的傳說","item":"https://toniliumvp.github.io/LunaticDawn/"},{"@type":"ListItem","position":2,"name":"俠客遊 II","item":"https://toniliumvp.github.io/LunaticDawn/luna2/"},{"@type":"ListItem","position":3,"name":"LUNAHEAD.SAV 玩家表頭編輯器"}]}</script>
 <!-- seo -->
 </head>
@@ -129,13 +143,15 @@
     <div class="header-inner">
       <h1 class="pixel">LUNAHEAD.SAV 玩家表頭編輯器</h1>
       <nav>
-        <a href="save-editor.html">屬性修改器</a>
+        <a href="save-editor.html">存檔修改器</a>
         ·
         <a href="chritem-viewer.html">物品欄</a>
         ·
         <a href="shopitem-viewer.html">商店</a>
         ·
         <a href="savs-dashboard.html">SAV 總覽</a>
+        ·
+        <a href="./">▸ 俠客遊 II 專區</a>
         ·
         <a href="../">回主站</a>
       </nav>
@@ -147,17 +163,24 @@
 
   <div class="intro">
     俠客遊 II 玩家存檔表頭存於 <code>USER0/LUNAHEAD.SAV</code>（256 bytes）。
-    本工具支援編輯<strong>玩家姓名（Big5）+ 數值欄位</strong> + 下載修改後 SAV。
+    本工具只編輯<strong>玩家姓名（Big5）</strong>並下載修改後 SAV；其餘位元組的用途未確認，只唯讀顯示。
     <br><br>
-    <strong>結構（2026-05-02 2026 binary 逆向）</strong>：byte 0-17 = 玩家資料（含 Big5 姓名）+ byte 18+ 全 0xFF padding。
+    <strong>結構（2026 年整理）</strong>：byte 0-17 是表頭資料，byte 18-255 全為 0xFF。
+    目前只有一份實際樣本（USER0 預設存檔）可以對照，除了姓名位置，以下用途都是推定。
     <br>
-    <strong>byte 5-10</strong>：Big5 玩家姓名（3 個中文字，6 bytes），USER0 預設「未具名」。
-    <strong>byte 14-15 / 16-17</strong>：兩個 u16 LE = 48（推測為 age / 起始屬性）。
+    <strong>byte 0-4</strong>：推定是讀檔畫面顯示的時間（<a href="guides/save-format.html">聶荊璇的存檔解析</a>記載 LUNAHEAD.SAV 存放「外部時間記錄」與主角姓名），
+    各位元組的對應尚未確認（樣本值 0 / 71 / 9 / 7 / 12）。
+    <br>
+    <strong>byte 5-17</strong>：玩家姓名欄（Big5，推定 13 bytes，結尾補 00）。樣本的「未具名」佔 byte 5-10，
+    這 13 bytes 與 LUNACHAR.SAV 主角的姓名欄（0x02 起 13 bytes）完全相同。本工具最多寫 3 個中文字（6 bytes），寫入時會把姓名欄剩下的 byte 11-17 一併補成 00，姓名欄以外的位元組完全不動。
+    <br>
+    <strong>byte 14 / 16</strong>：樣本是 0x30（ASCII「0」），落在姓名欄的剩餘空間，推定是殘留內容，
+    不是年齡或屬性（樣本主角的年齡在 LUNACHAR.SAV 是 16）。
     <br><br>
     所有解析在瀏覽器本地完成，不上傳任何資料。
     <br><br>
-    <strong style="color: var(--danger);">⚠️ 修改前務必備份</strong>：本工具的 byte 5-10（Big5 玩家姓名）+ byte 14-17（u16 LE）
-    已 binary 逆向確認，但 byte 1-4（推測為 flag / 日期欄）<strong>未實機驗證</strong>。修改後若載入遊戲出錯可能損壞存檔。
+    <strong style="color: var(--danger);">⚠️ 修改前務必備份</strong>：姓名位置已與 LUNACHAR.SAV 對照，其餘位元組的用途<strong>都未實機驗證</strong>。
+    推定這份姓名是讀檔畫面用的副本，只改這裡，遊戲內的角色姓名可能不會跟著變。修改後若載入遊戲出錯可能損壞存檔。
     <strong>建議流程</strong>：
     <br>1️⃣ 將 <code>USER0/LUNAHEAD.SAV</code> 先複製為 <code>USER1/LUNAHEAD.SAV</code>
     <br>2️⃣ 在 USER1 測試修改 + 載入遊戲驗證
@@ -167,7 +190,7 @@
 
   <div id="drop-zone">
     <h2 class="pixel">▶ 拖放 LUNAHEAD.SAV 到這裡</h2>
-    <p>或 <span style="color: var(--amber); cursor: pointer; text-decoration: underline;" id="click-select">點擊選擇檔案</span></p>
+    <p>或 <button type="button" id="click-select" class="link-button">點擊選擇檔案</button></p>
     <p style="color: var(--phosphor-dim); font-size: 13px;">[ 檔案在 LUNA2/USERN/LUNAHEAD.SAV ]</p>
     <input type="file" id="file-input" aria-label="選擇 LUNAHEAD.SAV 玩家表頭存檔" accept=".SAV,.sav" style="display: none;">
   </div>
@@ -192,8 +215,8 @@
 
       <div class="field-row">
         <label for="edit-name-preset">預設姓名（快速套用）：</label>
-        <select id="edit-name-preset" style="font-family: 'VT323', monospace; font-size: 14px;">
-          <option value="">，選預設，</option>
+        <select id="edit-name-preset">
+          <option value="">▾ 選預設</option>
           <optgroup label="官方 / 中性">
             <option value="a5bca8e3a657">未具名（USER0 default）</option>
             <option value="abc8a448 0000">客人</option>
@@ -230,38 +253,38 @@
 
       <div class="field-row">
         <label for="edit-byte1">byte 1 (u8)：</label>
-        <input id="edit-byte1" type="number" min="0" max="255">
-        <span class="hint">未知用途（推測為 flag）</span>
+        <input id="edit-byte1" type="number" min="0" max="255" readonly>
+        <span class="hint">用途未明（樣本值 71），唯讀</span>
       </div>
 
       <div class="field-row">
         <label for="edit-byte2">byte 2 (u8)：</label>
-        <input id="edit-byte2" type="number" min="0" max="255">
-        <span class="hint">未知（多為 9）</span>
+        <input id="edit-byte2" type="number" min="0" max="255" readonly>
+        <span class="hint">用途未明（樣本值 9），唯讀</span>
       </div>
 
       <div class="field-row">
         <label for="edit-byte3">byte 3 (u8)：</label>
-        <input id="edit-byte3" type="number" min="0" max="255">
-        <span class="hint">未知（多為 7）</span>
+        <input id="edit-byte3" type="number" min="0" max="255" readonly>
+        <span class="hint">用途未明（樣本值 7），唯讀</span>
       </div>
 
       <div class="field-row">
         <label for="edit-byte4">byte 4 (u8)：</label>
-        <input id="edit-byte4" type="number" min="0" max="255">
-        <span class="hint">未知（多為 12 = 0x0C）</span>
+        <input id="edit-byte4" type="number" min="0" max="255" readonly>
+        <span class="hint">用途未明（樣本值 12 = 0x0C），唯讀</span>
       </div>
 
       <div class="field-row">
         <label for="edit-u16-14">byte 14-15 (u16 LE)：</label>
-        <input id="edit-u16-14" type="number" min="0" max="65535">
-        <span class="hint">推測為 age 或起始屬性（USER0 = 48）</span>
+        <input id="edit-u16-14" type="number" min="0" max="65535" readonly>
+        <span class="hint">樣本值 48（0x30 0x00，即 ASCII「0」）。位於姓名欄的剩餘空間，推定不是數值欄位（唯讀）</span>
       </div>
 
       <div class="field-row">
         <label for="edit-u16-16">byte 16-17 (u16 LE)：</label>
-        <input id="edit-u16-16" type="number" min="0" max="65535">
-        <span class="hint">推測為 age 上限或第二屬性（USER0 = 48）</span>
+        <input id="edit-u16-16" type="number" min="0" max="65535" readonly>
+        <span class="hint">樣本值 48（0x30 0x00，即 ASCII「0」）。位於姓名欄的剩餘空間，推定不是數值欄位（唯讀）</span>
       </div>
     </div>
 
@@ -281,7 +304,6 @@
   </div>
 
   <div id="error-msg"></div>
-</div>
 
 <script>
 const $ = id => document.getElementById(id);
@@ -425,45 +447,18 @@ function loadHeader() {
   renderHexPreview();
 }
 
+// 姓名欄是 byte 5-17 共 13 bytes（結尾補 00）。改名時整欄一起寫：新姓名之後補 00，
+// 不留舊姓名的尾端；姓名欄以外（byte 0-4、18-255）完全不動
+function writeNameField(view, bytes) {
+  for (let i = 0; i < 13; i++) view[5 + i] = i < bytes.length ? bytes[i] : 0x00;
+}
+
 // 監聽器讀的是全域 workBuffer,換檔後不需要重新綁；重複綁定會讓每個欄位的處理跑兩次
 let listenersBound = false;
 function setupListeners() {
   if (listenersBound) return;
   listenersBound = true;
-  // For numeric fields - direct write
-  const intFields = [
-    {id: 'edit-byte1', off: 1, kind: 'u8', label: 'byte 1 (u8)'},
-    {id: 'edit-byte2', off: 2, kind: 'u8', label: 'byte 2 (u8)'},
-    {id: 'edit-byte3', off: 3, kind: 'u8', label: 'byte 3 (u8)'},
-    {id: 'edit-byte4', off: 4, kind: 'u8', label: 'byte 4 (u8)'},
-    {id: 'edit-u16-14', off: 14, kind: 'u16', label: 'byte 14-15 (u16 LE)'},
-    {id: 'edit-u16-16', off: 16, kind: 'u16', label: 'byte 16-17 (u16 LE)'},
-  ];
-
-  for (const f of intFields) {
-    $(f.id).addEventListener('change', () => {
-      const view = new DataView(workBuffer);
-      const max = f.kind === 'u8' ? 0xFF : 0xFFFF;
-      const cur = f.kind === 'u8' ? view.getUint8(f.off) : view.getUint16(f.off, true);
-      // 範圍檢查：setUint8/setUint16 對超界值會靜默繞回（300→44、-1→255），
-      // 空字串 Number('') 會變 0，都必須在寫入前擋下，並把欄位還原成存檔目前的值
-      const raw = $(f.id).value.trim();
-      const v = Number(raw);
-      if (raw === '' || !Number.isInteger(v) || v < 0 || v > max) {
-        alert(`${f.label} 只接受 0 到 ${max} 的整數，未寫入，已還原為目前的值 ${cur}。`);
-        $(f.id).value = cur;
-        return;
-      }
-      // 值沒變就不算變動（也避免重複綁定的監聽器把還原後的值再記一次）
-      if (v === cur) { $(f.id).value = cur; return; }
-      if (f.kind === 'u8') view.setUint8(f.off, v);
-      else view.setUint16(f.off, v, true);
-      $(f.id).value = v;
-      changesCount++;
-      updateDownloadBar();
-      renderHexPreview();
-    });
-  }
+  // byte 1-4、14-17 用途未確認（14-17 還在姓名欄內），一律唯讀，不提供寫入
 
   // 預設姓名 dropdown
   $('edit-name-preset').addEventListener('change', () => {
@@ -474,9 +469,9 @@ function setupListeners() {
       return;
     }
     const view = new Uint8Array(workBuffer);
-    for (let i = 0; i < 6; i++) {
-      view[5 + i] = parseInt(v.substr(i * 2, 2), 16);
-    }
+    const presetBytes = [];
+    for (let i = 0; i < 6; i++) presetBytes.push(parseInt(v.substr(i * 2, 2), 16));
+    writeNameField(view, presetBytes);
     changesCount++;
     loadHeader();
     updateDownloadBar();
@@ -530,9 +525,7 @@ function setupListeners() {
       return;
     }
     const view = new Uint8Array(workBuffer);
-    for (let i = 0; i < 6; i++) {
-      view[5 + i] = i < bytes.length ? bytes[i] : 0x00;
-    }
+    writeNameField(view, bytes);
     changesCount++;
     loadHeader();
     updateDownloadBar();
@@ -559,9 +552,12 @@ function setupListeners() {
       // Apply to hex input + save buffer
       $('edit-name-hex').value = result.hex.match(/.{2}/g).join(' ');
       const view = new Uint8Array(workBuffer);
+      const encBytes = [];
       for (let i = 0; i < 6; i++) {
-        view[5 + i] = parseInt(result.hex.substr(i * 2, 2), 16);
+        const b = parseInt(result.hex.substr(i * 2, 2), 16);
+        encBytes.push(Number.isNaN(b) ? 0 : b);
       }
+      writeNameField(view, encBytes);
       changesCount++;
       loadHeader();
       updateDownloadBar();
@@ -631,8 +627,9 @@ dz.addEventListener('click', ev => {
   if (ev.target.id === 'drop-zone') $('file-input').click();
 });
 </script>
-<p class="muted" style="font-size: 12px; margin-top: 8px;">⚖️ 本工具為逆向工程相容性研究成果(Sega v. Accolade 1992 fair use 美國判例)。玩家修改自己持有的正版遊戲存檔合法。請務必備份原始存檔。</p>
+<p class="muted" style="font-size: 12px; margin-top: 8px;">⚖️ 修改自己持有的存檔屬個人使用，本站工具以相容性研究為目的。請務必備份原始存檔。</p>
 </main>
+</div>
 
 </body>
 </html>

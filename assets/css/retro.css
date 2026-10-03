@@ -104,7 +104,8 @@ h1.pixel {
 }
 
 h1.pixel::before { content: "> "; color: var(--phosphor-dim); }
-h1.pixel::after  { content: "_"; animation: blink 1s steps(1) infinite; }
+/* 游標閃 3 次後停在可見狀態（blink 只在 50% 設透明，fill-mode 為 none） */
+h1.pixel::after  { content: "_"; animation: blink 1s steps(1) 3; }
 @keyframes blink { 50% { opacity: 0; } }
 
 .header-sub { font-size: 18px; color: var(--phosphor-dim); }
@@ -341,6 +342,10 @@ tbody tr:hover { background: rgba(0,255,65,0.05); }
   text-align: center;
 }
 
+/* ---- 程式碼與長網址：整行放不下時才在字中間斷行，不撐寬整頁 ----
+   不用 anywhere：它會把表格欄壓到最小寬度，連設定鍵與檔名都被攔腰切斷 */
+code, .code-inline, .url-break, main p, main li, main a { overflow-wrap: break-word; }
+
 /* ---- 強調文字 ---- */
 .amber  { color: var(--amber); }
 .dim    { color: var(--phosphor-dim); }
@@ -423,6 +428,29 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   box-shadow: 0 0 0 4px rgba(255, 176, 0, 0.2);
 }
 
+/* 按鈕外觀重設：讓原本只能用滑鼠點的元素改成 <button>，鍵盤可以操作，外觀維持原樣。
+   .btn-reset：完全沿用周圍文字的樣式。
+   .link-button：看起來像連結的按鈕（琥珀色加底線），寫在 .btn-reset 之後，兩者並用時以它的顏色為準。 */
+.btn-reset {
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+.link-button {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: var(--amber);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 /* skip link (跟「跳到主內容」連結配合,各頁面 <main id="main-content">) */
 .skip-link {
   position: absolute;
@@ -470,3 +498,16 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
    body{overflow-x:hidden} above stops the viewport itself from scrolling, so a wide
    table must carry its own scroller or its right-hand columns become unreachable. */
 .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; }
+/* 寬螢幕表格放得下，不做捲動容器，表頭才能固定；手機維持水平捲動。
+   flow-root 讓表格上下的間距維持跟原本捲動容器一樣（不與外面的間距合併），但不會變成捲動容器。 */
+@media (min-width: 641px) {
+  .table-scroll { overflow-x: visible; display: flow-root; }
+}
+
+/* 列印：拿掉 CRT 效果，改成白紙黑字 */
+@media print {
+  *, *::before, *::after { color: #000 !important; background-color: transparent !important; background-image: none !important; text-shadow: none !important; box-shadow: none !important; }
+  body::before, body::after { display: none !important; }
+  a { text-decoration: underline; border-bottom: none; }
+  header, .panel, .card, table, th, td { border-color: #000 !important; }
+}

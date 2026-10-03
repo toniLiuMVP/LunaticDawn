@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>俠客遊 II 必殺技使用指南 · 吟遊詩人的傳說</title>
-<meta name="description" content="俠客遊 II 8 大武器類必殺技使用指南：拔刀波斬流 / 暴棍撲術 / 直棍撲術 / 真槍貫術 / 爆矢眼弓法 / 剛投爆石 / 波動六骸法 / 斷強破防。基於 LUNA2.EXE 字串提取 + HISSATSU.MST 32 records 完整逆向。">
+<meta name="description" content="俠客遊 II 必殺技使用指南：HISSATSU.MST 前 16 筆依 8 個武器類別碼分成 8 組、每組兩招，招式名稱取自 MGCNAME.ENC（秘劍真空切、衝擊斬波斧、雙流星棍等），另整理 16 隻怪物的專屬必殺技。基於 HISSATSU.MST 與 MGCNAME.ENC 逆向（部分欄位尚未解讀）。">
 <link rel="stylesheet" href="../../assets/css/fonts-wuxia.css">
 <link rel="stylesheet" href="../../assets/css/wuxia.css">
 <style>
@@ -56,6 +56,9 @@
   font-size: 14px;
   color: #5b3f1a;
 }
+.alias-table { margin: 8px 0; }
+code { overflow-wrap: anywhere; }
+.alias-table th, .alias-table td { padding: 4px; }
 .formula {
   background: #f5e9c8;
   padding: 12px 16px;
@@ -70,15 +73,15 @@
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="俠客遊 II 必殺技使用指南 · 吟遊詩人的傳說">
-<meta name="twitter:description" content="俠客遊 II 8 大武器類必殺技使用指南：拔刀波斬流 / 暴棍撲術 / 直棍撲術 / 真槍貫術 / 爆矢眼弓法 / 剛投爆石 / 波動六骸法 / 斷強破防。基於 LUNA2.EXE 字串提取 + HISSATSU.MST 32 records 完整逆向。">
+<meta name="twitter:description" content="俠客遊 II 必殺技使用指南：HISSATSU.MST 前 16 筆依 8 個武器類別碼分成 8 組、每組兩招，招式名稱取自 MGCNAME.ENC（秘劍真空切、衝擊斬波斧、雙流星棍等），另整理 16 隻怪物的專屬必殺技。基於 HISSATSU.MST 與 MGCNAME.ENC 逆向（部分欄位尚未解讀）。">
 <meta name="twitter:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <meta property="og:type" content="website">
 <meta property="og:title" content="俠客遊 II 必殺技使用指南 · 吟遊詩人的傳說">
-<meta property="og:description" content="俠客遊 II 8 大武器類必殺技使用指南：拔刀波斬流 / 暴棍撲術 / 直棍撲術 / 真槍貫術 / 爆矢眼弓法 / 剛投爆石 / 波動六骸法 / 斷強破防。基於 LUNA2.EXE 字串提取 + HISSATSU.MST 32 records 完整逆向。">
+<meta property="og:description" content="俠客遊 II 必殺技使用指南：HISSATSU.MST 前 16 筆依 8 個武器類別碼分成 8 組、每組兩招，招式名稱取自 MGCNAME.ENC（秘劍真空切、衝擊斬波斧、雙流星棍等），另整理 16 隻怪物的專屬必殺技。基於 HISSATSU.MST 與 MGCNAME.ENC 逆向（部分欄位尚未解讀）。">
 <meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/luna2/guides/hissatsu-guide.html">
 <meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","datePublished":"2026-05-02","dateModified":"2026-07-11","headline":"俠客遊 II 必殺技使用指南","description":"俠客遊 II 8 大武器類必殺技使用指南：拔刀波斬流 / 暴棍撲術 / 直棍撲術 / 真槍貫術 / 爆矢眼弓法 / 剛投爆石 / 波動六骸法 / 斷強破防。基於 LUNA2.EXE 字串提取 + HISSATSU.MST 32 records 完整逆向。","url":"https://toniliumvp.github.io/LunaticDawn/luna2/guides/hissatsu-guide.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"publisher":{"@type":"Organization","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 II"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","datePublished":"2026-05-02","dateModified":"2026-07-11","headline":"俠客遊 II 必殺技使用指南","description":"俠客遊 II 必殺技使用指南：HISSATSU.MST 前 16 筆依 8 個武器類別碼分成 8 組、每組兩招，招式名稱取自 MGCNAME.ENC（秘劍真空切、衝擊斬波斧、雙流星棍等），另整理 16 隻怪物的專屬必殺技。基於 HISSATSU.MST 與 MGCNAME.ENC 逆向（部分欄位尚未解讀）。","url":"https://toniliumvp.github.io/LunaticDawn/luna2/guides/hissatsu-guide.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"publisher":{"@type":"Organization","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 II"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"吟遊詩人的傳說","item":"https://toniliumvp.github.io/LunaticDawn/"},{"@type":"ListItem","position":2,"name":"俠客遊 II","item":"https://toniliumvp.github.io/LunaticDawn/luna2/"},{"@type":"ListItem","position":3,"name":"攻略","item":"https://toniliumvp.github.io/LunaticDawn/luna2/guides/"},{"@type":"ListItem","position":4,"name":"俠客遊 II 必殺技使用指南"}]}</script>
 <!-- seo -->
 </head>
@@ -90,7 +93,7 @@
   <div class="header-inner">
     <div>
       <h1 class="pixel">俠客遊 II 必殺技使用指南</h1>
-      <div class="header-sub">LUNATIC DAWN II · 8 武器類 × 主形變體 · toni · 2026 整理</div>
+      <div class="header-sub">LUNATIC DAWN II · 8 個武器類別碼 × 各兩招 · toni · 2026 整理</div>
     </div>
     <div class="header-sub header-right">
       <div><a href="../../">◀ 回主站</a></div>
@@ -106,204 +109,218 @@
 <h2>📜 必殺技系統概要</h2>
 
 <p>俠客遊 II 的必殺技系統由 <strong>HISSATSU.MST</strong>（位於 <code>遊戲資料夾/P/HISSATSU.MST</code>）控制。
-本站 2026 從 <strong>LUNA2.EXE</strong> 二進位提取出 8 個必殺技名稱字串（位於 EXE 偏移 <code>0x03FCC2-0x03FD07</code>），並完整逆向 <strong>HISSATSU.MST</strong> 32 records 結構。</p>
+本站 2026 逆向了它 32 筆記錄的主要欄位（部分欄位意義尚未解讀），招式名稱取自遊戲檔 <strong>MGCNAME.ENC</strong> 第 80 至 111 號，記錄 N 對應第 80 + N 號。</p>
 
 <div class="notice">
-<strong>必殺技 vs 一般攻擊</strong>：必殺技是「特定條件下發動」的強力攻擊（高 STM 消耗 + 動畫專用），
-比一般攻擊威力高 2-4 倍。每種武器類別只能用對應系列的必殺技。
+<strong>必殺技與武器類別</strong>：HISSATSU.MST 前 16 筆（records 0-15）各帶一個武器類別碼（byte 3，0 至 7），每個類別碼有兩筆，同一類別中第二招的威力比第一招高。
+推定每種武器類別對應一組必殺技，類別碼對應哪一種武器的依據見下方說明；發動條件、STM 消耗與相對一般攻擊的倍率都尚未在遊戲內實測。
 </div>
 
-<h2>⚔️ 8 大武器類必殺技</h2>
+<h2>⚔️ 8 個武器類別碼的必殺技</h2>
 
 <div class="tech-grid">
 
   <div class="tech-card">
-    <h3>① 拔刀波斬流</h3>
-    <span class="weapon-class">武器類別 0：劍系</span>
+    <h3>① 秘劍真空切 / 秘劍月輪亂舞</h3>
+    <span class="weapon-class">類別碼 0：依稱號排列推定為刀劍類</span>
     <table class="stats-table">
-      <tr><td>主形 STM 消耗</td><td>~90（推測）</td></tr>
-      <tr><td>主形威力</td><td>300</td></tr>
-      <tr><td>變體 STM 消耗</td><td>~110（推測）</td></tr>
-      <tr><td>變體威力</td><td>450</td></tr>
-      <tr><td>HISSATSU.MST records</td><td>0（主） / 1（變）</td></tr>
+      <tr><td>第一招（秘劍真空切）b1（推定 STM）</td><td>90</td></tr>
+      <tr><td>第一招威力</td><td>300</td></tr>
+      <tr><td>第二招（秘劍月輪亂舞）b1（推定 STM）</td><td>110</td></tr>
+      <tr><td>第二招威力</td><td>450</td></tr>
+      <tr><td>HISSATSU.MST records</td><td>0（第一招） / 1（第二招）</td></tr>
     </table>
-    <p>劍系武器專用必殺技，雙手刀類 / 寶劍刀類武器發動。</p>
+    <p>社群攻略記錄的 STM 消耗是 90 與 110，與這兩筆的 b1 相同。</p>
   </div>
 
   <div class="tech-card">
-    <h3>② 暴棍撲術</h3>
-    <span class="weapon-class">武器類別 1：棍系（一）</span>
+    <h3>② 衝擊斬波斧 / 剛斧大瀑布</h3>
+    <span class="weapon-class">類別碼 1：依稱號排列推定為斧類</span>
     <table class="stats-table">
-      <tr><td>主形 STM 消耗</td><td>~85</td></tr>
-      <tr><td>主形威力</td><td>310</td></tr>
-      <tr><td>變體 STM 消耗</td><td>~115</td></tr>
-      <tr><td>變體威力</td><td>460</td></tr>
-      <tr><td>HISSATSU.MST records</td><td>2 / 3</td></tr>
+      <tr><td>第一招（衝擊斬波斧）b1（推定 STM）</td><td>85</td></tr>
+      <tr><td>第一招威力</td><td>310</td></tr>
+      <tr><td>第二招（剛斧大瀑布）b1（推定 STM）</td><td>115</td></tr>
+      <tr><td>第二招威力</td><td>460</td></tr>
+      <tr><td>HISSATSU.MST records</td><td>2（第一招） / 3（第二招）</td></tr>
     </table>
-    <p>棍系前段。重擊型武器（鐵棒 / 重棍）發動。</p>
+    <p>社群攻略把這兩招標為區域攻擊，STM 消耗 85 與 115，與這兩筆的 b1 相同。</p>
   </div>
 
   <div class="tech-card">
-    <h3>③ 直棍撲術</h3>
-    <span class="weapon-class">武器類別 2：棍系（二）</span>
+    <h3>③ 雙流星棍 / 烈風旋棍</h3>
+    <span class="weapon-class">類別碼 2：依稱號排列推定為棍棒類</span>
     <table class="stats-table">
-      <tr><td>主形 STM 消耗</td><td>~88</td></tr>
-      <tr><td>主形威力</td><td>320</td></tr>
-      <tr><td>變體 STM 消耗</td><td>~110</td></tr>
-      <tr><td>變體威力</td><td>440</td></tr>
-      <tr><td>HISSATSU.MST records</td><td>4 / 5</td></tr>
+      <tr><td>第一招（雙流星棍）b1（推定 STM）</td><td>88</td></tr>
+      <tr><td>第一招威力</td><td>290</td></tr>
+      <tr><td>第二招（烈風旋棍）b1（推定 STM）</td><td>110</td></tr>
+      <tr><td>第二招威力</td><td>440</td></tr>
+      <tr><td>HISSATSU.MST records</td><td>4（第一招） / 5（第二招）</td></tr>
     </table>
-    <p>棍系後段。直擊型武器發動。</p>
+    <p>社群攻略把這兩招標為個人攻擊（烈風旋棍連周圍也會打到），STM 消耗 88 與 110，與這兩筆的 b1 相同。</p>
   </div>
 
   <div class="tech-card">
-    <h3>④ 真槍貫術</h3>
-    <span class="weapon-class">武器類別 3：槍系</span>
+    <h3>④ 破魔貫槍 / 神槍閃烈破</h3>
+    <span class="weapon-class">類別碼 3：依稱號排列推定為槍類</span>
     <table class="stats-table">
-      <tr><td>主形 STM 消耗</td><td>~92</td></tr>
-      <tr><td>主形威力</td><td>340</td></tr>
-      <tr><td>變體 STM 消耗</td><td>~118</td></tr>
-      <tr><td>變體威力</td><td>490</td></tr>
-      <tr><td>HISSATSU.MST records</td><td>6 / 7</td></tr>
+      <tr><td>第一招（破魔貫槍）b1（推定 STM）</td><td>92</td></tr>
+      <tr><td>第一招威力</td><td>300</td></tr>
+      <tr><td>第二招（神槍閃烈破）b1（推定 STM）</td><td>118</td></tr>
+      <tr><td>第二招威力</td><td>465</td></tr>
+      <tr><td>HISSATSU.MST records</td><td>6（第一招） / 7（第二招）</td></tr>
     </table>
-    <p>長槍類專用。穿刺型攻擊，對重甲敵人有特效。</p>
+    <p>第二招威力 465，是 8 組中最高。社群攻略記的 STM 消耗是破魔貫槍 88（b1 為 92）、神槍閃烈破 118（與 b1 相同）。</p>
   </div>
 
   <div class="tech-card">
-    <h3>⑤ 爆矢眼弓法</h3>
-    <span class="weapon-class">武器類別 4：弓系</span>
+    <h3>⑤ 疾風連擊弓 / 天空迅雷弓</h3>
+    <span class="weapon-class">類別碼 4：依稱號排列推定為弓箭類</span>
     <table class="stats-table">
-      <tr><td>主形 STM 消耗</td><td>~84</td></tr>
-      <tr><td>主形威力</td><td>340</td></tr>
-      <tr><td>變體 STM 消耗</td><td>~108</td></tr>
-      <tr><td>變體威力</td><td>440</td></tr>
-      <tr><td>HISSATSU.MST records</td><td>8 / 9</td></tr>
+      <tr><td>第一招（疾風連擊弓）b1（推定 STM）</td><td>84</td></tr>
+      <tr><td>第一招威力</td><td>280</td></tr>
+      <tr><td>第二招（天空迅雷弓）b1（推定 STM）</td><td>108</td></tr>
+      <tr><td>第二招威力</td><td>440</td></tr>
+      <tr><td>HISSATSU.MST records</td><td>8（第一招） / 9（第二招）</td></tr>
     </table>
-    <p>弓類專用。遠距離高傷，對飛行 / 跨距敵有效。</p>
+    <p>社群攻略把疾風連擊弓標為個人攻擊、天空迅雷弓標為敵方全體，STM 消耗 84 與 108，與這兩筆的 b1 相同。第一招 b1 為 84，是類別碼 0 至 5 這六組中最低。</p>
   </div>
 
   <div class="tech-card">
-    <h3>⑥ 剛投爆石</h3>
-    <span class="weapon-class">武器類別 5：投擲系</span>
+    <h3>⑥ 翔空飛燕斬 / 爆裂破裂彈</h3>
+    <span class="weapon-class">類別碼 5：依稱號排列推定為擲矛類</span>
     <table class="stats-table">
-      <tr><td>主形 STM 消耗</td><td>~87</td></tr>
-      <tr><td>主形威力</td><td>310</td></tr>
-      <tr><td>變體 STM 消耗</td><td>~104</td></tr>
-      <tr><td>變體威力</td><td>420</td></tr>
-      <tr><td>HISSATSU.MST records</td><td>10 / 11</td></tr>
+      <tr><td>第一招（翔空飛燕斬）b1（推定 STM）</td><td>87</td></tr>
+      <tr><td>第一招威力</td><td>275</td></tr>
+      <tr><td>第二招（爆裂破裂彈）b1（推定 STM）</td><td>104</td></tr>
+      <tr><td>第二招威力</td><td>400</td></tr>
+      <tr><td>HISSATSU.MST records</td><td>10（第一招） / 11（第二招）</td></tr>
     </table>
-    <p>投擲類武器。飛矢 / 飛標 / 投石適用。</p>
+    <p>社群攻略的招式順序與資料檔相反（先寫爆裂破裂彈），依招式名稱對照 STM，翔空飛燕斬 87、爆裂破裂彈 104，都與 b1 相同。第一招威力 275，是類別碼 0 至 5 這六組中最低。</p>
   </div>
 
   <div class="tech-card">
-    <h3>⑦ 波動六骸法</h3>
-    <span class="weapon-class">武器類別 6：內功系</span>
+    <h3>⑦ 氣功飛翔拳 / 氣功極身突</h3>
+    <span class="weapon-class">類別碼 6：依稱號排列推定為格鬥類</span>
     <table class="stats-table">
-      <tr><td>主形 STM 消耗</td><td><strong>~60（最低）</strong></td></tr>
-      <tr><td>主形威力</td><td>200</td></tr>
-      <tr><td>變體 STM 消耗</td><td>~110</td></tr>
-      <tr><td>變體威力</td><td>400</td></tr>
-      <tr><td>HISSATSU.MST records</td><td>12 / 13</td></tr>
+      <tr><td>第一招（氣功飛翔拳）b1（推定 STM）</td><td>60</td></tr>
+      <tr><td>第一招威力</td><td>100</td></tr>
+      <tr><td>第二招（氣功極身突）b1（推定 STM）</td><td>110</td></tr>
+      <tr><td>第二招威力</td><td>400</td></tr>
+      <tr><td>HISSATSU.MST records</td><td>12（第一招） / 13（第二招）</td></tr>
     </table>
-    <p>內功 / 拳系（無武器）。STM 消耗最低（內功系本身不耗 STM 太多），對於 NPC 角色 STM 體格不高的玩家最適合。</p>
+    <p>社群攻略記的氣功飛翔拳 STM 消耗是 66（b1 為 60），氣功極身突是 110（與 b1 相同）。第一招 b1 為 60，是 8 組中最低，威力只有 100。</p>
   </div>
 
   <div class="tech-card">
-    <h3>⑧ 斷強破防</h3>
-    <span class="weapon-class">武器類別 7：防禦反擊系</span>
+    <h3>⑧ 虛空轉移術 / 蟬蛻之術</h3>
+    <span class="weapon-class">類別碼 7：依稱號排列推定為閃躲類</span>
     <table class="stats-table">
-      <tr><td>主形 STM 消耗</td><td>~70</td></tr>
-      <tr><td>主形威力</td><td>250</td></tr>
-      <tr><td>變體 STM 消耗</td><td>~95</td></tr>
-      <tr><td>變體威力</td><td>360</td></tr>
-      <tr><td>HISSATSU.MST records</td><td>14 / 15</td></tr>
+      <tr><td>第一招（虛空轉移術）b1（推定 STM）</td><td>70</td></tr>
+      <tr><td>第一招威力</td><td>100</td></tr>
+      <tr><td>第二招（蟬蛻之術）b1（推定 STM）</td><td>95</td></tr>
+      <tr><td>第二招威力</td><td>230</td></tr>
+      <tr><td>HISSATSU.MST records</td><td>14（第一招） / 15（第二招）</td></tr>
     </table>
-    <p>防禦反擊系。盾類 / 短刀類觸發，破防效果（降低敵人防禦）。</p>
+    <p>社群攻略把這兩招列在閃躲高手底下，只提到蟬蛻之術使用後身體會變成透明，沒有寫 STM 消耗。第一招威力 100（與氣功飛翔拳並列最低），第二招威力 230 是 8 組中最低；威力欄對這一組的意義未確認。</p>
   </div>
 
 </div>
 
-<h2>📊 STM 消耗 vs 威力對照</h2>
+<div class="notice">
+<strong>類別碼與武器種類</strong>：8 個類別碼對應哪一種武器，是依下列兩項資料推定的，還沒有在遊戲內驗證：
+<ul>
+<li>遊戲檔 CALLNAME.ENC 第 192 至 199 號的稱號依序是刀劍高手、使斧高手、棍棒高手、使槍高手、弓箭高手、擲矛高手、格鬥高手、閃躲高手，與這 8 組招式的順序一致；MGCNAME.ENC 第 80 至 95 號的招式名兩兩一組，排列方式也與第 96 至 111 號（記錄 16 至 31 的怪物必殺技，已用攻略書核對）相同。</li>
+<li>站上的社群攻略<a href="walkthrough.html">〈俠客遊 II 主攻略〉</a>把這 16 招依稱號分成 8 組，並記下其中 14 招的 STM 消耗；依招式名稱對照，有 12 招與 HISSATSU.MST 記錄 0 至 13 的 b1 相同，不合的是破魔貫槍與氣功飛翔拳。</li>
+</ul>
+LUNA2.EXE 的 <code>0x03FCC2-0x03FD07</code> 另有 8 個必殺技系統名稱（拔刀波斬流、暴棍撲術、直棍撲術、真槍貫術、爆矢眼弓法、剛投爆石、波動六骸法、斷強破防），與各武器類別的對應未確認，本頁不把它們當作記錄的名稱。
+</div>
+
+<h2>📊 威力與 b1（推定 STM）對照</h2>
 
 <div class="formula">
-power / STM_cost 比率（投資效率）：
-  - 拔刀主形：300/90 = 3.33×
-  - 拔刀變體：450/110 = 4.09×（更高效率）
-  - 暴棍主形：310/85 = 3.65×
-  - 暴棍變體：460/115 = 4.00×
-  - 真槍變體：490/118 = 4.15×（最高效率）
-  - 波動主形：200/60 = 3.33×（內功系最低 STM 消耗）
-  - 斷強主形：250/70 = 3.57×（防禦系，特殊效果）
+power / b1 比（b1 推定為 STM 消耗，尚待遊戲內實測）：
+  - 秘劍真空切：300/90 = 3.33×
+  - 秘劍月輪亂舞：450/110 = 4.09×（最高）
+  - 衝擊斬波斧：310/85 = 3.65×
+  - 剛斧大瀑布：460/115 = 4.00×
+  - 神槍閃烈破：465/118 = 3.94×
+  - 氣功飛翔拳：100/60 = 1.67×（b1 最低，威力與虛空轉移術並列最低）
+  - 虛空轉移術：100/70 = 1.43×
 </div>
 
 <p><strong>建議</strong>：
-變體形態普遍比主形效率高 4-15%，但 STM 消耗也高 20-30。
-玩家初期 STM 不高時優先用主形；STM 練上去後切換變體。</p>
+以 b1 推定值換算，類別碼 0 至 5 這六組的第二招威力 / b1 比約比第一招高 10% 至 23%，b1 多 17 至 30；氣功飛翔拳與虛空轉移術的威力只有 100。
+玩家初期 STM 不高時優先用第一招；STM 練上去後切換第二招（玩法參考）。</p>
 
-<h2>🐲 16 隻 boss 級怪物的專屬必殺技（records 16-31）</h2>
+<h2>🐲 16 隻怪物的專屬必殺技（records 16-31）</h2>
 
-<p>HISSATSU.MST 後半 16 records（id 16-31）是<strong>每隻 boss 級怪物的專屬必殺技定義</strong>。byte[16] = 對應怪物 ID（MONSTER.DAT index）：</p>
+<p>HISSATSU.MST 後半 16 筆（id 16-31）各對應一隻怪物，byte[17] = 怪物 ID（MONSTER.DAT index）。必殺技名稱依序是遊戲檔 MGCNAME.ENC 第 96 至 111 號（從 0 起算），與攻略書 P122-P123（PART 5 ch3）各怪物的必殺技名稱一致：</p>
 
+<div class="table-scroll">
 <table>
-<tr><th>HISSATSU id</th><th>byte[16]</th><th>怪物 ID</th><th>怪物名稱</th><th>類別</th></tr>
-<tr><td>16</td><td>0x63</td><td>99</td><td>不死之王</td><td>不死類</td></tr>
-<tr><td>17</td><td>0x6a</td><td>106</td><td>死亡之龍</td><td>龍類</td></tr>
-<tr><td>18</td><td>0x6b</td><td>107</td><td>赤龍</td><td>龍類</td></tr>
-<tr><td>19</td><td>0x6c</td><td>108</td><td>青龍</td><td>龍類</td></tr>
-<tr><td>20</td><td>0x6f</td><td>111</td><td>火龍</td><td>龍類</td></tr>
-<tr><td>21</td><td>0x70</td><td>112</td><td>那伽龍</td><td>龍類</td></tr>
-<tr><td>22</td><td>0x72</td><td>114</td><td>火精靈</td><td>元素精靈</td></tr>
-<tr><td>23</td><td>0x73</td><td>115</td><td>風精靈</td><td>元素精靈</td></tr>
-<tr><td>24</td><td>0x74</td><td>116</td><td>水精靈</td><td>元素精靈</td></tr>
-<tr><td>25</td><td>0x76</td><td>118</td><td>地精靈</td><td>元素精靈</td></tr>
-<tr><td>26</td><td>0x7a</td><td>122</td><td>貝利亞</td><td>終局 Boss</td></tr>
-<tr><td>27</td><td>0x7b</td><td>123</td><td>帕茲斯</td><td>終局 Boss</td></tr>
-<tr><td>28</td><td>0x7c</td><td>124</td><td>共工</td><td>終局 Boss</td></tr>
-<tr><td>29</td><td>0x7d</td><td>125</td><td>酒吞童子</td><td>終局 Boss</td></tr>
-<tr><td>30</td><td>0x7e</td><td>126</td><td>魔王阿迦魯瑪</td><td>終局 Boss</td></tr>
-<tr><td>31</td><td>0x7f</td><td>127</td><td>提斯卡托</td><td>終局 Boss</td></tr>
+<tr><th>HISSATSU id</th><th>必殺技名稱</th><th>byte[17]</th><th>怪物 ID</th><th>怪物名稱</th><th>類別</th></tr>
+<tr><td>16</td><td>竊命術</td><td>0x63</td><td>99</td><td>不死之王</td><td>不死類</td></tr>
+<tr><td>17</td><td>死亡氣息</td><td>0x6a</td><td>106</td><td>死亡之龍</td><td>龍類</td></tr>
+<tr><td>18</td><td>火燄氣息</td><td>0x6b</td><td>107</td><td>赤龍</td><td>龍類</td></tr>
+<tr><td>19</td><td>寒冰氣息</td><td>0x6c</td><td>108</td><td>青龍</td><td>龍類</td></tr>
+<tr><td>20</td><td>狂暴火炎</td><td>0x6f</td><td>111</td><td>火龍</td><td>龍類</td></tr>
+<tr><td>21</td><td>龍神蒼雷</td><td>0x70</td><td>112</td><td>那伽龍</td><td>龍類</td></tr>
+<tr><td>22</td><td>火燄箭</td><td>0x72</td><td>114</td><td>火精靈</td><td>元素精靈</td></tr>
+<tr><td>23</td><td>空氣阻絕術</td><td>0x73</td><td>115</td><td>風精靈</td><td>元素精靈</td></tr>
+<tr><td>24</td><td>水刀術</td><td>0x74</td><td>116</td><td>水精靈</td><td>元素精靈</td></tr>
+<tr><td>25</td><td>尖銳石牙</td><td>0x76</td><td>118</td><td>地精靈</td><td>元素精靈</td></tr>
+<tr><td>26</td><td>地獄火</td><td>0x7a</td><td>122</td><td>貝利亞</td><td>終局 Boss</td></tr>
+<tr><td>27</td><td>劇烈風暴</td><td>0x7b</td><td>123</td><td>帕茲斯</td><td>終局 Boss</td></tr>
+<tr><td>28</td><td>水妖浪轟</td><td>0x7c</td><td>124</td><td>共工</td><td>終局 Boss</td></tr>
+<tr><td>29</td><td>鬼神土雷閃</td><td>0x7d</td><td>125</td><td>酒吞童子</td><td>終局 Boss</td></tr>
+<tr><td>30</td><td>爆炸新星</td><td>0x7e</td><td>126</td><td>魔王阿迦魯瑪</td><td>終局 Boss</td></tr>
+<tr><td>31</td><td>死亡石楔</td><td>0x7f</td><td>127</td><td>提斯卡托</td><td>終局 Boss</td></tr>
 </table>
+</div>
 
 <p><strong>分類統計</strong>：</p>
 <ul>
-<li><strong>1 隻不死類</strong>（不死之王 ID 99），受神聖系魔法弱點</li>
-<li><strong>5 條龍類</strong>（死亡 / 赤 / 青 / 火 / 那伽，ID 106-112），各有屬性弱點</li>
-<li><strong>4 個元素精靈</strong>（火 / 風 / 水 / 地，ID 114-118），互剋元素</li>
-<li><strong>6 隻終局 Boss</strong>（貝利亞 / 帕茲斯 / 共工 / 酒吞童子 / 魔王阿迦魯瑪 / 提斯卡托，ID 122-127），Lv 50 全 HP 999</li>
+<li><strong>1 隻不死類</strong>（不死之王 ID 99）；神聖系「除魔大法」可消滅不死生物（攻略書魔法附冊）</li>
+<li><strong>5 條龍類</strong>（死亡 / 赤 / 青 / 火 / 那伽，ID 106-112），Lv 49 至 50</li>
+<li><strong>4 個元素精靈</strong>（火 / 風 / 水 / 地，ID 114-118），Lv 2 至 4，不是 boss 級</li>
+<li><strong>6 隻終局 Boss</strong>（貝利亞 / 帕茲斯 / 共工 / 酒吞童子 / 魔王阿迦魯瑪 / 提斯卡托，ID 122-127），Lv 50；提斯卡托 HP 999，其餘 788 至 800</li>
 </ul>
 
 <div style="border: 1px dashed #ffb000; padding: 12px; margin: 16px 0; font-size: 14px;">
-<p><strong>⚠️ boss 譯名雙來源差異（2026 跨檔比對發現）</strong></p>
+<p><strong>⚠️ boss 譯名在兩個遊戲檔中不同</strong></p>
 <p>俠客遊 II 同 6 隻終局 boss 在<strong>兩個資料來源使用不同譯名</strong>：</p>
-<table style="width: 100%; border-collapse: collapse; margin: 8px 0;">
-  <tr><th style="border: 1px solid #4a4; padding: 4px;">怪物表 (MONSTERS.ENC 解密)</th><th style="border: 1px solid #4a4; padding: 4px;">LUNA2.EXE 內嵌 (0x449aa)</th><th style="border: 1px solid #4a4; padding: 4px;">文化來源</th></tr>
-  <tr><td style="border: 1px solid #4a4; padding: 4px;">貝利亞</td><td style="border: 1px solid #4a4; padding: 4px;">培利亞耳</td><td style="border: 1px solid #4a4; padding: 4px;">基督教 Belial</td></tr>
-  <tr><td style="border: 1px solid #4a4; padding: 4px;">帕茲斯</td><td style="border: 1px solid #4a4; padding: 4px;">帕茲斯</td><td style="border: 1px solid #4a4; padding: 4px;">美索不達米亞 Pazuzu</td></tr>
-  <tr><td style="border: 1px solid #4a4; padding: 4px;">共工</td><td style="border: 1px solid #4a4; padding: 4px;">共工</td><td style="border: 1px solid #4a4; padding: 4px;">中華神話水神</td></tr>
-  <tr><td style="border: 1px solid #4a4; padding: 4px;">酒吞童子</td><td style="border: 1px solid #4a4; padding: 4px;">酒吞童子</td><td style="border: 1px solid #4a4; padding: 4px;">日本鬼王</td></tr>
-  <tr><td style="border: 1px solid #4a4; padding: 4px;">提斯卡托</td><td style="border: 1px solid #4a4; padding: 4px;">帖斯卡特利波加</td><td style="border: 1px solid #4a4; padding: 4px;">阿茲特克 Tezcatlipoca</td></tr>
-  <tr><td style="border: 1px solid #4a4; padding: 4px;">魔王阿迦魯瑪</td><td style="border: 1px solid #4a4; padding: 4px;">魔王安哥爾莫亞</td><td style="border: 1px solid #4a4; padding: 4px;">波斯 Angra Mainyu</td></tr>
+<div class="table-scroll">
+<table class="alias-table">
+  <tr><th>怪物表 (MONSNAME.ENC 解密)</th><th>LUNA2.EXE 內嵌 (0x449aa)</th><th>文化來源</th></tr>
+  <tr><td>貝利亞</td><td>培利亞耳</td><td>猶太教與基督教傳說 Belial</td></tr>
+  <tr><td>帕茲斯</td><td>帕茲斯</td><td>美索不達米亞 Pazuzu</td></tr>
+  <tr><td>共工</td><td>共工</td><td>中華神話水神</td></tr>
+  <tr><td>酒吞童子</td><td>酒吞童子</td><td>日本鬼王</td></tr>
+  <tr><td>提斯卡托</td><td>帖斯卡特利波加</td><td>阿茲特克 Tezcatlipoca</td></tr>
+  <tr><td>魔王阿迦魯瑪</td><td>魔王安哥爾莫亞</td><td>未確認</td></tr>
 </table>
-<p>本表 ID 122-127 列的是 <strong>MONSTERS.ENC 解密譯名</strong>（戰鬥畫面、怪物列表用）。<strong>NPC 對話、劇情敘述</strong>會看到 LUNA2.EXE 內嵌譯名。雙來源並存反映俠客遊 II 開發過程的翻譯不統一。</p>
+</div>
+<p>本表 ID 122-127 列的是 <strong>MONSNAME.ENC 解密譯名</strong>（本站怪物資料庫採用）。LUNA2.EXE 內嵌譯名在遊戲中出現的場合尚未確認。</p>
 </div>
 
-<p><strong>STM 消耗 pattern</strong>：</p>
+<p><strong>b1 欄位（推定 STM）分布</strong>：</p>
 <ul>
-<li><strong>12 個 common</strong>（id 16-21, 26-31）：b1=60，威力 250-500，無動畫（b2-3 = 0xFFFF）</li>
-<li><strong>4 個 low_cost</strong>（id 22-25 = 4 元素精靈）：b1=15 或 10，威力 100，元素精靈快攻特性</li>
+<li><strong>12 筆</strong>（id 16-21, 26-31）：b1=60，威力 250-500，byte 2-3 = 0xFFFF（不屬於 8 個武器類別）</li>
+<li><strong>4 筆</strong>（id 22-25 = 4 元素精靈）：b1=15 或 10，威力 100</li>
 </ul>
 
-<p>怪物使用這些必殺技時，<a href="../database/monsters.html">怪物資料庫</a>的「必殺技 O/X」欄位會標 O。
-本站<a href="../database/hissatsu.html">必殺技資料庫</a>有 32 records 完整列表 + parser 結構。</p>
+<p>怪物資料庫目前沒有必殺技欄位；哪一隻怪物使用哪一筆，請看<a href="../database/hissatsu.html">必殺技資料庫</a>，那裡有 32 筆記錄全表與怪物對照。</p>
 
 <h2>🎯 玩家路線建議</h2>
 
+<p>以下是玩法參考，b1 當作 STM 消耗是推定值。</p>
+
 <ol>
-<li><strong>新手期</strong>：用主形必殺技（85-92 STM 消耗），威力 300-340 階段</li>
-<li><strong>中期</strong>：練 STM 體格到 150+，切換變體形態（威力 400-490）</li>
-<li><strong>高 STM 角色</strong>：可頻繁發動變體（4-5× 投資效率）</li>
-<li><strong>低 STM 角色</strong>：選波動六骸法（內功系，主形只 60 STM 消耗）</li>
-<li><strong>對 boss</strong>：用變體 + 弱點屬性武器（請見<a href="weakness-bonus.html">弱點與加成攻略</a>）</li>
+<li><strong>新手期</strong>：用每類的第一招，類別碼 0 至 5 這六組的第一招威力 275-310（b1 84-92）</li>
+<li><strong>中期</strong>：STM 練高後切換第二招（第二招威力 230-465，類別碼 0 至 5 這六組為 400-465）</li>
+<li><strong>STM 較高的角色</strong>：類別碼 0 至 5 這六組第二招的威力 / b1 比約 3.8 至 4.1，可多用第二招</li>
+<li><strong>STM 較低的角色</strong>：氣功飛翔拳（第一招）的 b1 最低（60），但威力只有 100；社群攻略記的 STM 消耗是 66</li>
+<li><strong>對 boss</strong>：用第二招，並到<a href="../database/monsters.html">怪物資料庫</a>查防砍 / 防刺 / 防敲，挑較低的攻擊方式</li>
 </ol>
 
 <h2>🔬 技術細節（給逆向有興趣的人）</h2>
@@ -311,23 +328,25 @@ power / STM_cost 比率（投資效率）：
 <p>HISSATSU.MST 結構（每 record 36 bytes）：</p>
 <div class="formula">
 byte 0:    record id (0-31)
-byte 1:    變體碼 / 推測 STM 消耗（待遊戲內實測）
-byte 2-3:  u16 LE 動畫 sprite ID（records 16-31 = 0xFFFF 無動畫）
+byte 1:    b1，推定為 STM 消耗（待遊戲內實測）
+byte 2:    第一招 0x52 / 第二招 0x5F（records 16-31 = 0xFF）
+byte 3:    武器類別碼 0-7（records 16-31 = 0xFF）
 byte 4-5:  u16 LE power（威力值）
-byte 6-7:  u16 LE flags（per-技 multi-bit flag）
-byte 8-9:  u16 LE secondary power（暴擊 / 連擊 power）
-byte 10-15: 細部設定（specials 用作冷卻時間 / AOE 範圍）
-byte 16:   ★ 怪物 ID lookup（records 16-31 對應 MONSTER.DAT index）
-byte 17-35: 19 bytes 細部設定 + padding
+byte 6-7:  u16 LE，意義尚未解讀
+byte 8-9:  u16 LE，數值與威力相近，意義尚未解讀
+byte 10-15: 意義尚未解讀
+byte 16:   records 14-17 有值，其餘 0xFF，意義尚未解讀
+byte 17:   ★ 怪物 ID（records 16-31 對應 MONSTER.DAT index）
+byte 18-35: 意義尚未解讀（後段多為 0 或 0xFF）
 </div>
 
-<p>parser 程式：<code><a href="https://github.com/toniLiuMVP/LunaticDawn/blob/main/tools/extract/cross_validate_monsters.py">tools/extract/</a></code> 內。</p>
+<p>必殺技資料（HISSATSU.MST）的解析程式沒有公開；怪物資料的交叉驗證程式見 <code><a href="https://github.com/toniLiuMVP/LunaticDawn/blob/main/tools/extract/cross_validate_monsters.py">tools/extract/cross_validate_monsters.py</a></code>。</p>
 
 <h2>🔗 相關資料庫</h2>
 <ul>
-<li><a href="../database/hissatsu.html">必殺技資料庫</a>（32 records 完整數據）</li>
-<li><a href="../database/items.html">武器資料庫</a>（搭配 8 武器類別）</li>
-<li><a href="weakness-bonus.html">弱點與加成攻略</a>（屬性攻擊匹配）</li>
+<li><a href="../database/hissatsu.html">必殺技資料庫</a>（32 筆記錄全表）</li>
+<li><a href="../database/items.html">武器資料庫</a></li>
+<li><a href="weakness-bonus.html">弱點點數表</a>（恐懼症與額外點數）</li>
 <li><a href="magic-5-systems.html">5 系魔法施展指南</a></li>
 </ul>
 
@@ -336,8 +355,8 @@ byte 17-35: 19 bytes 細部設定 + padding
 </main>
 
 <footer class="site-footer">
-  <p>本攻略基於 LUNA2.EXE 字串提取（2026）+ HISSATSU.MST 32 records 完整逆向整理。</p>
-  <p>具體 STM 消耗待遊戲內實測確認；威力數值已透過 binary cross-validate 確認。</p>
+  <p>本攻略基於 HISSATSU.MST 32 筆記錄與 MGCNAME.ENC 招式名稱整理（2026，部分欄位尚未解讀）。</p>
+  <p>威力數值取自 HISSATSU.MST 的 byte 4-5；STM 消耗是依 byte 1 的推定值，尚待遊戲內實測確認。</p>
   <p>整理：toni · 2026 · <a href="../../">回主站</a></p>
 
   <p class="footer-updated">本頁最後更新：<time datetime="2026-07-11">2026-07-11</time></p>

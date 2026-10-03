@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>武技資料庫 · 俠客遊 II</title>
-<meta name="description" content="俠客遊 II 武技資料庫，32 筆必殺技（8 武器類主形 / 變體 + 16 隻 boss 怪物專屬），從 HISSATSU.MST 與 LUNA2.EXE 逆向。">
+<meta name="description" content="俠客遊 II 武技資料庫，32 筆必殺技（8 個武器類別碼各兩招 + 16 隻怪物專屬），數值取自 HISSATSU.MST，招式名稱取自 MGCNAME.ENC。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="武技資料庫 · 俠客遊 II">
-<meta property="og:description" content="俠客遊 II 武技資料庫，32 筆必殺技（8 武器類主形 / 變體 + 16 隻 boss 怪物專屬），從 HISSATSU.MST 與 LUNA2.EXE 逆向。">
+<meta property="og:description" content="俠客遊 II 武技資料庫，32 筆必殺技（8 個武器類別碼各兩招 + 16 隻怪物專屬），數值取自 HISSATSU.MST，招式名稱取自 MGCNAME.ENC。">
 <meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/luna2/database/hissatsu.html">
 <meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
@@ -26,7 +26,9 @@
 .items-table tbody tr:hover { background: rgba(0, 255, 65, 0.06); }
 .items-table .num { text-align: right; font-family: 'Courier New', monospace; }
 .detail-row td { padding: 16px; background: rgba(0, 255, 65, 0.04); }
-.detail-row .raw { font-size: 11px; color: var(--phosphor-fade); font-family: monospace; word-break: break-all; }
+.detail-row .raw { font-size: 11px; color: var(--phosphor-text-dim); font-family: monospace; word-break: break-all; }
+/* 第一欄的展開按鈕：外觀跟一般文字一樣 */
+.items-table .btn-reset { background: none; border: 0; padding: 0; margin: 0; font: inherit; color: inherit; text-align: inherit; cursor: pointer; }
 .note { padding: 12px; border: 1px dashed var(--phosphor-dim); color: var(--phosphor-dim); margin-bottom: 16px; font-size: 14px; }
 </style>
 <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
@@ -34,9 +36,9 @@
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="武技資料庫 · 俠客遊 II">
-<meta name="twitter:description" content="俠客遊 II 武技資料庫，32 筆必殺技（8 武器類主形 / 變體 + 16 隻 boss 怪物專屬），從 HISSATSU.MST 與 LUNA2.EXE 逆向。">
+<meta name="twitter:description" content="俠客遊 II 武技資料庫，32 筆必殺技（8 個武器類別碼各兩招 + 16 隻怪物專屬），數值取自 HISSATSU.MST，招式名稱取自 MGCNAME.ENC。">
 <meta name="twitter:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"武技資料庫","description":"俠客遊 II 武技資料庫，32 筆必殺技（8 武器類主形 / 變體 + 16 隻 boss 怪物專屬），從 HISSATSU.MST 與 LUNA2.EXE 逆向。","url":"https://toniliumvp.github.io/LunaticDawn/luna2/database/hissatsu.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 II"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"武技資料庫","description":"俠客遊 II 武技資料庫，32 筆必殺技（8 個武器類別碼各兩招 + 16 隻怪物專屬），數值取自 HISSATSU.MST，招式名稱取自 MGCNAME.ENC。","url":"https://toniliumvp.github.io/LunaticDawn/luna2/database/hissatsu.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 II"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"吟遊詩人的傳說","item":"https://toniliumvp.github.io/LunaticDawn/"},{"@type":"ListItem","position":2,"name":"俠客遊 II","item":"https://toniliumvp.github.io/LunaticDawn/luna2/"},{"@type":"ListItem","position":3,"name":"資料庫","item":"https://toniliumvp.github.io/LunaticDawn/luna2/database/"},{"@type":"ListItem","position":4,"name":"武技資料庫"}]}</script>
 <!-- seo -->
 </head>
@@ -58,76 +60,97 @@
   </div>
 
   <div class="note" style="border-color: var(--amber); background: rgba(255, 176, 0, 0.05);">
-    <strong style="color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 11px;">▸ LUNA2.EXE 內嵌必殺技名稱（8 種）</strong><br>
-    從 LUNA2.EXE binary offset <code>0x3FCC2-0x3FD07</code> 連續 70 bytes 提取的 8 個 null-terminated Big5 字串：
+    <strong style="color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 11px;">▸ records 0-15：8 個武器類別碼，每類兩招</strong><br>
+    記錄 N 的必殺技名稱取自遊戲檔 MGCNAME.ENC 第 (80 + N) 號。每兩筆一組，同一組中第二招的威力比第一招高：
     <ol style="margin: 12px 0 0 24px; line-height: 2;">
-      <li><strong>拔刀波斬流</strong>，刀劍類絕招</li>
-      <li><strong>暴棍撲術</strong>，棍棒類絕招</li>
-      <li><strong>直棍撲術</strong>，棍棒類絕招（變體）</li>
-      <li><strong>真槍貫術</strong>，槍類絕招</li>
-      <li><strong>爆矢眼弓法</strong>，弓類絕招</li>
-      <li><strong>剛投爆石</strong>，投擲類絕招</li>
-      <li><strong>波動六骸法</strong>，格鬥類絕招（推測）</li>
-      <li><strong>斷強破防</strong>，斧類絕招（推測）</li>
+      <li>類別碼 0（推定為刀劍類）：<strong>秘劍真空切</strong> / <strong>秘劍月輪亂舞</strong></li>
+      <li>類別碼 1（推定為斧類）：<strong>衝擊斬波斧</strong> / <strong>剛斧大瀑布</strong></li>
+      <li>類別碼 2（推定為棍棒類）：<strong>雙流星棍</strong> / <strong>烈風旋棍</strong></li>
+      <li>類別碼 3（推定為槍類）：<strong>破魔貫槍</strong> / <strong>神槍閃烈破</strong></li>
+      <li>類別碼 4（推定為弓箭類）：<strong>疾風連擊弓</strong> / <strong>天空迅雷弓</strong></li>
+      <li>類別碼 5（推定為擲矛類）：<strong>翔空飛燕斬</strong> / <strong>爆裂破裂彈</strong></li>
+      <li>類別碼 6（推定為格鬥類）：<strong>氣功飛翔拳</strong> / <strong>氣功極身突</strong></li>
+      <li>類別碼 7（推定為閃躲類）：<strong>虛空轉移術</strong> / <strong>蟬蛻之術</strong></li>
     </ol>
-    <p style="margin-top: 8px; color: var(--phosphor-fade); font-size: 13px;">
-      <strong>32 records 真實結構（2026 逆向確認）</strong>：
-      <br>▸ <strong>records 0-15</strong>：8 種武器類別 × 2 變體（主形 + 進階變體）
-      <br>▸ <strong>records 16-31</strong>：16 隻 boss / 龍 / 精靈 / 不死類怪物的<strong>專屬必殺技</strong>（byte[16] = 怪物 ID 99-127 lookup）
+    <p style="margin-top: 8px; color: var(--phosphor-text-dim); font-size: 13px;">
+      類別碼是 records 0-15 的 byte[3]（0 至 7，已由檔案確認）；類別碼對應哪一種武器是<strong>推定</strong>，沒有在遊戲內實測。
+    </p>
+    <p style="margin-top: 8px; color: var(--phosphor-text-dim); font-size: 13px;">
+      <strong>名稱與類別的依據</strong>：MGCNAME.ENC 第 80 至 95 號共 16 個招式名，排列方式與同一個檔案第 96 至 111 號相同，而後者已用攻略書逐一核對（見下方 records 16-31），所以本站把第 80 + N 號當作記錄 N 的名稱。
+      類別碼對應的武器種類有兩項參考：CALLNAME.ENC 第 192 至 199 號的稱號依序是刀劍、使斧、棍棒、使槍、弓箭、擲矛、格鬥、閃躲高手，與這 8 組招式的順序一致；<a href="../guides/walkthrough.html">社群攻略</a>也把同樣的兩招放在這些稱號底下，並記錄了其中 14 招的 STM 消耗，依招式名稱對照後有 12 個跟 records 0-13 的 b1 內部碼相同（不合的兩個：破魔貫槍，攻略寫 88、b1 為 92；氣功飛翔拳，攻略寫 66、b1 為 60）。
+    </p>
+    <p style="margin-top: 8px; color: var(--phosphor-text-dim); font-size: 13px;">
+      <strong>LUNA2.EXE 的 8 個字串</strong>：主程式內另有 8 個必殺技系統名稱（拔刀波斬流、暴棍撲術、直棍撲術、真槍貫術、爆矢眼弓法、剛投爆石、波動六骸法、斷強破防；位於偏移 <code>0x3FCC2-0x3FD07</code>），與各武器類別的對應未確認，本站不把它們當作這 32 筆記錄的名稱。
+    </p>
+    <p style="margin-top: 8px; color: var(--phosphor-text-dim); font-size: 13px;">
+      <strong>32 records 結構</strong>：
+      <br>▸ <strong>records 0-15</strong>：8 個武器類別碼 × 各兩招（第一招 + 威力較高的第二招）
+      <br>▸ <strong>records 16-31</strong>：16 隻 boss / 龍 / 精靈 / 不死類怪物的<strong>專屬必殺技</strong>（byte[17] = 怪物 ID 99-127 lookup；招式名稱取自 MGCNAME.ENC 第 96 至 111 號）
     </p>
   </div>
 
   <div class="note" style="border-color: var(--phosphor); background: rgba(0, 255, 65, 0.05);">
-    <strong style="color: var(--phosphor); font-family: 'Press Start 2P', monospace; font-size: 11px;">▸ records 16-31 boss 專屬必殺技對照</strong><br>
-    HISSATSU records 16-31 對應 16 隻具備「專屬必殺技」的 boss 級怪物：
+    <strong style="color: var(--phosphor); font-family: 'Press Start 2P', monospace; font-size: 11px;">▸ records 16-31 怪物專屬必殺技對照</strong><br>
+    HISSATSU records 16-31 對應 16 隻具備「專屬必殺技」的怪物（byte[17] = 怪物 ID）。招式名稱依序是遊戲檔 MGCNAME.ENC 第 96 至 111 號，跟攻略書 P122 至 P123 怪物資料的「必殺技名稱」欄逐一對得上（括號內是招式名稱）：
     <ul style="margin: 12px 0 0 24px; line-height: 1.9;">
-      <li><strong>1 隻不死類</strong>：不死之王（ID 99），受神聖系魔法弱點</li>
-      <li><strong>5 條龍類</strong>：死亡之龍 / 赤龍 / 青龍 / 火龍 / 那伽龍（ID 106-112）</li>
-      <li><strong>4 個元素精靈</strong>：火 / 風 / 水 / 地（ID 114-118，互剋元素，4 個 low_cost 必殺技）</li>
-      <li><strong>6 隻終局 Boss</strong>：貝利亞 / 帕茲斯 / 共工 / 酒吞童子 / 魔王阿迦魯瑪 / 提斯卡托（ID 122-127，Lv 50 全 HP 999）</li>
+      <li><strong>1 隻不死類</strong>：不死之王（ID 99，竊命術）</li>
+      <li><strong>5 條龍類</strong>：死亡之龍（死亡氣息）/ 赤龍（火燄氣息）/ 青龍（寒冰氣息）/ 火龍（狂暴火炎）/ 那伽龍（龍神蒼雷）（ID 106、107、108、111、112；中間的 109 雙頭龍、110 飛龍沒有專屬必殺技）</li>
+      <li><strong>4 個元素精靈</strong>：火精靈（火燄箭）/ 風精靈（空氣阻絕術）/ 水精靈（水刀術）/ 地精靈（尖銳石牙）（ID 114、115、116、118；117 精靈騎士沒有專屬必殺技）。這 4 招的 b1 內部碼是 15 或 10，其餘 12 招是 60</li>
+      <li><strong>6 隻終局 Boss</strong>：貝利亞（地獄火）/ 帕茲斯（劇烈風暴）/ 共工（水妖浪轟）/ 酒吞童子（鬼神土雷閃）/ 魔王阿迦魯瑪（爆炸新星）/ 提斯卡托（死亡石楔）（ID 122-127，Lv 50；提斯卡托 HP 999，其餘 788 至 800）</li>
     </ul>
-    <p style="margin-top: 8px; color: var(--phosphor-fade); font-size: 13px;">
-      點擊下方 records 16-31 看 detail 可見「★ byte[16] 怪物 ID」+ 對應怪物名稱。
+    <p style="margin-top: 8px; color: var(--phosphor-text-dim); font-size: 13px;">
+      點擊下方 records 16-31 看 detail 可見「★ byte[17] 怪物 ID」與使用這一招的怪物。
     </p>
   </div>
   <div class="toolbar">
     <label for="search">搜尋:</label>
-    <input id="search" type="search" placeholder="ID 或必殺技名稱" autofocus>
-    <span class="count" id="count">，/ 32</span>
+    <input id="search" type="search" placeholder="ID 或必殺技名稱">
+    <span class="count" id="count">載入中 / 32</span>
   </div>
   <div style="background: rgba(255, 176, 0, 0.06); border-left: 3px solid var(--amber); padding: 8px 12px; margin: 12px 0; font-size: 12px;">
-    ⚖️ <strong>公開政策 v2.0</strong>：武技 32 records（8 必殺技 × 變體 + 16 怪物用）= 玩家用必殺技可見的「事實」，依三邊著作權法不受保護。完整公開。
+    ⚖️ <strong>公開政策 v2.0</strong>：武技 32 records（8 個武器類別碼各兩招 + 16 招怪物專屬必殺技）的威力等數值屬事實；招式名稱屬單字或短詞，一般認為不具或僅有極有限的著作權保護（個案判斷）。法律依據見<a href="index.html">資料庫首頁</a>的公開政策。完整公開。
   </div>
   <div id="content"><div style="padding: 40px; text-align: center; color: var(--phosphor-dim);">載入中...</div></div>
-</div>
 
 <script>
+// 武器類別碼 0-7 的類別名稱：依 CALLNAME.ENC 第 192-199 號稱號的排列推定，沒有在遊戲內實測
+const CLASS_LABEL = ['刀劍', '斧', '棍棒', '槍', '弓箭', '擲矛', '格鬥', '閃躲'];
+function orderText(h) {
+  if (h.kind !== 'weapon') return '';
+  return h.variant === '主形' ? '第一招' : '第二招（威力較高）';
+}
+function classText(h) {
+  if (h.anim_id == null) return '';
+  const cls = h.anim_id >> 8;
+  return cls + '（' + (CLASS_LABEL[cls] || '?') + '類，推定）';
+}
 window.LIST_CONFIG = {
   dataKey: 'hissatsu',
   totalCount: 32,
-  columns: ['ID', '必殺技名稱', '變體 / 怪物', '威力', '動畫'],
-  searchField: (h) => String(h.id) + (h.name || '') + (h.variant || '') + (h.monster_name || ''),
+  columns: ['ID', '必殺技名稱', '順序 / 使用者', '威力', '類別碼（推定類別）'],
+  searchField: (h) => String(h.id) + (h.name || '') + orderText(h) + classText(h) + (h.monster_name || ''),
   getRowFields: (h) => [
     { value: '0x' + h.id.toString(16).toUpperCase().padStart(2, '0'), class: 'num' },
-    { value: h.name || '?', class: h.kind === 'special' ? 'dim' : '' },
-    { value: h.monster_name ? `${h.monster_name} (${h.monster_category || '?'})` : (h.variant || '?') },
-    { value: h.power ?? '，', class: 'num atk' },
-    { value: h.anim_id ?? '，', class: 'num' },
+    { value: h.name || '?' },
+    { value: h.monster_name ? `${h.monster_name} (${h.monster_category || '?'})` : (orderText(h) || '?') },
+    { value: h.power ?? '無', class: 'num atk' },
+    { value: h.anim_id == null ? '無' : classText(h), class: 'num' },
   ],
   detailFn: (dtd, h) => {
     const grid = window.el('div', { class: 'grid' });
     const fields = [
       ['ID', '0x' + h.id.toString(16).toUpperCase().padStart(2, '0')],
       ['必殺技名稱', h.name || '?'],
-      ['變體 / 類型', h.variant || '?'],
-      ['類別 (kind)', h.kind === 'weapon' ? '8 武器類別主必殺' : '特殊類 (boss / 怪物專屬)'],
+      ['順序 / 類型', h.kind === 'special' ? '怪物專屬' : (orderText(h) || '?')],
+      ['類別 (kind)', h.kind === 'weapon' ? '8 個武器類別碼的招式（每類兩招）' : '特殊類（怪物專屬）'],
       ['威力 (power)', h.power ?? '?'],
-      ['動畫 ID (sprite)', h.anim_id ?? '無 (0xFFFF)'],
+      ['byte[2] 第一 / 第二招旗標', h.anim_id == null ? '0xFF' : ((h.anim_id & 0xFF) === 0x52 ? '0x52 第一招' : '0x5F 第二招')],
+      ['byte[3] 武器類別碼', h.anim_id == null ? '0xFF' : classText(h)],
       ['b1 內部碼', h.b1],
     ];
     if (h.monster_id !== undefined) {
-      fields.push(['★ byte[16] 怪物 ID', '0x' + h.monster_id.toString(16).padStart(2, '0') + ' (' + h.monster_id + ')']);
-      fields.push(['★ 對應怪物', h.monster_name || '?']);
+      fields.push(['★ byte[17] 怪物 ID', '0x' + h.monster_id.toString(16).padStart(2, '0') + ' (' + h.monster_id + ')']);
+      fields.push(['★ 使用者（怪物）', h.monster_name || '?']);
       fields.push(['★ 怪物類別', h.monster_category || '?']);
     }
     fields.push(['record offset', '0x' + h._offset.toString(16).toUpperCase().padStart(4, '0')]);
@@ -146,6 +169,7 @@ window.LIST_CONFIG = {
 </script>
 <script src="list-page.js"></script>
 </main>
+</div>
 
 </body>
 </html>

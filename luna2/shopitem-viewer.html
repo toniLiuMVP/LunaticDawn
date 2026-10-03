@@ -55,13 +55,13 @@
   border-bottom: 1px dotted var(--phosphor-fade);
   padding-bottom: 6px;
 }
-.shop-card .header { color: var(--phosphor-fade); font-size: 11px; font-family: 'Courier New', monospace; }
+.shop-card .header { color: var(--phosphor-text-dim); font-size: 11px; font-family: 'Courier New', monospace; }
 .shop-card .item-count { color: var(--phosphor); font-size: 13px; margin-bottom: 8px; }
 .shop-card.empty {
   border-style: dashed;
   background: transparent;
 }
-.shop-card.empty .item-count { color: var(--phosphor-fade); font-style: italic; }
+.shop-card.empty .item-count { color: var(--phosphor-text-dim); font-style: italic; }
 
 .item-list {
   list-style: none;
@@ -76,7 +76,7 @@
   justify-content: space-between;
 }
 .item-list li:hover { background: rgba(0, 255, 65, 0.05); }
-.item-list .item-id { color: var(--phosphor-fade); font-family: 'Courier New', monospace; font-size: 11px; }
+.item-list .item-id { color: var(--phosphor-text-dim); font-family: 'Courier New', monospace; font-size: 11px; }
 .item-list .item-name { color: var(--phosphor); }
 
 .country-marker {
@@ -108,9 +108,11 @@
     <div class="header-inner">
       <h1 class="pixel">SHOPITEM.SAV 商店物品查看器</h1>
       <nav>
-        <a href="chritem-viewer.html">← 物品欄查看器</a>
+        <a href="chritem-viewer.html">← 物品欄編輯器</a>
         ·
-        <a href="save-editor.html">屬性修改器</a>
+        <a href="save-editor.html">存檔修改器</a>
+        ·
+        <a href="./">▸ 俠客遊 II 專區</a>
         ·
         <a href="../">回主站</a>
       </nav>
@@ -128,21 +130,20 @@
     每 shop：byte 0-3 = u32 LE header（值 = shop_id × 0x10000 + sub_id）；
     byte 4+ = u16 LE item IDs 序列直到 0xFFFF marker；之後 padding 到 768 bytes。
     <br><br>
-    <strong>16 shops 對應 6 國城鎮店家</strong>：shop 0-2 神聖吉札帝國 / shop 4 樸哈爾帝國 /
-    shop 7-8 日傑 / shop 10-11 馬尼卡帕王國 / shop 12-13 芙庫基歐 / shop 15 終局武器。
+    <strong>16 shops 對應 6 國城鎮店家</strong>：shop 0-2 神聖吉札帝國 / shop 4 穆哈爾帝國 /
+    shop 7-8 日倭 / shop 10-11 馬尼卡帕王國 / shop 12-13 芙庫基歐 / shop 15 終局武器。
     一般 16 個 slot 中 11 個有 items，5 個 empty。
   </div>
 
   <div id="drop-zone">
     <h2 class="pixel">▶ 拖放 SHOPITEM.SAV 到這裡</h2>
-    <p>或 <span style="color: var(--amber); cursor: pointer; text-decoration: underline;" id="click-select">點擊選擇檔案</span></p>
+    <p>或 <button type="button" id="click-select" class="link-button">點擊選擇檔案</button></p>
     <p style="color: var(--phosphor-dim); font-size: 13px;">[ 檔案通常在 LUNA2/USERN/SHOPITEM.SAV ]</p>
     <input type="file" id="file-input" aria-label="選擇 SHOPITEM.SAV 店家存檔" accept=".SAV,.sav" style="display: none;">
   </div>
 
   <p class="hint muted">※ 所有解析在你的瀏覽器本地完成，不會上傳任何檔案。</p>
   <div id="content"></div>
-</div>
 
 <script>
 const $ = id => document.getElementById(id);
@@ -168,8 +169,8 @@ function el(tag, attrs, ...children) {
 
 const SHOP_COUNTRY_MAP = {
   0: '神聖吉札', 1: '神聖吉札', 2: '神聖吉札',
-  4: '樸哈爾',
-  7: '日傑', 8: '日傑',
+  4: '穆哈爾',
+  7: '日倭', 8: '日倭',
   10: '馬尼卡帕', 11: '馬尼卡帕',
   12: '芙庫基歐', 13: '芙庫基歐',
   15: '終局'
@@ -279,8 +280,9 @@ dz.addEventListener('click', ev => {
   if (ev.target.id === 'drop-zone') $('file-input').click();
 });
 </script>
-<p class="muted" style="font-size: 12px; margin-top: 8px;">⚖️ 本工具為逆向工程相容性研究成果(Sega v. Accolade 1992 fair use 美國判例)。玩家修改自己持有的正版遊戲存檔合法。請務必備份原始存檔。</p>
+<p class="muted" style="font-size: 12px; margin-top: 8px;">⚖️ 修改自己持有的存檔屬個人使用，本站工具以相容性研究為目的。請務必備份原始存檔。</p>
 </main>
+</div>
 
 </body>
 </html>

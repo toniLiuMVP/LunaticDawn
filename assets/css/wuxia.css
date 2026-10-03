@@ -16,6 +16,12 @@ select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
   outline-offset: 2px;
   box-shadow: 0 0 0 4px rgba(196, 30, 58, 0.18);
 }
+/* 深色頁首與頁尾上，朱砂紅外框對比只有 2.6，改用淺色外框 */
+.site-header a:focus-visible, .site-footer a:focus-visible,
+.site-header button:focus-visible, .site-footer button:focus-visible {
+  outline-color: #e8e0d0;
+  box-shadow: 0 0 0 4px rgba(232, 224, 208, 0.25);
+}
 
 /* skip link，鍵盤 Tab 第一下出現「跳到主要內容」(各頁 <main id="main-content">) */
 .skip-link {
@@ -75,6 +81,10 @@ select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
   --border-dark: #a89878;     /* 深邊框 */
 
   --amber:       #8B6914;     /* 相容 retro.css 的 .amber class */
+  /* 相容 retro 頁共用的變數名稱（部分水墨頁的行內樣式沿用了這些名稱） */
+  --phosphor-fade: var(--border);
+  --phosphor-dim:  var(--text-dim);
+  --bg-input:      var(--bg-code);
   --danger:      #c41e3a;
 }
 
@@ -115,6 +125,15 @@ select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
   font-display: swap;
 }
 
+/* 框線字固定寬：Safari 的系統字框線只有半格寬，改用站上宋體分片裡的框線字，
+   size-adjust 120% 讓它剛好等於兩個半形字寬。每個分片各一條 @font-face。 */
+@font-face{font-family:'BoxFW';src:url(../fonts/wuxia-7ce424bace9d.woff2) format('woff2');unicode-range:U+2566-2570,U+2572,U+2574,U+2579;size-adjust:120%;font-display:swap}
+@font-face{font-family:'BoxFW';src:url(../fonts/wuxia-6e4c50eac03d.woff2) format('woff2');unicode-range:U+2501,U+2503-250D,U+250F-2511,U+2513-2515,U+2517-2518,U+251B-251D,U+2520,U+2523-2524,U+2528,U+252B-252C,U+252F,U+2533-2534,U+2537,U+253B-253C,U+2541,U+2543-2545,U+254B,U+2550-2565;size-adjust:120%;font-display:swap}
+@font-face{font-family:'BoxFW';src:url(../fonts/wuxia-6620428f4cce.woff2) format('woff2');unicode-range:U+2573;size-adjust:120%;font-display:swap}
+@font-face{font-family:'BoxFW';src:url(../fonts/wuxia-11afbd338d9b.woff2) format('woff2');unicode-range:U+2571;size-adjust:120%;font-display:swap}
+@font-face{font-family:'BoxFW';src:url(../fonts/wuxia-27dc948a5d30.woff2) format('woff2');unicode-range:U+2500;size-adjust:120%;font-display:swap}
+@font-face{font-family:'BoxFW';src:url(../fonts/wuxia-2e4dad4a53a2.woff2) format('woff2');unicode-range:U+2502;size-adjust:120%;font-display:swap}
+
 /* ---- Reset ---- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; }
@@ -125,7 +144,7 @@ body {
     radial-gradient(ellipse at 20% 50%, rgba(139,105,20,0.03) 0%, transparent 70%),
     radial-gradient(ellipse at 80% 30%, rgba(139,26,26,0.02) 0%, transparent 60%);
   color: var(--text);
-  font-family: 'Noto Serif TC', 'PMingLiU', 'Apple LiGothic', serif;
+  font-family: 'Noto Serif TC', 'Songti TC', 'PMingLiU', 'Noto Serif CJK TC', serif;
   font-size: 18px;
   line-height: 1.8;
   min-height: 100vh;
@@ -142,6 +161,9 @@ a:hover {
   color: var(--link-hover);
   border-bottom-color: var(--link-hover);
 }
+/* 內文連結加底線，不只靠顏色區分（導覽列、卡片、頁尾已自行設成無底線，不受影響）。
+   行內樣式有背景色的連結是實心按鈕，不加底線；:where() 不增加選擇器權重，不會蓋過其他規則。 */
+main :is(p, li, td, dd) a:where(:not([style*="background"])) { border-bottom-color: currentColor; }
 
 .wrap {
   max-width: 960px;
@@ -319,6 +341,7 @@ li { margin-bottom: 4px; }
   padding: 24px;
   font-family:
     'Noto Sans Mono',                /* ASCII 等寬 (Google Fonts, 9px/char @15px) */
+    'BoxFW',                         /* 框線字固定寬（見上方 @font-face） */
     'CJKMono',                       /* ★ CJK 等寬修正 (size-adjust: 120% → 18px = 2×9) */
     'Menlo',                         /* macOS 內建等寬 fallback */
     'Monaco',                        /* macOS 備用 */
@@ -475,7 +498,7 @@ tbody tr:hover { background: rgba(139, 105, 20, 0.06); }
 }
 .site-footer a { color: #b8860b; border-bottom: none; }
 .site-footer a:hover { color: #c9a227; }
-.footer-updated { font-size: 0.85em; opacity: 0.6; margin-top: 8px; }
+.footer-updated { font-size: 0.85em; margin-top: 8px; }
 .footer-updated time { font-variant-numeric: tabular-nums; }
 .site-footer .footer-big {
   font-family: 'Noto Serif TC', serif;
@@ -527,7 +550,9 @@ body.guide-page .raw-text {
   color: var(--bg-header);
   font-weight: bold;
   font-size: 17px;
-  padding: 13px 24px;
+  /* 透明邊框：強制色彩（高對比）模式下會變成系統色，按鈕範圍才看得見 */
+  border: 1px solid transparent;
+  padding: 12px 23px;
   display: inline-flex;
   align-items: center;
 }
@@ -540,7 +565,7 @@ body.guide-page .raw-text {
   display: inline-flex;
   align-items: center;
 }
-.quick-access .qa-link:hover { background: rgba(184, 134, 11, 0.1); color: #b8860b; }
+.quick-access .qa-link:hover { background: rgba(184, 134, 11, 0.1); color: #6b4f0f; }
 
 /* ---- 收合區塊(版權聲明 / 子頁 ABOUT 預設收起,點 summary 才展開)---- */
 details.qa-collapse > summary {
@@ -549,7 +574,7 @@ details.qa-collapse > summary {
   color: var(--accent);
   padding: 2px 0;
 }
-details.qa-collapse > summary:hover { color: #b8860b; }
+details.qa-collapse > summary:hover { color: #6b4f0f; }
 details.qa-collapse[open] > summary { margin-bottom: 8px; }
 
 /* ---- Responsive ---- */
@@ -584,3 +609,28 @@ details.qa-collapse[open] > summary { margin-bottom: 8px; }
 /* Horizontal scroll container for wide data tables (mirrors retro.css).
    Keeps an over-wide table from pushing the page into horizontal scroll on mobile. */
 .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; }
+
+/* 長路徑與網址在窄螢幕換行，避免撐寬整頁 */
+/* break-word 只在單字真的超過行寬時才斷行，不會縮小表格的最小寬度，
+   所以表格內的代碼與 API 名維持完整，寬表仍在 .table-scroll 內水平捲動。 */
+code, .code-inline, .url-break, main p, main li, main a { overflow-wrap: break-word; }
+
+/* ---- 列印：BBS 固定寬表格 ---- */
+/* 保留 pre-wrap 讓長段落照常換行，只把字縮小並放寬容器，表格列就不會折成兩行。
+   縮字腳本會在 pre 上寫行內字級，所以這裡要加 !important。 */
+@media print {
+  .wrap:has(pre.raw-text) { max-width: none; }
+  .panel:has(> pre.raw-text) { padding-left: 0; padding-right: 0; border-left: 0; border-right: 0; }
+  pre.raw-text, body.guide-page pre.raw-text {
+    font-size: 6.5pt !important;
+    padding: 8px;
+    margin-left: 0;
+    margin-right: 0;
+    overflow: visible;
+  }
+  /* 只有縮字腳本縮過字的區塊（表格行比版面寬）才換成橫式頁；
+     短區塊維持直式，避免每個區塊各自獨佔一張頁 */
+  pre.raw-text[style*="font-size"], body.guide-page pre.raw-text[style*="font-size"] { page: bbs-wide; }
+  .landscape-hint { display: none; }
+}
+@page bbs-wide { size: landscape; }

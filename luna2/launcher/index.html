@@ -57,6 +57,7 @@ code, .code-inline {
   font-family: 'Noto Sans Mono', 'Courier New', monospace;
   font-size: 15px;
   border: 1px solid var(--border);
+  overflow-wrap: break-word;   /* 長路徑在手機窄欄可以斷行，表格內的設定鍵與檔名不被攔腰切斷 */
 }
 pre.code-block {
   background: var(--bg-code);
@@ -125,7 +126,8 @@ td.highlight { color: var(--heading); font-weight: 700; }
     不夠的問題，還要手動設音效卡 IRQ/DMA，<span class="dim">每一關都能勸退 90% 的人。</span>
   </p>
   <p>
-    這個啟動器把那些 1996 年的地獄一次處理好，<span class="amber">下載 3 個檔案</span>、
+    這個啟動器把那些 1996 年的地獄一次處理好，<span class="amber">下載 2 個檔案</span>
+    （<span class="code-inline">dosbox-x.conf</span> 加上你系統對應的啟動器）、
     <span class="amber">雙擊</span>，就可以跑。跨 macOS / Windows / Linux。
     音效使用 <span class="amber">GM MIDI（General MIDI）</span>高品質音樂模式。
   </p>
@@ -142,21 +144,28 @@ td.highlight { color: var(--heading); font-weight: 700; }
   <p>DOSBox-X 是 DOSBox 的進階分支，對 1996 年繁中遊戲的相容性最好，支援 Big5 顯示、完整的 EMS/UMB/HIMEM 模擬、SVGA 模式，而且<span class="amber">對 MIDPAK/DIGPAK 音效 TSR 驅動的相容性比 DOSBox Staging 更好</span>，能正常使用 GM MIDI 音樂。</p>
 
   <h3>macOS</h3>
-  <pre class="code-block">brew install --cask dosbox-x-app</pre>
-  <p>沒有 Homebrew 可以到 <a href="https://dosbox-x.com/" target="_blank" rel="noopener">dosbox-x.com</a> 下載 .dmg 手動安裝。</p>
+  <p>
+    到 <a href="https://github.com/joncampbell123/dosbox-x/releases" target="_blank" rel="noopener">DOSBox-X 官方 GitHub Releases</a>
+    下載 macOS 版 .zip（Apple Silicon 選檔名含 <span class="code-inline">macosx-arm64</span> 的，Intel 選 <span class="code-inline">macosx-x86_64</span> 的）。
+    解壓後打開 <span class="code-inline">dosbox-x</span> 資料夾，把裡面的 <span class="code-inline">dosbox-x.app</span> 拖到「應用程式」，
+    再在「終端機」執行下面這行解除隔離：
+  </p>
+  <pre class="code-block">xattr -dr com.apple.quarantine /Applications/dosbox-x.app</pre>
 
   <h3>Windows</h3>
-  <pre class="code-block">winget install DOSBox-X.DOSBox-X</pre>
-  <p>或到 <a href="https://dosbox-x.com/" target="_blank" rel="noopener">dosbox-x.com</a> 下載 .exe 安裝檔。</p>
+  <pre class="code-block">winget install -e --id joncampbell123.DOSBox-X</pre>
+  <p>或到 <a href="https://dosbox-x.com/" target="_blank" rel="noopener">dosbox-x.com</a> 下載 .exe 安裝檔（官方安裝程式預設裝在 <span class="code-inline">C:\DOSBox-X</span>，啟動器會自動找到）。</p>
 
   <h3>Linux</h3>
-  <pre class="code-block"># Debian / Ubuntu
+  <pre class="code-block"># Debian 13 以上 / Ubuntu 24.04 以上
 sudo apt install dosbox-x
 
-# Arch
-sudo pacman -S dosbox-x
+# Arch / Manjaro（AUR）
+yay -S dosbox-x
 
-# 或從 GitHub Release 下載 AppImage</pre>
+# Fedora 與其他發行版（Flathub）
+flatpak install flathub com.dosbox_x.DOSBox-X</pre>
+  <p class="muted">※ Flatpak 版的啟動方式還沒有在 Linux 實機測試過。</p>
 
   <p class="muted">
     ※ 需要 DOSBox-X <span class="amber">0.84</span> 或以上。舊的 DOSBox（非 X 版）也能跑，但需要改設定。
@@ -191,6 +200,12 @@ sudo pacman -S dosbox-x
     <a href="https://github.com/toniLiuMVP/LunaticDawn/tree/main/luna2/launcher" target="_blank" rel="noopener">GitHub Repo</a>
     可以審查，每一行都看得見。
   </p>
+  <p class="muted">
+    ※ Windows 版與 Linux 版的啟動腳本還沒有在實機上測試過。尋找 DOSBox-X 的位置是依官方文件設定：
+    Windows 會找常見安裝位置、官方安裝程式預設的 <span class="code-inline">C:\DOSBox-X</span>、登錄檔記錄的安裝位置與 PATH；
+    Linux 會找 PATH 與常見位置，都找不到時改用 Flathub 的 Flatpak 版。
+    遇到問題歡迎來信告訴 <a href="mailto:luntic.dawn@gmail.com">toni</a>。
+  </p>
 </section>
 
 <!-- ==================== STEP 3 ==================== -->
@@ -199,9 +214,10 @@ sudo pacman -S dosbox-x
 
   <div class="step">
     <span class="step-num">3.1</span>
-    把下載的 3 個檔案（<span class="code-inline">dosbox-x.conf</span>、
-    <span class="code-inline">Mac_Play_Luna2.command</span> 或
-    <span class="code-inline">Win_Play_Luna2.bat</span>）
+    把下載的 2 個檔案（<span class="code-inline">dosbox-x.conf</span>，以及
+    <span class="code-inline">Mac_Play_Luna2.command</span>、
+    <span class="code-inline">Win_Play_Luna2.bat</span> 或
+    <span class="code-inline">Linux_Play_Luna2.sh</span> 其中一支）
     <span class="amber">全部放在和 LUNA2.EXE 同一個資料夾</span>。
     <br><br>
     <span class="amber">⚠ 重要：遊戲資料夾的完整路徑不能包含中文或特殊字元</span>，否則 DOSBox 可能無法正確掛載。
@@ -213,23 +229,22 @@ sudo pacman -S dosbox-x
 
   <div class="step">
     <span class="step-num">3.2 · macOS 使用者（必看）</span>
-    macOS 26+ 對「網路下載的可執行檔」預設加
-    <span class="code-inline">com.apple.quarantine</span> 屬性，Gatekeeper 會靜默拒絕雙擊。
+    從瀏覽器下載的 <span class="code-inline">.command</span> 沒有執行權限，也會被 macOS 加上
+    <span class="code-inline">com.apple.quarantine</span> 隔離屬性，直接雙擊通常打不開。
     <br><br>
-    <span class="amber">第一次執行的標準作法</span>：
+    <span class="amber">第一次請照下面做</span>：
     <ol style="margin: 8px 0 8px 20px; line-height: 1.8;">
-      <li>右鍵點 <span class="code-inline">Mac_Play_Luna2.command</span> → 選「打開」</li>
-      <li>跳出「來自身份不明的開發者」警告 → 再按一次「打開」</li>
-      <li>授權成功 → 啟動腳本內建 self-clean，會清掉同目錄
-        <span class="code-inline">dosbox-x.conf</span> 跟其他檔案的 quarantine</li>
-      <li>之後直接雙擊就能跑（不必再右鍵）</li>
+      <li>打開「終端機」，輸入 <span class="code-inline">cd</span> 加一個空白，把遊戲資料夾拖進視窗後按 Enter。</li>
+      <li>貼上下面這一行後按 Enter：
+        <pre class="code-block">chmod +x Mac_Play_Luna2.command; xattr -d com.apple.quarantine Mac_Play_Luna2.command 2&gt;/dev/null</pre></li>
+      <li>雙擊 <span class="code-inline">Mac_Play_Luna2.command</span>。如果仍被擋下，到「系統設定 &gt; 隱私權與安全性」，在下方按「仍要打開」，再雙擊一次。</li>
+      <li>啟動腳本執行後，會順手清除遊戲資料夾內其他檔案（例如
+        <span class="code-inline">dosbox-x.conf</span>）的隔離屬性，之後直接雙擊就能跑。</li>
     </ol>
     或一次清乾淨整個資料夾（推薦給命令列使用者）：
     <pre class="code-block">xattr -dr com.apple.quarantine /path/to/your/luna2
 chmod +x /path/to/your/luna2/Mac_Play_Luna2.command</pre>
-    <span class="dim">如果 DOSBox-X 也被擋（首次跑時跳「已損毀」），同樣用上面的
-      <span class="code-inline">xattr -dr</span> 指令對著
-      <span class="code-inline">/Applications/dosbox-x.app</span> 跑一次。</span>
+    <span class="dim">DOSBox-X 若被擋，照 STEP 1 的 xattr 指令處理。</span>
   </div>
 
   <div class="step">
@@ -249,8 +264,8 @@ chmod +x /path/to/your/luna2/Mac_Play_Luna2.command</pre>
 
   <div class="step">
     <span class="step-num">3.3</span>
-    DOSBox-X 視窗跳出 → 看到 <span class="amber">綠色開場白</span> →
-    進入俠客遊 II → 選擇 USER 存檔槽 → 開始遊戲。
+    DOSBox-X 視窗跳出，顯示開場說明後自動進入俠客遊 II →
+    選擇 USER 存檔槽 → 開始遊戲。
   </div>
 </section>
 
@@ -288,16 +303,17 @@ LUNA2.EXE</pre>
       <span class="code-inline">M\SB16.COM</span> 是 Sound Blaster 16 音效驅動。
     </span>
     <br><br>
-    也可以把這三行加進 <span class="code-inline">dosbox-x.conf</span> 的
-    <span class="code-inline">[autoexec]</span> 區段，讓每次啟動自動載入：
-    <pre class="code-block">[autoexec]
-@echo off
-cls
-echo  Lunatic Dawn II / 俠客遊 II
-echo.
+    也可以把兩個驅動寫進 <span class="code-inline">dosbox-x.conf</span>，讓每次啟動自動載入：
+    在檔案最後面的 <span class="code-inline">[autoexec]</span> 區段，接在原本的開場說明之後加上這四行
+    （只用英文與數字，DOS 畫面才不會變亂碼）：
+    <pre class="code-block">mount c .
+c:
 LH MIDPAK.COM
 LH M\SB16.COM</pre>
-    <span class="dim">啟動腳本會在 [autoexec] 後面自動補上 mount + LUNA2.EXE 指令。</span>
+    <span class="dim">[autoexec] 會比啟動腳本加上的指令更早執行，所以要先自己
+      <span class="code-inline">mount c .</span> 並切到 C: 才找得到 MIDPAK.COM；
+      之後啟動腳本會再 mount 一次並執行 LUNA2.EXE，重複 mount 不影響遊戲
+      （DOSBox-X 只會顯示 C 槽已掛載的提示）。</span>
   </div>
 
   <h3>如果 GM 沒有聲音？退回 Adlib</h3>
@@ -320,7 +336,7 @@ LH M\SB16.COM</pre>
 <!-- ==================== HOTKEYS ==================== -->
 <section class="panel">
   <h2 class="panel-title">[ 快捷鍵速查 ]</h2>
-  <table>
+  <div class="table-scroll"><table>
     <thead>
       <tr><th>按鍵</th><th>功能</th></tr>
     </thead>
@@ -332,7 +348,7 @@ LH M\SB16.COM</pre>
       <tr><td><span class="code-inline">Ctrl + F4</span></td><td>更新資料夾對應（外部編輯存檔後用）</td></tr>
       <tr><td><span class="code-inline">F11</span></td><td>DOSBox-X 選單列（進階設定）</td></tr>
     </tbody>
-  </table>
+  </table></div>
 </section>
 
 <!-- ==================== FAQ ==================== -->
@@ -368,6 +384,7 @@ LH M\SB16.COM</pre>
       如果使用 GM MIDI 模式，確認已在 LUNA2.EXE 之前載入
       <span class="code-inline">LH MIDPAK.COM</span> 和
       <span class="code-inline">LH M\SB16.COM</span>（見 STEP 4）。
+      寫在 <span class="code-inline">[autoexec]</span> 時要先 mount，見 STEP 4.2。
     </li>
     <li>
       如果 TSR 載入後仍無聲，改用 <span class="amber">Adlib</span> 模式
@@ -399,11 +416,12 @@ LH M\SB16.COM</pre>
 
   <h3>Q6. macOS 說「未識別的開發者」？</h3>
   <p>
-    macOS 26+ 對「網路下載的可執行檔」預設加
-    <span class="code-inline">com.apple.quarantine</span>，Gatekeeper 靜默拒絕。
+    從瀏覽器下載的檔案沒有執行權限，也會被加上
+    <span class="code-inline">com.apple.quarantine</span> 隔離屬性，雙擊時會被擋下。
     詳細解法請看上方 <span class="amber">3.2 · macOS 使用者</span>。
-    最簡單一招：右鍵點 <span class="code-inline">Mac_Play_Luna2.command</span> →
-    「打開」→ 再「打開」一次（一次授權，之後雙擊都能跑）。
+    最簡單的做法：照上方 3.2 的步驟，先在終端機加上執行權限並清除隔離屬性，再雙擊；
+    仍被擋下時，到「系統設定 &gt; 隱私權與安全性」按「仍要打開」。
+    macOS 14 以前的版本，也可以右鍵點檔案選「打開」放行。
   </p>
   <p>命令列一次清整個資料夾：</p>
   <pre class="code-block">xattr -dr com.apple.quarantine /path/to/your/luna2
@@ -423,7 +441,7 @@ chmod +x /path/to/your/luna2/Mac_Play_Luna2.command</pre>
   <p>對技術有興趣的人可以看。</p>
 
   <h3>dosbox-x.conf 做了什麼？</h3>
-  <table>
+  <div class="table-scroll"><table>
     <thead><tr><th>設定</th><th>值</th><th>說明</th></tr></thead>
     <tbody>
       <tr><td><span class="code-inline">memsize</span></td><td>4</td><td>DOS 虛擬 4 MB 記憶體(對應 1996 設計目標;設 16 MB 會踩遊戲內部 EMS init bug)</td></tr>
@@ -435,15 +453,14 @@ chmod +x /path/to/your/luna2/Mac_Play_Luna2.command</pre>
       <tr><td><span class="code-inline">oplmode</span></td><td>auto</td><td>OPL FM 合成器（Adlib 音效用）</td></tr>
       <tr><td><span class="code-inline">xms/ems/umb</span></td><td>true</td><td>開啟所有記憶體擴充</td></tr>
       <tr><td><span class="code-inline">ver</span></td><td>6.22</td><td>模擬 MS-DOS 6.22</td></tr>
-      <tr><td><span class="code-inline">customcodepage</span></td><td>950</td><td>Big5 繁體中文 code page</td></tr>
     </tbody>
-  </table>
+  </table></div>
 
   <h3>啟動腳本做了什麼？</h3>
   <ol>
     <li>切換到腳本自己所在的資料夾（所以放哪都能跑）</li>
     <li>檢查路徑是否包含中文字元（有則警告）</li>
-    <li>檢查 DOSBox-X 是否存在（常見路徑 + PATH）</li>
+    <li>檢查 DOSBox-X 是否存在（常見安裝位置 + PATH；Windows 另查登錄檔，Linux 另找 Flatpak 版）</li>
     <li>檢查 <span class="code-inline">LUNA2.EXE</span> 和 <span class="code-inline">dosbox-x.conf</span> 是否都在</li>
     <li>執行 <span class="code-inline">dosbox-x -conf dosbox-x.conf -c "mount c ." -c "c:" -c "LUNA2.EXE"</span></li>
   </ol>
@@ -454,7 +471,7 @@ chmod +x /path/to/your/luna2/Mac_Play_Luna2.command</pre>
   </p>
 
   <h3>音效模式比較</h3>
-  <table>
+  <div class="table-scroll"><table>
     <thead><tr><th>模式</th><th>音質</th><th>需要 TSR</th><th>相容性</th></tr></thead>
     <tbody>
       <tr>
@@ -476,10 +493,10 @@ chmod +x /path/to/your/luna2/Mac_Play_Luna2.command</pre>
         <td>通常只有音效沒有音樂</td>
       </tr>
     </tbody>
-  </table>
+  </table></div>
 
   <h3>自己裝 vs 懶人包：差異比較</h3>
-  <table>
+  <div class="table-scroll"><table>
     <thead>
       <tr><th></th><th>自己裝（本頁）</th><th>Luna2_EZ 懶人包</th></tr>
     </thead>
@@ -511,11 +528,11 @@ chmod +x /path/to/your/luna2/Mac_Play_Luna2.command</pre>
       </tr>
       <tr>
         <td>下載大小</td>
-        <td>~3 KB（僅啟動腳本 + 設定檔）</td>
-        <td>~26 MB（含引擎）</td>
+        <td>約 8～9 KB（啟動腳本 + 設定檔）</td>
+        <td>~17 MB（7z 壓縮，含引擎，解壓後 ~87 MB）</td>
       </tr>
     </tbody>
-  </table>
+  </table></div>
   <p class="muted">
     ※ 詳細懶人包說明請參考 <a href="../ez/">▸ Luna2_EZ 懶人包頁面</a>。
   </p>

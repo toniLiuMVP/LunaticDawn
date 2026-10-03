@@ -6,15 +6,16 @@
 #
 #  使用方式：
 #    1. 把此檔案 + dosbox-x.conf 放在和 LUNA2.EXE 同一個資料夾
-#    2. 給檔案執行權限： chmod +x 啟動俠客遊II.sh
+#    2. 給檔案執行權限： chmod +x Linux_Play_Luna2.sh
 #    3. 從檔案管理器雙擊（選擇「在終端機中執行」）或在終端機跑：
-#         ./啟動俠客遊II.sh
+#         ./Linux_Play_Luna2.sh
 #
 #  需要 DOSBox-X：
-#    Debian / Ubuntu :  sudo apt install dosbox-x
-#    Fedora          :  sudo dnf install dosbox-x
-#    Arch / Manjaro  :  yay -S dosbox-x        (AUR)
-#    AppImage        :  https://dosbox-x.com/  (下載 .AppImage 後 chmod +x)
+#    Debian 13+ / Ubuntu 24.04+ :  sudo apt install dosbox-x
+#    Arch / Manjaro (AUR)       :  yay -S dosbox-x
+#    Fedora 與其他發行版        :  flatpak install flathub com.dosbox_x.DOSBox-X
+#
+#  注意：這支腳本沒有在 Linux 實機測試過，Flatpak 版的啟動方式也還沒實測。
 # ============================================================
 
 # 切換到腳本自身所在的目錄
@@ -48,14 +49,21 @@ if [ -z "$DOSBOX" ]; then
     done
 fi
 
+# 都找不到時，改找 Flathub 的 DOSBox-X（Flatpak 版）
+FLATPAK_ID="com.dosbox_x.DOSBox-X"
+USE_FLATPAK=0
+if [ -z "$DOSBOX" ] && command -v flatpak >/dev/null 2>&1 && flatpak info "$FLATPAK_ID" >/dev/null 2>&1; then
+    USE_FLATPAK=1
+    DOSBOX="flatpak run $FLATPAK_ID"
+fi
+
 if [ -z "$DOSBOX" ]; then
     echo "✗ 找不到 DOSBox-X"
     echo
     echo "  請先安裝 DOSBox-X："
-    echo "    Debian / Ubuntu :  sudo apt install dosbox-x"
-    echo "    Fedora          :  sudo dnf install dosbox-x"
-    echo "    Arch / Manjaro  :  yay -S dosbox-x"
-    echo "    AppImage        :  https://dosbox-x.com/"
+    echo "    Debian 13+ / Ubuntu 24.04+ :  sudo apt install dosbox-x"
+    echo "    Arch / Manjaro (AUR)       :  yay -S dosbox-x"
+    echo "    Fedora 與其他發行版        :  flatpak install flathub com.dosbox_x.DOSBox-X"
     echo
     read -p "按 Enter 結束 ..." dummy
     exit 1
@@ -85,7 +93,24 @@ if [ ! -f "$GAME_DIR/dosbox-x.conf" ]; then
     exit 1
 fi
 
-# ----- 4) 啟動 -----
+# ----- 4) 檢查路徑是否包含非 ASCII 字元（中文等）-----
+# 使用 LC_ALL=C 讓 grep 以 byte 模式比對
+if printf '%s' "$GAME_DIR" | LC_ALL=C grep -q '[^ -~]'; then
+    echo "⚠ 警告：遊戲路徑包含中文或特殊字元"
+    echo "  目前路徑：$GAME_DIR"
+    echo
+    echo "  DOSBox 可能無法正確掛載含中文的路徑。"
+    echo "  建議搬到純英文路徑，例如："
+    echo "    /home/你的帳號/Games/Luna2/"
+    echo
+    read -rp "仍要繼續嗎？[y/N] " REPLY
+    if [ "$REPLY" != "y" ] && [ "$REPLY" != "Y" ]; then
+        exit 0
+    fi
+    echo
+fi
+
+# ----- 5) 啟動 -----
 echo "✓ DOSBox-X：$DOSBOX"
 echo "✓ 遊戲路徑：$GAME_DIR"
 echo "✓ 設定檔：$GAME_DIR/dosbox-x.conf"
@@ -99,6 +124,17 @@ echo
 #
 # 注意：我們先 cd 到 GAME_DIR，所以 DOSBox-X 啟動時的 cwd 也是這個目錄，
 #       因此 `mount c .` 就是掛載遊戲資料夾。
+#
+# Flatpak 版在沙箱裡執行：用 --filesystem 讓家目錄以外的遊戲資料夾也能讀到，
+# 並直接用完整路徑 mount，不依賴沙箱內的目前目錄（尚未在 Linux 實機測試）。
+if [ "$USE_FLATPAK" = 1 ]; then
+    exec flatpak run --filesystem="$GAME_DIR" "$FLATPAK_ID" \
+        -conf "$GAME_DIR/dosbox-x.conf" \
+        -c "mount c \"$GAME_DIR\"" \
+        -c "c:" \
+        -c "LUNA2.EXE"
+fi
+
 exec "$DOSBOX" \
     -conf "$GAME_DIR/dosbox-x.conf" \
     -c "mount c ." \
