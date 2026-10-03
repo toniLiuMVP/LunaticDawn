@@ -90,6 +90,9 @@ def build_readme() -> str:
     n_lde3 = count_html("lde3")
     n_luna3 = count_html("luna3")
     n_luna4 = count_html("luna4")
+    n_lde3_guides = len([p for p in (ROOT / "lde3" / "guides").glob("*.html") if p.name != "index.html"])
+    has_ezplay = check_exists("ezplay.html")
+    ezplay_tag = " + EzPlay 補丁包" if has_ezplay else ""
 
     # 遊戲狀態表
     games = []
@@ -109,22 +112,22 @@ def build_readme() -> str:
         games.append(("未來之書 (Lunatic Dawn: The Book of Futures)", "1998", "獨立子站 + 隱藏角色 + 攻略"))
 
     if has_luna3 and n_luna3 > 1:
-        games.append(("俠客遊 III (Lunatic Dawn III)", "2000", f"密技 + 下載（{n_luna3} 頁）"))
+        games.append(("俠客遊 III (Lunatic Dawn III)", "2000", f"密技 + 名字字典 + 下載（{n_luna3} 頁）"))
     elif has_luna3:
-        games.append(("俠客遊 III (Lunatic Dawn III)", "2000", "密技 + 下載"))
+        games.append(("俠客遊 III (Lunatic Dawn III)", "2000", "密技 + 名字字典 + 下載"))
 
     if has_passage and n_passage > 1:
-        games.append(("前途道標 (Lunatic Dawn: Passage of The Book)", "1999", f"完整攻略（{n_passage} 頁）"))
+        games.append(("前途道標 (Lunatic Dawn: Passage of The Book)", "1999", f"完整攻略（{n_passage} 頁）{ezplay_tag}"))
     elif has_passage:
-        games.append(("前途道標 (Lunatic Dawn: Passage of The Book)", "1999", "攻略"))
+        games.append(("前途道標 (Lunatic Dawn: Passage of The Book)", "1999", f"攻略{ezplay_tag}"))
 
     if has_luna4 and n_luna4 > 1:
-        games.append(("俠客遊 IV (Lunatic Dawn IV)", "2001", f"密技（{n_luna4} 頁）"))
+        games.append(("俠客遊 IV (Lunatic Dawn IV)", "2001", f"連線 / 練功 / 資料庫 / 存檔修改器（{n_luna4} 頁）{ezplay_tag}"))
     elif has_luna4:
-        games.append(("俠客遊 IV (Lunatic Dawn IV)", "2001", "密技"))
+        games.append(("俠客遊 IV (Lunatic Dawn IV)", "2001", f"連線 / 練功 / 資料庫 / 存檔修改器{ezplay_tag}"))
 
     if has_lde3:
-        games.append(("第三之書 (Lunatic Dawn: The Third Book)", "2002", "Book 三部曲第三作 · 下載 + 工具 + 18 個歷史檔案"))
+        games.append(("第三之書 (Lunatic Dawn: The Third Book)", "2002", f"Book 三部曲第三作 · {n_lde3_guides} 篇攻略 + 資料庫 + 瀏覽器修改器 + 18 個歷史檔案{ezplay_tag}"))
 
     # 組裝 README
     lines = []
@@ -132,7 +135,7 @@ def build_readme() -> str:
     lines.append("")
     lines.append("> 俠客遊 (Lunatic Dawn) 是由日本 [Artdink](https://www.artdink.com/) 製作、台灣第三波/美商藝電代理的開放世界 RPG。")
     lines.append(">")
-    lines.append("> 由 toni（@toniLiuMVP）維護 · 接續 2000 年 GameBase 遊戲基地與巴哈姆特俠客遊討論板的時代遺產")
+    lines.append("> 由 toni（@toniLiuMVP）維護 · 接續 GameBase 遊戲基地與巴哈姆特俠客遊討論板的時代遺產")
     lines.append("")
 
     lines.append("🎮 **請先至 Steam 購買正版 [俠客遊 I/II/III 合輯](https://store.steampowered.com/app/338070/_/) 或 [前途道標](https://store.steampowered.com/app/335420/_/) 支持原作**")
@@ -143,7 +146,7 @@ def build_readme() -> str:
     # 系列年表
     lines.append("## 📜 俠客遊系列年表")
     lines.append("")
-    lines.append("| 年份 | 原名 | 中文名 | 代理 |")
+    lines.append("| 年份（台灣繁中版；俠客遊為日版） | 原名 | 中文名 | 代理 |")
     lines.append("|------|------|--------|------|")
     lines.append("| 1993 | Lunatic Dawn | 俠客遊 | 日本 [Artdink](https://www.artdink.com/) 發行 |")
     lines.append("| 1996 | Lunatic Dawn II | 俠客遊 II | 台灣第三波 |")
@@ -181,17 +184,25 @@ def build_readme() -> str:
     if has_passage:
         lines.append("- **[前途道標攻略](./passage/)** · 1999 年 BBS 時代原創攻略（小蜜蜂 / 小傑 / Ertai）")
     if has_lde3:
-        lines.append("- **[第三之書專區](./lde3/)** · 2002 年 Book 三部曲第三作 · 18 個歷史檔案 + 下載 + 工具")
+        lines.append(f"- **[第三之書專區](./lde3/)** · 2002 年 Book 三部曲第三作 · {n_lde3_guides} 篇攻略 + 資料庫 + 瀏覽器修改器 + 18 個歷史檔案")
     if has_luna3:
-        lines.append("- **[俠客遊 III 子站](./luna3/)** · 俠客遊 III (2000) · 密技整理 + 官方更新檔下載")
+        lines.append("- **[俠客遊 III 子站](./luna3/)** · 俠客遊 III (2000) · 密技整理 + 名字字典 + 官方更新檔下載")
     if has_luna4:
-        lines.append("- **[俠客遊 IV 子站](./luna4/)** · 俠客遊 IV (2001) · 連線方法 / 鞠躬練功法 / 輔助工具下載")
+        lines.append("- **[俠客遊 IV 子站](./luna4/)** · 俠客遊 IV (2001) · 連線方法 / 鞠躬練功法 / 資料庫 / 存檔修改器 / 輔助工具下載")
     if has_steam:
         lines.append("- **[Steam 購買指南](./steam/)** · Steam 版購買說明")
     if has_general:
         lines.append("- **[通用資訊](./general/)** · 編碼 FAQ、社群連結")
     if check_exists("luna2/database/index.html"):
-        lines.append("- **[俠客遊 II 資料庫](./luna2/database/)** · DOS 二進制檔案格式逆向研究與數值欄位資料")
+        lines.append("- **[俠客遊 II 資料庫](./luna2/database/)** · 物品 / 怪物 / 魔法 / 武技 / 迷宮 / NPC 名字字典 / 系統詞彙，可即時搜尋；數值由原版遊戲檔整理")
+    if check_exists("luna4/savedata-viewer.html"):
+        lines.append("- **[俠客遊 IV 存檔修改器](./luna4/savedata-viewer.html)** · 瀏覽器版，拖放 `LDTSV*.dat` 編輯已確認欄位")
+    if check_exists("luna4/database/index.html"):
+        lines.append("- **[俠客遊 IV 資料庫](./luna4/database/)** · 道具 / 怪物 / 魔法 / 名字字典")
+    if check_exists("lde3/database/index.html"):
+        lines.append("- **[第三之書資料庫](./lde3/database/)** · 物品 / 怪物 / 卡片 / 神器 / 吟遊詩人詩歌 / 系統詞彙")
+    if check_exists("lde3/modifier.html"):
+        lines.append("- **[第三之書修改器](./lde3/modifier.html)** · 瀏覽器版，lde3s.le3 hex 編輯與字串搜尋")
     lines.append("")
 
     # 兩種遊玩方式
@@ -221,7 +232,7 @@ def build_readme() -> str:
     lines.append("")
     lines.append("### 站長傳承")
     lines.append("")
-    lines.append("**「吟遊詩人的傳說 · 俠客遊小站」** 由 1999 年 BBS 時代的兩位創站站長 **小傑**(LemiyaJay)與 **小蜜蜂**(Yellowbee)創立。**21 世紀初(2000 年代初期)**，toni 從小傑與小蜜蜂手上接手俠客遊小站，持續維護至今 · 後續歷經 Google Page Creator（2007 建站）→ Google Sites（2009 隨 Page Creator 結束自動轉移）→ GitHub Pages（2026）三次平台遷移，但站名與精神不變，延續這份俠客遊系列的數位文化傳承。")
+    lines.append("**「吟遊詩人的傳說 · 俠客遊小站」** 由 1999 年 BBS 時代的兩位創站站長 **小傑**(LemiyaJay)與 **小蜜蜂**(Yellowbee)創立。**21 世紀初(2000 年代初期)**，toni 從小傑與小蜜蜂手上接手俠客遊小站，持續維護至今 · 後續歷經 Google Page Creator（2000 年代）→ Google Sites（2009 年 Page Creator 結束後轉入）→ GitHub Pages（2026）三次平台遷移，但站名與精神不變，延續這份俠客遊系列的數位文化傳承。")
     lines.append("")
     lines.append("> 感謝小傑與小蜜蜂兩位創站站長，沒有他們 1999 年的 BBS 時代起點，就沒有 27 年後本站的存在。")
     lines.append("")
@@ -243,7 +254,8 @@ def build_readme() -> str:
     lines.append("| 貢獻 | 作者 |")
     lines.append("|------|------|")
     lines.append("| 俠客遊 II 存檔格式逆向 v4.1（2006） | 聶荊璇（殘楓網） |")
-    lines.append("| 俠客遊 II 精確 byte offset 文件 | 李憲忠 (An-Liang Lo) |")
+    lines.append("| 俠客遊 II LUNACHAR.SAV 精確 byte offset 文件 | An-Liang Lo |")
+    lines.append("| 俠客遊 II CHRITEM.SAV 物品格式與隱藏寶物代號 | 李憲忠 |")
     lines.append("| 俠客遊 II 原版 Windows 修改器 | Morrowind |")
     lines.append("| 俠客遊 II 修改器共同製作者 | kkt_zzz |")
     lines.append("| 俠客遊 II 早期修改筆記（1996） | 伊達政宗、Silver Angel、Yao Shih |")
@@ -296,7 +308,7 @@ def build_readme() -> str:
     # 授權
     lines.append("## 📜 授權")
     lines.append("")
-    lines.append("本站程式碼為 MIT。本站基於數位文化保存目的整理，遊戲本體著作權屬於 [Artdink](https://www.artdink.com/)。站上技術文件為獨立逆向研究成果；公開內容僅限事實層（玩家可見名稱 / 結構觀察 / 數值對照），原版美術 / 劇情對白 / 配樂等創作性表現僅作為研究者個人參考保留，不在本站公開展示；例外是 [著作權頁 §8.1](./legal/dmca.html#fan-preservation) 所列的修改版主程式，其主程式內嵌的圖像（多為按鈕與工具列，俠客遊 IV 另含標題圖、網頁範本預覽圖與少量角色圖）與遊戲內文字（含對白；前途道標的主程式含整套遊戲文字）會隨主程式一起散布。請至 Steam 購買正版 [俠客遊 I/II/III 合輯](https://store.steampowered.com/app/338070/_/) 或 [前途道標](https://store.steampowered.com/app/335420/_/) 支持原作 ARTDINK（俠客遊 IV / 未來之書 / 第三之書 Steam 未上架）。若您是攻略原作者並希望授權變更或撤除，請至 [GitHub Issues](https://github.com/toniLiuMVP/LunaticDawn/issues) 聯繫。")
+    lines.append("本站程式碼為 MIT。本站基於數位文化保存目的整理，遊戲本體著作權屬於 [Artdink](https://www.artdink.com/)。站上技術文件為獨立逆向研究成果；公開內容僅限事實層（玩家可見名稱 / 結構觀察 / 數值對照），原版美術 / 劇情對白 / 配樂等創作性表現僅作為研究者個人參考保留，不在本站公開展示；例外是 [著作權頁 §8.1](./legal/dmca.html#fan-preservation) 所列的修改版主程式，其主程式內嵌的圖像（多為按鈕與工具列，俠客遊 IV 另含標題圖、網頁範本預覽圖與少量角色圖）與遊戲內文字（含對白；前途道標的主程式含整套遊戲文字）會隨主程式一起散布；本站收錄的官方更新檔含原版主程式。請至 Steam 購買正版 [俠客遊 I/II/III 合輯](https://store.steampowered.com/app/338070/_/) 或 [前途道標](https://store.steampowered.com/app/335420/_/) 支持原作 ARTDINK（俠客遊 IV / 未來之書 / 第三之書 Steam 未上架）。若您是攻略原作者並希望授權變更或撤除，請至 [GitHub Issues](https://github.com/toniLiuMVP/LunaticDawn/issues) 聯繫。")
     lines.append("")
     lines.append("**三邊著作權法依據**：🇹🇼 著作權法 §10-1（保護不及於思想、程序、製程、系統、操作方法、概念、原理、發現）+ 🇯🇵 著作権法 §2（創作性要件）+ §12-2（資料庫）+ 🇺🇸 17 USC §102(b) + Feist v. Rural Telephone (1991) + Sega v. Accolade (1992)。完整法律分析見 [系列研究筆記 § 10 國際同類網站對照](./series-research.html)。")
     lines.append("")

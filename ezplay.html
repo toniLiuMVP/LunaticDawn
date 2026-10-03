@@ -43,7 +43,12 @@
 .diff-table th { background: var(--bg-panel); color: var(--accent); white-space: nowrap; }
 .warnbox { border-left: 3px solid #b23b3b; background: rgba(178,59,59,0.07); padding: 10px 14px; margin: 10px 0; font-size: 14px; line-height: 1.7; }
 .okbox { border-left: 3px solid #2e7d32; background: rgba(46,125,50,0.07); padding: 10px 14px; margin: 10px 0; font-size: 14px; line-height: 1.7; }
-code.f { background: var(--bg-panel); padding: 1px 6px; border-radius: 3px; font-family: monospace; }
+code.f { background: var(--bg-panel); padding: 1px 6px; border-radius: 3px; font-family: monospace; overflow-wrap: anywhere; }
+pre.cmd { background: var(--bg-code); border: 1px solid var(--border-dark); padding: 8px 12px; margin: 6px 0; white-space: pre-wrap; overflow-wrap: anywhere; font-family: monospace; }
+.ez-jump { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 20px; }
+.ez-jump a { border: 1px solid var(--accent); padding: 6px 12px; border-bottom: 1px solid var(--accent); }
+.ez-sub { font-size: 15px; color: var(--accent); margin: 20px 0 6px; border-bottom: 1px dotted var(--border); padding-bottom: 4px; }
+.ez-note { font-size: 13px; }
 </style>
 </head>
 <body>
@@ -73,7 +78,7 @@ code.f { background: var(--bg-panel); padding: 1px 6px; border-radius: 3px; font
     <strong>EzPlay 補丁包</strong>專門解決「老遊戲在現代電腦跑不動」的各種問題，讓你用自己手上的正版遊戲，在現代 Windows / Mac 順利遊玩。
   </p>
   <p>
-    它<strong>不含遊戲本體</strong>，你要先有自己的<strong>正版遊戲</strong>（Steam 版或當年的原版光碟 / 磁碟片）。
+    它<strong>不含遊戲本體</strong>，你要先有自己的<strong>正版遊戲</strong>（前途道標可用 Steam 版，或使用當年的原版光碟）。
     把 EzPlay 解壓後<strong>覆蓋到遊戲本體根目錄</strong>，再<strong>執行裡面那一個啟動檔</strong>，所有問題一次解決。
   </p>
   <div class="warnbox">
@@ -82,6 +87,8 @@ code.f { background: var(--bg-panel); padding: 1px 6px; border-radius: 3px; font
   </div>
   <p style="margin-top:14px;">🔍 想玩 <strong>俠客遊 II</strong>（1996）？它有內建 DOSBox 引擎的 <a href="luna2/ez/">懶人包（解壓即玩）</a>，不需另外設定。本頁 EzPlay 是給<strong>前途道標 / 俠客遊 IV / 第三之書</strong>的補丁包。</p>
 </section>
+
+<nav class="ez-jump" aria-label="跳到作品"><a href="#ld95">前途道標（Windows）</a><a href="#ld4">俠客遊 IV（Windows / Mac）</a><a href="#lde3">第三之書（Windows / Mac）</a></nav>
 
 <section class="panel">
   <h2 class="panel-title">[ 通用 3 步驟 ]</h2>
@@ -93,12 +100,19 @@ code.f { background: var(--bg-panel); padding: 1px 6px; border-radius: 3px; font
   <div class="warnbox">
     ⚠ <strong>請執行啟動檔，不是遊戲主程式</strong>：Mac 一定要用 <code class="f">.command</code> 啟動檔（它會呼叫 Wine 並處理首次執行）；Windows 雙擊 <code class="f">.bat</code> 啟動檔最保險（會自動切到正確目錄）。
   </div>
-  <p class="muted" style="font-size:13px;">※ Mac 首次執行若被系統擋下，先雙擊 <code class="f">_Mac第一次先點我.command</code> 一次（解除 Gatekeeper 隔離），之後就正常。Mac 需先安裝 Wine。（前途道標 LD95_EzPlay 只含 Windows 啟動檔）</p>
+  <h3 class="ez-sub">Mac 玩家第一次使用</h3>
+  <ol class="steps">
+    <li><strong>先安裝 Wine</strong>：啟動檔會依序尋找終端機可執行的 <code class="f">wine</code>、<code class="f">/Applications/Wine Crossover.app</code>、<code class="f">/Applications/CrossOver.app</code>、<code class="f">/opt/homebrew/bin/wine</code>、<code class="f">/usr/local/bin/wine</code>，找到任一個即可。Homebrew 提供的 Wine 安裝套件已於 2026-09-01 停用，目前的安裝方式請見 <a href="https://wiki.winehq.org/MacOS" target="_blank" rel="noopener">WineHQ 的 macOS 說明頁</a>。啟動檔找不到 Wine 時顯示的 brew 指令已無法使用，請以這裡的說明為準。<br>如果你裝的是 WineHQ 的 <code class="f">/Applications/Wine Stable.app</code>，啟動檔不會直接找這個位置，要先讓終端機找得到 <code class="f">wine</code>：打開「終端機」貼上下面這一行按 Enter（寫入 macOS 預設 zsh 的設定檔），關掉終端機重新打開，再輸入 <code class="f">wine --version</code>，有顯示版本號就可以了。<pre class="cmd">echo 'export PATH="/Applications/Wine Stable.app/Contents/Resources/wine/bin:$PATH"' &gt;&gt; ~/.zprofile</pre>這種安裝方式本站尚未實測。</li>
+    <li><strong>解除下載檔的安全隔離</strong>：打開「終端機」，輸入 <code class="f">cd</code> 加一個空格，把遊戲資料夾拖進終端機視窗後按 Enter，再貼上下面這一行按 Enter：<pre class="cmd">xattr -d com.apple.quarantine *.command</pre>這一行只處理遊戲資料夾最上層的 .command 啟動檔，不會動到遊戲資料。畫面若出現 No such xattr，表示該檔本來就沒有隔離屬性，可以忽略。</li>
+    <li><strong>如果雙擊仍被擋下</strong>：到「系統設定 → 隱私權與安全性」，在下方找到剛才被擋的檔案，按「仍要打開」。（這一步本站尚未實測，實際畫面文字可能不同。）</li>
+    <li>之後雙擊 <code class="f">★Mac玩家點我.command</code> 就能開始遊玩。啟動檔每次執行都會自動處理包內其他檔案的隔離屬性。</li>
+  </ol>
+  <p class="muted ez-note">※ 前途道標 LD95_EzPlay 只含 Windows 啟動檔。</p>
 
   <h3 style="font-size:15px;color:var(--accent);margin:20px 0 6px;border-bottom:1px dotted var(--border);padding-bottom:4px;">啟動檔幫你做了什麼？為什麼要用它？</h3>
   <p>老遊戲不是雙擊主程式就能在現代系統跑，啟動檔幫你把執行環境準備好（透明、可檢視，純文字檔可以自己打開看）：</p>
   <ul style="line-height:1.85;">
-    <li><strong>Mac</strong>：① 自動找到你電腦裡的 <strong>Wine</strong>（老 Windows 遊戲要靠 Wine 才能在 Mac 上執行，啟動檔會依序找 Homebrew Wine / Wine Crossover / CrossOver）→ ② 解除 macOS 對下載檔的<strong>安全隔離</strong>（Gatekeeper，否則 <code class="f">.command</code> 會被系統擋住點不開）→ ③ 切換到遊戲所在資料夾 → ④ 用 Wine 啟動遊戲。</li>
+    <li><strong>Mac</strong>：① 自動找到你電腦裡的 <strong>Wine</strong>（老 Windows 遊戲要靠 Wine 才能在 Mac 上執行，啟動檔會依序找終端機可執行的 wine / Wine Crossover / CrossOver，最後再找 Homebrew 的預設安裝路徑）→ ② 清除包內其他檔案（主程式、元件、設定檔）的下載隔離屬性（只處理資料夾最上層、屬於本包的檔案類型）→ ③ 切換到遊戲所在資料夾 → ④ 用 Wine 啟動遊戲。</li>
     <li><strong>Windows</strong>：先<strong>切換到遊戲所在資料夾</strong>再啟動主程式，這樣遊戲才找得到同資料夾的必要元件（直接雙擊主程式有時工作目錄不對，會出問題）。</li>
   </ul>
   <p class="muted" style="font-size:13px;">啟動檔是純文字檔，你可以用記事本／文字編輯器打開檢視它做了哪些事，完全透明。</p>
@@ -125,7 +139,7 @@ code.f { background: var(--bg-panel); padding: 1px 6px; border-radius: 3px; font
       <p>✓ <strong>保護玩家所持有的正版光碟</strong>。</p>
       <h3>下載</h3>
       <p><a class="dl-btn" href="https://drive.google.com/file/d/1ed0yh3f8obfGw-oJTbUIZyFs9m72nXJ1/view" target="_blank" rel="noopener">📦 下載 LD95_EzPlay.7z（Google Drive · 525 KB）</a></p>
-      <p class="muted" style="font-size:12px;word-break:break-all;margin-top:4px;">🔒 SHA-256: <code class="f">3a8ede293421bbbd1c832077c9d0cd694dfba4525fd9e60cf2441333b6dfca50</code></p>
+      <p class="muted" style="font-size:12px;word-break:break-all;margin-top:4px;">🔒 SHA-256: <code class="f">61eddaacf81bffb698de4e8755da5b7c022e2c44a7db2665b0df624c076a13e0</code></p>
       <p class="muted" style="font-size:13px;">※ 另有一個較早的字體修復包 <code class="f">POLd95Win11_WordOK.7z</code>（2026-05 整理），解決的是同一個字體問題、也含同一支 <code class="f">Ld95.exe</code>，但字體元件是另一個較小的 build，安裝後<strong>直接雙擊 <code class="f">Ld95.exe</code></strong> 而不是走啟動檔。兩包各自自足，任選一包完整覆蓋即可，<strong>不要混用</strong>。舊包與逐步安裝說明見 <a href="passage/win10-font-fix.html">前途道標字體修復</a>頁。</p>
       <h3>遇到的困難與排除</h3>
       <table class="diff-table">
@@ -152,10 +166,10 @@ code.f { background: var(--bg-panel); padding: 1px 6px; border-radius: 3px; font
       <h3>補丁內容</h3>
       <p>主程式（<code class="f">LD4.exe</code> + <code class="f">LDWMM.dll</code> + <code class="f">ld4.ini</code>）+ Windows / Mac 兩個啟動檔。</p>
       <p>✓ <strong>保護玩家所持有的正版光碟</strong>。</p>
-      <p>✓ <strong>解決官方登入伺服器 2001 年後已關閉的問題</strong>。</p>
+      <p>✓ <strong>解決官方登入伺服器已停止服務的問題</strong>。</p>
       <h3>下載</h3>
       <p><a class="dl-btn" href="https://drive.google.com/file/d/1-AAAn6RGGCVLlDfjNOZqM0hwTgPGv7DN/view" target="_blank" rel="noopener">📦 下載 LD4_EzPlay.7z（Google Drive · 780 KB）</a></p>
-      <p class="muted" style="font-size:12px;word-break:break-all;margin-top:4px;">🔒 SHA-256: <code class="f">7c67d5b947bb1b08a53bf61de9265b57d3849c7a52dfec55ebca78ca1a9105f8</code></p>
+      <p class="muted" style="font-size:12px;word-break:break-all;margin-top:4px;">🔒 SHA-256: <code class="f">021be2262fbd3dc45b9e57844560fa9f0d1b47040c68a98a578ba6f713ba7927</code></p>
       <div class="okbox"><strong>Windows + Mac 都正常遊玩。</strong>（原版背景音樂在 CD 音軌，本版沒有背景音樂，詳見下方排除經驗。）</div>
       <h3>💡 排除經驗（這款最曲折，值得記錄）</h3>
       <div class="warnbox" style="border-left-color:var(--accent);background:rgba(184,134,11,0.06);">
@@ -182,18 +196,22 @@ code.f { background: var(--bg-panel); padding: 1px 6px; border-radius: 3px; font
       <p>✓ <strong>含 ME 版遊玩及出現試玩版的問題解決</strong>。</p>
       <h3>下載</h3>
       <p><a class="dl-btn" href="https://drive.google.com/file/d/1veFLth0dTmAjc8S-BCWKS42XMTwgYzEW/view" target="_blank" rel="noopener">📦 下載 LDE3_EzPlay.7z（Google Drive · 713 KB）</a></p>
-      <p class="muted" style="font-size:12px;word-break:break-all;margin-top:4px;">🔒 SHA-256: <code class="f">f714faa3057ef0180e373e19d94abd0caedcb15749df4797be4dfe69f64c9a3a</code></p>
+      <p class="muted" style="font-size:12px;word-break:break-all;margin-top:4px;">🔒 SHA-256: <code class="f">ed1d1d4fcc759ab21675f676ed53c3773175838b3d68529b7c158e7586f31322</code></p>
       <div class="okbox"><strong>Windows + Mac 都正常遊玩。</strong></div>
-      <h3>🌟 額外解鎖:ME 版特典</h3>
+      <h3>🌟 ME 版相關項目</h3>
       <div class="okbox" style="border-left-color:var(--accent);background:rgba(184,134,11,0.06);">
-        <p style="margin:0 0 8px;">第三之書當年另有一個收錄開發者額外功能的「<strong>ME 版</strong>」。本 EzPlay 啟動後會一併<strong>啟用 ME 版特典</strong>，讓繁體中文版玩家也能用到這些原本只有 ME 版才有的功能:</p>
+        <p style="margin:0 0 8px;">第三之書當年另有一個收錄開發者額外功能的「<strong>ME 版</strong>」。本 EzPlay 的主程式選單資源裡含有下面兩個編輯器項目（一般說法是 ME 版的功能），位置在「設定」選單:</p>
         <ul style="margin:0 0 8px;line-height:1.85;">
-          <li>✅ <strong>人名編輯器</strong>:設定 → 稱號變更 / 外觀變更</li>
-          <li>✅ <strong>城鎮名編輯器</strong>:設定 → 城鎮名變更</li>
-          <li>✅ <strong>ME 版專有道具</strong>:寶箱 / 合成會出現 ME 限定道具</li>
-          <li>✅ <strong>寺院神器卡片製造器</strong>:卡片夾 → 卡片製造 → 國王試煉物</li>
+          <li>✅ <strong>人名編輯器</strong>:設定 → 角色名的變更</li>
+          <li>✅ <strong>城鎮名編輯器</strong>:設定 → 城鎮名的變更</li>
         </ul>
-        <p class="muted" style="margin:0;font-size:13px;">※ ME 版另有委託編輯器 / 角色繼承 / 遊戲內專有壁紙，但這三項繁體中文版當年未隨片附上對應檔案，故無法在繁中版啟用。</p>
+        <p class="muted" style="margin:0 0 8px;font-size:13px;">※ 上面兩項的字樣與位置，是對照 Lde3.exe 內的選單資源核對的，沒有逐項實機操作。同一組選單資源在標準版光碟的 Lde3.exe 裡也有，所以這兩項是否只在 ME 版才會啟用，本站未實測。「設定」選單裡的「稱號的變更」「外觀的變更」「遊戲的設定」「戰鬥的設定」標準版就有，不屬於 ME 版項目。</p>
+        <p style="margin:0 0 6px;">下面兩項據說是 ME 版另有的功能，<strong>本站沒有實測</strong>，在主程式的選單資源裡也找不到對應字樣，不能保證在繁體中文版可用:</p>
+        <ul style="margin:0 0 8px;line-height:1.85;">
+          <li>（未實測）<strong>ME 版專有道具</strong>:寶箱 / 合成會出現 ME 限定道具</li>
+          <li>（未實測）<strong>寺院神器卡片製造器</strong>:選單入口本站未核實，所以不寫路徑</li>
+        </ul>
+        <p class="muted" style="margin:0;font-size:13px;">※ 另有委託編輯器 / 角色繼承 / 遊戲內專有壁紙這三項，本站同樣沒有驗證能否在繁體中文版使用（主程式選單資源裡有「角色繼承」項目，但選單存在不等於功能可用）。</p>
       </div>
       <h3>💡 排除經驗</h3>
       <div class="warnbox" style="border-left-color:var(--accent);background:rgba(184,134,11,0.06);">
