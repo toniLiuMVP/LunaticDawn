@@ -7,6 +7,10 @@
 <meta name="description" content="吟遊詩人的傳說 · 俠客遊系列檔案庫，工具、修正檔、攻略、官方更新檔索引(不含遊戲本體)。1998-2026 整理。">
 <link rel="stylesheet" href="../assets/css/fonts-wuxia.css">
 <link rel="stylesheet" href="../assets/css/wuxia.css">
+<style>
+/* 窄螢幕上長檔名不撐開卡片 */
+.card .card-title, .card .card-desc, .card .card-meta { overflow-wrap: anywhere; }
+</style>
 <meta property="og:type" content="website">
 <meta property="og:title" content="檔案庫 · 吟遊詩人的傳說">
 <meta property="og:description" content="吟遊詩人的傳說 · 俠客遊系列檔案庫，工具、修正檔、攻略、官方更新檔索引(不含遊戲本體)。1998-2026 整理。">
@@ -50,7 +54,7 @@
 <section class="panel">
   <h2 class="panel-title">[ 🆕 最新更新 ]</h2>
   <div class="card-grid">
-    <a class="card" href="https://drive.google.com/open?id=13gT5EllImeIqVlljiR3HubQk9u9Lhl7-" target="_blank" rel="noopener" style="border-color: var(--phosphor);">
+    <a class="card" href="https://drive.google.com/open?id=13gT5EllImeIqVlljiR3HubQk9u9Lhl7-" target="_blank" rel="noopener" style="border-color: currentColor;">
       <span class="card-title">▸ POLd95Win11_WordOK.7z (500 KB)</span>
       <span class="card-desc">前途道標 Win10/11 字體修復補丁 v7 final。解壓 3 個檔覆蓋 Ld95 安裝目錄即玩，同時解決字重疊 + 字太小。適用 🅰️ Steam 玩家（外加變繁中）/ 🅱️ 1999 老光碟玩家（外加保護光碟磁軌）。</span>
       <span class="card-meta">2026-05-13 · Google Drive</span>
@@ -59,6 +63,11 @@
       <span class="card-title">▸ 完整教學頁 + v1→v7 演進故事</span>
       <span class="card-desc">含安裝 4 步驟、ScalePercent 50-400% 倍率微調表、為什麼 20+ 年沒解、r2 反組譯技術原理。告別 2019 改系統 DPI 124% + 登出登入阿呆 hack。</span>
       <span class="card-meta">2026-05-13 上線</span>
+    </a>
+    <a class="card" href="../ezplay.html">
+      <span class="card-title">▸ EzPlay 下載即玩（前途道標 / 俠客遊 IV / 第三之書）</span>
+      <span class="card-desc">三款補丁包：自備正版，解壓覆蓋到遊戲資料夾，雙擊啟動檔即玩。</span>
+      <span class="card-meta">2026-06-15 · 站內</span>
     </a>
   </div>
 </section>
@@ -79,7 +88,7 @@
 <section class="panel">
   <h2 class="panel-title">[ 俠客遊 II · Lunatic Dawn II (1996) ]</h2>
   <div class="card-grid">
-    <a class="card" href="../luna2/ez/" style="border-color: var(--phosphor);">
+    <a class="card" href="../luna2/ez/" style="border-color: currentColor;">
       <span class="card-title">▸ Luna2_EZ 懶人包 ★ LD 專案起源</span>
       <span class="card-desc">內建 DOSBox Staging 引擎，跨 macOS / Windows / Linux 下載解壓雙擊就能玩。含 kyleul 個人遊戲心得、攻略勘誤、魔法及必殺技資料彙整。本 LD 站整個專案的起源，從這個懶人包開始擴展到 6 作 + 4 大資料庫 + Win10/11 字體修復補丁。</span>
       <span class="card-meta">2023-02-23 起持續更新 · 站內專屬頁</span>
@@ -99,7 +108,7 @@
       <span class="card-desc">含網路上沒有的「魔法學習等級」與技能描述，由 kyleul 2023-02 整理。原始檔案在 Luna2Data20230223.7z 整理包內（解壓 → Luna2魔法及必殺技資料.pdf + .xlsx）。</span>
       <span class="card-meta">作者：kyleul · 2023-02-23 · Google Drive</span>
     </a>
-    <a class="card" href="../luna2/guides/kyleul-deep-guide.html" style="border-color: var(--phosphor);">
+    <a class="card" href="../luna2/guides/kyleul-deep-guide.html" style="border-color: currentColor;">
       <span class="card-title">▸ kyleul 的 Luna2 深度攻略彙整 ★ 2023</span>
       <span class="card-desc">kyleul (凱布洛) 2023-02 PTT Old-Games 深度攻略，經作者授權 2026 收錄。10 大段含「麗妃阿姨包養法」極限賺錢 + 大地圖移動實測 + 傷害計算公式 + 附魔研究等。</span>
       <span class="card-meta">作者：kyleul · 2023-02 · 站內</span>
@@ -133,19 +142,24 @@
 <section class="panel">
   <h2 class="panel-title">[ 前途道標 · Passage of the Book (1999) ]</h2>
   <div class="card-grid">
-    <a class="card" href="https://drive.google.com/open?id=13gT5EllImeIqVlljiR3HubQk9u9Lhl7-" target="_blank" rel="noopener" style="border-color: var(--phosphor);">
+    <a class="card" href="../ezplay.html#ld95">
+      <span class="card-title">▸ EzPlay 補丁包（站內）</span>
+      <span class="card-desc">自備正版，解壓覆蓋到遊戲資料夾，雙擊啟動檔即玩（前途道標只有 Windows 版）。</span>
+      <span class="card-meta">2026-06-15 · 站內</span>
+    </a>
+    <a class="card" href="https://drive.google.com/open?id=13gT5EllImeIqVlljiR3HubQk9u9Lhl7-" target="_blank" rel="noopener" style="border-color: currentColor;">
       <span class="card-title">▸ POLd95Win11_WordOK.7z 字體修復補丁 ★ NEW</span>
       <span class="card-desc">Win10/11 字體重疊 + 字太小一次解決，取代 2019 系統 DPI 124% hack。</span>
       <span class="card-meta">2026-05-13 v7 final · Google Drive</span>
     </a>
-    <a class="card" href="../passage/win10-font-fix.html" style="border-color: var(--phosphor);">
+    <a class="card" href="../passage/win10-font-fix.html" style="border-color: currentColor;">
       <span class="card-title">▸ 字體修復完整教學頁 ★ NEW</span>
       <span class="card-desc">安裝 4 步驟 + 倍率微調 + v1→v7 演進故事 + r2 反組譯技術原理。</span>
       <span class="card-meta">2026-05-13 · 站內</span>
     </a>
-    <a class="card" href="../passage/manual-tc.html" style="border-color: var(--phosphor);">
+    <a class="card" href="../passage/manual-tc.html" style="border-color: currentColor;">
       <span class="card-title">▸ Steam 版說明書繁中整理 ★ NEW</span>
-      <span class="card-desc">Steam 版內附日文マニュアル 70 頁的繁體中文章節整理 + 重點翻譯。給不懂日文玩家上手用。註明 Steam 正版購買連結。</span>
+      <span class="card-desc">Steam 版隨附日文マニュアル(約 40 頁正文)的繁體中文整理,依原書核對,整理而非逐字翻譯。給不懂日文玩家上手用。註明 Steam 正版購買連結。</span>
       <span class="card-meta">2026-05-13 · 站內</span>
     </a>
     <a class="card" href="../steam/passage-chinese.html">
@@ -163,7 +177,7 @@
       <span class="card-desc">小蜜蜂 / 小傑 1999 入門 + 進階 + 終極篇 + Ertai 寶物獵人心得。</span>
       <span class="card-meta">站內</span>
     </a>
-    <a class="card" href="passage/Ld95_Edit_v1.2_繁體中文.7z" style="border-color: var(--phosphor);">
+    <a class="card" href="passage/Ld95_Edit_v1.2_繁體中文.7z" style="border-color: currentColor;">
       <span class="card-title">▸ 修改器 v1.2 繁體中文化 ★ NEW</span>
       <span class="card-desc">zxp 2005 簡體版自動 opencc s2t 轉繁體中文。.NET 2.0，Win 7/10/11 可用。可改 411 件物品 + 全角色屬性。</span>
       <span class="card-meta">2026-05-13 toni 繁體化 · 站內</span>
@@ -180,7 +194,7 @@
     </a>
     <a class="card" href="https://drive.google.com/open?id=1561dRhUEyWe6cvrW5GWKuy2dFSth6-sc" target="_blank" rel="noopener">
       <span class="card-title">▸ XP 亂碼修正檔（歷史紀錄）</span>
-      <span class="card-desc">2019 年前 toni 整理的 XP 亂碼修正版本，Win10/11 玩家請改用上方 2026 補丁。</span>
+      <span class="card-desc">2012 年由本站打包的 XP 亂碼修正版本（舊站說明記為 toni 編輯），Win10/11 玩家請改用上方 2026 補丁。</span>
       <span class="card-meta">XP 時代 · Google Drive</span>
     </a>
     <a class="card" href="https://drive.google.com/open?id=1HRJgN_6Svv9dBjWUJR__xwQoz74tcoAR" target="_blank" rel="noopener">
@@ -189,6 +203,7 @@
       <span class="card-meta">XP 時代 · Google Drive</span>
     </a>
   </div>
+  <p class="muted" style="font-size:12px;word-break:break-all;margin-top:8px;">🔒 SHA-256（POLd95Win11_WordOK.7z，512,372 bytes）：<code>efbc20e5c49a3347f01466a14de0293668657256096d7b8c1ca25c343a449cf9</code><br>核對方式：Windows 在命令提示字元輸入 <code>certutil -hashfile POLd95Win11_WordOK.7z SHA256</code>；Mac / Linux 在終端機輸入 <code>shasum -a 256 POLd95Win11_WordOK.7z</code>。</p>
 </section>
 
 <!-- ==================== 俠客遊 III ==================== -->
@@ -212,6 +227,11 @@
 <section class="panel">
   <h2 class="panel-title">[ 俠客遊 IV · Lunatic Dawn IV (2001) ]</h2>
   <div class="card-grid">
+    <a class="card" href="../ezplay.html#ld4">
+      <span class="card-title">▸ EzPlay 補丁包（站內）</span>
+      <span class="card-desc">自備正版，解壓覆蓋到遊戲資料夾，雙擊啟動檔即玩（Windows / Mac）。</span>
+      <span class="card-meta">2026-06-15 · 站內</span>
+    </a>
     <a class="card" href="https://drive.google.com/open?id=1x2Abjo93ETRY8jx6CXUiHx4NECB20U8C" target="_blank" rel="noopener">
       <span class="card-title">▸ 最新官方更新檔</span>
       <span class="card-desc">第三波代理繁中版專用。</span>
@@ -229,7 +249,7 @@
     </a>
     <a class="card" href="https://drive.google.com/open?id=14O_CWKloCIc5pC-TmqJCEjt1jXHRv31A" target="_blank" rel="noopener">
       <span class="card-title">▸ 神之眼中文版</span>
-      <span class="card-desc">遊戲分析工具中文化版。</span>
+      <span class="card-desc">遊戲分析工具中文化版。原為日文版遊戲設計，繁中版可能無法正確讀取。</span>
       <span class="card-meta">Google Drive</span>
     </a>
     <a class="card" href="../luna4/">
@@ -249,6 +269,11 @@
       <span class="card-desc">完整下載清單 + 修改器 + 工具 + 18 個歷史附件 + 資料庫。</span>
       <span class="card-meta">站內</span>
     </a>
+    <a class="card" href="../ezplay.html#lde3">
+      <span class="card-title">▸ EzPlay 補丁包（站內）</span>
+      <span class="card-desc">自備正版，解壓覆蓋到遊戲資料夾，雙擊啟動檔即玩（Windows / Mac），含 ME 版遊玩及出現試玩版的問題解決。</span>
+      <span class="card-meta">2026-06-15 · 站內</span>
+    </a>
     <a class="card" href="https://drive.google.com/open?id=1B6n34wTsRJq0F9dGRb7JpiBG41_B_cZw" target="_blank" rel="noopener">
       <span class="card-title">▸ 保護光碟檔</span>
       <span class="card-desc">使用台灣繁中版官方 1.2 更新檔保護光碟，執行檔版本 1.0.8.2。</span>
@@ -261,18 +286,13 @@
     </a>
     <a class="card" href="https://drive.google.com/open?id=1_69yJO9vux6ZtGOC198iGIDMdDv4TnRT" target="_blank" rel="noopener">
       <span class="card-title">▸ ELF 工具 v1.62</span>
-      <span class="card-desc">第三之書 ELF 檔案處理工具。</span>
+      <span class="card-desc">搭配遊戲執行的輔助工具（功能依附帶 ReadMe 整理，本站未逐項實測）。1.60 版的 ReadMe 另提到有解碼部分遊戲資料檔的功能。</span>
       <span class="card-meta">製作者：Morrowind · Google Drive</span>
     </a>
     <a class="card" href="https://drive.google.com/open?id=1cCPao0_WN2XgVIlMaxrsmzv9TjJwCmo4" target="_blank" rel="noopener">
-      <span class="card-title">▸ 修改器 v0.4（主連結）</span>
+      <span class="card-title">▸ 修改器 v0.4</span>
       <span class="card-desc">第三之書存檔修改器。</span>
       <span class="card-meta">製作者：kkarthur · Google Drive</span>
-    </a>
-    <a class="card" href="https://gofile.me/4OC17/TL7zLmbf3" target="_blank" rel="noopener">
-      <span class="card-title">▸ 修改器 v0.4（備用連結）</span>
-      <span class="card-desc">密碼：lunaticdawn</span>
-      <span class="card-meta">製作者：kkarthur · gofile.me</span>
     </a>
     <a class="card" href="https://drive.google.com/open?id=1mbvvxB6bBryYK8SHuN_AUjUjf-c5J-6k" target="_blank" rel="noopener">
       <span class="card-title">▸ 官方修正檔</span>
@@ -328,7 +348,7 @@
   <div class="card-grid">
     <a class="card" href="luna2/">
       <span class="card-title">▸ 俠客遊 II 附件</span>
-      <span class="card-desc">修改器、資料檔與相容性工具。</span>
+      <span class="card-desc">俠客遊 II 修改器與資料集，另含早年的前途道標與未來之書附件。</span>
       <span class="card-meta">12 個檔</span>
     </a>
     <a class="card" href="luna3/">
@@ -338,7 +358,7 @@
     </a>
     <a class="card" href="luna4/">
       <span class="card-title">▸ 俠客遊 IV 附件</span>
-      <span class="card-desc">神之眼工具與 Lunatic Consortia 資料。</span>
+      <span class="card-desc">神之眼工具、LunaticConsortia 與官方更新檔。</span>
       <span class="card-meta">5 個檔</span>
     </a>
     <a class="card" href="lde3/">
@@ -360,7 +380,7 @@
     <li><strong>聶荊璇（殘楓網）</strong>，Luna2 存檔解析 v4.1（2006-04 從此延伸出本站存檔修改器規格）+ 物品城鎮資料整理</li>
     <li><strong>ocrice (yukihiro)</strong>，巴哈姆特 Luna2 人物起始能力表 + 弱點額外點數表</li>
     <li><strong>germun（笑吧，笑有出頭天）</strong>，巴哈姆特 LunaticDawn 看板「結婚條件 及 隊友分析」(2006-05)</li>
-    <li><strong>青杉</strong>，執行 DOS 相關問答集（ashbone.daiseki.com.tw）</li>
+    <li><strong>青衫</strong>，執行 DOS 相關問答集</li>
     <li><strong>yjyyang、劍俠天才、那伽龍、jo（謎樣的大叔）、raclim（林秀奕）、PhilJane（矮子小豪）、aldalave11127</strong>，Luna2 攻略主篇整理新增貢獻者</li>
     <li><strong>小蜜蜂 / 小傑（Yellowbee / LemiyaJay）</strong>，1999 前途道標完整三部曲攻略（入門 / 進階 / 終極篇）</li>
     <li><strong>Ertai</strong>，2000-01-19 前途道標寶物獵人心得</li>
@@ -371,19 +391,19 @@
     <li><strong>anDY &amp; aSKa STUDiO</strong>，第三之書流動化啟動器</li>
     <li><strong>zxp</strong>，前途道標修改器</li>
     <li><strong>daggerain（對岸玩家）</strong>，2011 第三之書工具開發，跨海寄送給 toni 公開測試</li>
-    <li><strong>towaicheung</strong>，2009 年首次回報前途道標 XP 字體重疊問題（17 年前的問題佐證）</li>
-    <li><strong>Tedk</strong>，2009 年透過 Google Pages 時代 <code>luntic.dawn.googlepages.com</code> 拿工具，協助驗證早期分發</li>
+    <li><strong>towaicheung</strong>，2009 年回報前途道標 XP 字體重疊問題（17 年前的問題佐證）</li>
+    <li><strong>Tedk</strong>，2009 年 Google Pages 時代協助驗證早期分發</li>
     <li><strong>linxr_wind</strong>，2009 年第三之書管理員需求回報</li>
     <li><strong>一位玩家</strong>，2013 年第三之書 Win7 相容性早期測試</li>
     <li><strong>Cody</strong>，前途道標角色複製人物存檔包提供</li>
     <li><strong>timchio</strong>，2011 年俠客遊 IV 重溫詢問</li>
-    <li><strong>tyler_yeung</strong>，2007 年首次回報前途道標 XP 字型問題（19 年前的問題佐證，比 towaicheung 還早 2 年）</li>
+    <li><strong>tyler_yeung</strong>，2007 年首次回報前途道標 XP 字型問題（19 年前的最早佐證）</li>
     <li><strong>cu54102003</strong>，2008 年 XP 字型問題再回報</li>
     <li><strong>raymond0206</strong>，2022 Win10 亂碼問題</li>
     <li><strong>KO</strong>，2023-2024 跨年度多次回報前途道標 / 第三之書問題 + 乙太劍 / 乙鈦劍稀有兵器研究實測</li>
     <li><strong>jill90131</strong>，2023 第三之書入坑詢問（toni 用 TeamViewer 遠端協助）</li>
     <li><strong>DavidChien / nec81616 / tigerzhou100800 / line841a</strong>，2020-2021 多次回報 Google 防毒誤判第三之書修改器問題</li>
-    <li><strong>一位對岸玩家</strong>，2021 提議「密碼壓縮繞 Google 防毒」解法</li>
+    <li><strong>一位對岸玩家</strong>，2021 提議改用加密壓縮檔的散布方式（Google Drive 無法掃描加密壓縮檔，下載前請自行掃毒）</li>
     <li><strong>一位對岸玩家</strong>，2020 俠客遊 IV 神之眼路徑詢問</li>
     <li><strong>一位玩家</strong>，2022 阿米卓古 / 第三之書 me 版詢問</li>
     <li><strong>ak5511ak5511</strong>，2024 Steam 購買前途道標 + 中文化詢問</li>

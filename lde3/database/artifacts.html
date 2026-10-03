@@ -22,12 +22,12 @@
 .notice { padding: 12px 16px; background: rgba(255,176,0,0.08); border-left: 3px solid var(--amber); margin: 16px 0; font-size: 14px; color: var(--phosphor-dim); line-height: 1.7; }
 .cat-section { margin: 20px 0; padding: 14px; background: var(--bg-panel); border: 1px solid var(--phosphor-fade); }
 .cat-title { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 13px; margin: 0 0 8px; display: flex; align-items: baseline; gap: 12px; }
-.cat-num { color: var(--phosphor-fade); font-size: 11px; }
+.cat-num { color: var(--phosphor-text-dim); font-size: 11px; }
 .cat-desc { color: var(--phosphor-dim); font-size: 13px; margin: 0 0 12px; line-height: 1.6; }
 .art-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 8px; }
 .art-item { background: var(--bg-input); padding: 10px 14px; border: 1px solid var(--phosphor-fade); border-radius: 2px; }
 .art-name { color: var(--phosphor); font-size: 16px; font-weight: bold; }
-.art-meta { color: var(--phosphor-fade); font-size: 12px; margin-top: 4px; font-family: 'VT323', monospace; }
+.art-meta { color: var(--phosphor-dim); font-size: 12px; margin-top: 4px; font-family: 'VT323', monospace; }
 .art-lore { color: var(--amber); font-size: 12px; margin-top: 4px; font-family: 'VT323', monospace; opacity: 0.85; }
 </style>
 <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
@@ -52,7 +52,7 @@
         ·
         <a href="items.html">道具列表</a>
         ·
-        <a href="achievements.html">成就稱號</a>
+        <a href="achievements.html">吟遊詩人詩歌</a>
         ·
         <a href="cards.html">卡片詞彙</a>
         ·
@@ -67,28 +67,28 @@
   <div class="notice">
     <strong>第三之書 神器圖鑑</strong>（71 件，11 大類）
     <br><br>
-    <strong>⚠️ 資料來源說明（2026 跨檔比對確認）</strong>：跨 7 個 EXE 變體檢查後確認，這 71 件神器中：
+    <strong>⚠️ 資料來源說明</strong>：這 71 件神器的名稱都出現在<strong>第三之書精靈工具 Lde3ET</strong> 的內建表；拿去和主程式 Lde3.exe（原版、1.1、1.2 三版）比對，結果如下：
     <ul style="margin: 8px 0 0 24px; line-height: 1.7;">
-      <li><strong>2 件</strong>（祭品之杖 / 單手戰斧）出現在 Lde3.exe v1.2 patch，直接從遊戲主程式提取的事實</li>
-      <li><strong>2 件</strong>（布吉之斧 / 巴克拉之盾）對應到 Lde3.exe items array 的 ID 248 / 256</li>
-      <li><strong>67 件</strong>只出現在<strong>第三之書精靈工具 Lde3ET</strong>的內建表，不在任何版本 Lde3.exe 主程式</li>
+      <li><strong>3 件</strong>（布吉之斧 / 巴克拉之盾 / 祭品之杖）是 Lde3.exe 道具表裡的名稱，道具編號分別是 246 / 254 / 139；祭品之杖是 1.2 版的名稱，原版與 1.1 版同一個位置叫遠古之杖</li>
+      <li><strong>2 件</strong>（中庸劍 / 伊默塔爾）的字串也出現在 Lde3.exe，但不在道具表：中庸劍在一句 NPC 對白裡，伊默塔爾是獨立的一個字串，用途本站未確認</li>
+      <li><strong>66 件</strong>在 Lde3.exe 裡找不到同名字串，只出現在精靈工具</li>
     </ul>
-    換句話說，大多數神器名稱來自當年社群製作的精靈工具的內建資料表，<strong>可能是玩家實際遊戲中遇到的真實神器</strong>（精靈工具是給玩家修改角色裝備用的，名單應該對應實際遊戲），但<strong>未從遊戲主程式二進位直接驗證</strong>。
+    換句話說，大多數神器名稱只來自當年社群製作的精靈工具的內建資料表，<strong>可能是玩家實際遊戲中遇到的真實神器</strong>（精靈工具是給玩家修改角色裝備用的，名單應該對應實際遊戲），但<strong>這 66 件未從遊戲主程式二進位直接驗證</strong>。
     <br><br>
     <strong>內容</strong>：第三之書神器級武器命名橫跨多文化神話系統，本頁列出 71 件神器依文化系統分類。
     <br><br>
     <strong>命名來源</strong>：
     <ul style="margin: 8px 0 0 24px; line-height: 1.9;">
-      <li><strong>遊戲原創套裝</strong>：光榮系列 11 件 + 混沌系列 4 件 + 暗黑系列 4 件</li>
+      <li><strong>名稱開頭相同的組別</strong>（本站依名稱歸類，是否為遊戲內正式成套本站未確認）：「光榮之 X」11 件 + 混沌 4 件 + 暗黑 4 件</li>
       <li><strong>中華神話</strong>：七星劍 / 九龍槍 / 玉璽 / 青龍刀（關公青龍偃月刀典）等</li>
       <li><strong>希臘神話</strong>：大阿波羅之弓 (Apollo) / 阿爾提蜜絲之弓 (Artemis)</li>
       <li><strong>北歐神話</strong>：巴爾基里之槍 (Valkyrie 女武神)</li>
       <li><strong>印度 / 佛教</strong>：阿修羅之弓 / 夜叉王之劍</li>
       <li><strong>元素 / 自然</strong>：火炎 / 火燄 / 大地 / 地脈 / 星屑 / 時空</li>
-      <li><strong>v1.2 修正</strong>：祭品之杖（v1.0 原譯遠古之杖）</li>
+      <li><strong>1.2 版更名</strong>：祭品之杖（原版與 1.1 版叫遠古之杖）</li>
     </ul>
     <br>
-    <strong>合規說明</strong>：神器名稱屬遊戲事實層內容（玩家於商店、寶箱、戰利品即可看見），依日本著作權法第 2 條僅創作性表現受保護，事實名稱與其文化典故來源不在保護範圍。
+    <strong>合規說明</strong>：這 71 件名稱的來源見上方說明：3 件在 Lde3.exe 的正式道具表、2 件的字串在主程式其他位置、66 件只見於社群精靈工具；這 66 件本站未確認能在商店、寶箱或戰利品裡看到。名稱屬單字或短詞，一般認為不具或僅有極有限的著作權保護（個案判斷）。
   </div>
 
   <div class="toolbar">
@@ -98,7 +98,6 @@
   </div>
 
   <div id="content"><div style="padding: 40px; text-align: center; color: var(--phosphor-dim);">載入中...</div></div>
-</div>
 
 <script>
 let allData = null;
@@ -192,6 +191,7 @@ load().catch(e => {
 });
 </script>
 </main>
+</div>
 
 </body>
 </html>

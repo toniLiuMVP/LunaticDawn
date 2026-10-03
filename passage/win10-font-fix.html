@@ -7,6 +7,10 @@
 <meta name="description" content="1999 年前途道標 Ld95.exe 在 Win10/11 字體重疊問題，拖 3 個檔即玩，不改系統 DPI、不影響其他程式、不用登出登入。完整安裝教學 + 7 個版本演進故事 + 技術原理說明。">
 <link rel="stylesheet" href="../assets/css/fonts-wuxia.css">
 <link rel="stylesheet" href="../assets/css/wuxia.css">
+<style>
+/* 窄螢幕上長檔名不撐開卡片 */
+.card .card-title, .card .card-desc, .card .card-meta { overflow-wrap: anywhere; }
+</style>
 <meta property="og:type" content="website">
 <meta property="og:title" content="Win10/11 字體修復補丁 · 前途道標 · 吟遊詩人的傳說">
 <meta property="og:description" content="1999 前途道標在 Win10/11 字體重疊問題，2026 補丁拖檔即玩，告別 2019 改系統 DPI hack。">
@@ -70,7 +74,7 @@
   <h2 class="panel-title">[ 問題背景 ]</h2>
   <div class="prose">
     <p>ARTDINK 於 1997 年推出、台灣 1999 年代理的<strong>俠客遊：前途道標 (Lunatic Dawn: Passage of the Book)</strong> 是 Windows 95 時代的 Win32 GUI 程式，內部寫死 96 DPI 假設（Win95 標準）。</p>
-    <p>到了 Windows XP / Win10 / 11 時代，<strong>遊戲視窗內字體會重疊在一起</strong>，看不清楚。這個問題早在 <strong>2007 年</strong>就有香港玩家 tyler_yeung 來信回報，toni 當年回答「我去入伍了沒辦法解決」XDD；2008 cu54102003、2009 香港玩家 towaicheung、2022 香港玩家 raymond0206 都陸續來信回報 XP / Win10 字型問題。前途道標字體重疊困擾老玩家整整 <strong>19 年</strong>（2007-2026）。</p>
+    <p>到了 Windows XP / Win10 / 11 時代，<strong>遊戲視窗內字體會重疊在一起</strong>，看不清楚。這個問題早在 <strong>2007 年</strong>就有玩家 tyler_yeung 來信回報，toni 當年回答「我去入伍了沒辦法解決」XDD；2008 cu54102003、2009 towaicheung、2022 raymond0206 都陸續來信回報 XP / Win10 字型問題。前途道標字體重疊困擾老玩家整整 <strong>19 年</strong>（2007-2026）。</p>
     <p>另外 2015 年 Steam 重發版只有日文介面，對台灣玩家不友善。</p>
   </div>
 </section>
@@ -95,7 +99,7 @@
     <p>2026 年的本補丁用 DLL injection + IAT hook 在程式層級解決，連系統設定都不用碰：</p>
   </div>
 
-  <table class="timeline">
+  <div class="table-scroll"><table class="timeline">
     <thead>
       <tr><th style="width: 30%;">維度</th><th>2019 系統 DPI 124% hack</th><th>2026 POLd95Win11_WordOK 補丁</th></tr>
     </thead>
@@ -108,7 +112,7 @@
       <tr><td><strong>字體重疊</strong></td><td>✅ 解決</td><td>✅ 解決（用 Win10 1809+ DPI awareness API）</td></tr>
       <tr><td><strong>檔案大小</strong></td><td>無檔案，改設定</td><td>500 KB 7z</td></tr>
     </tbody>
-  </table>
+  </table></div>
 </section>
 
 <section class="panel">
@@ -120,6 +124,7 @@
       <span class="card-meta">Google Drive 下載 · 2026-05 整理</span>
     </a>
   </div>
+<p class="muted" style="font-size:12px;word-break:break-all;margin-top:8px;">🔒 SHA-256（POLd95Win11_WordOK.7z，512,372 bytes）：<code>efbc20e5c49a3347f01466a14de0293668657256096d7b8c1ca25c343a449cf9</code><br>核對方式：Windows 在命令提示字元輸入 <code>certutil -hashfile POLd95Win11_WordOK.7z SHA256</code>；Mac / Linux 在終端機輸入 <code>shasum -a 256 POLd95Win11_WordOK.7z</code>。</p>
 <p class="muted" style="font-size:13px;margin-top:10px;">※ 另有一個較新的 <code>LD95_EzPlay.7z</code>（2026-06 整理），解決同一個字體問題、也含同一支 <code>Ld95.exe</code>，差別是字體元件換成另一個 build，且安裝後<strong>雙擊隨附的 <code>★Windows玩家點我.bat</code> 啟動</strong>而不是直接點 exe。兩包各自自足，任選一包完整覆蓋即可，<strong>不要混用</strong>。新包見 <a href="../ezplay.html#ld95">EzPlay 下載即玩</a>頁。</p>
 </section>
 
@@ -140,11 +145,11 @@
   <h2 class="panel-title">[ 微調倍率 ]</h2>
   <div class="prose">
     <p>用 Notepad 開 <code>ld95.ini</code>，找 <code>[Window]</code> 段：</p>
-    <pre style="background: rgba(0,255,65,0.05); padding: 10px; border-left: 3px solid var(--phosphor);">[Window]
+    <pre style="background: rgba(0,255,65,0.05); padding: 10px; border-left: 3px solid var(--link);">[Window]
 ScalePercent=200</pre>
     <p>把 <code>200</code> 改成你要的倍率，存檔，重啟 Ld95.exe 即生效（不用重啟系統 / 不用登出）：</p>
   </div>
-  <table class="timeline">
+  <div class="table-scroll"><table class="timeline">
     <thead><tr><th>ScalePercent</th><th>倍率</th><th>適用場景</th></tr></thead>
     <tbody>
       <tr><td>100</td><td>1.0x</td><td>原始大小（跟不裝補丁一樣）</td></tr>
@@ -154,7 +159,7 @@ ScalePercent=200</pre>
       <tr><td>300</td><td>3.0x</td><td>字超大</td></tr>
       <tr><td>400</td><td>4.0x</td><td>最大（範圍上限）</td></tr>
     </tbody>
-  </table>
+  </table></div>
   <p class="muted" style="font-size: 13px;">範圍 50–400，超出會 fallback 200。</p>
 </section>
 
@@ -164,7 +169,7 @@ ScalePercent=200</pre>
     <p>這個補丁從 v1 到 v7 經過 <strong>7 個版本</strong>才攻克，每個失敗都教了我們一件事：</p>
   </div>
 
-  <table class="timeline">
+  <div class="table-scroll"><table class="timeline">
     <thead><tr><th>版本</th><th>嘗試什麼</th><th>結果</th><th>學到</th></tr></thead>
     <tbody>
       <tr><td><strong>v1</strong></td><td>呼叫 <code>SetProcessDpiAwarenessContext(UNAWARE_GDISCALED)</code>，讓 Win10+ DWM bitmap stretch 接管縮放</td><td>🟡 字不重疊但字小</td><td>DWM stretch 需配合 Windows 顯示縮放設定 &gt; 100% 才會放大</td></tr>
@@ -175,7 +180,7 @@ ScalePercent=200</pre>
       <tr><td><strong>v6</strong></td><td>用 <strong>r2 反組譯 Ld95.exe</strong>，發現遊戲字真正 path：<code>GetStockObject(SYSTEM_FONT)</code> + <code>SelectObject</code> + <code>TextOutA</code>。Hook <code>GetStockObject</code> 回傳自建大字體</td><td>🔴 字 + 視窗都消失，自建 LOGFONT 用 DEFAULT_CHARSET，GDI 在繁中環境 pick 非中文字體</td><td>cp950 環境下自建 LOGFONT 必須明確設 charset，否則 Big5 字無法渲染</td></tr>
       <tr><td><strong>v7</strong></td><td>改用 <code>GetObjectA</code> 取原 SYSTEM_FONT 的 LOGFONTA（含正確 charset / faceName），<strong>只改 lfHeight 乘 scale</strong>，再 CreateFontIndirectA</td><td>✅ <strong>成功！</strong>字大 + 不重疊 + 視窗正常 + UI 字也保持原大小</td><td>不要自建，從系統原 stock font 拷貝屬性只改要改的</td></tr>
     </tbody>
-  </table>
+  </table></div>
 
   <div class="prose">
     <p style="margin-top: 16px;"><strong>轉捩點是 v6 用 r2 反組譯</strong>找出真實字體渲染 path，此前 v1–v5 都在猜（user32 視窗 hook / CreateFont hook），猜了 5 輪沒中。反組譯 ground truth 給出來後，v6 → v7 兩個版本一發中。</p>
@@ -207,7 +212,7 @@ ScalePercent=200</pre>
         c. 改 <code>lfHeight × ScalePercent / 100</code><br>
         d. <code>CreateFontIndirectA</code> 建大字體 HFONT 存進全域變數
       </li>
-      <li><strong>運行時攔截</strong>：hook <code>gdi32!GetStockObject</code>，當 Ld95 請求 <code>SYSTEM_FONT</code> / <code>DEFAULT_GUI_FONT</code> / <code>OEM_FIXED_FONT</code> 等字體 stock object → 回傳我們建的大字體；非字體 stock object（palette / brush / pen / bitmap）pass-through 不攔</li>
+      <li><strong>執行時攔截</strong>：hook <code>gdi32!GetStockObject</code>，當 Ld95 請求 <code>SYSTEM_FONT</code> / <code>DEFAULT_GUI_FONT</code> / <code>OEM_FIXED_FONT</code> 等字體 stock object → 回傳我們建的大字體；非字體 stock object（palette / brush / pen / bitmap）pass-through 不攔</li>
       <li><strong>WINMM rename</strong>：Ld95.exe PE import name <code>WINMM.dll</code> → <code>LDWMM.dll</code>（9 byte 同長度 byte-level 替換）繞 Windows KnownDLLs，讓 application directory 的 LDWMM.dll 被優先載入</li>
       <li><strong>純 Win32 API 零 CRT 依賴</strong>：LDWMM.dll 用 <code>-nostdlib -nodefaultlibs</code> 編譯，避免跟 MFC 內建 runtime 衝突</li>
     </ol>

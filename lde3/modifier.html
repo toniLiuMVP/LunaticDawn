@@ -33,6 +33,13 @@
 .region-table th, .region-table td { border: 1px solid var(--phosphor-fade); padding: 6px 10px; text-align: left; }
 .region-table th { background: var(--bg-panel); color: var(--amber); }
 .region-table .num { font-family: 'Courier New', monospace; text-align: right; }
+.intro details.qa-collapse { margin-top: 12px; }
+.intro details.qa-collapse > summary { cursor: pointer; color: var(--amber); padding: 2px 0; }
+.intro details.qa-collapse > summary:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+.intro details.qa-collapse[open] > summary { margin-bottom: 8px; }
+@media (max-width: 640px) {
+  input, select, textarea, .hex-editor { font-size: 16px; }
+}
 </style>
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 <link rel="canonical" href="https://toniliumvp.github.io/LunaticDawn/lde3/modifier.html">
@@ -52,7 +59,7 @@
     <div class="header-inner">
       <h1 class="pixel">第三之書瀏覽器版修改器</h1>
       <nav>
-        <span style="color: var(--phosphor-dim); font-size: 12px;">v0.2 · Big5 搜尋 + 區段熱圖 + 跨版本 diff</span>
+        <span style="color: var(--phosphor-dim); font-size: 12px;">v0.2</span>
         ·
         <a href="./">回第三之書索引</a>
         ·
@@ -65,58 +72,51 @@
 
 
   <div class="intro">
-    <strong>第三之書瀏覽器版修改器</strong>（v0.2），跨平台 / 純前端 / 無上傳。
+    <strong>第三之書瀏覽器版修改器</strong>：拖放 <code>lde3s.le3</code>，可搜尋 Big5 字串、比對兩個存檔的差異並直接修改位元組。所有解析在瀏覽器本地完成，不上傳任何資料。
     <br><br>
-    <strong>支援檔案</strong>：<code>lde3s.le3</code>（主存檔，985,542 bytes）位於<code>遊戲資料夾/usr/</code>。
-    <br>
-    <strong>已知 header</strong>：byte 0-3 = <code>"le3\0"</code> magic / byte 4-31 = <code>"LUNATIC DAWN - The 3rd Book -"</code> + nulls / byte 32-63 = <code>"Copyright (C) ARTDINK Corp. 2000"</code> + nulls / byte 0x54+ = binary game data。
+    <strong>檔案位置</strong>：<code>遊戲資料夾/usr/lde3s.le3</code>。
     <br><br>
     <strong style="color: var(--danger);">⚠️ 修改前務必備份</strong>：
     <br>1️⃣ 先把整個 <code>usr/</code> 資料夾複製為 <code>usr_backup/</code>
     <br>2️⃣ 在備份上測試 + 載入遊戲驗證
     <br>3️⃣ 確認 OK 後再覆蓋原檔
+
+    <details class="qa-collapse">
+    <summary>功能列表與技術說明</summary>
+    <strong>支援檔案</strong>：<code>lde3s.le3</code>（主存檔）位於<code>遊戲資料夾/usr/</code>。大小依存檔進度而異，本站手邊標頭完整的存檔在 985,542 到 1,033,077 bytes 之間。
+    <br>
+    <strong>已知 header</strong>：byte 0-3 = <code>"le3\0"</code> magic / byte 4-32 = <code>"LUNATIC DAWN - The 3rd Book -"</code>，之後補 null 到 byte 43 / byte 44-75 = <code>"Copyright (C) ARTDINK Corp. 2000"</code>，之後補 null 到 byte 83 / byte 84-87（0x54）= u32 值 0x3D（推定為版本號）/ 之後的內容見下方技術說明。
     <br><br>
     <strong>本工具當前功能</strong>（v0.2）：
     <br>▸ 拖放 lde3s.le3 → header 驗證 + 結構區段識別
     <br>▸ Hex viewer（前 1024 bytes）+ 完整 hex 編輯
-    <br>▸ <strong>★ Big5 字串搜尋</strong>（找玩家姓名 / 城鎮 / 物品在 SAV 內位置）
+    <br>▸ <strong>★ Big5 字串搜尋</strong>（在存檔內搜尋 Big5 字串；本站實測的存檔在檔頭之後找不到名稱字串，詳見下方技術說明）
     <br>▸ <strong>★ 區段熱圖</strong>（每 16KB 統計 non-zero ratio + 變化區）
-    <br>▸ <strong>★ 跨版本 diff</strong>（上傳 .bak / .bk2 找 byte 差異 → 推測哪些 offset 對應「上一次存檔之後的變動」）
+    <br>▸ <strong>★ 跨版本 diff</strong>（上傳 .bak / .bk2，列出與目前存檔不同的位元組；相鄰兩次存檔有 99.7% 的位元組都不同，所以不能直接看出哪個位置對應哪個變數）
     <br>▸ 下載修改後 SAV
     <br><br>
-    <strong>技術說明</strong>：lde3s.le3 是 <strong>MFC CArchive 序列化資料流</strong>（非 raw struct dump），跨檔差異率高，直接「固定 offset 修改」不可行。本工具改用 search-and-replace + diff 找變化區段方式輔助修改。
-    <br><br>
-    <strong>2026 結構分區發現</strong>（4 個玩家存檔 byte diff 取得）：
+    <strong>技術說明（本站實測）</strong>：本站用 6 份標頭完整的 lde3s.le3（來自不同電腦、不同作業系統與不同安裝位置，大小 985,542 到 1,033,077 bytes）比對，結果如下：
     <ul style="margin: 8px 0 0 20px; line-height: 1.7;">
-      <li><strong>0x00-0x6B (108 bytes)</strong>：固定 header，magic <code>le3\\0</code> + ASCII 版權字串 + version u32=0x3d</li>
-      <li><strong>0x6C-0x18F (約 256 bytes)</strong>：半固定區，玩家可變只 24 bytes：
-        <ul style="margin: 4px 0 0 20px; font-size: 13px;">
-          <li><code>0x72-0x7E</code>: 13 bytes 玩家識別 / 屬性</li>
-          <li><code>0x88-0x8E</code>: 7 bytes 玩家屬性</li>
-          <li><code>0xA6</code>: 1 byte (推測種族 / 性別)</li>
-          <li><code>0x16C-0x16E</code>: 3 bytes (推測等級 / 年齡)</li>
-        </ul>
-      </li>
-      <li><strong>0x190+ (約 1MB)</strong>：MFC CArchive object stream，每次 save 整體 re-serialize（99.7% byte 在跨存檔間都不同）</li>
+      <li><strong>0x00-0x6B (108 bytes)</strong>：6 份樣本完全相同。內容是 magic <code>le3\0</code>、ASCII 版權字串，0x54 的 u32 值 0x3D（推定為版本號），0x58 起五個 u32 依序是 3、0、2、0、0（意義未確認）。</li>
+      <li><strong>0x6C-0x18F (292 bytes)</strong>：每台電腦、每次存檔都可能不同，6 份樣本合計有 194 個位置出現差異。內容看起來是行程記憶體的片段：有 UTF-16 的存檔路徑（例如 <code>...\usr\lde3s.bak</code>，隨安裝位置而變），以及疑似 Windows 系統 DLL 的位址（不同作業系統版本的值不同）。這一段推定不是玩家資料欄位，不要拿來當修改目標。</li>
+      <li><strong>0x190 之後（約 1 MB）</strong>：位元組分布幾乎均勻（熵 7.995 到 7.999 bits/byte，256 種位元組值各出現約 3,400 到 4,400 次，零位元組只佔 0.4%）。相鄰兩次存檔有 99.7% 的位元組不同；在 6 份樣本裡搜尋「冒險者」「卡片」「國王」「酒店」「短劍」「老鼠」「歐德普克」等字串，用 Big5、UTF-16、UTF-8 都是 0 處。推定這一段是壓縮或加密後的資料，本站沒有解開，所以目前提供不出金錢、能力值等欄位的位置。</li>
     </ul>
+    <p style="margin: 8px 0 0;">Lde3.exe 內含 MFC 的 CArchive 相關字串，但存檔內容是不是 MFC 的序列化資料流，本站沒有證據。</p>
 
-    <strong>★ 24 bytes 識別 SOP（推薦做法）</strong>：
+    <strong>這個工具目前能怎麼用</strong>：
     <ol style="margin: 8px 0 0 20px; line-height: 1.7;">
-      <li><strong>準備 USER0 backup</strong>：複製 lde3s.le3 → lde3s_backup.le3</li>
-      <li><strong>記下「修改前狀態」</strong>：用本工具上傳，記錄 0x72-0x7E / 0x88-0x8E / 0xA6 / 0x16C-0x16E byte 值</li>
-      <li><strong>進遊戲只改 1 個變數</strong>：例如「升 1 級」「改名」「改性別」其中一個（不要同時改多個！）</li>
-      <li><strong>存檔後比對</strong>：上傳新 lde3s.le3，看 24 bytes 哪個變了 → 該 byte = 你修改的變數欄位</li>
-      <li><strong>記下對照表</strong>：例如「0x72-0x73 = 等級」「0xA6 = 性別」</li>
-      <li><strong>未來直接 offset-based 修改</strong>：知道 offset 後就能用本工具的 hex editor 直接改值，不用再進遊戲</li>
+      <li><strong>先備份</strong>：依上方步驟把整個 <code>usr/</code> 資料夾複製為 <code>usr_backup/</code>。</li>
+      <li><strong>檢查檔案</strong>：拖入存檔，確認檔頭與大小是否正常，可以排除下載不完整或存壞的檔。</li>
+      <li><strong>比對兩份存檔</strong>：用「跨版本 diff」看兩份存檔差在哪。因為存檔每次儲存都幾乎整個改變，這只能確認「兩份不同」，不能直接看出哪個位置是哪個變數。</li>
+      <li><strong>不建議修改 0x190 之後的資料</strong>：推定是壓縮或加密，改動位元組很可能讓遊戲讀不了存檔。</li>
     </ol>
-    <p style="margin: 8px 0 0; color: var(--phosphor-dim); font-size: 13px;">⚠️ 0x190+ 動態流區段不適用 offset-based 修改（每次 save 整體重排），那邊只能用本工具的「Big5 字串搜尋 + diff」找特定字串再改。</p>
-
-    <em>所有解析在瀏覽器本地完成，不上傳任何資料。</em>
+    <p style="margin: 8px 0 0; color: var(--phosphor-dim); font-size: 13px;">⚠️ 想修改金錢或能力值，請先看第三之書的其他工具（見本頁下方「進階：對照其他工具」），並照上方方式備份。</p>
+    </details>
   </div>
 
   <div id="drop-zone">
     <h2 class="pixel">▶ 拖放 lde3s.le3 到這裡</h2>
-    <p>或 <span style="color: var(--amber); cursor: pointer; text-decoration: underline;" id="click-select">點擊選擇檔案</span></p>
+    <p>或 <button type="button" id="click-select" class="link-button">點擊選擇檔案</button></p>
     <p style="color: var(--phosphor-dim); font-size: 13px;">[ 檔案位置：遊戲資料夾/usr/lde3s.le3 ]</p>
     <input type="file" id="file-input" aria-label="選擇第三之書存檔檔案" accept=".le3" style="display: none;">
   </div>
@@ -140,22 +140,25 @@
     </div>
 
     <div class="editor-panel">
-      <h3>Header 結構（byte 0-127）</h3>
+      <h3>檔案結構（本站實測）</h3>
       <table class="region-table">
         <tr><th>Offset</th><th>Size</th><th>Content</th></tr>
         <tr><td class="num">0x00</td><td class="num">4</td><td><code>"le3\0"</code>，magic byte</td></tr>
-        <tr><td class="num">0x04</td><td class="num">28</td><td><code>"LUNATIC DAWN - The 3rd Book -"</code> + null padding</td></tr>
-        <tr><td class="num">0x20</td><td class="num">32</td><td><code>"Copyright (C) ARTDINK Corp. 2000"</code> + nulls</td></tr>
-        <tr><td class="num">0x54+</td><td class="num">~985KB</td><td>Binary game data（玩家 / 角色 / 物品 / 地圖 / NPC / 任務），結構待逆向</td></tr>
+        <tr><td class="num">0x04</td><td class="num">40</td><td><code>"LUNATIC DAWN - The 3rd Book -"</code>（29 bytes）+ null padding</td></tr>
+        <tr><td class="num">0x2C</td><td class="num">40</td><td><code>"Copyright (C) ARTDINK Corp. 2000"</code>（32 bytes）+ null padding</td></tr>
+        <tr><td class="num">0x54</td><td class="num">4</td><td>u32 值 0x3D（推定為版本號）</td></tr>
+        <tr><td class="num">0x58-0x6B</td><td class="num">20</td><td>5 個 u32，6 份樣本都是 3、0、2、0、0（意義未確認）</td></tr>
+        <tr><td class="num">0x6C-0x18F</td><td class="num">292</td><td>每台電腦、每次存檔不同，內容看起來是行程記憶體片段（存檔路徑與疑似 DLL 位址），推定不是玩家欄位</td></tr>
+        <tr><td class="num">0x190+</td><td class="num">其餘</td><td>熵接近 8，推定是壓縮或加密，本站尚未解開</td></tr>
       </table>
     </div>
 
     <div class="editor-panel">
       <h3>★ Big5 字串搜尋（v0.2）</h3>
-      <p class="hint">輸入中文（例：玩家姓名、城鎮名、物品名）→ 在 SAV 內找出所有位置 + 前後 hex context。</p>
+      <p class="hint">輸入中文字串 → 在 SAV 內找出所有位置 + 前後 hex context。本站實測的存檔在檔頭之後找不到名稱字串（推定資料經過壓縮或加密），所以搜尋不到是正常的。</p>
       <div class="field-row">
         <label for="big5-search-input">搜尋字串：</label>
-        <input id="big5-search-input" type="text" placeholder="例：歐德普克 / 玩家姓名" maxlength="20">
+        <input id="big5-search-input" type="text" placeholder="輸入要搜尋的中文字串" maxlength="20">
         <button id="btn-big5-search" type="button">搜尋</button>
         <span id="big5-search-status" class="hint" style="margin-left: 8px;"></span>
       </div>
@@ -171,7 +174,7 @@
 
     <div class="editor-panel">
       <h3>★ 跨版本 diff（v0.2）</h3>
-      <p class="hint">上傳 lde3s.bak（上一次存檔）對比當前 lde3s.le3 → 列出所有 byte 變化位置。可推測「兩次存檔間玩家做了什麼」對應哪些 SAV offset。</p>
+      <p class="hint">上傳 lde3s.bak（上一次存檔）對比當前 lde3s.le3 → 列出所有 byte 變化位置。列出兩份存檔的差異；存檔每次儲存都幾乎整個改變，所以只能看出「不同」，無法直接對應到遊戲內的變數。</p>
       <div class="field-row">
         <input type="file" id="diff-file-input" aria-label="選擇要對比的第二個存檔檔案" accept=".le3,.bak,.bk2">
         <button id="btn-diff" type="button">執行 diff</button>
@@ -203,15 +206,14 @@
 
   <div class="editor-panel" style="margin-top: 24px;">
     <h3>進階：對照其他工具</h3>
-    <p>更深度修改建議用：</p>
+    <p>其他社群工具：</p>
     <ul>
-      <li><strong>kkarthur 修改器 v0.4</strong>：Windows 桌面版，field-level 編輯</li>
-      <li><strong>Morrowind ELF 工具 v1.62</strong>：編輯遊戲資料 ELF 檔（非存檔）</li>
+      <li><strong>kkarthur 修改器 v0.4</strong>：Windows 程式，能修改哪些項目本站未核實</li>
+      <li><strong>Morrowind ELF 工具 v1.62</strong>：搭配遊戲執行的輔助工具（功能依附帶 ReadMe 整理，本站未逐項實測）</li>
     </ul>
     <p>下載見：<a href="./">第三之書索引頁</a> 或 <a href="../files/lde3/">檔案庫</a></p>
   </div>
 
-</div>
 
 <script>
 
@@ -274,7 +276,7 @@ async function handleFile(file) {
     // 讀檔前先檢查大小，避免把異常大的檔案整個讀進記憶體。
     // MIN_SIZE / MAX_SIZE 定義在最上層，所有讀檔路徑共用同一組上下限。
     if (file.size < MIN_SIZE || file.size > MAX_SIZE) {
-      throw new Error(`檔案大小異常 (${file.size.toLocaleString()} bytes)，lde3s.le3 預期 ~985,542 bytes，允許範圍 ${MIN_SIZE / 1024} KB ~ ${MAX_SIZE / 1024 / 1024} MB`);
+      throw new Error(`檔案大小異常 (${file.size.toLocaleString()} bytes)，lde3s.le3 一般約 1 MB（依存檔進度而異），允許範圍 ${MIN_SIZE / 1024} KB ~ ${MAX_SIZE / 1024 / 1024} MB`);
     }
     const buffer = await file.arrayBuffer();
     workBuffer = new Uint8Array(buffer);
@@ -282,7 +284,7 @@ async function handleFile(file) {
 
     // Header validation
     const magic = String.fromCharCode(workBuffer[0], workBuffer[1], workBuffer[2]);
-    const titleBytes = workBuffer.slice(4, 32);
+    const titleBytes = workBuffer.slice(4, 44);
     const titleStr = String.fromCharCode(...titleBytes).replace(/\0/g, '').trim();
 
     let headerOk = false;
@@ -478,7 +480,7 @@ $('btn-big5-search').addEventListener('click', () => {
 
     if (positions.length === 0) {
       out.style.display = 'block';
-      out.textContent = '沒有找到該字串。\n\n提示：\n- 第三之書 SAV 大部分用 ID lookup（不是直接存 Big5），玩家姓名等可能不會出現。\n- 試搜尋系統字串（如 "歐德普克" 城鎮名 / 物品名）看哪些直接 store 在 SAV 內。';
+      out.textContent = '沒有找到該字串。\n\n說明：\n- 本站實測的 6 份存檔，在檔頭之後都找不到名稱字串（推定資料經過壓縮或加密），所以搜尋不到是正常的。\n- 這項搜尋也可以用來檢查其他來源的存檔。';
       return;
     }
 
@@ -674,8 +676,9 @@ dz.addEventListener('click', ev => {
 console.log('%c第三之書瀏覽器版修改器 v0.2', 'color:#00ff41;font-family:monospace;font-size:16px');
 console.log('%c吟遊詩人的傳說 · 俠客遊 · by toni', 'color:#00aa2b;font-family:monospace');
 </script>
-<p class="muted" style="font-size: 12px; margin-top: 8px;">⚖️ 本工具為逆向工程相容性研究成果(Sega v. Accolade 1992 fair use 美國判例)。玩家修改自己持有的正版遊戲存檔合法。請務必備份原始存檔。</p>
+<p class="muted" style="font-size: 12px; margin-top: 8px;">⚖️ 修改自己持有的存檔屬個人使用，本站工具以相容性研究為目的。請務必備份原始存檔。</p>
 </main>
+</div>
 
 </body>
 </html>

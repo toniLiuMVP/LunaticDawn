@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>第三之書修改器使用教學 · 吟遊詩人的傳說</title>
-<meta name="description" content="第三之書修改器使用教學，kkarthur v0.4 + Morrowind ELF v1.62 + 安全修改流程。">
+<meta name="description" content="第三之書修改工具使用教學：安全備份流程、本站瀏覽器版修改器能做的事，以及 kkarthur 修改器 v0.4 與 ELF v1.62 的說明（外部工具的功能本站未全部核實）。">
 <link rel="stylesheet" href="../../assets/css/fonts-wuxia.css">
 <link rel="stylesheet" href="../../assets/css/wuxia.css">
 <meta property="og:type" content="website">
 <meta property="og:title" content="第三之書修改器使用教學">
-<meta property="og:description" content="第三之書修改器使用教學，安全修改 + 備份 + 工具選擇。">
+<meta property="og:description" content="第三之書修改工具使用教學：安全備份流程、本站瀏覽器版修改器能做的事，以及 kkarthur 修改器 v0.4 與 ELF v1.62 的說明（外部工具的功能本站未全部核實）。">
 <meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/lde3/guides/modifier-tutorial.html">
 <meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
@@ -18,9 +18,9 @@
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="第三之書修改器使用教學">
-<meta name="twitter:description" content="第三之書修改器使用教學，安全修改 + 備份 + 工具選擇。">
+<meta name="twitter:description" content="第三之書修改工具使用教學：安全備份流程、本站瀏覽器版修改器能做的事，以及 kkarthur 修改器 v0.4 與 ELF v1.62 的說明（外部工具的功能本站未全部核實）。">
 <meta name="twitter:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","datePublished":"2026-05-08","dateModified":"2026-08-28","headline":"第三之書修改器使用教學","description":"第三之書修改器使用教學，安全修改 + 備份 + 工具選擇。","url":"https://toniliumvp.github.io/LunaticDawn/lde3/guides/modifier-tutorial.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"publisher":{"@type":"Organization","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"image":"https://toniliumvp.github.io/LunaticDawn/assets/og-image.png","about":{"@type":"VideoGame","name":"第三之書"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","datePublished":"2026-05-08","dateModified":"2026-08-28","headline":"第三之書修改器使用教學","description":"第三之書修改工具使用教學：安全備份流程、本站瀏覽器版修改器能做的事，以及 kkarthur 修改器 v0.4 與 ELF v1.62 的說明（外部工具的功能本站未全部核實）。","url":"https://toniliumvp.github.io/LunaticDawn/lde3/guides/modifier-tutorial.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"publisher":{"@type":"Organization","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"image":"https://toniliumvp.github.io/LunaticDawn/assets/og-image.png","about":{"@type":"VideoGame","name":"第三之書"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"吟遊詩人的傳說","item":"https://toniliumvp.github.io/LunaticDawn/"},{"@type":"ListItem","position":2,"name":"第三之書","item":"https://toniliumvp.github.io/LunaticDawn/lde3/"},{"@type":"ListItem","position":3,"name":"攻略","item":"https://toniliumvp.github.io/LunaticDawn/lde3/guides/"},{"@type":"ListItem","position":4,"name":"第三之書修改器使用教學"}]}</script>
 <!-- seo -->
 </head>
@@ -37,77 +37,59 @@
 <div class="breadcrumb"><a href="../../">吟遊詩人的傳說</a> / <a href="../">第三之書</a> / <a href="./">攻略</a> / <span class="dim">修改器教學</span></div>
 
 <section class="panel">
-  <h2 class="panel-title">[ 修改器選擇 ]</h2>
-  <p>第三之書修改工具選擇依需求不同：</p>
+  <h2 class="panel-title">[ 修改工具一覽 ]</h2>
+  <div class="table-scroll">
   <table style="width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 12px;">
     <tr style="border-bottom: 1px dotted var(--phosphor-fade); color: var(--phosphor-dim);">
       <th style="text-align: left; padding: 6px 4px;">工具</th>
-      <th style="text-align: left; padding: 6px 4px;">適合</th>
-      <th style="text-align: left; padding: 6px 4px;">難度</th>
+      <th style="text-align: left; padding: 6px 4px;">性質</th>
+      <th style="text-align: left; padding: 6px 4px;">本站核實</th>
     </tr>
-    <tr><td style="padding: 4px;"><strong>第三之書修改器 v0.4</strong>（kkarthur）</td><td>初學者修改屬性 / 物品 / 金錢</td><td>⭐ 簡單</td></tr>
-    <tr><td style="padding: 4px;"><strong>ELF 工具 v1.62</strong>（Morrowind）</td><td>進階玩家編輯遊戲資料 ELF 檔</td><td>⭐⭐⭐ 進階</td></tr>
-    <tr><td style="padding: 4px;"><strong><a href="../modifier.html">瀏覽器版修改器</a></strong>（toni · v0.2 已上線）</td><td>跨平台 / 純前端 / 免安裝</td><td>⭐ 簡單</td></tr>
+    <tr><td style="padding: 4px;"><strong><a href="../modifier.html">瀏覽器版修改器</a></strong>（本站 · v0.2）</td><td>拖放存檔，在瀏覽器內搜尋、比對並修改位元組</td><td>本站製作，功能如下文</td></tr>
+    <tr><td style="padding: 4px;"><strong>第三之書修改器 v0.4</strong>（kkarthur）</td><td>Windows 程式</td><td>功能本站未核實</td></tr>
+    <tr><td style="padding: 4px;"><strong>ELF v1.62</strong>（Morrowind）</td><td>搭配遊戲一起執行的輔助工具</td><td>依附帶 ReadMe 整理，未逐項實測</td></tr>
   </table>
+  </div>
 </section>
 
 <section class="panel">
   <h2 class="panel-title">[ 安全修改 SOP ]</h2>
   <p style="color: var(--danger);"><strong>⚠️ 修改前務必備份</strong></p>
   <ol style="line-height: 1.9;">
-    <li><strong>先確認執行檔版本為 1.0.8.2</strong>（執行檔升不對，修改器抓不到存檔）</li>
-    <li><strong>備份原檔</strong>：把整個 <code>USER0/</code>（或對應存檔資料夾）複製為 <code>USER0_backup/</code></li>
-    <li><strong>修改器放遊戲資料夾</strong>：跟 LDE3.EXE 同層</li>
-    <li><strong>先小幅修改測試</strong>：例如金錢 +1000，看遊戲讀取是否正常</li>
-    <li><strong>確認無誤再大幅修改</strong>：屬性 / 物品 / 等級</li>
-    <li><strong>修改後 save / quit / re-load 驗證</strong>：避免存檔損毀</li>
+    <li><strong>先結束遊戲</strong>：從選單〔遊戲〕選〔結束〕，會儲存目前的進度再離開。第三之書採自動儲存，遊戲內沒有儲存選單。</li>
+    <li><strong>備份原檔</strong>：把遊戲資料夾內整個 <code>usr/</code>（存檔 <code>lde3s.le3</code> 所在）複製為 <code>usr_backup/</code>。同一個資料夾只能放一筆存檔，放第二筆會互相覆蓋，所以備份要放在別的資料夾。</li>
+    <li><strong>先小幅修改測試</strong>：改一點就進遊戲確認讀得了，再做其他修改。</li>
+    <li><strong>改壞了就還原</strong>：用 <code>usr_backup/</code> 裡的存檔蓋回去。</li>
   </ol>
+  <p class="muted">「自動儲存」「同一資料夾只能放一筆存檔」與「遊戲進行中隨意移動存檔可能讓遊戲讀不到紀錄」都依遊戲附帶的說明檔（hlp 資料夾）。</p>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">[ 本站瀏覽器版修改器 ]</h2>
+  <p>開啟：<a href="../modifier.html">▸ 瀏覽器版修改器</a>（純前端，存檔只在自己的瀏覽器內處理，不會上傳）</p>
+  <h3 style="color: var(--amber);">能做的事</h3>
+  <ul style="line-height: 1.9;">
+    <li>拖放或選擇 <code>lde3s.le3</code>，檢查檔頭並顯示檔案資訊</li>
+    <li>在存檔中搜尋 Big5 中文字串出現的位置（本站實測的存檔在檔頭之後都找不到名稱字串，所以多半搜尋不到）</li>
+    <li>產生區段熱圖，每 16 KB 顯示非零位元組的比例</li>
+    <li>上傳另一份存檔（例如 <code>lde3s.bak</code>）做差異比對，列出不同的位元組（相鄰兩次存檔有 99.7% 的位元組不同）</li>
+    <li>以十六進位編輯整個檔案，套用後下載修改過的存檔</li>
+  </ul>
+  <h3 style="color: var(--amber);">目前做不到的事</h3>
+  <p>本站實測的 6 份存檔，檔頭（0x00 到 0x6B）之後約 292 bytes 含存檔路徑與疑似系統位址，每台電腦、每次都不同，推定不是玩家資料；0x190 之後約 1 MB 的位元組分布接近均勻（熵 7.995 到 7.999 bits/byte），相鄰兩次存檔有 99.7% 的位元組不同，用 Big5、UTF-16、UTF-8 搜尋名稱字串都是 0 處，推定是壓縮或加密。本站沒有解開這一段，所以還沒有金錢、能力值等欄位的位置，不能像一般修改器那樣直接改數值，字串搜尋與差異比對也無法對應到欄位。想改數值請先看下方其他工具，並照上面的方式備份。</p>
 </section>
 
 <section class="panel">
   <h2 class="panel-title">[ 第三之書修改器 v0.4 (kkarthur) ]</h2>
-  <p>下載：<a href="https://drive.google.com/open?id=1cCPao0_WN2XgVIlMaxrsmzv9TjJwCmo4" target="_blank" rel="noopener">Google Drive 主連結</a> · <a href="https://gofile.me/4OC17/TL7zLmbf3" target="_blank" rel="noopener">備用</a>（密碼：<code>lunaticdawn</code>）</p>
-
-  <h3 style="color: var(--amber);">基本用法</h3>
-  <ol style="line-height: 1.9;">
-    <li>把 <code>Lde3Edit_v0.4.exe</code> 放在跟 LDE3.EXE 同資料夾</li>
-    <li>遊戲先 save 一次（產生最新存檔）</li>
-    <li>關掉遊戲</li>
-    <li>跑 <code>Lde3Edit_v0.4.exe</code></li>
-    <li>選擇要修改的角色 + 屬性</li>
-    <li>修改完按「儲存」</li>
-    <li>重新進遊戲讀取存檔，確認修改生效</li>
-  </ol>
-
-  <h3 style="color: var(--amber);">可修改項目</h3>
-  <ul>
-    <li>角色屬性（力 / 智 / 靈 / 敏 / 直 / 魅 / 體 / 精）</li>
-    <li>HP / MP / STM 上限</li>
-    <li>金錢</li>
-    <li>物品欄</li>
-    <li>5 系魔法學會狀態</li>
-    <li>技能熟練度</li>
-  </ul>
+  <p>下載：<a href="https://drive.google.com/open?id=1cCPao0_WN2XgVIlMaxrsmzv9TjJwCmo4" target="_blank" rel="noopener">Google Drive</a></p>
+  <p>PTT Old-Games 板 kkarthur 製作的 Windows 程式，依封存內的 Readme 是 v0.4、2011-10-14。程式經過打包，本站讀不到它的欄位名稱與操作方式：能修改哪些項目、要在遊戲執行中還是關閉後使用，本站未核實，請以程式畫面為準，並先照上面的步驟備份。</p>
 </section>
 
 <section class="panel">
-  <h2 class="panel-title">[ ELF 工具 v1.62 (Morrowind) ]</h2>
+  <h2 class="panel-title">[ ELF v1.62 (Morrowind) ]</h2>
   <p>下載：<a href="https://drive.google.com/open?id=1_69yJO9vux6ZtGOC198iGIDMdDv4TnRT" target="_blank" rel="noopener">Google Drive</a></p>
-
-  <p>ELF 工具編輯遊戲資料的 ELF 加密檔。比修改器更深入，可改：</p>
-  <ul>
-    <li>遊戲內物品定義（價格 / 攻擊力 / 防禦值）</li>
-    <li>怪物數值</li>
-    <li>地圖事件參數</li>
-    <li>NPC 設定</li>
-  </ul>
-
-  <p class="muted">⚠️ ELF 工具修改的是<strong>遊戲資料檔</strong>（不是存檔），所有玩家都會受影響。建議：</p>
-  <ul>
-    <li>先備份整個遊戲資料夾</li>
-    <li>了解 ELF 結構再修改（Morrowind 工具有說明文件）</li>
-    <li>適合「想改造遊戲體驗」的進階玩家</li>
-  </ul>
+  <p>ELF 是搭配遊戲一起執行的輔助工具，依附帶的 ReadMe 是 v1.62、2011-11-25。ReadMe 的版本說明提到的功能有：20 個道具儲物空間（第 20 個就是自宅的保管箱）、卡片與道具的陳列室、道具資訊顯示、戰場情報，以及吟遊詩人的時間修改。這些功能本站未逐項實測。</p>
+  <p class="muted">ReadMe 特別提醒：買房子時不要關閉 ELF。</p>
 </section>
 
 <section class="panel">
@@ -116,8 +98,8 @@
     <li><strong>第一輪正常玩</strong>：體驗成長感跟挑戰</li>
     <li><strong>卡關才用修改器</strong>：避免一開始就破壞樂趣</li>
     <li><strong>修改幅度漸進</strong>：先小修，看遊戲反應，再大修</li>
-    <li><strong>用 USER1 測試 USER0 保留</strong>：作為對照</li>
-    <li><strong>修改後保留多個存檔點</strong>：避免單點故障</li>
+    <li><strong>保留 usr_backup/ 當對照</strong>：改壞了可以從備份還原</li>
+    <li><strong>重要進度另外備份</strong>：把當時的 <code>usr/</code> 複製到另一個資料夾保存，避免只剩一份存檔</li>
   </ul>
 </section>
 

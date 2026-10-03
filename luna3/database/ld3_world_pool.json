@@ -1,6 +1,6 @@
 {
   "total": 1183,
-  "description": "LD3 (俠客遊 III, 2000) 隨機世界生成器的 name pool — 從 LD3 res/ 各 mt_*.BIN 跟 MonsterPara.BIN 提取（這些檔全部明文，無加密）。每次新遊戲時系統從這些 pool 隨機選名字。",
+  "description": "LD3 (俠客遊 III, 2000) 隨機世界生成器的 name pool，從 LD3 res/ 各 mt_*.BIN 跟 MonsterPara.BIN 提取（這些檔全部明文，無加密）。每次新遊戲時系統從這些 pool 隨機選名字。",
   "categories": {
     "世界 / 國家名 (516)": [
       "阿修連",

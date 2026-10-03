@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>亂碼及字型問題 · 吟遊詩人的傳說</title>
-<meta name="description" content="亂碼及字型問題，GENERAL · 跨作品字型 FAQ。吟遊詩人的傳說 · 俠客遊 Lunatic Dawn 資料站。">
+<meta name="description" content="俠客遊系列的亂碼與字型問題整理：Windows 95 到 XP 的字型關聯設定，未來之書與前途道標在 2000 / XP 的社群修正，前途道標在 Windows 10 以後的字體重疊解法，以及俠客遊 IV 字體過小的調整方式。">
 <link rel="stylesheet" href="../assets/css/fonts-wuxia.css">
 <link rel="stylesheet" href="../assets/css/wuxia.css">
 <meta property="og:type" content="website">
 <meta property="og:title" content="亂碼及字型問題 · 吟遊詩人的傳說">
-<meta property="og:description" content="亂碼及字型問題，GENERAL · 跨作品字型 FAQ。吟遊詩人的傳說 · 俠客遊 Lunatic Dawn 資料站。">
+<meta property="og:description" content="俠客遊系列的亂碼與字型問題整理：Windows 95 到 XP 的字型關聯設定，未來之書與前途道標在 2000 / XP 的社群修正，前途道標在 Windows 10 以後的字體重疊解法，以及俠客遊 IV 字體過小的調整方式。">
 <meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/general/encoding-faq.html">
 <meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
@@ -19,9 +19,9 @@
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="亂碼及字型問題 · 吟遊詩人的傳說">
-<meta name="twitter:description" content="亂碼及字型問題，GENERAL · 跨作品字型 FAQ。吟遊詩人的傳說 · 俠客遊 Lunatic Dawn 資料站。">
+<meta name="twitter:description" content="俠客遊系列的亂碼與字型問題整理：Windows 95 到 XP 的字型關聯設定，未來之書與前途道標在 2000 / XP 的社群修正，前途道標在 Windows 10 以後的字體重疊解法，以及俠客遊 IV 字體過小的調整方式。">
 <meta name="twitter:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"亂碼及字型問題","description":"亂碼及字型問題，GENERAL · 跨作品字型 FAQ。吟遊詩人的傳說 · 俠客遊 Lunatic Dawn 資料站。","url":"https://toniliumvp.github.io/LunaticDawn/general/encoding-faq.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"亂碼及字型問題","description":"俠客遊系列的亂碼與字型問題整理：Windows 95 到 XP 的字型關聯設定，未來之書與前途道標在 2000 / XP 的社群修正，前途道標在 Windows 10 以後的字體重疊解法，以及俠客遊 IV 字體過小的調整方式。","url":"https://toniliumvp.github.io/LunaticDawn/general/encoding-faq.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"吟遊詩人的傳說","item":"https://toniliumvp.github.io/LunaticDawn/"},{"@type":"ListItem","position":2,"name":"亂碼及字型問題"}]}</script>
 <!-- seo -->
 </head>
@@ -49,14 +49,33 @@
 <section class="panel">
   <h2 class="panel-title">[ 亂碼及字型問題 ]</h2>
     <div class="prose">
+<div style="padding: 14px 18px; margin: 16px 0; border-left: 4px solid var(--link); background: rgba(0,255,65,0.06);">
+<p style="margin-bottom: 6px;"><strong style="color: inherit;">🆕 2026-05-13 更新：新一代字體修復補丁 POLd95Win11_WordOK v7 final</strong></p>
+<p style="margin: 0 0 6px 0;">2019 年的 124% 系統 DPI hack 太阿呆（要改系統設定 + 登出重新登入 + 影響所有程式）。2026 年用 DLL injection + r2 反組譯做出新版補丁，<strong>解壓 3 個檔覆蓋你 Ld95 安裝目錄即可</strong>：</p>
+<ul style="margin: 0 0 6px 20px; line-height: 1.7;">
+<li>✅ 不用改系統 DPI</li>
+<li>✅ 不用登出重新登入</li>
+<li>✅ 只影響 Ld95.exe，其他程式正常</li>
+<li>✅ 資料夾帶著走（隨身碟 OK）</li>
+<li>✅ 倍率 50–400% 自由微調（ld95.ini ScalePercent）</li>
+<li>✅ 同時解決<strong>字重疊 + 字太小</strong>兩件事</li>
+</ul>
+<p style="margin: 0 0 6px 0;"><strong>適用兩種玩家：</strong></p>
+<ul style="margin: 0 0 6px 20px; line-height: 1.7;">
+<li>🅰️ <strong>Steam 新玩家</strong>：先到 <a href="https://store.steampowered.com/app/335420/_/" target="_blank" rel="noopener">Steam 前途道標頁</a>購買正版前途道標（僅日文介面）→ 套用補丁後變繁體中文</li>
+<li>🅱️ <strong>1999 老光碟玩家</strong>：用既有正版實體光碟安裝目錄 → 套用補丁額外保護光碟磁軌（NoCD 機制，不用每次插光碟）</li>
+</ul>
+<p style="margin: 0;">▸ <a href="../passage/win10-font-fix.html"><strong>完整教學頁 + 拿補丁 POLd95Win11_WordOK.7z (500 KB) + v1→v7 演進故事</strong></a></p>
+</div>
+
 <p>基本上通用解決亂碼辦法 : 使用翻譯軟體( 例如 : 譯典通 ) 開啟多語言瀏覽。</p>
 <p><strong>WINDOWS 95/98/98SE解決方法:</strong></p>
 <p>第一種：直接從[控制台/新增移除]裡把IE 5.0的日文字形給移除掉就行了，移除時請選擇&quot;Japanese Language Support&quot;然後選移除再重新開機就行了，使用此種方式是可以一勞永逸，以後玩俠客遊都不會有亂碼，但是對於有在用中文的IE5.0來上日文網頁或是有在用CWIN在玩JWIN遊戲的人卻會發現字都會看不到。</p>
 <p>第二種：因為在有裝日文字形的情況之下，Windows的資料夾底下的Fonts裡面，應該會有&quot;MS Gothic&quot;(IE 5.0)或&quot;MS Mincho&quot;(Office)這兩個字形(在某些情況之下只有一個，不影響)，這兩個檔案就是日文字形的字形檔，只要在玩俠客遊時將這兩個檔案暫時移動 到別的資料夾就行了，等到要瀏覽日文網頁或是要玩JWIN遊戲時在將其移動回來就行了^^，好處是不用把日文字形砍掉，缺點就是檔案要動來動去，滿麻煩 的。</p>
-<p><strong>(推薦使用方法)</strong>第三種：</p>
+<p><strong>(Win95/98 時代做法)</strong>第三種：</p>
 <p>（ＸＰ執行方法 : 按左下角的執行 -&gt; 開始 -&gt; 輸入Regedit -&gt; 按確定)</p>
 <p>找到Windows資料夾底下的Regedit.exe檔，然後在裡頭找到以下的位置</p>
-<p>[HKEY_LOCAL_MACHINE\System\CurrentControlSet\control\fontassoc\Associated CharSet]</p>
+<p><code>[HKEY_LOCAL_MACHINE\System\CurrentControlSet\control\fontassoc\Associated CharSet]</code></p>
 <p>然後可以看到以下字串:</p>
 <p>&quot;ANSI(00)&quot;=&quot;yes&quot;</p>
 <p>&quot;SYMBOL(02)&quot;=&quot;no&quot;</p>
@@ -82,37 +101,19 @@
 <p>總共有三處要改。</p>
 <p>在檔案下載區有toni編輯好的 <a href="../files/luna2/LD95XP.7z">前途道標ForXP無亂碼執行檔</a></p>
 <p><strong>前途道標 For WINDOWS XP 字型問題解決 :</strong></p>
-<p>GameBase 作者： <a href="http://www.gamebase.com.tw/member/card.asp?m_no=283224" target="_blank" rel="noopener">singlau (孤星劍)</a></p>
+<p>GameBase 作者：singlau (孤星劍)</p>
 <p>在XP的正常情況下，與同伴或路人交談時， 出現的小方塊會產生字體重疊，令對話看不清，</p>
 <p>解決方法是, 將顯示卡的字型大小, 由 &quot;<strong>正常大小</strong>&quot; (96DPI) ，轉為 &quot;<strong>大</strong>&quot; (120DPI)</p>
 <p>開始 -&gt; 控制台 -&gt; 顯示 -&gt; 外觀 -&gt; 字型大小 -&gt; 改大字 -&gt; 確定 -&gt; 重開機</p>
-<p><strong>前途道標 For Windows 10 遊戲內字體會重疊在一起問題解決:(New 2019/12/11更新)</strong></p>
+<p><strong>前途道標 For Windows 10 遊戲內字體會重疊在一起問題解決（2019/12/11 歷史紀錄，已由上方 2026 補丁取代）</strong></p>
 <p>toni在網路上爬文，發現DPI要調成4的倍數的資訊，得到網路上的一個數值調整:124%，</p>
 <p>設定成這個值後，就可以看清楚遊戲內的字體了。</p>
-<p>一、先到遊戲資料夾，在遊戲執行檔LD95.exe上按右鍵，把內容設定成以下圖片一模一樣，</p>
+<p>一、先到遊戲資料夾，在遊戲執行檔 LD95.exe 上按右鍵開啟「內容」，</p>
 <p>接著點「變更高DPI設定」。</p>
-<p>二、接著一樣設定成跟圖片一模一樣，之後點「開啟進階縮放設定」。</p>
-<p><strong>三、再來也是設定跟圖片一模一樣，之後Windows會請你先登出後再登入即可。</strong></p>
+<p>二、之後點「開啟進階縮放設定」。</p>
+<p><strong>三、依上面的 124% 數值完成縮放設定，之後 Windows 會請你先登出後再登入即可。</strong></p>
+<p class="muted">（原文附有三張設定截圖，本站未保存。）</p>
 <p><strong>修改完成後的遊戲內字體畫面，就至少是可以看得懂的狀態了^_^</strong></p>
-
-<div style="padding: 14px 18px; margin: 16px 0; border-left: 4px solid var(--phosphor); background: rgba(0,255,65,0.06);">
-<p style="margin-bottom: 6px;"><strong style="color: var(--phosphor);">🆕 2026-05-13 更新：新一代字體修復補丁 POLd95Win11_WordOK v7 final</strong></p>
-<p style="margin: 0 0 6px 0;">2019 年的 124% 系統 DPI hack 太阿呆（要改系統設定 + 登出重新登入 + 影響所有程式）。2026 年用 DLL injection + r2 反組譯做出新版補丁，<strong>解壓 3 個檔覆蓋你 Ld95 安裝目錄即可</strong>：</p>
-<ul style="margin: 0 0 6px 20px; line-height: 1.7;">
-<li>✅ 不用改系統 DPI</li>
-<li>✅ 不用登出重新登入</li>
-<li>✅ 只影響 Ld95.exe，其他程式正常</li>
-<li>✅ 資料夾帶著走（隨身碟 OK）</li>
-<li>✅ 倍率 50–400% 自由微調（ld95.ini ScalePercent）</li>
-<li>✅ 同時解決<strong>字重疊 + 字太小</strong>兩件事</li>
-</ul>
-<p style="margin: 0 0 6px 0;"><strong>適用兩種玩家：</strong></p>
-<ul style="margin: 0 0 6px 20px; line-height: 1.7;">
-<li>🅰️ <strong>Steam 新玩家</strong>：先到 <a href="https://store.steampowered.com/app/335420/_/" target="_blank" rel="noopener">Steam 前途道標頁</a>購買正版前途道標（僅日文介面）→ 套用補丁後變繁體中文</li>
-<li>🅱️ <strong>1999 老光碟玩家</strong>：用既有正版實體光碟安裝目錄 → 套用補丁額外保護光碟磁軌（NoCD 機制，不用每次插光碟）</li>
-</ul>
-<p style="margin: 0;">▸ <a href="../passage/win10-font-fix.html"><strong>完整教學頁 + 拿補丁 POLd95Win11_WordOK.7z (500 KB) + v1→v7 演進故事</strong></a></p>
-</div>
 
 <p><strong>俠客遊IV字體過小解決辦法 :</strong></p>
 <p>巴哈姆特 作者 : hcmhcm</p>

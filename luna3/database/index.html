@@ -4,19 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>俠客遊 III · 名字字典 · 吟遊詩人的傳說</title>
-<meta name="description" content="俠客遊 III LD3 隨機世界生成器名字字典，1183 個明文中文字串（世界 / 城鎮 / 迷宮 / 怪物 / 地形）。">
+<meta name="description" content="俠客遊 III LD3 隨機世界生成器名字字典，1,183 筆明文中文字串，其中 1,153 個不重複（世界 / 城鎮 / 迷宮 / 怪物 / 地形）。">
 <link rel="stylesheet" href="../../assets/css/fonts-retro.css">
 <link rel="stylesheet" href="../../assets/css/retro.css">
 <meta property="og:type" content="website">
 <meta property="og:title" content="俠客遊 III · 名字字典">
-<meta property="og:description" content="LD3 隨機世界生成器 1,183 個名字字典。">
+<meta property="og:description" content="LD3 隨機世界生成器名字字典，1,183 筆字串（1,153 個不重複）。">
 <meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/luna3/database/">
 <meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
 <style>
 .cat-section { margin: 20px 0; padding: 16px; background: var(--bg-panel); border: 1px solid var(--phosphor-fade); }
 .cat-title { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 14px; margin: 0 0 12px; }
-.cat-count { color: var(--phosphor-fade); font-size: 12px; margin-left: 8px; }
+.cat-count { color: var(--phosphor-text-dim); font-size: 12px; margin-left: 8px; }
 .string-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 6px; }
 .string-item { background: var(--bg-input); padding: 6px 12px; font-size: 14px; color: var(--phosphor); border: 1px solid var(--phosphor-fade); border-radius: 2px; }
 .notice { padding: 12px; border: 1px dashed var(--phosphor-dim); color: var(--phosphor-dim); margin-bottom: 16px; font-size: 14px; line-height: 1.7; }
@@ -29,9 +29,9 @@
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="俠客遊 III · 名字字典">
-<meta name="twitter:description" content="LD3 隨機世界生成器 1,183 個名字字典。">
+<meta name="twitter:description" content="LD3 隨機世界生成器名字字典，1,183 筆字串（1,153 個不重複）。">
 <meta name="twitter:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"俠客遊 III","description":"LD3 隨機世界生成器 1,183 個名字字典。","url":"https://toniliumvp.github.io/LunaticDawn/luna3/database/","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 III"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"俠客遊 III","description":"LD3 隨機世界生成器名字字典，1,183 筆字串（1,153 個不重複）。","url":"https://toniliumvp.github.io/LunaticDawn/luna3/database/","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 III"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"吟遊詩人的傳說","item":"https://toniliumvp.github.io/LunaticDawn/"},{"@type":"ListItem","position":2,"name":"資料庫","item":"https://toniliumvp.github.io/LunaticDawn/luna3/database/"},{"@type":"ListItem","position":3,"name":"俠客遊 III"}]}</script>
 <!-- seo -->
 </head>
@@ -57,11 +57,11 @@
 
 
   <div class="notice">
-    <strong>俠客遊 III 隨機世界生成器名字字典</strong>（1,183 個 unique 中文字串）
+    <strong>俠客遊 III 隨機世界生成器名字字典</strong>（1,183 筆中文字串，其中 1,153 個不重複）
     <br><br>
     <strong>來源</strong>：LD3 res/ 各 mt_*.BIN 跟 MonsterPara.BIN 內含的明文字串（無加密，magic <code>\\0LD3</code>），這些是 LD3 <strong>隨機世界生成器</strong>用的 name pool，每次新遊戲時系統從這些 pool 隨機選 world / town / dungeon / monster 名字。
     <br><br>
-    <strong>合規</strong>：純名字字典，事實層內容（玩家於遊戲中會看到這些字串），依日本著作權法第 2 條僅創作性表現受保護，事實名稱不在保護範圍。
+    <strong>合規</strong>：純名字字典，事實層內容（玩家於遊戲中會看到這些字串）；名稱屬單字或短詞，一般認為不具或僅有極有限的著作權保護（個案判斷）。
     <br><br>
     完整 JSON 在 <a href="ld3_world_pool.json">ld3_world_pool.json</a>。
   </div>
@@ -69,12 +69,11 @@
   <div class="search-box">
     <span style="color: var(--amber);">🔍 即時搜尋：</span>
     <input id="search" aria-label="搜尋俠客遊 III 資料庫" type="text" placeholder="輸入中文關鍵字（例：龍 / 鎮 / 迷宮）...">
-    <span id="match-count" style="color: var(--phosphor-fade); font-size: 12px;"></span>
+    <span id="match-count" style="color: var(--phosphor-text-dim); font-size: 12px;"></span>
   </div>
 
   <div id="content"></div>
 
-</div>
 
 <script>
 let allData = null;
@@ -125,7 +124,7 @@ function render(filter) {
     }
     if (!filter && items.length > showCount) {
       const more = document.createElement('div');
-      more.style.color = 'var(--phosphor-fade)';
+      more.style.color = 'var(--phosphor-text-dim)';
       more.style.padding = '8px 12px';
       more.textContent = `... 共 ${items.length} 個（用搜尋顯示完整）`;
       grid.appendChild(more);
@@ -136,7 +135,7 @@ function render(filter) {
   }
 
   const cnt = document.getElementById('match-count');
-  cnt.textContent = filter ? `${totalShown} 個符合` : `總計 ${allData.total} 個 unique 字串`;
+  cnt.textContent = filter ? `${totalShown} 個符合` : `總計 ${allData.total} 筆字串`;
 }
 
 document.getElementById('search').addEventListener('input', (e) => {
@@ -153,6 +152,7 @@ load().catch(e => {
 </script>
 
 </main>
+</div>
 
 <footer style="margin-top: 24px; padding-top: 12px; border-top: 1px dashed var(--phosphor-fade); text-align: center; font-size: 14px;">
   <p>

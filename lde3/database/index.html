@@ -16,7 +16,7 @@
 <style>
 .cat-section { margin: 20px 0; padding: 16px; background: var(--bg-panel); border: 1px solid var(--phosphor-fade); }
 .cat-title { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 14px; margin: 0 0 12px; }
-.cat-count { color: var(--phosphor-fade); font-size: 12px; margin-left: 8px; }
+.cat-count { color: var(--phosphor-text-dim); font-size: 12px; margin-left: 8px; }
 .string-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 6px; }
 .string-item { background: var(--bg-input); padding: 6px 12px; font-size: 14px; color: var(--phosphor); border: 1px solid var(--phosphor-fade); border-radius: 2px; }
 .notice { padding: 12px 16px; background: rgba(255,176,0,0.08); border-left: 3px solid var(--amber); margin: 16px 0; font-size: 14px; color: var(--phosphor-dim); line-height: 1.7; }
@@ -60,29 +60,27 @@
     <strong>📚 子頁面導航</strong>
     <ul style="margin: 12px 0 0 24px; line-height: 1.9;">
       <li><a href="items.html"><strong>道具列表</strong></a>，215 筆道具名稱（武器 / 防具 / 卡片 / 神器 / 任務道具，依 ID 排序）</li>
-      <li><a href="monsters.html"><strong>怪物列表</strong></a>，15 族群 × 5 種，共 75 隻怪物（依族群分類）</li>
-      <li><a href="cards.html"><strong>卡片系統詞彙</strong></a>，80 個卡片戰鬥系統名稱（15 分類：4 陣營屬性 / 力場 / 陣式 / 召喚 / 收藏家 / 世界分享 等）</li>
-      <li><a href="game-systems.html"><strong>遊戲系統詞彙</strong></a>，250 個 UI / 任務 / 城鎮 / 詩稱號 / 8 國 / 神器系列 等（25 大類）</li>
-      <li><a href="achievements.html"><strong>成就詩稱號</strong></a>，42 首玩家成就詩（5 大類：王國 / 武器高手 / 神話 boss / 大事件 / 一般）</li>
+      <li><a href="monsters.html"><strong>怪物列表</strong></a>，74 隻怪物（依主程式怪物表的順序，可依記錄裡的類別欄篩選）</li>
+      <li><a href="cards.html"><strong>卡片系統詞彙</strong></a>，80 個 CO-卡片相關詞彙（本站整理成 15 組：4 個魔法屬性名稱 / 力場 / 陣式 / 召喚 / 收藏家 / 世界分享用語 等，依名稱分組，效果未確認）</li>
+      <li><a href="game-systems.html"><strong>遊戲系統詞彙</strong></a>，249 個 UI / 任務 / 地名字串 / 吟遊詩人詩歌 / 8 國 / 神器系列 等（25 大類）</li>
+      <li><a href="achievements.html"><strong>吟遊詩人詩歌</strong></a>，42 首詩歌的名稱（取自精靈工具，依名稱整理成 5 類：王國 / 武器高手 / 地方最強 boss / 大事件 / 其他）</li>
       <li><a href="artifacts.html"><strong>神器圖鑑</strong></a>，71 件神器級武器（11 大類：跨中華 / 希臘 / 北歐 / 印度神話）</li>
       <li>下方原有：LDE3.EXE 逆向字串字典（810 系統字串）</li>
     </ul>
   </div>
 
   <div class="notice" style="border-left-color: var(--phosphor);">
-    <strong>遊戲資料 .dat 檔結構觀察</strong>：第三之書更新修正檔 1.1+1.2 內含 <strong>11 個遊戲資料 .dat 檔</strong>（位於 <code>Lde3Patch/...patch1.1+1.2/{card,mon,item}/</code>），包括：
+    <strong>遊戲資料 .dat 檔結構觀察</strong>：第三之書的 <code>res</code> 資料夾共有 162 個 .dat 檔（官方更新修正檔 1.1+1.2 另附 card / mon / item 三個子資料夾，內含其中 11 個資料表），包括：
     <br>
-    ▸ <code>ItemNameStr.dat</code>（7,134 B 道具名稱資料）/ <code>ItemParam.dat</code>（29,575 B 二進位數值）/ <code>ItemPropStr.dat</code>（25,530 B 屬性說明）
+    ▸ item：<code>ItemNameStr.dat</code> / <code>ItemParam.dat</code> / <code>ItemPropStr.dat</code>
     <br>
-    ▸ <code>MonsterNameStr.dat</code>（8,868 B 怪物名稱資料）/ <code>MonsterParam.dat</code>（111,357 B 完整怪物參數）
+    ▸ mon：<code>MonsterNameStr.dat</code> / <code>MonsterParam.dat</code>
     <br>
-    ▸ <code>SpCardNameStr.dat</code>（7,550 B 特殊卡片名）/ <code>SpCardParam.dat</code>（4,047 B 卡片參數）
-    <br>
-    ▸ <code>ItemNtoCardI.dat</code> + <code>MonsterNtoCardI.dat</code>（物品/怪物 → 卡片 ID 映射表）
+    ▸ card：<code>SpCardNameStr.dat</code> / <code>SpCardParam.dat</code> / <code>ItemCardParam.dat</code> / <code>MonsterCardParam.dat</code> / <code>ItemNtoCardI.dat</code> / <code>MonsterNtoCardI.dat</code>
     <br><br>
-    <strong>共同 header</strong>：byte 0-3 file size + byte 8-11 ASCII magic「HF\0\0」+ byte 28-31 重複 byte 4-7 之值。
+    <strong>共同 header</strong>：byte 0-3 是檔案大小，byte 4-7 是解壓後大小，byte 8-9 是 ASCII 標記「HF」，byte 28-31 重複 byte 4-7 的值。各檔大小隨遊戲版本略有不同。
     <br>
-    <strong>狀態</strong>：data section 為加密 / 壓縮格式。同時，本資料庫的「道具列表」與「怪物列表」是從 Lde3.exe 主程式內嵌字串提取，獨立於 .dat 檔，已可使用。
+    <strong>內容</strong>：資料區是 Huffman 壓縮，本站已解開壓縮層；解開之後本站沒有在其中找到道具、怪物、卡片的名稱字串（直接比對、XOR 0x66、XOR 0xFF 三種方式都試過），推定解壓後是<strong>數值與索引表</strong>，各欄位的意義尚未解讀。解壓後最常見的位元組是 0x66，可能還有第二層編碼，本站未確認。ELF 工具的 ReadMe（1.60 版的版本說明）提到它能解開一部分帶 str 的 .dat，本站未驗證。檔名雖然帶有 NameStr，但道具、怪物、卡片的名稱可以直接從 Lde3.exe 讀出：它們以 Big5 明文內嵌在主程式。本資料庫的「道具列表」與「怪物列表」就是直接讀主程式內的名稱表，不需要解開 .dat。
   </div>
 
   <div class="notice">
@@ -90,7 +88,7 @@
     <br><br>
     <strong>方法</strong>：對 Lde3.exe (PE32, 2.5MB) 用 Big5 模式（high byte 0xA1-0xC6）+ ≥4 中文字 + null terminator 過濾，去重後分類。
     <br><br>
-    <strong>合規</strong>：純名字 / 系統字串字典（事實層，依日本著作權法第 12 條²不受資料庫著作權保護），不含創作性編排。
+    <strong>名稱的法律定位</strong>：純名字 / 系統字串字典，字串取自遊戲主程式，屬事實層內容（是否每一條都會出現在遊戲畫面，本站未逐條核對）；名稱屬單字或短詞，一般認為不具或僅有極有限的著作權保護（個案判斷）。本頁的分類與排序是本站整理，不主張其權利。
     <br><br>
     <strong>用途</strong>：玩家遇到不熟字串時可在此查詢含義 / 玩家社群核對遊戲系統翻譯。完整 JSON 在 <a href="strings.json">strings.json</a>。
   </div>
@@ -98,12 +96,11 @@
   <div class="search-box">
     <span style="color: var(--amber);">🔍 即時搜尋：</span>
     <input id="search" aria-label="搜尋第三之書資料庫" type="text" placeholder="輸入中文關鍵字（例：魔法 / 卡片 / 召喚）...">
-    <span id="match-count" style="color: var(--phosphor-fade); font-size: 12px;"></span>
+    <span id="match-count" style="color: var(--phosphor-text-dim); font-size: 12px;"></span>
   </div>
 
   <div id="content"></div>
 
-</div>
 
 <script>
 let allData = null;
@@ -153,7 +150,7 @@ function render(filter) {
     }
     if (!filter && items.length > 100) {
       const more = document.createElement('div');
-      more.style.color = 'var(--phosphor-fade)';
+      more.style.color = 'var(--phosphor-text-dim)';
       more.style.padding = '8px 12px';
       more.textContent = `... 共 ${items.length} 個（搜尋顯示完整）`;
       grid.appendChild(more);
@@ -183,6 +180,7 @@ console.log('%c第三之書資料庫 v0.1', 'color:#00ff41;font-family:monospace
 console.log('%c吟遊詩人的傳說 · 俠客遊 · by toni', 'color:#00aa2b;font-family:monospace');
 </script>
 </main>
+</div>
 
 </body>
 </html>

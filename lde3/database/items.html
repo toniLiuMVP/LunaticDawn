@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>第三之書 · 道具列表 · 吟遊詩人的傳說</title>
-<meta name="description" content="俠客遊：第三之書 道具列表，215 個遊戲內可拾取的道具 / 武器 / 防具 / 卡片 / 神器名稱（依 ID 排序，含搜尋）。">
+<meta name="description" content="俠客遊：第三之書 道具列表，主程式道具表中的 215 筆道具名稱與 ID（依 ID 排序，含搜尋）；各項實際的取得方式本站未逐件確認。">
 <link rel="stylesheet" href="../../assets/css/fonts-retro.css">
 <link rel="stylesheet" href="../../assets/css/retro.css">
 <meta property="og:type" content="website">
@@ -22,11 +22,11 @@
 .items-table { width: 100%; border-collapse: collapse; font-size: 16px; }
 .items-table th, .items-table td { border: 1px solid var(--phosphor-fade); padding: 6px 10px; text-align: left; }
 .items-table th { background: var(--bg-panel); color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 11px; position: sticky; top: 0; z-index: 10; }
-.items-table .num { text-align: right; font-family: 'Courier New', monospace; color: var(--phosphor-fade); }
+.items-table .num { text-align: right; font-family: 'Courier New', monospace; color: var(--phosphor-text-dim); }
 .items-table tbody tr:hover { background: rgba(0, 255, 65, 0.06); }
 .notice { padding: 12px 16px; background: rgba(255,176,0,0.08); border-left: 3px solid var(--amber); margin: 16px 0; font-size: 14px; color: var(--phosphor-dim); line-height: 1.7; }
 .range-tabs { display: flex; gap: 4px; flex-wrap: wrap; margin: 12px 0; }
-.range-tab { padding: 4px 12px; font-family: 'VT323', monospace; font-size: 16px; cursor: pointer; border: 1px solid var(--phosphor-dim); background: var(--bg-panel); color: var(--phosphor-dim); }
+.range-tab { padding: 4px 12px; font-family: 'VT323', monospace; font-size: 16px; line-height: 1.4; cursor: pointer; border: 1px solid var(--phosphor-dim); background: var(--bg-panel); color: var(--phosphor-dim); }
 .range-tab:hover { color: var(--phosphor); border-color: var(--phosphor); }
 .range-tab.active { color: var(--amber); border-color: var(--amber); background: rgba(255,176,0,0.08); }
 </style>
@@ -65,23 +65,24 @@
   <div class="notice">
     <strong>第三之書 道具列表</strong>（215 筆，依 ID 排序）
     <br><br>
-    <strong>內容</strong>：遊戲內可拾取 / 購買 / 任務取得的道具名稱，依數值 ID 排序。包括武器、護具、消耗品、特殊卡片、神器、任務道具。
+    <strong>內容</strong>：主程式道具表中的 215 筆道具名稱與 ID，依數值 ID 排序，名稱包含武器、護具、消耗品、卡片及其他道具；各項實際的取得方式與出現的畫面，本站未逐件確認。
+    <br><br>
+    <strong>ID 與名稱來源</strong>：ID 是主程式 Lde3.exe 道具表內每件道具名稱前面的編號（不是連續號碼：第一件短劍是 0，最後一件龜甲是 467）；表的第一格「亂數選擇」（編號 -2）推定是隨機選擇用的特殊項目，不算道具。名稱依 1.2 版主程式，原版與 1.1 版有四件名稱不同（小刀原名匕首、單手戰斧原名戰斧、木棍原名木棒、祭品之杖原名遠古之杖）。編號 422 在主程式裡的字碼是誤植（會顯示成一個俄文字母加「首」），社群道具表同編號為匕首，本站依此寫成匕首（推定）。
     <br><br>
     <strong>用途</strong>：玩家撞名 / 翻譯對照 / 收集進度查詢。完整 JSON 在 <a href="items.json">items.json</a>。
     <br><br>
-    <strong>合規說明</strong>：道具名稱屬遊戲事實層內容（玩家於商店、寶箱、道具欄即可看見），依日本著作權法第 2 條僅創作性表現受保護，事實名稱不在保護範圍。
+    <strong>合規說明</strong>：道具名稱與 ID 取自主程式道具表，屬事實層內容（各項在遊戲內的取得方式與出現畫面，本站未逐件確認）；名稱屬單字或短詞，一般認為不具或僅有極有限的著作權保護（個案判斷）。
   </div>
 
   <div class="toolbar">
     <label for="search">搜尋:</label>
     <input id="search" type="search" placeholder="輸入名稱或 ID...">
-    <span class="count" id="count">，/ 215</span>
+    <span class="count" id="count">載入中 / 215</span>
   </div>
 
-  <div class="range-tabs" id="range-tabs"></div>
+  <div class="range-tabs" id="range-tabs" role="group" aria-label="依 ID 範圍篩選"></div>
 
   <div id="content"><div style="padding: 40px; text-align: center; color: var(--phosphor-dim);">載入中...</div></div>
-</div>
 
 <script>
 let allItems = null;
@@ -101,7 +102,7 @@ function buildRangeTabs() {
 
   const ranges = [
     { key: 'all', label: '全部', test: () => true },
-    { key: '0-49', label: 'ID 0-49', test: it => it.id < 50 },
+    { key: '0-49', label: 'ID 0-49', test: it => it.id >= 0 && it.id < 50 },
     { key: '50-99', label: 'ID 50-99', test: it => it.id >= 50 && it.id < 100 },
     { key: '100-149', label: 'ID 100-149', test: it => it.id >= 100 && it.id < 150 },
     { key: '150-199', label: 'ID 150-199', test: it => it.id >= 150 && it.id < 200 },
@@ -116,14 +117,20 @@ function buildRangeTabs() {
   for (const r of ranges) {
     const count = allItems.filter(r.test).length;
     if (count === 0) continue;
-    const tab = document.createElement('span');
+    const tab = document.createElement('button');
+    tab.type = 'button';
     tab.className = 'range-tab' + (r.key === activeRange ? ' active' : '');
+    tab.setAttribute('aria-pressed', String(r.key === activeRange));
     tab.textContent = `${r.label} (${count})`;
     tab.addEventListener('click', () => {
       activeRange = r.key;
       const allTabs = document.querySelectorAll('.range-tab');
-      for (const t of allTabs) t.classList.remove('active');
+      for (const t of allTabs) {
+        t.classList.remove('active');
+        t.setAttribute('aria-pressed', 'false');
+      }
       tab.classList.add('active');
+      tab.setAttribute('aria-pressed', 'true');
       render();
     });
     tabs.appendChild(tab);
@@ -201,6 +208,7 @@ load().catch(e => {
 });
 </script>
 </main>
+</div>
 
 </body>
 </html>
