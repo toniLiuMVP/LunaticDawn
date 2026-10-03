@@ -1,0 +1,7315 @@
+{
+  "source": "LunaticConsortia_final 2007 (BIG5)",
+  "monster_count": 126,
+  "monster_unique_name_count": 115,
+  "monsters": [
+    {
+      "name": "巨蟲",
+      "stats": "Lv  28  HP   390  MP   110",
+      "group": "巨蟲",
+      "combat": "攻擊 112  防禦  93  魔法  83  敏捷  83",
+      "attributes": {
+        "ORDER": "0/20",
+        "SALAMANDER": "40/0",
+        "CHAOS": "40/0",
+        "SHYLPHID": "0/0",
+        "SPARKLE": "80/40",
+        "GNOME": "80/75",
+        "MOON": "40/0",
+        "UNDINE": "0/0",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 24,
+      "add_status": "敏捷力下降 10%",
+      "special_attacks": [
+        "巨蟲觸手（大）",
+        "大地震",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 0,
+        "毒": 100,
+        "麻痺": 0,
+        "氣絕": 0,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "藍色香菇",
+          "rate": 1000
+        },
+        {
+          "item": "有毒的觸手",
+          "rate": 2
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "藍色香菇",
+          "rate": 1000
+        },
+        {
+          "item": "加速藥粉",
+          "rate": 2
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "蚯蚓",
+      "stats": "Lv 108  HP  8000  MP  5000",
+      "group": "巨蟲",
+      "combat": "攻擊 330  防禦 310  魔法 310  敏捷 261",
+      "attributes": {
+        "ORDER": "0/80",
+        "SALAMANDER": "50/100",
+        "CHAOS": "50/100",
+        "SHYLPHID": "0/50",
+        "SPARKLE": "100/100",
+        "GNOME": "100/100",
+        "MOON": "50/100",
+        "UNDINE": "0/50",
+        "MACHINE": "0/30"
+      },
+      "attack_speed": 24,
+      "add_status": "敏捷力下降 25%",
+      "special_attacks": [
+        "巨蟲觸手（大）",
+        "大地震",
+        "治癒之光"
+      ],
+      "defense": {
+        "混亂": 50,
+        "毒": 100,
+        "麻痺": 50,
+        "氣絕": 75,
+        "淨化": 100,
+        "×Ａ": 75,
+        "×Ｍ": 75,
+        "↓Ａ": 75,
+        "↓Ｄ": 75,
+        "↓Ｍ": 75,
+        "↓Ｓ": 75
+      },
+      "drops_normal": [
+        {
+          "item": "無",
+          "rate": 100
+        },
+        {
+          "item": "無",
+          "rate": 5
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "治療之鎧",
+          "rate": 100
+        },
+        {
+          "item": "馴魔使之書‧第壹章",
+          "rate": 5
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "鬼魂",
+      "stats": "Lv  12  HP    19  MP    65",
+      "group": "鬼魂",
+      "combat": "攻擊  35  防禦 162  魔法  83  敏捷  53",
+      "attributes": {
+        "ORDER": "0/30",
+        "SALAMANDER": "0/0",
+        "CHAOS": "80/50",
+        "SHYLPHID": "0/0",
+        "SPARKLE": "0/0",
+        "GNOME": "0/100",
+        "MOON": "80/100",
+        "UNDINE": "0/0",
+        "MACHINE": "0/100"
+      },
+      "attack_speed": 12,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "死靈魔法",
+        "闇之毒",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 0,
+        "×Ａ": 100,
+        "×Ｍ": 0,
+        "↓Ａ": 100,
+        "↓Ｄ": 100,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "灰",
+          "rate": 2000
+        },
+        {
+          "item": "無",
+          "rate": 0
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 2000
+        },
+        {
+          "item": "無",
+          "rate": 0
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "惡靈",
+      "stats": "Lv  29  HP    96  MP   100",
+      "group": "鬼魂",
+      "combat": "攻擊  83  防禦 201  魔法 122  敏捷 102",
+      "attributes": {
+        "ORDER": "0/30",
+        "SALAMANDER": "0/0",
+        "CHAOS": "90/60",
+        "SHYLPHID": "0/0",
+        "SPARKLE": "0/0",
+        "GNOME": "0/0",
+        "MOON": "90/100",
+        "UNDINE": "0/100",
+        "MACHINE": "0/100"
+      },
+      "attack_speed": 12,
+      "add_status": "魔法力下降 5%",
+      "special_attacks": [
+        "死靈魔法",
+        "闇黑波動",
+        "闇之毒"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 50,
+        "×Ａ": 100,
+        "×Ｍ": 0,
+        "↓Ａ": 100,
+        "↓Ｄ": 100,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "灰",
+          "rate": 2000
+        },
+        {
+          "item": "歸之翼",
+          "rate": 10
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 2000
+        },
+        {
+          "item": "蝕精藥粉",
+          "rate": 10
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "幻魔",
+      "stats": "Lv  75  HP   607  MP  1400",
+      "group": "鬼魂",
+      "combat": "攻擊 142  防禦 221  魔法 221  敏捷  27",
+      "attributes": {
+        "ORDER": "0/30",
+        "SALAMANDER": "0/0",
+        "CHAOS": "95/70",
+        "SHYLPHID": "0/100",
+        "SPARKLE": "0/0",
+        "GNOME": "0/0",
+        "MOON": "95/100",
+        "UNDINE": "0/0",
+        "MACHINE": "0/100"
+      },
+      "attack_speed": 12,
+      "add_status": "魔法力下降 10%",
+      "special_attacks": [
+        "死靈魔法",
+        "闇之黑洞",
+        "闇黑波動"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 90,
+        "×Ａ": 100,
+        "×Ｍ": 0,
+        "↓Ａ": 100,
+        "↓Ｄ": 100,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "灰",
+          "rate": 2000
+        },
+        {
+          "item": "旅之翼",
+          "rate": 10
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 2000
+        },
+        {
+          "item": "精神藥粉",
+          "rate": 10
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "幽靈",
+      "stats": "Lv 110  HP 12000  MP  6200",
+      "group": "鬼魂",
+      "combat": "攻擊 310  防禦 400  魔法 360  敏捷 350",
+      "attributes": {
+        "ORDER": "0/50",
+        "SALAMANDER": "0/100",
+        "CHAOS": "100/80",
+        "SHYLPHID": "0/50",
+        "SPARKLE": "0/30",
+        "GNOME": "0/50",
+        "MOON": "100/100",
+        "UNDINE": "0/50",
+        "MACHINE": "0/100"
+      },
+      "attack_speed": 12,
+      "add_status": "魔法力下降 25%",
+      "special_attacks": [
+        "死靈魔法",
+        "闇神之怒",
+        "闇之黑洞"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 95,
+        "×Ａ": 100,
+        "×Ｍ": 50,
+        "↓Ａ": 100,
+        "↓Ｄ": 100,
+        "↓Ｍ": 50,
+        "↓Ｓ": 50
+      },
+      "drops_normal": [
+        {
+          "item": "無",
+          "rate": 100
+        },
+        {
+          "item": "無",
+          "rate": 200
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "魔法盾",
+          "rate": 100
+        },
+        {
+          "item": "時代之衣",
+          "rate": 200
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "巨蝙蝠",
+      "stats": "Lv  74  HP   800  MP   900",
+      "group": "蝙蝠",
+      "combat": "攻擊 182  防禦 182  魔法 152  敏捷 221",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/0",
+        "SHYLPHID": "80/90",
+        "SPARKLE": "0/0",
+        "GNOME": "0/0",
+        "MOON": "80/90",
+        "UNDINE": "0/0",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "防禦力下降 10%",
+      "special_attacks": [
+        "通常攻擊",
+        "蝙蝠音波（大）",
+        "闇之黑洞"
+      ],
+      "defense": {
+        "混亂": 50,
+        "毒": 50,
+        "麻痺": 50,
+        "氣絕": 50,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "鑽石藥粉",
+          "rate": 1000
+        },
+        {
+          "item": "蝙蝠人傳記",
+          "rate": 25
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "鑽石藥粉",
+          "rate": 1000
+        },
+        {
+          "item": "復元秘傳書",
+          "rate": 25
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "吸血蝙蝠",
+      "stats": "Lv 109  HP 10000  MP  6000",
+      "group": "蝙蝠",
+      "combat": "攻擊 300  防禦 300  魔法 320  敏捷 400",
+      "attributes": {
+        "ORDER": "0/30",
+        "SALAMANDER": "0/50",
+        "CHAOS": "0/50",
+        "SHYLPHID": "100/100",
+        "SPARKLE": "0/30",
+        "GNOME": "0/50",
+        "MOON": "100/100",
+        "UNDINE": "0/50",
+        "MACHINE": "0/80"
+      },
+      "attack_speed": 18,
+      "add_status": "防禦力下降 25%",
+      "special_attacks": [
+        "通常攻擊",
+        "蝙蝠音波（大）",
+        "闇神之怒"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 95,
+        "×Ａ": 75,
+        "×Ｍ": 75,
+        "↓Ａ": 50,
+        "↓Ｄ": 50,
+        "↓Ｍ": 50,
+        "↓Ｓ": 50
+      },
+      "drops_normal": [
+        {
+          "item": "無",
+          "rate": 1000
+        },
+        {
+          "item": "無",
+          "rate": 5
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "狂月之衣",
+          "rate": 1000
+        },
+        {
+          "item": "馴魔使之書‧第貳章",
+          "rate": 5
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "蛇",
+      "stats": "Lv   5  HP    45  MP    21",
+      "group": "蛇",
+      "combat": "攻擊  19  防禦  21  魔法   9  敏捷  23",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/0",
+        "SHYLPHID": "0/30",
+        "SPARKLE": "0/0",
+        "GNOME": "0/70",
+        "MOON": "0/0",
+        "UNDINE": "0/70",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 12,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "通常攻擊",
+        "通常攻擊",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 0,
+        "毒": 0,
+        "麻痺": 0,
+        "氣絕": 0,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "紫羅蘭",
+          "rate": 500
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "無",
+          "rate": 500
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "蟒蛇",
+      "stats": "Lv  13  HP   160  MP    39",
+      "group": "蛇",
+      "combat": "攻擊  51  防禦  53  魔法  43  敏捷  53",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/0",
+        "SHYLPHID": "0/40",
+        "SPARKLE": "0/0",
+        "GNOME": "0/80",
+        "MOON": "0/0",
+        "UNDINE": "0/80",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 12,
+      "add_status": "毒 5%",
+      "special_attacks": [
+        "通常攻擊",
+        "通常攻擊",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 0,
+        "毒": 100,
+        "麻痺": 0,
+        "氣絕": 0,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "解毒劑",
+          "rate": 500
+        },
+        {
+          "item": "紅色香菇",
+          "rate": 200
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "解毒劑",
+          "rate": 500
+        },
+        {
+          "item": "紅色香菇",
+          "rate": 200
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "毒蛇",
+      "stats": "Lv  30  HP   375  MP    69",
+      "group": "蛇",
+      "combat": "攻擊  81  防禦 102  魔法  83  敏捷 102",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/0",
+        "SHYLPHID": "0/50",
+        "SPARKLE": "0/0",
+        "GNOME": "0/90",
+        "MOON": "0/0",
+        "UNDINE": "0/90",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 12,
+      "add_status": "混亂 5%",
+      "special_attacks": [
+        "通常攻擊",
+        "通常攻擊",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 0,
+        "氣絕": 0,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "鎮定劑",
+          "rate": 500
+        },
+        {
+          "item": "鎮定劑",
+          "rate": 200
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "迷幻藥",
+          "rate": 500
+        },
+        {
+          "item": "迷幻藥",
+          "rate": 200
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "巨蟒蛇",
+      "stats": "Lv  58  HP   610  MP   139",
+      "group": "蛇",
+      "combat": "攻擊 118  防禦 142  魔法 122  敏捷 162",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/0",
+        "SHYLPHID": "0/60",
+        "SPARKLE": "0/0",
+        "GNOME": "0/100",
+        "MOON": "0/0",
+        "UNDINE": "0/100",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 12,
+      "add_status": "麻痺 8%",
+      "special_attacks": [
+        "通常攻擊",
+        "通常攻擊",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 0,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "金針粉",
+          "rate": 500
+        },
+        {
+          "item": "防毒項鍊",
+          "rate": 200
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "麻痺粉",
+          "rate": 500
+        },
+        {
+          "item": "麻痺粉",
+          "rate": 200
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "模仿箱",
+      "stats": "Lv  19  HP   108  MP   120",
+      "group": "陷阱箱",
+      "combat": "攻擊  73  防禦  73  魔法  93  敏捷  83",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "10/20",
+        "CHAOS": "0/70",
+        "SHYLPHID": "0/20",
+        "SPARKLE": "0/0",
+        "GNOME": "0/20",
+        "MOON": "0/70",
+        "UNDINE": "0/20",
+        "MACHINE": "0/10"
+      },
+      "attack_speed": 18,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "通常攻擊",
+        "炎之柱",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 50,
+        "毒": 50,
+        "麻痺": 50,
+        "氣絕": 50,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "2000Gold",
+          "rate": 800
+        },
+        {
+          "item": "4000Gold",
+          "rate": 400
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "1000Gold",
+          "rate": 800
+        },
+        {
+          "item": "1000Gold",
+          "rate": 400
+        }
+      ],
+      "recruit_rate": 16
+    },
+    {
+      "name": "偽寶箱",
+      "stats": "Lv  35  HP   120  MP   251",
+      "group": "陷阱箱",
+      "combat": "攻擊 122  防禦 112  魔法 122  敏捷 112",
+      "attributes": {
+        "ORDER": "0/25",
+        "SALAMANDER": "0/40",
+        "CHAOS": "50/80",
+        "SHYLPHID": "0/40",
+        "SPARKLE": "0/0",
+        "GNOME": "0/40",
+        "MOON": "50/80",
+        "UNDINE": "0/40",
+        "MACHINE": "0/20"
+      },
+      "attack_speed": 18,
+      "add_status": "攻擊封印 5%",
+      "special_attacks": [
+        "通常攻擊",
+        "混沌神審判",
+        "闇黑波動"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 50,
+        "×Ｍ": 50,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "陷阱雷達",
+          "rate": 200
+        },
+        {
+          "item": "鐵齒",
+          "rate": 2
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "2000Gold",
+          "rate": 200
+        },
+        {
+          "item": "2000Gold",
+          "rate": 2
+        }
+      ],
+      "recruit_rate": 8
+    },
+    {
+      "name": "陷阱箱",
+      "stats": "Lv  77  HP   820  MP  1500",
+      "group": "陷阱箱",
+      "combat": "攻擊 192  防禦 192  魔法 201  敏捷 182",
+      "attributes": {
+        "ORDER": "0/50",
+        "SALAMANDER": "0/60",
+        "CHAOS": "80/90",
+        "SHYLPHID": "0/60",
+        "SPARKLE": "0/25",
+        "GNOME": "0/60",
+        "MOON": "80/90",
+        "UNDINE": "0/60",
+        "MACHINE": "0/40"
+      },
+      "attack_speed": 18,
+      "add_status": "攻擊封印 10%",
+      "special_attacks": [
+        "通常攻擊",
+        "混沌神審判",
+        "闇之黑洞"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 50,
+        "↓Ｄ": 50,
+        "↓Ｍ": 50,
+        "↓Ｓ": 50
+      },
+      "drops_normal": [
+        {
+          "item": "尋寶指南針",
+          "rate": 100
+        },
+        {
+          "item": "銅箱",
+          "rate": 2
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "8000Gold",
+          "rate": 100
+        },
+        {
+          "item": "8000Gold",
+          "rate": 2
+        }
+      ],
+      "recruit_rate": 4
+    },
+    {
+      "name": "陷阱箱",
+      "stats": "Lv 111  HP 14000  MP  6400",
+      "group": "陷阱箱",
+      "combat": "攻擊 360  防禦 330  魔法 350  敏捷 350",
+      "attributes": {
+        "ORDER": "0/75",
+        "SALAMANDER": "0/80",
+        "CHAOS": "100/100",
+        "SHYLPHID": "0/80",
+        "SPARKLE": "0/50",
+        "GNOME": "0/80",
+        "MOON": "100/100",
+        "UNDINE": "0/80",
+        "MACHINE": "0/60"
+      },
+      "attack_speed": 18,
+      "add_status": "攻擊封印 25%",
+      "special_attacks": [
+        "通常攻擊",
+        "闇神之怒",
+        "混沌神審判"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 100,
+        "↓Ｄ": 100,
+        "↓Ｍ": 100,
+        "↓Ｓ": 100
+      },
+      "drops_normal": [
+        {
+          "item": "無",
+          "rate": 100
+        },
+        {
+          "item": "無",
+          "rate": 5
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "32000Gold",
+          "rate": 100
+        },
+        {
+          "item": "馴魔使之書‧第參章",
+          "rate": 5
+        }
+      ],
+      "recruit_rate": 1
+    },
+    {
+      "name": "史萊姆",
+      "stats": "Lv   6  HP    96  MP    49",
+      "group": "史萊姆",
+      "combat": "攻擊   9  防禦 152  魔法  33  敏捷   5",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/50",
+        "CHAOS": "100/0",
+        "SHYLPHID": "0/0",
+        "SPARKLE": "50/0",
+        "GNOME": "0/90",
+        "MOON": "50/0",
+        "UNDINE": "50/100",
+        "MACHINE": "0/90"
+      },
+      "attack_speed": 24,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "史萊姆體液",
+        "通常攻擊",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 0,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "毒藥",
+          "rate": 200
+        },
+        {
+          "item": "無",
+          "rate": 100
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "毒藥",
+          "rate": 200
+        },
+        {
+          "item": "無",
+          "rate": 100
+        }
+      ],
+      "recruit_rate": 16
+    },
+    {
+      "name": "巨黏體",
+      "stats": "Lv  17  HP   333  MP    81",
+      "group": "史萊姆",
+      "combat": "攻擊  25  防禦 188  魔法  83  敏捷  33",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/50",
+        "CHAOS": "100/0",
+        "SHYLPHID": "0/0",
+        "SPARKLE": "50/0",
+        "GNOME": "0/90",
+        "MOON": "50/0",
+        "UNDINE": "50/100",
+        "MACHINE": "0/95"
+      },
+      "attack_speed": 24,
+      "add_status": "毒 5%",
+      "special_attacks": [
+        "史萊姆體液",
+        "通常攻擊",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 0,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "解毒劑",
+          "rate": 500
+        },
+        {
+          "item": "解毒劑",
+          "rate": 500
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "解毒劑",
+          "rate": 500
+        },
+        {
+          "item": "解毒劑",
+          "rate": 500
+        }
+      ],
+      "recruit_rate": 8
+    },
+    {
+      "name": "魔黏膠",
+      "stats": "Lv  33  HP   661  MP   233",
+      "group": "史萊姆",
+      "combat": "攻擊  49  防禦 243  魔法  73  敏捷  43",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/50",
+        "CHAOS": "100/0",
+        "SHYLPHID": "0/0",
+        "SPARKLE": "50/0",
+        "GNOME": "0/90",
+        "MOON": "50/0",
+        "UNDINE": "50/100",
+        "MACHINE": "0/98"
+      },
+      "attack_speed": 24,
+      "add_status": "混亂 5%",
+      "special_attacks": [
+        "史萊姆體液",
+        "混沌神審判",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 50,
+        "淨化": 100,
+        "×Ａ": 50,
+        "×Ｍ": 50,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "鎮定劑",
+          "rate": 500
+        },
+        {
+          "item": "溶解液",
+          "rate": 2
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "鎮定劑",
+          "rate": 500
+        },
+        {
+          "item": "鎮定劑",
+          "rate": 2
+        }
+      ],
+      "recruit_rate": 4
+    },
+    {
+      "name": "黏液怪",
+      "stats": "Lv  59  HP   980  MP   531",
+      "group": "史萊姆",
+      "combat": "攻擊  79  防禦 299  魔法 112  敏捷  63",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/50",
+        "CHAOS": "100/0",
+        "SHYLPHID": "50/0",
+        "SPARKLE": "50/0",
+        "GNOME": "0/90",
+        "MOON": "50/0",
+        "UNDINE": "50/100",
+        "MACHINE": "0/100"
+      },
+      "attack_speed": 24,
+      "add_status": "麻痺 8%",
+      "special_attacks": [
+        "史萊姆體液",
+        "重力風壓",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 50,
+        "↓Ｄ": 50,
+        "↓Ｍ": 50,
+        "↓Ｓ": 50
+      },
+      "drops_normal": [
+        {
+          "item": "金針粉",
+          "rate": 500
+        },
+        {
+          "item": "馴魔使之書‧第四章",
+          "rate": 1
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "金針粉",
+          "rate": 500
+        },
+        {
+          "item": "金針粉",
+          "rate": 1
+        }
+      ],
+      "recruit_rate": 1
+    },
+    {
+      "name": "巨甲蟲",
+      "stats": "Lv  27  HP   130  MP    88",
+      "group": "蟑螂",
+      "combat": "攻擊 102  防禦  83  魔法  73  敏捷 241",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/0",
+        "SHYLPHID": "0/0",
+        "SPARKLE": "0/0",
+        "GNOME": "0/0",
+        "MOON": "0/0",
+        "UNDINE": "0/0",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 6,
+      "add_status": "毒 4%",
+      "special_attacks": [
+        "通常攻擊",
+        "蟑螂突擊（大）",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 0,
+        "毒": 0,
+        "麻痺": 0,
+        "氣絕": 0,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 100
+      },
+      "drops_normal": [
+        {
+          "item": "毒菇",
+          "rate": 200
+        },
+        {
+          "item": "麻痺鬍鬚",
+          "rate": 2
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "毒菇",
+          "rate": 200
+        },
+        {
+          "item": "無",
+          "rate": 2
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "飛蛾",
+      "stats": "Lv  57  HP   230  MP   220",
+      "group": "蟑螂",
+      "combat": "攻擊 122  防禦 122  魔法 122  敏捷 241",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/0",
+        "SHYLPHID": "0/0",
+        "SPARKLE": "0/0",
+        "GNOME": "0/0",
+        "MOON": "0/0",
+        "UNDINE": "0/0",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 6,
+      "add_status": "毒 8%",
+      "special_attacks": [
+        "通常攻擊",
+        "蟑螂突擊（大）",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 0,
+        "毒": 0,
+        "麻痺": 0,
+        "氣絕": 0,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 100
+      },
+      "drops_normal": [
+        {
+          "item": "命運項鍊",
+          "rate": 200
+        },
+        {
+          "item": "馴魔使之書‧第伍章",
+          "rate": 1
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "加速藥粉",
+          "rate": 200
+        },
+        {
+          "item": "硬質甲殼",
+          "rate": 1
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "小惡魔",
+      "stats": "Lv  25  HP   401  MP   275",
+      "group": "惡魔",
+      "combat": "攻擊  99  防禦 102  魔法 102  敏捷 102",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "25/40",
+        "CHAOS": "0/70",
+        "SHYLPHID": "0/40",
+        "SPARKLE": "0/0",
+        "GNOME": "0/50",
+        "MOON": "70/100",
+        "UNDINE": "0/0",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 12,
+      "add_status": "攻擊力下降 4%",
+      "special_attacks": [
+        "魔鬼魔法",
+        "闇黑波動",
+        "闇之毒"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 40,
+        "×Ｍ": 40,
+        "↓Ａ": 25,
+        "↓Ｄ": 25,
+        "↓Ｍ": 25,
+        "↓Ｓ": 25
+      },
+      "drops_normal": [
+        {
+          "item": "毒藥",
+          "rate": 1000
+        },
+        {
+          "item": "單刃雙手斧",
+          "rate": 50
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 1000
+        },
+        {
+          "item": "無",
+          "rate": 50
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "大惡魔",
+      "stats": "Lv  42  HP   575  MP   515",
+      "group": "惡魔",
+      "combat": "攻擊 132  防禦 122  魔法 132  敏捷 132",
+      "attributes": {
+        "ORDER": "0/5",
+        "SALAMANDER": "25/50",
+        "CHAOS": "0/80",
+        "SHYLPHID": "0/60",
+        "SPARKLE": "0/0",
+        "GNOME": "0/60",
+        "MOON": "80/100",
+        "UNDINE": "0/10",
+        "MACHINE": "0/10"
+      },
+      "attack_speed": 12,
+      "add_status": "攻擊力下降 8%",
+      "special_attacks": [
+        "魔鬼魔法",
+        "闇之黑洞",
+        "闇黑波動"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 60,
+        "×Ｍ": 60,
+        "↓Ａ": 50,
+        "↓Ｄ": 50,
+        "↓Ｍ": 50,
+        "↓Ｓ": 50
+      },
+      "drops_normal": [
+        {
+          "item": "方盾",
+          "rate": 200
+        },
+        {
+          "item": "巨斧",
+          "rate": 50
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 200
+        },
+        {
+          "item": "無",
+          "rate": 50
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "邪魔",
+      "stats": "Lv  82  HP   999  MP  2020",
+      "group": "惡魔",
+      "combat": "攻擊 192  防禦 192  魔法 221  敏捷 192",
+      "attributes": {
+        "ORDER": "0/15",
+        "SALAMANDER": "50/60",
+        "CHAOS": "0/90",
+        "SHYLPHID": "0/80",
+        "SPARKLE": "0/0",
+        "GNOME": "0/70",
+        "MOON": "90/100",
+        "UNDINE": "0/20",
+        "MACHINE": "0/20"
+      },
+      "attack_speed": 12,
+      "add_status": "攻擊力下降 16%",
+      "special_attacks": [
+        "魔鬼魔法",
+        "重力風壓",
+        "闇之黑洞"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 80,
+        "×Ｍ": 80,
+        "↓Ａ": 75,
+        "↓Ｄ": 75,
+        "↓Ｍ": 75,
+        "↓Ｓ": 75
+      },
+      "drops_normal": [
+        {
+          "item": "加爾多之書",
+          "rate": 200
+        },
+        {
+          "item": "惡魔之眼",
+          "rate": 200
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 200
+        },
+        {
+          "item": "無",
+          "rate": 200
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "翼龍像",
+      "stats": "Lv 117  HP 40000  MP  9000",
+      "group": "惡魔",
+      "combat": "攻擊 390  防禦 380  魔法 400  敏捷 390",
+      "attributes": {
+        "ORDER": "0/40",
+        "SALAMANDER": "50/70",
+        "CHAOS": "0/100",
+        "SHYLPHID": "0/100",
+        "SPARKLE": "0/30",
+        "GNOME": "0/80",
+        "MOON": "100/100",
+        "UNDINE": "0/60",
+        "MACHINE": "0/30"
+      },
+      "attack_speed": 12,
+      "add_status": "攻擊力下降 80%",
+      "special_attacks": [
+        "魔鬼魔法",
+        "闇神之怒",
+        "重力風壓"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 100,
+        "↓Ｄ": 100,
+        "↓Ｍ": 100,
+        "↓Ｓ": 100
+      },
+      "drops_normal": [
+        {
+          "item": "無",
+          "rate": 1000
+        },
+        {
+          "item": "無",
+          "rate": 200
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "巫師之盾",
+          "rate": 1000
+        },
+        {
+          "item": "死亡之斧",
+          "rate": 200
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "骷髏",
+      "stats": "Lv  21  HP   215  MP    34",
+      "group": "骷髏",
+      "combat": "攻擊  75  防禦  83  魔法  43  敏捷  93",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/70",
+        "SHYLPHID": "0/10",
+        "SPARKLE": "0/0",
+        "GNOME": "0/70",
+        "MOON": "0/40",
+        "UNDINE": "0/10",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 12,
+      "add_status": "會心一擊 1%",
+      "special_attacks": [
+        "通常攻擊",
+        "通常攻擊",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 0,
+        "×Ａ": 40,
+        "×Ｍ": 40,
+        "↓Ａ": 25,
+        "↓Ｄ": 25,
+        "↓Ｍ": 25,
+        "↓Ｓ": 25
+      },
+      "drops_normal": [
+        {
+          "item": "灰",
+          "rate": 2000
+        },
+        {
+          "item": "格鬥短刀",
+          "rate": 50
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 2000
+        },
+        {
+          "item": "無",
+          "rate": 50
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "狂骨人",
+      "stats": "Lv  37  HP   245  MP    95",
+      "group": "骷髏",
+      "combat": "攻擊 118  防禦 108  魔法 102  敏捷 112",
+      "attributes": {
+        "ORDER": "0/5",
+        "SALAMANDER": "0/10",
+        "CHAOS": "0/80",
+        "SHYLPHID": "0/20",
+        "SPARKLE": "0/0",
+        "GNOME": "0/80",
+        "MOON": "0/60",
+        "UNDINE": "0/20",
+        "MACHINE": "0/10"
+      },
+      "attack_speed": 12,
+      "add_status": "會心一擊 2%",
+      "special_attacks": [
+        "通常攻擊",
+        "通常攻擊",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 50,
+        "×Ａ": 60,
+        "×Ｍ": 60,
+        "↓Ａ": 50,
+        "↓Ｄ": 50,
+        "↓Ｍ": 50,
+        "↓Ｓ": 50
+      },
+      "drops_normal": [
+        {
+          "item": "灰",
+          "rate": 2000
+        },
+        {
+          "item": "搏擊短劍",
+          "rate": 50
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 2000
+        },
+        {
+          "item": "無",
+          "rate": 50
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "駭骨人",
+      "stats": "Lv  79  HP   860  MP   780",
+      "group": "骷髏",
+      "combat": "攻擊 184  防禦 192  魔法 152  敏捷 182",
+      "attributes": {
+        "ORDER": "0/10",
+        "SALAMANDER": "0/20",
+        "CHAOS": "100/90",
+        "SHYLPHID": "0/40",
+        "SPARKLE": "0/0",
+        "GNOME": "80/90",
+        "MOON": "0/80",
+        "UNDINE": "0/40",
+        "MACHINE": "0/20"
+      },
+      "attack_speed": 12,
+      "add_status": "會心一擊 4%",
+      "special_attacks": [
+        "通常攻擊",
+        "混沌之毒",
+        "地之爪"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 75,
+        "×Ａ": 80,
+        "×Ｍ": 80,
+        "↓Ａ": 75,
+        "↓Ｄ": 75,
+        "↓Ｍ": 75,
+        "↓Ｓ": 75
+      },
+      "drops_normal": [
+        {
+          "item": "灰",
+          "rate": 2000
+        },
+        {
+          "item": "麻痺項鍊",
+          "rate": 200
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 2000
+        },
+        {
+          "item": "無",
+          "rate": 200
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "骷髏怪",
+      "stats": "Lv 113  HP 18000  MP  6006",
+      "group": "骷髏",
+      "combat": "攻擊 390  防禦 350  魔法 350  敏捷 360",
+      "attributes": {
+        "ORDER": "0/30",
+        "SALAMANDER": "0/40",
+        "CHAOS": "100/100",
+        "SHYLPHID": "0/80",
+        "SPARKLE": "0/30",
+        "GNOME": "100/100",
+        "MOON": "0/100",
+        "UNDINE": "0/80",
+        "MACHINE": "0/30"
+      },
+      "attack_speed": 12,
+      "add_status": "會心一擊 8%",
+      "special_attacks": [
+        "通常攻擊",
+        "混沌神審判",
+        "大地震"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 98,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 100,
+        "↓Ｄ": 100,
+        "↓Ｍ": 100,
+        "↓Ｓ": 100
+      },
+      "drops_normal": [
+        {
+          "item": "無",
+          "rate": 100
+        },
+        {
+          "item": "無",
+          "rate": 200
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "鏡盾",
+          "rate": 100
+        },
+        {
+          "item": "星之息",
+          "rate": 200
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "僵屍",
+      "stats": "Lv   7  HP    99  MP     7",
+      "group": "僵屍",
+      "combat": "攻擊  33  防禦   9  魔法   5  敏捷   9",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/60",
+        "SHYLPHID": "0/0",
+        "SPARKLE": "0/0",
+        "GNOME": "0/60",
+        "MOON": "0/20",
+        "UNDINE": "0/0",
+        "MACHINE": "0/10"
+      },
+      "attack_speed": 18,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "通常攻擊",
+        "通常攻擊",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 0,
+        "×Ａ": 20,
+        "×Ｍ": 20,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "聖水",
+          "rate": 50
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "無",
+          "rate": 50
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "腐屍",
+      "stats": "Lv  18  HP   345  MP    26",
+      "group": "僵屍",
+      "combat": "攻擊  73  防禦  43  魔法  43  敏捷  39",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/70",
+        "SHYLPHID": "0/10",
+        "SPARKLE": "0/0",
+        "GNOME": "0/70",
+        "MOON": "0/40",
+        "UNDINE": "0/10",
+        "MACHINE": "0/20"
+      },
+      "attack_speed": 18,
+      "add_status": "毒 5%",
+      "special_attacks": [
+        "通常攻擊",
+        "通常攻擊",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 25,
+        "×Ａ": 40,
+        "×Ｍ": 40,
+        "↓Ａ": 25,
+        "↓Ｄ": 25,
+        "↓Ｍ": 25,
+        "↓Ｓ": 25
+      },
+      "drops_normal": [
+        {
+          "item": "解毒劑",
+          "rate": 500
+        },
+        {
+          "item": "解毒劑",
+          "rate": 500
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "解毒劑",
+          "rate": 500
+        },
+        {
+          "item": "解毒劑",
+          "rate": 500
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "死屍",
+      "stats": "Lv  34  HP   674  MP    75",
+      "group": "僵屍",
+      "combat": "攻擊  89  防禦  53  魔法  83  敏捷  53",
+      "attributes": {
+        "ORDER": "0/2",
+        "SALAMANDER": "0/5",
+        "CHAOS": "0/80",
+        "SHYLPHID": "0/20",
+        "SPARKLE": "0/0",
+        "GNOME": "0/80",
+        "MOON": "0/60",
+        "UNDINE": "0/20",
+        "MACHINE": "0/30"
+      },
+      "attack_speed": 18,
+      "add_status": "混亂 5%",
+      "special_attacks": [
+        "通常攻擊",
+        "通常攻擊",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 75,
+        "×Ａ": 60,
+        "×Ｍ": 60,
+        "↓Ａ": 50,
+        "↓Ｄ": 50,
+        "↓Ｍ": 50,
+        "↓Ｓ": 50
+      },
+      "drops_normal": [
+        {
+          "item": "鎮定劑",
+          "rate": 500
+        },
+        {
+          "item": "鎮定劑",
+          "rate": 500
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "鎮定劑",
+          "rate": 500
+        },
+        {
+          "item": "鎮定劑",
+          "rate": 500
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "惡鬼",
+      "stats": "Lv  60  HP   995  MP   700",
+      "group": "僵屍",
+      "combat": "攻擊 104  防禦 152  魔法 122  敏捷  73",
+      "attributes": {
+        "ORDER": "0/4",
+        "SALAMANDER": "0/10",
+        "CHAOS": "0/90",
+        "SHYLPHID": "0/40",
+        "SPARKLE": "0/0",
+        "GNOME": "0/90",
+        "MOON": "0/80",
+        "UNDINE": "0/40",
+        "MACHINE": "0/40"
+      },
+      "attack_speed": 18,
+      "add_status": "麻痺 8%",
+      "special_attacks": [
+        "通常攻擊",
+        "通常攻擊",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 90,
+        "×Ａ": 80,
+        "×Ｍ": 80,
+        "↓Ａ": 75,
+        "↓Ｄ": 75,
+        "↓Ｍ": 75,
+        "↓Ｓ": 75
+      },
+      "drops_normal": [
+        {
+          "item": "金針粉",
+          "rate": 500
+        },
+        {
+          "item": "退化項鍊",
+          "rate": 200
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "金針粉",
+          "rate": 500
+        },
+        {
+          "item": "金針粉",
+          "rate": 200
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "巨人",
+      "stats": "Lv  22  HP   450  MP    55",
+      "group": "巨人",
+      "combat": "攻擊  99  防禦  93  魔法  53  敏捷  73",
+      "attributes": {
+        "ORDER": "0/40",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/10",
+        "SHYLPHID": "0/0",
+        "SPARKLE": "0/0",
+        "GNOME": "0/100",
+        "MOON": "0/0",
+        "UNDINE": "0/0",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 24,
+      "add_status": "會心一擊 1%",
+      "special_attacks": [
+        "通常攻擊",
+        "通常攻擊",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 10,
+        "毒": 10,
+        "麻痺": 10,
+        "氣絕": 20,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 0,
+        "↓Ａ": 100,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "石斧",
+          "rate": 50
+        },
+        {
+          "item": "殺手鐵環",
+          "rate": 50
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 50
+        },
+        {
+          "item": "無",
+          "rate": 50
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "野巨人",
+      "stats": "Lv  38  HP   520  MP   202",
+      "group": "巨人",
+      "combat": "攻擊 122  防禦 122  魔法 102  敏捷 102",
+      "attributes": {
+        "ORDER": "0/60",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/20",
+        "SHYLPHID": "0/0",
+        "SPARKLE": "0/0",
+        "GNOME": "60/100",
+        "MOON": "0/0",
+        "UNDINE": "0/0",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "會心一擊 4%",
+      "special_attacks": [
+        "通常攻擊",
+        "地之爪",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 20,
+        "毒": 20,
+        "麻痺": 20,
+        "氣絕": 40,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 0,
+        "↓Ａ": 100,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "脫力藥粉",
+          "rate": 200
+        },
+        {
+          "item": "鐵拳",
+          "rate": 50
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 200
+        },
+        {
+          "item": "無",
+          "rate": 50
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "狂暴巨人",
+      "stats": "Lv  80  HP  1303  MP  1800",
+      "group": "巨人",
+      "combat": "攻擊 192  防禦 192  魔法 162  敏捷 142",
+      "attributes": {
+        "ORDER": "0/80",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/40",
+        "SHYLPHID": "0/0",
+        "SPARKLE": "0/0",
+        "GNOME": "80/100",
+        "MOON": "0/0",
+        "UNDINE": "0/0",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "會心一擊 8%",
+      "special_attacks": [
+        "通常攻擊",
+        "大地震",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 40,
+        "毒": 40,
+        "麻痺": 40,
+        "氣絕": 80,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 0,
+        "↓Ａ": 100,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "魔法水",
+          "rate": 500
+        },
+        {
+          "item": "封印項鍊",
+          "rate": 200
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "復元秘傳書",
+          "rate": 500
+        },
+        {
+          "item": "力量藥粉",
+          "rate": 200
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "食人鬼",
+      "stats": "Lv 115  HP 25000  MP  7500",
+      "group": "巨人",
+      "combat": "攻擊 400  防禦 370  魔法 320  敏捷 320",
+      "attributes": {
+        "ORDER": "80/100",
+        "SALAMANDER": "0/30",
+        "CHAOS": "0/80",
+        "SHYLPHID": "0/30",
+        "SPARKLE": "0/30",
+        "GNOME": "100/100",
+        "MOON": "0/30",
+        "UNDINE": "0/30",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "會心一擊 16%",
+      "special_attacks": [
+        "通常攻擊",
+        "秩序神之力",
+        "大地震"
+      ],
+      "defense": {
+        "混亂": 95,
+        "毒": 95,
+        "麻痺": 95,
+        "氣絕": 98,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 50,
+        "↓Ａ": 100,
+        "↓Ｄ": 50,
+        "↓Ｍ": 50,
+        "↓Ｓ": 50
+      },
+      "drops_normal": [
+        {
+          "item": "無",
+          "rate": 100
+        },
+        {
+          "item": "無",
+          "rate": 200
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "精靈之盾",
+          "rate": 100
+        },
+        {
+          "item": "星之記憶",
+          "rate": 200
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "蜥蝪人",
+      "stats": "Lv  20  HP   360  MP    96",
+      "group": "蜥蝪人",
+      "combat": "攻擊  83  防禦  73  魔法  73  敏捷  83",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/0",
+        "SHYLPHID": "0/0",
+        "SPARKLE": "0/0",
+        "GNOME": "0/0",
+        "MOON": "0/0",
+        "UNDINE": "0/100",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 12,
+      "add_status": "攻擊力下降 4%",
+      "special_attacks": [
+        "通常攻擊",
+        "通常攻擊",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 40,
+        "毒": 40,
+        "麻痺": 40,
+        "氣絕": 40,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 100,
+        "↓Ｄ": 20,
+        "↓Ｍ": 20,
+        "↓Ｓ": 20
+      },
+      "drops_normal": [
+        {
+          "item": "硬皮甲",
+          "rate": 200
+        },
+        {
+          "item": "寬刃短刀",
+          "rate": 200
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 200
+        },
+        {
+          "item": "無",
+          "rate": 200
+        }
+      ],
+      "recruit_rate": 128
+    },
+    {
+      "name": "邪龍人",
+      "stats": "Lv  36  HP   400  MP   461",
+      "group": "蜥蝪人",
+      "combat": "攻擊 122  防禦 112  魔法 112  敏捷 112",
+      "attributes": {
+        "ORDER": "0/20",
+        "SALAMANDER": "0/20",
+        "CHAOS": "0/20",
+        "SHYLPHID": "0/20",
+        "SPARKLE": "0/20",
+        "GNOME": "0/20",
+        "MOON": "0/20",
+        "UNDINE": "80/100",
+        "MACHINE": "0/10"
+      },
+      "attack_speed": 12,
+      "add_status": "攻擊力下降 10%",
+      "special_attacks": [
+        "通常攻擊",
+        "沼澤之水",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 80,
+        "毒": 80,
+        "麻痺": 80,
+        "氣絕": 80,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 100,
+        "↓Ｄ": 40,
+        "↓Ｍ": 40,
+        "↓Ｓ": 40
+      },
+      "drops_normal": [
+        {
+          "item": "斬刀",
+          "rate": 50
+        },
+        {
+          "item": "蜥蜴鎧",
+          "rate": 2
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 50
+        },
+        {
+          "item": "無",
+          "rate": 2
+        }
+      ],
+      "recruit_rate": 64
+    },
+    {
+      "name": "恐龍人",
+      "stats": "Lv  78  HP   920  MP  1620",
+      "group": "蜥蝪人",
+      "combat": "攻擊 192  防禦 192  魔法 221  敏捷 182",
+      "attributes": {
+        "ORDER": "80/40",
+        "SALAMANDER": "0/40",
+        "CHAOS": "0/40",
+        "SHYLPHID": "0/40",
+        "SPARKLE": "0/40",
+        "GNOME": "0/40",
+        "MOON": "0/40",
+        "UNDINE": "90/100",
+        "MACHINE": "0/20"
+      },
+      "attack_speed": 12,
+      "add_status": "攻擊力下降 20%",
+      "special_attacks": [
+        "通常攻擊",
+        "秩序神之力",
+        "治療之水"
+      ],
+      "defense": {
+        "混亂": 90,
+        "毒": 90,
+        "麻痺": 90,
+        "氣絕": 95,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 100,
+        "↓Ｄ": 80,
+        "↓Ｍ": 80,
+        "↓Ｓ": 80
+      },
+      "drops_normal": [
+        {
+          "item": "守護戒指",
+          "rate": 50
+        },
+        {
+          "item": "龍牙刀",
+          "rate": 2
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "萬靈藥",
+          "rate": 50
+        },
+        {
+          "item": "無",
+          "rate": 2
+        }
+      ],
+      "recruit_rate": 32
+    },
+    {
+      "name": "半龍人",
+      "stats": "Lv 114  HP 20000  MP  7000",
+      "group": "蜥蝪人",
+      "combat": "攻擊 390  防禦 350  魔法 360  敏捷 360",
+      "attributes": {
+        "ORDER": "100/80",
+        "SALAMANDER": "0/80",
+        "CHAOS": "0/80",
+        "SHYLPHID": "0/80",
+        "SPARKLE": "0/80",
+        "GNOME": "0/80",
+        "MOON": "0/80",
+        "UNDINE": "100/100",
+        "MACHINE": "0/30"
+      },
+      "attack_speed": 12,
+      "add_status": "攻擊力下降 25%",
+      "special_attacks": [
+        "通常攻擊",
+        "秩序神之力",
+        "神蹟之水"
+      ],
+      "defense": {
+        "混亂": 95,
+        "毒": 95,
+        "麻痺": 95,
+        "氣絕": 98,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 100,
+        "↓Ｄ": 100,
+        "↓Ｍ": 100,
+        "↓Ｓ": 100
+      },
+      "drops_normal": [
+        {
+          "item": "無",
+          "rate": 100
+        },
+        {
+          "item": "無",
+          "rate": 5
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "狂月項鍊",
+          "rate": 100
+        },
+        {
+          "item": "馴魔使之書‧第六章",
+          "rate": 5
+        }
+      ],
+      "recruit_rate": 16
+    },
+    {
+      "name": "翼像魔",
+      "stats": "Lv  24  HP   405  MP   205",
+      "group": "翼像魔",
+      "combat": "攻擊 102  防禦  93  魔法  93  敏捷  93",
+      "attributes": {
+        "ORDER": "0/10",
+        "SALAMANDER": "0/10",
+        "CHAOS": "0/10",
+        "SHYLPHID": "70/100",
+        "SPARKLE": "0/10",
+        "GNOME": "0/10",
+        "MOON": "0/10",
+        "UNDINE": "0/10",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "魔法封印 2%",
+      "special_attacks": [
+        "通常攻擊",
+        "石翼魔魔法",
+        "龍捲風"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "藥劑",
+          "rate": 100
+        },
+        {
+          "item": "陷阱雷達",
+          "rate": 200
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 100
+        },
+        {
+          "item": "無",
+          "rate": 200
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "活石像",
+      "stats": "Lv  40  HP   595  MP   434",
+      "group": "翼像魔",
+      "combat": "攻擊 122  防禦 122  魔法 102  敏捷 112",
+      "attributes": {
+        "ORDER": "0/20",
+        "SALAMANDER": "0/20",
+        "CHAOS": "0/20",
+        "SHYLPHID": "80/100",
+        "SPARKLE": "0/20",
+        "GNOME": "0/20",
+        "MOON": "0/20",
+        "UNDINE": "0/20",
+        "MACHINE": "0/10"
+      },
+      "attack_speed": 18,
+      "add_status": "魔法封印 4%",
+      "special_attacks": [
+        "通常攻擊",
+        "石翼魔魔法",
+        "風之靴"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 25,
+        "↓Ｄ": 25,
+        "↓Ｍ": 25,
+        "↓Ｓ": 25
+      },
+      "drops_normal": [
+        {
+          "item": "尋寶指南針",
+          "rate": 100
+        },
+        {
+          "item": "魔法封印解除劑",
+          "rate": 500
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "鑽石藥粉",
+          "rate": 100
+        },
+        {
+          "item": "魔法封印粉",
+          "rate": 500
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "翼魔像",
+      "stats": "Lv  81  HP  1400  MP   631",
+      "group": "翼像魔",
+      "combat": "攻擊 192  防禦 192  魔法 201  敏捷 192",
+      "attributes": {
+        "ORDER": "0/40",
+        "SALAMANDER": "0/40",
+        "CHAOS": "0/40",
+        "SHYLPHID": "90/100",
+        "SPARKLE": "0/40",
+        "GNOME": "0/40",
+        "MOON": "0/40",
+        "UNDINE": "0/40",
+        "MACHINE": "0/20"
+      },
+      "attack_speed": 18,
+      "add_status": "魔法封印 8%",
+      "special_attacks": [
+        "通常攻擊",
+        "石翼魔魔法",
+        "瘋狂暴風"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 50,
+        "↓Ｄ": 50,
+        "↓Ｍ": 50,
+        "↓Ｓ": 50
+      },
+      "drops_normal": [
+        {
+          "item": "治療劑",
+          "rate": 25
+        },
+        {
+          "item": "混亂項鍊",
+          "rate": 200
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 25
+        },
+        {
+          "item": "無",
+          "rate": 200
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "翼龍像",
+      "stats": "Lv 116  HP 30000  MP  8500",
+      "group": "翼像魔",
+      "combat": "攻擊 390  防禦 360  魔法 400  敏捷 400",
+      "attributes": {
+        "ORDER": "0/80",
+        "SALAMANDER": "0/80",
+        "CHAOS": "0/80",
+        "SHYLPHID": "100/100",
+        "SPARKLE": "0/80",
+        "GNOME": "0/80",
+        "MOON": "0/80",
+        "UNDINE": "0/80",
+        "MACHINE": "0/30"
+      },
+      "attack_speed": 18,
+      "add_status": "魔法封印 32%",
+      "special_attacks": [
+        "通常攻擊",
+        "石翼魔魔法",
+        "重力風壓"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 75,
+        "↓Ｄ": 75,
+        "↓Ｍ": 75,
+        "↓Ｓ": 75
+      },
+      "drops_normal": [
+        {
+          "item": "無",
+          "rate": 100
+        },
+        {
+          "item": "無",
+          "rate": 200
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "幸運項鍊",
+          "rate": 100
+        },
+        {
+          "item": "狂月之鎧",
+          "rate": 200
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "半鳥人",
+      "stats": "Lv  14  HP   108  MP   108",
+      "group": "鳥人",
+      "combat": "攻擊  65  防禦  63  魔法  53  敏捷  63",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/60",
+        "CHAOS": "0/60",
+        "SHYLPHID": "0/100",
+        "SPARKLE": "0/0",
+        "GNOME": "0/0",
+        "MOON": "0/0",
+        "UNDINE": "0/0",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "敏捷力下降 4%",
+      "special_attacks": [
+        "通常攻擊",
+        "鳥人音波",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 10,
+        "毒": 10,
+        "麻痺": 10,
+        "氣絕": 20,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "蒲公英",
+          "rate": 500
+        },
+        {
+          "item": "媚藥",
+          "rate": 10
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 500
+        },
+        {
+          "item": "無",
+          "rate": 10
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "鳥人",
+      "stats": "Lv  31  HP   120  MP   137",
+      "group": "鳥人",
+      "combat": "攻擊 112  防禦 102  魔法 112  敏捷 102",
+      "attributes": {
+        "ORDER": "0/10",
+        "SALAMANDER": "0/70",
+        "CHAOS": "0/70",
+        "SHYLPHID": "80/100",
+        "SPARKLE": "0/10",
+        "GNOME": "0/10",
+        "MOON": "0/10",
+        "UNDINE": "0/10",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "敏捷力下降 10%",
+      "special_attacks": [
+        "通常攻擊",
+        "鳥人音波",
+        "瘋狂暴風"
+      ],
+      "defense": {
+        "混亂": 20,
+        "毒": 20,
+        "麻痺": 20,
+        "氣絕": 40,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "歸之羽",
+          "rate": 500
+        },
+        {
+          "item": "歸之羽",
+          "rate": 500
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "旅之羽",
+          "rate": 500
+        },
+        {
+          "item": "旅之羽",
+          "rate": 500
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "天邪鳥",
+      "stats": "Lv  76  HP  1100  MP  1200",
+      "group": "鳥人",
+      "combat": "攻擊 192  防禦 182  魔法 152  敏捷 182",
+      "attributes": {
+        "ORDER": "0/20",
+        "SALAMANDER": "80/80",
+        "CHAOS": "0/80",
+        "SHYLPHID": "80/100",
+        "SPARKLE": "0/20",
+        "GNOME": "0/20",
+        "MOON": "0/20",
+        "UNDINE": "0/20",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "敏捷力下降 20%",
+      "special_attacks": [
+        "通常攻擊",
+        "鳥人音波",
+        "火燄放射"
+      ],
+      "defense": {
+        "混亂": 40,
+        "毒": 40,
+        "麻痺": 40,
+        "氣絕": 80,
+        "淨化": 100,
+        "×Ａ": 50,
+        "×Ｍ": 50,
+        "↓Ａ": 30,
+        "↓Ｄ": 30,
+        "↓Ｍ": 30,
+        "↓Ｓ": 30
+      },
+      "drops_normal": [
+        {
+          "item": "歸之翼",
+          "rate": 1000
+        },
+        {
+          "item": "旅之翼",
+          "rate": 500
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "旅之翼",
+          "rate": 1000
+        },
+        {
+          "item": "歸之翼",
+          "rate": 500
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "鷹人",
+      "stats": "Lv 112  HP 17000  MP  6500",
+      "group": "鳥人",
+      "combat": "攻擊 360  防禦 330  魔法 340  敏捷 340",
+      "attributes": {
+        "ORDER": "0/40",
+        "SALAMANDER": "80/90",
+        "CHAOS": "0/90",
+        "SHYLPHID": "100/100",
+        "SPARKLE": "0/40",
+        "GNOME": "0/40",
+        "MOON": "0/40",
+        "UNDINE": "0/40",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "敏捷力下降 25%",
+      "special_attacks": [
+        "通常攻擊",
+        "鳥人音波",
+        "重力風壓"
+      ],
+      "defense": {
+        "混亂": 95,
+        "毒": 95,
+        "麻痺": 95,
+        "氣絕": 98,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 60,
+        "↓Ｄ": 60,
+        "↓Ｍ": 60,
+        "↓Ｓ": 60
+      },
+      "drops_normal": [
+        {
+          "item": "無",
+          "rate": 100
+        },
+        {
+          "item": "無",
+          "rate": 1000
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "心之袍",
+          "rate": 100
+        },
+        {
+          "item": "炎之心",
+          "rate": 1000
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "龍",
+      "stats": "Lv  41  HP   630  MP   630",
+      "group": "龍",
+      "combat": "攻擊 132  防禦 112  魔法 112  敏捷 112",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/0",
+        "SHYLPHID": "0/0",
+        "SPARKLE": "0/0",
+        "GNOME": "0/0",
+        "MOON": "0/0",
+        "UNDINE": "0/0",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "防禦力下降 5%",
+      "special_attacks": [
+        "一般龍炎",
+        "通常攻擊",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 0,
+        "毒": 0,
+        "麻痺": 0,
+        "氣絕": 0,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "尋寶指南針",
+          "rate": 1000
+        },
+        {
+          "item": "陷阱雷達",
+          "rate": 200
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 1000
+        },
+        {
+          "item": "聖水",
+          "rate": 200
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "死神之龍",
+      "stats": "Lv  83  HP  2500  MP  2200",
+      "group": "龍",
+      "combat": "攻擊 201  防禦 201  魔法 201  敏捷 182",
+      "attributes": {
+        "ORDER": "0/40",
+        "SALAMANDER": "0/40",
+        "CHAOS": "0/40",
+        "SHYLPHID": "0/40",
+        "SPARKLE": "0/10",
+        "GNOME": "0/40",
+        "MOON": "100/100",
+        "UNDINE": "0/40",
+        "MACHINE": "0/10"
+      },
+      "attack_speed": 16,
+      "add_status": "防禦力下降 10%",
+      "special_attacks": [
+        "一般龍炎",
+        "一般龍魔法",
+        "闇神之怒"
+      ],
+      "defense": {
+        "混亂": 50,
+        "毒": 50,
+        "麻痺": 50,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 10,
+        "↓Ｄ": 10,
+        "↓Ｍ": 10,
+        "↓Ｓ": 10
+      },
+      "drops_normal": [
+        {
+          "item": "冒險者戒指",
+          "rate": 200
+        },
+        {
+          "item": "龍之鱗",
+          "rate": 5
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "猝死藥",
+          "rate": 200
+        },
+        {
+          "item": "猝死藥",
+          "rate": 5
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "不死之龍",
+      "stats": "Lv 106  HP  8000  MP  4700",
+      "group": "龍",
+      "combat": "攻擊 300  防禦 300  魔法 300  敏捷 281",
+      "attributes": {
+        "ORDER": "0/90",
+        "SALAMANDER": "0/40",
+        "CHAOS": "0/90",
+        "SHYLPHID": "0/90",
+        "SPARKLE": "0/10",
+        "GNOME": "0/90",
+        "MOON": "100/100",
+        "UNDINE": "0/90",
+        "MACHINE": "0/60"
+      },
+      "attack_speed": 18,
+      "add_status": "防禦力下降 20%",
+      "special_attacks": [
+        "地方龍炎（大）",
+        "地方龍魔法（大）",
+        "闇之黑洞"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 95,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 50,
+        "↓Ｄ": 50,
+        "↓Ｍ": 50,
+        "↓Ｓ": 50
+      },
+      "drops_normal": [
+        {
+          "item": "迪薩藍德徽章",
+          "rate": 5
+        },
+        {
+          "item": "龍之寶玉",
+          "rate": 5
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "蜜米爾之書",
+          "rate": 5
+        },
+        {
+          "item": "龍之鬚",
+          "rate": 5
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "龍王",
+      "stats": "Lv 119  HP 60000  MP  9999",
+      "group": "龍",
+      "combat": "攻擊 400  防禦 400  魔法 400  敏捷 400",
+      "attributes": {
+        "ORDER": "0/100",
+        "SALAMANDER": "0/100",
+        "CHAOS": "0/100",
+        "SHYLPHID": "0/100",
+        "SPARKLE": "100/100",
+        "GNOME": "0/100",
+        "MOON": "0/100",
+        "UNDINE": "0/100",
+        "MACHINE": "0/95"
+      },
+      "attack_speed": 12,
+      "add_status": "防禦力下降 95%",
+      "special_attacks": [
+        "地方龍炎（大）",
+        "奇蹟之光",
+        "復活之光"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 100,
+        "↓Ｄ": 100,
+        "↓Ｍ": 100,
+        "↓Ｓ": 100
+      },
+      "drops_normal": [
+        {
+          "item": "無",
+          "rate": 10000
+        },
+        {
+          "item": "無",
+          "rate": 10
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "性別轉換秘藥",
+          "rate": 10000
+        },
+        {
+          "item": "龍槍",
+          "rate": 10
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "毛毛蟲",
+      "stats": "Lv   3  HP    80  MP     9",
+      "group": "巨蟲（小）",
+      "combat": "攻擊  29  防禦  15  魔法  27  敏捷  19",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/0",
+        "SHYLPHID": "0/0",
+        "SPARKLE": "0/5",
+        "GNOME": "0/25",
+        "MOON": "0/0",
+        "UNDINE": "0/0",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 24,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "巨蟲觸手（小）",
+        "通常攻擊",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 0,
+        "毒": 0,
+        "麻痺": 0,
+        "氣絕": 0,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "藥草",
+          "rate": 2000
+        },
+        {
+          "item": "殺蟲劑",
+          "rate": 100
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "藥草",
+          "rate": 2000
+        },
+        {
+          "item": "殺蟲劑",
+          "rate": 100
+        }
+      ],
+      "recruit_rate": 4
+    },
+    {
+      "name": "昆蟲幼蟲",
+      "stats": "Lv  11  HP   330  MP    28",
+      "group": "巨蟲（小）",
+      "combat": "攻擊  85  防禦  43  魔法  43  敏捷  43",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/0",
+        "SHYLPHID": "0/0",
+        "SPARKLE": "0/20",
+        "GNOME": "0/50",
+        "MOON": "0/0",
+        "UNDINE": "0/0",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 24,
+      "add_status": "敏捷力下降 2%",
+      "special_attacks": [
+        "巨蟲觸手（小）",
+        "通常攻擊",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 0,
+        "毒": 0,
+        "麻痺": 0,
+        "氣絕": 0,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "草菇",
+          "rate": 2000
+        },
+        {
+          "item": "延遲藥粉",
+          "rate": 500
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "草菇",
+          "rate": 2000
+        },
+        {
+          "item": "延遲藥粉",
+          "rate": 500
+        }
+      ],
+      "recruit_rate": 1
+    },
+    {
+      "name": "蟑螂",
+      "stats": "Lv   2  HP     9  MP     4",
+      "group": "蟑螂（小）",
+      "combat": "攻擊  11  防禦   7  魔法   5  敏捷  83",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/0",
+        "SHYLPHID": "0/0",
+        "SPARKLE": "0/0",
+        "GNOME": "0/0",
+        "MOON": "0/0",
+        "UNDINE": "0/0",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 6,
+      "add_status": "毒 1%",
+      "special_attacks": [
+        "通常攻擊",
+        "蟑螂突擊（小）",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 0,
+        "毒": 0,
+        "麻痺": 0,
+        "氣絕": 0,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 100
+      },
+      "drops_normal": [
+        {
+          "item": "解毒劑",
+          "rate": 500
+        },
+        {
+          "item": "殺蟲劑",
+          "rate": 100
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "解毒劑",
+          "rate": 500
+        },
+        {
+          "item": "殺蟲劑",
+          "rate": 100
+        }
+      ],
+      "recruit_rate": 4
+    },
+    {
+      "name": "大蟑螂",
+      "stats": "Lv  10  HP    40  MP    22",
+      "group": "蟑螂（小）",
+      "combat": "攻擊  33  防禦  23  魔法  23  敏捷 122",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/0",
+        "SHYLPHID": "0/0",
+        "SPARKLE": "0/0",
+        "GNOME": "0/0",
+        "MOON": "0/0",
+        "UNDINE": "0/0",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 6,
+      "add_status": "毒 2%",
+      "special_attacks": [
+        "通常攻擊",
+        "蟑螂突擊（小）",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 0,
+        "毒": 0,
+        "麻痺": 0,
+        "氣絕": 0,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 100
+      },
+      "drops_normal": [
+        {
+          "item": "加速藥粉",
+          "rate": 500
+        },
+        {
+          "item": "殺蟲劑",
+          "rate": 500
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "毒菇",
+          "rate": 500
+        },
+        {
+          "item": "毒菇",
+          "rate": 500
+        }
+      ],
+      "recruit_rate": 1
+    },
+    {
+      "name": "蝙蝠",
+      "stats": "Lv   9  HP    50  MP    33",
+      "group": "蝙蝠(小)",
+      "combat": "攻擊  47  防禦  53  魔法  43  敏捷 102",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/0",
+        "SHYLPHID": "50/70",
+        "SPARKLE": "0/0",
+        "GNOME": "0/0",
+        "MOON": "50/70",
+        "UNDINE": "0/0",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "通常攻擊",
+        "蝙蝠音波（小）",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 0,
+        "毒": 0,
+        "麻痺": 0,
+        "氣絕": 0,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "黑白合",
+          "rate": 500
+        },
+        {
+          "item": "無",
+          "rate": 0
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 500
+        },
+        {
+          "item": "無",
+          "rate": 0
+        }
+      ],
+      "recruit_rate": 128
+    },
+    {
+      "name": "殺人蝙蝠",
+      "stats": "Lv  26  HP   180  MP    78",
+      "group": "蝙蝠(小)",
+      "combat": "攻擊  83  防禦  83  魔法 102  敏捷 142",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/0",
+        "SHYLPHID": "60/80",
+        "SPARKLE": "0/0",
+        "GNOME": "0/0",
+        "MOON": "60/80",
+        "UNDINE": "0/0",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "防禦力下降 5%",
+      "special_attacks": [
+        "通常攻擊",
+        "蝙蝠音波（小）",
+        "風之靴"
+      ],
+      "defense": {
+        "混亂": 25,
+        "毒": 25,
+        "麻痺": 25,
+        "氣絕": 25,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "破甲藥粉",
+          "rate": 1000
+        },
+        {
+          "item": "蝙蝠翅膀",
+          "rate": 2
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "破甲藥粉",
+          "rate": 1000
+        },
+        {
+          "item": "鑽石藥粉",
+          "rate": 2
+        }
+      ],
+      "recruit_rate": 32
+    },
+    {
+      "name": "黑暗妖精",
+      "stats": "Lv   8  HP    59  MP    57",
+      "group": "黑暗妖精",
+      "combat": "攻擊  21  防禦  27  魔法  43  敏捷  43",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/0",
+        "SHYLPHID": "10/10",
+        "SPARKLE": "0/0",
+        "GNOME": "0/0",
+        "MOON": "0/0",
+        "UNDINE": "10/10",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "妖精用弓之箭",
+        "風之靴",
+        "沼澤之水"
+      ],
+      "defense": {
+        "混亂": 0,
+        "毒": 0,
+        "麻痺": 0,
+        "氣絕": 0,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "輕弩弓",
+          "rate": 150
+        },
+        {
+          "item": "羽之書",
+          "rate": 2
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 150
+        },
+        {
+          "item": "無",
+          "rate": 2
+        }
+      ],
+      "recruit_rate": 128
+    },
+    {
+      "name": "貴族妖精",
+      "stats": "Lv  61  HP   390  MP   820",
+      "group": "黑暗妖精",
+      "combat": "攻擊 162  防禦 152  魔法 172  敏捷 182",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/0",
+        "SHYLPHID": "50/40",
+        "SPARKLE": "0/0",
+        "GNOME": "0/0",
+        "MOON": "0/0",
+        "UNDINE": "50/40",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "麻痺 4%",
+      "special_attacks": [
+        "妖精用弓之箭",
+        "瘋狂暴風",
+        "治療之水"
+      ],
+      "defense": {
+        "混亂": 50,
+        "毒": 50,
+        "麻痺": 50,
+        "氣絕": 80,
+        "淨化": 100,
+        "×Ａ": 80,
+        "×Ｍ": 80,
+        "↓Ａ": 20,
+        "↓Ｄ": 20,
+        "↓Ｍ": 20,
+        "↓Ｓ": 20
+      },
+      "drops_normal": [
+        {
+          "item": "十字弓",
+          "rate": 200
+        },
+        {
+          "item": "馴魔使之書‧第十章",
+          "rate": 1
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 200
+        },
+        {
+          "item": "妖精之劍",
+          "rate": 1
+        }
+      ],
+      "recruit_rate": 32
+    },
+    {
+      "name": "黑矮人",
+      "stats": "Lv  23  HP   380  MP    58",
+      "group": "邪惡矮人",
+      "combat": "攻擊  93  防禦  93  魔法  63  敏捷  83",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/0",
+        "SHYLPHID": "0/0",
+        "SPARKLE": "0/0",
+        "GNOME": "0/40",
+        "MOON": "0/0",
+        "UNDINE": "0/0",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "通常攻擊",
+        "通常攻擊",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 0,
+        "毒": 0,
+        "麻痺": 0,
+        "氣絕": 20,
+        "淨化": 100,
+        "×Ａ": 20,
+        "×Ｍ": 20,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "印弟安戰斧",
+          "rate": 200
+        },
+        {
+          "item": "侏儒之書",
+          "rate": 2
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 200
+        },
+        {
+          "item": "無",
+          "rate": 2
+        }
+      ],
+      "recruit_rate": 128
+    },
+    {
+      "name": "邪惡矮人",
+      "stats": "Lv  39  HP   480  MP   101",
+      "group": "邪惡矮人",
+      "combat": "攻擊 122  防禦 112  魔法 112  敏捷 122",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/0",
+        "SHYLPHID": "0/0",
+        "SPARKLE": "0/0",
+        "GNOME": "50/80",
+        "MOON": "0/0",
+        "UNDINE": "0/0",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "通常攻擊",
+        "地之爪",
+        "大地的祝福"
+      ],
+      "defense": {
+        "混亂": 0,
+        "毒": 0,
+        "麻痺": 0,
+        "氣絕": 40,
+        "淨化": 100,
+        "×Ａ": 40,
+        "×Ｍ": 40,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "半月斧",
+          "rate": 200
+        },
+        {
+          "item": "馴魔使之書‧第七章",
+          "rate": 1
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 200
+        },
+        {
+          "item": "米斯里魯斧",
+          "rate": 1
+        }
+      ],
+      "recruit_rate": 32
+    },
+    {
+      "name": "貓臉人",
+      "stats": "Lv  16  HP   205  MP    88",
+      "group": "貓臉人",
+      "combat": "攻擊  79  防禦  63  魔法  73  敏捷  73",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/0",
+        "SHYLPHID": "0/0",
+        "SPARKLE": "0/0",
+        "GNOME": "0/0",
+        "MOON": "0/0",
+        "UNDINE": "0/0",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "通常攻擊",
+        "通常攻擊",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 0,
+        "毒": 0,
+        "麻痺": 0,
+        "氣絕": 0,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 50
+      },
+      "drops_normal": [
+        {
+          "item": "鐵爪",
+          "rate": 200
+        },
+        {
+          "item": "貓腳印之書",
+          "rate": 2
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 200
+        },
+        {
+          "item": "無",
+          "rate": 2
+        }
+      ],
+      "recruit_rate": 128
+    },
+    {
+      "name": "貓武士",
+      "stats": "Lv  32  HP   305  MP   115",
+      "group": "貓臉人",
+      "combat": "攻擊 112  防禦 102  魔法 122  敏捷 112",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/0",
+        "SHYLPHID": "0/0",
+        "SPARKLE": "0/0",
+        "GNOME": "0/0",
+        "MOON": "0/0",
+        "UNDINE": "0/0",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "會心一擊 2%",
+      "special_attacks": [
+        "通常攻擊",
+        "通常攻擊",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 0,
+        "毒": 0,
+        "麻痺": 0,
+        "氣絕": 50,
+        "淨化": 100,
+        "×Ａ": 50,
+        "×Ｍ": 50,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 50
+      },
+      "drops_normal": [
+        {
+          "item": "鉤爪",
+          "rate": 200
+        },
+        {
+          "item": "馴魔使之書‧第八章",
+          "rate": 1
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 200
+        },
+        {
+          "item": "木天蓼飛鏢",
+          "rate": 1
+        }
+      ],
+      "recruit_rate": 32
+    },
+    {
+      "name": "邪惡土撥鼠",
+      "stats": "Lv   4  HP    62  MP    17",
+      "group": "土撥鼠",
+      "combat": "攻擊  23  防禦  11  魔法  19  敏捷  23",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/0",
+        "SHYLPHID": "0/0",
+        "SPARKLE": "0/0",
+        "GNOME": "0/100",
+        "MOON": "0/0",
+        "UNDINE": "0/0",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "通常攻擊",
+        "通常攻擊",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 0,
+        "毒": 0,
+        "麻痺": 0,
+        "氣絕": 0,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "紫羅蘭",
+          "rate": 200
+        },
+        {
+          "item": "水仙花",
+          "rate": 100
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 200
+        },
+        {
+          "item": "無",
+          "rate": 100
+        }
+      ],
+      "recruit_rate": 128
+    },
+    {
+      "name": "瘋狂土撥鼠",
+      "stats": "Lv  15  HP   150  MP    55",
+      "group": "土撥鼠",
+      "combat": "攻擊  69  防禦  63  魔法  63  敏捷  63",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/0",
+        "SHYLPHID": "0/0",
+        "SPARKLE": "0/0",
+        "GNOME": "0/100",
+        "MOON": "0/0",
+        "UNDINE": "0/0",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "毒 5%",
+      "special_attacks": [
+        "通常攻擊",
+        "通常攻擊",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 50,
+        "毒": 0,
+        "麻痺": 0,
+        "氣絕": 20,
+        "淨化": 100,
+        "×Ａ": 20,
+        "×Ｍ": 20,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "忘憂果",
+          "rate": 200
+        },
+        {
+          "item": "馴魔使之書‧第九章",
+          "rate": 1
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 200
+        },
+        {
+          "item": "銅毛",
+          "rate": 1
+        }
+      ],
+      "recruit_rate": 32
+    },
+    {
+      "name": "紅龍（大）",
+      "stats": "Lv  89  HP  2100  MP  2500",
+      "group": "地方龍（大）",
+      "combat": "攻擊 221  防禦 221  魔法 221  敏捷 221",
+      "attributes": {
+        "ORDER": "0/50",
+        "SALAMANDER": "100/100",
+        "CHAOS": "0/50",
+        "SHYLPHID": "0/50",
+        "SPARKLE": "0/50",
+        "GNOME": "0/50",
+        "MOON": "0/50",
+        "UNDINE": "0/50",
+        "MACHINE": "0/10"
+      },
+      "attack_speed": 16,
+      "add_status": "攻擊力下降 15%",
+      "special_attacks": [
+        "地方龍炎（大）",
+        "地方龍魔法（大）",
+        "火燄放射"
+      ],
+      "defense": {
+        "混亂": 95,
+        "毒": 80,
+        "麻痺": 95,
+        "氣絕": 95,
+        "淨化": 100,
+        "×Ａ": 90,
+        "×Ｍ": 90,
+        "↓Ａ": 50,
+        "↓Ｄ": 50,
+        "↓Ｍ": 50,
+        "↓Ｓ": 50
+      },
+      "drops_normal": [
+        {
+          "item": "龍之書",
+          "rate": 5
+        },
+        {
+          "item": "歐哈拉之劍",
+          "rate": 200
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 5
+        },
+        {
+          "item": "無",
+          "rate": 200
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "白龍（大）",
+      "stats": "Lv  90  HP  1800  MP  2800",
+      "group": "地方龍（大）",
+      "combat": "攻擊 221  防禦 221  魔法 221  敏捷 221",
+      "attributes": {
+        "ORDER": "0/50",
+        "SALAMANDER": "0/50",
+        "CHAOS": "0/50",
+        "SHYLPHID": "100/100",
+        "SPARKLE": "0/50",
+        "GNOME": "0/50",
+        "MOON": "0/50",
+        "UNDINE": "0/50",
+        "MACHINE": "0/10"
+      },
+      "attack_speed": 16,
+      "add_status": "攻擊力下降 15%",
+      "special_attacks": [
+        "地方龍炎（大）",
+        "地方龍魔法（大）",
+        "重力風壓"
+      ],
+      "defense": {
+        "混亂": 95,
+        "毒": 80,
+        "麻痺": 95,
+        "氣絕": 95,
+        "淨化": 100,
+        "×Ａ": 90,
+        "×Ｍ": 90,
+        "↓Ａ": 50,
+        "↓Ｄ": 50,
+        "↓Ｍ": 50,
+        "↓Ｓ": 50
+      },
+      "drops_normal": [
+        {
+          "item": "銅線之書",
+          "rate": 5
+        },
+        {
+          "item": "木天蓼飛鏢",
+          "rate": 200
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 5
+        },
+        {
+          "item": "無",
+          "rate": 200
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "褐龍（大）",
+      "stats": "Lv  92  HP  1900  MP  2600",
+      "group": "地方龍（大）",
+      "combat": "攻擊 221  防禦 221  魔法 221  敏捷 221",
+      "attributes": {
+        "ORDER": "0/50",
+        "SALAMANDER": "0/50",
+        "CHAOS": "0/50",
+        "SHYLPHID": "0/50",
+        "SPARKLE": "0/50",
+        "GNOME": "100/100",
+        "MOON": "0/50",
+        "UNDINE": "0/50",
+        "MACHINE": "0/10"
+      },
+      "attack_speed": 16,
+      "add_status": "攻擊力下降 15%",
+      "special_attacks": [
+        "地方龍炎（大）",
+        "地方龍魔法（大）",
+        "大地震"
+      ],
+      "defense": {
+        "混亂": 95,
+        "毒": 80,
+        "麻痺": 95,
+        "氣絕": 95,
+        "淨化": 100,
+        "×Ａ": 90,
+        "×Ｍ": 90,
+        "↓Ａ": 50,
+        "↓Ｄ": 50,
+        "↓Ｍ": 50,
+        "↓Ｓ": 50
+      },
+      "drops_normal": [
+        {
+          "item": "筷子之書",
+          "rate": 5
+        },
+        {
+          "item": "貓拳",
+          "rate": 200
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 5
+        },
+        {
+          "item": "無",
+          "rate": 200
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "青龍（大）",
+      "stats": "Lv  91  HP  2000  MP  2700",
+      "group": "地方龍（大）",
+      "combat": "攻擊 221  防禦 221  魔法 221  敏捷 221",
+      "attributes": {
+        "ORDER": "0/50",
+        "SALAMANDER": "0/50",
+        "CHAOS": "0/50",
+        "SHYLPHID": "0/50",
+        "SPARKLE": "0/50",
+        "GNOME": "0/50",
+        "MOON": "0/50",
+        "UNDINE": "100/100",
+        "MACHINE": "0/10"
+      },
+      "attack_speed": 16,
+      "add_status": "攻擊力下降 15%",
+      "special_attacks": [
+        "地方龍炎（大）",
+        "地方龍魔法（大）",
+        "治療之水"
+      ],
+      "defense": {
+        "混亂": 95,
+        "毒": 80,
+        "麻痺": 95,
+        "氣絕": 95,
+        "淨化": 100,
+        "×Ａ": 90,
+        "×Ｍ": 90,
+        "↓Ａ": 50,
+        "↓Ｄ": 50,
+        "↓Ｍ": 50,
+        "↓Ｓ": 50
+      },
+      "drops_normal": [
+        {
+          "item": "魚的樂譜",
+          "rate": 5
+        },
+        {
+          "item": "引導之杖",
+          "rate": 200
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 5
+        },
+        {
+          "item": "無",
+          "rate": 200
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "紅龍",
+      "stats": "Lv  43  HP   600  MP   135",
+      "group": "地方龍（小）",
+      "combat": "攻擊 132  防禦 132  魔法 132  敏捷 132",
+      "attributes": {
+        "ORDER": "0/20",
+        "SALAMANDER": "80/100",
+        "CHAOS": "0/20",
+        "SHYLPHID": "0/20",
+        "SPARKLE": "0/20",
+        "GNOME": "0/20",
+        "MOON": "0/20",
+        "UNDINE": "0/20",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "魔法力下降 10%",
+      "special_attacks": [
+        "地方龍炎（小）",
+        "防護炎壁",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 90,
+        "毒": 50,
+        "麻痺": 90,
+        "氣絕": 90,
+        "淨化": 100,
+        "×Ａ": 80,
+        "×Ｍ": 80,
+        "↓Ａ": 10,
+        "↓Ｄ": 10,
+        "↓Ｍ": 10,
+        "↓Ｓ": 10
+      },
+      "drops_normal": [
+        {
+          "item": "力量手環",
+          "rate": 200
+        },
+        {
+          "item": "火之種",
+          "rate": 200
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 200
+        },
+        {
+          "item": "無",
+          "rate": 200
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "白龍",
+      "stats": "Lv  44  HP   610  MP   165",
+      "group": "地方龍（小）",
+      "combat": "攻擊 132  防禦 132  魔法 132  敏捷 132",
+      "attributes": {
+        "ORDER": "0/20",
+        "SALAMANDER": "0/20",
+        "CHAOS": "0/20",
+        "SHYLPHID": "80/100",
+        "SPARKLE": "0/20",
+        "GNOME": "0/20",
+        "MOON": "0/20",
+        "UNDINE": "0/20",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "魔法力下降 10%",
+      "special_attacks": [
+        "地方龍炎（小）",
+        "風之靴",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 90,
+        "毒": 50,
+        "麻痺": 90,
+        "氣絕": 90,
+        "淨化": 100,
+        "×Ａ": 80,
+        "×Ｍ": 80,
+        "↓Ａ": 10,
+        "↓Ｄ": 10,
+        "↓Ｍ": 10,
+        "↓Ｓ": 10
+      },
+      "drops_normal": [
+        {
+          "item": "速度手環",
+          "rate": 200
+        },
+        {
+          "item": "風之種",
+          "rate": 200
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 200
+        },
+        {
+          "item": "無",
+          "rate": 200
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "褐龍",
+      "stats": "Lv  46  HP   590  MP   140",
+      "group": "地方龍（小）",
+      "combat": "攻擊 132  防禦 132  魔法 132  敏捷 132",
+      "attributes": {
+        "ORDER": "0/20",
+        "SALAMANDER": "0/20",
+        "CHAOS": "0/20",
+        "SHYLPHID": "0/20",
+        "SPARKLE": "0/20",
+        "GNOME": "80/100",
+        "MOON": "0/20",
+        "UNDINE": "0/20",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "魔法力下降 10%",
+      "special_attacks": [
+        "地方龍炎（小）",
+        "大地的祝福",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 90,
+        "毒": 50,
+        "麻痺": 90,
+        "氣絕": 90,
+        "淨化": 100,
+        "×Ａ": 80,
+        "×Ｍ": 80,
+        "↓Ａ": 10,
+        "↓Ｄ": 10,
+        "↓Ｍ": 10,
+        "↓Ｓ": 10
+      },
+      "drops_normal": [
+        {
+          "item": "魔法手環",
+          "rate": 200
+        },
+        {
+          "item": "地之種",
+          "rate": 200
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 200
+        },
+        {
+          "item": "無",
+          "rate": 200
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "青龍",
+      "stats": "Lv  45  HP   580  MP   155",
+      "group": "地方龍（小）",
+      "combat": "攻擊 132  防禦 132  魔法 132  敏捷 132",
+      "attributes": {
+        "ORDER": "0/20",
+        "SALAMANDER": "0/20",
+        "CHAOS": "0/20",
+        "SHYLPHID": "0/20",
+        "SPARKLE": "0/20",
+        "GNOME": "0/20",
+        "MOON": "0/20",
+        "UNDINE": "80/100",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "魔法力下降 10%",
+      "special_attacks": [
+        "地方龍炎（小）",
+        "清淨之水",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 90,
+        "毒": 50,
+        "麻痺": 90,
+        "氣絕": 90,
+        "淨化": 100,
+        "×Ａ": 80,
+        "×Ｍ": 80,
+        "↓Ａ": 10,
+        "↓Ｄ": 10,
+        "↓Ｍ": 10,
+        "↓Ｓ": 10
+      },
+      "drops_normal": [
+        {
+          "item": "防禦手環",
+          "rate": 200
+        },
+        {
+          "item": "水之種",
+          "rate": 200
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 200
+        },
+        {
+          "item": "無",
+          "rate": 200
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "三頭犬",
+      "stats": "Lv  66  HP   660  MP   660",
+      "group": "三頭犬",
+      "combat": "攻擊 172  防禦 172  魔法 142  敏捷 162",
+      "attributes": {
+        "ORDER": "0/30",
+        "SALAMANDER": "100/100",
+        "CHAOS": "0/30",
+        "SHYLPHID": "0/30",
+        "SPARKLE": "0/30",
+        "GNOME": "0/30",
+        "MOON": "0/30",
+        "UNDINE": "0/30",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 12,
+      "add_status": "混亂 5%",
+      "special_attacks": [
+        "通常攻擊",
+        "地獄犬魔法",
+        "防護炎壁"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 30,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 30,
+        "↓Ｄ": 30,
+        "↓Ｍ": 30,
+        "↓Ｓ": 30
+      },
+      "drops_normal": [
+        {
+          "item": "探險之火的護符",
+          "rate": 500
+        },
+        {
+          "item": "搖曳之炎",
+          "rate": 2000
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 500
+        },
+        {
+          "item": "無",
+          "rate": 2000
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "地獄魔犬",
+      "stats": "Lv  84  HP  1700  MP  1400",
+      "group": "三頭犬",
+      "combat": "攻擊 201  防禦 201  魔法 142  敏捷 192",
+      "attributes": {
+        "ORDER": "0/10",
+        "SALAMANDER": "80/80",
+        "CHAOS": "0/10",
+        "SHYLPHID": "0/10",
+        "SPARKLE": "0/10",
+        "GNOME": "0/10",
+        "MOON": "0/10",
+        "UNDINE": "0/10",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 10,
+      "add_status": "混亂 12%",
+      "special_attacks": [
+        "通常攻擊",
+        "地獄犬魔法",
+        "炎之柱"
+      ],
+      "defense": {
+        "混亂": 90,
+        "毒": 0,
+        "麻痺": 90,
+        "氣絕": 90,
+        "淨化": 100,
+        "×Ａ": 90,
+        "×Ｍ": 90,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "力之技手環",
+          "rate": 200
+        },
+        {
+          "item": "炎之鎧",
+          "rate": 100
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 200
+        },
+        {
+          "item": "無",
+          "rate": 100
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "雪人",
+      "stats": "Lv  67  HP   720  MP   720",
+      "group": "雪人",
+      "combat": "攻擊 172  防禦 172  魔法 132  敏捷 162",
+      "attributes": {
+        "ORDER": "0/30",
+        "SALAMANDER": "0/30",
+        "CHAOS": "0/30",
+        "SHYLPHID": "100/100",
+        "SPARKLE": "0/30",
+        "GNOME": "0/30",
+        "MOON": "0/30",
+        "UNDINE": "0/30",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "敏捷力下降 10%",
+      "special_attacks": [
+        "通常攻擊",
+        "雪人魔法",
+        "瘋狂暴風"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 30,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 30,
+        "↓Ｄ": 30,
+        "↓Ｍ": 30,
+        "↓Ｓ": 30
+      },
+      "drops_normal": [
+        {
+          "item": "瘋狂暴風的護符",
+          "rate": 500
+        },
+        {
+          "item": "風之呢喃",
+          "rate": 2000
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 500
+        },
+        {
+          "item": "無",
+          "rate": 2000
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "噬血雪人",
+      "stats": "Lv  85  HP  1600  MP  1160",
+      "group": "雪人",
+      "combat": "攻擊 201  防禦 201  魔法 152  敏捷 192",
+      "attributes": {
+        "ORDER": "0/10",
+        "SALAMANDER": "0/10",
+        "CHAOS": "0/10",
+        "SHYLPHID": "80/80",
+        "SPARKLE": "0/10",
+        "GNOME": "0/10",
+        "MOON": "0/10",
+        "UNDINE": "0/10",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 16,
+      "add_status": "敏捷力下降 40%",
+      "special_attacks": [
+        "通常攻擊",
+        "雪人魔法",
+        "重力風壓"
+      ],
+      "defense": {
+        "混亂": 30,
+        "毒": 0,
+        "麻痺": 80,
+        "氣絕": 90,
+        "淨化": 100,
+        "×Ａ": 90,
+        "×Ｍ": 90,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "速之技手環",
+          "rate": 200
+        },
+        {
+          "item": "風之鎧",
+          "rate": 100
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 200
+        },
+        {
+          "item": "無",
+          "rate": 100
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "泰坦巨人",
+      "stats": "Lv  69  HP   540  MP   540",
+      "group": "石巨人",
+      "combat": "攻擊 172  防禦 182  魔法 122  敏捷 142",
+      "attributes": {
+        "ORDER": "0/30",
+        "SALAMANDER": "0/30",
+        "CHAOS": "0/30",
+        "SHYLPHID": "0/30",
+        "SPARKLE": "0/30",
+        "GNOME": "100/100",
+        "MOON": "0/30",
+        "UNDINE": "0/30",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "會心一擊 4%",
+      "special_attacks": [
+        "通常攻擊",
+        "地之爪",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 30,
+        "↓Ｄ": 30,
+        "↓Ｍ": 30,
+        "↓Ｓ": 30
+      },
+      "drops_normal": [
+        {
+          "item": "大地的祝福的護符",
+          "rate": 500
+        },
+        {
+          "item": "地底之暖",
+          "rate": 2000
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 500
+        },
+        {
+          "item": "無",
+          "rate": 2000
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "石巨人",
+      "stats": "Lv  87  HP  2200  MP  2000",
+      "group": "石巨人",
+      "combat": "攻擊 211  防禦 211  魔法 162  敏捷 162",
+      "attributes": {
+        "ORDER": "0/10",
+        "SALAMANDER": "0/10",
+        "CHAOS": "0/10",
+        "SHYLPHID": "0/10",
+        "SPARKLE": "0/10",
+        "GNOME": "80/80",
+        "MOON": "0/10",
+        "UNDINE": "0/10",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 16,
+      "add_status": "會心一擊 12%",
+      "special_attacks": [
+        "通常攻擊",
+        "大地的祝福",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 90,
+        "×Ｍ": 90,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "魔之技手環",
+          "rate": 200
+        },
+        {
+          "item": "土之鎧",
+          "rate": 100
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 200
+        },
+        {
+          "item": "無",
+          "rate": 100
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "噬人龍蝦",
+      "stats": "Lv  68  HP   360  MP   210",
+      "group": "龍蝦",
+      "combat": "攻擊 172  防禦 182  魔法 122  敏捷 142",
+      "attributes": {
+        "ORDER": "0/30",
+        "SALAMANDER": "0/30",
+        "CHAOS": "0/30",
+        "SHYLPHID": "0/30",
+        "SPARKLE": "0/30",
+        "GNOME": "0/30",
+        "MOON": "0/30",
+        "UNDINE": "100/100",
+        "MACHINE": "0/30"
+      },
+      "attack_speed": 24,
+      "add_status": "毒 10%",
+      "special_attacks": [
+        "通常攻擊",
+        "清淨之水",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 30,
+        "↓Ｄ": 30,
+        "↓Ｍ": 30,
+        "↓Ｓ": 30
+      },
+      "drops_normal": [
+        {
+          "item": "清淨之水的護符",
+          "rate": 500
+        },
+        {
+          "item": "水滴之光",
+          "rate": 2000
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 500
+        },
+        {
+          "item": "無",
+          "rate": 2000
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "戰鬥龍蝦",
+      "stats": "Lv  86  HP  1500  MP   490",
+      "group": "龍蝦",
+      "combat": "攻擊 211  防禦 211  魔法 122  敏捷 162",
+      "attributes": {
+        "ORDER": "0/10",
+        "SALAMANDER": "0/10",
+        "CHAOS": "0/10",
+        "SHYLPHID": "0/10",
+        "SPARKLE": "0/10",
+        "GNOME": "0/10",
+        "MOON": "0/10",
+        "UNDINE": "80/80",
+        "MACHINE": "0/30"
+      },
+      "attack_speed": 22,
+      "add_status": "毒 40%",
+      "special_attacks": [
+        "通常攻擊",
+        "沼澤之水",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 90,
+        "毒": 90,
+        "麻痺": 90,
+        "氣絕": 90,
+        "淨化": 100,
+        "×Ａ": 90,
+        "×Ｍ": 90,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "守之技手環",
+          "rate": 200
+        },
+        {
+          "item": "水之鎧",
+          "rate": 100
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 200
+        },
+        {
+          "item": "無",
+          "rate": 100
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "飛馬",
+      "stats": "Lv  70  HP   960  MP  1100",
+      "group": "飛馬",
+      "combat": "攻擊 172  防禦 182  魔法 182  敏捷 200",
+      "attributes": {
+        "ORDER": "75/100",
+        "SALAMANDER": "0/30",
+        "CHAOS": "0/0",
+        "SHYLPHID": "50/30",
+        "SPARKLE": "100/50",
+        "GNOME": "0/30",
+        "MOON": "0/50",
+        "UNDINE": "0/30",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 12,
+      "add_status": "敏捷力下降 25%",
+      "special_attacks": [
+        "天馬突擊",
+        "治療之水",
+        "秩序神之力"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 0,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 30,
+        "↓Ｄ": 30,
+        "↓Ｍ": 30,
+        "↓Ｓ": 80
+      },
+      "drops_normal": [
+        {
+          "item": "秩序戒指",
+          "rate": 5
+        },
+        {
+          "item": "無",
+          "rate": 2000
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 5
+        },
+        {
+          "item": "無",
+          "rate": 2000
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "食火獸",
+      "stats": "Lv  71  HP   600  MP   600",
+      "group": "食火獸",
+      "combat": "攻擊 172  防禦 182  魔法 182  敏捷 142",
+      "attributes": {
+        "ORDER": "0/50",
+        "SALAMANDER": "0/30",
+        "CHAOS": "100/100",
+        "SHYLPHID": "0/30",
+        "SPARKLE": "25/0",
+        "GNOME": "50/30",
+        "MOON": "50/0",
+        "UNDINE": "0/30",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 12,
+      "add_status": "魔法封印 10%",
+      "special_attacks": [
+        "通常攻擊",
+        "食火獸之炎",
+        "混沌神審判"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 80,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 30,
+        "↓Ｄ": 30,
+        "↓Ｍ": 30,
+        "↓Ｓ": 30
+      },
+      "drops_normal": [
+        {
+          "item": "混沌戒指",
+          "rate": 5
+        },
+        {
+          "item": "無",
+          "rate": 2000
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 5
+        },
+        {
+          "item": "無",
+          "rate": 2000
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "獨角獸",
+      "stats": "Lv  72  HP   540  MP  1200",
+      "group": "獨角獸",
+      "combat": "攻擊 182  防禦 182  魔法 182  敏捷 182",
+      "attributes": {
+        "ORDER": "50/0",
+        "SALAMANDER": "0/30",
+        "CHAOS": "0/0",
+        "SHYLPHID": "50/30",
+        "SPARKLE": "100/100",
+        "GNOME": "0/30",
+        "MOON": "0/50",
+        "UNDINE": "0/30",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 12,
+      "add_status": "攻擊封印 10%",
+      "special_attacks": [
+        "獨角獸突擊",
+        "奇蹟之光",
+        "淨化之光"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 30,
+        "↓Ｄ": 30,
+        "↓Ｍ": 30,
+        "↓Ｓ": 80
+      },
+      "drops_normal": [
+        {
+          "item": "光之戒指",
+          "rate": 5
+        },
+        {
+          "item": "無",
+          "rate": 2000
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 5
+        },
+        {
+          "item": "無",
+          "rate": 2000
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "撒旦",
+      "stats": "Lv  73  HP   840  MP  1480",
+      "group": "撒旦",
+      "combat": "攻擊 182  防禦 182  魔法 182  敏捷 182",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "25/30",
+        "CHAOS": "50/0",
+        "SHYLPHID": "0/30",
+        "SPARKLE": "0/50",
+        "GNOME": "0/30",
+        "MOON": "100/100",
+        "UNDINE": "0/30",
+        "MACHINE": "0/20"
+      },
+      "attack_speed": 12,
+      "add_status": "攻擊封印 10%",
+      "special_attacks": [
+        "撒旦魔法",
+        "闇之黑洞",
+        "闇之毒"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 30,
+        "↓Ｄ": 30,
+        "↓Ｍ": 30,
+        "↓Ｓ": 30
+      },
+      "drops_normal": [
+        {
+          "item": "闇之戒指",
+          "rate": 5
+        },
+        {
+          "item": "無",
+          "rate": 2000
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 5
+        },
+        {
+          "item": "無",
+          "rate": 2000
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "ＳＲ－Ｘ９",
+      "stats": "Lv  47  HP   450  MP   450",
+      "group": "機械人",
+      "combat": "攻擊 132  防禦 142  魔法 122  敏捷 132",
+      "attributes": {
+        "ORDER": "0/80",
+        "SALAMANDER": "0/80",
+        "CHAOS": "0/80",
+        "SHYLPHID": "0/80",
+        "SPARKLE": "0/0",
+        "GNOME": "0/80",
+        "MOON": "0/80",
+        "UNDINE": "0/0",
+        "MACHINE": "100/0"
+      },
+      "attack_speed": 18,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "通常攻擊",
+        "機械激光（Ｘ系）",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 0,
+        "↓Ａ": 100,
+        "↓Ｄ": 100,
+        "↓Ｍ": 0,
+        "↓Ｓ": 100
+      },
+      "drops_normal": [
+        {
+          "item": "禁忌之歌‧機械之章",
+          "rate": 1000
+        },
+        {
+          "item": "空間時鐘",
+          "rate": 100
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 1000
+        },
+        {
+          "item": "無",
+          "rate": 100
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "ＳＲ－Ｘ００",
+      "stats": "Lv  88  HP  1750  MP  2400",
+      "group": "機械人",
+      "combat": "攻擊 211  防禦 211  魔法 182  敏捷 201",
+      "attributes": {
+        "ORDER": "0/90",
+        "SALAMANDER": "0/90",
+        "CHAOS": "0/90",
+        "SHYLPHID": "0/90",
+        "SPARKLE": "0/40",
+        "GNOME": "0/90",
+        "MOON": "0/90",
+        "UNDINE": "0/40",
+        "MACHINE": "100/0"
+      },
+      "attack_speed": 18,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "通常攻擊",
+        "機械激光（Ｘ系）",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 40,
+        "↓Ａ": 100,
+        "↓Ｄ": 100,
+        "↓Ｍ": 40,
+        "↓Ｓ": 100
+      },
+      "drops_normal": [
+        {
+          "item": "空間時鐘",
+          "rate": 100
+        },
+        {
+          "item": "光能劍",
+          "rate": 100
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 100
+        },
+        {
+          "item": "無",
+          "rate": 100
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "ＳＲ－Ｚ１",
+      "stats": "Lv 105  HP  7000  MP  4600",
+      "group": "機械人２",
+      "combat": "攻擊 291  防禦 300  魔法 291  敏捷 310",
+      "attributes": {
+        "ORDER": "0/100",
+        "SALAMANDER": "0/100",
+        "CHAOS": "0/100",
+        "SHYLPHID": "0/100",
+        "SPARKLE": "0/80",
+        "GNOME": "0/100",
+        "MOON": "0/100",
+        "UNDINE": "0/80",
+        "MACHINE": "100/10"
+      },
+      "attack_speed": 18,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "通常攻擊",
+        "機械激光（Ｚ系）",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 80,
+        "↓Ａ": 100,
+        "↓Ｄ": 100,
+        "↓Ｍ": 80,
+        "↓Ｓ": 100
+      },
+      "drops_normal": [
+        {
+          "item": "無",
+          "rate": 500
+        },
+        {
+          "item": "無",
+          "rate": 100
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "火之種",
+          "rate": 500
+        },
+        {
+          "item": "雷射鎗",
+          "rate": 100
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "ＳＲ－ＺＺ",
+      "stats": "Lv 118  HP 50000  MP  9500",
+      "group": "機械人２",
+      "combat": "攻擊 400  防禦 400  魔法 380  敏捷 400",
+      "attributes": {
+        "ORDER": "0/100",
+        "SALAMANDER": "0/100",
+        "CHAOS": "0/100",
+        "SHYLPHID": "0/100",
+        "SPARKLE": "0/90",
+        "GNOME": "0/100",
+        "MOON": "0/100",
+        "UNDINE": "0/90",
+        "MACHINE": "100/40"
+      },
+      "attack_speed": 18,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "通常攻擊",
+        "機械激光（Ｚ系）",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 90,
+        "↓Ａ": 100,
+        "↓Ｄ": 100,
+        "↓Ｍ": 90,
+        "↓Ｓ": 100
+      },
+      "drops_normal": [
+        {
+          "item": "無",
+          "rate": 500
+        },
+        {
+          "item": "無",
+          "rate": 200
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "０８９式盾改",
+          "rate": 500
+        },
+        {
+          "item": "雷射防護盾",
+          "rate": 200
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "龍獸",
+      "stats": "Lv  94  HP  4000  MP  3000",
+      "group": "龍獸",
+      "combat": "攻擊 231  防禦 231  魔法 231  敏捷 231",
+      "attributes": {
+        "ORDER": "25/40",
+        "SALAMANDER": "100/100",
+        "CHAOS": "75/40",
+        "SHYLPHID": "0/50",
+        "SPARKLE": "25/40",
+        "GNOME": "0/100",
+        "MOON": "75/40",
+        "UNDINE": "0/0",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "防禦力下降 20%",
+      "special_attacks": [
+        "龍獸突擊",
+        "龍獸之炎",
+        "火燄放射"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 80,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 80,
+        "↓Ｄ": 80,
+        "↓Ｍ": 80,
+        "↓Ｓ": 80
+      },
+      "drops_normal": [
+        {
+          "item": "夫拉姆藍德徽章",
+          "rate": 5
+        },
+        {
+          "item": "火之戒指",
+          "rate": 25
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 5
+        },
+        {
+          "item": "無",
+          "rate": 25
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "翼獅",
+      "stats": "Lv  95  HP  3000  MP  3100",
+      "group": "翼獅",
+      "combat": "攻擊 221  防禦 241  魔法 221  敏捷 201",
+      "attributes": {
+        "ORDER": "75/0",
+        "SALAMANDER": "0/50",
+        "CHAOS": "25/0",
+        "SHYLPHID": "100/100",
+        "SPARKLE": "75/0",
+        "GNOME": "0/0",
+        "MOON": "25/0",
+        "UNDINE": "0/100",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 12,
+      "add_status": "麻痺 15%",
+      "special_attacks": [
+        "通常攻擊",
+        "瘋狂暴風",
+        "重力風壓"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 80,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 80,
+        "↓Ｄ": 80,
+        "↓Ｍ": 80,
+        "↓Ｓ": 80
+      },
+      "drops_normal": [
+        {
+          "item": "尼普藍德徽章",
+          "rate": 5
+        },
+        {
+          "item": "風之戒指",
+          "rate": 25
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 5
+        },
+        {
+          "item": "無",
+          "rate": 25
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "九尾狐",
+      "stats": "Lv  97  HP  4000  MP  3400",
+      "group": "九尾狐",
+      "combat": "攻擊 201  防禦 201  魔法 261  敏捷 261",
+      "attributes": {
+        "ORDER": "80/40",
+        "SALAMANDER": "0/0",
+        "CHAOS": "20/10",
+        "SHYLPHID": "0/100",
+        "SPARKLE": "82/30",
+        "GNOME": "100/100",
+        "MOON": "18/5",
+        "UNDINE": "0/50",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 6,
+      "add_status": "魔法力下降 20%",
+      "special_attacks": [
+        "通常攻擊",
+        "九尾狐魔法",
+        "大地震"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 80,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 80,
+        "↓Ｄ": 80,
+        "↓Ｍ": 80,
+        "↓Ｓ": 80
+      },
+      "drops_normal": [
+        {
+          "item": "亞托藍德徽章",
+          "rate": 5
+        },
+        {
+          "item": "地之戒指",
+          "rate": 25
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 5
+        },
+        {
+          "item": "無",
+          "rate": 25
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "狼人",
+      "stats": "Lv  96  HP  2000  MP  3200",
+      "group": "狼人",
+      "combat": "攻擊 241  防禦 251  魔法 201  敏捷 261",
+      "attributes": {
+        "ORDER": "20/80",
+        "SALAMANDER": "0/100",
+        "CHAOS": "80/60",
+        "SHYLPHID": "0/0",
+        "SPARKLE": "20/60",
+        "GNOME": "0/50",
+        "MOON": "80/60",
+        "UNDINE": "100/100",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 6,
+      "add_status": "會心一擊 15%",
+      "special_attacks": [
+        "通常攻擊",
+        "治療之水",
+        "沼澤之水"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 95,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 80,
+        "↓Ｄ": 80,
+        "↓Ｍ": 80,
+        "↓Ｓ": 80
+      },
+      "drops_normal": [
+        {
+          "item": "威茲藍德徽章",
+          "rate": 5
+        },
+        {
+          "item": "水之戒指",
+          "rate": 25
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 5
+        },
+        {
+          "item": "無",
+          "rate": 25
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "秩序大天使",
+      "stats": "Lv  98  HP  3500  MP  3800",
+      "group": "大天使",
+      "combat": "攻擊 281  防禦 261  魔法 281  敏捷 281",
+      "attributes": {
+        "ORDER": "100/100",
+        "SALAMANDER": "0/100",
+        "CHAOS": "0/0",
+        "SHYLPHID": "0/100",
+        "SPARKLE": "0/0",
+        "GNOME": "0/100",
+        "MOON": "0/0",
+        "UNDINE": "80/100",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 12,
+      "add_status": "魔法封印 20%",
+      "special_attacks": [
+        "大天使魔法",
+        "治療之水",
+        "秩序神之力"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 0,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 80,
+        "↓Ｄ": 80,
+        "↓Ｍ": 80,
+        "↓Ｓ": 80
+      },
+      "drops_normal": [
+        {
+          "item": "歐德比克徽章",
+          "rate": 5
+        },
+        {
+          "item": "秩序神降臨的護符",
+          "rate": 5000
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 5
+        },
+        {
+          "item": "無",
+          "rate": 5000
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "渾沌大天使",
+      "stats": "Lv  99  HP  4000  MP  4000",
+      "group": "大天使",
+      "combat": "攻擊 281  防禦 261  魔法 281  敏捷 281",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/100",
+        "CHAOS": "100/100",
+        "SHYLPHID": "0/100",
+        "SPARKLE": "0/0",
+        "GNOME": "0/100",
+        "MOON": "0/0",
+        "UNDINE": "80/100",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 12,
+      "add_status": "魔法封印 20%",
+      "special_attacks": [
+        "大天使魔法",
+        "治療之水",
+        "混沌神審判"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 0,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 80,
+        "↓Ｄ": 80,
+        "↓Ｍ": 80,
+        "↓Ｓ": 80
+      },
+      "drops_normal": [
+        {
+          "item": "凱雷爾徽章",
+          "rate": 5
+        },
+        {
+          "item": "混沌神審判的護符",
+          "rate": 5000
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 5
+        },
+        {
+          "item": "無",
+          "rate": 5000
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "光之大天使",
+      "stats": "Lv 100  HP  3000  MP  4200",
+      "group": "大天使",
+      "combat": "攻擊 281  防禦 261  魔法 281  敏捷 281",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/100",
+        "CHAOS": "0/0",
+        "SHYLPHID": "0/100",
+        "SPARKLE": "100/100",
+        "GNOME": "0/100",
+        "MOON": "0/0",
+        "UNDINE": "80/100",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 12,
+      "add_status": "魔法封印 20%",
+      "special_attacks": [
+        "大天使魔法",
+        "奇蹟之光",
+        "淨化之光"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 0,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 80,
+        "↓Ｄ": 80,
+        "↓Ｍ": 80,
+        "↓Ｓ": 80
+      },
+      "drops_normal": [
+        {
+          "item": "司帕席多徽章",
+          "rate": 5
+        },
+        {
+          "item": "復活之光的護符",
+          "rate": 5000
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 5
+        },
+        {
+          "item": "無",
+          "rate": 5000
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "闇之大天使",
+      "stats": "Lv 101  HP  4000  MP  3500",
+      "group": "大天使",
+      "combat": "攻擊 281  防禦 261  魔法 281  敏捷 281",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/100",
+        "CHAOS": "0/0",
+        "SHYLPHID": "0/100",
+        "SPARKLE": "0/0",
+        "GNOME": "0/100",
+        "MOON": "100/100",
+        "UNDINE": "80/100",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 12,
+      "add_status": "魔法封印 20%",
+      "special_attacks": [
+        "大天使魔法",
+        "闇黑波動",
+        "闇之黑洞"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 0,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 80,
+        "↓Ｄ": 80,
+        "↓Ｍ": 80,
+        "↓Ｓ": 80
+      },
+      "drops_normal": [
+        {
+          "item": "薩伊摩徽章",
+          "rate": 5
+        },
+        {
+          "item": "闇神之怒的護符",
+          "rate": 5000
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 5
+        },
+        {
+          "item": "無",
+          "rate": 5000
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "秩序天使",
+      "stats": "Lv  62  HP   780  MP   920",
+      "group": "小天使",
+      "combat": "攻擊 162  防禦 162  魔法 172  敏捷 172",
+      "attributes": {
+        "ORDER": "80/100",
+        "SALAMANDER": "0/100",
+        "CHAOS": "0/0",
+        "SHYLPHID": "0/100",
+        "SPARKLE": "0/0",
+        "GNOME": "0/100",
+        "MOON": "0/0",
+        "UNDINE": "70/100",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 12,
+      "add_status": "魔法封印 10%",
+      "special_attacks": [
+        "小天使魔法",
+        "治療之水",
+        "秩序之聲"
+      ],
+      "defense": {
+        "混亂": 80,
+        "毒": 0,
+        "麻痺": 80,
+        "氣絕": 80,
+        "淨化": 100,
+        "×Ａ": 80,
+        "×Ｍ": 80,
+        "↓Ａ": 40,
+        "↓Ｄ": 40,
+        "↓Ｍ": 40,
+        "↓Ｓ": 40
+      },
+      "drops_normal": [
+        {
+          "item": "秩序神之力的護符",
+          "rate": 500
+        },
+        {
+          "item": "秩序法衣",
+          "rate": 100
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "聖水",
+          "rate": 500
+        },
+        {
+          "item": "聖水",
+          "rate": 100
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "渾沌天使",
+      "stats": "Lv  63  HP   780  MP  1000",
+      "group": "小天使",
+      "combat": "攻擊 162  防禦 162  魔法 172  敏捷 172",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/100",
+        "CHAOS": "80/100",
+        "SHYLPHID": "0/100",
+        "SPARKLE": "0/0",
+        "GNOME": "0/100",
+        "MOON": "0/0",
+        "UNDINE": "70/100",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 12,
+      "add_status": "魔法封印 10%",
+      "special_attacks": [
+        "小天使魔法",
+        "治療之水",
+        "混沌之毒"
+      ],
+      "defense": {
+        "混亂": 80,
+        "毒": 0,
+        "麻痺": 80,
+        "氣絕": 80,
+        "淨化": 100,
+        "×Ａ": 80,
+        "×Ｍ": 80,
+        "↓Ａ": 40,
+        "↓Ｄ": 40,
+        "↓Ｍ": 40,
+        "↓Ｓ": 40
+      },
+      "drops_normal": [
+        {
+          "item": "混沌之毒的護符",
+          "rate": 500
+        },
+        {
+          "item": "混沌法衣",
+          "rate": 100
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "聖水",
+          "rate": 500
+        },
+        {
+          "item": "聖水",
+          "rate": 100
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "光天使",
+      "stats": "Lv  64  HP   780  MP  1250",
+      "group": "小天使",
+      "combat": "攻擊 162  防禦 162  魔法 172  敏捷 172",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/100",
+        "CHAOS": "0/0",
+        "SHYLPHID": "0/100",
+        "SPARKLE": "80/100",
+        "GNOME": "0/100",
+        "MOON": "0/0",
+        "UNDINE": "70/100",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 12,
+      "add_status": "魔法封印 10%",
+      "special_attacks": [
+        "小天使魔法",
+        "治癒之光",
+        "淨化之光"
+      ],
+      "defense": {
+        "混亂": 80,
+        "毒": 0,
+        "麻痺": 80,
+        "氣絕": 80,
+        "淨化": 100,
+        "×Ａ": 80,
+        "×Ｍ": 80,
+        "↓Ａ": 40,
+        "↓Ｄ": 40,
+        "↓Ｍ": 40,
+        "↓Ｓ": 40
+      },
+      "drops_normal": [
+        {
+          "item": "奇蹟之光的護符",
+          "rate": 500
+        },
+        {
+          "item": "光之法衣",
+          "rate": 100
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "聖水",
+          "rate": 500
+        },
+        {
+          "item": "聖水",
+          "rate": 100
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "闇天使",
+      "stats": "Lv  65  HP   780  MP   850",
+      "group": "小天使",
+      "combat": "攻擊 162  防禦 162  魔法 172  敏捷 172",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/100",
+        "CHAOS": "0/0",
+        "SHYLPHID": "0/100",
+        "SPARKLE": "0/0",
+        "GNOME": "0/100",
+        "MOON": "80/100",
+        "UNDINE": "70/100",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 12,
+      "add_status": "魔法封印 10%",
+      "special_attacks": [
+        "小天使魔法",
+        "闇黑波動",
+        "闇之毒"
+      ],
+      "defense": {
+        "混亂": 80,
+        "毒": 0,
+        "麻痺": 80,
+        "氣絕": 80,
+        "淨化": 100,
+        "×Ａ": 80,
+        "×Ｍ": 80,
+        "↓Ａ": 40,
+        "↓Ｄ": 40,
+        "↓Ｍ": 40,
+        "↓Ｓ": 40
+      },
+      "drops_normal": [
+        {
+          "item": "闇之黑洞的護符",
+          "rate": 500
+        },
+        {
+          "item": "闇之法衣",
+          "rate": 100
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "聖水",
+          "rate": 500
+        },
+        {
+          "item": "聖水",
+          "rate": 100
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "安哥摩爾",
+      "stats": "Lv 102  HP  7980  MP  4300",
+      "group": "安哥摩爾",
+      "combat": "攻擊 300  防禦 241  魔法 300  敏捷 261",
+      "attributes": {
+        "ORDER": "0/50",
+        "SALAMANDER": "0/80",
+        "CHAOS": "100/100",
+        "SHYLPHID": "0/80",
+        "SPARKLE": "0/30",
+        "GNOME": "0/80",
+        "MOON": "100/100",
+        "UNDINE": "0/80",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 12,
+      "add_status": "會心一擊 20%",
+      "special_attacks": [
+        "通常攻擊",
+        "安哥摩爾魔法",
+        "混沌神審判"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 98,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 100,
+        "↓Ｄ": 100,
+        "↓Ｍ": 100,
+        "↓Ｓ": 100
+      },
+      "drops_normal": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "記憶盒",
+          "rate": 10000
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "無",
+          "rate": 10000
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "諾亞",
+      "stats": "Lv 107  HP  8000  MP  4800",
+      "group": "安哥摩爾",
+      "combat": "攻擊 310  防禦 310  魔法 310  敏捷 310",
+      "attributes": {
+        "ORDER": "0/60",
+        "SALAMANDER": "0/80",
+        "CHAOS": "100/100",
+        "SHYLPHID": "0/80",
+        "SPARKLE": "0/40",
+        "GNOME": "0/80",
+        "MOON": "100/100",
+        "UNDINE": "0/80",
+        "MACHINE": "0/100"
+      },
+      "attack_speed": 12,
+      "add_status": "會心一擊 40%",
+      "special_attacks": [
+        "通常攻擊",
+        "安哥摩爾魔法",
+        "混沌神審判"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 95,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 100,
+        "↓Ｄ": 100,
+        "↓Ｍ": 100,
+        "↓Ｓ": 100
+      },
+      "drops_normal": [
+        {
+          "item": "克萊瓦姆徽章",
+          "rate": 5
+        },
+        {
+          "item": "無",
+          "rate": 0
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 5
+        },
+        {
+          "item": "無",
+          "rate": 0
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "秩序狂信徒",
+      "stats": "Lv  52  HP   510  MP   480",
+      "group": "狂信者(男)",
+      "combat": "攻擊 142  防禦 136  魔法 142  敏捷 142",
+      "attributes": {
+        "ORDER": "100/100",
+        "SALAMANDER": "0/50",
+        "CHAOS": "0/0",
+        "SHYLPHID": "0/50",
+        "SPARKLE": "0/50",
+        "GNOME": "0/50",
+        "MOON": "0/50",
+        "UNDINE": "0/50",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "通常攻擊",
+        "秩序神降臨",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 0,
+        "毒": 0,
+        "麻痺": 0,
+        "氣絕": 0,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "秩序神之像",
+          "rate": 40
+        },
+        {
+          "item": "無",
+          "rate": 0
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 40
+        },
+        {
+          "item": "無",
+          "rate": 0
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "渾沌狂信徒",
+      "stats": "Lv  53  HP   495  MP   505",
+      "group": "狂信者(男)",
+      "combat": "攻擊 142  防禦 136  魔法 142  敏捷 142",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/50",
+        "CHAOS": "100/100",
+        "SHYLPHID": "0/50",
+        "SPARKLE": "0/50",
+        "GNOME": "0/50",
+        "MOON": "0/50",
+        "UNDINE": "0/50",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "通常攻擊",
+        "混沌衝擊波",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 0,
+        "毒": 0,
+        "麻痺": 0,
+        "氣絕": 0,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "混沌神之笛",
+          "rate": 40
+        },
+        {
+          "item": "無",
+          "rate": 0
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 40
+        },
+        {
+          "item": "無",
+          "rate": 0
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "光狂信徒",
+      "stats": "Lv  54  HP   490  MP   510",
+      "group": "狂信者(男)",
+      "combat": "攻擊 142  防禦 136  魔法 142  敏捷 142",
+      "attributes": {
+        "ORDER": "0/50",
+        "SALAMANDER": "0/50",
+        "CHAOS": "0/50",
+        "SHYLPHID": "0/50",
+        "SPARKLE": "100/100",
+        "GNOME": "0/50",
+        "MOON": "0/0",
+        "UNDINE": "0/50",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "通常攻擊",
+        "淨化之光",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 0,
+        "毒": 0,
+        "麻痺": 0,
+        "氣絕": 0,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "光神之杖",
+          "rate": 40
+        },
+        {
+          "item": "無",
+          "rate": 0
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 40
+        },
+        {
+          "item": "無",
+          "rate": 0
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "闇狂信徒",
+      "stats": "Lv  55  HP   499  MP   500",
+      "group": "狂信者(男)",
+      "combat": "攻擊 142  防禦 136  魔法 142  敏捷 142",
+      "attributes": {
+        "ORDER": "0/50",
+        "SALAMANDER": "0/50",
+        "CHAOS": "0/50",
+        "SHYLPHID": "0/50",
+        "SPARKLE": "0/0",
+        "GNOME": "0/50",
+        "MOON": "100/100",
+        "UNDINE": "0/50",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "通常攻擊",
+        "闇之黑洞",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 0,
+        "毒": 0,
+        "麻痺": 0,
+        "氣絕": 0,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "闇神戒指",
+          "rate": 40
+        },
+        {
+          "item": "無",
+          "rate": 0
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 40
+        },
+        {
+          "item": "無",
+          "rate": 0
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "秩序狂信徒",
+      "stats": "Lv  48  HP   460  MP   530",
+      "group": "狂信者(女)",
+      "combat": "攻擊 136  防禦 130  魔法 152  敏捷 146",
+      "attributes": {
+        "ORDER": "100/100",
+        "SALAMANDER": "0/50",
+        "CHAOS": "0/0",
+        "SHYLPHID": "0/50",
+        "SPARKLE": "0/50",
+        "GNOME": "0/50",
+        "MOON": "0/50",
+        "UNDINE": "0/50",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 14,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "通常攻擊",
+        "秩序神之力",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 0,
+        "毒": 0,
+        "麻痺": 0,
+        "氣絕": 0,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "秩序神之像",
+          "rate": 60
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "無",
+          "rate": 60
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "渾沌狂信徒",
+      "stats": "Lv  49  HP   445  MP   555",
+      "group": "狂信者(女)",
+      "combat": "攻擊 136  防禦 130  魔法 152  敏捷 146",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/50",
+        "CHAOS": "100/100",
+        "SHYLPHID": "0/50",
+        "SPARKLE": "0/50",
+        "GNOME": "0/50",
+        "MOON": "0/50",
+        "UNDINE": "0/50",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 14,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "通常攻擊",
+        "混沌破壞波",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 0,
+        "毒": 0,
+        "麻痺": 0,
+        "氣絕": 0,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "混沌神之笛",
+          "rate": 60
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "無",
+          "rate": 60
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "光狂信徒",
+      "stats": "Lv  50  HP   440  MP   560",
+      "group": "狂信者(女)",
+      "combat": "攻擊 136  防禦 130  魔法 152  敏捷 146",
+      "attributes": {
+        "ORDER": "0/50",
+        "SALAMANDER": "0/50",
+        "CHAOS": "0/50",
+        "SHYLPHID": "0/50",
+        "SPARKLE": "100/100",
+        "GNOME": "0/50",
+        "MOON": "0/0",
+        "UNDINE": "0/50",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 14,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "通常攻擊",
+        "復活之光",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 0,
+        "毒": 0,
+        "麻痺": 0,
+        "氣絕": 0,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "光神之杖",
+          "rate": 60
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "無",
+          "rate": 60
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "闇狂信徒",
+      "stats": "Lv  51  HP   449  MP   550",
+      "group": "狂信者(女)",
+      "combat": "攻擊 136  防禦 130  魔法 152  敏捷 146",
+      "attributes": {
+        "ORDER": "0/50",
+        "SALAMANDER": "0/50",
+        "CHAOS": "0/50",
+        "SHYLPHID": "0/50",
+        "SPARKLE": "0/0",
+        "GNOME": "0/50",
+        "MOON": "100/100",
+        "UNDINE": "0/50",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 14,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "通常攻擊",
+        "淨化之光",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 0,
+        "毒": 0,
+        "麻痺": 0,
+        "氣絕": 0,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "闇神戒指",
+          "rate": 60
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "無",
+          "rate": 60
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "魔鬼",
+      "stats": "Lv  56  HP   602  MP   610",
+      "group": "魔鬼",
+      "combat": "攻擊 142  防禦 142  魔法 142  敏捷 142",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/50",
+        "CHAOS": "0/100",
+        "SHYLPHID": "0/50",
+        "SPARKLE": "0/0",
+        "GNOME": "0/50",
+        "MOON": "0/100",
+        "UNDINE": "0/50",
+        "MACHINE": "0/10"
+      },
+      "attack_speed": 16,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "通常攻擊",
+        "惡魔魔法",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 80,
+        "毒": 80,
+        "麻痺": 80,
+        "氣絕": 80,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "惡魔心臟",
+          "rate": 100
+        },
+        {
+          "item": "禁忌之歌‧惡魔之章",
+          "rate": 1000
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 100
+        },
+        {
+          "item": "無",
+          "rate": 1000
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "拜得拉克",
+      "stats": "Lv 103  HP  3000  MP  3500",
+      "group": "拜得拉克（完全）",
+      "combat": "攻擊 221  防禦 261  魔法 192  敏捷 182",
+      "attributes": {
+        "ORDER": "0/100",
+        "SALAMANDER": "0/80",
+        "CHAOS": "0/30",
+        "SHYLPHID": "0/80",
+        "SPARKLE": "0/50",
+        "GNOME": "0/80",
+        "MOON": "0/100",
+        "UNDINE": "0/80",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "攻擊封印 20%",
+      "special_attacks": [
+        "通常攻擊",
+        "拜得拉克本體激光",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 0,
+        "↓Ａ": 100,
+        "↓Ｄ": 100,
+        "↓Ｍ": 0,
+        "↓Ｓ": 100
+      },
+      "drops_normal": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "尖頭獸角",
+          "rate": 200
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "無",
+          "rate": 200
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "拜得拉克",
+      "stats": "Lv 103  HP  2000  MP  1500",
+      "group": "拜得拉克（半壞）",
+      "combat": "攻擊 281  防禦 231  魔法 182  敏捷 162",
+      "attributes": {
+        "ORDER": "0/100",
+        "SALAMANDER": "0/80",
+        "CHAOS": "0/30",
+        "SHYLPHID": "0/80",
+        "SPARKLE": "0/50",
+        "GNOME": "0/80",
+        "MOON": "0/100",
+        "UNDINE": "0/80",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "攻擊封印 20%",
+      "special_attacks": [
+        "通常攻擊",
+        "拜得拉克本體激光",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 0,
+        "↓Ａ": 100,
+        "↓Ｄ": 100,
+        "↓Ｍ": 0,
+        "↓Ｓ": 100
+      },
+      "drops_normal": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "小種子",
+          "rate": 200
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "無",
+          "rate": 200
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "拜得拉克",
+      "stats": "Lv 103  HP  4000  MP  4400",
+      "group": "拜得拉克（頭）",
+      "combat": "攻擊 291  防禦 271  魔法 251  敏捷 281",
+      "attributes": {
+        "ORDER": "0/100",
+        "SALAMANDER": "0/80",
+        "CHAOS": "0/40",
+        "SHYLPHID": "0/80",
+        "SPARKLE": "0/60",
+        "GNOME": "0/80",
+        "MOON": "0/100",
+        "UNDINE": "0/80",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "攻擊封印 20%",
+      "special_attacks": [
+        "通常攻擊",
+        "拜得拉克本體激光",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 0,
+        "↓Ａ": 100,
+        "↓Ｄ": 100,
+        "↓Ｍ": 0,
+        "↓Ｓ": 100
+      },
+      "drops_normal": [
+        {
+          "item": "王者之袍",
+          "rate": 100
+        },
+        {
+          "item": "永恆之珠",
+          "rate": 10000
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 100
+        },
+        {
+          "item": "無",
+          "rate": 10000
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "拜得拉克",
+      "stats": "Lv 103  HP   200  MP   800",
+      "group": "拜得拉克雷射炮",
+      "combat": "攻擊 241  防禦 102  魔法 201  敏捷 360",
+      "attributes": {
+        "ORDER": "0/100",
+        "SALAMANDER": "0/80",
+        "CHAOS": "0/30",
+        "SHYLPHID": "0/80",
+        "SPARKLE": "0/50",
+        "GNOME": "0/80",
+        "MOON": "0/100",
+        "UNDINE": "0/80",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "攻擊封印 20%",
+      "special_attacks": [
+        "通常攻擊",
+        "拜得拉克小體激光",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 0,
+        "↓Ａ": 100,
+        "↓Ｄ": 100,
+        "↓Ｍ": 0,
+        "↓Ｓ": 100
+      },
+      "drops_normal": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "無",
+          "rate": 0
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "無",
+          "rate": 0
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "伊摩達爾",
+      "stats": "Lv   1  HP    22  MP     1",
+      "group": "伊摩達爾",
+      "combat": "攻擊   7  防禦   7  魔法   7  敏捷  23",
+      "attributes": {
+        "ORDER": "0/0",
+        "SALAMANDER": "0/0",
+        "CHAOS": "0/0",
+        "SHYLPHID": "0/0",
+        "SPARKLE": "0/0",
+        "GNOME": "0/0",
+        "MOON": "0/0",
+        "UNDINE": "0/0",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "通常攻擊",
+        "通常攻擊",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 0,
+        "毒": 0,
+        "麻痺": 0,
+        "氣絕": 0,
+        "淨化": 100,
+        "×Ａ": 0,
+        "×Ｍ": 0,
+        "↓Ａ": 0,
+        "↓Ｄ": 0,
+        "↓Ｍ": 0,
+        "↓Ｓ": 0
+      },
+      "drops_normal": [
+        {
+          "item": "禁忌之歌‧神之章",
+          "rate": 1000
+        },
+        {
+          "item": "麻將必勝手冊",
+          "rate": 1
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 1000
+        },
+        {
+          "item": "無",
+          "rate": 1
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "伊摩達爾",
+      "stats": "Lv  93  HP  1600  MP  2000",
+      "group": "伊摩達爾",
+      "combat": "攻擊 207  防禦 174  魔法 231  敏捷 231",
+      "attributes": {
+        "ORDER": "0/100",
+        "SALAMANDER": "0/100",
+        "CHAOS": "0/30",
+        "SHYLPHID": "0/100",
+        "SPARKLE": "0/100",
+        "GNOME": "0/100",
+        "MOON": "0/30",
+        "UNDINE": "100/100",
+        "MACHINE": "0/0"
+      },
+      "attack_speed": 18,
+      "add_status": "防禦力下降 10%",
+      "special_attacks": [
+        "神蹟之水",
+        "通常攻擊",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 0,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 100,
+        "↓Ｄ": 100,
+        "↓Ｍ": 100,
+        "↓Ｓ": 100
+      },
+      "drops_normal": [
+        {
+          "item": "蝙蝠人傳記",
+          "rate": 1
+        },
+        {
+          "item": "命運之印",
+          "rate": 10000
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 1
+        },
+        {
+          "item": "無",
+          "rate": 10000
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "伊摩達爾",
+      "stats": "Lv 104  HP  3500  MP  4500",
+      "group": "伊摩達爾",
+      "combat": "攻擊 273  防禦 217  魔法 300  敏捷 300",
+      "attributes": {
+        "ORDER": "0/100",
+        "SALAMANDER": "100/100",
+        "CHAOS": "0/40",
+        "SHYLPHID": "0/100",
+        "SPARKLE": "100/100",
+        "GNOME": "0/100",
+        "MOON": "0/40",
+        "UNDINE": "100/100",
+        "MACHINE": "0/30"
+      },
+      "attack_speed": 18,
+      "add_status": "防禦力下降 80%",
+      "special_attacks": [
+        "奇蹟之光",
+        "重力風壓",
+        "防護炎壁"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 0,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 100,
+        "↓Ｄ": 100,
+        "↓Ｍ": 100,
+        "↓Ｓ": 100
+      },
+      "drops_normal": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "永恆之戒",
+          "rate": 10000
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "無",
+          "rate": 10000
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "火精靈",
+      "stats": "Lv   0  HP     0  MP     0",
+      "group": "火精靈",
+      "combat": "攻擊   0  防禦   0  魔法   0  敏捷   0",
+      "attributes": {
+        "ORDER": "100/100",
+        "SALAMANDER": "100/100",
+        "CHAOS": "100/100",
+        "SHYLPHID": "100/100",
+        "SPARKLE": "100/100",
+        "GNOME": "100/100",
+        "MOON": "100/100",
+        "UNDINE": "100/100",
+        "MACHINE": "100/100"
+      },
+      "attack_speed": 0,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "通常攻擊",
+        "通常攻擊",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 100,
+        "↓Ｄ": 100,
+        "↓Ｍ": 100,
+        "↓Ｓ": 100
+      },
+      "drops_normal": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "無",
+          "rate": 0
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "無",
+          "rate": 0
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "水精靈",
+      "stats": "Lv   0  HP     0  MP     0",
+      "group": "水精靈",
+      "combat": "攻擊   0  防禦   0  魔法   0  敏捷   0",
+      "attributes": {
+        "ORDER": "100/100",
+        "SALAMANDER": "100/100",
+        "CHAOS": "100/100",
+        "SHYLPHID": "100/100",
+        "SPARKLE": "100/100",
+        "GNOME": "100/100",
+        "MOON": "100/100",
+        "UNDINE": "100/100",
+        "MACHINE": "100/100"
+      },
+      "attack_speed": 0,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "通常攻擊",
+        "通常攻擊",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 100,
+        "↓Ｄ": 100,
+        "↓Ｍ": 100,
+        "↓Ｓ": 100
+      },
+      "drops_normal": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "無",
+          "rate": 0
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "無",
+          "rate": 0
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "風精靈",
+      "stats": "Lv   0  HP     0  MP     0",
+      "group": "風精靈",
+      "combat": "攻擊   0  防禦   0  魔法   0  敏捷   0",
+      "attributes": {
+        "ORDER": "100/100",
+        "SALAMANDER": "100/100",
+        "CHAOS": "100/100",
+        "SHYLPHID": "100/100",
+        "SPARKLE": "100/100",
+        "GNOME": "100/100",
+        "MOON": "100/100",
+        "UNDINE": "100/100",
+        "MACHINE": "100/100"
+      },
+      "attack_speed": 0,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "通常攻擊",
+        "通常攻擊",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 100,
+        "↓Ｄ": 100,
+        "↓Ｍ": 100,
+        "↓Ｓ": 100
+      },
+      "drops_normal": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "無",
+          "rate": 0
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "無",
+          "rate": 0
+        }
+      ],
+      "recruit_rate": 0
+    },
+    {
+      "name": "土精靈",
+      "stats": "Lv   0  HP     0  MP     0",
+      "group": "土精靈",
+      "combat": "攻擊   0  防禦   0  魔法   0  敏捷   0",
+      "attributes": {
+        "ORDER": "100/100",
+        "SALAMANDER": "100/100",
+        "CHAOS": "100/100",
+        "SHYLPHID": "100/100",
+        "SPARKLE": "100/100",
+        "GNOME": "100/100",
+        "MOON": "100/100",
+        "UNDINE": "100/100",
+        "MACHINE": "100/100"
+      },
+      "attack_speed": 0,
+      "add_status": "無 0%",
+      "special_attacks": [
+        "通常攻擊",
+        "通常攻擊",
+        "通常攻擊"
+      ],
+      "defense": {
+        "混亂": 100,
+        "毒": 100,
+        "麻痺": 100,
+        "氣絕": 100,
+        "淨化": 100,
+        "×Ａ": 100,
+        "×Ｍ": 100,
+        "↓Ａ": 100,
+        "↓Ｄ": 100,
+        "↓Ｍ": 100,
+        "↓Ｓ": 100
+      },
+      "drops_normal": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "無",
+          "rate": 0
+        }
+      ],
+      "drops_lgd": [
+        {
+          "item": "無",
+          "rate": 0
+        },
+        {
+          "item": "無",
+          "rate": 0
+        }
+      ],
+      "recruit_rate": 0
+    }
+  ]
+}

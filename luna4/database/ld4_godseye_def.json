@@ -1,10 +1,12 @@
 {
   "header": "神の眼 for LUNATIC DAWN IV 定義ファイル",
   "links": [
-    "LUNATIC DAWN IV OFFICIAL WEB",
-    "アートディンク(株)",
-    "http://lunatic.artdink.co.jp/ld4.html",
-    "LUNATIC DAWN IVのオフィシャルウェブサイト。"
+    {
+      "title": "LUNATIC DAWN IV OFFICIAL WEB",
+      "org": "アートディンク(株)",
+      "url": "https://lunatic.artdink.co.jp/ld4.html",
+      "description": "LUNATIC DAWN IVのオフィシャルウェブサイト。"
+    }
   ],
   "lists": [
     {

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>俠客遊 IV · 怪物大全 · 吟遊詩人的傳說</title>
-<meta name="description" content="LD4 怪物完整資料庫，505 隻怪物含 Lv/HP/MP + 9 屬性對。源自 LunaticConsortia (2007)。">
+<meta name="description" content="LD4 怪物資料庫，126 筆怪物（115 個不重複名稱）含 Lv/HP/MP + 9 屬性對。源自 LunaticConsortia (2007)。">
 <link rel="stylesheet" href="../../assets/css/fonts-retro.css">
 <link rel="stylesheet" href="../../assets/css/retro.css">
 <style>
@@ -15,8 +15,8 @@
 .mon-card { background: var(--bg-panel); border: 1px solid var(--phosphor-fade); padding: 12px; margin-bottom: 10px; }
 .mon-name { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 13px; margin: 0 0 6px; }
 .mon-stats { color: var(--phosphor); font-size: 14px; margin: 4px 0; font-family: 'VT323', monospace; }
-.mon-group { color: var(--phosphor-fade); font-size: 13px; margin: 4px 0; }
-.attr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; font-size: 12px; color: var(--phosphor-fade); margin-top: 6px; }
+.mon-group { color: var(--phosphor-text-dim); font-size: 13px; margin: 4px 0; }
+.attr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; font-size: 12px; color: var(--phosphor-dim); margin-top: 6px; }
 .attr-cell { background: var(--bg-input); padding: 3px 6px; border-radius: 2px; font-family: 'VT323', monospace; }
 </style>
 <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
@@ -24,15 +24,15 @@
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="俠客遊 IV · 怪物大全 · 吟遊詩人的傳說">
-<meta name="twitter:description" content="LD4 怪物完整資料庫，505 隻怪物含 Lv/HP/MP + 9 屬性對。源自 LunaticConsortia (2007)。">
+<meta name="twitter:description" content="LD4 怪物資料庫，126 筆怪物（115 個不重複名稱）含 Lv/HP/MP + 9 屬性對。源自 LunaticConsortia (2007)。">
 <meta name="twitter:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <meta property="og:type" content="website">
 <meta property="og:title" content="俠客遊 IV · 怪物大全 · 吟遊詩人的傳說">
-<meta property="og:description" content="LD4 怪物完整資料庫，505 隻怪物含 Lv/HP/MP + 9 屬性對。源自 LunaticConsortia (2007)。">
+<meta property="og:description" content="LD4 怪物資料庫，126 筆怪物（115 個不重複名稱）含 Lv/HP/MP + 9 屬性對。源自 LunaticConsortia (2007)。">
 <meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/luna4/database/monsters.html">
 <meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"俠客遊 IV","description":"LD4 怪物完整資料庫，505 隻怪物含 Lv/HP/MP + 9 屬性對。源自 LunaticConsortia (2007)。","url":"https://toniliumvp.github.io/LunaticDawn/luna4/database/monsters.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 IV"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"俠客遊 IV","description":"LD4 怪物資料庫，126 筆怪物（115 個不重複名稱）含 Lv/HP/MP + 9 屬性對。源自 LunaticConsortia (2007)。","url":"https://toniliumvp.github.io/LunaticDawn/luna4/database/monsters.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 IV"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"吟遊詩人的傳說","item":"https://toniliumvp.github.io/LunaticDawn/"},{"@type":"ListItem","position":2,"name":"俠客遊 IV","item":"https://toniliumvp.github.io/LunaticDawn/luna4/"},{"@type":"ListItem","position":3,"name":"資料庫","item":"https://toniliumvp.github.io/LunaticDawn/luna4/database/"},{"@type":"ListItem","position":4,"name":"俠客遊 IV"}]}</script>
 <!-- seo -->
 </head>
@@ -50,15 +50,15 @@
 
   <main id="main-content">
     <div class="notice">
-      <strong>LD4 怪物完整資料庫</strong>（<span id="count">505</span> 隻 · 含 Lv / HP / MP / 群組 / 攻防魔敏 / 9 系屬性）
+      <strong>LD4 怪物資料庫</strong>（<span id="count">126</span> 筆 · <span id="unique-count">115</span> 個不重複名稱 · 含 Lv / HP / MP / 群組 / 攻防魔敏 / 9 系屬性 / 特殊攻擊 / 防禦狀態 / 出現時項目）
       <br>
-      <strong>來源</strong>：LunaticConsortia 2007 MDBIG5.dat，玩家戰鬥時可見的事實層數值。
+      <strong>來源</strong>：LunaticConsortia 2007 MDBIG5.dat（Big5 純文字資料）的事實層數值：名稱、能力值、屬性、特殊攻擊、防禦狀態、出現時項目與勸誘成功率。「出現時項目」括號裡的數字與勸誘成功率的數字都是原檔記載的原始值，原檔沒有說明單位，不一定是機率、百分比或數量。
     </div>
 
     <div class="search-box">
       <span style="color: var(--amber);">🔍</span>
       <input id="search" aria-label="搜尋怪物" type="text" placeholder="搜尋怪物名 / 群組（例：龍 / 機械）...">
-      <span id="match-count" style="color: var(--phosphor-fade); font-size: 12px;"></span>
+      <span id="match-count" style="color: var(--phosphor-text-dim); font-size: 12px;"></span>
     </div>
 
     <div id="content"></div>
@@ -70,9 +70,10 @@ let DATA = null;
 
 async function load() {
   try {
-  const r = await fetch('ld4_lc_dat.json');
+  const r = await fetch('ld4_monsters.json');
     DATA = await r.json();
     document.getElementById('count').textContent = DATA.monster_count;
+    if (DATA.monster_unique_name_count) document.getElementById('unique-count').textContent = DATA.monster_unique_name_count;
     render();
   } catch (e) {
     console.error("[load] failed:", e);
@@ -92,6 +93,17 @@ function makeAttrGrid(attrs) {
   return grid;
 }
 
+function addLine(card, cls, text) {
+  const el = document.createElement('div');
+  el.className = cls;
+  el.textContent = text;
+  card.appendChild(el);
+}
+
+function formatDrops(list) {
+  return list.map(d => d.item + '（原始值 ' + d.rate + '）').join('、');
+}
+
 function render() {
   // 資料還在 fetch 時使用者就可能在搜尋框打字（監聽器在頂層綁定）。
   // 此時直接往下走會在 null 上呼叫 filter/sort，而且內容區已先被清空，
@@ -104,7 +116,7 @@ function render() {
   let matched = 0;
   for (const m of DATA.monsters) {
     if (filter) {
-      const hay = (m.name + ' ' + m.group + ' ' + m.stats).toLowerCase();
+      const hay = (m.name + ' ' + m.group + ' ' + m.stats + ' ' + (m.special_attacks || []).join(' ')).toLowerCase();
       if (!hay.includes(filter)) continue;
     }
     matched++;
@@ -134,6 +146,24 @@ function render() {
     }
     if (m.attributes && Object.keys(m.attributes).length) {
       card.appendChild(makeAttrGrid(m.attributes));
+    }
+    const extra = [];
+    if (m.attack_speed !== undefined) extra.push('攻擊速度 ' + m.attack_speed);
+    if (m.add_status) extra.push('追加狀態 ' + m.add_status);
+    if (m.recruit_rate !== undefined) extra.push('勸誘成功率（原始值）' + m.recruit_rate);
+    if (extra.length) addLine(card, 'mon-stats', extra.join('  ·  '));
+    if (m.special_attacks && m.special_attacks.length) {
+      addLine(card, 'mon-group', '特殊攻擊：' + m.special_attacks.join('、'));
+    }
+    if (m.defense && Object.keys(m.defense).length) {
+      addLine(card, 'mon-group', '防禦狀態：');
+      card.appendChild(makeAttrGrid(m.defense));
+    }
+    if (m.drops_normal && m.drops_normal.length) {
+      addLine(card, 'mon-group', '經常出現時項目：' + formatDrops(m.drops_normal));
+    }
+    if (m.drops_lgd && m.drops_lgd.length) {
+      addLine(card, 'mon-group', 'ＬＧＤ出現時項目：' + formatDrops(m.drops_lgd));
     }
     root.appendChild(card);
   }

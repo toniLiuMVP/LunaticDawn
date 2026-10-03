@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>俠客遊 IV · 魔法 / 特殊攻擊 · 吟遊詩人的傳說</title>
-<meta name="description" content="LD4 魔法資料庫，66 個魔法 / 必殺技含屬性 / Lv / 對象 / MP / 威力 / 描述。源自神之眼 1.1 (2001) 日文官方資料 + 5 NPC 任務。">
+<meta name="description" content="LD4 魔法資料庫，66 個魔法 / 必殺技含屬性 / Lv / 對象 / MP / 威力 / 描述。源自日本社群工具神之眼 1.1 (2001) 的日文資料，另含 NPC イモータル的物品交換表與 89 個遊戲內繁中名。">
 <link rel="stylesheet" href="../../assets/css/fonts-retro.css">
 <link rel="stylesheet" href="../../assets/css/retro.css">
 <style>
@@ -14,12 +14,14 @@
 .search-box input:focus { outline: none; border-color: var(--amber); }
 .tabs { display: flex; gap: 8px; margin: 16px 0; flex-wrap: wrap; }
 .tab-btn { background: var(--bg-input); color: var(--phosphor-dim); border: 1px solid var(--phosphor-dim); padding: 6px 14px; cursor: pointer; font-family: 'VT323', monospace; font-size: 14px; }
-.tab-btn.active { color: var(--amber); border-color: var(--amber); }
+.tab-btn.active { color: var(--amber); border-color: var(--amber); text-decoration: underline; text-underline-offset: 4px; }
 .spell-card { background: var(--bg-panel); border: 1px solid var(--phosphor-fade); padding: 12px; margin-bottom: 10px; }
 .spell-name { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 12px; margin: 0 0 6px; }
 .spell-meta { color: var(--phosphor); font-size: 14px; margin: 4px 0; font-family: 'VT323', monospace; white-space: pre; }
-.spell-desc { color: var(--phosphor-fade); font-size: 14px; line-height: 1.6; margin: 6px 0; white-space: pre-wrap; }
-.link-card { background: var(--bg-input); padding: 10px; margin: 8px 0; font-family: 'VT323', monospace; color: var(--phosphor-fade); font-size: 14px; }
+.spell-desc { color: var(--phosphor-text-dim); font-size: 14px; line-height: 1.6; margin: 6px 0; white-space: pre-wrap; }
+.link-card { background: var(--bg-input); padding: 10px; margin: 8px 0; font-family: 'VT323', monospace; color: var(--phosphor-dim); font-size: 14px; }
+.link-card .spell-desc { color: var(--phosphor-dim); }
+.link-card a { overflow-wrap: anywhere; }
 .zh-cat { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.6; margin: 18px 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--phosphor-fade); }
 .zh-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
 .zh-chip { background: var(--bg-panel); border: 1px solid var(--phosphor-fade); padding: 8px 10px; font-family: 'VT323', monospace; font-size: 16px; color: var(--phosphor); }
@@ -29,15 +31,15 @@
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="俠客遊 IV · 魔法 / 特殊攻擊 · 吟遊詩人的傳說">
-<meta name="twitter:description" content="LD4 魔法資料庫，66 個魔法 / 必殺技含屬性 / Lv / 對象 / MP / 威力 / 描述。源自神之眼 1.1 (2001) 日文官方資料 + 5 NPC 任務。">
+<meta name="twitter:description" content="LD4 魔法資料庫，66 個魔法 / 必殺技含屬性 / Lv / 對象 / MP / 威力 / 描述。源自日本社群工具神之眼 1.1 (2001) 的日文資料，另含 NPC イモータル的物品交換表與 89 個遊戲內繁中名。">
 <meta name="twitter:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <meta property="og:type" content="website">
 <meta property="og:title" content="俠客遊 IV · 魔法 / 特殊攻擊 · 吟遊詩人的傳說">
-<meta property="og:description" content="LD4 魔法資料庫，66 個魔法 / 必殺技含屬性 / Lv / 對象 / MP / 威力 / 描述。源自神之眼 1.1 (2001) 日文官方資料 + 5 NPC 任務。">
+<meta property="og:description" content="LD4 魔法資料庫，66 個魔法 / 必殺技含屬性 / Lv / 對象 / MP / 威力 / 描述。源自日本社群工具神之眼 1.1 (2001) 的日文資料，另含 NPC イモータル的物品交換表與 89 個遊戲內繁中名。">
 <meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/luna4/database/magics.html">
 <meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"俠客遊 IV","description":"LD4 魔法資料庫，66 個魔法 / 必殺技含屬性 / Lv / 對象 / MP / 威力 / 描述。源自神之眼 1.1 (2001) 日文官方資料 + 5 NPC 任務。","url":"https://toniliumvp.github.io/LunaticDawn/luna4/database/magics.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 IV"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"俠客遊 IV","description":"LD4 魔法資料庫，66 個魔法 / 必殺技含屬性 / Lv / 對象 / MP / 威力 / 描述。源自日本社群工具神之眼 1.1 (2001) 的日文資料，另含 NPC イモータル的物品交換表與 89 個遊戲內繁中名。","url":"https://toniliumvp.github.io/LunaticDawn/luna4/database/magics.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 IV"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"吟遊詩人的傳說","item":"https://toniliumvp.github.io/LunaticDawn/"},{"@type":"ListItem","position":2,"name":"俠客遊 IV","item":"https://toniliumvp.github.io/LunaticDawn/luna4/"},{"@type":"ListItem","position":3,"name":"資料庫","item":"https://toniliumvp.github.io/LunaticDawn/luna4/database/"},{"@type":"ListItem","position":4,"name":"俠客遊 IV"}]}</script>
 <!-- seo -->
 </head>
@@ -55,28 +57,30 @@
 
   <main id="main-content">
     <div class="notice">
-      <strong>LD4 魔法 / 特殊攻擊資料庫</strong>（<span id="m-count">66</span> 個魔法 / <span id="z-count">89</span> 遊戲繁中名 / <span id="n-count">5</span> NPC 任務 / 4 連結）
+      <strong>LD4 魔法 / 特殊攻擊資料庫</strong>（<span id="m-count">66</span> 個魔法 / <span id="z-count">89</span> 遊戲繁中名 / <span id="n-count">5</span> 筆 NPC 交換表 / 1 個官方連結）
       <br>
-      <strong>來源</strong>：神之眼 1.1（2001）<code>ld4navi.def</code>，Shift-JIS 日文官方資料，源自 ARTDINK 攻略。
+      <strong>來源</strong>：日本玩家製作的社群工具神之眼 1.1（2001，原作者 D-SKULL）的定義檔 <code>ld4navi.def</code>，Shift-JIS 日文資料（非 ARTDINK 官方；定義檔內附 ARTDINK 官方網站連結）。
       <br>
       <strong>「遊戲繁中名」tab</strong>：89 個遊戲內<strong>繁體中文</strong>魔法 / 特殊攻擊名稱（玩家戰鬥時可見的事實層資料），從 <code>LD4.exe</code> 直接提取。跟上方日文資料是<strong>兩個獨立來源</strong>，日文 def 含屬性 / MP / 威力等數值，繁中名是遊戲本身的稱呼。
       <br>
-      <strong>跨平台</strong>：神之眼 ld4navi.exe 是 Windows + Delphi 5 runtime memory hook 工具，2001 年的記憶體 address 對 NoCD 修補版已失效。本頁直接 parse <code>.def</code> 純文字，<strong>0 EXE 依賴 + 跨 Mac/Win/手機</strong>。
+      <strong>「NPC 交換表」tab</strong>：定義檔第二張清單「<span lang="ja">イモータルの要求/見返りアイテム</span>」。它描述的是跟 NPC <span lang="ja">イモータル</span> 交換物品的機制，不是可接的任務：共 5 筆，第 1 筆是規則說明（交換次數增加友好度、友好度在由家族成員接手時會繼承等），其餘 4 筆是「非裝備 / 武器 / 防具 / 特殊」四類物品名單（日文物品名）。定義檔另有一張 4 筆的「ＬＧＤ祭壇變化」繁中清單（同組物品之間的變化），已收進 <code>ld4_godseye_def.json</code>，本頁沒有顯示。
+      <br>
+      <strong>跨平台</strong>：神之眼 ld4navi.exe 是 Windows 程式，而且是依日文版遊戲寫死記憶體與存檔位置的工具，無法直接讀取繁中版。本頁直接 parse <code>.def</code> 純文字，<strong>0 EXE 依賴 + 跨 Mac/Win/手機</strong>。
       <br>
       <strong>合併版</strong>：本資料跟「道具大全」「怪物大全」（LunaticConsortia 繁中）並置，組成 LD4 完整攻略資料庫。
     </div>
 
     <div class="tabs">
-      <button class="tab-btn active" data-tab="magics">魔法 / 必殺技</button>
-      <button class="tab-btn" data-tab="zhnames">遊戲繁中名</button>
-      <button class="tab-btn" data-tab="quests">NPC 任務</button>
-      <button class="tab-btn" data-tab="links">官方連結</button>
+      <button type="button" class="tab-btn active" data-tab="magics" aria-pressed="true">魔法 / 必殺技</button>
+      <button type="button" class="tab-btn" data-tab="zhnames" aria-pressed="false">遊戲繁中名</button>
+      <button type="button" class="tab-btn" data-tab="quests" aria-pressed="false">NPC 交換表（<span lang="ja">イモータル</span>）</button>
+      <button type="button" class="tab-btn" data-tab="links" aria-pressed="false">官方連結</button>
     </div>
 
     <div class="search-box">
       <span style="color: var(--amber);">🔍</span>
       <input id="search" aria-label="搜尋魔法" type="text" placeholder="搜尋名稱 / 屬性 / 描述...">
-      <span id="match-count" style="color: var(--phosphor-fade); font-size: 12px;"></span>
+      <span id="match-count" style="color: var(--phosphor-text-dim); font-size: 12px;"></span>
     </div>
 
     <div id="content"></div>
@@ -110,13 +114,17 @@ async function load() {
 
 function switchTab(t) {
   curTab = t;
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === t));
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.tab === t);
+    b.setAttribute('aria-pressed', String(b.dataset.tab === t));
+  });
   render();
 }
 
 function makeSpellCard(it) {
   const card = document.createElement('div');
   card.className = 'spell-card';
+  card.lang = 'ja';   // 神之眼定義檔是日文資料(名稱、屬性、對象、說明都是日文)
   const name = document.createElement('div');
   name.className = 'spell-name';
   name.textContent = it.name;
@@ -134,6 +142,11 @@ function makeSpellCard(it) {
     const d = document.createElement('div'); d.className = 'spell-desc'; d.textContent = it.description; card.appendChild(d);
   }
   return card;
+}
+
+// 含假名的文字標成日文，讓讀螢幕軟體用日文發音
+function markJa(el, text) {
+  if (/[\u3040-\u30ff\uff66-\uff9f]/.test(text || '')) el.lang = 'ja';
 }
 
 function render() {
@@ -185,11 +198,19 @@ function render() {
     }
   } else if (curTab === 'links') {
     for (const link of DATA.links) {
-      if (filter && !link.toLowerCase().includes(filter)) continue;
+      const hay = [link.title, link.org, link.url, link.description].join(' ').toLowerCase();
+      if (filter && !hay.includes(filter)) continue;
       matched++;
       const card = document.createElement('div');
       card.className = 'link-card';
-      card.textContent = link;
+      const t = document.createElement('div'); t.className = 'spell-name'; t.textContent = link.title; card.appendChild(t);
+      const o = document.createElement('div'); o.className = 'spell-meta'; o.textContent = link.org; markJa(o, link.org); card.appendChild(o);
+      if (/^https:\/\//.test(link.url)) {
+        const a = document.createElement('a');
+        a.href = link.url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = link.url;
+        card.appendChild(a);
+      }
+      const d = document.createElement('div'); d.className = 'spell-desc'; d.textContent = link.description; markJa(d, link.description); card.appendChild(d);
       root.appendChild(card);
     }
   }

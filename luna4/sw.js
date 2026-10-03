@@ -1,4 +1,4 @@
-/* LD4 修改器 Service Worker v1.4 (2026-09-23)
+/* LD4 修改器 Service Worker v1.6 (2026-09-26)
  *
  * 策略:
  *   - HTML(導航):network-first,連不上網路時回快取版本
@@ -6,6 +6,7 @@
  *   - 不快取:本機 bridge 的 HTTP API(/status /read /write /scan)與跨網域資源
  *
  * 行為:
+ *   - precache 包含修改器頁、manifest、enum 字典、兩份樣式表、網站圖示，以及字型樣式表裡列出的字型檔（從樣式表內容讀出，字型檔改名時不必改這裡）
  *   - precache 任一檔失敗就讓 install 失敗,舊 worker 與舊快取保持不變
  *   - 背景寫入快取都交給 event.waitUntil,worker 不會在寫完前被終止
  *   - 離線時只有修改器頁本身會回快取版本;luna4 底下其他沒快取過的頁面回網路錯誤
@@ -13,20 +14,35 @@
  */
 
 const CACHE_PREFIX = 'ld4-modifier-';
-const CACHE_VERSION = CACHE_PREFIX + 'v1.4-20260923';
+const CACHE_VERSION = CACHE_PREFIX + 'v1.6-20260926';
 const VIEWER_PATH = './savedata-viewer.html';
 const CORE = [
   VIEWER_PATH,
   './manifest.json',
-  './ld4_enum_table.json'
+  './ld4_enum_table.json',
+  '../assets/css/retro.css',
+  '../assets/favicon.svg'
 ];
+// 字型樣式表另外處理：讀它的內容取得字型檔網址，一起預快取
+const FONT_CSS = '../assets/css/fonts-retro.css';
+function precacheFontCss(cache) {
+  const cssUrl = new URL(FONT_CSS, self.location.href).href;
+  return fetch(cssUrl).then((res) => {
+    if (!res.ok) throw new Error('font css ' + res.status);
+    return res.clone().text().then((text) => {
+      const urls = Array.from(text.matchAll(/url\(\s*['"]?([^'")]+)['"]?\s*\)/g), (m) => new URL(m[1], cssUrl).href);
+      if (urls.length === 0) throw new Error('font css has no url()');
+      return cache.put(cssUrl, res).then(() => cache.addAll(urls));
+    });
+  });
+}
 
 self.addEventListener('install', (evt) => {
-  // addAll 是原子的:任一檔抓不到就整個 reject,install 失敗,繼續用舊 worker。
+  // addAll 與字型預快取任一步失敗都讓 install 失敗，繼續用舊 worker。
   // skipWaiting 只在 precache 成功之後才呼叫。
   evt.waitUntil(
     caches.open(CACHE_VERSION)
-      .then((cache) => cache.addAll(CORE))
+      .then((cache) => cache.addAll(CORE).then(() => precacheFontCss(cache)))
       .then(() => self.skipWaiting())
   );
 });

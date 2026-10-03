@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>俠客遊 IV · 道具大全 · 吟遊詩人的傳說</title>
-<meta name="description" content="LD4 道具完整資料庫，627 個道具含描述 + 9 屬性對。源自 LunaticConsortia (2007)，跨平台 Mac/Win/手機通吃。">
+<meta name="description" content="LD4 道具資料庫，630 筆道具的類別、價格、附加魔法、9 屬性數值與合成方法。源自 LunaticConsortia (2007)，跨平台 Mac/Win/手機通吃。">
 <link rel="stylesheet" href="../../assets/css/fonts-retro.css">
 <link rel="stylesheet" href="../../assets/css/retro.css">
 <style>
@@ -15,29 +15,34 @@
 .item-card { background: var(--bg-panel); border: 1px solid var(--phosphor-fade); padding: 12px; margin-bottom: 12px; }
 .item-name { color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 13px; margin: 0 0 6px; }
 .item-meta { color: var(--phosphor); font-size: 13px; margin-bottom: 6px; white-space: pre; font-family: 'VT323', monospace; }
-.item-desc { color: var(--phosphor-fade); font-size: 14px; line-height: 1.5; margin: 6px 0; white-space: pre-wrap; }
-.attr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; font-size: 12px; color: var(--phosphor-fade); margin-top: 6px; }
+.attr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; font-size: 12px; color: var(--phosphor-dim); margin-top: 6px; }
 .attr-cell { background: var(--bg-input); padding: 3px 6px; border-radius: 2px; font-family: 'VT323', monospace; }
 .tabs { display: flex; gap: 8px; margin: 16px 0; flex-wrap: wrap; }
 .tab-btn { background: var(--bg-input); color: var(--phosphor-dim); border: 1px solid var(--phosphor-dim); padding: 6px 14px; cursor: pointer; font-family: 'VT323', monospace; font-size: 14px; }
-.tab-btn.active { color: var(--amber); border-color: var(--amber); }
+.tab-btn.active { color: var(--amber); border-color: var(--amber); text-decoration: underline; text-underline-offset: 4px; }
 .simple-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px; }
 .simple-item { background: var(--bg-input); padding: 6px 12px; font-size: 14px; color: var(--phosphor); border: 1px solid var(--phosphor-fade); border-radius: 2px; }
+.syn-box { margin-top: 8px; border-top: 1px dashed var(--phosphor-fade); padding-top: 6px; }
+.syn-sum { cursor: pointer; color: var(--amber); font-family: 'VT323', monospace; font-size: 15px; }
+.syn-sum:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+.syn-title { color: var(--phosphor-text-dim); font-size: 13px; margin: 8px 0 4px; }
+.syn-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 4px; }
+.syn-cell { background: var(--bg-input); padding: 3px 6px; border-radius: 2px; font-family: 'VT323', monospace; font-size: 14px; color: var(--phosphor-dim); overflow-wrap: anywhere; }
 </style>
 <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
 <link rel="canonical" href="https://toniliumvp.github.io/LunaticDawn/luna4/database/items.html">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="俠客遊 IV · 道具大全 · 吟遊詩人的傳說">
-<meta name="twitter:description" content="LD4 道具完整資料庫，627 個道具含描述 + 9 屬性對。源自 LunaticConsortia (2007)，跨平台 Mac/Win/手機通吃。">
+<meta name="twitter:description" content="LD4 道具資料庫，630 筆道具的類別、價格、附加魔法、9 屬性數值與合成方法。源自 LunaticConsortia (2007)，跨平台 Mac/Win/手機通吃。">
 <meta name="twitter:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <meta property="og:type" content="website">
 <meta property="og:title" content="俠客遊 IV · 道具大全 · 吟遊詩人的傳說">
-<meta property="og:description" content="LD4 道具完整資料庫，627 個道具含描述 + 9 屬性對。源自 LunaticConsortia (2007)，跨平台 Mac/Win/手機通吃。">
+<meta property="og:description" content="LD4 道具資料庫，630 筆道具的類別、價格、附加魔法、9 屬性數值與合成方法。源自 LunaticConsortia (2007)，跨平台 Mac/Win/手機通吃。">
 <meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/luna4/database/items.html">
 <meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"俠客遊 IV","description":"LD4 道具完整資料庫，627 個道具含描述 + 9 屬性對。源自 LunaticConsortia (2007)，跨平台 Mac/Win/手機通吃。","url":"https://toniliumvp.github.io/LunaticDawn/luna4/database/items.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 IV"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"俠客遊 IV","description":"LD4 道具資料庫，630 筆道具的類別、價格、附加魔法、9 屬性數值與合成方法。源自 LunaticConsortia (2007)，跨平台 Mac/Win/手機通吃。","url":"https://toniliumvp.github.io/LunaticDawn/luna4/database/items.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 IV"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"吟遊詩人的傳說","item":"https://toniliumvp.github.io/LunaticDawn/"},{"@type":"ListItem","position":2,"name":"俠客遊 IV","item":"https://toniliumvp.github.io/LunaticDawn/luna4/"},{"@type":"ListItem","position":3,"name":"資料庫","item":"https://toniliumvp.github.io/LunaticDawn/luna4/database/"},{"@type":"ListItem","position":4,"name":"俠客遊 IV"}]}</script>
 <!-- seo -->
 </head>
@@ -55,24 +60,26 @@
 
   <main id="main-content">
     <div class="notice">
-      <strong>LD4 道具完整資料庫</strong>（<span id="full-count">627</span> 道具含描述 + 9 屬性 / <span id="list-count">272</span> 道具簡名列表）
+      <strong>LD4 道具資料庫</strong>（<span id="full-count">630</span> 筆道具，含類別 / 價格 / 附加魔法 / 9 屬性 · <span id="list-count">239</span> 筆道具簡名列表）
       <br><br>
-      <strong>來源</strong>：LunaticConsortia 2007 IDBIG5.dat / LGDBIG5.dat，Big5 純文字資料，玩家於遊戲中可見。
+      <strong>來源</strong>：LunaticConsortia 2007 IDBIG5.dat / LGDBIG5.dat（Big5 純文字資料）的事實層數值：道具名、類別、價格、附加魔法、9 屬性數值、原檔的「出現」欄與合成方法。
       <br>
       <strong>跨平台</strong>：純 HTML/CSS/JS，Mac / Windows / iPad / Android 瀏覽器都能用，無需安裝 LunaticConsortia.exe（VC6 + MFC42）。
       <br>
-      <strong>合規</strong>：依 PUBLISHING.md v2.0，玩家可見的遊戲事實層內容（道具名 / 屬性數值 / 規則描述）。
+      <strong>合成方法怎麼看</strong>：有配方的道具卡片下方有可展開的「合成方法」。「材料 + 材料 = 此道具」是這個道具怎麼做出來；「此道具 + 材料 = 成品」是這個道具能拿來做什麼。原檔用 + 與 = 表示，本站把每一條配方跟另一端道具的紀錄逐條對照過，兩端全部吻合。部分配方前有 ◆：那是原檔作者自訂的造字記號（本站以 ◆ 代替），意義未確認。
+      <br>
+      <strong>合規</strong>：本頁只顯示事實層（道具名、分類、價格、屬性數值與合成方法），不收錄道具的風味說明短文。LunaticConsortia 原始工具的壓縮檔見<a href="../../files/luna4/">檔案庫</a>。
     </div>
 
     <div class="tabs">
-      <button class="tab-btn active" data-tab="full">完整 627 筆</button>
-      <button class="tab-btn" data-tab="list">簡名 272 筆</button>
+      <button type="button" class="tab-btn active" data-tab="full" aria-pressed="true">完整 630 筆</button>
+      <button type="button" class="tab-btn" data-tab="list" aria-pressed="false">簡名 <span id="list-count-tab">239</span> 筆</button>
     </div>
 
     <div class="search-box">
       <span style="color: var(--amber);">🔍</span>
-      <input id="search" aria-label="搜尋物品" type="text" placeholder="搜尋道具名或描述...">
-      <span id="match-count" style="color: var(--phosphor-fade); font-size: 12px;"></span>
+      <input id="search" aria-label="搜尋物品" type="text" placeholder="搜尋道具名或類別...">
+      <span id="match-count" style="color: var(--phosphor-text-dim); font-size: 12px;"></span>
     </div>
 
     <div id="content-full"></div>
@@ -86,10 +93,11 @@ let curTab = 'full';
 
 async function load() {
   try {
-  const r = await fetch('ld4_lc_dat.json');
+  const r = await fetch('ld4_items.json');
     DATA = await r.json();
     document.getElementById('full-count').textContent = DATA.item_full_count;
     document.getElementById('list-count').textContent = DATA.item_simple_count;
+    document.getElementById('list-count-tab').textContent = DATA.item_simple_count;
     render();
   } catch (e) {
     console.error("[load] failed:", e);
@@ -99,7 +107,10 @@ async function load() {
 
 function switchTab(t) {
   curTab = t;
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === t));
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.tab === t);
+    b.setAttribute('aria-pressed', String(b.dataset.tab === t));
+  });
   document.getElementById('content-full').style.display = t === 'full' ? '' : 'none';
   document.getElementById('content-list').style.display = t === 'list' ? '' : 'none';
   render();
@@ -117,6 +128,54 @@ function makeAttrGrid(attrs) {
   return grid;
 }
 
+// 合成方法：展開時才建立列，避免一次產生上千個節點。
+function fillSynthesis(box, item) {
+  const syn = item.synthesis;
+  const groups = [
+    ['made_from', '材料 + 材料 = 此道具（怎麼做出這個道具）'],
+    ['uses', '此道具 + 材料 = 成品（這個道具能拿來做什麼）']
+  ];
+  for (const [key, title] of groups) {
+    const list = syn[key];
+    if (!list || !list.length) continue;
+    const t = document.createElement('div');
+    t.className = 'syn-title';
+    t.textContent = title + '：' + list.length + ' 筆';
+    box.appendChild(t);
+    const grid = document.createElement('div');
+    grid.className = 'syn-grid';
+    for (const e of list) {
+      const cell = document.createElement('div');
+      cell.className = 'syn-cell';
+      const mark = e[2] ? '◆ ' : '';
+      cell.textContent = key === 'made_from'
+        ? mark + e[0] + ' + ' + e[1] + ' = ' + item.name
+        : mark + item.name + ' + ' + e[0] + ' = ' + e[1];
+      grid.appendChild(cell);
+    }
+    box.appendChild(grid);
+  }
+}
+
+function makeSynthesis(item) {
+  const syn = item.synthesis;
+  const total = (syn.uses ? syn.uses.length : 0) + (syn.made_from ? syn.made_from.length : 0);
+  const box = document.createElement('details');
+  box.className = 'syn-box';
+  const sum = document.createElement('summary');
+  sum.className = 'syn-sum';
+  sum.textContent = '合成方法（' + total + ' 筆）';
+  box.appendChild(sum);
+  let filled = false;
+  box.addEventListener('toggle', () => {
+    if (box.open && !filled) {
+      filled = true;
+      fillSynthesis(box, item);
+    }
+  });
+  return box;
+}
+
 function render() {
   // 資料還在 fetch 時使用者就可能在搜尋框打字（監聽器在頂層綁定）。
   // 此時直接往下走會在 null 上呼叫 filter/sort，而且內容區已先被清空，
@@ -130,7 +189,7 @@ function render() {
     while (root.firstChild) root.removeChild(root.firstChild);
     for (const item of DATA.items_full) {
       if (filter) {
-        const hay = (item.name + ' ' + item.description + ' ' + item.meta).toLowerCase();
+        const hay = (item.name + ' ' + item.meta).toLowerCase();
         if (!hay.includes(filter)) continue;
       }
       matched++;
@@ -146,12 +205,6 @@ function render() {
         meta.textContent = item.meta;
         card.appendChild(meta);
       }
-      if (item.description) {
-        const desc = document.createElement('div');
-        desc.className = 'item-desc';
-        desc.textContent = item.description;
-        card.appendChild(desc);
-      }
       if (item.attached_magic) {
         const am = document.createElement('div');
         am.className = 'item-meta';
@@ -160,6 +213,21 @@ function render() {
       }
       if (item.attributes && Object.keys(item.attributes).length) {
         card.appendChild(makeAttrGrid(item.attributes));
+      }
+      if (item.appear) {
+        const ap = document.createElement('div');
+        ap.className = 'item-meta';
+        ap.textContent = '出現：' + item.appear;
+        card.appendChild(ap);
+      }
+      for (const line of (item.stats || [])) {
+        const st = document.createElement('div');
+        st.className = 'item-meta';
+        st.textContent = line;
+        card.appendChild(st);
+      }
+      if (item.synthesis) {
+        card.appendChild(makeSynthesis(item));
       }
       root.appendChild(card);
     }

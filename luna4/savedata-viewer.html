@@ -6,12 +6,12 @@
 <title>俠客遊 IV 存檔修改器 v1.7 · 吟遊詩人的傳說</title>
 <link rel="manifest" href="./manifest.json">
 <meta name="theme-color" content="#00ff41">
-<meta name="description" content="俠客遊 IV LDTSV0.dat 存檔修改器：金錢編輯 + 智慧 anchor 精靈 + 自訂欄位 + Live RAM Bridge 即時記憶體 + 8 槽全連。純前端、跨平台、不上傳，瀏覽器拖放即改。">
+<meta name="description" content="俠客遊 IV LDTSV0.dat 存檔修改器：金錢編輯 + 智慧 anchor 精靈 + 自訂欄位 + 8 槽全連。純前端、跨平台、不上傳，瀏覽器拖放即改。">
 <link rel="stylesheet" href="../assets/css/fonts-retro.css">
 <link rel="stylesheet" href="../assets/css/retro.css">
 <meta property="og:type" content="website">
 <meta property="og:title" content="俠客遊 IV 存檔修改器">
-<meta property="og:description" content="俠客遊 IV LDTSV0.dat 存檔修改器，金錢編輯 + 即時記憶體 + 8 槽全連，純前端、跨平台、拖放即改。">
+<meta property="og:description" content="俠客遊 IV LDTSV0.dat 存檔修改器，金錢編輯 + 8 槽全連，純前端、跨平台、拖放即改。">
 <meta property="og:url" content="https://toniliumvp.github.io/LunaticDawn/luna4/savedata-viewer.html">
 <meta property="og:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
 <meta property="og:site_name" content="吟遊詩人的傳說 · 俠客遊">
@@ -27,7 +27,7 @@
 .field-row { display: flex; align-items: baseline; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
 .field-row label { color: var(--phosphor-dim); min-width: 130px; font-size: 14px; }
 .field-row .val { color: var(--phosphor); font-family: 'Courier New', monospace; word-break: break-all; }
-.hint { color: var(--phosphor-fade); font-size: 13px; margin: 0 0 10px; }
+.hint { color: var(--phosphor-text-dim); font-size: 13px; margin: 0 0 10px; }
 .hex-viewer { margin-top: 12px; border: 1px solid var(--phosphor-fade); padding: 12px; background: var(--bg-input); font-family: 'Courier New', monospace; font-size: 12px; color: var(--phosphor); white-space: pre; overflow-x: auto; max-height: 460px; overflow-y: auto; }
 .region-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
 .region-table th, .region-table td { border: 1px solid var(--phosphor-fade); padding: 6px 10px; text-align: left; vertical-align: top; }
@@ -35,23 +35,33 @@
 .region-table .num { font-family: 'Courier New', monospace; text-align: right; white-space: nowrap; }
 .error-banner { color: var(--danger); padding: 20px; border: 1px solid var(--danger); margin: 16px 0; }
 .heatmap { display: grid; grid-template-columns: repeat(auto-fill, minmax(14px, 1fr)); gap: 2px; margin: 12px 0; }
-.heatmap .cell { aspect-ratio: 1; border: 1px solid rgba(0,0,0,0.4); }
-.heatmap-legend { font-size: 12px; color: var(--phosphor-fade); margin-top: 8px; }
+.heatmap .cell { aspect-ratio: 1; border: 1px solid rgba(0,0,0,0.4); forced-color-adjust: none; }
+.heatmap-legend { font-size: 12px; color: var(--phosphor-text-dim); margin-top: 8px; }
 #big5-results, #heatmap-detail { display: none; }
 .toolbar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 8px; }
 .toolbar input[type=text] { background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-dim); padding: 6px 8px; font-family: 'VT323', monospace; font-size: 15px; }
 .toolbar button { background: var(--amber); color: var(--bg); border: 1px solid var(--amber); padding: 6px 14px; font-family: 'VT323', monospace; font-size: 15px; cursor: pointer; }
 .toolbar button.ghost { background: var(--bg-input); color: var(--phosphor); border-color: var(--phosphor-dim); }
 .note-warn { border-left: 3px solid var(--amber); padding: 8px 12px; margin: 10px 0; background: rgba(255,176,0,0.05); font-size: 13px; color: var(--amber); }
+details.qa-collapse { border: 1px dashed var(--phosphor-fade); padding: 8px 12px; margin: 12px 0 0; background: var(--bg-panel); color: var(--phosphor-dim); font-size: 14px; line-height: 1.7; }
+details.qa-collapse > summary { cursor: pointer; color: var(--amber); font-weight: bold; }
+details.qa-collapse > summary:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+details.qa-collapse[open] > summary { margin-bottom: 8px; }
+.backup-btn, .toolbar button.backup-btn { background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-dim); padding: 6px 14px; font-family: 'VT323', monospace; font-size: 15px; cursor: pointer; }
+/* iOS Safari 在字級小於 16px 的輸入框聚焦時會自動放大頁面；窄螢幕一律 16px。
+   這頁的輸入框多半有行內字級，所以要用 !important 才蓋得過 */
+@media (max-width: 640px) {
+  input, select, textarea { font-size: 16px !important; }
+}
 </style>
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 <link rel="canonical" href="https://toniliumvp.github.io/LunaticDawn/luna4/savedata-viewer.html">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="俠客遊 IV 存檔修改器">
-<meta name="twitter:description" content="俠客遊 IV LDTSV0.dat 存檔修改器，金錢編輯 + 即時記憶體 + 8 槽全連，純前端、跨平台、拖放即改。">
+<meta name="twitter:description" content="俠客遊 IV LDTSV0.dat 存檔修改器，金錢編輯 + 8 槽全連，純前端、跨平台、拖放即改。">
 <meta name="twitter:image" content="https://toniliumvp.github.io/LunaticDawn/assets/og-image.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"俠客遊 IV 存檔修改器 v1.7","description":"俠客遊 IV LDTSV0.dat 存檔修改器，金錢編輯 + 即時記憶體 + 8 槽全連，純前端、跨平台、拖放即改。","url":"https://toniliumvp.github.io/LunaticDawn/luna4/savedata-viewer.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 IV"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"俠客遊 IV 存檔修改器 v1.7","description":"俠客遊 IV LDTSV0.dat 存檔修改器，金錢編輯 + 8 槽全連，純前端、跨平台、拖放即改。","url":"https://toniliumvp.github.io/LunaticDawn/luna4/savedata-viewer.html","inLanguage":"zh-Hant","isPartOf":{"@type":"WebSite","name":"吟遊詩人的傳說 · 俠客遊","url":"https://toniliumvp.github.io/LunaticDawn/"},"about":{"@type":"VideoGame","name":"俠客遊 IV"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"吟遊詩人的傳說","item":"https://toniliumvp.github.io/LunaticDawn/"},{"@type":"ListItem","position":2,"name":"俠客遊 IV","item":"https://toniliumvp.github.io/LunaticDawn/luna4/"},{"@type":"ListItem","position":3,"name":"俠客遊 IV 存檔修改器 v1.7"}]}</script>
 <!-- seo -->
 </head>
@@ -62,7 +72,7 @@
     <div class="header-inner">
       <h1 class="pixel">俠客遊 IV 存檔修改器</h1>
       <nav>
-        <span style="color: var(--phosphor-dim); font-size: 12px;">v1.7 · ★★★★★★★ SSE 即時推送(取代 2 秒 polling)+ Wizard cross-correlate WINDOW 可調(64-1024B)+ pair-wise stride 分析(同 distance 多次=強訊號)+ enum_u16le 變體 + hex auto-hint + wizard enum mode + enum 編碼自訂欄位 + Undo 全 + Preset I/O + PWA + 跨槽 diff + 8 槽全連 + Live RAM Bridge</span>
+        <span style="color: var(--phosphor-dim); font-size: 12px;">v1.7</span>
         ·
         <a href="./">回俠客遊 IV 索引</a>
         ·
@@ -74,36 +84,42 @@
 <main id="main-content">
 
   <div class="intro">
-    <strong>俠客遊 IV 存檔修改器</strong>，跨平台 / 純前端 / 不上傳 / 免安裝（版本與完整功能見上方標頭）。
-    <br><br>
-    <strong>支援檔案</strong>：<code>LDTSV0.dat</code> ~ <code>LDTSV9.dat</code>（10 個存檔槽）及
+    <strong>能改什麼</strong>：拖放繁中版存檔（<code>LDTSV*.dat</code>）即可修改金錢，也可以用智慧 anchor 精靈找出其他欄位，加入自訂欄位編輯。
+    <br>
+    <strong>檔案在哪</strong>：<code>遊戲資料夾/Usr/</code>。
+    <br>
+    <strong>先備份</strong>：修改前先把整個 <code>Usr</code> 資料夾複製一份，確認遊戲讀得了再覆蓋原檔。
+    <details class="qa-collapse">
+    <summary>功能列表與技術說明</summary>
+    <strong>支援檔案</strong>：存檔槽檔 <code>LDTSVn.dat</code>（n 為槽號，例如 <code>LDTSV0.dat</code>）及
     <code>LDTSVFIX.dat</code> / <code>LDTSVC.dat</code> 等，位於<code>遊戲資料夾/Usr/</code>。
     <br><br>
-    <strong>為什麼做這個</strong>：俠客遊 IV 的記憶體工具「神之眼 ld4navi.exe」是 2000 年針對<strong>日文版 ver.1.2.1.5</strong> 做的，它的存檔解析器寫死了日文版的欄位位置，讀<strong>繁體中文版</strong>存檔會因 layout 不符而出錯。這個修改器是直接針對繁體中文版 <code>LDTSV0.dat</code> 做的，瀏覽器拖放即用，不需要安裝、不需要登錄檔、不需要任何外掛。
+    <strong>為什麼做這個</strong>：俠客遊 IV 的記憶體工具「神之眼 ld4navi.exe」是 D-SKULL 在 2000 年針對<strong>日文版</strong>遊戲做的，它的存檔解析器寫死了日文版的欄位位置，讀<strong>繁體中文版</strong>存檔會因 layout 不符而出錯。這個修改器是直接針對繁體中文版 <code>LDTSV0.dat</code> 做的，瀏覽器拖放即用，不需要安裝、不需要登錄檔、不需要任何外掛。
     <br><br>
     <strong>本工具當前功能</strong>：
     <br>▸ 拖放 <code>LDTSV*.dat</code> → magic 驗證 + header 結構解析
     <br>▸ 存檔標題（Big5 角色名）+ 存檔來源路徑解析
     <br>▸ <strong>★ 金錢編輯</strong> + <strong>智慧 anchor 精靈</strong>（輸入遊戲內看到的數值，自動找出對應 offset）
     <br>▸ <strong>★ 自訂欄位</strong> + Preset 批次套用 + Undo / Redo
-    <br>▸ <strong>★ Live RAM Bridge</strong>（連執行中的遊戲即時讀寫）+ 8 槽全連
+    <br>▸ <strong>★ Live RAM Bridge</strong>（連執行中的遊戲即時讀寫；需另外執行的輔助程式，尚未開放下載）+ 8 槽全連
     <br>▸ <strong>★ Big5 字串掃描</strong>（掃出檔案內所有可解碼的中文片段）
     <br>▸ <strong>★ 區段熱圖</strong>（每區塊 entropy / 非零比例視覺化）
     <br>▸ 完整 hex 檢視（含已知區段標註）
     <br><br>
-    <strong>技術說明</strong>：繁中版 <code>LDTSV0.dat</code> 的 <code>0x00-0x6D</code> 是可讀的 header（magic + 標題 + 來源路徑），已可直接編輯已確認的欄位（如金錢）；<code>0x70</code> 之後是 Delphi/MFC <strong>物件圖記憶體傾印</strong>（serialized object graph，含大量原始指標值），<strong>沒有加密</strong>，但欄位語意仍在逐步逆向。對於還沒定位的欄位（等級 / 屬性 / 物品），可用<strong>智慧 anchor 精靈</strong>或 <strong>Live RAM Bridge</strong> 自行找出並加入自訂欄位編輯。
+    <strong>技術說明</strong>：繁中版 <code>LDTSV0.dat</code> 的 <code>0x00-0x6D</code> 是可讀的 header（magic + 標題 + 來源路徑），已可直接編輯已確認的欄位（如金錢）；<code>0x70</code> 之後是 Delphi/MFC <strong>物件圖記憶體傾印</strong>（serialized object graph，含大量原始指標值），<strong>沒有加密</strong>，但欄位語意仍在逐步逆向。對於還沒定位的欄位（等級 / 屬性 / 物品），可用<strong>智慧 anchor 精靈</strong>自行找出並加入自訂欄位編輯（<strong>Live RAM Bridge</strong> 輔助程式尚未開放下載）。
     <br><br>
     <em>所有解析在你的瀏覽器本機完成。檔案（含其中的存檔來源路徑）不會上傳到任何地方。</em>
+    </details>
   </div>
 
   <div id="multi-slot-panel" class="viewer-panel" style="border: 2px solid var(--phosphor); margin-bottom: 16px; display: none;">
-    <h3 style="color: var(--phosphor);">★★★★★ 8 槽全連模式(v0.9，Multi-Slot Grid)</h3>
-    <p class="hint">已連到整個 <code id="ms8-dir-name">Usr/</code> 資料夾,自動追蹤 8 個玩家槽(LDTSV0.dat ~ LDTSV7.dat)+ 每槽獨立 polling + 點 grid 切換 active save。<strong>跨槽 diff(v1.0)</strong>:勾兩個槽 → 按「對比這 2 槽」 → 用既有 diff 視覺化。</p>
+    <h3 style="color: var(--phosphor);">★★★★★ 8 槽全連模式</h3>
+    <p class="hint">已連到整個 <code id="ms8-dir-name">Usr/</code> 資料夾,自動追蹤槽號 0～7 的存檔檔(LDTSV0.dat ~ LDTSV7.dat)+ 每槽獨立 polling + 點 grid 切換 active save。<strong>跨槽 diff</strong>:勾兩個槽 → 按「對比這 2 槽」 → 用既有 diff 視覺化。</p>
     <div id="ms8-grid" class="ms8-grid"></div>
     <div class="toolbar" style="margin-top: 12px;">
       <button id="ms8-refresh" class="ghost" type="button">↻ 手動 refresh 所有槽</button>
       <button id="ms8-poll-toggle" type="button">▶ 啟動 polling(3 秒)</button>
-      <button id="ms8-diff-mode" class="ghost" type="button">☐ 進入跨槽 diff 模式(v1.0)</button>
+      <button id="ms8-diff-mode" class="ghost" type="button">☐ 進入跨槽 diff 模式</button>
       <button id="ms8-diff-run" type="button" style="display:none;">對比這 2 槽</button>
       <button id="ms8-exit" class="ghost" type="button" style="color: var(--amber);">✕ 離開多槽模式</button>
       <span class="hint" id="ms8-poll-status" style="margin:0;"></span>
@@ -129,24 +145,25 @@
     .ms8-card-mtime { color: var(--phosphor-dim); font-size: 11px; }
   </style>
 
-  <div id="lazy-mode-banner" class="viewer-panel" style="border: 2px solid var(--amber); margin-bottom: 16px;">
-    <h3 style="color: var(--amber);">★★★ 3 步驟懶人模式（v0.7，跟著遊戲存檔即時更新）</h3>
-    <ol style="color: var(--phosphor-dim); font-size: 14px; line-height: 1.8; padding-left: 24px; margin: 8px 0;">
-      <li>遊戲內存檔（ESC → 存檔，或按指定快捷鍵）</li>
-      <li>下面 <strong style="color: var(--phosphor);">★ 一鍵連檔（Chromium 系）</strong> → 選 <code>LDTSV0.dat</code>（玩家槽 0） → 授權讀寫 → viewer 自動 polling 2 秒，遊戲存檔後自動跟上</li>
-      <li>改完數值 → 按 <strong style="color: var(--phosphor);">💾 直接覆蓋原檔</strong>（不用下載也不用手動 copy）→ 切回遊戲讀檔 → 完成</li>
-    </ol>
-    <p class="hint" style="margin-top: 8px;">📂 存檔典型位置：<code>LD4_EZ/LD4/Usr/LDTSV0.dat</code> ~ <code>LDTSV7.dat</code>（8 個玩家槽）</p>
-    <p class="hint" id="fsa-support-note" style="margin-top: 4px;"></p>
-  </div>
-
   <div id="drop-zone">
     <h2 class="pixel">▶ 拖放 LDTSV0.dat 到這裡</h2>
-    <p>或 <span style="color: var(--amber); cursor: pointer; text-decoration: underline;" id="click-select">點擊選擇檔案</span>
+    <p>或 <button type="button" id="click-select" class="link-button">點擊選擇檔案</button>
       <span id="fsa-pick-wrapper" style="display:none;"> | <button id="btn-fsa-pick" type="button" style="background: var(--amber); color: var(--bg); border: 1px solid var(--amber); padding: 4px 12px; font-family: 'VT323', monospace; cursor: pointer; font-size: 15px;">★ 一鍵連檔（單檔）</button> <button id="btn-ms8-pick" type="button" style="background: var(--phosphor); color: var(--bg); border: 1px solid var(--phosphor); padding: 4px 12px; font-family: 'VT323', monospace; cursor: pointer; font-size: 15px;">★★ 8 槽全連（資料夾）</button></span>
     </p>
     <p style="color: var(--phosphor-dim); font-size: 13px;">[ 檔案位置：遊戲資料夾/Usr/LDTSV0.dat ]</p>
     <input type="file" id="file-input" aria-label="選擇 LDTSV 存檔檔案" accept=".dat,.DAT" style="display: none;">
+  </div>
+
+  <div id="lazy-mode-banner" class="viewer-panel" style="border: 2px solid var(--amber); margin-bottom: 16px;">
+    <h3 style="color: var(--amber);">★★★ 3 步驟懶人模式（跟著遊戲存檔即時更新）</h3>
+    <ol style="color: var(--phosphor-dim); font-size: 14px; line-height: 1.8; padding-left: 24px; margin: 8px 0;">
+      <li>遊戲內存檔（ESC → 存檔，或按指定快捷鍵）</li>
+      <li>上面的 <strong style="color: var(--phosphor);">★ 一鍵連檔（Chromium 系）</strong> → 選 <code>LDTSV0.dat</code>（槽號 0） → 授權讀寫 → viewer 自動 polling 2 秒，遊戲存檔後自動跟上</li>
+      <li>改完數值 → 先按 <strong style="color: var(--phosphor);">⬇ 先下載原檔備份</strong> → 再按 <strong style="color: var(--phosphor);">💾 直接覆蓋原檔</strong>（覆蓋時不必再下載修改後的檔案，也不必手動複製）→ 切回遊戲讀檔 → 完成</li>
+    </ol>
+    <p style="margin: 8px 0;"><button id="btn-backup-orig" class="backup-btn" type="button">⬇ 先下載原檔備份</button> <span class="hint" id="backup-status" aria-live="polite" style="margin:0;"></span></p>
+    <p class="hint" style="margin-top: 8px;">📂 存檔位置：<code>遊戲資料夾/Usr/LDTSV0.dat</code> 等（檔名 <code>LDTSVn.dat</code>，n 為存檔槽號；多槽模式追蹤槽 0～7）</p>
+    <p class="hint" id="fsa-support-note" style="margin-top: 4px;"></p>
   </div>
 
   <div id="viewer" style="display: none;">
@@ -175,7 +192,7 @@
     </div>
 
     <div class="viewer-panel">
-      <h3>★ Player Struct 候選欄位掃描(v0.3)</h3>
+      <h3>★ Player Struct 候選欄位掃描</h3>
       <p class="hint">在 0xC8BE 金錢周邊 ±256 bytes 掃描所有 NOT u16 LE 落在「合理範圍 1-9999」的位置，這些是玩家結構候選欄位(HP/MP/level/exp/...) 中的可能值。<strong>需要 ground truth 來 anchor</strong>。</p>
       <table class="region-table" id="player-fields-table">
         <thead>
@@ -189,7 +206,7 @@
     </div>
 
     <div class="viewer-panel">
-      <h3>★ 跨檔 diff 自助 anchor(v0.4)</h3>
+      <h3>★ 跨檔 diff 自助 anchor</h3>
       <p class="hint">在遊戲內<strong>改 1 個變數</strong>(例如:升 1 級 / 改名 / 用掉 1 個物品 / 學 1 個新技能),存到不同槽。<strong>上傳兩份存檔</strong> → viewer 列所有變化 byte → 變化的 byte 就是該變數對應的 offset。</p>
       <div class="toolbar">
         <label for="diff-file-input" style="color: var(--phosphor-dim);">對比存檔(改過 1 變數):</label>
@@ -201,7 +218,7 @@
     </div>
 
     <div class="viewer-panel">
-      <h3>★ NOT u8 反向搜尋(v0.4，level/skill/屬性)</h3>
+      <h3>★ NOT u8 反向搜尋(level/skill/屬性)</h3>
       <p class="hint">遊戲內看到 <strong>1-99 範圍小值</strong>(level / 8 屬性 / 15 技能熟練度等)? 輸入此值,viewer 全檔掃 NOT(value) 的 byte 出現位置，因為 u8 範圍小常 false positive,通常需多值 cross-correlate。</p>
       <div class="toolbar">
         <label for="not-u8-search-input" style="color: var(--phosphor-dim);">遊戲內小值(1-99):</label>
@@ -213,7 +230,7 @@
     </div>
 
     <div class="viewer-panel">
-      <h3>★ NOT u16 LE 反向搜尋(v0.3)</h3>
+      <h3>★ NOT u16 LE 反向搜尋</h3>
       <p class="hint">你在遊戲內看到某個 u16 值(HP/MP/exp/錢/年齡等)? 輸入此值,viewer 全檔掃 NOT(value) 對應的 byte sequence，若全檔唯一(< 5 hits),可作為確認 offset 的強訊號。</p>
       <div class="toolbar">
         <label for="not-search-input" style="color: var(--phosphor-dim);">遊戲內看到的值:</label>
@@ -225,14 +242,14 @@
     </div>
 
     <div class="viewer-panel" id="ram-bridge-panel" style="border: 2px solid var(--phosphor);">
-      <h3 style="color: var(--phosphor);">★★★★ 即時記憶體模式(v0.8，Live RAM Bridge)</h3>
+      <h3 style="color: var(--phosphor);">★★★★ 即時記憶體模式(Live RAM Bridge)</h3>
       <p class="hint">進階功能，需要在本機另外執行 bridge 程式。<strong>bridge 程式目前還沒有開放下載</strong>，完成實機測試後會放上，屆時這裡會附上下載方式與說明。按下「連線 Live Bridge」才會嘗試連到你自己電腦上的 <code>http://127.0.0.1:8765/</code>；沒按就不會發出任何本機連線。</p>
       <div class="toolbar">
         <button id="rb-connect-btn" type="button">🔗 連線 Live Bridge</button>
         <span class="hint" id="rb-connect-status" aria-live="polite" style="margin:0;"></span>
       </div>
       <div id="rb-connected-controls" style="display: none;">
-      <p class="hint">已連到 <code>http://127.0.0.1:<span id="rb-port">8765</span>/</code> LD4 Live Bridge → 讀取 LD4.exe 正在跑的記憶體(不用存檔)；Windows 版另外可以直接寫入，Linux 版只能讀取與掃描。零安裝、不需系統管理員權限。</p>
+      <p class="hint">已連到 <code>http://127.0.0.1:<span id="rb-port">8765</span>/</code> LD4 Live Bridge → 讀取 LD4.exe 正在跑的記憶體(不用存檔)；Windows 版另外可以直接寫入，Linux 版只能讀取與掃描。</p>
       <div id="rb-status-box" aria-live="polite" class="hex-viewer" style="max-height: 80px; margin-bottom: 8px;"></div>
 
       <h4 style="color: var(--phosphor); margin-top: 12px;">▸ Step 1:掃 RAM anchor(找你看到的數值在 LD4 process 哪)</h4>
@@ -248,7 +265,7 @@
         <p class="hint" id="rb-scan-summary" style="margin-top: 6px;"></p>
       </div>
 
-      <h4 style="color: var(--phosphor); margin-top: 16px;">▸ Step 2:即時欄位(v1.7 SSE 即時推送 0.5 秒,Python bridge;PowerShell bridge 自動 fallback 2 秒 polling)</h4>
+      <h4 style="color: var(--phosphor); margin-top: 16px;">▸ Step 2:即時欄位(SSE 即時推送 0.5 秒,Python bridge;PowerShell bridge 自動 fallback 2 秒 polling)</h4>
       <table class="region-table" id="rb-fields-table">
         <thead><tr><th>Label</th><th>RAM addr</th><th>編碼</th><th>當前值(live)</th><th>新值</th><th>動作</th></tr></thead>
         <tbody id="rb-fields-tbody"><tr><td colspan="6" class="muted">(掃 anchor 後一鍵加入)</td></tr></tbody>
@@ -264,13 +281,13 @@
 
       <div class="note-warn" style="margin-top: 12px;">
         ⚠ <strong>ASLR 提醒</strong>:每次重啟 LD4,玩家結構在 RAM 不同位置，每個遊戲 session 開頭都要重新掃 anchor。這是 Cheat Engine 也有的限制。<br>
-        ⚠ <strong>Bridge 是 native process</strong>:啟動指令見 <code>LD4_EZ/tools/live_bridge/README.txt</code>(Windows 雙擊 <code>Start_Bridge_Windows.bat</code> / Linux 執行 <code>Start_Bridge_Mac_Linux.command</code>，只能讀取與掃描；macOS 目前無法使用)
+        ⚠ <strong>Bridge 是在你電腦上另外執行的輔助程式</strong>：目前還沒有開放下載，開放後這裡會附上下載方式與啟動說明（Windows 版可讀寫，Linux 版只能讀取與掃描，macOS 目前無法使用）。
       </div>
       </div>
     </div>
 
     <div class="viewer-panel" style="border: 2px solid var(--amber);">
-      <h3>★★★ 智慧 anchor 精靈(v0.6，0 技術門檻 1-step anchor)</h3>
+      <h3>★★★ 智慧 anchor 精靈(0 技術門檻 1-step anchor)</h3>
       <p class="hint">遊戲內看到任何數值(金錢 / HP / MP / 等級 / exp / 年齡 / 物品數量 等)? <strong>直接輸入 → 一鍵跑全 15+ 編碼</strong>。viewer 自動找出 unique hit(★ 最強 anchor)+ 顯示「加進自訂欄位」按鈕,完全不需懂 NOT u16 LE / XOR / BCD 等技術名詞。</p>
       <div class="toolbar">
         <label for="wiz-value" style="color: var(--phosphor-dim);">遊戲內看到的值:</label>
@@ -279,16 +296,16 @@
         <span class="hint" id="wiz-status" style="margin:0;"></span>
       </div>
       <div class="toolbar" style="margin-top: 8px;">
-        <label for="wiz-enum-text" style="color: var(--phosphor-dim);">或輸入 enum 字串(v1.4):</label>
+        <label for="wiz-enum-text" style="color: var(--phosphor-dim);">或輸入 enum 字串:</label>
         <input id="wiz-enum-text" type="text" placeholder="例 正常 / 戰鬥 / 死亡 / 俠客遊" style="width: 180px;">
         <button id="wiz-enum-run" type="button">▸ 反查 enum_id + bulk-scan</button>
         <span class="hint" id="wiz-enum-status" style="margin:0;"></span>
       </div>
       <div class="toolbar" style="margin-top: 8px; align-items: flex-start;">
-        <label style="color: var(--phosphor-dim); padding-top: 6px;">★★ 多字串 cross-correlate(v1.5，實驗性):</label>
+        <label style="color: var(--phosphor-dim); padding-top: 6px;">★★ 多字串 cross-correlate（實驗性）:</label>
         <textarea id="wiz-xc-text" aria-label="cross-correlate 多字串輸入（每行一個）" rows="3" cols="32" placeholder="每行一個 enum 字串 / 數值,例:&#10;正常&#10;熱血漢&#10;7" style="background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-dim); font-family: 'VT323', monospace; font-size: 13px; padding: 4px 8px;"></textarea>
         <div style="display: flex; flex-direction: column; gap: 4px;">
-          <label style="color: var(--phosphor-dim); font-size: 12px;">window 大小(v1.6):
+          <label style="color: var(--phosphor-dim); font-size: 12px;">window 大小:
             <select id="wiz-xc-window" aria-label="共同 anchor 搜尋範圍大小" style="background: var(--bg-input); color: var(--phosphor); border: 1px solid var(--phosphor-fade); padding: 2px 6px; font-family: 'VT323', monospace; font-size: 13px;">
               <option value="64">64 B(精細 / 同 byte align)</option>
               <option value="128">128 B(小 struct)</option>
@@ -316,7 +333,7 @@
     </div>
 
     <div class="viewer-panel">
-      <h3>★ 自訂欄位管理(v0.5，持久化 confirmed offset)</h3>
+      <h3>★ 自訂欄位管理(持久化 confirmed offset)</h3>
       <p class="hint">當你用上面的 <strong>跨檔 diff</strong> 或 <strong>NOT 反向搜尋</strong> confirm 一個 offset 對應的 field 時(例如「跨檔 diff 抓到 0x00c8be 是金錢」),把它加入自訂欄位表，之後拖任何 LDTSV*.dat 都會自動解碼顯示。<strong>儲存在瀏覽器 localStorage,不上傳</strong>。</p>
       <table class="region-table" id="custom-fields-table">
         <thead>
@@ -349,7 +366,7 @@
     </div>
 
     <div class="viewer-panel" style="border: 1px solid var(--phosphor-fade);">
-      <h3>★ Undo / Redo + Batch Preset(v1.0)</h3>
+      <h3>★ Undo / Redo + Batch Preset</h3>
       <p class="hint">
         <strong>Undo / Redo</strong>:每次「套用」金錢編輯 / 自訂欄位 / preset 都會 snapshot buf,可一鍵復原 / 重做(最近 50 步)。鍵盤捷徑:<code>Ctrl/Cmd+Z</code> = undo,<code>Ctrl/Cmd+Shift+Z</code> = redo。<br>
         <strong>Batch Preset</strong>:把目前所有自訂欄位「目前存檔裡的值」存成一個 preset,之後一鍵套用整套(localStorage 持久化)。內建幾組金錢套餐(新手 / 中期 / 上限 / 歸零)。套用時會逐欄檢查 offset 與數值範圍，不合法的欄位會略過並顯示實際套用數。
@@ -439,7 +456,7 @@
       </div>
       <div class="hex-viewer" id="hex-viewer"></div>
       <div id="hex-page-fields" style="margin-top: 8px; padding: 8px; background: var(--bg-panel); border-left: 3px solid var(--phosphor); display: none;">
-        <strong style="color: var(--phosphor);">★ 本頁 confirmed fields(v1.4 hex auto-hint):</strong>
+        <strong style="color: var(--phosphor);">★ 本頁 confirmed fields:</strong>
         <div id="hex-page-fields-list" style="margin-top: 6px; font-family: 'VT323', monospace; font-size: 14px; line-height: 1.6;"></div>
       </div>
     </div>
@@ -448,7 +465,8 @@
       <span class="hint" id="status" aria-live="polite" style="margin:0;">準備就緒</span>
       <span class="hint" id="modified-indicator" style="margin: 0 12px; color: var(--amber); display: none;">⚠ 已修改</span>
       <span class="hint" id="fsa-indicator" style="margin: 0 12px; color: var(--phosphor); display: none;">🔗 FSA 連檔中 · 自動 polling</span>
-      <button id="btn-fsa-save" type="button" style="background: var(--phosphor); color: var(--bg); border: 1px solid var(--phosphor); padding: 6px 14px; font-family: 'VT323', monospace; font-size: 15px; cursor: pointer; display: none;">★ 💾 直接覆蓋原檔(v0.7)</button>
+      <button id="btn-fsa-save" type="button" style="background: var(--phosphor); color: var(--bg); border: 1px solid var(--phosphor); padding: 6px 14px; font-family: 'VT323', monospace; font-size: 15px; cursor: pointer; display: none;">★ 💾 直接覆蓋原檔</button>
+      <button id="btn-backup-orig-2" class="backup-btn" type="button">⬇ 先下載原檔備份</button>
       <button id="btn-download" type="button" style="background: var(--amber); color: var(--bg); border: 1px solid var(--amber); padding: 6px 14px; font-family: 'VT323', monospace; font-size: 15px; cursor: pointer;">💾 下載修改後存檔</button>
       <button id="btn-reset" class="ghost" type="button">↺ 重新載入另一個檔案</button>
       <span class="hint" id="download-hint" style="margin:0; flex-basis: 100%;">下載的檔名與你載入的原檔相同。覆蓋回遊戲存檔資料夾(Usr/)時，檔名必須是 <code>LDTSVn.dat</code>(n 是存檔槽號)；瀏覽器若自動加上「(1)」之類的字，請改回原檔名，覆蓋前先備份原檔。</span>
@@ -461,7 +479,7 @@
   <div class="viewer-panel" style="margin-top: 24px;">
     <h3>關於「神之眼」與這個修改器</h3>
     <p style="color: var(--phosphor-dim); font-size: 14px; line-height: 1.7;">
-      「神之眼 ld4navi.exe」是 2000 年由社群為<strong>日文版俠客遊 IV ver.1.2.1.5</strong> 製作的記憶體 / 存檔工具。它有兩個先天限制讓它讀不了繁體中文版：
+      「神之眼 ld4navi.exe」是 2000 年由社群為<strong>日文版俠客遊 IV</strong> 製作的記憶體 / 存檔工具（工具內標示在 ver.1.2.1.5 確認可用；繁中版主程式的版本號也是 1.2.1.5，但版本號相同不代表相容）。它有兩個先天限制讓它讀不了繁體中文版：
     </p>
     <ul style="color: var(--phosphor-dim); font-size: 14px; line-height: 1.7;">
       <li><strong>讀執行中遊戲</strong>：靠掃描遊戲行程的 heap、比對<strong>寫死的日文版記憶體簽章</strong>，繁中版記憶體配置不同，簽章對不上。</li>
@@ -471,11 +489,32 @@
       這些是<strong>版本相容性</strong>問題，不是 bug，硬要神之眼吃繁中版，等於把它整個重寫。所以這個瀏覽器版修改器是直接針對繁中版存檔做的：拖放即用、跨平台、零安裝、零外掛，對玩家來說才是真正「懶人」的方式。
     </p>
     <p style="color: var(--phosphor-dim); font-size: 14px; line-height: 1.7;">
-      header 區已可解析並編輯已確認欄位（如金錢），並提供智慧 anchor 精靈與 Live RAM Bridge 協助找出更多欄位。把 <code>0x70+</code> 物件圖的欄位語意完整逆向（對應到等級 / 屬性 / 物品）是持續進行的工作。
+      header 區已可解析並編輯已確認欄位（如金錢），並提供智慧 anchor 精靈協助找出更多欄位（Live RAM Bridge 輔助程式尚未開放下載）。把 <code>0x70+</code> 物件圖的欄位語意完整逆向（對應到等級 / 屬性 / 物品）是持續進行的工作。
     </p>
   </div>
 
   <footer class="site-footer">
+    <details class="qa-collapse" style="text-align: left;">
+      <summary>版本紀錄</summary>
+      <ul style="margin: 4px 0; padding-left: 20px;">
+        <li>v1.7：即時記憶體欄位可以由輔助程式主動推送最新數值，推送不能用時自動改回每 2 秒查一次（輔助程式尚未開放下載）。</li>
+        <li>v1.6：「找共同位置」可以選搜尋範圍大小，並分析兩個數值之間固定的距離。</li>
+        <li>v1.5：列舉值可以用 2 位元組格式解讀；新增多個數值一起找共同位置（實驗性）。</li>
+        <li>v1.4：hex 檢視會標出本頁已確認的欄位；智慧 anchor 精靈可以輸入遊戲裡看到的狀態文字反查。</li>
+        <li>v1.3：自訂欄位可以用遊戲內的列舉名稱顯示數值。</li>
+        <li>v1.2：內建遊戲內列舉字串對照表。</li>
+        <li>v1.1：復原也涵蓋自訂欄位的新增與刪除；套餐可以匯入、匯出與改名。</li>
+        <li>v1.0：可加到主畫面離線使用；復原與重做；一鍵套用的數值套餐；比對兩個存檔槽的差異。</li>
+        <li>v0.9：一次連接整個存檔資料夾，切換多個存檔槽。</li>
+        <li>v0.8：即時記憶體模式（需要另外執行的輔助程式，尚未開放下載）。</li>
+        <li>v0.7：Chrome 系瀏覽器可以一鍵連檔，遊戲存檔後自動重讀，並直接覆蓋原檔。</li>
+        <li>v0.6：智慧 anchor 精靈，輸入遊戲裡看到的數值自動找出存放位置。</li>
+        <li>v0.5：自訂欄位，確認過的位置會記在瀏覽器裡。</li>
+        <li>v0.4：比對兩個存檔的差異；小數值反向搜尋。</li>
+        <li>v0.3：修改金錢並下載存檔；列出金錢附近可能的角色欄位；輸入數值反向搜尋存放位置。</li>
+        <li>v0.2 以前：讀取存檔標頭，顯示存檔標題與位元組內容。</li>
+      </ul>
+    </details>
     <p><a href="../">◀ 回吟遊詩人的傳說 · 俠客遊小站</a></p>
   </footer>
 
@@ -501,6 +540,10 @@ const $ = id => document.getElementById(id);
 let buf = null;            // Uint8Array of the loaded file
 let dv = null;             // DataView
 let fileName = '';
+// 原檔備份：每次從檔案或磁碟載入時另存一份原始位元組(還沒被修改的內容)，
+// 「⬇ 先下載原檔備份」下載的就是它。多槽模式每一槽另外記在 slot.origBytes。
+let origBytes = null;
+let origName = '';
 let hexPage = 0;
 const HEX_PAGE_BYTES = 1024;
 const big5Decoder = (() => { try { return new TextDecoder('big5'); } catch (e) { return null; } })();
@@ -754,6 +797,8 @@ function handleFile(file) {
       buf = new Uint8Array(ab);
       dv = new DataView(ab);
       fileName = file.name;
+      origBytes = new Uint8Array(buf);
+      origName = file.name;
       hexPage = 0;
 
       const magicOk = renderInfo();
@@ -793,7 +838,12 @@ $('file-input').addEventListener('change', e => {
   if (e.target.files && e.target.files[0]) handleFile(e.target.files[0]);
 });
 const dz = $('drop-zone');
-dz.addEventListener('click', () => $('file-input').click());
+// 拖放區裡的按鈕（點擊選擇檔案、一鍵連檔、8 槽全連）各有自己的處理；
+// 從按鈕、連結或輸入框冒泡上來的點擊不要再開一次選檔視窗，否則會同時跳出兩個
+dz.addEventListener('click', ev => {
+  if (ev.target.closest('button, a, input, label')) return;
+  $('file-input').click();
+});
 dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag-active'); });
 dz.addEventListener('dragleave', () => dz.classList.remove('drag-active'));
 dz.addEventListener('drop', e => {
@@ -898,6 +948,30 @@ $('btn-download').addEventListener('click', () => {
     ')，瀏覽器若自動改名請改回來，覆蓋前請先備份原檔';
   $('status').style.color = 'var(--phosphor)';
 });
+
+// 下載載入時的原始內容(不含之後的修改)，檔名是原檔名加 .bak
+function downloadOrigBackup() {
+  const report = (msg, color) => {
+    for (const id of ['backup-status', 'status']) {
+      const el = $(id);
+      if (el) { el.textContent = msg; el.style.color = color; }
+    }
+  };
+  if (!origBytes) { report('還沒有載入存檔：先拖放、點選或一鍵連檔，再按備份', 'var(--amber)'); return; }
+  const bakName = (origName || 'LDTSV0.dat') + '.bak';
+  const blob = new Blob([origBytes], { type: 'application/octet-stream' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = bakName;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  report('✓ 已下載原檔備份 ' + bakName + '(載入時的內容，不含之後的修改)。要還原時把它改回 ' + (origName || 'LDTSV0.dat') + ' 放回 Usr 資料夾', 'var(--phosphor)');
+}
+$('btn-backup-orig').addEventListener('click', downloadOrigBackup);
+$('btn-backup-orig-2').addEventListener('click', downloadOrigBackup);
 
 // Player struct 候選欄位 scan (在 0xC8BE ±256 bytes 範圍)
 function populatePlayerFields() {
@@ -1082,6 +1156,7 @@ $('not-search-btn').addEventListener('click', () => {
 
 $('btn-reset').addEventListener('click', () => {
   buf = null; dv = null; fileName = ''; hexPage = 0;
+  origBytes = null; origName = '';
   // 多槽模式也一起收掉：否則 3 秒輪詢會在重置後把作用中槽位的 buffer 塞回 buf,
   // 蓋掉之後拖進來的另一個檔案
   ms8StopPoll();
@@ -1090,7 +1165,7 @@ $('btn-reset').addEventListener('click', () => {
   ms8ActiveIdx = -1;
   ms8DiffMode = false;
   ms8DiffSet.clear();
-  $('ms8-diff-mode').textContent = '☐ 進入跨槽 diff 模式(v1.0)';
+  $('ms8-diff-mode').textContent = '☐ 進入跨槽 diff 模式';
   $('ms8-diff-run').style.display = 'none';
   $('ms8-diff-output').style.display = 'none';
   $('multi-slot-panel').style.display = 'none';
@@ -1566,7 +1641,7 @@ function wizRun() {
     if (n === 1) { td1.style.color = 'var(--phosphor)'; td1.style.fontWeight = 'bold'; td1.textContent = '★ ' + r.label; uniqueCount++; }
     else if (n === 0) { td1.style.color = 'var(--phosphor-dim)'; td1.textContent = r.label; zeroCount++; }
     else if (n >= 2 && n <= 5) { td1.style.color = 'var(--amber)'; td1.textContent = '☆ ' + r.label; }
-    else { td1.style.color = 'var(--phosphor-fade)'; td1.textContent = r.label; }
+    else { td1.style.color = 'var(--phosphor-text-dim)'; td1.textContent = r.label; }
     tr.appendChild(td1);
 
     // hits 數
@@ -1581,7 +1656,7 @@ function wizRun() {
     const td3 = document.createElement('td');
     td3.className = 'num';
     if (n === 0) {
-      td3.textContent = '，';
+      td3.textContent = '無';
       td3.style.color = 'var(--phosphor-dim)';
     } else {
       td3.textContent = r.hits.slice(0, 3).map(p => '0x' + p.toString(16).padStart(6, '0')).join(', ') + (n > 3 ? ' ...' : '');
@@ -1611,7 +1686,7 @@ function wizRun() {
       });
       td4.appendChild(btn);
     } else {
-      td4.textContent = '，';
+      td4.textContent = '無';
       td4.style.color = 'var(--phosphor-dim)';
     }
     tr.appendChild(td4);
@@ -1752,6 +1827,8 @@ async function handleFsaFile(file, stillOk) {
   buf = new Uint8Array(ab);
   dv = new DataView(ab);
   fileName = file.name || 'LDTSV0.dat';
+  origBytes = new Uint8Array(buf);
+  origName = fileName;
   hexPage = 0;
   modified = false;
   $('modified-indicator').style.display = 'none';
@@ -1848,6 +1925,13 @@ async function fsaPollOnce() {
   }
 }
 
+// 每個檔第一次直接覆蓋前先確認一次，提醒玩家先備份
+const fsaOverwriteConfirmed = new WeakSet();
+// 8 槽模式：每一槽第一次覆蓋前，在同一資料夾建立 LDTSVn.dat.bak(已經有的 .bak 絕不覆蓋)
+const ms8BakDone = new WeakSet();
+// 這次開頁以來寫 .bak 失敗過的槽：之後資料夾裡那份 .bak 可能是寫壞的，不能當成有效備份
+const ms8BakFailed = new WeakSet();
+
 async function fsaSave() {
   if (fsaSaving) return;
   // 一開始就鎖定要寫的檔與內容：寫檔期間玩家切槽或繼續編輯，都不會改變這一次寫出去的東西。
@@ -1856,6 +1940,7 @@ async function fsaSave() {
   if (!handle || !bufRef) { alert('沒有 FSA file handle，請先按「一鍵連檔」'); return; }
   const bytes = new Uint8Array(bufRef);
   const slot = ms8Slots.find(s => s.handle === handle && s.buf === bufRef) || null;
+  const dirH = slot ? ms8DirHandle : null;
   // 快照對應的磁碟基準也在按下時鎖定
   const baseM = slot ? slot.baseMtime : fsaBaseMtime;
   const baseS = slot ? slot.baseSize : fsaBaseSize;
@@ -1871,6 +1956,20 @@ async function fsaSave() {
         return;
       }
     }
+    // 「這個檔已確認過」的記號要等後面的確認框也都通過才記：
+    // 第一個確認框按確定、接著「磁碟較新」按取消時，下次覆蓋仍要再提醒一次
+    const firstConfirm = !fsaOverwriteConfirmed.has(handle);
+    if (firstConfirm) {
+      const nm = handle.name || '存檔';
+      let ask = '將直接覆蓋磁碟上的 ' + nm + '。\n\n建議先按「⬇ 先下載原檔備份」保留一份原檔。';
+      if (slot && dirH) ask += '\n\n多槽模式會在覆蓋前，於同一資料夾自動備份為 ' + nm + '.bak(資料夾裡已有有效的 .bak 就不會覆蓋它)。';
+      ask += '\n\n確定要覆蓋嗎?';
+      if (!confirm(ask)) {
+        $('status').textContent = '已取消覆蓋，磁碟上的檔案沒有變動';
+        $('status').style.color = 'var(--amber)';
+        return;
+      }
+    }
     // 寫入前確認磁碟上不是比這份 buffer 更新的版本(遊戲可能剛存過檔)
     const current = await handle.getFile();
     if (baseM !== null && baseM !== undefined && (current.lastModified !== baseM || current.size !== baseS)) {
@@ -1881,10 +1980,78 @@ async function fsaSave() {
         return;
       }
     }
+    if (firstConfirm) fsaOverwriteConfirmed.add(handle);
+    // 8 槽模式：這一槽第一次覆蓋前，把剛讀到的磁碟內容存成 .bak。
+    // 已經有有效的 .bak 就不動它；備份失敗只提示，不擋這次覆蓋。
+    // 存檔大小會隨遊戲進度改變，較早留下的 .bak 跟現在的存檔大小不同是正常的，不能拿大小判斷。
+    // 不當成有效備份的只有兩種：0 bytes(先前的自動備份沒有寫完)，以及這次開頁後寫這一份 .bak 失敗過。
+    // 遇到時先問玩家要不要重建，按取消就保留舊檔不動。
+    let bakNote = '';
+    if (slot && dirH && !ms8BakDone.has(handle)) {
+      const bakName = (handle.name || slot.name) + '.bak';
+      let touched = false;   // 這次已經建立或開始改寫 .bak
+      try {
+        let bakH = null;
+        try { bakH = await dirH.getFileHandle(bakName); }
+        catch (e) { if (!e || e.name !== 'NotFoundError') throw e; }
+        const existed = !!bakH;
+        let oldFile = null;
+        let doWrite = false;
+        if (existed) {
+          oldFile = await bakH.getFile();
+          const why = oldFile.size === 0
+            ? '是 0 bytes(先前的自動備份可能沒有寫完)'
+            : (ms8BakFailed.has(handle) ? '是這次寫入失敗時留下的檔案，內容可能不完整' : '');
+          if (!why) {
+            bakNote = '；資料夾裡已有 ' + bakName + '，沒有覆蓋它';
+          } else {
+            doWrite = confirm('資料夾裡的 ' + bakName + ' ' + why + '，不能當成備份。\n\n' +
+              '要用目前磁碟上的 ' + (handle.name || slot.name) + ' 重建 ' + bakName + ' 嗎?\n\n' +
+              '- 確定 = 重建備份(舊的 ' + bakName + ' 會被取代)\n' +
+              '- 取消 = 保留舊的 ' + bakName + ' 不動，這次覆蓋照常進行');
+            if (!doWrite) {
+              bakNote = '；⚠ ' + bakName + ' ' + why + '，這一槽沒有有效的自動備份(舊檔保留未動)';
+            }
+          }
+        } else {
+          bakH = await dirH.getFileHandle(bakName, { create: true });
+          touched = true;
+          // 檢查與建立之間若有別人先建了這個檔，就不寫入(絕不覆蓋既有備份)
+          if ((await bakH.getFile()).size !== 0) {
+            bakNote = '；資料夾裡已有 ' + bakName + '，沒有覆蓋它';
+          } else {
+            doWrite = true;
+          }
+        }
+        if (doWrite) {
+          // 重建時再確認一次舊檔在詢問期間沒有被換掉，才取代它
+          const again = existed ? await bakH.getFile() : null;
+          if (again && (again.size !== oldFile.size || again.lastModified !== oldFile.lastModified)) {
+            bakNote = '；' + bakName + ' 在詢問期間有變動，沒有覆蓋它';
+          } else {
+            const diskBytes = new Uint8Array(await current.arrayBuffer());
+            touched = true;
+            const w = await bakH.createWritable();
+            await w.write(diskBytes);
+            await w.close();
+            if ((await bakH.getFile()).size !== diskBytes.length) {
+              throw new Error('寫入後的大小跟存檔不同');
+            }
+            bakNote = existed ? '；已重建備份 ' + bakName : '；已自動備份為 ' + bakName;
+          }
+        }
+        ms8BakDone.add(handle);
+        ms8BakFailed.delete(handle);
+      } catch (e) {
+        console.error(e);
+        if (touched) ms8BakFailed.add(handle);
+        bakNote = '；⚠ 自動備份 ' + bakName + ' 失敗(' + (e && e.message || e) + ')，這次仍照常覆蓋';
+      }
+    }
     // 所有 await 與確認框之後，確認快照的來源沒有被重讀換掉
     const replaced = slot ? slot.buf !== bufRef : (handle === fsaFileHandle && buf !== bufRef);
     if (replaced) {
-      $('status').textContent = '畫面已重新讀取磁碟上的新版本，這次覆蓋已取消；請確認內容後再按一次';
+      $('status').textContent = '畫面已重新讀取磁碟上的新版本，這次覆蓋已取消；請確認內容後再按一次' + bakNote;
       $('status').style.color = 'var(--amber)';
       return;
     }
@@ -1914,7 +2081,7 @@ async function fsaSave() {
     }
     markHistoryDirty(bufRef);
     if (!written) {
-      $('status').textContent = '⚠ 已寫入，但讀回的內容與寫出的不同(遊戲可能剛好又存檔)。磁碟上現在可能是遊戲的版本，請確認後再決定是否覆蓋';
+      $('status').textContent = '⚠ 已寫入，但讀回的內容與寫出的不同(遊戲可能剛好又存檔)。磁碟上現在可能是遊戲的版本，請確認後再決定是否覆蓋' + bakNote;
       $('status').style.color = 'var(--amber)';
       if (slot) ms8RenderGrid();
       return;
@@ -1930,10 +2097,10 @@ async function fsaSave() {
     }
     if (slot) ms8RenderGrid();
     if (sameAsDisk) {
-      $('status').textContent = '✓ 已直接覆蓋原檔(' + new Date().toLocaleTimeString() + ')，切回遊戲讀檔即可';
+      $('status').textContent = '✓ 已直接覆蓋原檔(' + new Date().toLocaleTimeString() + ')，切回遊戲讀檔即可' + bakNote;
       $('status').style.color = 'var(--phosphor)';
     } else {
-      $('status').textContent = '✓ 已覆蓋原檔(' + new Date().toLocaleTimeString() + ')；寫檔期間畫面內容又有變動，那些變動還沒寫入';
+      $('status').textContent = '✓ 已覆蓋原檔(' + new Date().toLocaleTimeString() + ')；寫檔期間畫面內容又有變動，那些變動還沒寫入' + bakNote;
       $('status').style.color = 'var(--amber)';
     }
   } catch (e) {
@@ -1960,7 +2127,7 @@ $('btn-reset').addEventListener('click', () => {
 });
 
 // ===== v0.8: Live RAM Bridge，fetch http://127.0.0.1:8765/{status,read,write,scan} =====
-// 配 LD4_EZ/tools/live_bridge/ld4_bridge.ps1 (Windows) 或 ld4_bridge.py (Windows / Linux)
+// 配 ld4_bridge.ps1 (Windows) 或 ld4_bridge.py (Windows / Linux)
 // native helper bridge:重現記憶體即時讀寫(RPM/WPM)能力
 
 const RB_PORT_DEFAULT = 8765;
@@ -2143,7 +2310,7 @@ function rbRenderStatusBox() {
 }
 
 async function rbScan() {
-  if (!rbConnected) { alert('Bridge 未連，請先啟動 ld4_bridge.ps1/.py'); return; }
+  if (!rbConnected) { alert('Bridge 未連線，請先按「🔗 連線 Live Bridge」(bridge 程式目前尚未開放下載)'); return; }
   if (rbPlatformUnsupported()) {
     $('rb-scan-status').textContent = '⚠ ' + RB_MSG_MAC_UNSUPPORTED;
     $('rb-scan-status').style.color = 'var(--amber)';
@@ -2174,7 +2341,7 @@ async function rbScan() {
     const scanToken = rbIsToken(j.process_token) ? j.process_token : '';
     rbTokenConfirmedAlive(scanToken);
     if (!scanToken) {
-      $('rb-scan-status').textContent = '✗ 這個 bridge 沒有回傳遊戲行程身分，無法確認位址屬於哪一次執行的遊戲。請更新 ld4_bridge 後再掃描';
+      $('rb-scan-status').textContent = '✗ 這個 bridge 沒有回傳遊戲行程身分，無法確認位址屬於哪一次執行的遊戲。請更新 bridge 程式後再掃描';
       $('rb-scan-status').style.color = 'var(--amber)';
       return;
     }
@@ -2208,7 +2375,7 @@ async function rbScan() {
       if (n === 1) { td1.style.color = 'var(--phosphor)'; td1.style.fontWeight = 'bold'; td1.textContent = '★ ' + r.label; uniq++; }
       else if (n === 0) { td1.style.color = 'var(--phosphor-dim)'; td1.textContent = r.label; zero++; }
       else if (n >= 2 && n <= 5) { td1.style.color = 'var(--amber)'; td1.textContent = '☆ ' + r.label; }
-      else { td1.style.color = 'var(--phosphor-fade)'; td1.textContent = r.label; }
+      else { td1.style.color = 'var(--phosphor-text-dim)'; td1.textContent = r.label; }
       tr.appendChild(td1);
       const td2 = document.createElement('td');
       td2.className = 'num'; td2.textContent = String(n);
@@ -2216,7 +2383,7 @@ async function rbScan() {
       tr.appendChild(td2);
       const td3 = document.createElement('td');
       td3.className = 'num';
-      td3.textContent = n === 0 ? '，' : r.hits.slice(0, 3).join(', ') + (r.hits.length > 3 ? ' ...' : '');
+      td3.textContent = n === 0 ? '無' : r.hits.slice(0, 3).join(', ') + (r.hits.length > 3 ? ' ...' : '');
       tr.appendChild(td3);
       const td4 = document.createElement('td');
       if (n === 1 && r.key && cfEnc(r.key)) {
@@ -2239,7 +2406,7 @@ async function rbScan() {
         });
         td4.appendChild(btn);
       } else {
-        td4.textContent = '，'; td4.style.color = 'var(--phosphor-dim)';
+        td4.textContent = '無'; td4.style.color = 'var(--phosphor-dim)';
       }
       tr.appendChild(td4);
       tbody.appendChild(tr);
@@ -2627,6 +2794,7 @@ async function ms8Pick() {
         const ab = await f.arrayBuffer();
         slot.buf = new Uint8Array(ab);
         slot.dv = new DataView(ab);
+        slot.origBytes = new Uint8Array(slot.buf);
         slot.mtime = slot.baseMtime = f.lastModified;
         slot.size = slot.baseSize = f.size;
         slot.file = f;
@@ -2669,7 +2837,7 @@ function ms8DecodeMoney(dv) {
 }
 
 function ms8FormatMtime(ms) {
-  if (!ms) return '，';
+  if (!ms) return '未知';
   const d = new Date(ms);
   const diffMin = (Date.now() - ms) / 60000;
   if (diffMin < 1) return '剛剛';
@@ -2762,6 +2930,8 @@ function ms8SetActive(idx) {
   buf = slot.buf;
   dv = slot.dv;
   fileName = slot.name;
+  origBytes = slot.origBytes || null;
+  origName = slot.name;
   fsaFileHandle = slot.handle;
   fsaLastMtime = slot.mtime;
   fsaLastSize = slot.size;
@@ -2841,6 +3011,7 @@ async function ms8RefreshAll() {
         slot.invalidSize = false;
         slot.buf = new Uint8Array(ab);
         slot.dv = new DataView(ab);
+        slot.origBytes = new Uint8Array(slot.buf);
         slot.mtime = slot.baseMtime = f.lastModified;
         slot.size = slot.baseSize = f.size;
         slot.file = f;
@@ -2848,6 +3019,7 @@ async function ms8RefreshAll() {
         changed++;
         if (activeNow) {
           buf = slot.buf; dv = slot.dv; fsaLastMtime = slot.mtime; fsaLastSize = slot.size;
+          origBytes = slot.origBytes; origName = slot.name;
           modified = false;
           $('modified-indicator').style.display = 'none';
           renderInfo();
@@ -2898,6 +3070,7 @@ function ms8Exit() {
   ms8ActiveIdx = -1;
   $('multi-slot-panel').style.display = 'none';
   buf = null; dv = null; fileName = ''; fsaFileHandle = null;
+  origBytes = null; origName = '';
   modified = false;
   $('modified-indicator').style.display = 'none';
   $('viewer').style.display = 'none';
@@ -3684,7 +3857,7 @@ async function augmentCfEncodingsWithEnum() {
         const sepOpt = document.createElement('option');
         sepOpt.disabled = true;
         sepOpt.dataset.enumMarker = '1';
-        sepOpt.textContent = '── v1.3 enum encodings ──';
+        sepOpt.textContent = '── enum 編碼 ──';
         sel.appendChild(sepOpt);
         for (const [catName, entries] of Object.entries(tbl.categories)) {
           if (!entries || entries.length === 0) continue;
@@ -3810,7 +3983,7 @@ async function wizEnumRun() {
   const text = $('wiz-enum-text').value.trim();
   if (!text) { alert('請輸入 enum 字串(例:正常 / 戰鬥 / 俠客遊)'); return; }
   const tbl = await loadEnumTable();
-  if (!tbl) { alert('ld4_enum_table.json 未載入，v1.4 enum mode 需要它'); return; }
+  if (!tbl) { alert('ld4_enum_table.json 未載入，enum 字串反查需要它'); return; }
 
   // 找所有 category 內含 text 或 == text 的 entries
   const matches = [];
@@ -3870,13 +4043,13 @@ async function wizEnumRun() {
     if (n === 1) { td1.style.color = 'var(--phosphor)'; td1.style.fontWeight = 'bold'; td1.textContent = '★ ' + labelText; uniq++; }
     else if (n === 0) { td1.style.color = 'var(--phosphor-dim)'; td1.textContent = labelText; zero++; }
     else if (n >= 2 && n <= 5) { td1.style.color = 'var(--amber)'; td1.textContent = '☆ ' + labelText; }
-    else { td1.style.color = 'var(--phosphor-fade)'; td1.textContent = labelText; }
+    else { td1.style.color = 'var(--phosphor-text-dim)'; td1.textContent = labelText; }
     tr.appendChild(td1);
     const td2 = document.createElement('td'); td2.className = 'num'; td2.textContent = String(n);
     if (n === 1) { td2.style.color = 'var(--phosphor)'; td2.style.fontWeight = 'bold'; }
     tr.appendChild(td2);
     const td3 = document.createElement('td'); td3.className = 'num';
-    td3.textContent = n === 0 ? '，' : r.hits.slice(0, 3).map(p => '0x' + p.toString(16).padStart(6, '0')).join(', ');
+    td3.textContent = n === 0 ? '無' : r.hits.slice(0, 3).map(p => '0x' + p.toString(16).padStart(6, '0')).join(', ');
     tr.appendChild(td3);
     const td4 = document.createElement('td');
     if (n === 1 && r.encoding_key && cfEnc(r.encoding_key)) {
@@ -3899,7 +4072,7 @@ async function wizEnumRun() {
       });
       td4.appendChild(btn);
     } else {
-      td4.textContent = '，'; td4.style.color = 'var(--phosphor-dim)';
+      td4.textContent = '無'; td4.style.color = 'var(--phosphor-dim)';
     }
     tr.appendChild(td4);
     tbody.appendChild(tr);
@@ -3951,7 +4124,7 @@ async function augmentCfEncodingsWithEnumU16() {
       const sepOpt = document.createElement('option');
       sepOpt.disabled = true;
       sepOpt.dataset.enumU16Marker = '1';
-      sepOpt.textContent = '── v1.5 enum u16 LE encodings ──';
+      sepOpt.textContent = '── enum 編碼（u16 LE）──';
       sel.appendChild(sepOpt);
       for (const [catName, entries] of Object.entries(tbl.categories)) {
         if (!entries || entries.length === 0) continue;
@@ -4104,7 +4277,7 @@ async function wizCrossCorrelate() {
     td3.textContent = ir.hits.slice(0, 3).map(p => '0x' + p.toString(16)).join(', ');
     tr.appendChild(td3);
     const td4 = document.createElement('td');
-    td4.textContent = '，';
+    td4.textContent = '無';
     td4.style.color = 'var(--phosphor-dim)';
     tr.appendChild(td4);
     tbody.appendChild(tr);
@@ -4205,7 +4378,7 @@ async function wizCrossCorrelate() {
       tdH.style.borderTop = '1px solid var(--amber)';
       tdH.style.paddingTop = '6px';
       tdH.style.marginTop = '4px';
-      tdH.textContent = '★★★ pair-wise stride 分析(v1.6):' + pairAnalyses.length + ' 個 input pair 有重複 distance';
+      tdH.textContent = '★★★ pair-wise stride 分析:' + pairAnalyses.length + ' 個 input pair 有重複 distance';
       trH.appendChild(tdH);
       tbody.appendChild(trH);
       for (const pa of pairAnalyses) {
@@ -4246,7 +4419,7 @@ async function wizCrossCorrelate() {
     const s2 = document.createElement('strong');
     s2.style.color = 'var(--phosphor)';
     s2.textContent = String(fullWindows.length) + ' 個 候選區塊';
-    const s3 = document.createTextNode('(每個 ' + WINDOW + '-byte 範圍內 ' + inputResults.length + ' 個 inputs 都有 hit,且至少一個是 ★ unique 命中，明細中以 ★ 標示)。候選只是線索，請用跨檔 diff 或改值後重掃確認。v1.6 加 pair-wise stride 分析:同 distance 多次出現 = 該 2 inputs 在固定 byte offset 存放。');
+    const s3 = document.createTextNode('(每個 ' + WINDOW + '-byte 範圍內 ' + inputResults.length + ' 個 inputs 都有 hit,且至少一個是 ★ unique 命中，明細中以 ★ 標示)。候選只是線索，請用跨檔 diff 或改值後重掃確認。pair-wise stride 分析:同 distance 多次出現 = 該 2 inputs 在固定 byte offset 存放。');
     sum.appendChild(s1); sum.appendChild(s2); sum.appendChild(s3);
     sum.style.color = 'var(--phosphor)';
   } else if (!anyUnique) {
@@ -4254,7 +4427,7 @@ async function wizCrossCorrelate() {
     sum.appendChild(s);
     sum.style.color = 'var(--amber)';
   } else {
-    const s = document.createTextNode('⚠ 沒找到包含所有 ' + inputResults.length + ' 個 inputs 且有 ★ unique 命中的 ' + WINDOW + '-byte 區塊。可能原因:(1) inputs 散佈太遠(不在同一 player struct) (2) 部分 input encoding 沒抓到 → 試換 unique 值 (3) 把 window 改大(v1.6 可選 512/1024)。仍可看 pair-wise stride 分析找局部 hint。');
+    const s = document.createTextNode('⚠ 沒找到包含所有 ' + inputResults.length + ' 個 inputs 且有 ★ unique 命中的 ' + WINDOW + '-byte 區塊。可能原因:(1) inputs 散佈太遠(不在同一 player struct) (2) 部分 input encoding 沒抓到 → 試換 unique 值 (3) 把 window 改大(可選 512/1024)。仍可看 pair-wise stride 分析找局部 hint。');
     sum.appendChild(s);
     sum.style.color = 'var(--amber)';
   }
@@ -4367,7 +4540,7 @@ const ms8DiffSet = new Set();
 function ms8ToggleDiffMode() {
   ms8DiffMode = !ms8DiffMode;
   ms8DiffSet.clear();
-  $('ms8-diff-mode').textContent = ms8DiffMode ? '✓ 退出跨槽 diff 模式' : '☐ 進入跨槽 diff 模式(v1.0)';
+  $('ms8-diff-mode').textContent = ms8DiffMode ? '✓ 退出跨槽 diff 模式' : '☐ 進入跨槽 diff 模式';
   $('ms8-diff-run').style.display = 'none';
   $('ms8-diff-output').style.display = 'none';
   ms8RenderGrid();
@@ -4595,7 +4768,7 @@ async function rbStatusTick() {
       rbRenderStatusBox();
       if (rbWasUp) rbRenderFields();
       rbWasUp = false;
-      $('rb-poll-status').textContent = '⚠ Bridge 失聯，確認 ld4_bridge.ps1/.py 仍在跑';
+      $('rb-poll-status').textContent = '⚠ Bridge 失聯，請確認 bridge 程式仍在執行';
       $('rb-poll-status').style.color = 'var(--amber)';
       $('rb-connect-status').textContent = '⚠ Bridge 失聯(' + new Date().toLocaleTimeString() + ')，恢復後會自動重新連上';
       $('rb-connect-status').style.color = 'var(--amber)';
@@ -4636,11 +4809,11 @@ async function rbConnectClick() {
       if (why === 'forbidden') { rbEnterForbidden(); return; }
       if (why === 'timeout') {
         st.textContent = `✗ 等了 ${RB_CONNECT_TIMEOUT_MS / 1000} 秒沒有回應。若瀏覽器有詢問是否允許存取本機網路，請按允許後再按一次;` +
-          '否則請確認 bridge 程式已在本機執行。';
+          '否則可能是本機沒有執行中的 bridge 程式(bridge 程式目前尚未開放下載)。';
       } else {
         st.textContent = '✗ 連不到 bridge(127.0.0.1:8765)' +
           (why === 'bad-status' ? `,回應不正確(HTTP ${httpStatus})` : '') +
-          '。請確認 bridge 程式已在本機執行，再按一次。若剛才拒絕了瀏覽器的本機網路存取詢問，' +
+          '。bridge 程式目前尚未開放下載；若你已有 bridge 並正在執行，而剛才拒絕了瀏覽器的本機網路存取詢問，' +
           '要先到網址列左側的網站設定改成允許。';
       }
       st.style.color = 'var(--amber)';

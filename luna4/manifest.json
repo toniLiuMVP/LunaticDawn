@@ -1,7 +1,7 @@
 {
   "name": "俠客遊 IV 存檔修改器",
   "short_name": "LD4 修改器",
-  "description": "繁中版 LDTSV0.dat 存檔的瀏覽器修改器 — 純前端、跨平台、零安裝、零技術門檻。內建智慧 anchor 精靈、FSA 一鍵連檔、Live RAM Bridge、8 槽全連 grid view、Undo/Redo、Batch preset。2026 自寫超越 2000 年神之眼。",
+  "description": "繁中版 LDTSV0.dat 存檔的瀏覽器修改器，純前端、跨平台、免安裝。內建智慧 anchor 精靈、一鍵連檔、8 槽全連、Undo/Redo、批次套用。",
   "lang": "zh-Hant",
   "start_url": "./savedata-viewer.html",
   "scope": "./",

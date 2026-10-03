@@ -1,6 +1,6 @@
 {
  "total": 1200,
- "description": "LD4 (俠客遊 IV, 2001) 隨機世界生成器 name pool — 從 LD4 res/ 各明文 .BIN 提取（跳過 4 個加密檔）。每次新遊戲時系統從這些 pool 隨機選 world / town / dungeon names，產生獨一無二的世界。",
+ "description": "LD4 (俠客遊 IV, 2001) 隨機世界生成器 name pool，從 LD4 res/ 各明文 .BIN 提取（跳過 4 個加密檔）。每次新遊戲時系統從這些 pool 隨機選 world / town / dungeon names，產生獨一無二的世界。",
  "categories": {
   "人類迷宮名 (87)": [
    "斷絕的迷宮",
