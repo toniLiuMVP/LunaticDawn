@@ -24,13 +24,22 @@ python3 - "$MSG_FILE" <<'PY'
 import re, sys
 
 raw = open(sys.argv[1], encoding='utf-8', errors='replace').read()
-# Drop comment lines and the diff that `git commit --verbose` appends.
+lines = raw.splitlines()
+# git strips '#' lines only when it opened an editor, and in that case it also put
+# its own help text at the top of the file. With -m or -F the default cleanup is
+# "whitespace": '#' lines stay in the commit and have to be checked like any other
+# line. So the comment handling applies only when the editor template is present.
+# If git is ever localized, or core.commentChar is changed, the template is not
+# recognised and its lines get checked: that blocks the commit loudly instead of
+# letting a message through unchecked.
+editor_mode = any(l.startswith('# Please enter the commit message') for l in lines)
 body = []
-for line in raw.splitlines():
-    if line.startswith('#'):
-        continue
-    if line.startswith('diff --git '):
+for line in lines:
+    # The diff that `git commit --verbose` appends sits below a scissors line.
+    if editor_mode and (line.startswith('diff --git ') or line.startswith('# ------------------------ >8')):
         break
+    if editor_mode and line.startswith('#'):
+        continue
     body.append(line)
 text = '\n'.join(body).strip()
 

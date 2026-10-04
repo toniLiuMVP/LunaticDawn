@@ -24,7 +24,8 @@ if [ ! -f "$AUDIT_SCRIPT" ]; then
   exit 1
 fi
 
-STAGED_COPY=$(mktemp -d) || { echo "✗ pre-commit: cannot create scratch dir"; exit 1; }
+# macOS mktemp -d without a template ignores $TMPDIR and writes to the system volume.
+STAGED_COPY=$(mktemp -d "${TMPDIR:-/tmp}/ld-precommit.XXXXXX") || { echo "✗ pre-commit: cannot create scratch dir"; exit 1; }
 cleanup() { rm -rf "$STAGED_COPY"; }
 trap cleanup EXIT
 

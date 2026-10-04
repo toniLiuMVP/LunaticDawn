@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+# Last gate before anything reaches GitHub.
+#
+# The commit hooks can be skipped without anyone noticing: `git commit -m` keeps
+# '#' lines, cherry-pick and rebase run no commit hooks at all, and --no-verify
+# skips them on purpose. So this audits exactly what is being pushed: the tree of
+# the pushed commit, and the history that leads to it.
+#
+# The history part needs care. The audit reads history through `git -C <repo>`,
+# which means HEAD of whatever is checked out. Pushing main while another branch
+# is checked out would then date the sitemap against the wrong history (a stale
+# sitemap passes, a clean main is blocked by a side branch). So each pushed ref
+# is audited inside a throwaway git directory whose HEAD is that commit: it shares
+# the object store with this repository and has no other refs. A side effect is
+# that a commit which sits on no local ref is audited too.
+#
+# Bypass (use sparingly): git push --no-verify
+set -uo pipefail
+
+REPO_ROOT=$(git rev-parse --show-toplevel) || exit 1
+AUDIT="$REPO_ROOT/tools/audit/site_audit.sh"
+[ -f "$AUDIT" ] || { echo "✗ pre-push: audit script not found at $AUDIT"; exit 1; }
+
+# The audit must see a tree export, never the working tree and never "staged"
+# mode: an inherited LD_AUDIT_STAGED would hold the sitemap to today for pages
+# that are only waiting to be pushed.
+unset LD_AUDIT_STAGED
+
+# The objects live in the common git directory (a linked worktree has its own
+# git directory but shares this one). Resolve it to an absolute path once.
+OBJ=$(git rev-parse --git-path objects) && OBJ=$(cd "$OBJ" && pwd) \
+  || { echo "✗ pre-push: cannot locate the object store"; exit 1; }
+
+ZERO=0000000000000000000000000000000000000000
+while read -r lref lsha rref rsha; do
+  # A deletion has no local side to audit.
+  [ "$lsha" = "$ZERO" ] && continue
+  # A tag object is peeled to the commit it points at; what is audited is that
+  # commit. A ref that does not end in a commit has nothing to audit: refuse.
+  csha=$(git rev-parse --verify -q "$lsha^{commit}") \
+    || { echo "✗ pre-push: $lref ($lsha) does not point at a commit, cannot audit it"; exit 1; }
+  # macOS mktemp -d without a template ignores $TMPDIR and fills the internal disk.
+  T=$(mktemp -d "${TMPDIR:-/tmp}/ld-prepush.XXXXXX") || { echo "✗ pre-push: cannot create scratch dir"; exit 1; }
+  V="$T.git"
+  drop() { rm -rf "$T" "$T.tar" "$V"; }
+  # Export to a file and unpack it as a second step: with a pipe, a failing
+  # git archive would be hidden by a tar that succeeds on its truncated input.
+  if ! git archive --format=tar -o "$T.tar" "$csha" || ! tar -xf "$T.tar" -C "$T"; then
+    drop
+    echo "✗ pre-push: cannot export $csha"
+    exit 1
+  fi
+  FILES=$(git -c core.quotePath=false ls-tree -r --name-only "$csha") || FILES=""
+  if [ -z "$FILES" ]; then
+    drop
+    echo "✗ pre-push: could not list the files of $csha"
+    exit 1
+  fi
+  # The history view: a bare git directory that borrows this repository's objects
+  # and has exactly one ref, a detached HEAD at the commit being pushed. The
+  # explicit --git-dir keeps a GIT_DIR exported by the caller from redirecting
+  # the init elsewhere, and a GIT_WORK_TREE or GIT_INDEX_FILE from the caller
+  # must not leak into a bare repository either.
+  vgit() { env -u GIT_WORK_TREE -u GIT_INDEX_FILE git --git-dir="$V" "$@"; }
+  if ! vgit init -q --bare \
+     || ! printf '%s\n' "$OBJ" > "$V/objects/info/alternates" \
+     || ! vgit update-ref --no-deref HEAD "$csha" \
+     || [ "$(vgit rev-parse --verify -q HEAD)" != "$csha" ]; then
+    drop
+    echo "✗ pre-push: cannot set up the history view for $csha"
+    exit 1
+  fi
+  echo "▸ pre-push: auditing $lref ($csha)"
+  # stdin is closed for the audit: it must not read the list of refs that git is
+  # still feeding to this loop.
+  if ! env -u GIT_WORK_TREE -u GIT_INDEX_FILE GIT_DIR="$V" LD_AUDIT_ROOT="$T" LD_AUDIT_FILES="$FILES" bash "$AUDIT" </dev/null; then
+    drop
+    echo "✗ pre-push: audit failed, nothing was pushed"
+    exit 1
+  fi
+  drop
+done
+exit 0
