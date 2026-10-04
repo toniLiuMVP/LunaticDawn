@@ -846,6 +846,11 @@ function initFileLoading() {
 }
 
 async function loadFile(file) {
+  // 存檔只有 30 KB 左右，超過 1 MB 的一定不是 LUNACHAR.SAV，不要整個讀進記憶體
+  if (file.size > 1048576) {
+    alert('這個檔案太大(' + file.size.toLocaleString() + ' bytes)，不是 LUNACHAR.SAV。');
+    return;
+  }
   const buf = new Uint8Array(await file.arrayBuffer());
 
   if (buf.length !== EXPECTED_SIZE) {

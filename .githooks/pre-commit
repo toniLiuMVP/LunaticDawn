@@ -35,6 +35,7 @@ fi
 
 echo "▸ Running public site audit on the staged content ..."
 if ! LD_AUDIT_ROOT="$STAGED_COPY" \
+     LD_AUDIT_STAGED=1 \
      LD_AUDIT_FILES="$(git -c core.quotePath=false ls-files)" \
      bash "$AUDIT_SCRIPT"; then
   echo ""

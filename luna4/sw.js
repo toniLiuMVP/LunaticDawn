@@ -14,7 +14,7 @@
  */
 
 const CACHE_PREFIX = 'ld4-modifier-';
-const CACHE_VERSION = CACHE_PREFIX + 'v1.6-20260926';
+const CACHE_VERSION = CACHE_PREFIX + 'v1.7-20261005';
 const VIEWER_PATH = './savedata-viewer.html';
 const CORE = [
   VIEWER_PATH,

@@ -532,6 +532,7 @@ const LD_MAX_SIZE = 8 * 1024 * 1024;
 function ldSizeOk(file) {
   return !!file && file.size >= LD_MIN_SIZE && file.size <= LD_MAX_SIZE;
 }
+const LD_JSON_MAX = 1048576;   // 匯入的自訂欄位 / 套餐 / 即時欄位 JSON 上限 1 MB
 function ldSizeError(file) {
   return '檔案大小異常 (' + (file ? file.size.toLocaleString() : '?') +
     ' bytes)。LDTSV*.dat 應在 ' + LD_MIN_SIZE + ' bytes ~ 8 MB 之間。';
@@ -1469,6 +1470,7 @@ $('cf-import-btn').addEventListener('click', () => {
   inp.addEventListener('change', (e) => {
     const file = e.target.files && e.target.files[0];
     if (!file) return;
+    if (file.size > LD_JSON_MAX) { alert('檔案太大(' + file.size.toLocaleString() + ' bytes，上限 1 MB)，不是本頁匯出的 JSON'); return; }
     const r = new FileReader();
     r.onload = async (ev) => {
       try {
@@ -2029,6 +2031,7 @@ async function fsaSave() {
           if (again && (again.size !== oldFile.size || again.lastModified !== oldFile.lastModified)) {
             bakNote = '；' + bakName + ' 在詢問期間有變動，沒有覆蓋它';
           } else {
+            if (!ldSizeOk(current)) throw new Error(ldSizeError(current));
             const diskBytes = new Uint8Array(await current.arrayBuffer());
             touched = true;
             const w = await bakH.createWritable();
@@ -2063,6 +2066,7 @@ async function fsaSave() {
     const file = await handle.getFile();
     let written = false;
     try {
+      if (!ldSizeOk(file)) throw new Error(ldSizeError(file));
       const back = new Uint8Array(await file.arrayBuffer());
       written = back.length === bytes.length && back.every((v, i) => v === bytes[i]);
     } catch (e) { written = false; }
@@ -3639,6 +3643,7 @@ function presetImport() {
   inp.addEventListener('change', e => {
     const file = e.target.files && e.target.files[0];
     if (!file) return;
+    if (file.size > LD_JSON_MAX) { alert('檔案太大(' + file.size.toLocaleString() + ' bytes，上限 1 MB)，不是本頁匯出的 JSON'); return; }
     const r = new FileReader();
     r.onload = async ev => {
       try {
@@ -4672,6 +4677,7 @@ function rbWireConnectedUi() {
     const inp = document.createElement('input'); inp.type = 'file'; inp.accept = '.json';
     inp.addEventListener('change', e => {
       const file = e.target.files && e.target.files[0]; if (!file) return;
+      if (file.size > LD_JSON_MAX) { alert('檔案太大(' + file.size.toLocaleString() + ' bytes，上限 1 MB)，不是本頁匯出的 JSON'); return; }
       const r = new FileReader();
       r.onload = ev => {
         try {
