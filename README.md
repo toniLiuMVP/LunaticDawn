@@ -148,11 +148,11 @@
 - 總頁數：**127** 個 HTML
 - 攻略數：**19** 篇
 - 基礎建設：sitemap.xml · 404.html · Open Graph 標籤 · 本地化字型（零外部依賴） · Google Search Console 已驗證
-- 最後更新：2026-10-04
+- 最後更新：2026-10-05
 
 ## 📜 授權
 
-本站程式碼為 MIT。本站基於數位文化保存目的整理，遊戲本體著作權屬於 [Artdink](https://www.artdink.com/)。站上技術文件為獨立逆向研究成果；公開內容僅限事實層（玩家可見名稱 / 結構觀察 / 數值對照），原版美術 / 劇情對白 / 配樂等創作性表現僅作為研究者個人參考保留，不在本站公開展示；例外是 [著作權頁 §8.1](./legal/dmca.html#fan-preservation) 所列的修改版主程式，其主程式內嵌的圖像（多為按鈕與工具列，俠客遊 IV 另含標題圖、網頁範本預覽圖與少量角色圖）與遊戲內文字（含對白；前途道標的主程式含整套遊戲文字）會隨主程式一起散布；本站收錄的官方更新檔含原版主程式。請至 Steam 購買正版 [俠客遊 I/II/III 合輯](https://store.steampowered.com/app/338070/_/) 或 [前途道標](https://store.steampowered.com/app/335420/_/) 支持原作 ARTDINK（俠客遊 IV / 未來之書 / 第三之書 Steam 未上架）。若您是攻略原作者並希望授權變更或撤除，請至 [GitHub Issues](https://github.com/toniLiuMVP/LunaticDawn/issues) 聯繫。
+本站程式碼為 MIT。本站基於數位文化保存目的整理。遊戲本體及其美術、劇情對白、配樂的權利由各相關權利人保留（開發商為日本 [ARTDINK](https://www.artdink.com/)）。站上技術文件為獨立逆向研究成果；公開內容僅限事實層（玩家可見名稱 / 結構觀察 / 數值對照），原版美術 / 劇情對白 / 配樂等創作性表現僅作為研究者個人參考保留，不在本站公開展示；例外是 [著作權頁 §8.1](./legal/dmca.html#fan-preservation) 所列的修改版主程式，其主程式內嵌的圖像（多為按鈕與工具列，俠客遊 IV 另含標題圖、網頁範本預覽圖與少量角色圖）與遊戲內文字（含對白；前途道標的主程式含整套遊戲文字）會隨主程式一起散布；本站收錄的官方更新檔含原版主程式。請至 Steam 購買正版 [俠客遊 I/II/III 合輯](https://store.steampowered.com/app/338070/_/) 或 [前途道標](https://store.steampowered.com/app/335420/_/) 支持原作 ARTDINK（俠客遊 IV / 未來之書 / 第三之書 Steam 未上架）。若您是攻略原作者並希望授權變更或撤除，請至 [GitHub Issues](https://github.com/toniLiuMVP/LunaticDawn/issues) 聯繫。
 
 **三邊著作權法依據**：🇹🇼 著作權法 §10-1（保護不及於思想、程序、製程、系統、操作方法、概念、原理、發現）+ 🇯🇵 著作権法 §2（創作性要件）+ §12-2（資料庫）+ 🇺🇸 17 USC §102(b) + Feist v. Rural Telephone (1991) + Sega v. Accolade (1992)。完整法律分析見 [系列研究筆記 § 10 國際同類網站對照](./series-research.html)。
 
