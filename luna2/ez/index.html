@@ -148,9 +148,9 @@ td.highlight { color: var(--heading); font-weight: 700; }
 
 <!-- ==================== ABOUT ==================== -->
 <section class="panel" style="border-color: var(--amber);">
-  <h2 class="panel-title" style="color: var(--amber);">[ ⭐ 2026 升級:有音樂音效 + 跨平台 + 中文化 ]</h2>
+  <h2 class="panel-title c-amber">[ ⭐ 2026 升級:有音樂音效 + 跨平台 + 中文化 ]</h2>
   <p><strong>本懶人包(Luna2_EZ)是本專案「吟遊詩人的傳說 · 俠客遊小站」的<span class="amber">起源</span>。</strong>過去 20+ 年網路流傳的 toni 版 Luna2 是<strong>「無音樂音效版」</strong>(早年 XP 時代音效驅動不易處理);2026 年透過 Claude Code 技術升級,正式進化為:</p>
-  <ul style="line-height:1.8;">
+  <ul class="lh-18">
     <li>✅ <strong>有音樂音效版</strong>，DOSBox Staging 內建 SoundBlaster 模擬,1996 年原版 BGM 與音效全部還原</li>
     <li>✅ <strong>繁體中文化</strong>，1996 年第三波代理繁中版資料保留</li>
     <li>✅ <strong>跨平台</strong>，macOS(含 macOS 26 Tahoe)/ Windows / Linux 三平台啟動腳本</li>
@@ -158,7 +158,7 @@ td.highlight { color: var(--heading); font-weight: 700; }
   </ul>
 
   <h3 style="margin-top:1em;">▌ 玩家流程</h3>
-  <ol style="line-height:1.9;">
+  <ol class="lh-loose">
     <li>🅰️ <strong>Steam 玩家</strong>:先至 Steam 購買 <a href="https://store.steampowered.com/app/338070/_/?curator_clanid=44120255" target="_blank" rel="noopener"><strong>俠客遊 I/II/III 合輯</strong></a>(僅日文介面)→ 下載本懶人包 → 用 Steam 版的遊戲原檔覆蓋懶人包 <code>game/</code> 資料夾 → 雙擊啟動 → <strong>中文化 + 有音樂音效 + 跨平台</strong></li>
     <li>🅱️ <strong>1996 老磁碟片玩家</strong>:同上流程，把你 30 年前的正版實體磁碟片(1.44 MB × 5 片)安裝後的 LUNA2.EXE + 原版資料檔丟進 <code>game/</code> 資料夾 → 雙擊啟動 → <strong>中文化 + 有音樂音效 + 跨平台</strong></li>
   </ol>
@@ -185,7 +185,7 @@ td.highlight { color: var(--heading); font-weight: 700; }
 
   <h3>▌ 為什麼有音樂音效會跳、無音樂音效不會跳</h3>
   <p>俠客遊 II 1996 年寫死了 EMS / conventional memory 邊界檢查:</p>
-  <ol style="line-height:1.8;">
+  <ol class="lh-18">
     <li><strong>遊戲對 DOS conventional memory(640 KB)需求極高</strong>，載入遊戲本體後接近吃完</li>
     <li><strong>載入音樂音效 driver(MIDPAK / DIGPAK / SB16.COM)</strong>需要 40-100 KB conventional memory + EMS</li>
     <li><strong>場景切換時(如離開迷宮)需要重新 mmap EMS 區塊</strong> → 加上音效 driver 佔的記憶體 → 剩餘不夠 → 跳回 DOS</li>
@@ -217,7 +217,7 @@ td.highlight { color: var(--heading); font-weight: 700; }
   <p style="text-align:center;margin-top:1em;">
     <a href="mailto:luntic.dawn@gmail.com?subject=俠客遊%20II%20有音樂音效版跳出回報&body=跳出前場景:%0A跳出前動作:%0A錯誤訊息(如有):%0A遊玩時間:%0A" style="display:inline-block;padding:0.5em 1em;border:2px solid var(--link);color:inherit;text-decoration:none;">▸ 來信回報跳出場景</a>
   </p>
-  <p class="muted" style="font-size:13px;">玩家越多回報,toni 越能定位是哪些場景觸發 EMS 邊界。30 年前的 DOS 記憶體限制問題,讓我們用 2026 年的工具解決它。</p>
+  <p class="muted note-sm">玩家越多回報,toni 越能定位是哪些場景觸發 EMS 邊界。30 年前的 DOS 記憶體限制問題,讓我們用 2026 年的工具解決它。</p>
 </section>
 
 <!-- ==================== QUICK START ==================== -->

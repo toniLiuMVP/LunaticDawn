@@ -173,35 +173,6 @@ strong, b { color: var(--amber); font-weight: bold; }
 ul, ol { margin-left: 24px; margin-bottom: 12px; }
 li { margin-bottom: 4px; }
 
-/* ---- 引用 / 作者署名規則框（小蜜蜂 / 小傑 / Ertai 的 1999-2000 內容） ---- */
-.attribution {
-  border: 1px solid var(--amber);
-  background: rgba(255, 176, 0, 0.06);
-  padding: 12px 16px;
-  margin: 16px 0 24px;
-  font-size: 18px;
-  color: var(--amber);
-  position: relative;
-}
-
-.attribution::before {
-  content: "⚠ 引用規則";
-  display: block;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 12px;
-  margin-bottom: 8px;
-  color: var(--amber);
-  letter-spacing: 1px;
-}
-
-.attribution a { color: var(--amber); }
-
-/* ---- 長文章主體（舊站 1999 內容用這個取代 pre raw-text） ---- */
-.prose h2 { margin-top: 32px; }
-.prose h3 { margin-top: 20px; }
-.prose p { font-size: 19px; line-height: 1.55; }
-.prose ul li { margin-bottom: 6px; }
-
 /* ---- 表格 ---- */
 table {
   border-collapse: collapse;
@@ -223,31 +194,6 @@ th {
 }
 
 tbody tr:hover { background: rgba(0,255,65,0.05); }
-
-/* ---- 原文保留區（TXT 攻略文件的核心呈現） ---- */
-.raw-text {
-  background: var(--bg-input);
-  border: 1px solid var(--phosphor-fade);
-  padding: 20px;
-  font-family: 'Noto Sans Mono', 'Courier New', monospace;
-  font-size: 17px;
-  line-height: 1.5;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  color: var(--phosphor-dim);
-  overflow-x: auto;
-  max-width: 100%;
-}
-
-.raw-text::before {
-  content: "── 原文 ──────────────────────";
-  display: block;
-  color: var(--phosphor-text-dim);
-  font-size: 14px;
-  margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: 1px dashed var(--phosphor-fade);
-}
 
 /* ---- 連結卡片（主站 / 索引使用） ---- */
 .card-grid {
@@ -289,83 +235,21 @@ tbody tr:hover { background: rgba(0,255,65,0.05); }
   display: block;
 }
 
-.card .card-meta {
-  font-size: 14px;
-  color: var(--phosphor-text-dim);
-  margin-top: 8px;
-  font-family: 'Courier New', monospace;
-  display: block;
-}
-
-.card.wip {
-  border-style: dashed;
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.card.wip:hover {
-  border-color: var(--phosphor-fade);
-  background: var(--bg-panel);
-  box-shadow: none;
-}
-
-.card.wip .card-title { color: var(--phosphor-text-dim); }
-
-/* ---- card-multi: div card with independently clickable links ---- */
-.card-multi { display: block; }
-.card-multi:hover {
-  border-color: var(--phosphor);
-  background: rgba(0,255,65,0.05);
-  box-shadow: 0 0 16px rgba(0,255,65,0.2);
-}
-.card-title-link { text-decoration: none; }
-.card-title-link:hover .card-title { text-shadow: 0 0 8px var(--amber); }
-.badge-link {
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-.badge-link:hover {
-  background: var(--phosphor);
-  color: var(--bg);
-  box-shadow: 0 0 8px var(--phosphor);
-}
-
-/* ---- ASCII 藝術框 ---- */
-.ascii-art {
-  font-family: 'Courier New', monospace;
-  font-size: 12px;
-  line-height: 1.1;
-  white-space: pre;
-  color: var(--phosphor-dim);
-  margin: 20px 0;
-  text-align: center;
-}
-
 /* ---- 程式碼與長網址：整行放不下時才在字中間斷行，不撐寬整頁 ----
    不用 anywhere：它會把表格欄壓到最小寬度，連設定鍵與檔名都被攔腰切斷 */
 code, .code-inline, .url-break, main p, main li, main a { overflow-wrap: break-word; }
 
 /* ---- 強調文字 ---- */
-.amber  { color: var(--amber); }
 .dim    { color: var(--phosphor-dim); }
 .muted  { color: var(--phosphor-text-dim); }
-.warn   { color: var(--amber); }
 .danger { color: var(--danger); }
 
-/* ---- 小徽章 ---- */
-.badge {
-  display: inline-block;
-  padding: 2px 8px;
-  border: 1px solid var(--phosphor-dim);
-  font-size: 13px;
-  color: var(--phosphor-dim);
-  font-family: 'Courier New', monospace;
-  margin-right: 4px;
-}
-
-.badge.ok { border-color: var(--phosphor); color: var(--phosphor); }
-.badge.wip { border-color: var(--amber); color: var(--amber); }
+/* ---- 小型工具類（取代各頁重複的 style 屬性，數值與原行內樣式相同；
+        寫在強調文字規則之後，同樣的權重下以這裡為準）---- */
+.c-amber { color: var(--amber); }
+.lh-loose { line-height: 1.9; }
+.m-0 { margin: 0; }
+.tbl-tight th, .tbl-tight td { padding: 4px; }
 
 /* ---- Footer ---- */
 .site-footer {
@@ -381,41 +265,17 @@ code, .code-inline, .url-break, main p, main li, main a { overflow-wrap: break-w
 .footer-updated { font-size: 14px; opacity: 0.6; margin-top: 8px; }
 .footer-updated time { font-variant-numeric: tabular-nums; }
 
-.site-footer .footer-big {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 12px;
-  margin: 12px 0 8px;
-  color: var(--phosphor-dim);
-}
-
 /* ---- 捲軸 ---- */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: var(--bg-panel); }
 ::-webkit-scrollbar-thumb { background: var(--phosphor-fade); border: 1px solid var(--phosphor-dim); }
 ::-webkit-scrollbar-thumb:hover { background: var(--phosphor-dim); }
 
-/* 手機直拿提示(只在窄螢幕顯示;桌機 / 橫擺自動隱藏) */
-.landscape-hint {
-  display: none;
-  font-size: 14px;
-  color: var(--amber);
-  background: rgba(255, 176, 0, 0.08);
-  border-left: 3px solid var(--amber);
-  padding: 8px 12px;
-  margin: 0 0 14px;
-  line-height: 1.6;
-}
-
 /* ---- 響應式 ---- */
 @media (max-width: 640px) {
   body { font-size: 18px; }
   h1.pixel { font-size: 16px; }
   h2 { font-size: 14px; }
-  .raw-text { font-size: 15px; padding: 12px; }
-  /* 固定寬 pre 表格:手機直拿改水平捲動(不折行 → 不跑版)。
-     只針對 pre.raw-text,不影響 table.raw-text 等響應式表格 */
-  pre.raw-text { white-space: pre; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  .landscape-hint { display: block; }
   .card-grid { grid-template-columns: 1fr; }
 }
 

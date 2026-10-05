@@ -54,7 +54,7 @@
 <section class="panel">
   <h2 class="panel-title">[ ⚠️ Step 0 · 兩種玩家路徑都先做這步 ]</h2>
   <div style="padding: 16px; border-left: 4px solid var(--amber); background: rgba(255,176,0,0.08);">
-    <p style="font-size: 16px; margin-bottom: 12px;"><strong style="color: var(--amber);">本補丁的前提是「你已合法持有前途道標」</strong>，兩種路徑：</p>
+    <p style="font-size: 16px; margin-bottom: 12px;"><strong class="c-amber">本補丁的前提是「你已合法持有前途道標」</strong>，兩種路徑：</p>
 
     <p style="font-size: 15px; margin-bottom: 6px;">🅰️ <strong>新玩家路徑（Steam 購買）</strong></p>
     <p style="margin: 0 0 12px 24px;">
@@ -95,7 +95,7 @@
   <h2 class="panel-title">[ 2019 阿呆 hack vs 2026 優雅解法 ]</h2>
   <div class="prose">
     <p>本站站長 toni 在 2019 年自己 try 出來的解法：把 Windows 系統 DPI 設成 <strong>124%</strong>（為什麼是 124%？因為要對齊 Ld95 GDI font metrics 整數倍）、然後<strong>登出 → 重新登入</strong>讓系統重新計算所有視窗，才看得到清楚的字。</p>
-    <p style="color: var(--amber);">超阿呆 XDDDDDDDDDDDDD</p>
+    <p class="c-amber">超阿呆 XDDDDDDDDDDDDD</p>
     <p>2026 年的本補丁用 DLL injection + IAT hook 在程式層級解決，連系統設定都不用碰：</p>
   </div>
 
@@ -160,7 +160,7 @@ ScalePercent=200</pre>
       <tr><td>400</td><td>4.0x</td><td>最大（範圍上限）</td></tr>
     </tbody>
   </table></div>
-  <p class="muted" style="font-size: 13px;">範圍 50–400，超出會 fallback 200。</p>
+  <p class="muted note-sm">範圍 50–400，超出會 fallback 200。</p>
 </section>
 
 <section class="panel">
@@ -191,7 +191,7 @@ ScalePercent=200</pre>
 <section class="panel">
   <h2 class="panel-title">[ 為什麼之前那麼難解 ]</h2>
   <div class="prose">
-    <ul style="line-height: 1.9;">
+    <ul class="lh-loose">
       <li><strong>Win95 GUI 程式 hardcoded 96 DPI</strong>：1999 沒人預期 4K 螢幕，所有像素都寫死</li>
       <li><strong>MFC 字體渲染分兩條 path</strong>：UI 字（功能表 / 按鈕）走 <code>CreateFontIndirectA</code>，遊戲主畫面字走 <code>GetStockObject(SYSTEM_FONT)</code>，攔錯一條就只放大一半</li>
       <li><strong>Windows DLL search order 有 KnownDLLs 機制</strong>：<code>winmm.dll</code> 永遠從 system32 載入，application directory 的同名 DLL 會被忽略，必須改 PE import name 成 <code>LDWMM.dll</code>（9 byte 同長度替換）才能 hook 載入</li>
@@ -204,7 +204,7 @@ ScalePercent=200</pre>
 <section class="panel">
   <h2 class="panel-title">[ 技術原理摘要 ]</h2>
   <div class="prose">
-    <ol style="line-height: 1.9;">
+    <ol class="lh-loose">
       <li><strong>不重疊</strong>：DllMain 呼叫 <code>SetProcessDpiAwarenessContext(UNAWARE_GDISCALED)</code>，Win10 1809+ DWM bitmap stretch 處理 DPI scaling</li>
       <li><strong>字夠大</strong>：DllMain 內<br>
         a. <code>GetStockObject(SYSTEM_FONT)</code> 取原系統字體 HFONT<br>
@@ -225,7 +225,7 @@ ScalePercent=200</pre>
     <p><strong>遊戲本體</strong>：請至 <a href="https://store.steampowered.com/app/335420/_/" target="_blank" rel="noopener">Steam 前途道標頁</a>購買正版（僅日文介面）。</p>
     <p><strong>本補丁適用對象</strong>：合法持有 Ld95.exe 副本的玩家自行套用。</p>
     <p><strong>法律依據（三邊著作權）</strong>：</p>
-    <ul style="line-height: 1.8;">
+    <ul class="lh-18">
       <li>🇹🇼 著作權法 §10-1（保護不及於思想、程序、製程、系統、操作方法、概念、原理、發現）+ §9 第 1 項第 3 款（標語及通用之符號、名詞、公式、數表、表格等不得為著作權標的）</li>
       <li>🇯🇵 著作権法 §2 第 1 項 第 1 號（創作性要件）+ §12-2（資料庫保護創意性編排）</li>
       <li>🇺🇸 17 USC §102(b)（保護不及於構想、程序、過程、系統、操作方法、概念、原理、發現）+ Feist v Rural Telephone (1991) + Sega v Accolade (1992)（為取得互通所需資訊而反組譯，可構成 fair use，個案判斷）</li>

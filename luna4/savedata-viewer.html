@@ -28,6 +28,8 @@
 .field-row label { color: var(--phosphor-dim); min-width: 130px; font-size: 14px; }
 .field-row .val { color: var(--phosphor); font-family: 'Courier New', monospace; word-break: break-all; }
 .hint { color: var(--phosphor-text-dim); font-size: 13px; margin: 0 0 10px; }
+/* 行內的狀態文字（span）不要下方間距；寫成兩個 class 的組合，權重才高過上面的 .hint */
+.hint.m-0 { margin: 0; }
 .hex-viewer { margin-top: 12px; border: 1px solid var(--phosphor-fade); padding: 12px; background: var(--bg-input); font-family: 'Courier New', monospace; font-size: 12px; color: var(--phosphor); white-space: pre; overflow-x: auto; max-height: 460px; overflow-y: auto; }
 .region-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
 .region-table th, .region-table td { border: 1px solid var(--phosphor-fade); padding: 6px 10px; text-align: left; vertical-align: top; }
@@ -125,7 +127,7 @@ details.qa-collapse[open] > summary { margin-bottom: 8px; }
       <button id="ms8-diff-mode" class="ghost" type="button">☐ 進入跨槽 diff 模式</button>
       <button id="ms8-diff-run" type="button" style="display:none;">對比這 2 槽</button>
       <button id="ms8-exit" class="ghost" type="button" style="color: var(--amber);">✕ 離開多槽模式</button>
-      <span class="hint" id="ms8-poll-status" style="margin:0;"></span>
+      <span class="hint m-0" id="ms8-poll-status"></span>
     </div>
     <div id="ms8-diff-output" style="display:none; margin-top:10px;"></div>
   </div>
@@ -158,13 +160,13 @@ details.qa-collapse[open] > summary { margin-bottom: 8px; }
   </div>
 
   <div id="lazy-mode-banner" class="viewer-panel" style="border: 2px solid var(--amber); margin-bottom: 16px;">
-    <h3 style="color: var(--amber);">★★★ 3 步驟懶人模式（跟著遊戲存檔即時更新）</h3>
+    <h3 class="c-amber">★★★ 3 步驟懶人模式（跟著遊戲存檔即時更新）</h3>
     <ol style="color: var(--phosphor-dim); font-size: 14px; line-height: 1.8; padding-left: 24px; margin: 8px 0;">
       <li>遊戲內存檔（ESC → 存檔，或按指定快捷鍵）</li>
       <li>上面的 <strong style="color: var(--phosphor);">★ 一鍵連檔（Chromium 系）</strong> → 選 <code>LDTSV0.dat</code>（槽號 0） → 授權讀寫 → viewer 自動 polling 2 秒，遊戲存檔後自動跟上</li>
       <li>改完數值 → 先按 <strong style="color: var(--phosphor);">⬇ 先下載原檔備份</strong> → 再按 <strong style="color: var(--phosphor);">💾 直接覆蓋原檔</strong>（覆蓋時不必再下載修改後的檔案，也不必手動複製）→ 切回遊戲讀檔 → 完成</li>
     </ol>
-    <p style="margin: 8px 0;"><button id="btn-backup-orig" class="backup-btn" type="button">⬇ 先下載原檔備份</button> <span class="hint" id="backup-status" aria-live="polite" style="margin:0;"></span></p>
+    <p style="margin: 8px 0;"><button id="btn-backup-orig" class="backup-btn" type="button">⬇ 先下載原檔備份</button> <span class="hint m-0" id="backup-status" aria-live="polite"></span></p>
     <p class="hint" style="margin-top: 8px;">📂 存檔位置：<code>遊戲資料夾/Usr/LDTSV0.dat</code> 等（檔名 <code>LDTSVn.dat</code>，n 為存檔槽號；多槽模式追蹤槽 0～7）</p>
     <p class="hint" id="fsa-support-note" style="margin-top: 4px;"></p>
   </div>
@@ -215,7 +217,7 @@ details.qa-collapse[open] > summary { margin-bottom: 8px; }
         <label for="diff-file-input" style="color: var(--phosphor-dim);">對比存檔(改過 1 變數):</label>
         <input type="file" id="diff-file-input" accept=".dat,.DAT">
         <button id="btn-diff" type="button">執行 diff</button>
-        <span class="hint" id="diff-status" style="margin:0;"></span>
+        <span class="hint m-0" id="diff-status"></span>
       </div>
       <div id="diff-output" class="hex-viewer" style="display: none; max-height: 300px;"></div>
     </div>
@@ -227,7 +229,7 @@ details.qa-collapse[open] > summary { margin-bottom: 8px; }
         <label for="not-u8-search-input" style="color: var(--phosphor-dim);">遊戲內小值(1-99):</label>
         <input id="not-u8-search-input" type="number" min="1" max="99" placeholder="例 13">
         <button id="not-u8-search-btn" type="button">NOT u8 全檔掃</button>
-        <span class="hint" id="not-u8-search-status" style="margin:0;"></span>
+        <span class="hint m-0" id="not-u8-search-status"></span>
       </div>
       <div id="not-u8-search-results" class="hex-viewer" style="display: none; max-height: 200px;"></div>
     </div>
@@ -239,7 +241,7 @@ details.qa-collapse[open] > summary { margin-bottom: 8px; }
         <label for="not-search-input" style="color: var(--phosphor-dim);">遊戲內看到的值:</label>
         <input id="not-search-input" type="number" min="0" max="65535" placeholder="例 716">
         <button id="not-search-btn" type="button">NOT u16 LE 全檔掃</button>
-        <span class="hint" id="not-search-status" style="margin:0;"></span>
+        <span class="hint m-0" id="not-search-status"></span>
       </div>
       <div id="not-search-results" class="hex-viewer" style="display: none; max-height: 200px;"></div>
     </div>
@@ -249,7 +251,7 @@ details.qa-collapse[open] > summary { margin-bottom: 8px; }
       <p class="hint">進階功能，需要在本機另外執行 bridge 程式。<strong>bridge 程式目前還沒有開放下載</strong>，完成實機測試後會放上，屆時這裡會附上下載方式與說明。按下「連線 Live Bridge」才會嘗試連到你自己電腦上的 <code>http://127.0.0.1:8765/</code>；沒按就不會發出任何本機連線。</p>
       <div class="toolbar">
         <button id="rb-connect-btn" type="button">🔗 連線 Live Bridge</button>
-        <span class="hint" id="rb-connect-status" aria-live="polite" style="margin:0;"></span>
+        <span class="hint m-0" id="rb-connect-status" aria-live="polite"></span>
       </div>
       <div id="rb-connected-controls" style="display: none;">
       <p class="hint">已連到 <code>http://127.0.0.1:<span id="rb-port">8765</span>/</code> LD4 Live Bridge → 讀取 LD4.exe 正在跑的記憶體(不用存檔)；Windows 版另外可以直接寫入，Linux 版只能讀取與掃描。</p>
@@ -260,7 +262,7 @@ details.qa-collapse[open] > summary { margin-bottom: 8px; }
         <label for="rb-scan-value" style="color: var(--phosphor-dim);">遊戲內看到的值:</label>
         <input id="rb-scan-value" type="number" min="0" max="4294967295" placeholder="例 7331(金錢)" style="width: 160px;">
         <button id="rb-scan-btn" type="button">▸ /scan 整個 LD4 RAM(15+ encoding)</button>
-        <span class="hint" id="rb-scan-status" style="margin:0;"></span>
+        <span class="hint m-0" id="rb-scan-status"></span>
       </div>
       <div id="rb-scan-results" style="display: none; margin-top: 8px;">
         <table class="region-table"><thead><tr><th>編碼</th><th>hits</th><th>RAM address</th><th>動作</th></tr></thead>
@@ -279,7 +281,7 @@ details.qa-collapse[open] > summary { margin-bottom: 8px; }
         <button id="rb-export-btn" class="ghost" type="button">匯出 JSON</button>
         <button id="rb-import-btn" class="ghost" type="button">匯入 JSON</button>
         <button id="rb-clear-btn" class="ghost" type="button" style="color: var(--amber);">清空</button>
-        <span class="hint" id="rb-poll-status" aria-live="polite" style="margin:0;"></span>
+        <span class="hint m-0" id="rb-poll-status" aria-live="polite"></span>
       </div>
 
       <div class="note-warn" style="margin-top: 12px;">
@@ -296,13 +298,13 @@ details.qa-collapse[open] > summary { margin-bottom: 8px; }
         <label for="wiz-value" style="color: var(--phosphor-dim);">遊戲內看到的值:</label>
         <input id="wiz-value" type="number" min="0" max="4294967295" placeholder="例 716" style="width: 140px;">
         <button id="wiz-run" type="button">▸ 全 encoding 自動掃</button>
-        <span class="hint" id="wiz-status" style="margin:0;"></span>
+        <span class="hint m-0" id="wiz-status"></span>
       </div>
       <div class="toolbar" style="margin-top: 8px;">
         <label for="wiz-enum-text" style="color: var(--phosphor-dim);">或輸入 enum 字串:</label>
         <input id="wiz-enum-text" type="text" placeholder="例 正常 / 戰鬥 / 死亡 / 俠客遊" style="width: 180px;">
         <button id="wiz-enum-run" type="button">▸ 反查 enum_id + bulk-scan</button>
-        <span class="hint" id="wiz-enum-status" style="margin:0;"></span>
+        <span class="hint m-0" id="wiz-enum-status"></span>
       </div>
       <div class="toolbar" style="margin-top: 8px; align-items: flex-start;">
         <label style="color: var(--phosphor-dim); padding-top: 6px;">★★ 多字串 cross-correlate（實驗性）:</label>
@@ -319,7 +321,7 @@ details.qa-collapse[open] > summary { margin-bottom: 8px; }
           </label>
           <button id="wiz-xc-run" type="button">▸ 求共同 anchor + 步距分析</button>
         </div>
-        <span class="hint" id="wiz-xc-status" style="margin:0;"></span>
+        <span class="hint m-0" id="wiz-xc-status"></span>
       </div>
       <div id="wiz-results" aria-live="polite" style="display: none; margin-top: 12px;">
         <table class="region-table" id="wiz-table">
@@ -377,7 +379,7 @@ details.qa-collapse[open] > summary { margin-bottom: 8px; }
       <div class="toolbar">
         <button id="btn-undo" type="button" disabled>↶ Undo(<span id="undo-count">0</span>)</button>
         <button id="btn-redo" type="button" disabled>↷ Redo(<span id="redo-count">0</span>)</button>
-        <span class="hint" id="undo-last" style="margin:0;">(無歷史)</span>
+        <span class="hint m-0" id="undo-last">(無歷史)</span>
       </div>
       <div class="toolbar" style="margin-top: 12px;">
         <label style="color: var(--phosphor-dim);">Preset:</label>
@@ -385,7 +387,7 @@ details.qa-collapse[open] > summary { margin-bottom: 8px; }
         <button id="preset-apply" type="button">▸ 套用此 preset</button>
         <button id="preset-save" class="ghost" type="button">＋ 存為新 preset</button>
         <button id="preset-delete" class="ghost" type="button" style="color: var(--amber);">✕ 刪除選定 preset</button>
-        <span class="hint" id="preset-status" style="margin:0;"></span>
+        <span class="hint m-0" id="preset-status"></span>
       </div>
     </div>
 
@@ -403,7 +405,7 @@ details.qa-collapse[open] > summary { margin-bottom: 8px; }
           <option value="">(全類別)</option>
         </select>
         <input id="enum-filter" aria-label="enum 字串過濾" type="text" placeholder="字串 filter(例:怪物 / 龍)" style="width: 200px;">
-        <span class="hint" id="enum-status" style="margin:0;"></span>
+        <span class="hint m-0" id="enum-status"></span>
       </div>
       <div id="enum-results" class="hex-viewer" style="max-height: 280px; margin-top: 8px; display: none;"></div>
       <div class="note-warn" style="margin-top: 8px;">
@@ -431,7 +433,7 @@ details.qa-collapse[open] > summary { margin-bottom: 8px; }
       <div class="toolbar">
         <button id="btn-big5-scan" type="button">掃描 Big5 字串</button>
         <input id="big5-filter" aria-label="Big5 結果過濾" type="text" placeholder="（選填）只看含此字的結果" maxlength="20">
-        <span class="hint" id="big5-status" style="margin:0;"></span>
+        <span class="hint m-0" id="big5-status"></span>
       </div>
       <div class="note-warn">
         ⚠ 誠實提醒：<code>0x70</code> 之後是物件圖傾印，裡面隨機的位元組組合常常「剛好」是合法 Big5 編碼但解出來是亂碼。<strong>只有 header 區（0x20 標題）的字串是可靠的</strong>；掃描結果裡其餘多數是誤判，請對照 offset 自行判斷。
@@ -452,7 +454,7 @@ details.qa-collapse[open] > summary { margin-bottom: 8px; }
       <h3>Hex 檢視器（read-only）</h3>
       <div class="toolbar">
         <button id="hex-prev" class="ghost" type="button">◀ 上一頁</button>
-        <span class="hint" id="hex-pageinfo" style="margin:0;"></span>
+        <span class="hint m-0" id="hex-pageinfo"></span>
         <button id="hex-next" class="ghost" type="button">下一頁 ▶</button>
         <input id="hex-jump" aria-label="跳到 hex offset" type="text" placeholder="跳到 offset（hex，如 70）" maxlength="8">
         <button id="hex-jump-btn" class="ghost" type="button">跳轉</button>
@@ -465,7 +467,7 @@ details.qa-collapse[open] > summary { margin-bottom: 8px; }
     </div>
 
     <div class="toolbar" style="margin-top: 8px; padding: 12px; background: var(--bg-panel); border-top: 2px solid var(--amber);">
-      <span class="hint" id="status" aria-live="polite" style="margin:0;">準備就緒</span>
+      <span class="hint m-0" id="status" aria-live="polite">準備就緒</span>
       <span class="hint" id="modified-indicator" style="margin: 0 12px; color: var(--amber); display: none;">⚠ 已修改</span>
       <span class="hint" id="fsa-indicator" style="margin: 0 12px; color: var(--phosphor); display: none;">🔗 FSA 連檔中 · 自動 polling</span>
       <button id="btn-fsa-save" type="button" style="background: var(--phosphor); color: var(--bg); border: 1px solid var(--phosphor); padding: 6px 14px; font-family: 'VT323', monospace; font-size: 15px; cursor: pointer; display: none;">★ 💾 直接覆蓋原檔</button>

@@ -55,7 +55,7 @@
 <section class="panel">
   <h2 class="panel-title">[ 安全修改 SOP ]</h2>
   <p style="color: var(--danger);"><strong>⚠️ 修改前務必備份</strong></p>
-  <ol style="line-height: 1.9;">
+  <ol class="lh-loose">
     <li><strong>先結束遊戲</strong>：從選單〔遊戲〕選〔結束〕，會儲存目前的進度再離開。第三之書採自動儲存，遊戲內沒有儲存選單。</li>
     <li><strong>備份原檔</strong>：把遊戲資料夾內整個 <code>usr/</code>（存檔 <code>lde3s.le3</code> 所在）複製為 <code>usr_backup/</code>。同一個資料夾只能放一筆存檔，放第二筆會互相覆蓋，所以備份要放在別的資料夾。</li>
     <li><strong>先小幅修改測試</strong>：改一點就進遊戲確認讀得了，再做其他修改。</li>
@@ -67,15 +67,15 @@
 <section class="panel">
   <h2 class="panel-title">[ 本站瀏覽器版修改器 ]</h2>
   <p>開啟：<a href="../modifier.html">▸ 瀏覽器版修改器</a>（純前端，存檔只在自己的瀏覽器內處理，不會上傳）</p>
-  <h3 style="color: var(--amber);">能做的事</h3>
-  <ul style="line-height: 1.9;">
+  <h3 class="c-amber">能做的事</h3>
+  <ul class="lh-loose">
     <li>拖放或選擇 <code>lde3s.le3</code>，檢查檔頭並顯示檔案資訊</li>
     <li>在存檔中搜尋 Big5 中文字串出現的位置（本站實測的存檔在檔頭之後都找不到名稱字串，所以多半搜尋不到）</li>
     <li>產生區段熱圖，每 16 KB 顯示非零位元組的比例</li>
     <li>上傳另一份存檔（例如 <code>lde3s.bak</code>）做差異比對，列出不同的位元組（相鄰兩次存檔有 99.7% 的位元組不同）</li>
     <li>以十六進位編輯整個檔案，套用後下載修改過的存檔</li>
   </ul>
-  <h3 style="color: var(--amber);">目前做不到的事</h3>
+  <h3 class="c-amber">目前做不到的事</h3>
   <p>本站實測的 6 份存檔，檔頭（0x00 到 0x6B）之後約 292 bytes 含存檔路徑與疑似系統位址，每台電腦、每次都不同，推定不是玩家資料；0x190 之後約 1 MB 的位元組分布接近均勻（熵 7.995 到 7.999 bits/byte），相鄰兩次存檔有 99.7% 的位元組不同，用 Big5、UTF-16、UTF-8 搜尋名稱字串都是 0 處，推定是壓縮或加密。本站沒有解開這一段，所以還沒有金錢、能力值等欄位的位置，不能像一般修改器那樣直接改數值，字串搜尋與差異比對也無法對應到欄位。想改數值請先看下方其他工具，並照上面的方式備份。</p>
 </section>
 
@@ -94,7 +94,7 @@
 
 <section class="panel">
   <h2 class="panel-title">[ 修改器使用建議 ]</h2>
-  <ul style="line-height: 1.9;">
+  <ul class="lh-loose">
     <li><strong>第一輪正常玩</strong>：體驗成長感跟挑戰</li>
     <li><strong>卡關才用修改器</strong>：避免一開始就破壞樂趣</li>
     <li><strong>修改幅度漸進</strong>：先小修，看遊戲反應，再大修</li>

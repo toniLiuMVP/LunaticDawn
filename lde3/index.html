@@ -115,7 +115,7 @@
   <h2 class="panel-title">[ INSTALL · 安裝設定 SOP ]</h2>
   <p class="muted">第三之書原版光碟跨 Win98 / XP / Vista / 7 / 8 / 10 / 11 不同時代有不同安裝障礙。另有 EzPlay 補丁包，含 ME 版遊玩及出現試玩版的問題解決，並保護玩家所持有的正版光碟（見 <a href="../ezplay.html#lde3">EzPlay 第三之書</a>）。以下是 toni 跨年代維護整理的標準流程：</p>
 
-  <ol style="line-height: 1.9;">
+  <ol class="lh-loose">
     <li><strong>遊戲資料夾路徑用簡潔英文</strong>，避免中文字 / 空格 / 過深層級。建議：<code>C:\ARTDINK\Lde3\</code> 或可攜版直接放隨身碟根目錄。</li>
     <li><strong>套用官方 1.2 更新檔</strong>，把<a href="https://drive.google.com/open?id=1mbvvxB6bBryYK8SHuN_AUjUjf-c5J-6k" target="_blank" rel="noopener">官方修正檔</a>解壓後複製到遊戲資料夾覆蓋（原版與更新版的版本資訊都標 1.0.8.2，不能用版本號判斷有沒有套用）。</li>
     <li><strong>NoCD 化（避免每次都要放光碟）</strong>，<a href="https://drive.google.com/open?id=1B6n34wTsRJq0F9dGRb7JpiBG41_B_cZw" target="_blank" rel="noopener">第三之書保護光碟檔</a>解壓後跑，會建立 NoCD 環境。</li>
@@ -128,24 +128,24 @@
 <section class="panel">
   <h2 class="panel-title">[ FAQ · 常見問題排除 ]</h2>
 
-  <h3 style="color: var(--amber);">Q1. 安裝完跑遊戲變成「試玩版」？</h3>
+  <h3 class="c-amber">Q1. 安裝完跑遊戲變成「試玩版」？</h3>
   <p>原因：登錄檔內遊戲執行檔路徑沒寫對 / 系統升級後路徑失效。<br>
   解法：依作業系統下載對應修正檔，<a href="../files/lde3/lde3reg.zip">lde3reg.zip</a>（通用）/ <a href="../files/lde3/Lde3XP.zip">XP 版</a> / <a href="../files/lde3/LDE3win11.7z">Win11 版</a>。解壓後執行裡面的 .reg 或 .bat 檔即可。</p>
 
-  <h3 style="color: var(--amber);">Q2. 開啟遊戲提示「找不到光碟」？</h3>
+  <h3 class="c-amber">Q2. 開啟遊戲提示「找不到光碟」？</h3>
   <p>原因：未套用 NoCD 修正 / 光碟認證機制在新作業系統上失效。<br>
   解法：套<a href="https://drive.google.com/open?id=1B6n34wTsRJq0F9dGRb7JpiBG41_B_cZw" target="_blank" rel="noopener">第三之書保護光碟檔</a>（最新版）或<a href="../files/lde3/Lde3_tw_1.2TC_1082_NoCD.7z.7z">歷史 NoCD 版</a>。</p>
 
-  <h3 style="color: var(--amber);">Q3. 想直接攜帶玩不要安裝？</h3>
+  <h3 class="c-amber">Q3. 想直接攜帶玩不要安裝？</h3>
   <p>解法：用<a href="../files/lde3/PortableLde3_tw1082r1.zip">PortableLde3_tw1082r1.zip</a> 可攜版，解壓即用。適合放隨身碟 / SSD 帶到不同電腦玩。</p>
 
-  <h3 style="color: var(--amber);">Q4. 用修改器改完存檔，進遊戲數值沒變？</h3>
+  <h3 class="c-amber">Q4. 用修改器改完存檔，進遊戲數值沒變？</h3>
   <p>第三之書採自動儲存，遊戲進行中會經常存檔，結束遊戲時也會存檔（依遊戲附帶的說明檔）。所以要先從選單〔遊戲〕選〔結束〕離開遊戲再改存檔；遊戲還開著就改檔，推定會被遊戲之後的儲存蓋回去。用<a href="modifier.html">本站瀏覽器版修改器</a>時，改完要拿下載的檔案取代 <code>usr/lde3s.le3</code>。<a href="https://drive.google.com/open?id=1cCPao0_WN2XgVIlMaxrsmzv9TjJwCmo4" target="_blank" rel="noopener">第三之書修改器 v0.4</a>（kkarthur 製作）的使用方式本站未核實，請以該工具的程式畫面為準。</p>
 
-  <h3 style="color: var(--amber);">Q5. 想使用角色管理與事件日期計算工具？</h3>
+  <h3 class="c-amber">Q5. 想使用角色管理與事件日期計算工具？</h3>
   <p>歷史<a href="../files/lde3/Lde3man103.zip">第三之書管理員 1.03</a> / <a href="../files/lde3/Lde3man106.zip">1.06</a> 內嵌第三之書包裝封面縮圖，壓縮檔註解另有功能說明與版本修正紀錄。最新版用<a href="https://drive.google.com/open?id=175fzMHh9TRqqN6smdtS4LYk8PjY5nQMo" target="_blank" rel="noopener">第三之書管理員 1.0.6</a>（askacheng 製作）。</p>
 
-  <h3 style="color: var(--amber);">Q6. 為什麼推薦的工具多是 2007 到 2011 年的社群作品？</h3>
+  <h3 class="c-amber">Q6. 為什麼推薦的工具多是 2007 到 2011 年的社群作品？</h3>
   <p>第三之書 2002 年發行後，社群工具多半完成於 2007 年到 2011 年之間，例如第三之書修改器 v0.4（2011-10-14）與 ELF v1.62（2011-11-25）。Morrowind / kkarthur / askacheng 等社群開發者貢獻的工具，本站只收錄、整理，沒有逐項實測比較。</p>
 </section>
 
@@ -171,26 +171,26 @@
   <h2 class="panel-title">[ GAMEPLAY · 玩法心得 ]</h2>
   <p class="muted">⭐ 以下是 toni 跨 20+ 年實玩經驗整理的第三之書玩法重點，純粹基於玩家視角觀察（非攻略書抄錄）：</p>
 
-  <h3 style="color: var(--amber);">遊戲節奏</h3>
-  <ul style="line-height: 1.8;">
+  <h3 class="c-amber">遊戲節奏</h3>
+  <ul class="lh-18">
     <li><strong>初期建議</strong>：第三之書沿用 Lunatic Dawn 系列的開放世界 RPG 設計，沒有強制主線；開局從現成的角色中挑一位當分身（再改名字、稱號與生日），之後自己決定同行的冒險者與探索順序。</li>
     <li><strong>練功 vs 委託</strong>：跟系列其他作品類似，「<strong>接旅店委託 → 完成任務 → 賺錢 → 升級裝備</strong>」是最穩定循環。</li>
     <li><strong>同行 NPC</strong>：找到優秀技能的 NPC 一起冒險，技能熟練度互補比起單機提升明顯。</li>
   </ul>
 
-  <h3 style="color: var(--amber);">使用 ELF 工具的時機</h3>
-  <ul style="line-height: 1.8;">
+  <h3 class="c-amber">使用 ELF 工具的時機</h3>
+  <ul class="lh-18">
     <li><strong>Morrowind 的 ELF 工具 v1.62</strong>：搭配遊戲一起執行的輔助工具，依附帶的 ReadMe，功能有道具儲物空間、陳列室、道具資訊、戰場情報與吟遊詩人的時間修改（本站未逐項實測）。ReadMe 特別提醒買房子時不要關閉 ELF。</li>
     <li><strong>kkarthur 的修改器 v0.4</strong>：Windows 程式，能修改哪些項目本站未核實，請以程式畫面為準，使用前先備份 <code>usr/</code> 資料夾。</li>
     <li><strong>建議順序</strong>：先正常玩 → 卡關才用工具，避免一開始就破壞遊戲樂趣。</li>
   </ul>
 
-  <h3 style="color: var(--amber);">日期計算器</h3>
+  <h3 class="c-amber">日期計算器</h3>
   <p>Morrowind 的「第三之書日期計算器」，依舊版（The3rdbookDATE）附帶的說明，輸入遊戲年份就會顯示該年會發生的事件和發生的地點。說明列出的週期：建國紀念日和王家賣物會每年每國都會出現；天下第一武鬥會每年由四國輪流舉行；最強死鬥會（雙數年）和世界統一卡片大會（單數年）各兩年一次，也是四國輪流舉行；妖精之國在 4 的倍數的年份 3 月 3 日出現。本站沒有逐項實測。</p>
 
-  <h3 style="color: var(--amber);">存檔管理（Morrowind 中文化）</h3>
+  <h3 class="c-amber">存檔管理（Morrowind 中文化）</h3>
   <p>Lunatic Dawn 系列傳統有 USER0-USER9 共 10 個存檔位置，但第三之書中切換存檔需要手動覆蓋資料夾。<strong>第三之書存檔管理器</strong> 解決這問題：</p>
-  <ul style="line-height: 1.8;">
+  <ul class="lh-18">
     <li>備份多個存檔狀態</li>
     <li>切換不同進度（例：一個練功用、一個劇情用）</li>
     <li>避免存檔損毀</li>
@@ -229,9 +229,9 @@
 
 <div style="max-width: 820px; margin: 24px auto; padding: 14px 18px; border-left: 3px solid #ffb000; background: rgba(255,176,0,0.06); font-size: 13px; line-height: 1.7;">
   <p style="margin: 0 0 8px 0;"><strong>📜 版權合規 + 支持原作</strong></p>
-  <p style="margin: 0 0 6px 0;">第三之書（俠客遊三部曲第三作）的著作權由各相關權利人所有（遊戲附帶說明檔的版權標示是 <a href="https://www.artdink.com/" target="_blank" rel="noopener">ARTDINK</a> 與 Electronic Arts Taiwan，2000 到 2002 年；台灣繁體中文版由美商藝電代理發行）。本站公開內容以事實層為主（玩家可見名稱 / 結構觀察 / 數值對照）；原版圖像、音效、劇情等創作性表現不另行公開。例外：修改過的主程式（EzPlay 等）內嵌的圖像與遊戲內文字會隨主程式一起散布，官方更新檔含原版主程式，範圍見 <a href="../legal/dmca.html#fan-preservation">著作權頁 §8.1</a>。</p>
-  <p style="margin: 0 0 6px 0;"><strong>支持原作</strong>：第三之書 Steam 未上架。請至 Steam 購買 <a href="https://store.steampowered.com/app/338070/_/" target="_blank" rel="noopener">俠客遊 I/II/III 合輯</a>或<a href="https://store.steampowered.com/app/335420/_/" target="_blank" rel="noopener">前途道標</a>支持原作 ARTDINK。toni 1996-2002 年購買正版遊戲原版實體磁碟片 / 光碟，俠客遊系列 Steam 版（2015 年上架）發行後再次購買支持原作。</p>
-  <p style="margin: 0;">📖 完整法律分析（🇹🇼 著作權法 §10-1 / 🇯🇵 著作権法 §2 + §12-2 / 🇺🇸 17 USC §102(b) + Feist + Sega）見 <a href="../series-research.html">系列研究筆記</a>。</p>
+  <p class="mb-6">第三之書（俠客遊三部曲第三作）的著作權由各相關權利人所有（遊戲附帶說明檔的版權標示是 <a href="https://www.artdink.com/" target="_blank" rel="noopener">ARTDINK</a> 與 Electronic Arts Taiwan，2000 到 2002 年；台灣繁體中文版由美商藝電代理發行）。本站公開內容以事實層為主（玩家可見名稱 / 結構觀察 / 數值對照）；原版圖像、音效、劇情等創作性表現不另行公開。例外：修改過的主程式（EzPlay 等）內嵌的圖像與遊戲內文字會隨主程式一起散布，官方更新檔含原版主程式，範圍見 <a href="../legal/dmca.html#fan-preservation">著作權頁 §8.1</a>。</p>
+  <p class="mb-6"><strong>支持原作</strong>：第三之書 Steam 未上架。請至 Steam 購買 <a href="https://store.steampowered.com/app/338070/_/" target="_blank" rel="noopener">俠客遊 I/II/III 合輯</a>或<a href="https://store.steampowered.com/app/335420/_/" target="_blank" rel="noopener">前途道標</a>支持原作 ARTDINK。toni 1996-2002 年購買正版遊戲原版實體磁碟片 / 光碟，俠客遊系列 Steam 版（2015 年上架）發行後再次購買支持原作。</p>
+  <p class="m-0">📖 完整法律分析（🇹🇼 著作權法 §10-1 / 🇯🇵 著作権法 §2 + §12-2 / 🇺🇸 17 USC §102(b) + Feist + Sega）見 <a href="../series-research.html">系列研究筆記</a>。</p>
 </div>
 
 <footer class="site-footer">

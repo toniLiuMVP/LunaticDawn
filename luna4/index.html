@@ -96,13 +96,13 @@
 <section class="panel">
   <h2 class="panel-title">[ FAQ · 常見問題 ]</h2>
 
-  <h3 style="color: var(--amber);">Q1. 想跟朋友連線玩，但官方伺服器已關閉？</h3>
+  <h3 class="c-amber">Q1. 想跟朋友連線玩，但官方伺服器已關閉？</h3>
   <p>解法：用 IP 直連模式。詳細步驟見<a href="multiplayer.html">▸ 俠客遊 IV 連線方法</a>，次元之門設定 → 界面選 IP → LAN 自動檢索 → 光球右鍵 → 輸入對方 IP。</p>
 
-  <h3 style="color: var(--amber);">Q2. 想快速練功怎麼辦？</h3>
+  <h3 class="c-amber">Q2. 想快速練功怎麼辦？</h3>
   <p>解法：toni 整理的鞠躬練功法，詳見<a href="exp-farming.html">▸ 俠客遊 IV 鞠躬練功法</a>，兩個 NPC 老闆 + 兩個劇本 + 兩個任務的交叉設定法。</p>
 
-  <h3 style="color: var(--amber);">Q3. 神之眼中文版用途？</h3>
+  <h3 class="c-amber">Q3. 神之眼中文版用途？</h3>
   <p>俠客遊 IV 的輔助查詢工具，輔助玩家查詢遊戲內資料。建議跟 LunaticConsortia 搭配使用。此工具原為日文版遊戲設計，繁中版可能無法正確讀取（工具內標示在 ver.1.2.1.5 確認可用；繁中版主程式的版本號也是 1.2.1.5，但版本號相同不代表相容）；繁中版建議改用本站<a href="savedata-viewer.html">俠客遊 IV 存檔修改器</a>。</p>
 </section>
 
@@ -110,33 +110,33 @@
   <h2 class="panel-title">[ 光碟結構分析（2026 逆向）]</h2>
   <p class="muted">2026 年 toni 將<strong>正版遊戲實體光碟</strong>拷貝到電腦後，本站對 LD4 完整光碟結構做了二進位分析：</p>
 
-  <h3 style="color: var(--amber);">主程式</h3>
-  <ul style="line-height: 1.8;">
+  <h3 class="c-amber">主程式</h3>
+  <ul class="lh-18">
     <li><code>LD4.exe</code>，2,561,024 bytes（約 2.5 MB），編譯日期 <strong>2001-05-25</strong>，PE32 格式（Windows 32-bit i386 GUI）</li>
     <li>跟 LD3（2000）僅相差 6 個月發行；採同樣 MFC 框架但加入連線功能</li>
     <li>遊戲資料總大小約 334 MB（比 LD3 多 60 MB，多在 Character 跟 Effect）</li>
   </ul>
 
-  <h3 style="color: var(--amber);">★ Web/ 模板系統（LD4 獨有）</h3>
+  <h3 class="c-amber">★ Web/ 模板系統（LD4 獨有）</h3>
   <p>LD4 內建 <strong>Web/Models/</strong> 4 種主題的 HTML 模板，玩家世界檔上傳到伺服器後會生成對應 HTML 頁面：</p>
-  <ul style="line-height: 1.8;">
+  <ul class="lh-18">
     <li><strong>standard</strong> 標準主題：title 寫「LD IV WORLD INFORMATION」</li>
     <li><strong>colors</strong> / <strong>games</strong> / <strong>users</strong>：不同視覺主題</li>
     <li>每個主題含 5 個頁面：index / world / top / menu / player</li>
   </ul>
 
   <p>從 <code>Web/Models/standard/world.html</code> 可看到玩家世界資訊頁的欄位設計：</p>
-  <ul style="line-height: 1.8;">
+  <ul class="lh-18">
     <li>HOME WORLD <strong>IP ADDRESS</strong>（核心，別人連你世界的進入點）</li>
     <li>世界名稱 / 公開狀態 / 開放狀況 / 容許人數</li>
     <li><strong>訪客履歷</strong>：近 4 位訪客名單（World 名稱 + 玩家名稱 + 訪問時間 + 退出時間）</li>
   </ul>
 
-  <p class="muted" style="font-size: 13px;">⚠️ 第三波官方伺服器於 2007 年前後關閉。但 IP 直連功能仍可用，詳見上方<a href="multiplayer.html">▸ 連線方法</a>。</p>
+  <p class="muted note-sm">⚠️ 第三波官方伺服器於 2007 年前後關閉。但 IP 直連功能仍可用，詳見上方<a href="multiplayer.html">▸ 連線方法</a>。</p>
 
-  <h3 style="color: var(--amber);">遊戲資料分類（Data/）</h3>
+  <h3 class="c-amber">遊戲資料分類（Data/）</h3>
   <p>LD4 沿用 LD3 的 9 大類資料結構（系列共通設計）：</p>
-  <ul style="line-height: 1.8;">
+  <ul class="lh-18">
     <li><strong>Map</strong> 107 MB，地圖資料（最大）</li>
     <li><strong>Monster</strong> 82 MB，怪物 sprite（增加大量新怪物）</li>
     <li><strong>Character</strong> 43 MB，角色 sprite（比 LD3 多 19 MB）</li>
@@ -146,16 +146,16 @@
     <li><strong>usr/</strong>（LD4 新增），使用者存檔資料夾</li>
   </ul>
 
-  <p class="muted" style="font-size: 13px;">⚠️ Monster / Character 資料夾的怪物與角色 sprite 是創作性表現（屬版權保護內容），本站不另行公開。</p>
+  <p class="muted note-sm">⚠️ Monster / Character 資料夾的怪物與角色 sprite 是創作性表現（屬版權保護內容），本站不另行公開。</p>
 
-  <h3 style="color: var(--amber);">.rsrc 內含 UI 字串（2026 提取）</h3>
+  <h3 class="c-amber">.rsrc 內含 UI 字串（2026 提取）</h3>
   <p>從原版光碟 LD4.exe 的資源區，解出字串表與對話框範本裡的文字，共 <strong>716 個不重複的中文 UI 字串</strong>（UTF-16LE 編碼，只計含中文字的字串；其中 392 個與 LD3 相同，324 個是 LD4 獨有；統計方法與 LD3 頁相同）。LD4 獨有的功能字串例如：</p>
-  <ul style="line-height: 1.8;">
+  <ul class="lh-18">
     <li><strong>網頁開啟功能</strong>：「開啟網頁」/「遊戲情報」（這兩個字串 LD3 沒有）</li>
     <li><strong>世界主題系統</strong>：standard / colors / games / users 4 種主題對應 Web/Models/ 模板</li>
   </ul>
 
-  <h3 style="color: var(--amber);">★ Web/Models 模板 placeholder 欄位（330+ 個）</h3>
+  <h3 class="c-amber">★ Web/Models 模板 placeholder 欄位（330+ 個）</h3>
 
   <p><strong>world.html (世界資訊頁，41 placeholder)</strong>：</p>
   <ul style="line-height: 1.8; font-size: 14px;">
@@ -175,20 +175,20 @@
     <li>世界名 / ハンドル名（帳號名）/ PC 稱號 / PC 名 / 開放狀態 / 許容人數</li>
   </ul>
 
-  <p class="muted" style="font-size: 13px;">→ 4 主題 × 5 頁 = 20 個模板，上列部分字詞是依 cp950 下的亂碼（「ソ / ヲьиュЧヱ / ヤユЪу / г⑦Эю」）與上下文推定的日文原詞（の、ライセンス、アイテム、ハンドル）。推定是日文原版佔位字串沒有完全轉換的殘留；本站沒有對照日文版原檔，未確認。</p>
+  <p class="muted note-sm">→ 4 主題 × 5 頁 = 20 個模板，上列部分字詞是依 cp950 下的亂碼（「ソ / ヲьиュЧヱ / ヤユЪу / г⑦Эю」）與上下文推定的日文原詞（の、ライセンス、アイテム、ハンドル）。推定是日文原版佔位字串沒有完全轉換的殘留；本站沒有對照日文版原檔，未確認。</p>
 
-  <h3 style="color: var(--amber);">★ LD4 加密分析（2026 known plaintext attack）</h3>
+  <h3 class="c-amber">★ LD4 加密分析（2026 known plaintext attack）</h3>
   <p>2026 年用 known plaintext attack 對 LD4 加密 BIN 取得部分突破：</p>
-  <ul style="line-height: 1.8;">
+  <ul class="lh-18">
     <li><strong>已知</strong>：LD3 MonsterPara.BIN 是明文 (<code>\\0LD3</code> magic + 12 bytes 0 padding)</li>
     <li><strong>推測</strong>：LD4 MonsterPara.BIN 對應原檔開頭應為 <code>\\0LD4</code> (差 byte 3：0x33→0x34)</li>
     <li><strong>解出</strong>：用 <code>\\0LD4 + 0 padding</code> 反推前 24 byte XOR key：<br><code style="font-size: 12px;">97 6e e2 ce bc bb 8a d5 00 55 3e 93 36 ee 32 3e 6a 87 66 d7 9e 20 9a 70</code></li>
     <li><strong>驗證</strong>：解出 byte 0-3 = <code>00 4c 44 34</code> = <code>\\0LD4</code>，前 24 bytes 完全對應 ✓</li>
     <li><strong>限制</strong>：byte 24+ 不是 cyclic XOR，cipher 切到 stream / state-based 演算法。完整破解需要反組譯 LD4.exe 找 cipher init function。</li>
   </ul>
-  <p class="muted" style="font-size: 13px;">→ 這是「<strong>已加密但不安全</strong>」的設計：用 zero padding 作為 known plaintext 立刻洩漏前 24 bytes XOR keystream。Artdink 顯然不是專業 cryptographer。</p>
+  <p class="muted note-sm">→ 這是「<strong>已加密但不安全</strong>」的設計：用 zero padding 作為 known plaintext 立刻洩漏前 24 bytes XOR keystream。Artdink 顯然不是專業 cryptographer。</p>
 
-  <h3 style="color: var(--amber);">★ Artdink 加密策略演進（2026 跨檔對照發現）</h3>
+  <h3 class="c-amber">★ Artdink 加密策略演進（2026 跨檔對照發現）</h3>
   <p>從 LUNA2 (1996) 到第三之書 (2002)，Artdink 對遊戲資料的加密策略逐步加強：</p>
   <table style="width: 100%; border-collapse: collapse; margin: 12px 0;">
     <thead>
@@ -206,10 +206,10 @@
   </table>
   <p>LD4 把<strong>最關鍵的 4 個資料檔</strong>加密（怪物參數 + 3 種道具表），其他世界 / 建築 / 地形仍明文。Artdink 顯然意識到「玩家會破解什麼」就先把那 4 種鎖起來。</p>
 
-  <h3 style="color: var(--amber);">res/ 完整檔案統計（44 BIN + 366 BMH + 33 TIL）</h3>
+  <h3 class="c-amber">res/ 完整檔案統計（44 BIN + 366 BMH + 33 TIL）</h3>
   <p>LD4 比 LD3 多了 8 個獨有 .BIN（如 Bld_Farm.BIN，農場系統，Area_Dungeon_E.BIN，地下城東區）。BMH 數量翻倍（187 → 366）跟 TIL 增多反映 LD4 美術資源大幅擴充。</p>
 
-  <h3 style="color: var(--amber);">資料安全</h3>
+  <h3 class="c-amber">資料安全</h3>
   <p>LD4 的網頁系統設計上，<strong>玩家世界的 IP address 直接寫進 HTML</strong>給其他玩家看到。在 2001 年是進步設計（玩家可以直接連線進入別人世界），但今天看是「IP 公開暴露」的設計。第三波官方伺服器於 2007 年前後關閉後，玩家只能用 LAN 內 IP 直連。</p>
 </section>
 
@@ -228,9 +228,9 @@
 
 <div style="max-width: 820px; margin: 24px auto; padding: 14px 18px; border-left: 3px solid #ffb000; background: rgba(255,176,0,0.06); font-size: 13px; line-height: 1.7;">
   <p style="margin: 0 0 8px 0;"><strong>📜 版權合規 + 支持原作</strong></p>
-  <p style="margin: 0 0 6px 0;">遊戲本體及其美術、劇情對白、配樂的權利由各相關權利人保留（開發商為日本 <a href="https://www.artdink.com/" target="_blank" rel="noopener">ARTDINK</a>）。本站公開內容以事實層為主（玩家可見名稱 / 結構觀察 / 數值對照）；原版圖像、音效、劇情等創作性表現不另行公開。例外：修改過的主程式（EzPlay 等）內嵌的圖像與遊戲內文字會隨主程式一起散布，官方更新檔含原版主程式，範圍見 <a href="../legal/dmca.html#fan-preservation">著作權頁 §8.1</a>。</p>
-  <p style="margin: 0 0 6px 0;"><strong>支持原作</strong>：俠客遊 IV Steam 未上架。請至 Steam 購買 <a href="https://store.steampowered.com/app/338070/_/" target="_blank" rel="noopener">俠客遊 I/II/III 合輯</a>或<a href="https://store.steampowered.com/app/335420/_/" target="_blank" rel="noopener">前途道標</a>支持原作 ARTDINK。toni 1996-2002 年購買正版遊戲原版實體磁碟片 / 光碟，俠客遊系列 Steam 版（2015 年上架）發行後再次購買支持原作。</p>
-  <p style="margin: 0;">📖 完整法律分析（🇹🇼 著作權法 §10-1 / 🇯🇵 著作権法 §2 + §12-2 / 🇺🇸 17 USC §102(b) + Feist + Sega）見 <a href="../series-research.html">系列研究筆記</a>。</p>
+  <p class="mb-6">遊戲本體及其美術、劇情對白、配樂的權利由各相關權利人保留（開發商為日本 <a href="https://www.artdink.com/" target="_blank" rel="noopener">ARTDINK</a>）。本站公開內容以事實層為主（玩家可見名稱 / 結構觀察 / 數值對照）；原版圖像、音效、劇情等創作性表現不另行公開。例外：修改過的主程式（EzPlay 等）內嵌的圖像與遊戲內文字會隨主程式一起散布，官方更新檔含原版主程式，範圍見 <a href="../legal/dmca.html#fan-preservation">著作權頁 §8.1</a>。</p>
+  <p class="mb-6"><strong>支持原作</strong>：俠客遊 IV Steam 未上架。請至 Steam 購買 <a href="https://store.steampowered.com/app/338070/_/" target="_blank" rel="noopener">俠客遊 I/II/III 合輯</a>或<a href="https://store.steampowered.com/app/335420/_/" target="_blank" rel="noopener">前途道標</a>支持原作 ARTDINK。toni 1996-2002 年購買正版遊戲原版實體磁碟片 / 光碟，俠客遊系列 Steam 版（2015 年上架）發行後再次購買支持原作。</p>
+  <p class="m-0">📖 完整法律分析（🇹🇼 著作權法 §10-1 / 🇯🇵 著作権法 §2 + §12-2 / 🇺🇸 17 USC §102(b) + Feist + Sega）見 <a href="../series-research.html">系列研究筆記</a>。</p>
 </div>
 
 <footer class="site-footer">

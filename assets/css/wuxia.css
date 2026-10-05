@@ -439,14 +439,6 @@ tbody tr:hover { background: rgba(139, 105, 20, 0.06); }
   display: block;
 }
 
-.card.wip {
-  border-style: dashed;
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-.card.wip:hover { border-color: var(--border); box-shadow: none; }
-.card.wip .card-title { color: var(--text-muted-ink); }
-
 /* ---- Badge ---- */
 .badge {
   display: inline-block;
@@ -462,29 +454,37 @@ tbody tr:hover { background: rgba(139, 105, 20, 0.06); }
   color: #fff;
   border: none;
 }
-.badge.wip {
-  background: var(--accent);
-  color: #fff;
-  border: none;
-}
+
+/* 首頁卡片內各自可點的連結：標題與標籤都要有滑鼠與鍵盤焦點的回饋。
+   標題連結是 <a>，預設的 a:hover 會在底部畫線，這裡維持透明，卡片標題不出現底線。 */
+.card-title-link:hover { border-bottom-color: transparent; }
+.card-title-link:hover .card-title,
+.card-title-link:focus-visible .card-title { color: var(--seal); }
+.badge-link { transition: background-color 0.15s; }
+.badge-link:hover,
+.badge-link:focus-visible { background: var(--link-hover); color: #fff; }
 
 /* ---- Utility Classes ---- */
 .dim    { color: var(--text-dim); }
 .muted  { color: var(--text-muted-ink); font-size: 15px; }
 .amber  { color: var(--accent); font-weight: 700; }
-.warn   { color: var(--accent); }
-.danger { color: var(--danger); }
 
-/* ---- ASCII Art ---- */
-.ascii-art {
-  font-family: 'Courier New', monospace;
-  font-size: 12px;
-  line-height: 1.1;
-  white-space: pre;
-  color: var(--text-dim);
-  margin: 20px 0;
-  text-align: center;
-}
+/* ---- 小型工具類（取代各頁重複的 style 屬性，數值與原行內樣式相同；
+        寫在上面的強調文字規則之後，同樣的權重下以這裡為準）---- */
+.c-amber { color: var(--amber); }
+.lh-loose { line-height: 1.9; }
+.lh-18 { line-height: 1.8; }
+.note-sm { font-size: 13px; }
+.m-0 { margin: 0; }
+.mb-6 { margin: 0 0 6px 0; }
+.pad-box { padding: 0.5em 1em; }
+.tbl-pad6 td { padding: 6px; }
+
+/* ---- 首頁「最新更新」公告框（新增公告時直接套用，不再複製行內樣式）---- */
+.update-note { padding: 12px 16px; border-left: 3px solid var(--amber); background: rgba(255, 176, 0, 0.08); margin-bottom: 12px; }
+.update-note-title { margin-bottom: 8px; }
+.update-note-list { margin: 8px 0 0 20px; line-height: 1.8; }
+.update-note-links { margin: 10px 0 0 0; }
 
 /* ---- Footer ---- */
 .site-footer {

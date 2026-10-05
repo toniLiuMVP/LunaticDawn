@@ -34,7 +34,6 @@
 .plat-no { color: #b23b3b; font-weight: bold; }
 .dl-btn { display: inline-block; background: #b8860b; color: var(--bg-header); font-weight: bold; padding: 9px 18px; margin: 6px 0; border-bottom: none; }
 .dl-btn:hover { background: #c9a227; color: var(--bg-header); }
-.dl-pending { display: inline-block; background: var(--bg-panel); color: var(--text-muted); padding: 9px 18px; border: 1px dashed var(--border); font-size: 14px; }
 .steps { counter-reset: step; list-style: none; padding-left: 0; }
 .steps > li { counter-increment: step; margin: 10px 0; padding-left: 38px; position: relative; line-height: 1.7; }
 .steps > li::before { content: counter(step); position: absolute; left: 0; top: 0; width: 26px; height: 26px; background: #b8860b; color: var(--bg-header); border-radius: 50%; text-align: center; line-height: 26px; font-weight: bold; }
@@ -115,7 +114,7 @@ pre.cmd { background: var(--bg-code); border: 1px solid var(--border-dark); padd
     <li><strong>Mac</strong>：① 自動找到你電腦裡的 <strong>Wine</strong>（老 Windows 遊戲要靠 Wine 才能在 Mac 上執行，啟動檔會依序找終端機可執行的 wine / Wine Crossover / CrossOver，最後再找 Homebrew 的預設安裝路徑）→ ② 清除包內其他檔案（主程式、元件、設定檔）的下載隔離屬性（只處理資料夾最上層、屬於本包的檔案類型）→ ③ 切換到遊戲所在資料夾 → ④ 用 Wine 啟動遊戲。</li>
     <li><strong>Windows</strong>：先<strong>切換到遊戲所在資料夾</strong>再啟動主程式，這樣遊戲才找得到同資料夾的必要元件（直接雙擊主程式有時工作目錄不對，會出問題）。</li>
   </ul>
-  <p class="muted" style="font-size:13px;">啟動檔是純文字檔，你可以用記事本／文字編輯器打開檢視它做了哪些事，完全透明。</p>
+  <p class="muted note-sm">啟動檔是純文字檔，你可以用記事本／文字編輯器打開檢視它做了哪些事，完全透明。</p>
 
   <h3 style="font-size:15px;color:var(--accent);margin:20px 0 6px;border-bottom:1px dotted var(--border);padding-bottom:4px;">🔒 下載安全與驗證</h3>
   <ul style="line-height:1.85;">
@@ -140,7 +139,7 @@ pre.cmd { background: var(--bg-code); border: 1px solid var(--border-dark); padd
       <h3>下載</h3>
       <p><a class="dl-btn" href="https://drive.google.com/file/d/1ed0yh3f8obfGw-oJTbUIZyFs9m72nXJ1/view" target="_blank" rel="noopener">📦 下載 LD95_EzPlay.7z（Google Drive · 525 KB）</a></p>
       <p class="muted" style="font-size:12px;word-break:break-all;margin-top:4px;">🔒 SHA-256: <code class="f">61eddaacf81bffb698de4e8755da5b7c022e2c44a7db2665b0df624c076a13e0</code></p>
-      <p class="muted" style="font-size:13px;">※ 另有一個較早的字體修復包 <code class="f">POLd95Win11_WordOK.7z</code>（2026-05 整理），解決的是同一個字體問題、也含同一支 <code class="f">Ld95.exe</code>，但字體元件是另一個較小的 build，安裝後<strong>直接雙擊 <code class="f">Ld95.exe</code></strong> 而不是走啟動檔。兩包各自自足，任選一包完整覆蓋即可，<strong>不要混用</strong>。舊包與逐步安裝說明見 <a href="passage/win10-font-fix.html">前途道標字體修復</a>頁。</p>
+      <p class="muted note-sm">※ 另有一個較早的字體修復包 <code class="f">POLd95Win11_WordOK.7z</code>（2026-05 整理），解決的是同一個字體問題、也含同一支 <code class="f">Ld95.exe</code>，但字體元件是另一個較小的 build，安裝後<strong>直接雙擊 <code class="f">Ld95.exe</code></strong> 而不是走啟動檔。兩包各自自足，任選一包完整覆蓋即可，<strong>不要混用</strong>。舊包與逐步安裝說明見 <a href="passage/win10-font-fix.html">前途道標字體修復</a>頁。</p>
       <h3>遇到的困難與排除</h3>
       <table class="diff-table">
         <tr><th>困難</th><th>排除方法</th></tr>
@@ -176,7 +175,7 @@ pre.cmd { background: var(--bg-code); border: 1px solid var(--border-dark); padd
         <p style="margin:0 0 8px;"><strong>難題：遊戲進得去，但一點「工具列視窗」就閃退。真兇竟是「想把視窗放大」的嘗試。</strong></p>
         <p style="margin:0 0 8px;">俠客遊 IV 是 2001 年的多子視窗程式（工具列、地圖、角色狀態各是獨立小視窗）。我們一度想把視窗放大（老遊戲在大螢幕顯得很小），做法是加一個元件去攔截系統的「視窗繪圖」指令，結果它把子視窗的繪圖座標搞亂了，<strong>一點工具列就崩潰</strong>。</p>
         <p style="margin:0 0 8px;"><strong>解法</strong>：把「放大視窗」的攔截全部移除，只留遊戲本身必要的最小元件，工具列就恢復正常、不再閃退。想要大視窗請改用 <strong>Windows 內建顯示縮放</strong>（設定 → 系統 → 顯示器 → 縮放），讓系統去放大，不要在程式裡硬攔截。</p>
-        <p style="margin:0;"><strong>順帶取捨</strong>：原版的背景音樂原本在 CD 音軌，沒有光碟就沒有音樂；曾試過用 mp3 自動播放補回，但有相容問題（Mac 尤其無解），最終取捨為<strong>無背景音樂、換取 100% 穩定不閃退</strong>。<strong>教訓</strong>：對老程式注入元件時，能不碰的（視窗 / 繪圖 / DPI 縮放）就別碰，越精簡越穩。</p>
+        <p class="m-0"><strong>順帶取捨</strong>：原版的背景音樂原本在 CD 音軌，沒有光碟就沒有音樂；曾試過用 mp3 自動播放補回，但有相容問題（Mac 尤其無解），最終取捨為<strong>無背景音樂、換取 100% 穩定不閃退</strong>。<strong>教訓</strong>：對老程式注入元件時，能不碰的（視窗 / 繪圖 / DPI 縮放）就別碰，越精簡越穩。</p>
       </div>
     </div>
   </div>
@@ -216,7 +215,7 @@ pre.cmd { background: var(--bg-code); border: 1px solid var(--border-dark); padd
       <h3>💡 排除經驗</h3>
       <div class="warnbox" style="border-left-color:var(--accent);background:rgba(184,134,11,0.06);">
         <p style="margin:0 0 8px;">老實說，第三之書是這三款裡<strong>最順手的一款</strong> 😄。它是 2002 年的 <strong>Windows 原生</strong>遊戲，在現代 Windows 上幾乎是放進去就能玩，沒有前兩作那些字體、視窗、音樂的老毛病。</p>
-        <p style="margin:0;"><strong>主要工夫在 Mac：</strong>第三之書當年只發行 Windows 版，Mac 沒有原生版本，得靠 Wine 才能執行。我們把這件事交給啟動檔自動處理（找 Wine、解除安全隔離、設好執行環境，流程見上方「啟動檔幫你做了什麼？」），讓 Mac 玩家也能一鍵遊玩。所以這款的「困難」不在遊戲本身，而在<strong>怎麼讓老 Windows 遊戲在 Mac 上順順地跑起來</strong>，這正是 EzPlay 啟動檔幫你解決的事。</p>
+        <p class="m-0"><strong>主要工夫在 Mac：</strong>第三之書當年只發行 Windows 版，Mac 沒有原生版本，得靠 Wine 才能執行。我們把這件事交給啟動檔自動處理（找 Wine、解除安全隔離、設好執行環境，流程見上方「啟動檔幫你做了什麼？」），讓 Mac 玩家也能一鍵遊玩。所以這款的「困難」不在遊戲本身，而在<strong>怎麼讓老 Windows 遊戲在 Mac 上順順地跑起來</strong>，這正是 EzPlay 啟動檔幫你解決的事。</p>
       </div>
     </div>
   </div>
@@ -265,7 +264,7 @@ pre.cmd { background: var(--bg-code); border: 1px solid var(--border-dark); padd
   <div class="warnbox">
     ⚖ <strong>誠實說明</strong>:本站立場為<strong>非商業的文化保存(fan preservation)</strong>，上面每一條依據都有適用限制，不代表散布修改檔一定合法；台灣著作權法第 80-2 條、日本著作権法第 120 條之 2、美國 17 USC §1201(a)(2) 對提供規避工具另有規定，本站無法排除這項風險。下載即表示你自承下游使用責任(備份 / 自用 / 不對外散布)。完整的合規哲學、散布範圍、反規避條款風險說明、主動下架承諾與著作權異議流程，見 <a href="legal/dmca.html#fan-preservation">著作權異議處理 §8 Fan Preservation 特別說明</a>。
   </div>
-  <p class="muted" style="font-size:13px;">權利人對任一作品提出要求時，本站收到後 72 小時內下架對應補丁；2026-09-23 之後 ARTDINK 若再推出新的商業復刻、重製或新平台版本，本站也會主動下架(詳見<a href="legal/dmca.html#fan-preservation">著作權頁 §8.3</a>)。著作權人快速通道見 <a href="legal/dmca.html">DMCA 頁</a>。</p>
+  <p class="muted note-sm">權利人對任一作品提出要求時，本站收到後 72 小時內下架對應補丁；2026-09-23 之後 ARTDINK 若再推出新的商業復刻、重製或新平台版本，本站也會主動下架(詳見<a href="legal/dmca.html#fan-preservation">著作權頁 §8.3</a>)。著作權人快速通道見 <a href="legal/dmca.html">DMCA 頁</a>。</p>
 </section>
 
 </main>

@@ -80,22 +80,22 @@
   <h2 class="panel-title">[ 光碟結構分析（2026 逆向）]</h2>
   <p class="muted">2026 年 toni 將<strong>正版遊戲實體光碟</strong>拷貝到電腦後，本站對 LD3 完整光碟結構做了二進位分析：</p>
 
-  <h3 style="color: var(--amber);">主程式</h3>
-  <ul style="line-height: 1.8;">
+  <h3 class="c-amber">主程式</h3>
+  <ul class="lh-18">
     <li><code>LD3.exe</code>，2,494,898 bytes（約 2.4 MB），編譯日期 <strong>2000-11-17</strong>，PE32 格式（Windows 32-bit i386 GUI）</li>
     <li>跟<a href="../lde3/">第三之書</a>（2002）一樣是 MFC 程式，但 LD3 比第三之書早 2 年發行</li>
   </ul>
 
-  <h3 style="color: var(--amber);">光碟結構</h3>
-  <ul style="line-height: 1.8;">
+  <h3 class="c-amber">光碟結構</h3>
+  <ul class="lh-18">
     <li><strong>安裝光碟</strong>（LD3_INSTALL）：DirectX 安裝程式 + DirectXMedia + 主程式（ld3 資料夾）</li>
     <li><strong>遊戲光碟</strong>（LD3_GAME_DISC）：Movie 動畫 + initial</li>
     <li>遊戲資料總大小約 275 MB</li>
   </ul>
 
-  <h3 style="color: var(--amber);">遊戲資料分類（Data/）</h3>
+  <h3 class="c-amber">遊戲資料分類（Data/）</h3>
   <p>LD3 資料分 9 大類，跟 LD4 結構一致（系列共通設計）：</p>
-  <ul style="line-height: 1.8;">
+  <ul class="lh-18">
     <li><strong>Map</strong> 97 MB，地圖資料（最大）</li>
     <li><strong>Monster</strong> 42 MB，怪物 sprite（用 .TIL 格式，每隻怪物有多個動作檔）</li>
     <li><strong>Character</strong> 24 MB，角色 sprite</li>
@@ -104,22 +104,22 @@
     <li><strong>Campaign</strong> / <strong>Range</strong> / <strong>MSG</strong>，劇本 / 範圍 / 訊息字典</li>
   </ul>
 
-  <p class="muted" style="font-size: 13px;">⚠️ 怪物 / 角色 sprite 是創作性表現（屬版權保護內容），本站不公開。</p>
+  <p class="muted note-sm">⚠️ 怪物 / 角色 sprite 是創作性表現（屬版權保護內容），本站不公開。</p>
 
-  <h3 style="color: var(--amber);">.rsrc 內含 UI 字串（2026 提取）</h3>
+  <h3 class="c-amber">.rsrc 內含 UI 字串（2026 提取）</h3>
   <p>從原版光碟 LD3.exe 的資源區，解出字串表與對話框範本裡的文字，共 <strong>766 個不重複的中文 UI 字串</strong>（UTF-16LE 編碼，只計含中文字的字串；其中 392 個與 LD4 相同）。揭露的核心系統設計：</p>
-  <ul style="line-height: 1.8;">
+  <ul class="lh-18">
     <li><strong>連線設計</strong>：「次元之門設定」/「次元之門的狀態」/「確認性開放」/「限制性開放」/「LAN 內自動檢索」/「選擇伺服器」/「第三波伺服器」/「接受上限人數(包含其他 PC 隊員)」</li>
     <li><strong>世界系統</strong>：「世界簡介」/「使用者代號」/「選擇要前往的世界」/「劇本編輯」</li>
     <li><strong>玩家屬性</strong>：「體力」/「魔力」/「屬性 1-2」/「信仰屬性」/「年齡」/「性別」/「稱號」</li>
     <li><strong>遊戲系統</strong>：「武器資料編輯」/「對象物品設定」/「報酬設定」/「場所設定」/「狀態設定」</li>
   </ul>
-  <p class="muted" style="font-size: 13px;">→ <strong>確認 LD3 也有「次元之門」連線系統</strong>（不只是 LD4 才有），系列共通設計。</p>
+  <p class="muted note-sm">→ <strong>確認 LD3 也有「次元之門」連線系統</strong>（不只是 LD4 才有），系列共通設計。</p>
 
-  <h3 style="color: var(--amber);">res/MonsterPara.BIN，146 怪物名（明文！）</h3>
+  <h3 class="c-amber">res/MonsterPara.BIN，146 怪物名（明文！）</h3>
   <p>LD3 主資料 <code>res/MonsterPara.BIN</code>（31,788 bytes，<code>\\0LD3</code> magic header）<strong>沒有加密</strong>，可直接逆向。提取出 146 隻怪物名，揭露俠客遊系列的設計傳承：</p>
 
-  <ul style="line-height: 1.8;">
+  <ul class="lh-18">
     <li><strong>共通最終 boss</strong>：「安哥摩爾」(× 4 變體)，跟<a href="../luna2/database/system-terms.html">俠客遊 II</a>的「魔王安哥爾莫亞」同一個！系列共通的最終魔王</li>
     <li><strong>4 元素精靈（× 4 變體）</strong>：火 / 水 / 風 / 土，跟 II 完全一致</li>
     <li><strong>4 狂信者</strong>：光 / 闇 / 混沌 / 秩序，從 LD3 (2000) 起就存在；第三之書的 CO-卡片程式庫也有 4 個屬性名稱（<a href="../lde3/database/cards.html">黑暗 / 神聖 / 混沌 / 秩序</a>），兩者是否對應本站未確認</li>
@@ -128,16 +128,16 @@
     <li><strong>4 種天使</strong>：秩序 / 混沌 / 光 / 闇 各 4 變體 = 共 16 種天使</li>
   </ul>
 
-  <h3 style="color: var(--amber);">res/ 完整檔案統計（36 BIN + 187 BMH + 24 TIL）</h3>
-  <ul style="line-height: 1.8;">
+  <h3 class="c-amber">res/ 完整檔案統計（36 BIN + 187 BMH + 24 TIL）</h3>
+  <ul class="lh-18">
     <li><strong>36 個 .BIN</strong>：全部 <code>\\0LD3</code> magic（明文，無加密）</li>
     <li><strong>187 個 .BMH</strong>：BitmapHeader 圖像，magic 4 bytes 其實是 file size（5 個主要 size 範圍）</li>
     <li><strong>24 個 .TIL</strong>：tile 圖像，magic <code>20 04 00 00</code> = 1056（推測 width × height）</li>
   </ul>
 
-  <h3 style="color: var(--amber);">★ res/ 各 mt_*.BIN，1,183 筆明文中文字串（1,153 個不重複）</h3>
+  <h3 class="c-amber">★ res/ 各 mt_*.BIN，1,183 筆明文中文字串（1,153 個不重複）</h3>
   <p>LD3 res/ 各 mt_*.BIN 跟 MonsterPara.BIN 全部明文，提取出 <strong>1,183 筆中文字串（其中 1,153 個不重複，四份「主世界與區域世界」清單有互相重複的名字）</strong>，這是 LD3 <strong>隨機世界生成器</strong>用的 name pool：</p>
-  <ul style="line-height: 1.8;">
+  <ul class="lh-18">
     <li><strong>世界 / 國家名 516 個</strong>（mt_world.BIN）：阿修連 / 阿古納拉達 / 阿古雷特 / 阿茲里亞 / 阿托地克 等</li>
     <li><strong>城鎮名 144 個</strong>（mt_f_town.BIN）：開始之鎮 / 冒險者之鎮 / 月之鎮 / 博愛之鎮 等</li>
     <li><strong>怪物名 87 個</strong>（MonsterPara.BIN）：食人觸手 / 鬼魂 / 安哥摩爾 / 4 元素精靈 等</li>
@@ -169,9 +169,9 @@
 
 <div style="max-width: 820px; margin: 24px auto; padding: 14px 18px; border-left: 3px solid #ffb000; background: rgba(255,176,0,0.06); font-size: 13px; line-height: 1.7;">
   <p style="margin: 0 0 8px 0;"><strong>📜 版權合規 + 支持原作</strong></p>
-  <p style="margin: 0 0 6px 0;">遊戲本體及其美術、劇情對白、配樂的權利由各相關權利人保留（開發商為日本 <a href="https://www.artdink.com/" target="_blank" rel="noopener">ARTDINK</a>）。本站公開內容以事實層為主（玩家可見名稱 / 結構觀察 / 數值對照）；原版圖像、音效、劇情等創作性表現不另行公開。例外：修改過的主程式（EzPlay 等）內嵌的圖像與遊戲內文字會隨主程式一起散布，官方更新檔含原版主程式，範圍見 <a href="../legal/dmca.html#fan-preservation">著作權頁 §8.1</a>。</p>
-  <p style="margin: 0 0 6px 0;"><strong>支持原作</strong>：請至 <a href="https://store.steampowered.com/app/338070/_/" target="_blank" rel="noopener">Steam 俠客遊 I/II/III 合輯頁</a>購買正版俠客遊系列。toni 1996-2002 年購買正版遊戲原版實體磁碟片 / 光碟，俠客遊系列 Steam 版（2015 年上架）發行後再次購買支持原作。</p>
-  <p style="margin: 0;">📖 完整法律分析（🇹🇼 著作權法 §10-1 / 🇯🇵 著作権法 §2 + §12-2 / 🇺🇸 17 USC §102(b) + Feist + Sega）見 <a href="../series-research.html">系列研究筆記</a>。</p>
+  <p class="mb-6">遊戲本體及其美術、劇情對白、配樂的權利由各相關權利人保留（開發商為日本 <a href="https://www.artdink.com/" target="_blank" rel="noopener">ARTDINK</a>）。本站公開內容以事實層為主（玩家可見名稱 / 結構觀察 / 數值對照）；原版圖像、音效、劇情等創作性表現不另行公開。例外：修改過的主程式（EzPlay 等）內嵌的圖像與遊戲內文字會隨主程式一起散布，官方更新檔含原版主程式，範圍見 <a href="../legal/dmca.html#fan-preservation">著作權頁 §8.1</a>。</p>
+  <p class="mb-6"><strong>支持原作</strong>：請至 <a href="https://store.steampowered.com/app/338070/_/" target="_blank" rel="noopener">Steam 俠客遊 I/II/III 合輯頁</a>購買正版俠客遊系列。toni 1996-2002 年購買正版遊戲原版實體磁碟片 / 光碟，俠客遊系列 Steam 版（2015 年上架）發行後再次購買支持原作。</p>
+  <p class="m-0">📖 完整法律分析（🇹🇼 著作權法 §10-1 / 🇯🇵 著作権法 §2 + §12-2 / 🇺🇸 17 USC §102(b) + Feist + Sega）見 <a href="../series-research.html">系列研究筆記</a>。</p>
 </div>
 
 <footer class="site-footer">
