@@ -18,11 +18,27 @@
 #   2. The rule's own section reports the violation, and that section names the
 #      planted file (or the planted value). A hit on some other file, or a message
 #      that also appears when the rule passes, is not proof.
-#   3. Every python-backed rule is also broken on purpose (a crash canary) and has
+#   3. The report has the weight its level promises. The audit's own section title
+#      says whether a rule is a BLOCKER or a WARN. A BLOCKER bait has to raise the
+#      summary's Blockers above the clean run, turn the Status line to BLOCKED and
+#      make the audit exit non-zero. A WARN bait has to raise Warnings only and
+#      leave the exit status where the clean run had it. Without this a BLOCKER that
+#      was quietly demoted to a WARN, or one that prints its failure without
+#      counting it, still shows the section text and still passes the checks above,
+#      while the audit tells the bad page "CLEAN (safe to commit)". Where the title
+#      carries no level (the A8 sub-rules), the level is the marker the audit itself
+#      printed on the report line (✗ or ⚠), and the counts and the exit status are
+#      held against that marker. A demotion of such a sub-rule cannot be told from a
+#      deliberate choice here, because the audit declares no level to compare with.
+#   4. Every python-backed rule is also broken on purpose (a crash canary) and has
 #      to go red with "could not run", because a crashed rule prints nothing and
 #      nothing reads as clean.
+#   5. A2 is planted once per file type the audit scans (not only .html), and its
+#      section has to name every bait. Every other bait is a page, so an audit whose
+#      file filter had shrunk to pages would stay green on all of them.
 # The list of rules is read from the audit's own output, so a rule that is added
 # to site_audit.sh without a bait here fails this run instead of passing unnoticed.
+# The list of file types is read from the audit's own filter in the same way.
 #
 # Anything not proven (dead check, missing bait, anchor that no longer matches,
 # clone that could not be built) fails the run. Nothing is skipped quietly.
@@ -106,6 +122,69 @@ section_of() {
     on { print }'
 }
 
+# heading_of <audit output> <tag>: the section title line. It carries the level the
+# audit declares for the rule, such as "(BLOCKER)" or "(WARN: defensive)".
+heading_of() { printf '%s\n' "$1" | awk -v tag="$2" 'index($0, tag) { print; exit }'; }
+
+# declared_level <title>: BLOCKER or WARN as the title says it, nothing when it says
+# neither.
+declared_level() {
+  case "$1" in
+    *"(BLOCKER"*) echo BLOCKER ;;
+    *"(WARN"*) echo WARN ;;
+  esac
+}
+
+# marked_line <section> <text>: the first line of the section that starts with a
+# failure marker (✗ from print_fail, ⚠ from print_warn) and carries the text. Hit
+# lines quoted from pages have no marker, so none of them can stand in for it.
+marked_line() {
+  printf '%s\n' "$1" | awk -v t="$2" '($1 == "✗" || $1 == "⚠") && index($0, t) { print; exit }'
+}
+
+# summary_count <audit output> <Blockers|Warnings>: the number on the audit's summary
+# line (the last such line). Nothing when the line is missing or is not a number.
+summary_count() {
+  printf '%s\n' "$1" | awk -v k="$2:" '$1 == k && $2 ~ /^[0-9]+$/ { v = $2 } END { if (v != "") print v }'
+}
+
+# severity_verdict <tag> <report text> <audit output> <exit status> <clean output>
+# <clean exit status>: prints "ok <LEVEL>" when the report has the weight its level
+# promises, otherwise "bad <reason>". The clean output and status belong to a run of
+# the same audit without the bait, and every count is held against them. The report
+# text is what the marked line says, which is not always the text that proves the
+# bait was seen (A17 names its hits on lines without a marker).
+severity_verdict() {
+  local tag="$1" report="$2" out="$3" rc="$4" ref="$5" refrc="$6"
+  local declared line marker level b0 w0 b1 w1
+  declared=$(declared_level "$(heading_of "$out" "$tag")")
+  line=$(marked_line "$(section_of "$out" "$tag")" "$report")
+  case "$line" in
+    "  ✗ "*) marker=BLOCKER ;;
+    "  ⚠ "*) marker=WARN ;;
+    *) echo "bad no ✗ or ⚠ line in the section carries the report text"; return ;;
+  esac
+  if [ -n "$declared" ] && [ "$declared" != "$marker" ]; then
+    echo "bad the section title says $declared but the report line is marked $marker"; return
+  fi
+  level="${declared:-$marker}"
+  b0=$(summary_count "$ref" Blockers); w0=$(summary_count "$ref" Warnings)
+  b1=$(summary_count "$out" Blockers); w1=$(summary_count "$out" Warnings)
+  if [ -z "$b0" ] || [ -z "$w0" ] || [ -z "$b1" ] || [ -z "$w1" ]; then
+    echo "bad the summary has no Blockers or Warnings count to compare"; return
+  fi
+  if [ "$level" = BLOCKER ]; then
+    [ "$b1" -gt "$b0" ] || { echo "bad a BLOCKER report did not raise the Blockers count ($b0 -> $b1)"; return; }
+    contains "$out" "Status: ✗ BLOCKED" || { echo "bad a BLOCKER report did not turn the Status line to BLOCKED"; return; }
+    [ "$rc" -ne 0 ] || { echo "bad a BLOCKER report did not make the audit exit non-zero"; return; }
+  else
+    [ "$w1" -gt "$w0" ] || { echo "bad a WARN report did not raise the Warnings count ($w0 -> $w1)"; return; }
+    [ "$b1" -eq "$b0" ] || { echo "bad the WARN bait also raised the Blockers count ($b0 -> $b1), so its exit status proves nothing"; return; }
+    [ "$rc" -eq "$refrc" ] || { echo "bad a WARN-only report changed the exit status ($refrc -> $rc)"; return; }
+  fi
+  echo "ok $level"
+}
+
 # clean_baseline <label> <tag> <expect>: returns 0 when the rule is green on the
 # clean tree. Otherwise records the failure and returns 1.
 clean_baseline() {
@@ -122,32 +201,40 @@ clean_baseline() {
   return 0
 }
 
-# prove <label> <tag> <expect> <needle> <audit output>: the rule's own section has
-# to carry the failure text and has to name the bait. The first word of the label
-# is the rule id and is recorded as covered when the check fires.
+# prove <label> <tag> <expect> <needle> <audit output> <exit status> [<clean output>
+# <clean exit status> [<report text>]]: the rule's own section has to carry the
+# failure text and has to name the bait, and the report has to have the weight the
+# rule's level promises (see severity_verdict). The clean run defaults to the
+# baseline and the report text to the failure text. The first word of the label is
+# the rule id and is recorded as covered when the check fires.
 prove() {
-  local label="$1" tag="$2" expect="$3" needle="$4" out="$5" s id
+  local label="$1" tag="$2" expect="$3" needle="$4" out="$5" rc="$6"
+  local ref="${7-$BASELINE}" refrc="${8-$BASE_RC}" report="${9-$3}" s id v
   id="${label%% *}"
   s=$(section_of "$out" "$tag")
-  if contains "$s" "$expect" && contains "$s" "$needle"; then
-    echo "  ✓ $label: fires on the planted bait"
-    PASS=$((PASS+1))
-    COVERED="$COVERED$id "
-  else
+  if ! { contains "$s" "$expect" && contains "$s" "$needle"; }; then
     echo "  ✗ $label: DEAD CHECK (violation planted, the rule did not report it)"
-    FAIL=$((FAIL+1))
+    FAIL=$((FAIL+1)); return
   fi
+  v=$(severity_verdict "$tag" "$report" "$out" "$rc" "$ref" "$refrc")
+  if [ "${v%% *}" != ok ]; then
+    echo "  ✗ $label: WRONG WEIGHT (${v#bad })"
+    FAIL=$((FAIL+1)); return
+  fi
+  echo "  ✓ $label: fires on the planted bait (${v#ok }, exit $rc)"
+  PASS=$((PASS+1))
+  COVERED="$COVERED$id "
 }
 
 # plant_existing <file> <expect> <label> <tag> [needle]: the file already exists.
 # The needle defaults to the file name.
 plant_existing() {
-  local file="$1" expect="$2" label="$3" tag="$4" needle="${5:-$1}" out
+  local file="$1" expect="$2" label="$3" tag="$4" needle="${5:-$1}" out rc
   if ! clean_baseline "$label" "$tag" "$expect"; then rm -f "$file"; return; fi
   git add -f "$file" 2>/dev/null
   CANARIES+=("$file")
-  out=$(run_audit)
-  prove "$label" "$tag" "$expect" "$needle" "$out"
+  out=$(run_audit); rc=$?
+  prove "$label" "$tag" "$expect" "$needle" "$out" "$rc"
   git rm -f --cached "$file" -q 2>/dev/null
   rm -f "$file"
   CANARIES=()
@@ -165,6 +252,7 @@ echo "════════════════════════�
 # (lost exec bit, bad shebang, syntax error) makes EVERY rule look dead, which is
 # exactly what happened the first time this self-test was run.
 BASELINE=$(run_audit)
+BASE_RC=$?
 if ! contains "$BASELINE" "AUDIT SUMMARY"; then
   echo "  ✗ negative control FAILED: the audit did not produce a summary."
   echo "    Every rule would look 'dead'. Fix the audit script before reading results."
@@ -172,7 +260,7 @@ if ! contains "$BASELINE" "AUDIT SUMMARY"; then
   printf '%s\n' "$BASELINE" | head -5
   exit 1
 fi
-echo "  ✓ negative control: audit runs and reports"
+echo "  ✓ negative control: audit runs and reports (clean run: Blockers $(summary_count "$BASELINE" Blockers), Warnings $(summary_count "$BASELINE" Warnings), exit $BASE_RC)"
 echo ""
 
 plant canary_a1.html "Internal dev jargon" "A1 internal jargon" "[A1]" <<'EOF'
@@ -192,6 +280,82 @@ EOF
 plant canary_a2c.html "Personal dev paths leaked" "A2c tool-config path (absolute)" "[A2]" <<'EOF'
 <p>/opt/tool/.claude/settings</p>
 EOF
+
+# A2 reads every file type the audit scans, not only pages. Every other bait here is
+# an .html file, so an audit whose file filter had shrunk to pages would stay green on
+# all of them. Each file type gets a bait of its own, all carrying the same A2 path,
+# and the A2 section has to name every one. The needle is "<name>:", the form grep -Hn
+# prints, because canary_ext.js alone is also the beginning of canary_ext.json. A2
+# shows at most ten hit lines, so the baits go in two audits and not in one.
+EXT_BAITS="js json md txt py sh css xml svg yml conf command bat"
+
+plant_ext_batch() {  # plant_ext_batch <extension>...
+  local ext f out rc s v missing="" nmiss=0 nok
+  for ext in "$@"; do
+    f="canary_ext.$ext"
+    printf '%s\n' '/Volumes/Work/LD/ canary' > "$f"
+    CANARIES+=("$f")
+    git add -f "$f" 2>/dev/null
+  done
+  out=$(run_audit); rc=$?
+  for f in "${CANARIES[@]}"; do
+    git rm -f --cached "$f" -q 2>/dev/null
+    rm -f "$f"
+  done
+  CANARIES=()
+  s=$(section_of "$out" "[A2]")
+  for ext in "$@"; do
+    if ! contains "$s" "canary_ext.$ext:"; then missing="$missing .$ext"; nmiss=$((nmiss+1)); fi
+  done
+  if [ -n "$missing" ]; then
+    echo "  ✗ A2 file types:$missing DEAD (the rule never looked at that kind of file)"
+    FAIL=$((FAIL+nmiss))
+  fi
+  nok=$(($# - nmiss))
+  [ "$nok" -gt 0 ] || return
+  v=$(severity_verdict "[A2]" "Personal dev paths leaked" "$out" "$rc" "$BASELINE" "$BASE_RC")
+  if [ "${v%% *}" != ok ]; then
+    echo "  ✗ A2 file types: WRONG WEIGHT (${v#bad })"
+    FAIL=$((FAIL+nok))
+  else
+    echo "  ✓ A2 file types ($*): each one named in the A2 section (${v#ok }, exit $rc)"
+    PASS=$((PASS+nok))
+  fi
+}
+
+if clean_baseline "A2 file types" "[A2]" "Personal dev paths leaked"; then
+  plant_ext_batch js json md txt py sh css
+  plant_ext_batch xml svg yml conf command bat
+fi
+
+# The file types to bait come from the audit's own filter, so a type added there
+# without a bait above is reported instead of passing unnoticed. (LICENSE is the only
+# scanned name without an extension and is a real tracked file, so it has no bait.)
+FILTER_EXTS=$(python3 - <<'PYEXT' 2>&1
+import re, sys
+s = open('tools/audit/site_audit.sh', encoding='utf-8').read()
+m = re.findall(r'grep -E "\\\.\(([a-z]+(?:\|[a-z]+)*)\)\$', s)
+if len(m) != 1:
+    print('the file type filter occurs %d times, expected once' % len(m))
+    sys.exit(2)
+print(' '.join(m[0].split('|')))
+PYEXT
+)
+FILTER_RC=$?
+if [ "$FILTER_RC" -ne 0 ] || [ -z "$FILTER_EXTS" ]; then
+  echo "  ✗ A2 file types: could not read the file type filter from the audit ($FILTER_EXTS)"
+  FAIL=$((FAIL+1))
+else
+  UNBAITED=""
+  for e in $FILTER_EXTS; do
+    [ "$e" = html ] && continue
+    contains " $EXT_BAITS " " $e " || UNBAITED="$UNBAITED .$e"
+  done
+  if [ -n "$UNBAITED" ]; then
+    echo "  ✗ A2 file types: the audit scans$UNBAITED but no bait here covers it"
+    FAIL=$((FAIL+1))
+  fi
+fi
 
 plant canary_a3.html "Possible credentials detected" "A3 credentials" "[A3]" <<'EOF'
 <p>api_key = "abcdefghij0123456789abcdef"</p>
@@ -231,17 +395,25 @@ plant_existing "canary_攻略集_page1.png" "8.3 Copyrighted scan in public area
 if clean_baseline "A8.4 disclaimer presence" "[A8]" "8.4 No copyright disclaimer detected"; then
   CANARIES+=("canary_a84.html")
   printf '<html><body><p>plain page</p></body></html>\n' > canary_a84.html
-  OUT=$(LD_AUDIT_FILES="canary_a84.html" bash "$AUDIT" </dev/null 2>&1)
+  OUT=$(LD_AUDIT_FILES="canary_a84.html" bash "$AUDIT" </dev/null 2>&1); OUT_RC=$?
   printf '<html><body><p>copyright notice</p></body></html>\n' > canary_a84.html
-  CTL=$(LD_AUDIT_FILES="canary_a84.html" bash "$AUDIT" </dev/null 2>&1)
+  CTL=$(LD_AUDIT_FILES="canary_a84.html" bash "$AUDIT" </dev/null 2>&1); CTL_RC=$?
   rm -f canary_a84.html; CANARIES=()
   S_BAIT=$(section_of "$OUT" "[A8]")
   S_CTL=$(section_of "$CTL" "[A8]")
   if contains "$S_BAIT" "8.4 No copyright disclaimer detected" \
      && ! contains "$S_CTL" "8.4 No copyright disclaimer detected" \
      && contains "$S_CTL" "8.4 Copyright disclaimer present in 1 file"; then
-    echo "  ✓ A8.4 disclaimer presence: fires on a page without one, quiet on a page with one"
-    PASS=$((PASS+1)); COVERED="${COVERED}A8.4 "
+    # The control run is the clean reference for the counts: both runs audit a single
+    # page, so whatever else that page trips is the same on both sides.
+    V84=$(severity_verdict "[A8]" "8.4 No copyright disclaimer detected" "$OUT" "$OUT_RC" "$CTL" "$CTL_RC")
+    if [ "${V84%% *}" = ok ]; then
+      echo "  ✓ A8.4 disclaimer presence: fires on a page without one (${V84#ok }, exit $OUT_RC), quiet on a page with one"
+      PASS=$((PASS+1)); COVERED="${COVERED}A8.4 "
+    else
+      echo "  ✗ A8.4 disclaimer presence: WRONG WEIGHT (${V84#bad })"
+      FAIL=$((FAIL+1))
+    fi
   else
     echo "  ✗ A8.4 disclaimer presence: DEAD CHECK (a page without a disclaimer was not reported, or the control page was)"
     FAIL=$((FAIL+1))
@@ -309,12 +481,12 @@ if t == s:
 open('sitemap.xml', 'w', encoding='utf-8').write(t)
 PYBAIT
       PLANTED=$?
-      OUT=$(run_audit)
+      OUT=$(run_audit); OUT_RC=$?
       cp "$SM_BAK" "$SM"; rm -f "$SM_BAK"; SM_BAK=""
       if [ "$PLANTED" -ne 0 ]; then
         echo "  ✗ A16 sitemap freshness: the bait could not be planted"; FAIL=$((FAIL+1))
       else
-        prove "A16 sitemap freshness" "[A16]" "older than the file they point at" "sitemap=2000-01-01" "$OUT"
+        prove "A16 sitemap freshness" "[A16]" "older than the file they point at" "sitemap=2000-01-01" "$OUT" "$OUT_RC"
       fi
     fi
   fi
@@ -335,7 +507,7 @@ A17_DIR="$SCRATCH/a17"
 mkdir -p "$A17_DIR"
 A17_OK=0
 if git clone -q --no-hardlinks . "$A17_DIR/c" 2>/dev/null && cp "$AUDIT" "$A17_DIR/c/tools/audit/site_audit.sh"; then
-  A17_CLEAN=$(bash "$A17_DIR/c/tools/audit/site_audit.sh" </dev/null 2>&1)
+  A17_CLEAN=$(bash "$A17_DIR/c/tools/audit/site_audit.sh" </dev/null 2>&1); A17_CLEAN_RC=$?
   A17_S=$(section_of "$A17_CLEAN" "[A17]")
   if [ -z "$A17_S" ]; then
     echo "  ✗ A17 history layer: cannot prove it, the clean clone has no A17 section"; FAIL=$((FAIL+1))
@@ -354,9 +526,11 @@ if [ "$A17_OK" = 1 ]; then
        && mkdir -p pdf-pages && : > pdf-pages/canary.png \
        && git add -f pdf-pages/canary.png && $G commit -q -m 'chore: c1' \
        && git rm -q pdf-pages/canary.png && $G commit -q -m 'chore: c2' ); then
-    A17_OUT=$(bash "$A17_DIR/c/tools/audit/site_audit.sh" </dev/null 2>&1)
-    prove "A17.2 commit message layer" "[A17]" "A17.2 non-generic message" "canary: 第九十九波" "$A17_OUT"
-    prove "A17.1 path layer (added then removed)" "[A17]" "A17.1 copyrighted scan" "pdf-pages/canary.png" "$A17_OUT"
+    A17_OUT=$(bash "$A17_DIR/c/tools/audit/site_audit.sh" </dev/null 2>&1); A17_RC=$?
+    # The hits are named on lines without a marker; the marked line is the count.
+    A17_REPORT="history-layer leak(s) not on the accepted baseline"
+    prove "A17.2 commit message layer" "[A17]" "A17.2 non-generic message" "canary: 第九十九波" "$A17_OUT" "$A17_RC" "$A17_CLEAN" "$A17_CLEAN_RC" "$A17_REPORT"
+    prove "A17.1 path layer (added then removed)" "[A17]" "A17.1 copyrighted scan" "pdf-pages/canary.png" "$A17_OUT" "$A17_RC" "$A17_CLEAN" "$A17_CLEAN_RC" "$A17_REPORT"
   else
     echo "  ✗ A17 history layer: could not plant the history bait in the clone, not proven"; FAIL=$((FAIL+1))
   fi
