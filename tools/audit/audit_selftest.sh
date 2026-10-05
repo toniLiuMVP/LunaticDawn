@@ -498,6 +498,88 @@ fi
 printf '%s\n' '<html><body><pre>posted from 198-51-100-7.adsl.dynamic.example</pre></body></html>' > probe_a18.html
 plant_existing probe_a18.html "unredacted poster address(es)" "A18 unredacted poster addresses" "[A18]"
 
+# A19 bait: a character the full Noto Serif TC can draw but the shipped subset dropped, on a
+# page that links fonts-wuxia.css. It is picked at run time (the first character of the
+# coverage listing that no @font-face of the shipped stylesheet carries), so the bait cannot
+# drift into the set the pages really use, and it is printed back as "U+XXXX <char>".
+A19_BAIT=$(python3 - 2>&1 <<'PYA19'
+import sys
+sys.path.insert(0, 'tools/audit')
+import wuxia_chars as wc
+shipped, faces = wc.serif_ranges(open('assets/css/fonts-wuxia.css', encoding='utf-8').read())
+cov = wc.parse_unicode_ranges(''.join(l for l in open('tools/audit/wuxia_font_coverage.txt', encoding='utf-8')
+                                       if not l.startswith('#')))
+spare = sorted(cov - shipped)
+if not spare:
+    raise SystemExit('the shipped font carries everything the full font has: nothing to use as bait')
+# A visible ideograph makes a readable bait; fall back to anything if none is spare.
+c = ([x for x in spare if 0x4e00 <= x <= 0x9fff] or spare)[0]
+print('%04X %s' % (c, chr(c)))
+PYA19
+)
+A19_BAIT_RC=$?
+A19_CP="${A19_BAIT%% *}"
+A19_CH="${A19_BAIT#* }"
+if [ "$A19_BAIT_RC" -ne 0 ] || ! [[ "$A19_CP" =~ ^[0-9A-F]{4,6}$ ]] || [ -z "$A19_CH" ]; then
+  echo "  ✗ A19 wuxia font coverage: could not pick a bait character ($A19_BAIT)"
+  FAIL=$((FAIL+1))
+else
+  printf '<html><head><link rel="stylesheet" href="assets/css/fonts-wuxia.css"></head><body><p>%s</p></body></html>\n' "$A19_CH" > canary_a19.html
+  plant_existing canary_a19.html "problem(s): characters missing from the shipped wuxia font" "A19 wuxia font coverage" "[A19]" "U+$A19_CP $A19_CH: canary_a19.html"
+fi
+
+# A19 has three more ways to fail that the bait above cannot show, and each of them has to
+# read as red, never as a pass: a font file the stylesheet points at is missing, the coverage
+# listing is missing, and the list of files holds no page that links the stylesheet. Each one
+# is held against a control run that differs from it only in that one thing and has to be
+# green, so a red that comes from something else cannot count as proof.
+a19_red() {  # a19_red <label> <text the A19 section has to carry> <audit output>
+  local label="$1" text="$2" out="$3" s
+  s=$(section_of "$out" "[A19]")
+  if contains "$s" "$text" && contains "$s" "  ✗ "; then
+    echo "  ✓ $label: goes red"
+    PASS=$((PASS+1))
+  else
+    echo "  ✗ $label: FALSE GREEN (the A19 section does not report it)"
+    FAIL=$((FAIL+1))
+  fi
+}
+a19_green() {  # a19_green <label> <audit output>: the control, which has to pass
+  local label="$1" out="$2" s
+  s=$(section_of "$out" "[A19]")
+  if contains "$s" "Every character the" && ! contains "$s" "  ✗ "; then
+    return 0
+  fi
+  echo "  ✗ $label: the control run is not green, so the red check next to it proves nothing"
+  FAIL=$((FAIL+1))
+  return 1
+}
+A19_T="$SCRATCH/a19"
+mkdir -p "$A19_T/assets/css" "$A19_T/assets/fonts"
+cp assets/css/fonts-wuxia.css "$A19_T/assets/css/fonts-wuxia.css"
+cp assets/fonts/wuxia-*.woff2 "$A19_T/assets/fonts/"
+printf '<html><head><link rel="stylesheet" href="assets/css/fonts-wuxia.css"></head><body><p>a</p></body></html>\n' > "$A19_T/page.html"
+printf '<html><body><p>no stylesheet here</p></body></html>\n' > "$A19_T/plain.html"
+A19_LIST=$'page.html\nassets/css/fonts-wuxia.css'
+OUT=$(LD_AUDIT_ROOT="$A19_T" LD_AUDIT_FILES="$A19_LIST" bash "$AUDIT" </dev/null 2>&1)
+if a19_green "A19 mini tree" "$OUT"; then
+  OUT=$(LD_AUDIT_ROOT="$A19_T" LD_AUDIT_FILES="plain.html" bash "$AUDIT" </dev/null 2>&1)
+  a19_red "A19 no page links the stylesheet" "A19 check could not run" "$OUT"
+  rm -rf "$A19_T/assets/fonts"
+  OUT=$(LD_AUDIT_ROOT="$A19_T" LD_AUDIT_FILES="$A19_LIST" bash "$AUDIT" </dev/null 2>&1)
+  a19_red "A19 font file the stylesheet points at is missing" "but not in the tree" "$OUT"
+fi
+mkdir -p "$SCRATCH/a19b/tools/audit"
+cp "$AUDIT" tools/audit/wuxia_chars.py "$SCRATCH/a19b/tools/audit/"
+cp tools/audit/wuxia_font_coverage.txt "$SCRATCH/a19b/tools/audit/"
+A19_ALL="$(git -c core.quotePath=false ls-files)"
+OUT=$(LD_AUDIT_ROOT="$PWD" LD_AUDIT_FILES="$A19_ALL" bash "$SCRATCH/a19b/tools/audit/site_audit.sh" </dev/null 2>&1)
+if a19_green "A19 audit copy with its coverage listing" "$OUT"; then
+  rm -f "$SCRATCH/a19b/tools/audit/wuxia_font_coverage.txt"
+  OUT=$(LD_AUDIT_ROOT="$PWD" LD_AUDIT_FILES="$A19_ALL" bash "$SCRATCH/a19b/tools/audit/site_audit.sh" </dev/null 2>&1)
+  a19_red "A19 coverage listing missing" "A19 check could not run" "$OUT"
+fi
+
 # A17 reads git history, so its bait is history: a throwaway clone gets one commit
 # with a non-generic message and one path under pdf-pages/ that is added and then
 # removed. The clone runs its own copy of the working audit script, so its git root
@@ -600,6 +682,7 @@ crash_canary "A16 (history table)" $'BASE = \'https://toniliumvp.github.io/Lunat
 crash_canary "A16 (uncommitted changes)" $'mode = os.environ.get(\'LD_AUDIT_MODE\', \'tree\')' "[A16]=A16 check could not run"
 crash_canary "A17" 'PATH_PATTERNS = [' "[A17]=A17 check could not run"
 crash_canary "A18" $'MARK = r\'' "[A18]=A18 check could not run"
+crash_canary "A19" $'tools = os.environ.get(\'LD_AUDIT_TOOLS\', \'\')' "[A19]=A19 check could not run"
 cp "$AUDIT_BAK" "$AUDIT"; rm -f "$AUDIT_BAK"
 
 # Coverage. The rules to expect come from the audit's own output, so a rule added

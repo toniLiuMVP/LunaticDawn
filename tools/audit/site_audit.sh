@@ -1918,6 +1918,72 @@ else
   [ "$A18_MISS" -gt 0 ] && print_fail "$A18_MISS unredacted poster address(es) - the redaction step did not run"
 fi
 
+# A19. Characters the wuxia pages need but the shipped font no longer has (BLOCKER)
+# fonts-wuxia.css ships Noto Serif TC cut down to the characters the pages use. A page
+# that gains a character the cut-down font dropped does not break: that one character
+# is drawn in a system font instead, which looks different and measures differently,
+# and nothing else would notice. The font is rebuilt from the full original by the
+# post-processing chain, so a hand-written page is the case this rule exists for.
+#
+# What counts as "needed" is defined once, in tools/audit/wuxia_chars.py, and the build
+# step imports the same file. A character the full font never had is not reported: it
+# fell back to a system font before the cut as well. The listing of what the full font
+# can draw is tools/audit/wuxia_font_coverage.txt, written by the build step.
+# The module and the listing are read from the audit's own directory and the pages and
+# the stylesheet from the audited tree: the pre-commit hook audits an export of the
+# index in which this directory exists as well.
+print_section "[A19] Characters missing from the shipped wuxia font (BLOCKER)"
+A19_OUT=$(LD_AUDIT_PUB="$PUB_FILES" LD_AUDIT_TOOLS="$GIT_ROOT/tools/audit" python3 - 2>&1 <<'PYEOF'
+import os, sys
+
+tools = os.environ.get('LD_AUDIT_TOOLS', '')
+sys.path.insert(0, tools)
+import wuxia_chars as wc
+
+files = [f.strip() for f in os.environ.get('LD_AUDIT_PUB', '').splitlines() if f.strip()]
+if not files:
+    print('  cannot read the file list - refusing to report this check as passed')
+    sys.exit(1)
+try:
+    problems, pages = wc.audit(files, '.', os.path.join(tools, 'wuxia_font_coverage.txt'))
+except (OSError, ValueError, RuntimeError) as e:
+    print('  %s: %s' % (type(e).__name__, e))
+    sys.exit(1)
+nhits = 0
+for cp, ch, srcs in problems:
+    nhits += 1
+    if cp is None:
+        print('  %s: referenced by %s but not in the tree' % (ch, srcs[0]))
+    else:
+        more = ' (+%d more)' % (len(srcs) - 3) if len(srcs) > 3 else ''
+        print('  U+%04X %s: %s%s' % (cp, ch, ', '.join(srcs[:3]), more))
+print('OK %d %d 0' % (nhits, pages))
+PYEOF
+)
+A19_RC=$?
+# The page count is held against a plain grep, which shares no code with the rule:
+# a rule that looked at fewer pages than the files that name the stylesheet, or at none,
+# did not do its job.
+A19_SEEN=$(grep_pub -lF 'fonts-wuxia.css')
+if pub_grep_failed; then
+  print_fail "A19 check could not run (the cross-check grep failed) - not reporting it as passed"
+else
+A19_N=$(printf '%s\n' "$A19_SEEN" | grep -cE '\.html$')
+if [ "$A19_RC" -ne 0 ] || ! py_done "$A19_OUT"; then
+  printf '%s\n' "$A19_OUT" | tail -4 | sed 's/^/    /'
+  print_fail "A19 check could not run (exit $A19_RC) - not reporting it as passed"
+elif [ "$A19_N" -eq 0 ]; then
+  print_fail "A19 check could not run (no page links fonts-wuxia.css, so there is nothing to check) - not reporting it as passed"
+elif [ "$(py_field "$A19_OUT" 1)" != "$A19_N" ]; then
+  print_fail "A19 check could not run (it looked at $(py_field "$A19_OUT" 1) of $A19_N wuxia page(s)) - not reporting it as passed"
+elif [ "$(py_field "$A19_OUT" 0)" = 0 ]; then
+  print_pass "Every character the $A19_N wuxia pages need is in the shipped font"
+else
+  printf '%s\n' "$(py_body "$A19_OUT")" | head -10
+  print_fail "$(py_field "$A19_OUT" 0) problem(s): characters missing from the shipped wuxia font, or font files missing - rebuild the subset (subset_wuxia_fonts.py)"
+fi
+fi
+
 # Summary
 echo ""
 echo "════════════════════════════════════════════════════════════"
