@@ -277,7 +277,7 @@ def build_readme() -> str:
     lines.append("- **一位玩家** · 2013 第三之書 Win7 相容性早期測試")
     lines.append("- **一位對岸玩家** · 2020 俠客遊 IV 神之眼路徑詢問")
     lines.append("- **DavidChien / nec81616 / tigerzhou100800 / line841a** · 2020-2021 Google 防毒誤判回報")
-    lines.append("- **一位對岸玩家** · 2021「密碼壓縮繞防毒」解法提議")
+    lines.append("- **一位對岸玩家** · 2021 提議改用加密壓縮檔的散布方式")
     lines.append("- **一位玩家** · 2022 阿米卓古 / 第三之書 me 版詢問")
     lines.append("- **raymond0206** · 2022 Win10 亂碼問題")
     lines.append("- **jill90131** · 2023 第三之書入坑詢問（toni TeamViewer 遠端協助）")
