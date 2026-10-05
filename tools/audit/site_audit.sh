@@ -1984,6 +1984,72 @@ else
 fi
 fi
 
+# A20. Content-Security-Policy of every page (BLOCKER)
+# GitHub Pages cannot send headers, so each page carries its policy in a <meta> element,
+# and the policy lists the sha256 of every inline script of that page. A page whose script
+# was edited without refreshing that list does not break loudly: the browser skips the
+# script, and whatever it did stops working. The same goes for a page that lost its policy
+# element, one whose policy was widened by hand, and one that uses an inline event handler
+# or a javascript: URL, which the policy no longer runs.
+#
+# What the policy says, how a script is hashed and how a page is read are defined once, in
+# tools/audit/csp_scripts.py; the build step (csp_hash.py) imports the same file, so the page,
+# the writer and this rule cannot drift apart. The module is read from the audit's own
+# directory and the pages from the audited tree, as for A19.
+#
+# Pages named canary_* are the self-test's bait pages and are skipped only while the
+# self-test runs, as in A15. The page count is held against the shell's own, and the number
+# of pages without a policy against a plain grep that shares no code with the rule.
+print_section "[A20] Content-Security-Policy of every page (BLOCKER)"
+A20_OUT=$(LD_AUDIT_PUB="$PUB_FILES" LD_AUDIT_TOOLS="$GIT_ROOT/tools/audit" python3 - 2>&1 <<'PYEOF'
+import os, sys
+
+sys.path.insert(0, os.environ.get('LD_AUDIT_TOOLS', ''))
+import csp_scripts as csp
+
+files = [f.strip() for f in os.environ.get('LD_AUDIT_PUB', '').splitlines() if f.strip()]
+if not files:
+    print('  cannot read the file list - refusing to report this check as passed')
+    sys.exit(1)
+selftest = bool(os.environ.get('LD_AUDIT_SELFTEST'))
+problems, pages, unread, without = csp.audit(
+    files, lambda f: selftest and os.path.basename(f).startswith('canary_'))
+for f, msg in problems:
+    print('  %s: %s' % (f, msg))
+print('OK %d %d %d %d' % (len(problems), pages, unread, without))
+PYEOF
+)
+A20_RC=$?
+A20_NOPOLICY=$(grep_pub -LF 'Content-Security-Policy')
+if pub_grep_failed; then
+  print_fail "A20 check could not run (the cross-check grep failed) - not reporting it as passed"
+else
+A20_GREP_N=0
+while IFS= read -r _f; do
+  case "$_f" in
+    *.html)
+      if [ -n "${LD_AUDIT_SELFTEST:-}" ]; then case "${_f##*/}" in canary_*) continue ;; esac; fi
+      A20_GREP_N=$((A20_GREP_N+1)) ;;
+  esac
+done <<< "$A20_NOPOLICY"
+if [ "$A20_RC" -ne 0 ] || ! py_done "$A20_OUT"; then
+  printf '%s\n' "$A20_OUT" | tail -4 | sed 's/^/    /'
+  print_fail "A20 check could not run (exit $A20_RC) - not reporting it as passed"
+elif [ "$(py_field "$A20_OUT" 1)" != "$HTML_N" ]; then
+  print_fail "A20 check could not run (it looked at $(py_field "$A20_OUT" 1) of $HTML_N page(s)) - not reporting it as passed"
+elif [ "$A20_GREP_N" -gt "$(py_field "$A20_OUT" 3)" ]; then
+  print_fail "A20 check could not run (a plain grep finds $A20_GREP_N page(s) that never mention a Content-Security-Policy, the rule counted $(py_field "$A20_OUT" 3)) - not reporting it as passed"
+elif [ "$(py_field "$A20_OUT" 0)" = 0 ]; then
+  print_pass "All $HTML_N pages carry the policy, and it matches the inline scripts of each page"
+else
+  printf '%s\n' "$(py_body "$A20_OUT")" | head -10
+  A20_UNREAD=$(py_field "$A20_OUT" 2)
+  A20_BAD=$(( $(py_field "$A20_OUT" 0) - A20_UNREAD ))
+  [ "$A20_UNREAD" -gt 0 ] && print_fail "A20 could not read $A20_UNREAD file(s) - not reporting them as passed"
+  [ "$A20_BAD" -gt 0 ] && print_fail "$A20_BAD problem(s) with the Content-Security-Policy of the pages above - run csp_hash.py --apply (it is part of the post-processing chain) or fix what the line says"
+fi
+fi
+
 # Summary
 echo ""
 echo "════════════════════════════════════════════════════════════"

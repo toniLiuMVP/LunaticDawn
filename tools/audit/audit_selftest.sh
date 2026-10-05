@@ -570,7 +570,7 @@ if a19_green "A19 mini tree" "$OUT"; then
   a19_red "A19 font file the stylesheet points at is missing" "but not in the tree" "$OUT"
 fi
 mkdir -p "$SCRATCH/a19b/tools/audit"
-cp "$AUDIT" tools/audit/wuxia_chars.py "$SCRATCH/a19b/tools/audit/"
+cp "$AUDIT" tools/audit/wuxia_chars.py tools/audit/csp_scripts.py "$SCRATCH/a19b/tools/audit/"
 cp tools/audit/wuxia_font_coverage.txt "$SCRATCH/a19b/tools/audit/"
 A19_ALL="$(git -c core.quotePath=false ls-files)"
 OUT=$(LD_AUDIT_ROOT="$PWD" LD_AUDIT_FILES="$A19_ALL" bash "$SCRATCH/a19b/tools/audit/site_audit.sh" </dev/null 2>&1)
@@ -578,6 +578,168 @@ if a19_green "A19 audit copy with its coverage listing" "$OUT"; then
   rm -f "$SCRATCH/a19b/tools/audit/wuxia_font_coverage.txt"
   OUT=$(LD_AUDIT_ROOT="$PWD" LD_AUDIT_FILES="$A19_ALL" bash "$SCRATCH/a19b/tools/audit/site_audit.sh" </dev/null 2>&1)
   a19_red "A19 coverage listing missing" "A19 check could not run" "$OUT"
+fi
+
+# A20 baits. Each page is a correct page with exactly one thing wrong, written by the generator
+# below: the policy it carries comes from csp_scripts.py, but the sha256 of its script is
+# computed here with openssl, which shares no code with the module, so a wrong hash function
+# in the module cannot hide behind a bait that was built with the same wrong function. The
+# baits are named probe_a20_*, not canary_*, because pages named canary_* are skipped by A20
+# while this test runs (the other baits are not pages that carry a policy).
+IFS= read -r -d '' A20_MAKE <<'PYA20'
+import base64, subprocess, sys
+sys.path.insert(0, 'tools/audit')
+import csp_scripts as csp
+
+kind = sys.argv[1]
+name = 'probe_a20_%s.html' % kind
+SCRIPT = '\nvar a = 1; // 中文\n'   # not ASCII only: an encoding mistake in the module has to show
+digest = subprocess.run(['openssl', 'dgst', '-sha256', '-binary'], input=SCRIPT.encode(),
+                        capture_output=True, check=True).stdout
+h = "'sha256-%s'" % base64.b64encode(digest).decode()
+meta = csp.expected_meta(name, [h])
+body = '<p>probe</p>\n<script>%s</script>\n' % SCRIPT
+after_charset = [meta]
+if kind == 'ok':
+    pass
+elif kind == 'hash':
+    body = body.replace('var a = 1;', 'var a = 2;')
+elif kind == 'nometa':
+    after_charset = []
+elif kind == 'wide':
+    after_charset = [meta.replace("script-src 'self'", "script-src 'self' 'unsafe-inline'")]
+elif kind == 'late':
+    after_charset = ['<link rel="stylesheet" href="x.css">', meta]
+elif kind == 'handler':
+    body += '<button onclick="x()">x</button>\n'
+elif kind == 'external':
+    body += '<script src="https://cdn.example/x.js"></script>\n'
+else:
+    raise SystemExit('unknown bait kind ' + kind)
+page = ('<!DOCTYPE html>\n<html lang="zh-Hant">\n<head>\n<meta charset="UTF-8">\n%s\n<title>probe</title>\n'
+        '</head>\n<body>\n%s</body>\n</html>\n') % ('\n'.join(after_charset), body)
+open(name, 'w', encoding='utf-8').write(page)
+PYA20
+
+a20_make() { python3 -c "$A20_MAKE" "$1"; }  # never reads stdin: the code comes in with -c
+
+if clean_baseline "A20 control" "[A20]" "problem(s) with the Content-Security-Policy"; then
+  # A correct page (policy from the module, script hash from openssl) must leave the rule green.
+  if a20_make ok; then
+    CANARIES+=("probe_a20_ok.html")
+    git add -f probe_a20_ok.html 2>/dev/null
+    OUT=$(run_audit)
+    git rm -f --cached probe_a20_ok.html -q 2>/dev/null; rm -f probe_a20_ok.html; CANARIES=()
+    S20=$(section_of "$OUT" "[A20]")
+    if contains "$S20" "carry the policy" && ! contains "$S20" "  ✗ " && ! contains "$S20" "probe_a20_ok"; then
+      echo "  ✓ A20 control: a correct page with an inline script keeps the rule green (so the baits below are not red for everything)"
+      PASS=$((PASS+1))
+    else
+      echo "  ✗ A20 control: a correct page makes the rule red, the baits below prove nothing"
+      FAIL=$((FAIL+1))
+    fi
+  else
+    echo "  ✗ A20 control: the page could not be written"; FAIL=$((FAIL+1))
+  fi
+  for kind in hash nometa wide late handler external; do
+    case "$kind" in
+      hash)     LBL="A20 inline script changed, policy not updated"; NEEDLE="probe_a20_hash.html: inline script at line" ;;
+      nometa)   LBL="A20 page without a policy"; NEEDLE="probe_a20_nometa.html: no Content-Security-Policy meta element" ;;
+      wide)     LBL="A20 policy widened by hand"; NEEDLE="probe_a20_wide.html: the policy differs from the expected one: script-src: +'unsafe-inline'" ;;
+      late)     LBL="A20 policy placed after a stylesheet link"; NEEDLE="probe_a20_late.html: the policy (line" ;;
+      handler)  LBL="A20 inline event handler"; NEEDLE="probe_a20_handler.html: <button onclick=...> at line" ;;
+      external) LBL="A20 script from another origin"; NEEDLE="probe_a20_external.html: <script> loads cdn.example from another origin" ;;
+    esac
+    if a20_make "$kind"; then
+      plant_existing "probe_a20_$kind.html" "problem(s) with the Content-Security-Policy" "$LBL" "[A20]" "$NEEDLE"
+    else
+      echo "  ✗ $LBL: the bait page could not be written, not proven"; FAIL=$((FAIL+1))
+    fi
+  done
+fi
+
+# A20 can also fail without crashing: it can look at fewer pages than there are, or count
+# fewer pages without a policy than a plain grep finds. Each of those has to read as "could not
+# run" and never as a pass. A copy of the module that was broken in exactly that one way makes
+# each happen; the untouched copy on the same input is the control, so a red that comes from
+# something else cannot count as proof.
+a20_section() { section_of "$1" "[A20]"; }
+A20_T="$SCRATCH/a20t"; A20_B="$SCRATCH/a20b"
+mkdir -p "$A20_T" "$A20_B/tools/audit"
+cp "$AUDIT" tools/audit/csp_scripts.py "$A20_B/tools/audit/"
+printf '<html><head><meta charset="UTF-8"></head><body><p>no policy here</p></body></html>\n' > "$A20_T/plain.html"
+python3 - "$A20_T" <<'PYGOOD' || { echo "  ✗ A20 cross-checks: could not write the control pages"; FAIL=$((FAIL+1)); }
+import os, sys
+sys.path.insert(0, 'tools/audit')
+import csp_scripts as csp
+root = sys.argv[1]
+os.makedirs(os.path.join(root, 'luna4'), exist_ok=True)
+for rel in ('good.html', 'luna4/other.html'):
+    page = '<html><head>\n<meta charset="UTF-8">\n%s\n</head><body><p>fine</p></body></html>\n' % csp.expected_meta(rel, [])
+    open(os.path.join(root, rel), 'w', encoding='utf-8').write(page)
+PYGOOD
+a20_run() {  # a20_run <file list>: the audit copy in $A20_B on the mini tree in $A20_T
+  LD_AUDIT_ROOT="$A20_T" LD_AUDIT_FILES="$1" bash "$A20_B/tools/audit/site_audit.sh" </dev/null 2>&1
+}
+OUT=$(a20_run "good.html"); S=$(a20_section "$OUT")
+if ! contains "$S" "carry the policy" || contains "$S" "  ✗ "; then
+  echo "  ✗ A20 cross-checks: the control (a page with a policy) is not green on the untouched copy, nothing below proves anything"
+  FAIL=$((FAIL+1))
+else
+  OUT=$(a20_run "plain.html"); S=$(a20_section "$OUT")
+  if contains "$S" "plain.html: no Content-Security-Policy meta element" && contains "$S" "problem(s) with the Content-Security-Policy" && ! contains "$S" "could not run"; then
+    echo "  ✓ A20 control: a page with no policy is reported as a finding, not as a rule that could not run"
+    PASS=$((PASS+1))
+  else
+    echo "  ✗ A20 control: a page with no policy is not reported as a finding on the untouched copy"
+    FAIL=$((FAIL+1))
+  fi
+  # The page-specific entry (the modifier needs its bridge address) follows the page: when the
+  # page is gone but the pages beside it are listed, the entry points at nothing and the page
+  # would silently lose what it needs. A tree with no luna4 pages at all (the control above)
+  # has nothing to say about it.
+  OUT=$(a20_run "luna4/other.html"); S=$(a20_section "$OUT")
+  if contains "$S" "luna4/savedata-viewer.html: a page-specific policy entry names a page that is not in the list" && contains "$S" "  ✗ "; then
+    echo "  ✓ A20 goes red when the page a page-specific policy entry belongs to is gone"
+    PASS=$((PASS+1))
+  else
+    echo "  ✗ A20 does not notice a page-specific policy entry whose page is gone: FALSE GREEN"
+    FAIL=$((FAIL+1))
+  fi
+  cp "$A20_B/tools/audit/csp_scripts.py" "$A20_B/csp_scripts.py.orig"
+  python3 - "$A20_B/tools/audit/csp_scripts.py" 'scanned += 1' 'scanned += 0' <<'PYTAMPER' || { echo "  ✗ A20 cross-checks: the module no longer contains the line to break, not proven"; SKIP=$((SKIP+1)); }
+import sys
+p, old, new = sys.argv[1:4]
+s = open(p, encoding='utf-8').read()
+if s.count(old) != 1:
+    raise SystemExit(2)
+open(p, 'w', encoding='utf-8').write(s.replace(old, new))
+PYTAMPER
+  OUT=$(a20_run "good.html"); S=$(a20_section "$OUT")
+  if contains "$S" "A20 check could not run (it looked at 0 of 1 page(s))" && contains "$S" "  ✗ "; then
+    echo "  ✓ A20 goes red when it looks at fewer pages than there are"
+    PASS=$((PASS+1))
+  else
+    echo "  ✗ A20 reads a rule that looked at none of the pages as a pass: FALSE GREEN"
+    FAIL=$((FAIL+1))
+  fi
+  cp "$A20_B/csp_scripts.py.orig" "$A20_B/tools/audit/csp_scripts.py"
+  python3 - "$A20_B/tools/audit/csp_scripts.py" 'without += 1' 'without += 0' <<'PYTAMPER' || { echo "  ✗ A20 cross-checks: the module no longer contains the line to break, not proven"; SKIP=$((SKIP+1)); }
+import sys
+p, old, new = sys.argv[1:4]
+s = open(p, encoding='utf-8').read()
+if s.count(old) != 1:
+    raise SystemExit(2)
+open(p, 'w', encoding='utf-8').write(s.replace(old, new))
+PYTAMPER
+  OUT=$(a20_run "plain.html"); S=$(a20_section "$OUT")
+  if contains "$S" "A20 check could not run (a plain grep finds 1 page(s)" && contains "$S" "  ✗ "; then
+    echo "  ✓ A20 goes red when a plain grep finds pages without a policy that the rule did not count"
+    PASS=$((PASS+1))
+  else
+    echo "  ✗ A20 trusts its own count of pages without a policy over a plain grep: FALSE GREEN"
+    FAIL=$((FAIL+1))
+  fi
 fi
 
 # A17 reads git history, so its bait is history: a throwaway clone gets one commit
@@ -683,6 +845,7 @@ crash_canary "A16 (uncommitted changes)" $'mode = os.environ.get(\'LD_AUDIT_MODE
 crash_canary "A17" 'PATH_PATTERNS = [' "[A17]=A17 check could not run"
 crash_canary "A18" $'MARK = r\'' "[A18]=A18 check could not run"
 crash_canary "A19" $'tools = os.environ.get(\'LD_AUDIT_TOOLS\', \'\')' "[A19]=A19 check could not run"
+crash_canary "A20" $'import csp_scripts as csp' "[A20]=A20 check could not run"
 cp "$AUDIT_BAK" "$AUDIT"; rm -f "$AUDIT_BAK"
 
 # Coverage. The rules to expect come from the audit's own output, so a rule added
